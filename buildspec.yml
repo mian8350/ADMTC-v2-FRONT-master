@@ -2,7 +2,7 @@ version: 0.2
 
 env:
     variables:
-        CACHE_CONTROL: "86400"
+        CACHE_CONTROL: "6400"
         S3_BUCKET: "{{s3_bucket_url}}"
         BUILD_FOLDER: "dist"
 phases:
@@ -21,5 +21,5 @@ build:
 artifacts:
     files:
         - '**/*'
-    base-directory: 'dist'
+    base-directory: 'dist*'
     discard-paths: yes
