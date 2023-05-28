@@ -11,8 +11,8 @@ phases:
         nodejs: 18
     commands:
         - echo Installing source NPM dependencies...
-        - npm install
-        - npm install -g @angular/cli
+        - ng install
+        - ng install -g @angular/cli
   build:
     commands:
         - echo Build started 
