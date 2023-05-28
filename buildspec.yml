@@ -17,7 +17,6 @@ pre-build:
 build:
     commands:
         - npm install 
-        - npm run build --prod
 artifacts:
     files:
         - '**/*'
