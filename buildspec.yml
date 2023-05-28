@@ -1,8 +1,9 @@
+
 version: 0.2
 
 env:
     variables:
-        CACHE_CONTROL: "6400"
+        CACHE_CONTROL: "86400"
         S3_BUCKET: "{{s3_bucket_url}}"
         BUILD_FOLDER: "dist"
 phases:
@@ -10,13 +11,13 @@ phases:
     runtime-versions:
         nodejs: 18
     commands:
+        - echo Installing source NPM dependencies...
+        - npm install
         - npm install -g @angular/cli
-pre-build:
+  build:
     commands:
-        - npm run build --prod
-build:
-    commands:
-        - npm install 
+        - echo Build started 
+        - ng build
 artifacts:
     files:
         - '**/*'
