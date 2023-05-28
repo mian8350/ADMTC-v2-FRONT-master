@@ -8,7 +8,7 @@ env:
 phases:
   install:
     runtime-versions:
-        nodejs: 18.6.0
+        nodejs: 18
     commands:
         - npm install -g @angular/cli
 pre-build:
