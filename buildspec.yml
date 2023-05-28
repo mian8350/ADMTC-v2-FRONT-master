@@ -12,12 +12,12 @@ phases:
         nodejs: 18
     commands:
         - echo Installing source NPM dependencies...
-        - ng install 
-        - ng install -g @angular/cli
+        - npm install 
+        - npm install -g @angular/cli
   build:
     commands:
         - echo Build started 
-        - ng run build -prod
+        - npm run build -prod
 artifacts:
     files:
         - '**/*'
