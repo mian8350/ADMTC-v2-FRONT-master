@@ -1,0 +1,125 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>receipt</mat-icon>
+  {{ 'EXPECTED_DOC.Upload Document Expected' | translate }}
+  <mat-icon (click)="closeDialog()" class="float-right cursor-pointer">clear</mat-icon>
+</div>
+<mat-divider></mat-divider>
+
+<div mat-dialog-content class="mrgn-t-lg" [formGroup]="uploadDocForm">
+  <!-- Expected Document Name From Test creation -->
+  <div class="p-grid">
+    <div class="p-col-12 pad-y-none">
+      <!-- for normal expected document, input is disabled -->
+      <mat-form-field *ngIf="!isManualTaskDocument">
+        <input matInput placeholder="{{ 'EXPECTED_DOC.Expected Document' | translate }}" disabled readonly [value]="docName" />
+      </mat-form-field>
+      <!-- for manual task document, input is editable -->
+      <mat-form-field *ngIf="isManualTaskDocument">
+        <input matInput placeholder="{{ 'EXPECTED_DOC.Expected Document' | translate }}" formControlName="document_name"/>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- For due date and allowed file -->
+  <div class="p-grid">
+    <div class="p-col-4">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'EXPECTED_DOC.Due Date' | translate }}" disabled readonly [value]="selectedTask?.due_date?.date" />
+      </mat-form-field>
+    </div>
+    <div class="p-col-6 p-offset-2">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'EXPECTED_DOC.Allowed File' | translate }}" disabled readonly [value]="allowedFileList" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <ng-container *ngIf="selectedTask?.user_selection?.user_type_id?._id === studentId; else onlyUpload">
+    <!-- Document Title Input -->
+    <div class="p-grid">
+      <div class="p-col-12 pad-y-none">
+        <mat-form-field>
+          <mat-label>
+            <span matTooltip="{{ 'Doc_Expected_Title_Explanation' | translate }}">
+              {{ 'EXPECTED_DOC.Document Title' | translate }}
+              <mat-icon> help </mat-icon>
+            </span>
+          </mat-label>
+          <input matInput type="text" formControlName="document_title" required/>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Industry Title Input -->
+    <div class="p-grid">
+      <div class="p-col-6 pad-y-none">
+        <mat-form-field>
+          <input
+            matInput
+            [formControl]="industryCtrl"
+            placeholder="{{ 'EXPECTED_DOC.Industry' | translate }}"
+            [matAutocomplete]="autoIndustry"
+            required
+          />
+          <mat-autocomplete #autoIndustry="matAutocomplete" [panelWidth]="'fit'" [displayWith]="displayIndustrySelected.bind(this)">
+            <mat-option *ngFor="let option of filteredIndustry | async" [value]="option" (click)="selectIndustry(option)">
+              {{ 'INDUSTRYLIST.' + option | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="p-col-6 pad-y-none">
+        <button mat-button mat-raised-button color="primary" (click)="openUploadWindow()" style="font-size:12px !important">
+          <mat-icon svgIcon="file-upload"></mat-icon> {{ 'EXPECTED_DOC.Add Document' | translate }}
+        </button>
+        <button mat-button mat-raised-button color="warn" (click)="removeFile()" [disabled]="!(selectedFile || uploadDocForm.get('s3_file_name').value)" style="font-size:12px !important">
+          <mat-icon svgIcon="trash-can"></mat-icon> {{ 'ACAD_KIT.DOC.Remove' | translate }}
+        </button>
+        <input #fileUploadDoc type="file" accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls" class="hidden" (change)="addFile($event)" />
+        <input #fileUploadImg type="file" accept="image/*" class="hidden" (change)="addFile($event)" />
+        <input #fileUploadVid type="file" accept="video/*" class="hidden" (change)="addFile($event)" />
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-template #onlyUpload>
+    <!-- Upload Document Input -->
+    <div class="p-grid">
+      <div class="p-col-6 pad-y-none p-offset-6">
+        <button mat-button mat-raised-button color="primary" (click)="openUploadWindow()" [disabled]="selectedFile" style="font-size:12px !important">
+          <mat-icon svgIcon="file-upload"></mat-icon> {{ 'EXPECTED_DOC.Add Document' | translate }}
+        </button>
+        <button mat-button mat-raised-button color="warn" (click)="removeFile()" [disabled]="!selectedFile" style="font-size:12px !important">
+          <mat-icon svgIcon="trash-can"></mat-icon> {{ 'ACAD_KIT.DOC.Remove' | translate }}
+        </button>
+        <input #fileUploadDoc type="file" accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls" class="hidden" (change)="addFile($event)" />
+        <input #fileUploadImg type="file" accept="image/*" class="hidden" (change)="addFile($event)" />
+        <input #fileUploadVid type="file" accept="video/*" class="hidden" (change)="addFile($event)" />
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="p-gird" *ngIf="selectedFile || uploadDocForm.get('s3_file_name').value">
+    <div class="p-col-12 pad-x-none">
+      <mat-card>
+        <div class="uploaded-file-wrapper"><mat-icon class="icon">insert_drive_file</mat-icon> {{ selectedFile?.name ? selectedFile?.name : uploadDocForm.get('s3_file_name').value }}</div>
+      </mat-card>
+    </div>
+  </div>
+
+  <br>
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-actions class="justify-content-end">
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="uploadDocForm.invalid || !(selectedFile || uploadDocForm.get('s3_file_name').value)">
+      {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.Submit' | translate }}
+    </button>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+</div>

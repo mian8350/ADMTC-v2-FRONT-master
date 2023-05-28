@@ -1,0 +1,28 @@
+<div mat-dialog-title class="dialogTitleWrapper"  cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <mat-icon id="titleIcon">event</mat-icon>
+    <h2 class="dialogTitle">{{ 'Change Date of Issuance' | translate }}</h2>
+    <div class="icon-close">
+      <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="p-grid">
+        <mat-form-field class="p-col-12">
+            <input
+              matInput
+              class="form-field"
+              [formControl]="certificationDate"
+              [matDatepicker]="picker"
+              placeholder="{{ 'SELECTDATE' | translate }}"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="certificationDate.invalid">{{ 'SUBMIT' | translate }}</button>
+</mat-dialog-actions>

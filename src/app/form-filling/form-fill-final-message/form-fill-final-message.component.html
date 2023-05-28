@@ -1,0 +1,29 @@
+<div class="header" [innerHTML]="stepData?.direction"></div>
+<hr />
+<div class="p-grid">
+  <div class="p-col-12 p-grid p-justify-center p-align-center">
+    <article class="content-wrapper">
+      <div [innerHTML]="headerText"></div>
+      <!-- <ckeditor
+        #editor
+        [editor]="Editor"
+        [formControl]="headerMsg"
+        [disabled]="true"
+        (ready)="onReady($event)"
+        [config]="config"
+      ></ckeditor> -->
+      <div>
+        <img *ngIf="imgURL" [src]="imgURL" class="final-message-image-wrapper"/>
+      </div>
+      <div [innerHTML]="footerText"></div>
+      <!-- <ckeditor
+        #editor
+        [editor]="Editor"
+        [formControl]="footerMsg"
+        [disabled]="true"
+        (ready)="onReady($event)"
+        [config]="config"
+      ></ckeditor> -->
+    </article>
+  </div>
+</div>

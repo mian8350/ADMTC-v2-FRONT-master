@@ -1,0 +1,284 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  matSortActive="school"
+  matSortDirection="asc"
+  matSortDisableClear
+  class="mat-elevation-z8 mrgn-t-md"
+>
+  <ng-container matColumnDef="reset">
+    <th mat-header-cell *matHeaderCellDef colspan="10" class="action-header-column">
+      <div class="p-col text-right">
+        <button mat-raised-button color="primary" (click)="resetAllFilter()">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+        <!-- <button mat-raised-button color="primary">
+          <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'Export CSV' | translate }}
+        </button> -->
+        <button mat-raised-button color="accent" (click)="openJuryKit()" [disabled]="isLoading">
+          <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'JURY_ORGANIZATION.JURY_KIT' | translate }}
+        </button>
+        <!-- <button mat-raised-button color="accent" class="margin-right-0" style="margin-left: 5px;">
+          <mat-icon class="mat-icon-default">send</mat-icon>
+          {{ 'JURY_ORGANIZATION.SENDTOCERTIFIER' | translate }}
+        </button> -->
+        <!-- <button mat-raised-button color="warn">
+          <a href="jury-organization">
+            <mat-icon class="mat-icon-default align">reply</mat-icon>
+            <span class="alignment">{{ 'CANCEL' | translate }}</span>
+          </a></button
+        >&nbsp; -->
+        <button mat-raised-button color="accent" class="margin-right-0" (click)="submitToCertifier()" [disabled]="!isAllJuryAssigned() || !juryOrgData || (juryOrgData?.current_status !== 'assign_number_jury')">
+          <mat-icon class="mat-icon-default">send</mat-icon>
+          {{ 'JURY_ORGANIZATION.SENDTOCERTIFIER' | translate }}
+        </button>
+      </div>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="selectFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="schoolFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="autoSchools"
+          [formControl]="schoolFilter"
+          placeholder="{{ 'search' | translate }}"
+        />
+        <mat-autocomplete #autoSchools="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option value="" (click)="setSchoolFilter(null)">{{ 'All' | translate }}</mat-option>
+          <mat-option *ngFor="let school of filteredSchool | async" [value]="school.short_name" (click)="setSchoolFilter(school._id)">
+            {{ school.short_name | translate }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="cityFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="cityFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitleFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="rncpTitleFilter" [matAutocomplete]="autoTitle" placeholder="{{ 'search' | translate }}" />
+        <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option value="" (click)="setTitleFilter(null)">{{ 'All' | translate }}</mat-option>
+          <mat-option *ngFor="let title of filteredRncpTitle | async" [value]="title.short_name" (click)="setTitleFilter(title._id)">
+            {{ title.short_name | translate }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="studentsFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="retakeCenterFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="dateFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="backupDateFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="statusFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <mat-select [formControl]="statusFilter">
+          <mat-option *ngFor="let status of statusList" [value]="status.id">
+            {{ status.name | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="actionFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(element) : null"
+        [checked]="selection.isSelected(element)"
+        [aria-label]="checkboxLabel(element)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="school">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'School' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.school?.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.CITYSCHOOL' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.school?.school_address[0]?.city }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitle">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'TASK.RNCP_Title' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.rncp_id?.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="students">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.students?.length }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="retakeCenter">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'SCHOOL.RETAKECENTER' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <!-- <mat-form-field>
+        <mat-select [(ngModel)]="element.retake_center">
+          <mat-option
+            *ngFor="let retakeCent of retakeCenters"
+            [value]="retakeCent.name"
+            (onSelectionChange)="selectRetakeCenter($event, element)"
+          >
+            {{ retakeCent.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>
+      <h5>{{ 'Date' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <span class="tags" *ngIf="element.date_start">{{ element.date_start | date: 'dd/MM/yyyy' }}</span>
+      <span class="tags" *ngIf="element.date_finish">{{ element.date_finish | date: 'dd/MM/yyyy' }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="backupDate">
+    <th mat-header-cell *matHeaderCellDef>
+      <h5>{{ 'JURY_ORGANIZATION.Backup Date' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <span class="tags" *ngIf="element.backup_date_start">{{ element.backup_date_start | date: 'dd/MM/yyyy' }}</span>
+      <span class="tags" *ngIf="element.backup_date_finish">{{ element.backup_date_finish | date: 'dd/MM/yyyy' }}</span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'Status' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon
+        matTooltip="{{ 'Active' | translate }}"
+        matTooltipPosition="right"
+        *ngIf="element?.is_jury_assigned"
+        class="greenyellow-icon"
+        aria-hidden="true"
+        >lens
+      </mat-icon>
+      <mat-icon
+        matTooltip="{{ 'Non Active' | translate }}"
+        matTooltipPosition="right"
+        *ngIf="!element?.is_jury_assigned"
+        class="red-icon"
+        aria-hidden="true"
+        >lens
+      </mat-icon>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      <h5>{{ 'Action' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        matTooltip="{{ 'JURY_ORGANIZATION.ACTION_BUTTON.EDIT' | translate }}"
+        matTooltipPosition="above"
+        (click)="goToAssignNumberJury(element)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="loading">
+    <th mat-header-cell *matHeaderCellDef colspan="10" class="text-center">
+      <div class="center-spinner">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+    </th>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+</table>
+
+<mat-paginator
+  [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+  [hidePageSize]="true"
+  [pageSizeOptions]="[10]"
+  showFirstLastButtons
+></mat-paginator>
+
+ <!-- <div class="p-grid row-style">
+  <div class="p-col pad-r-none">
+     <button mat-raised-button color="warn">
+      <a href="jury-organization">
+        <mat-icon class="mat-icon-default align">reply</mat-icon>
+        <span class="alignment">{{ 'CANCEL' | translate }}</span>
+      </a></button
+    >&nbsp;
+    <button mat-raised-button color="accent" class="margin-right-0">
+      <mat-icon class="mat-icon-default">send</mat-icon>
+      {{ 'JURY_ORGANIZATION.SENDTOCERTIFIER' | translate }}
+    </button> 
+  </div>
+</div>  -->

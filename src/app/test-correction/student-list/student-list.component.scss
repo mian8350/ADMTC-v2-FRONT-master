@@ -1,0 +1,183 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-studentNameFilter, .mat-column-studentName {
+  width: 60% !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+.mat-column-statusFilter, .mat-column-status {
+  width: 10% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+.mat-column-docFilter, .mat-column-doc {
+  width: 10% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+.mat-column-scoreFilter, .mat-column-score {
+  width: 20% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  text-align: center !important;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      // &:nth-child(1) {
+      //   padding-left: 0.5rem !important;
+      //   width: 45%;
+      //   .mat-form-field {
+      //     width: 90%;
+      //   }
+      // }
+
+      // &:nth-child(2) {
+      //   // width: 10%;
+      // }
+
+      // &:nth-child(3) {
+      //   // padding-left: 0.5rem !important;
+      //   padding-right: 0px;
+      //   // width: 25%;
+      // }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+    }
+
+    th {
+      vertical-align: middle;
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        box-shadow: 1px 1px 0px 1px #545454;
+        color: $white;
+      }
+    }
+    border: none !important;
+  }
+
+  tbody tr {
+    height: 28px;
+    border-right: none !important;
+    border-left: none !important;
+  }
+}
+
+.footer-row {
+  color: white;
+  padding-top: 0px !important;
+}
+
+.footer-height {
+  height: 28px;
+}
+
+.test-result {
+  background-color: $light-black;    
+  padding: 3px 5px;
+}
+
+.mat-icon-style {
+  color: rgb(20, 117, 11);
+  width: 24px;
+  height: 24px;
+}
+
+.table-section-height {
+  // max-height: 65vh;
+  overflow: auto;
+}
+
+.pad-tb-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.pad-bottom-10 {
+  padding-bottom: 10px;
+}
+.table-scroll {
+  overflow: auto;
+  height: 340px;
+}
+.hover-text:hover {
+  color: #ffd740;
+}
+// .mat-column-studentName {
+//   width: 35% !important;
+//   padding: 5px 0px 0px 0px !important;
+//   color: white !important;
+// }
+// .mat-column-studentNameFilter {
+//   width: 35% !important;
+//   padding: 5px 0px 0px 0px !important;
+//   color: white !important;
+// }
+// .mat-column-doc {
+//   width: 20% !important;
+//   padding: 5px 0px 0px 0px !important;
+//   color: white !important;
+// }
+// .mat-column-score {
+//   width: 35% !important;
+//   padding: 5px 0px 0px 0px !important;
+//   color: white !important;
+// }
+
+.red-text {
+  color: red;
+}
+
+.green-icon {
+  color: #adff2f !important;
+}
+.red-icon {
+  color: red !important;
+}
+
+.name-text {
+  max-width: 85%;
+  word-wrap: break-word;
+  white-space: initial;
+}
+
+.tags {
+  background-color: #fdd835;		    
+  color: #000;   
+  padding: 3px 5px;    
+  border-radius: 3px;
+  margin-right: 5px;
+}

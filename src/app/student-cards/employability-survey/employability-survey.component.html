@@ -1,0 +1,84 @@
+<div class="p-grid" *ngIf="!selectedEsForm">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px;">
+    <mat-card>
+      <div class="p-grid p-justify-center" *ngIf="esData && esData.length">
+        <div class="student-data">{{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name | uppercase }} - {{ studentData?.school?.short_name }}</div>
+        <div class="p-col-12 yellow-border" style="margin-bottom: 10px;" *ngFor="let esForm of esData">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <ng-container *ngIf="esForm?.employability_survey_parameter_id">
+                <div>
+                  {{ '056_ES.Sent' | translate }}: {{translateDate(esForm?.send_date)}}
+                </div>
+                <!-- need due date -->
+                <div>
+                  {{ '056_ES.Due Date' | translate }}: {{translateDate(esForm?.expiration_date)}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!esForm?.employability_survey_parameter_id">
+                <div>{{ '056_ES.Sent' | translate }}: {{translateDate(esForm?.send_date)}}</div>
+              </ng-container>
+            </div>
+            <div class="p-col-4">
+              <!-- {{ '056_ES.survey_name' | translate }}:  -->
+              <span>{{esForm?.form_builder_id?.form_builder_name ? esForm?.form_builder_id?.form_builder_name : esForm?.questionnaire_id?.questionnaire_name}}</span>
+            </div>
+            <div class="p-col-2">
+              <!-- {{ '056_ES.status' | translate }}: -->
+              <mat-icon
+                matTooltip="{{ esForm?.survey_status | translate }}"
+                matTooltipPosition="above"
+                style="vertical-align: top;"
+                [ngClass]="{
+                  'black-icon': esForm?.survey_status === 'not_sent',
+                  'yellow-icon': esForm?.survey_status === 'sent_to_student',
+                  'red-icon': esForm?.survey_status === 'rejected_by_validator',
+                  'orange-icon': esForm?.survey_status === 'completed_by_student',
+                  'green-icon': esForm?.survey_status === 'validated_by_validator'
+                }"
+                aria-hidden="true"
+                >lens
+              </mat-icon>
+            </div>
+            <div class="p-col-2">
+              <div class="align-right-button">
+                <button mat-raised-button color="accent" (click)="goToDetails(esForm)">
+                  {{ '056_ES.details' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card *ngIf="esData===null || esData.length===0">
+      <div class="p-grid no-comment">
+        <div class="p-col-12">
+          <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'Employability Survey' | translate }}</h3>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div class="p-grid" *ngIf="selectedEsForm">
+  <div class="p-col-12">
+    <mat-card>
+      <ms-employability-survey-form-detail
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [selectedESId]="selectedEsForm"
+        (backToParent)="backToAllES($event)"
+        (getAllESData)="getAllESData()"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-employability-survey-form-detail>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+  

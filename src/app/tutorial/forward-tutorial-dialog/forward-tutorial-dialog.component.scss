@@ -1,0 +1,53 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+:host ::ng-deep{
+    .mat-dialog-content{
+        max-height: 80vh;
+    }
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+.icon-style {
+  vertical-align: middle;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+  margin-bottom: 15px;
+}
+.acad-title {
+  padding: 0px;
+  margin-right: 25px;
+}
+.w-30 {
+  padding-top: 4px !important;
+  margin-right: 7px !important;
+}
+.w-65 {
+  float: right;
+  position: relative;
+  right: -43px;
+}
+.content-height {
+  max-height: 65vh;
+}

@@ -1,0 +1,1063 @@
+<div class="container" *ngIf="!isWaitingForResponse && grandOralData && grandOralData?.jury_organization_id">
+  <div class="p-grid header">
+    <!-- <div class="p-grid" style="width: 100%">
+        <div class="p-col-12">
+          <button color="accent" mat-raised-button class="btn-save" (click)="generateGrandOralPDF()" matTooltip="{{ 'PDF' | translate }} ">
+            <mat-icon class="mat-icon-default">save</mat-icon>
+            {{ 'PDF' | translate }}
+          </button>
+        </div>
+      </div> -->
+    <div class="p-grid" style="height: 208px; max-height: 208px">
+      <table
+        border="1"
+        class="full-width"
+        style="font-size: 13px"
+        [ngClass]="{
+          'with-side': coreService?.sidenavOpen
+        }">
+        <thead class="container-body">
+          <tr>
+            <th class="border-none" rowspan="6" colspan="2">
+              <img style="min-width: 10rem; min-height: 10rem; max-height: 10rem" [src]="getImgUrl()" class="img" />
+            </th>
+            <th class="border-none h-center" style="width: 900px" rowspan="6" colspan="3">
+              <span class="h-text">
+                <h4>Certification Professionnelle</h4>
+              </span>
+              <span class="h-text">
+                <h4>{{ grandOralData?.rncp_title?.long_name }} ({{ grandOralData?.rncp_title?.short_name }})</h4>
+              </span>
+              <span class="h-text">
+                <h4><b>Bilan de compétences</b></h4>
+              </span>
+              <span class="h-text">
+                <h3>
+                  <b>{{ grandOralData?.students?.student_id?.civility | translate }}
+                    {{ grandOralData?.students?.student_id?.last_name | uppercase }}
+                    {{ grandOralData?.students?.student_id?.first_name }}</b>
+                </h3>
+              </span>
+            </th>
+            <th class="border-none"></th>
+            <th class="no-padding first-column" style="height: 28px; max-height: 28px">Certificateur</th>
+            <th class="h-center no-padding second-column" style="height: 28px; max-height: 28px">
+              {{ grandOralData?.jury_organization_id?.certifier?.short_name }}
+            </th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding first-column" style="height: 28px; max-height: 28px">Lieu de préparation</th>
+            <th class="h-center no-padding second-column" style="height: 28px; max-height: 28px">
+              {{ grandOralData?.school?.short_name }}
+            </th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding first-column" style="height: 28px; max-height: 28px">Année de promotion</th>
+            <th class="h-center no-padding second-column" style="height: 28px; max-height: 28px">
+              {{ grandOralData?.class?.year_of_certification || '-' }}
+            </th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding first-column" style="height: 28px; max-height: 28px">Apprenant</th>
+            <th class="h-center no-padding second-column" style="height: 28px; max-height: 28px">
+              {{ grandOralData?.students?.student_id?.civility | translate }} {{
+              grandOralData?.students?.student_id?.last_name }}
+              {{ grandOralData?.students?.student_id?.first_name }}
+            </th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding first-column" style="height: 28px; max-height: 28px">Date et lieu de naissance</th>
+            <th class="h-center no-padding second-column" style="height: 28px; max-height: 28px">
+              {{ setDataStudent(grandOralData?.students?.student_id?.date_of_birth) | date: 'dd/MM/yyyy' }} à {{
+              grandOralData?.students?.student_id?.place_of_birth }}
+            </th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="border-none"></th>
+            <th class="border-none"></th>
+          </tr>
+        </thead>
+      </table>
+      <div class="p-grid" style="width: 100%; background: #363636" *ngIf="grandOralList?.length > 0">
+        <div class="p-col-12" style="padding-left: 0px">
+          <ng-container>
+            <ng-container *ngFor="let block of grandOralList; let ins = index">
+              <span
+                (click)="selectBlock(block, ins)"
+                class="stepper-go"
+                [ngClass]="{
+                  'btn-activated': blockIndex === ins && !stepSubmit,
+                  'btn-notActivated': !isStatusCompleted(ins, block) && selectedBlockStepper !== ins && blocNotCompleted == true
+                }">
+                <span class="float-lf ic-go">
+                  <mat-icon class="icon-white" *ngIf="checkValidationStep(ins, block) && selectedBlockStepper !== ins">
+                    error </mat-icon>
+                  <mat-icon class="green-icon" *ngIf="isStatusCompleted(ins, block) && selectedBlockStepper !== ins">
+                    check_circle
+                  </mat-icon>
+                  <mat-icon class="white-icon" *ngIf="selectedBlockStepper === ins && !stepSubmit"> edit </mat-icon>
+                </span>
+                <!-- Title Block for softskill -->
+                <ng-container *ngIf="isSoftSkill">
+                  <span
+                    class="float-lf"
+                    matTooltip="{{
+                      grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                        ?.block_of_tempelate_soft_skill?.competence_softskill_templates_id?.ref_id
+                    }}
+                    {{
+                      utilityService.cleanHTML(
+                        grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                          ?.block_of_tempelate_soft_skill?.competence_softskill_templates_id?.name
+                      )
+                    }}">
+                    {{
+                    grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                    ?.block_of_tempelate_soft_skill?.competence_softskill_templates_id?.ref_id
+                    }}
+                    {{
+                    utilityService.cleanHTML(
+                    grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                    ?.block_of_tempelate_soft_skill?.competence_softskill_templates_id?.name
+                    ) | slice: 0:10
+                    }}...
+                  </span>
+                </ng-container>
+                <!-- Title block for competence -->
+                <ng-container *ngIf="isCompetence">
+                  <span
+                    class="float-lf"
+                    matTooltip="{{ generateRefBlock(block, index)}} 
+                    {{
+                      utilityService.cleanHTML(
+                        grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                          ?.block_of_tempelate_competence?.name
+                      )
+                    }}">
+                    {{
+                    generateRefBlock(block, index)
+                    }}
+                    {{
+                    utilityService.cleanHTML(
+                    grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[ins]?.block_id
+                    ?.block_of_tempelate_competence?.name
+                    ) | slice: 0:10
+                    }}...
+                  </span>
+                </ng-container>
+              </span>
+            </ng-container>
+            <span
+              (click)="selectBlock('', 'submit')"
+              class="stepper-go-submit"
+              [ngClass]="{
+                'btn-activated': stepSubmit
+              }">
+              <span class="float-lf ic-go">
+                <mat-icon class="icon-white" *ngIf="!isStatusCompleted('submit', '') && !stepSubmit && !disabledFormCertifierAdmin"> error </mat-icon>
+                <mat-icon class="green-icon" *ngIf="isStatusCompleted('submit', '') && !disabledFormCertifierAdmin"> check_circle </mat-icon>
+                <mat-icon class="white-icon" *ngIf="!isStatusCompleted('submit', '') && stepSubmit && !disabledFormCertifierAdmin"> edit </mat-icon>
+              </span>
+              <span class="float-lf">
+                <mat-label *ngIf="flowType === 'retake_grand_oral'">{{
+                  ('Grand_Oral_Improvement.Submit the Retake Grand Oral Result'
+                  | translate
+                  : {
+                  processName: grandOralData?.class?.jury_process_name
+                  ? grandOralData?.class?.jury_process_name
+                  : 'Grand Oral'
+                  })
+                  }}</mat-label>
+                  <mat-label *ngIf="flowType !== 'retake_grand_oral'">{{
+                    ('Grand_Oral_Improvement.Submit the Grand Oral Result'
+                    | translate
+                    : {
+                    processName: grandOralData?.class?.jury_process_name
+                    ? grandOralData?.class?.jury_process_name
+                    : 'Grand Oral'
+                    })
+                    }}</mat-label>
+              </span>
+            </span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="p-grid" style="width: 100%; background: #363636" *ngIf="grandOralList?.length > 0">
+        <div
+          class="p-col-12 full-width"
+          style="padding-left: 0px; min-height: 51px; max-height: 51px; padding-right: 0px"
+          style="font-size: 13px"
+          [ngClass]="{
+            'with-side': coreService?.sidenavOpen
+          }">
+          <div style="float: left" class="p-col-1">
+            <button mat-raised-button color="warn" (click)="leave(grandOralData)">
+              {{ 'LEAVE' | translate }}
+            </button>
+          </div>
+          <div style="float: left; text-align: center" class="p-col-6">
+            <span class="go-title" *ngIf="flowType === 'retake_grand_oral'">{{
+              'Grand_Oral_Improvement.Retake Grand Oral'
+                | translate
+                  : {
+                      processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                    }
+            }}</span>
+            <span class="go-title" *ngIf="flowType !== 'retake_grand_oral'">{{
+              'Grand_Oral_Improvement.Grand Oral'
+                | translate
+                  : {
+                      processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                    }
+            }}</span>
+            <span class="bloc-title">
+              {{
+              generateRefBlock(grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock])
+              }}
+              {{
+              utilityService.cleanHTML(
+              grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+              ?.block_of_tempelate_competence?.name
+              )
+              }}</span>
+          </div>
+          <div
+            [ngClass]="{
+              'mini-font': coreService?.sidenavOpen
+            }"
+            style="float: right; text-align: end; display: flex; justify-content: flex-end"
+            class="p-col-5">
+            <button
+              color="accent"
+              mat-raised-button
+              class="btn-save"
+              matTooltip="{{
+                flowType === 'retake_grand_oral'
+                  ? ('Grand_Oral_Improvement.Retake Grand Oral Result'
+                    | translate
+                      : {
+                          processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                        })
+                  : ('Grand_Oral_Improvement.Grand Oral Result'
+                    | translate
+                      : {
+                          processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                        })
+              }}"
+              (click)="downloadResultFile(grandOralData)">
+              <mat-icon svgIcon="file-document-outline"></mat-icon>
+              {{
+                flowType === 'retake_grand_oral'
+                  ? ('Grand_Oral_Improvement.Retake Grand Oral Result'
+                    | translate
+                      : {
+                          processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                        })
+                  : ('Grand_Oral_Improvement.Grand Oral Result'
+                    | translate
+                      : {
+                          processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                        })
+              }}
+            </button>
+            <button mat-raised-button color="accent" *ngIf="taskId && !disabledFormCertifierAdmin" (click)="validateMarkEntry()">
+              {{ 'Validate' | translate }}
+            </button>
+            <button
+              *ngIf="!stepSubmit && !disabledFormCertifierAdmin"
+              mat-raised-button
+              color="accent"
+              (click)="saveMarkEntry(grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id)">
+              <mat-icon class="mat-icon-default">save</mat-icon>
+              {{ 'Save' | translate }}
+            </button>
+            <button mat-raised-button color="primary" *ngIf="nextIndex !== 0" (click)="goToBlock(0)"
+              style="margin-right: 10px">
+              {{ 'CARDDETAIL.Previous' | translate }}
+            </button>
+            <button mat-raised-button color="primary" *ngIf="!stepSubmit && !disabledFormCertifierAdmin" (click)="goToBlock(1)">
+              {{ 'CARDDETAIL.Continue' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<fieldset [disabled]="disabledFormCertifierAdmin">
+  <ng-container *ngIf="isCompetence">
+    <div *ngIf="!stepSubmit" class="p-grid m-bottom" style="margin-top: 298px !important" [formGroup]="templateForm">
+      <div class="p-col-12 sub-containt" style="display: flex; flex-direction: column">
+        <div class="p-col-fixed flexDirection table-header">
+          <div
+            style="width: 530px; display: flex; flex-direction: column; justify-content: space-between; align-self: flex-end">
+            <!-- <div style="margin-bottom: 2rem;">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h3>Grand Oral</h3>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h5>
+                    {{
+                      grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                        ?.block_of_tempelate_competence?.ref_id
+                    }}
+                    {{
+                      utilityService.cleanHTML(
+                        grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                          ?.block_of_tempelate_competence?.name
+                      )
+                    }}
+                  </h5>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="p-grid">
+              <div class="p-col-12 no-padding t-right p-right">Rappel des tranches de Niveaux d'Evaluations :</div>
+              <div
+                class="p-col-12 no-padding t-right p-right"
+                *ngFor="
+                  let classCondition of grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                    ?.block_of_tempelate_competence?.class_id?.score_conversions_competency
+                "
+              >
+                "{{ classCondition.letter }}" = "{{ classCondition.phrase }}"
+              </div>
+            </div> -->
+            <div class="p-grid">
+              <div class="p-col-12 no-padding">
+                <div class="p-col-fixed no-padding t-center inline" style="width: 180px">Compétences</div>
+                <div class="p-col no-padding inline" style="margin-left: 2rem">Critères d'évaluation //Coef.</div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-col no-padding"
+            style="left: 43px; display: flex; flex-direction: column; justify-content: flex-end; position: relative">
+            <div class="p-col-12 no-padding inline grand">
+              <div class="p-col-12 border t-center" style="width: 937px">
+                <mat-label *ngIf="flowType === 'retake_grand_oral'">{{
+                  ('Grand_Oral_Improvement.Retake Grand Oral'
+                  | translate
+                  : {
+                  processName: grandOralData?.class?.jury_process_name
+                  ? grandOralData?.class?.jury_process_name
+                  : 'Grand Oral'
+                  })
+                  }} Entrée des décision
+                  du jury</mat-label>
+                <mat-label *ngIf="flowType !== 'retake_grand_oral'">{{
+                  ('Grand_Oral_Improvement.Grand Oral'
+                  | translate
+                  : {
+                  processName: grandOralData?.class?.jury_process_name
+                  ? grandOralData?.class?.jury_process_name
+                  : 'Grand Oral'
+                  })
+                  }} Entrée des décision
+                  du jury</mat-label>
+              </div>
+              <div class="p-col-12 no-padding left">
+                <div class="p-col-5 border left t-center justification-2" style="width: 760px">Justification</div>
+                <div class="p-col-3 border"
+                  style="height: 38px; width: 177px; display: table-cell; vertical-align: bottom">
+                  <p class="t-center comps-2">Compétences</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- END OF HEEADER -->
+        <div class="p-grid body" style="margin-top: 60px !important">
+          <div class="p-col-12 no-padding">
+            <table border="1" style="font-size: 12px; width: 100%" formArrayName="block">
+              <ng-container
+                *ngFor="
+                  let competence of grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                    ?.block_of_tempelate_competence?.competence_templates_id;
+                  let isFirst = first;
+                  let blockIndex = index;
+                  let isFirstBlock = first
+                "
+                [formGroupName]="blockIndex">
+                <tr>
+                  <td
+                    [attr.rowspan]="competence?.criteria_of_evaluation_templates_id?.length"
+                    style="text-align: center; width: 40px; max-width: 40px; min-width: 40px">
+                    {{ competence?.ref_id }}
+                  </td>
+                  <td
+                    height="450"
+                    style="min-width: 95px; width: 95px; max-width: 95px; position: relative"
+                    matTooltip="{{ utilityService.cleanHTML(competence?.name) }}"
+                    class="text-center"
+                    [attr.rowspan]="competence?.criteria_of_evaluation_templates_id?.length">
+                    <p
+                      style="
+                        padding: 0px;
+                        margin: 0px;
+                        position: absolute;
+                        transform: rotate(270deg);
+                        left: -117px;
+                        min-width: 330px;
+                        top: 156px;
+                      ">
+                      {{ utilityService.cleanHTML(competence?.name) }}
+                    </p>
+                  </td>
+                  <td class="text-center" style="min-width: 80px; width: 80px; max-width: 80px">
+                    {{
+                    competence?.criteria_of_evaluation_templates_id &&
+                    competence?.criteria_of_evaluation_templates_id.length
+                    ? competence?.criteria_of_evaluation_templates_id[0]?.ref_id
+                    : ''
+                    }}
+                  </td>
+                  <td
+                    [matTooltip]="
+                      competence?.criteria_of_evaluation_templates_id && competence?.criteria_of_evaluation_templates_id.length
+                        ? utilityService.cleanHTML(competence?.criteria_of_evaluation_templates_id[0]?.name)
+                        : ''
+                    "
+                    style="
+                      min-width: 380px;
+                      max-width: 380px !important;
+                      width: 380px !important;
+                      overflow: hidden !important;
+                      font-size: 14px;
+                    ">
+                    {{
+                    competence?.criteria_of_evaluation_templates_id &&
+                    competence?.criteria_of_evaluation_templates_id.length
+                    ? utilityService.cleanHTML(competence?.criteria_of_evaluation_templates_id[0]?.name)
+                    : ''
+                    }}
+                  </td>
+                  <td
+                    [attr.rowspan]="competence?.criteria_of_evaluation_templates_id.length"
+                    style="min-width: 693px; max-width: 693px; padding: 1rem">
+                    <label class="text-area-label" [for]="'competenceTextArea' + blockIndex">
+                      {{ 'Input Justification' | translate }} {{ competence?.ref_id }} - {{
+                      utilityService.cleanHTML(competence?.name) }}*
+                    </label>
+                    <mat-form-field color="accent" class="full-width textArea">
+                      <mat-icon class="icon-self-right mic-jury" *ngIf="!disabledFormCertifierAdmin" (click)="openVoiceRecog(blockIndex)" svgIcon="microphone"></mat-icon>
+                      <textarea
+                        [id]="'competenceTextArea' + blockIndex"
+                        class="noScroll"
+                        matInput
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        formControlName="justification"
+                        required></textarea>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                      <mat-label>Justification</mat-label>
+                      <input matInput type="text" />
+                    </mat-form-field> -->
+                  </td>
+                  <td
+                    class="text-center"
+                    [attr.rowspan]="competence?.criteria_of_evaluation_templates_id.length"
+                    style="max-width: 178px; min-width: 178px; width: 178px">
+                    <mat-form-field>
+                      <mat-label>{{ 'Compétences' }}</mat-label>
+                      <mat-select [disabled]="disabledFormCertifierAdmin" required formControlName="competence" [disableOptionCentering]="true" panelClass="filterPanel">
+                        <!-- <mat-option [value]="'Acquis'">Acquis</mat-option>
+                        <mat-option [value]="'Non Acquis'">Non Acquis</mat-option> -->
+                        <mat-option [value]="null"> {{ 'None' | translate }}</mat-option>
+                        <mat-option *ngFor="let phrase of competence?.phrase_names" [value]="phrase._id">{{ phrase.name
+                          }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                      <mat-label>Compétences</mat-label>
+                      <input matInput type="text" />
+                    </mat-form-field> -->
+                  </td>
+                  <!-- <td class="text-center" [attr.rowspan]="totalCriteria" *ngIf="isFirstBlock" style="min-width: 57px; max-width: 109px">
+                    <mat-form-field style="visibility: hidden">
+                      <mat-label>{{ 'Bloc de Compétence' }}</mat-label>
+                      <mat-select required formControlName="block">
+                        <mat-option [value]="'Validé'">Validé</mat-option>
+                        <mat-option [value]="'Non Validé'">Non Validé</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td> -->
+                </tr>
+                <!-- <============================ Body Line 2 =====================> -->
+                <!-- Note : Kamu bisa rubah mulai bagian ini ke bawah menggunakan looping angular, karena jika di perhatiin bentuknya sama -->
+                <ng-container>
+                  <ng-container
+                    *ngFor="let criteria of competence?.criteria_of_evaluation_templates_id; let isFirstCriteria = first">
+                    <tr *ngIf="!isFirstCriteria">
+                      <td class="text-center">{{ criteria?.ref_id }}</td>
+                      <td
+                        matTooltip="{{ utilityService.cleanHTML(criteria?.name) }}"
+                        style="
+                          min-width: 380px;
+                          max-width: 380px !important;
+                          width: 380px !important;
+                          overflow: hidden !important;
+                          font-size: 14px;
+                        ">
+                        {{ utilityService.cleanHTML(criteria?.name) }}
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </table>
+            <table border="1">
+              <!-- Line  Controles Continus / 20 -->
+              <ng-container *ngIf="grandOralTestCorrectionForControlContinue?.length > 0">
+                <ng-container *ngFor="let cc of grandOralTestCorrectionForControlContinue; let isFirstCriteria = first">
+                  <tr>
+                    <td style="width: 41px; min-width: 41px; max-width: 41px" class="text-center">CC</td>
+                    <td
+                      style="
+                        width: 41px;
+                        min-width: 358px;
+                        max-width: 358px;
+                        min-height: 44px !important;
+                        max-height: 44px !important;
+                        height: 44px !important;
+                      "
+                      class="text-center">
+                      <p style="margin: 0px !important; padding: 0px !important; font-size: 14px"></p>
+                      {{ cc?.test.name }}
+                    </td>
+                    <td
+                      style="
+                        width: 181px;
+                        min-width: 181px;
+                        max-width: 181px;
+                        min-height: 44px !important;
+                        max-height: 44px !important;
+                        height: 44px !important;
+                      "
+                      class="text-center">
+                      {{
+                      cc?.correction_grid?.correction?.additional_total > 0
+                      ? cc?.correction_grid?.correction?.additional_total
+                      : cc?.correction_grid?.correction?.total
+                      }}
+                      / 20
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="stepSubmit" class="p-grid m-bottom" style="margin-top: 298px !important" [formGroup]="templateForm">
+      <div class="p-col-12 sub-containt col-auto section-submit" style="text-align: center">
+        <div class="card-submit">
+          <h1>
+            <mat-icon class="ic-white ic-sub-err"> warning </mat-icon>
+          </h1>
+          <h3 *ngIf="flowType === 'retake_grand_oral'">
+            {{
+            ('Grand_Oral_Improvement.Ready to complete the Mark Entry of the Retake Grand Oral?'
+            | translate
+            : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+
+          </h3>
+          <h3 *ngIf="flowType !== 'retake_grand_oral'">
+            {{
+            ('Grand_Oral_Improvement.Ready to complete the Mark Entry of the Grand Oral?'
+            | translate
+            : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+
+          </h3>
+          <h4>
+            {{
+            flowType === 'retake_grand_oral'
+            ? ('Grand_Oral_Improvement.To complete the Mark Entry Process of the Retake Grand Oral you just need to
+            click the button Submit The Result below.'
+            | translate : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            : ('Grand_Oral_Improvement.To complete the Mark Entry Process of the Grand Oral you just need to click the button Submit The Result below.'
+            | translate : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+          </h4>
+          <h4>
+            {{
+            'Please be careful you already double-check the score and justification you input for the student. as after the submit you will be no longer able to modify it.'
+            | translate
+            }}
+          </h4>
+          <div class="p-grid">
+            <div class="p-col-4" *ngIf="!disabledFormCertifierAdmin">
+              <button mat-raised-button color="accent" style="margin: 20px 40px 0 20px" (click)="saveOnlyMarkEntry()">
+                <mat-icon> save </mat-icon>{{ 'Save Only' | translate }}
+              </button>
+              <h4 style="margin-top: 10px">
+                {{ 'Save Only Text' | translate }}
+              </h4>
+            </div>
+            <ng-container *ngIf="checkStatusGOSubmit() && !disabledFormCertifierAdmin">
+              <div class="p-col-4">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="enableSubmitButton()"
+                  style="margin: 20px 40px 0 20px"
+                  (click)="submitMarkEntry()">
+                  <mat-icon> send </mat-icon>
+                  {{
+                    flowType === 'retake_grand_oral'
+                      ? ('Grand_Oral_Improvement.Submit the Retake Grand Oral Result'
+                        | translate
+                          : {
+                              processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                            })
+                      : ('Grand_Oral_Improvement.Submit the Grand Oral Result'
+                        | translate
+                          : {
+                              processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                            })
+                  }}
+                </button>
+                <h4 style="margin-top: 10px">
+                  {{ 'Submit Text' | translate }}
+                </h4>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="checkStatusGOValidate() && !disabledFormCertifierAdmin">
+              <div class="p-col-4">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="enableSubmitButton()"
+                  style="margin: 20px 40px 0 20px"
+                  (click)="validateMarkEntryForJury()">
+                  <mat-icon> send </mat-icon>
+                  {{
+                    'Grand_Oral_Improvement.Validate the Grand Oral Result'
+                      | translate
+                        : {
+                            processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                          }
+                  }}
+                </button>
+                <h4 style="margin-top: 10px">
+                  {{ 'Submit Text' | translate }}
+                </h4>
+              </div>
+            </ng-container>
+            <div class="p-col-4" *ngIf="!disabledFormCertifierAdmin">
+              <button mat-raised-button color="warn" style="margin-top: 20px" (click)="selectBlock(grandOralList, 0)">
+                {{ 'Back to mark entry' | translate }}
+              </button>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ================================================================================================================================================= -->
+
+  <!-- SOFT SKILL TABLE BELOW -->
+
+  <!-- ================================================================================================================================================== -->
+
+  <ng-container *ngIf="isSoftSkill">
+    <div *ngIf="!stepSubmit" class="p-grid m-bottom" style="margin-top: 298px !important" [formGroup]="templateForm">
+      <div class="p-col-12 sub-containt" style="display: flex; flex-direction: column; overflow: hidden">
+        <div class="p-col-fixed flexDirection no-padding table-header">
+          <div
+            style="width: 530px; display: flex; flex-direction: column; justify-content: space-between; align-self: flex-end">
+            <!-- <div style="margin-bottom: 2rem">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h3>Grand Oral</h3>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h5>
+                    {{
+                      grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                        ?.block_of_tempelate_soft_skill?.ref_id
+                    }}
+                    {{
+                      utilityService.cleanHTML(
+                        grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                          ?.block_of_tempelate_soft_skill?.name
+                      )
+                    }}
+                  </h5>
+                </div>
+              </div>
+            </div> -->
+            <div class="p-grid">
+              <div class="p-col-12 no-padding">
+                <div class="p-col-fixed no-padding t-center inline" style="width: 180px">Compétences</div>
+                <div class="p-col no-padding inline" style="margin-left: 3rem">Critères d'évaluation //Coef.</div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-col no-padding"
+            style="left: 74px; position: relative; display: flex; flex-direction: column; justify-content: flex-end">
+            <div class="p-col-12 no-padding inline grand">
+              <div class="p-col-12 border t-center" style="width: 914px">
+                {{
+                  'Grand_Oral_Improvement.Grand Oral'
+                    | translate
+                      : {
+                          processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                        }
+                }}
+                Entrée des décision du jury
+              </div>
+              <div class="p-col-12 no-padding left">
+                <div class="p-col-5 border left t-center justification-2" style="width: 737px">Justification</div>
+                <div class="p-col-3 border"
+                  style="height: 38px; width: 177px; display: table-cell; vertical-align: bottom">
+                  <p class="t-center comps-2">Compétences</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- END OF HEEADER -->
+        <div class="p-grid body" style="margin-top: 60px !important">
+          <div class="p-col-12 no-padding">
+            <table border="1" style="font-size: 12px; width: 100%" formArrayName="block">
+              <ng-container
+                *ngFor="
+                  let softSkill of grandOralData?.jury_organization_id?.rncp_titles[0]?.blocks_for_grand_oral[selectedBlock]?.block_id
+                    ?.block_of_tempelate_soft_skill?.competence_softskill_templates_id;
+                  let isFirst = first;
+                  let blockIndex = index;
+                  let isFirstBlock = first
+                "
+                [formGroupName]="blockIndex">
+                <tr>
+                  <td
+                    [attr.rowspan]="softSkill?.criteria_of_evaluation_softskill_templates_id?.length"
+                    style="text-align: center; width: 59px; max-width: 59px; min-width: 59px">
+                    {{ softSkill?.ref_id }}
+                  </td>
+                  <td
+                    height="450"
+                    style="min-width: 80px; width: 80px; max-width: 80px; position: relative"
+                    matTooltip="{{ utilityService.cleanHTML(softSkill?.name) }}"
+                    class="text-center"
+                    [attr.rowspan]="softSkill?.criteria_of_evaluation_softskill_templates_id?.length">
+                    <p
+                      style="
+                        padding: 0px;
+                        margin: 0px;
+                        position: absolute;
+                        transform: rotate(270deg);
+                        left: -117px;
+                        min-width: 330px;
+                        top: 156px;
+                      ">
+                      {{ utilityService.cleanHTML(softSkill?.name) }}
+                    </p>
+                  </td>
+                  <td class="text-center" style="min-width: 80px; width: 80px; max-width: 80px">
+                    {{
+                    softSkill?.criteria_of_evaluation_softskill_templates_id &&
+                    softSkill?.criteria_of_evaluation_softskill_templates_id.length
+                    ? softSkill?.criteria_of_evaluation_softskill_templates_id[0]?.ref_id
+                    : ''
+                    }}
+                  </td>
+                  <td
+                    [matTooltip]="
+                      softSkill?.criteria_of_evaluation_softskill_templates_id &&
+                      softSkill?.criteria_of_evaluation_softskill_templates_id.length
+                        ? utilityService.cleanHTML(softSkill?.criteria_of_evaluation_softskill_templates_id[0]?.name)
+                        : ''
+                    "
+                    style="
+                      min-width: 30px;
+                      max-width: 380px !important;
+                      width: 380px !important;
+                      overflow: hidden !important;
+                      font-size: 14px;
+                    ">
+                    {{
+                    softSkill?.criteria_of_evaluation_softskill_templates_id &&
+                    softSkill?.criteria_of_evaluation_softskill_templates_id.length
+                    ? utilityService.cleanHTML(softSkill?.criteria_of_evaluation_softskill_templates_id[0]?.name)
+                    : ''
+                    }}
+                  </td>
+                  <td
+                    [attr.rowspan]="softSkill?.criteria_of_evaluation_softskill_templates_id.length"
+                    style="min-width: 693px; max-width: 693px; padding: 1rem">
+                    <label class="text-area-label" [for]="'softSkillTextArea' + blockIndex">
+                      {{ 'Input Justification' | translate }} {{ softSkill?.ref_id }} - {{
+                      utilityService.cleanHTML(softSkill?.name) }}*
+                    </label>
+                    <mat-form-field color="accent" class="full-width textArea">
+                      <mat-icon class="icon-self-right mic-jury" *ngIf="!disabledFormCertifierAdmin" (click)="openVoiceRecog(blockIndex)" svgIcon="microphone"></mat-icon>
+                      <textarea
+                        [id]="'softSkillTextArea' + blockIndex"
+                        class="noScroll"
+                        matInput
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        formControlName="justification"
+                        required></textarea>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <mat-label>Justification</mat-label>
+                        <input matInput type="text" />
+                      </mat-form-field> -->
+                  </td>
+                  <td
+                    class="text-center"
+                    [attr.rowspan]="softSkill?.criteria_of_evaluation_softskill_templates_id.length"
+                    style="max-width: 178px; min-width: 178px; width: 178px">
+                    <mat-form-field>
+                      <mat-label>{{ 'Compétences' }}</mat-label>
+                      <mat-select  [disabled]="disabledFormCertifierAdmin" required formControlName="competence" [disableOptionCentering]="true" panelClass="filterPanel">
+                        <!-- <mat-option [value]="'Acquis'">Acquis</mat-option>
+                          <mat-option [value]="'Non Acquis'">Non Acquis</mat-option> -->
+                        <mat-option [value]="null"> {{ 'None' | translate }}</mat-option>
+                        <mat-option *ngFor="let phrase of softSkill?.phrase_names" [value]="phrase._id">{{ phrase.name
+                          }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <mat-label>Compétences</mat-label>
+                        <input matInput type="text" />
+                      </mat-form-field> -->
+                  </td>
+                  <!-- <td class="text-center" [attr.rowspan]="totalCriteria" *ngIf="isFirstBlock" style="min-width: 57px; max-width: 109px">
+                    <mat-form-field style="visibility: hidden">
+                      <mat-label>{{ 'Bloc de Compétence' }}</mat-label>
+                      <mat-select required formControlName="block">
+                        <mat-option [value]="'Validé'">Validé</mat-option>
+                        <mat-option [value]="'Non Validé'">Non Validé</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td> -->
+                </tr>
+                <!-- <============================ Body Line 2 =====================> -->
+                <!-- Note : Kamu bisa rubah mulai bagian ini ke bawah menggunakan looping angular, karena jika di perhatiin bentuknya sama -->
+                <ng-container>
+                  <ng-container
+                    *ngFor="let criteria of softSkill?.criteria_of_evaluation_softskill_templates_id; let isFirstCriteria = first">
+                    <tr *ngIf="!isFirstCriteria">
+                      <td class="text-center">{{ criteria?.ref_id }}</td>
+                      <td
+                        matTooltip="{{ utilityService.cleanHTML(criteria?.name) }}"
+                        style="
+                          min-width: 380px;
+                          max-width: 380px !important;
+                          width: 380px !important;
+                          overflow: hidden !important;
+                          font-size: 14px;
+                        ">
+                        {{ utilityService.cleanHTML(criteria?.name) }}
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </table>
+            <table border="1">
+              <!-- Line  Controles Continus / 20 -->
+              <ng-container *ngIf="grandOralTestCorrectionForControlContinue?.length > 0">
+                <ng-container *ngFor="let cc of grandOralTestCorrectionForControlContinue; let isFirstCriteria = first">
+                  <tr>
+                    <td style="width: 41px; min-width: 41px; max-width: 41px" class="text-center">CC</td>
+                    <td
+                      style="
+                        width: 41px;
+                        min-width: 358px;
+                        max-width: 358px;
+                        min-height: 44px !important;
+                        max-height: 44px !important;
+                        height: 44px !important;
+                      "
+                      class="text-center">
+                      <p style="margin: 0px !important; padding: 0px !important; font-size: 14px"></p>
+                      {{ cc?.test.name }}
+                    </td>
+                    <td
+                      style="
+                        width: 181px;
+                        min-width: 181px;
+                        max-width: 181px;
+                        min-height: 44px !important;
+                        max-height: 44px !important;
+                        height: 44px !important;
+                      "
+                      class="text-center">
+                      {{
+                      cc?.correction_grid?.correction?.additional_total > 0
+                      ? cc?.correction_grid?.correction?.additional_total
+                      : cc?.correction_grid?.correction?.total
+                      }}
+                      / 20
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="stepSubmit" class="p-grid m-bottom" style="margin-top: 298px !important" [formGroup]="templateForm">
+      <div class="p-col-12 sub-containt col-auto section-submit" style="text-align: center">
+        <div class="card-submit">
+          <h1>
+            <mat-icon class="ic-white ic-sub-err"> warning </mat-icon>
+          </h1>
+          <h3 *ngIf="flowType === 'retake_grand_oral'">
+            {{
+            ('Grand_Oral_Improvement.Ready to complete the Mark Entry of the Retake Grand Oral?'
+            | translate
+            : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+
+          </h3>
+          <h3 *ngIf="flowType !== 'retake_grand_oral'">
+            {{
+            ('Grand_Oral_Improvement.Ready to complete the Mark Entry of the Grand Oral?'
+            | translate
+            : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+
+          </h3>
+          <h4>
+            {{
+            flowType === 'retake_grand_oral'
+            ? ('Grand_Oral_Improvement.To complete the Mark Entry Process of the Retake Grand Oral you just need to
+            click the button Submit The Result below.'
+            | translate : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            : ('Grand_Oral_Improvement.To complete the Mark Entry Process of the Grand Oral you just need to click the button Submit The Result below.'
+            | translate : {
+            processName: grandOralData?.class?.jury_process_name
+            ? grandOralData?.class?.jury_process_name
+            : 'Grand Oral'
+            })
+            }}
+          </h4>
+          <h4>
+            {{
+            'Please be careful you already double-check the score and justification you input for the student. as after the submit you will be no longer able to modify it.'
+            | translate
+            }}
+          </h4>
+          <div class="p-grid">
+            <div class="p-col-4" *ngIf="!disabledFormCertifierAdmin">
+              <button mat-raised-button color="accent" style="margin: 20px 40px 0 20px" (click)="saveOnlyMarkEntry()">
+                <mat-icon> save </mat-icon>{{ 'Save Only' | translate }}
+              </button>
+              <h4 style="margin-top: 10px">
+                {{ 'Save Only Text' | translate }}
+              </h4>
+            </div>
+            <ng-container *ngIf="checkStatusGOSubmit() && !disabledFormCertifierAdmin">
+              <div class="p-col-4">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="enableSubmitButton()"
+                  style="margin: 20px 40px 0 20px"
+                  (click)="submitMarkEntry()">
+                  <mat-icon> send </mat-icon>
+                  {{
+                    'Grand_Oral_Improvement.Submit the Grand Oral Result'
+                      | translate
+                        : {
+                            processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                          }
+                  }}
+                </button>
+                <h4 style="margin-top: 10px">
+                  {{ 'Submit Text' | translate }}
+                </h4>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="checkStatusGOValidate() && !disabledFormCertifierAdmin">
+              <div class="p-col-4">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="enableSubmitButton('validate')"
+                  style="margin: 20px 40px 0 20px"
+                  (click)="validateMarkEntryForJury()">
+                  <mat-icon> send </mat-icon>
+                  {{
+                    'Grand_Oral_Improvement.Validate the Grand Oral Result'
+                      | translate
+                        : {
+                            processName: grandOralData?.class?.jury_process_name ? grandOralData?.class?.jury_process_name : 'Grand Oral'
+                          }
+                  }}
+                </button>
+                <h4 style="margin-top: 10px">
+                  {{ 'Submit Text' | translate }}
+                </h4>
+              </div>
+            </ng-container>
+            <div class="p-col-4" *ngIf="!disabledFormCertifierAdmin">
+              <button mat-raised-button color="warn" style="margin-top: 20px" (click)="selectBlock(grandOralList, 0)">
+                {{ 'Back to mark entry' | translate }}
+              </button>
+              <h4></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</fieldset>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

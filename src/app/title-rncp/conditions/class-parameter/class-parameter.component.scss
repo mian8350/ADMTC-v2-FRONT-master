@@ -1,0 +1,166 @@
+.parameter-card {
+  border-radius: 2px;
+}
+
+.regis_period {
+  margin: 0;
+  padding-top: 15px;
+}
+
+.hidden-date-input {
+  width: 0;
+  border: none;
+  padding: 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+  float: left;
+}
+
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+
+.align-right-button {
+  margin-right: 0px;
+  text-align: right;
+  padding-right: 0px;
+}
+
+.classHeading {
+  margin-top: 10px;
+  text-align: start;
+  // font-size: 1.2rem;
+  // padding: 70px;
+  // padding-bottom: 30px;
+}
+
+.icon-title {
+  width: 24px;
+  height: 25px;
+  padding-top: 5px;
+  margin-right: 5px;
+  float: left;
+}
+.mrgn-btn11 {
+  margin-bottom: 11px !important;
+}
+.pad-none {
+  padding: 0px;
+}
+.pad-top-none {
+  padding-top: 0px;
+}
+.section-header {
+  background-color: #363636;
+  margin-top: -18px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 145px;
+}
+.border-white {
+  border: 1px solid white;
+  margin-top: 15px;
+}
+.en-job {
+  width: 180px;
+}
+.en-prob {
+  width: 150px;
+}
+.fr-job {
+  width: 227px;
+}
+.fr-prob {
+  width: 235px;
+}
+.en-activation {
+  width: 140px;
+}
+.fr-activation {
+  width: 140px;
+}
+
+.owl-datetime-input {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #8e8e8e !important;
+  background: #424242 !important;
+}
+
+.ngui-datetime-picker-wrapper {
+  background-color: blue !important;
+}
+
+:host ::ng-deep button.ngx-material-timepicker-toggle {
+  border-radius: 0px !important;
+  // border-bottom: 1px solid #c7c7c7 !important;
+  padding-bottom: 0.6px !important;
+  padding-right: 0px !important;
+}
+.btn-time {
+  float: right;
+  position: relative;
+  top: 8px;
+  right: -4px;
+}
+.mrgn-left15 {
+  margin-left: 15px;
+}
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 10rem;
+}
+
+.specialization-pill {
+  background-color: #6f6f6f;
+  border-radius: 10px;
+  padding-left: 0.8rem;
+  // padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 5px;
+}
+
+.icon-mat-change {
+  transform: scale(0.5);
+  vertical-align: bottom;
+}
+
+.hide-element {
+  display: none;
+}
+
+.hide-tab-jobdesc ::ng-deep div.mat-tab-label:nth-child(1) {
+  display: none;
+}
+
+.hide-tab-problematic ::ng-deep div.mat-tab-label:nth-child(2) {
+  display: none;
+}
+
+.hide-tab-mentoreval ::ng-deep div.mat-tab-label:nth-child(3) {
+  display: none;
+}
+
+.hide-tab-identity ::ng-deep div.mat-tab-label:nth-child(4) {
+  display: none;
+}
+
+.tab-container {
+  width: 300px !important;
+}

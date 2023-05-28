@@ -1,0 +1,90 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #tabMatGroup>
+  <!-- company tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showCompanyTabStudentCardPerm() && !openFromPrevCourseDetail" label="Company">
+    <ng-template mat-tab-label>
+      <h5>{{ 'company' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-company
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (continue)="goToTab($event)"
+        (updateJobDesc)="getDataStudent()"
+        [studentPrevCourseData]="studentPrevCourseData"
+        #company
+      >
+      </ms-company>
+    </ng-template>
+  </mat-tab>
+
+  <!-- Job Description tab, dont display for prev course -->
+  <mat-tab
+    *ngIf="
+      permissionService.showJobDescTabStudentCardPerm() &&
+      studentData &&
+      studentData.job_description_id &&
+      studentData.job_description_id.status === 'active' &&
+      !openFromPrevCourseDetail
+    "
+    label="JobDescription"
+  >
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.JOBDESCRIPTION' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-job-description
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (continue)="goToTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-job-description>
+    </ng-template>
+  </mat-tab>
+
+  <!-- problematic tab, dont display for prev course -->
+  <mat-tab
+    *ngIf="permissionService.showProblematicTabStudentCardPerm() && studentData && studentData.problematic_id && !openFromPrevCourseDetail"
+    label="Problematic"
+  >
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.PROBLEMATIC' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-problematic
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (continue)="goToTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-problematic>
+    </ng-template>
+  </mat-tab>
+
+  <!-- mentor evaluation tab, dont display for prev course -->
+  <mat-tab *ngIf="false && !openFromPrevCourseDetail" label="MentorEvaluation">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.MENTOR_EVAL' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-mentor-eval *ngIf="studentId" [studentId]="studentId" [schoolId]="schoolId" (continue)="nextTab($event)"> </ms-mentor-eval>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<mat-card *ngIf="!isClose">
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'Company' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

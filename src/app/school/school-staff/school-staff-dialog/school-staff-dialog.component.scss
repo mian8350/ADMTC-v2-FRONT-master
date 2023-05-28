@@ -1,0 +1,90 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.h1 {
+  color: $black;
+}
+
+.plus_button {
+  margin-top: 15px;
+  margin-right: 5px;
+  height: 250%;
+  width: 35px;
+}
+
+.negativ_button {
+  margin-top: 15px;
+  margin-left: 5px;
+  height: 25%;
+  width: 35px;
+}
+
+.hide-field {
+  display: none;
+}
+
+.mat-icon {
+  height: 32px;
+  width: 32px;
+}
+
+::ng-deep .cdk-overlay-container {
+  overflow-y: scroll;
+}
+
+.dialogTitle {
+  margin-left: 20px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  vertical-align: middle;
+  color: black;
+  border-bottom: 2px solid #808080;
+  margin-bottom: 20px;
+}
+.accent {
+  color: black;
+}
+.p-col-5 {
+  margin-top: 10px;
+}
+.p-col-7 {
+  margin-top: 10px;
+}
+
+:host ::ng-deep.ng-value-label.ng-star-inserted {
+  background: grey;
+  color: white;
+  white-space: nowrap;
+}
+
+:host ::ng-deep.ng-value-icon.left.ng-star-inserted {
+  background: grey;
+  color: white;
+  white-space: nowrap;
+}
+
+:host ::ng-deep.ng-dropdown-panel {
+  position: relative !important;
+}
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.cv-file-action {
+  margin-right: 3px;
+}
+
+.display-none {
+  display: none;
+}
+
+.baseline-middle {
+  vertical-align: -webkit-baseline-middle;
+}

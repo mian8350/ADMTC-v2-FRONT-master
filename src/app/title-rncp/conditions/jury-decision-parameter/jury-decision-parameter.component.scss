@@ -1,0 +1,251 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.parameter-header {
+  text-align: center;
+  margin: 1em auto;
+}
+
+.condition-btn {
+  margin: 0px !important;
+}
+
+.btn-margin-right {
+  margin-right: 10px;
+}
+
+.btn-right {
+  text-align: right;
+}
+.mrgn-btn-10 {
+  margin-bottom: 10px;
+}
+.parameter-card {
+  border-radius: 2px;
+}
+
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+
+.parameter-grid {
+  // margin: 10px 0 !important;
+}
+
+.yellow-card {
+  padding: 8px;
+}
+
+.blue-card {
+  padding: 8px;
+}
+
+.black-card {
+  margin: 8px;
+  padding: 8px;
+}
+
+.pass-fail-btn {
+  margin-right: 1rem;
+}
+
+.mat-greyed {
+  background-color: #607d8b;
+  color: #000000;
+}
+
+.input-align {
+  padding-left: 15px !important;
+  align-self: flex-end;
+}
+.btn-paramater {
+  text-align: right;
+  padding-right: 0px;
+}
+.btn-action {
+  padding-top: 15px;
+  padding-left: 0px;
+}
+.spinner-container {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.classHeading {
+  margin-top: 10px;
+  text-align: start;
+  // font-size: 1.2rem;
+  // padding: 70px;
+  // padding-bottom: 30px;
+}
+
+.small-icon {
+  transform: scale(0.6);
+}
+
+.align-button-center {
+  align-self: center;
+}
+
+.param-left-0 {
+  margin-left: 0px !important;
+}
+
+:host ::ng-deep table.scoreTable {
+  tr {
+    td {
+      &:nth-child(1) {
+        width: 15%;
+        padding: 0px 10px 0px 10px !important;
+        .mat-select-value {
+          padding-top: 0px;
+          width: 80%;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 15%;
+        text-align: center;
+        .mat-form-field {
+          padding-top: 0px;
+          width: 80%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 15%;
+        text-align: center;
+        padding: 0 !important;
+        .mat-form-field {
+          padding-top: 0px;
+          width: 80%;
+        }
+      }
+      &:nth-child(4) {
+        width: 25%;
+        text-align: center;
+        padding: 0 !important;
+        .mat-form-field {
+          width: 50%;
+        }
+        .score-form {
+          width: 50%;
+          padding-left: 5px;
+          padding-right: 10px;
+          display: inline-block;
+        }
+        .sign-form {
+          width: 50%;
+          padding-right: 5px;
+          padding-left: 10px;
+          display: inline-block;
+        }
+      }
+      &:nth-child(5) {
+        width: 5%;
+        text-align: center;
+        padding: 0 !important;
+        color: #ff2e2e;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+    }
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        width: 15%;
+        color: white;
+        text-align: center;
+        padding-left: 0px !important;
+        padding-top: 0.9em;
+        .mat-form-field {
+          width: 80%;
+          padding: 0px 15px 0px 15px;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 15%;
+        color: white;
+        text-align: center;
+        padding-top: 0.9em;
+        .mat-form-field {
+          width: 100%;
+          padding: 0px 15px 0px 15px;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 15%;
+        color: white;
+        text-align: center;
+        padding-top: 0.9em;
+        .mat-form-field {
+          width: 100%;
+          padding: 0px 15px 0px 15px;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 25%;
+        color: white;
+        padding-left: 0px !important;
+        padding-top: 0.9em;
+      }
+      &:nth-child(5) {
+        width: 8%;
+        color: white;
+        text-align: center !important;
+        padding-top: 0.9em;
+        .mat-form-field {
+          width: 100%;
+          padding: 0px 15px 0px 15px;
+        }
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    th {
+      &:nth-child(2) {
+        height: 35px;
+      }
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4),
+      &:nth-child(5) {
+        background: $light-black;
+        th {
+          color: $white;
+        }
+      }
+    }
+  }
+}

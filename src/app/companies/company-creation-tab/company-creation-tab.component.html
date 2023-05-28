@@ -1,0 +1,336 @@
+<mat-tab-group>
+  <mat-tab label="{{ 'COMPANY.COMPANY_DETAILS' | translate }}">
+    <div class="p-grid">
+      <div class="p-col-12 buttons-container pdr-0">
+        <button class="btn-standard buttons-placement mr-0" [disabled]="isWaitingForResponse || companyForm.invalid" (click)="saveData()" mat-button mat-raised-button color="accent">
+          <mat-icon class="icon-standard-size">save</mat-icon> {{ 'Save' | translate }}
+        </button>
+        <button class="btn-standard float-right" (click)="cancelAndReturn()" mat-button mat-raised-button color="warn">
+          {{ 'Cancel' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 pdv-0px">
+        <mat-card class="mrgn-all-md mat-card-creation-adjust marv-0">
+          <!-- <div class="logo-spinner-wrapper" *ngIf="isWaitingForResponse">
+            <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div> -->
+          <div *ngIf="isWaitingForResponse" class="loading-indicator">
+            <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div>
+          <mat-card-content>
+            <div [formGroup]="companyForm">
+              <div class="p-grid">
+                <div class="p-col-2 logo-content">
+                  <div class="p-grid height-60x">
+                    <div class="logoContainer">
+                      <div
+                        *ngIf="!companyLogoSrc && !isCompanyLogoUploading; else showCompanyStamp"
+                        (click)="fileUploadCompanyLogo.click()"
+                        class="no-image"
+                      >
+                        {{ '300 x 250 px' | translate }}
+                      </div>
+                      <input
+                        hidden
+                        type="file"
+                        formControlName="company_logo"
+                        id="fileUploadCompanyLogo"
+                        (change)="onFileSelected($event, 'certifierStamp')"
+                        name="fileUploadCompanyLogo"
+                        #fileUploadCompanyLogo
+                        accept=".jpeg,.png"
+                      />
+                      <div class="overlay" (click)="fileUploadCompanyLogo.click()">
+                        <div class="text">{{ 'COMPANY.LOGO' | translate }}</div>
+                      </div>
+                      <ng-template #showCompanyStamp class="p-grid p-justify-center">
+                        <div class="logo-img-wrapper" *ngIf="!isCompanyLogoUploading">
+                          <img class="center-image" (click)="fileUploadCompanyLogo.click()" [src]="imgURL(companyLogoSrc)" />
+                        </div>
+                      </ng-template>
+                      <div class="logo-spinner-wrapper" *ngIf="isCompanyLogoUploading">
+                        <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+                      </div>
+                    </div>
+                    <div class="p-grid p-justify-center text-logo">
+                      {{ 'COMPANY.COMPANY_LOGO' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-10">
+                  <div class="p-grid">
+                    <div class="p-col-5">
+                      <mat-form-field class="full-wid">
+                        <input matInput formControlName="company_name" required placeholder="{{ 'COMPANY.NAME' | translate }}*" />
+                      </mat-form-field>
+                    </div>
+                    <div class="p-col-5 p-offset-1">
+                      <mat-form-field class="full-wid">
+                        <input matInput type="text" formControlName="no_RC" placeholder="{{ 'COMPANY.RC' | translate }}" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-5">
+                      <mat-form-field class="full-wid">
+                        <input matInput formControlName="capital_type" placeholder="{{ 'COMPANY.TYPE' | translate }}" />
+                      </mat-form-field>
+                    </div>
+                    <div class="p-col-5 p-offset-1">
+                      <mat-form-field class="full-wid">
+                        <input matInput formControlName="capital" placeholder="{{ 'COMPANY.CAPITAL' | translate }}" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="p-grid">
+                    <div class="p-col-5">
+                      <mat-form-field class="full-wid">
+                        <input matInput formControlName="type_of_company" placeholder="{{ 'COMPANY.COMPANY_TYPE' | translate }}" />
+                      </mat-form-field>
+                    </div>
+                    <div class="p-col-5 p-offset-1">
+                      <mat-form-field class="full-wid">
+                        <input
+                          matInput
+                          formControlName="no_of_employee_in_france"
+                          placeholder="{{ 'COMPANY.NO._EMPLOYEE_IN_FRANCE' | translate }}"
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="p-grid">
+                    <div class="p-col-5">
+                        <mat-form-field class="full-wid">
+                          <input matInput formControlName="activity" placeholder="{{ 'COMPANY.ACTIVITY' | translate }}" />
+                        </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-grid some-padding-top" formArrayName="company_addresses">
+                <div
+                  class="p-col-12 mb-1rem border-white formArray-content"
+                  [formGroupName]="addressIndex"
+                  *ngFor="let address of companyAddressFormArray.controls; let addressIndex = index"
+                >
+                  <!-- only show delete button if more than 1 address -->
+                  <div class="p-grid" *ngIf="companyAddressFormArray?.length > 1">
+                    <div class="p-col-12 text-right">
+                      <mat-slide-toggle
+                        formControlName="is_main_address"
+                        (change)="checkMainAddress($event)"
+                        *ngIf="!isMainAddressSelected || address.get('is_main_address').value"
+                      >
+                        <span [ngStyle]="{ color: address.get('is_main_address').value ? '#ffe77a' : 'white' }" class="fix-font-size">{{
+                          'CARDDETAIL.MAIN_ADDRESS' | translate
+                        }}</span>
+                      </mat-slide-toggle>
+                      <button mat-icon-button class="small-icon" color="red" (click)="removeStudentAddressForm(addressIndex, isMainAddressSelected)">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- End of delete -->
+
+                  <div class="p-grid">
+                    <div class="p-col-12 some-padding-top">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <!-- <div class="p-col-fixed center-label no-padding" style="width: 7.5rem;">
+                        <label>{{'COMPANY.Address' | translate}}*</label>
+                      </div> -->
+                        <div class="p-col">
+                          <mat-form-field color="accent" class="full-width">
+                            <input matInput type="text" formControlName="address" required placeholder="{{ 'COMPANY.ADDRESS' | translate }}*" />
+                            <mat-error *ngIf="address.get('address').hasError('required')
+                                             && (address.get('address').dirty
+                                             || address.get('address').touched)">{{'This field is required'|translate}}</mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12">
+                      <div class="p-grid">
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <!-- <div class="p-col-fixed no-padding center-label" style="width: 7.5rem;">
+                            <label>{{'COMPANY.Zip Code' | translate}}*</label>
+                          </div> -->
+                            <div class="p-col">
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  required
+                                  type="text"
+                                  formControlName="postal_code"
+                                  placeholder="{{ 'COMPANY.ZIPCODE' | translate }}*"
+                                  (keyup)="getPostcodeData(addressIndex)"
+                                  maxlength="5"
+                                />
+                                <mat-error *ngIf="address.get('postal_code').hasError('required')
+                                             && (address.get('postal_code').dirty
+                                             || address.get('postal_code').touched)">{{'This field is required'|translate}}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <!-- <div class="p-col-fixed no-padding center-label" style="width: 7.5rem;">
+                            <label>{{'COMPANY.Country' | translate}}*</label>
+                          </div> -->
+                            <div class="p-col">
+                              <mat-form-field color="accent">
+                                <input
+                                  type="text"
+                                  required
+                                  formControlName="country"
+                                  placeholder="{{ 'COMPANY.COUNTRY' | translate }}*"
+                                  [matAutocomplete]="autoCountry"
+                                  (keyup)="filterCountry(addressIndex)"
+                                  matInput
+                                />
+                                <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="getPostcodeData(addressIndex)" [panelWidth]="'fit'">
+                                  <mat-option
+                                    *ngFor="let option of countryList"
+                                    [value]="option.name"
+                                  >
+                                    {{ option.name }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="address.get('country').hasError('required')
+                                             && (address.get('country').dirty
+                                             || address.get('country').touched)">{{'This field is required'|translate}}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12">
+                      <div class="p-grid">
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <!-- <div class="p-col-fixed no-padding center-label" style="width: 7.5rem;">
+                            <label>{{'COMPANY.City' | translate}}*</label>
+                          </div> -->
+                            <div class="p-col">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  matInput
+                                  required
+                                  formControlName="city"
+                                  placeholder="{{ 'COMPANY.CITY' | translate }}*"
+                                  [matAutocomplete]="autoCity"
+                                  (keyup)="filterCity(addressIndex)"
+                                />
+                                <mat-autocomplete #autoCity="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredCities[addressIndex]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="address.get('city').hasError('required')
+                                             && (address.get('city').dirty
+                                             || address.get('city').touched)">{{'This field is required'|translate}}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <!-- <div class="p-col-fixed no-padding center-label" style="width: 7.5rem;">
+                            <label>{{'COMPANY.Department' | translate}}*</label>
+                          </div> -->
+                            <div class="p-col">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  required
+                                  formControlName="department"
+                                  placeholder="{{ 'COMPANY.DEPARTMENT' | translate }}*"
+                                  matInput
+                                  [matAutocomplete]="autoDepartment"
+                                  (keyup)="filterDepartment(addressIndex)"
+                                />
+                                <mat-autocomplete #autoDepartment="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredDepartments[addressIndex]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="address.get('department').hasError('required')
+                                             && (address.get('department').dirty
+                                             || address.get('department').touched)">{{'This field is required'|translate}}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <!-- <div class="p-col-fixed no-padding center-label" style="width: 7.5rem;">
+                            <label>{{'COMPANY.Region' | translate}}*</label>
+                          </div> -->
+                            <div class="p-col">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  matInput
+                                  required
+                                  formControlName="region"
+                                  placeholder="{{ 'COMPANY.REGION' | translate }}*"
+                                  [matAutocomplete]="autoRegion"
+                                  (keyup)="filterRegion(addressIndex)"
+                                />
+                                <mat-autocomplete #autoRegion="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredRegions[addressIndex]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngIf="address.get('region').hasError('required')
+                                             && (address.get('region').dirty
+                                             || address.get('region').touched)">{{'This field is required'|translate}}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12 text-align-font">
+                  {{ 'COMPANY.ADD_MORE_ADDR' | translate }}
+                  <button mat-icon-button class="small-icon add-address-btn-style" (click)="addCompanyAddressForm()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 bottom-buttons pdr-0">
+        <button class="btn-standard buttons-placement mr-0" [disabled]="isWaitingForResponse || companyForm.invalid" (click)="saveData()" mat-button mat-raised-button color="accent">
+          <mat-icon class="icon-standard-size">save</mat-icon> {{ 'Save' | translate }}
+        </button>
+        <button class="btn-standard float-right" (click)="cancelAndReturn()" mat-button mat-raised-button color="warn">
+          {{ 'Cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

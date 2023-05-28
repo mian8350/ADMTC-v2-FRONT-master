@@ -1,0 +1,76 @@
+[
+    {
+        "category": "Academic​ ​content",
+        "createdAt": "2018-06-12",
+        "points_count": 0,
+        "suggestion": "retard de dépot validé par sandrine",
+        "user":{
+            "civility": "MRS",
+            "createdAt": "2017-12-21T18:01:16.403Z",
+            "entity":{"school": "ESNA"},
+            "firstName": "Sandrine",
+            "lastName": "FORESTIER",
+            "sex": "F",
+            "types": [{"name": "Director"}]
+            }
+    },
+    {
+        "category": "Organization​ ​of​ ​events",
+        "createdAt": "2018-06-01",
+        "points_count": 0,
+        "suggestion": "Créer une association étudiante pour l'école (récolter fonds pour organiser événements)↵+ Créer réseau Alumni",
+        "user": {
+            "civility": "MR",
+            "createdAt": "2018-03-14T13:36:30.020Z",
+            "entity":{"school": "ESNA"},
+            "firstName": "Samuel",
+            "lastName": "Remaoun",
+            "sex": "M",
+            "types": [{"name": "student"}]
+        }
+    },
+    {
+        "category": "Organization​ ​of​ ​the​ ​courses",
+        "createdAt": "2018-05-14",
+        "points_count": 0,
+        "suggestion": "Avoir plus de méthodologie sur les études de cas ↵Avoir plus d'exercices avant examen",
+        "user": {
+            "civility": "MR",
+            "createdAt": "2018-03-15T08:05:59.481Z",
+            "entity":{"school": "PIGIER MARSEILLE"},
+            "firstName": "Youssef",
+            "lastName": "Ait Hssain",
+            "sex": "M",
+            "types": [{"name": "student"}]
+        }
+    },
+    {
+    "category": "Organization​ ​of​ ​the​ ​courses",
+    "createdAt": "2019-08-06",
+    "points_count": 0,
+    "suggestion": "Revenir à 2 cours par semaines,",
+    "user": {
+        "civility": "MR",
+        "createdAt": "2018-09-25T12:58:10.965Z",
+        "entity":{"school": "ERUDIS"},
+        "firstName": "Jürgen",
+        "lastName": "Vegi",
+        "types": [{"name": "student"}]
+        }
+    },
+    {
+        "category": "Organization​ ​of​ ​the​ ​courses",
+        "createdAt": "2018-12-21",
+        "points_count": 0,
+        "suggestion": "Que les étudiants puissent modifier leur fiche de poste sur la plateforme jusqu'à que la pédagogie la valide.",
+        "user": {
+            "civility": "MRS",
+            "createdAt": "2018-03-19T08:26:49.560Z",
+            "entity":{"school": "ESA POITIERS"},
+            "firstName": "Marie-Camille",
+            "lastName": "DE LAUZON",
+            "sex": "F",
+            "types": [{"name": "Academic-Director"},{"name": "Animateur BG DMOE 2019"},{"name": "Cross-Corrector"}]
+        }
+    }
+]

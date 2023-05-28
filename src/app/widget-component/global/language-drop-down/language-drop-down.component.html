@@ -1,0 +1,16 @@
+<div class="language-dropdown-wrap">
+	<button mat-button [matMenuTriggerFor]="menu_activator">
+	  <img width="26" height="26" [src]="selectImage" [alt]="translate.currentLang">
+	</button>
+   <mat-menu #menu_activator>
+         	<div *ngFor="let lang of translate.getLangs()">
+               <div *ngFor="let language of langArray">
+                  <div *ngIf="language.value == lang">
+                     <a class="pad-all-xs gene-block" href="javascript:void(0);" (click)="setLang(lang)">
+                        <img class="mrgn-r-xs" width="25" height="25" src="{{language.img}}">{{language.name | translate}}
+                     </a>
+                  </div>
+               </div>
+            </div>
+   </mat-menu>
+</div>

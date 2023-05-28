@@ -1,0 +1,132 @@
+// .specialeTextArea .mat-form-field-appearance-outline .mat-form-field-outline {
+//   color: grey;
+//   width: 2px;
+// }
+
+/* To display a border for the text area */
+// .specialeTextArea .mat-form-field-flex{
+//   border: 2px solid #484848;
+// }
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.adjust-dialog-header {
+  padding-left: 23px;
+  padding-bottom: 0px;
+}
+
+.adjust-dialog-title {
+  padding-bottom: 0px;
+  display: flex;
+}
+
+.dialog-icon {
+  float: left;
+  margin-top: 17px !important;
+  color: black;
+}
+
+.icon-size {
+  width: 24px;
+  height: 24px;
+}
+
+.dialog-title-text {
+  color: black;
+  padding-left: 10px;
+  padding-top: 10px;
+  float: left;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0px;
+}
+
+.close-icon {
+  float: right;
+  color: black;
+}
+
+.btn-standard {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.request_description {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  font-size: 13.5px;
+}
+
+.specialeTextArea {
+  padding-top: 15px;
+}
+
+.text-area-border {
+  border: 2px solid #484848;
+  padding: 5px;
+}
+
+.black-color {
+  color: black;
+}
+
+.float-right {
+  float: right;
+}
+
+// __<<ngThemingMigrationEscapedComment1>>__
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  padding-top: 5px;
+  padding-bottom: 0px;
+  border-top: 0px;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-ripple {
+  // top: 0;
+  height: 0px;
+  // overflow: hidden;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.logo-spinner-wrapper {
+  padding-top: 25px;
+  height: 150px;
+  background-color: #6f6f6f21;
+}
+.spinner-margin {
+  margin: 0 auto;
+}
+
+// ::ng-deep circle {
+//   stroke: #1565c0 !important;
+// }

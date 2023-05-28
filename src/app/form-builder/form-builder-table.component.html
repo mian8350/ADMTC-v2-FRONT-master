@@ -1,0 +1,238 @@
+<div class="p-grid">
+  <div class="p-col-8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding text-right">
+              <button
+              *ngIf="permissionService.addFormBuilder()"
+                mat-raised-button
+                matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Create Form Template' | translate }}"
+                color="accent"
+                (click)="addFormBuilder()"
+              >
+                <mat-icon class="mat-icon-default">add</mat-icon>
+                {{ 'ERP_009_TEACHER_CONTRACT.Form Template' | translate }}
+              </button>
+              <button matTooltip="{{ 'RESET' | translate }}" mat-raised-button color="primary" (click)="resetSelection()">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+            </div>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- filter section -->
+      <ng-container matColumnDef="templateNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="templateNameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="templateTypeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="typeFilterAuto"
+              [formControl]="templateTypeFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #typeFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setTypeFilter('All')">
+                {{ 'AllM' | translate }}
+              </mat-option>
+              <mat-option
+                *ngFor="let template of filteredTempleteType | async"
+                [value]="template.key | translate"
+                (click)="setTypeFilter(template)"
+              >
+                {{ template.key | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="createdDateFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              readonly
+              class="form-field"
+              [formControl]="createdDateFilter"
+              [matDatepicker]="picker"
+              placeholder="{{ 'search' | translate }}"
+              (click)="picker.open()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="creatorFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="creatorFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef class="pad-top-miss">
+          <mat-form-field>
+            <mat-select [formControl]="statusFilter">
+              <mat-option *ngFor="let status of statusList" [value]="status.id">{{ status.name | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- column header and value -->
+      <ng-container matColumnDef="templateName">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Template Name' | translate }}">
+          <h5 mat-sort-header="form_builder_name">{{ 'ERP_009_TEACHER_CONTRACT.Template Name' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.form_builder_name }}">
+          {{ element?.form_builder_name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="templateType">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Template Type' | translate }}">
+          <h5 mat-sort-header="template_type">{{ 'ERP_009_TEACHER_CONTRACT.Template Type' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.template_type | translate }}">
+          {{ element.template_type | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="text-align: center"
+          matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Created Date' | translate }}"
+        >
+          <h5 mat-sort-header="created_at">{{ 'ERP_009_TEACHER_CONTRACT.Created Date' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ translateDate(element?.created_at) }}">
+          {{ translateDate(element?.created_at) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="creator">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Creator' | translate }}">
+          <h5 mat-sort-header="created_by">{{ 'ERP_009_TEACHER_CONTRACT.Creator' | translate }}</h5>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element?.created_by?.last_name + ' ' + element?.created_by?.first_name }} {{
+            element?.created_by?.civility | translate
+          }}"
+        >
+          {{ element?.created_by?.last_name + ' ' + element?.created_by?.first_name }} {{ element?.created_by?.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Status' | translate }}">
+          <h5 mat-sort-header="status">{{ 'Status' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            [matTooltip]="
+              (element.is_published ? 'ERP_009_TEACHER_CONTRACT.Published' : 'ERP_009_TEACHER_CONTRACT.Not Published') | translate
+            "
+            [ngClass]="{
+              'green-icon': element?.is_published === true,
+              'red-icon': element?.is_published === false
+            }"
+          >
+            lens
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+          <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let rowIndex">
+          <button
+          *ngIf="permissionService.duplicateActionFormBuilder()"
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Duplicate Template' | translate }}"
+            matTooltipPosition="above"
+            (click)="duplicateTemplate(element)"
+          >
+            <mat-icon>content_copy</mat-icon>
+          </button>
+          <button
+          *ngIf="permissionService.editActionFormBuilder()"
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Edit' | translate }}"
+            matTooltipPosition="above"
+            (click)="goToTemplateDetail(element._id)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            *ngIf="!element?.is_published && permissionService.deleteActionFormBuilder()"
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Delete' | translate }}"
+            matTooltipPosition="above"
+            (click)="deleteFormBuilderTemplate(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': templateCount <= 10 }"
+        [length]="templateCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isTopWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,63 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <mat-card style="margin-bottom: 10px; padding: 10px;">
+      <mat-card-content>
+        <div class="p-grid">
+          <div class="p-col-6 no-padding-y">
+            <button mat-raised-button color="warn" (click)="leaveForm()">
+              <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'LEAVE' | translate }}
+            </button>
+          </div>
+          <div class="p-col-6 no-padding-y" style="place-content: flex-end; text-align: end;">
+            <button
+              *ngIf="readyToSave && questionnaireservice.getNestedValidation() && questionnaireservice.isReadyToPublish"
+              mat-raised-button
+              type="button"
+              color="accent"
+              (click)="saveQuestionnaire()"
+            >
+              <mat-icon>save</mat-icon>{{ 'MENTOREVALUATION.QUESTIONNAIRE.SAVE_QUESTIONAIRE' | translate }}
+            </button>
+            <button
+              *ngIf="!readyToSave || !questionnaireservice.getNestedValidation() || !questionnaireservice.isReadyToPublish"
+              mat-raised-button
+              type="button"
+              color="default"
+              (click)="validateQuestionnaire()"
+            >
+              <mat-icon>save</mat-icon>{{ 'MENTOREVALUATION.QUESTIONNAIRE.SAVE_QUESTIONAIRE' | translate }}
+            </button>
+            <mat-slide-toggle color="accent" [checked]="is_published" (change)="toggleis_published($event)">
+              <span [ngClass]="{'text-slider-color': is_published}">
+                {{ (is_published ? 'QUESTIONNAIRE_TOOLS.PUBLISHED' : 'QUESTIONNAIRE_TOOLS.UNPUBLISHED' ) | translate }}
+              </span>
+            </mat-slide-toggle>
+            <!-- <div style="text-align: center; place-self: center;">
+              <mat-slide-toggle color="accent" [checked]="is_published" (change)="toggleis_published($event)">
+                <span [ngClass]="{'text-slider-color': is_published}">
+                  {{ (is_published ? 'QUESTIONNAIRE_TOOLS.PUBLISHED' : 'QUESTIONNAIRE_TOOLS.UNPUBLISHED' ) | translate }}
+                </span>
+              </mat-slide-toggle>
+            </div> -->
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<div class="p-grid">
+  <div class="p-col-6 no-padding-y">
+    <ms-questionaire-form-detail></ms-questionaire-form-detail>
+  </div>
+  <div class="p-col-6 no-padding-y">
+    <ms-questionnaire-document></ms-questionnaire-document>
+  </div>
+</div>
+
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

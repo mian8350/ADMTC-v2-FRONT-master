@@ -1,0 +1,134 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.commentaries-card {
+  margin-top: 16px !important;
+  min-height: 280px;
+}
+
+.pad-top {
+  padding-top: 3px;
+}
+
+.avatar {
+  width: 60px;
+  border-radius: 50%;
+}
+.student-details-img {
+  border-radius: 50%;
+}
+
+.comment-section {
+  border: 1px solid #607d8b;
+}
+
+.no-comment {
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: grey;
+  min-height: 240px;
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #8c8c8c !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: black;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  width: 100%;
+}
+.reply {
+  text-align: end;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  font-size: 12px;
+  color: #26abeb;
+  font-weight: 900;
+  cursor: pointer;
+}
+.reply:hover {
+  text-decoration: underline;
+}
+.comment-message {
+  position: relative;
+  .message-body {
+    ::ng-deep.mention {
+      color: deepskyblue !important;
+    }
+  }
+}
+.overflow-auto {
+  overflow: auto;
+}
+
+.commentaries-card {
+  margin-top: 16px !important;
+  margin-bottom: 20px !important;
+  min-height: 280px;
+}
+
+.pad-top {
+  padding-top: 3px;
+}
+.student-details-img {
+  border-radius: 50%;
+}
+.comment {
+  ::ng-deep .mat-form-field-outline-start {
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+  }
+
+  ::ng-deep .mat-form-field-outline-end {
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+  }
+}
+:host::ng-deep .mat-focused .mat-form-field-outline {
+  border: 1px solid !important;
+}
+
+.comment-text {
+  height: 30px;
+  color: white;
+}
+:host::ng-deep.ck.ck-content {
+  padding-right: 65px;
+  background: transparent;
+  color: white;
+  border-color: #607d8b;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+:host::ng-deep.ck.ck-toolbar {
+  border: none;
+}
+:host::ng-deep.ck-content .mention {
+  color: white;
+}

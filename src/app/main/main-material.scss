@@ -1,0 +1,187 @@
+@import '~assets/scss/theme/admtc.variables';
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item {
+  .content-wrap {
+    font-size: 0.85rem;
+  }
+}
+
+.bolt {
+  padding-left: 4px;
+  margin-right: 12px;
+}
+
+.contact-icon {
+  float: left;
+  margin-left: 1px;
+  margin-right: 3px;
+}
+
+.help-menu {
+  min-width: 130px !important;
+}
+
+.contact-us:hover {
+  background-color: rgba(0, 0, 0, 0.083);
+}
+
+.contact-en {
+  width: 140px;
+}
+.contact-fr {
+  width: 165px;
+}
+
+.tuto-icon {
+  width: 14px;
+  margin-right: 8px;
+  margin-left: 1px;
+  padding-left: 2px;
+}
+
+.tutorial:hover {
+  background-color: rgba(0, 0, 0, 0.083);
+}
+
+.help-wrap {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.add-btn {
+  background: $dark-yellow;
+  // width: 11rem;
+  color: $black !important;
+  display: inline-block;
+  width: auto;
+  min-width: 11rem;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+.secondary-menu button {
+  height: 2.5rem;
+}
+
+.page-title {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.header-icon {
+  font-size: 1.5em;
+  width: max-content;
+  max-width: 48px;
+}
+
+.platform-icon {
+  font-size: 1.2em !important;
+  vertical-align: middle !important;
+}
+
+.yellow-banner {
+  background-color: darkorange;
+  color: black;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 5px;
+  padding-right: 20px;
+  font-size: 9px;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+}
+
+:host::ng-deep.mat-list-base .mat-list-item .mat-line {
+  white-space: break-spaces !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  box-sizing: border-box;
+  text-align: justify !important;
+}
+.newNotif {
+  color: white;
+  background-color: red;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  width: 10px;
+  left: 16px;
+}
+
+.bolt {
+  padding-left: 4px;
+  margin-right: 12px;
+}
+
+.contact-icon {
+  float: left;
+  margin-left: 1px;
+  margin-right: 3px;
+}
+
+.help-menu {
+  min-width: 130px !important;
+}
+
+.contact-us:hover {
+  background-color: rgba(0, 0, 0, 0.083);
+}
+
+.contact-en {
+  width: 140px;
+}
+.contact-fr {
+  width: 165px;
+}
+
+.tuto-icon {
+  width: 14px;
+  margin-right: 8px;
+  margin-left: 1px;
+  padding-left: 2px;
+}
+
+.tutorial:hover {
+  background-color: rgba(0, 0, 0, 0.083);
+}
+
+.help-wrap {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.add-btn {
+  background: $dark-yellow;
+  // width: 11rem;
+  color: $black !important;
+  display: inline-block;
+  width: auto;
+  min-width: 11rem;
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
+.secondary-menu button {
+  height: 2.5rem;
+}
+
+.icon-display {
+  transform: translateY(5px) scale(0.7);
+}

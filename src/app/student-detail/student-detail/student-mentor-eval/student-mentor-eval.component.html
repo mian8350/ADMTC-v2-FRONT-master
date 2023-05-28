@@ -1,0 +1,132 @@
+<div class="p-grid" style="margin-top: 1rem;text-align: center">
+    <div ngClass="p-col-2 p-offset-2" ngClass.lt-lg="p-col-3 p-offset-1" ngClass.lt-sm="p-col-12">
+        <div class="job-button">
+            <button class="jobButton">
+                <span style="float: left;">
+                    <p class="para">{{ 'Sent To Mentor' | translate }}</p>
+                </span>
+                <i class="fa fa-check icons" style="color:green"  aria-hidden="true"></i>
+                <!--  <i class="fa fa-times icons" style="color:red"  aria-hidden="true"></i> -->
+            </button>
+        </div>
+    </div>
+    <div ngClass="p-col-2" ngClass.lt-lg="p-col-3" ngClass.lt-sm="p-col-12">
+        <div class="job-button">
+            <button class="jobButton">
+                <span style="float: left;">
+                    <p class="para">{{ 'Validated By Mentor' | translate }}</p>
+                </span>
+                <i class="fa fa-check icons" style="color:green"  aria-hidden="true"></i>
+                <!--  <i class="fa fa-times icons" style="color:red"  aria-hidden="true"></i> -->
+            </button>
+        </div>
+    </div>
+    <div ngClass="p-col-2" ngClass.lt-lg="p-col-3" ngClass.lt-sm="p-col-12">
+        <div class="job-button">
+            <button class="jobButton">
+                <span style="float: left;">
+                    <p class="para">{{ 'Validated By Academic Dpt' | translate }}</p>
+                </span>
+                <i class="fa fa-check icons" style="color:green"  aria-hidden="true"></i>
+                <!--  <i class="fa fa-times icons" style="color:red"  aria-hidden="true"></i> -->
+            </button>
+        </div>
+    </div>
+    <div ngClass="p-col-8 p-offset-3" ngClass.lt-sm="p-col-12">
+        <div class="mentorEval">
+            <div class="p-grid">
+                <div ngClass="p-col-5 p-offset-1" ngClass.lt-md="p-col-6 p-offset-2" ngClass.lt-sm="p-col-12">
+                <label>MENTOR EVALUATION</label>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<form>
+    <mat-card>
+        <mat-card-content>
+            <div class="p-grid border-yellow">
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div ngClass="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>Student:</label>
+                        </div>
+                        <div ngClass="p-col-8" ngClass.lt-sm="p-col-12">
+                            Mr. Yani Acheraiou
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>Company:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+                            CSF CARREFOUR MARKET
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>School:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+                            C3 INSTITUTE
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>Mentor:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+                            Mr François DEFERAUDY
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>RNCP Title:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+                            Responsable Marketing Opérationnel
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-3" ngClass.lt-sm="p-col-12">
+                            <label>Class:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+                            Classe RMO
+                        </div>
+                    </div>
+                </div>
+                <div ngClass="p-col-6" ngClass.lt-md="p-col-12">
+                    <div class="p-grid">
+                        <div class="p-col-4" ngClass.lt-sm="p-col-12">
+                            <label>Questionnaire Name:</label>
+                        </div>
+                        <div class="p-col-8" ngClass.lt-sm="p-col-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-grid">
+                <div class="p-col-12 m-1">
+                        <mat-checkbox>Signature Of The Company Mentor</mat-checkbox>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="p-grid p-justify-end p-1">
+              <button mat-button mat-raised-button>{{ 'Save' | translate }}</button>
+              <button mat-button mat-raised-button>{{ 'Submit' | translate }}</button>
+        </div>
+</form>

@@ -1,0 +1,28 @@
+.mat-dialog-content {
+  margin: 0 !important;
+}
+
+.dialogTitle {
+  position: relative;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  vertical-align: middle;
+  color: black;
+  border-bottom: 2px solid #808080;
+  margin-bottom: 20px;
+  padding: 10px;
+
+  #titleIcon {
+      margin-right: 5px;
+      vertical-align: sub;
+  }
+}
+
+.icon-close {
+  display: inline-block;
+  float: right;
+  position: relative;
+}

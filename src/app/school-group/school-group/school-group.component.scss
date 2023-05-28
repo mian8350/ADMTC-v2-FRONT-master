@@ -1,0 +1,45 @@
+@import '~assets/scss/theme/admtc.variables';
+.rncp-title-tile {
+  background-color: $dark-blue !important;
+  border-radius: 22px;
+  &:hover {
+    cursor: pointer;
+    background-color: #d28104 !important;
+    box-shadow: 0 0 10px #a0a0a0 !important;
+  }
+}
+
+.search-title-row {
+  margin-top: 1em;
+  margin-left: 10px;
+  text-align: left;
+}
+
+.add-rncp-button {
+  float: right
+}
+
+.search-btn {
+  display: inline-block;
+}
+
+.search-field {
+  display: inline-block;
+  width: 15rem;
+  margin-right: 8px;
+}
+
+.first {
+  height: 220px;
+  width: 200px;
+}
+
+.center-card {
+  justify-content: center;
+}
+
+.card-spacing {
+  padding: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+}

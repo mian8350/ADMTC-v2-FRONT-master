@@ -1,0 +1,55 @@
+.parameter-card {
+  border-radius: 2px;
+}
+
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-right-padding {
+  padding-right: 0px;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.classHeading {
+  margin-top: 10px;
+  text-align: start;
+  // font-size: 1rem;
+  // padding: 70px;
+  // padding-bottom: 30px;
+}
+
+.align-right-button {
+  margin-right: 0px;
+  text-align: right;
+  padding-right: 0px;
+}
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  background-color: white;
+  color: black;
+}

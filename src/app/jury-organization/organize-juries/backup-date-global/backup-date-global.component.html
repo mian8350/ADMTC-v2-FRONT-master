@@ -1,0 +1,12 @@
+<div class="p-grid">
+  <!-- <div class="p-col-12">
+    <ms-standard-backup-date-table> </ms-standard-backup-date-table>
+  </div> -->
+  <div class="p-col-12" *ngIf="backupData">
+    <ms-president-juries-schedules-table [juryOrgId]="juryOrgId"> </ms-president-juries-schedules-table>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

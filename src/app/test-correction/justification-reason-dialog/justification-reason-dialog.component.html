@@ -1,0 +1,88 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="file-check"></mat-icon>
+  <h2 class="header-text">
+    {{ 'TESTCORRECTIONS.MESSAGE.MISSINGCOPY-VALIDATE-REASON' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width" [formGroup]="justifyReasonForm">
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            placeholder="{{ 'TESTCORRECTIONS.MESSAGE.MISSINGCOPY-VALIDATE-REASON' | translate }}"
+            #autosize="cdkTextareaAutosize"
+            formControlName="reason_for_missing_copy"
+            required
+          >
+          </textarea>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="p-col-12" *ngIf="selectedFile">
+      <div class="px-1 select-input-container">
+        <mat-card>
+          <div class="uploaded-file-wrapper justify-content-between">
+            <div>
+              <mat-icon class="icon">insert_drive_file</mat-icon>
+              <span>{{ selectedFile?.name }}</span>
+            </div>
+            <button mat-mini-fab color="warn" type="button" class="remove-section-btn" (click)="removeSelectedFile()">
+              <mat-icon class="remove-section-icon">close</mat-icon>
+            </button>
+          </div>
+          <!-- add and remove file button -->
+          <!-- <div class="uploaded-file-wrapper mt-1rem">
+            <button (click)="uploadFile()" mat-button mat-raised-button color="primary">
+              <mat-icon>file_upload</mat-icon>{{ 'ACAD_KIT.DOC.Add this File' | translate }}
+            </button>
+            <button (click)="removeFile()" mat-button mat-raised-button color="warn">
+              <mat-icon>delete</mat-icon>{{ 'ACAD_KIT.DOC.Remove' | translate }}
+            </button>
+          </div> -->
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <!-- <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      
+    </div>
+
+    <div fxFlex="100" *ngIf="selectedFile">
+      
+    </div>
+  </div> -->
+</div>
+
+<div class="footer-form">
+  <div>
+    <button mat-button mat-raised-button color="primary" *ngIf="!selectedFile" (click)="openUploadWindow()" [disabled]="false">
+      <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+    </button>
+    <input #fileUpload type="file" class="hidden" (change)="addFile($event)" />
+  </div>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" [disabled]="!justifyReasonForm.valid" (click)="submit()">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>

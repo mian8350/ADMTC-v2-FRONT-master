@@ -1,0 +1,96 @@
+<ng-container>
+  <div class="questionContainer">
+
+    <ng-container *ngIf="inputOption && inputOption?.get('questions')?.value?.length">
+      <div *ngFor="let pcoQuestion of inputOption?.get('questions')?.controls; let pcoQuestionIndex = index">
+        <div [ngSwitch]="pcoQuestion?.get('answer_type')?.value">
+          <div *ngSwitchCase="'single_option'">
+            <ms-form-fill-recursive-single-option
+              [stepForm]="stepForm"
+              [inputQuestion]="pcoQuestion"
+              [segmentIndex]="segmentIndex"
+              [questionIndex]="questionIndex"
+              [pcoQuestionIndex]="pcoQuestionIndex"
+              [parentOptionText]="inputOption?.get('option_text')?.value"
+              [isFormDisabled]="isFormDisabled"
+              [isFieldRequired]="isFieldRequired"
+            >
+            </ms-form-fill-recursive-single-option>
+          </div>
+          <div *ngSwitchCase="'numeric'">
+            <ms-form-fill-recursive-numeric
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-numeric>
+          </div>
+          <div *ngSwitchCase="'short_text'">
+            <ms-form-fill-recursive-free-text 
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-free-text>
+          </div>
+          <div *ngSwitchCase="'long_text'">
+            <ms-form-fill-recursive-free-text 
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-free-text>
+          </div>
+          <div *ngSwitchCase="'date'">
+            <ms-form-fill-recursive-date
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-date>
+          </div>
+          <div *ngSwitchCase="'email'">
+            <ms-form-fill-recursive-email
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-email>
+          </div>
+          <div *ngSwitchCase="'duration'">
+            <ms-form-fill-recursive-duration
+            [stepForm]="stepForm"
+            [inputQuestion]="pcoQuestion"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [pcoQuestionIndex]="pcoQuestionIndex"
+            [parentOptionText]="inputOption?.get('option_text')?.value"
+            [isFormDisabled]="isFormDisabled"
+            [isFieldRequired]="isFieldRequired"
+            ></ms-form-fill-recursive-duration>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

@@ -1,0 +1,53 @@
+.revision-box-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.header {
+    margin-bottom: 15px;
+  }
+  
+  hr {
+      border-bottom: 1px solid #d8d6d6 !important
+  }
+
+  .ql-editor {
+      margin: 1rem auto;
+  }
+
+
+
+.container-view-potrait {
+    iframe {
+      height: 975px;
+      width: 100%;
+    }
+  }
+  
+  .container-view-lanscape {
+    iframe {
+      height: 535px;
+      width: 100%;
+    }
+  }
+
+  .btn-conditions {
+    position: absolute;
+    bottom: 15px !important;
+    left: 0px !important;
+    padding: 0px 20px 0px 0px !important;
+    width: 100% !important;
+    text-align: right;
+
+    .mat-icon {
+        font-size: 24px;
+        margin-right: 5px;
+    }
+  }
+
+  ::ng-deep .no-padding .mat-dialog-container {
+    padding: 0 !important;
+  }
+  
+  

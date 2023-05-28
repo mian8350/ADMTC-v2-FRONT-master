@@ -1,0 +1,134 @@
+[
+  {
+    "module": "RNCP Title",
+    "sub_module": []
+  },
+  {
+    "module": "List of schools",
+    "sub_module": [
+      {
+        "name": "Detail of School",
+        "parent_module": "List of schools"
+      },
+      {
+        "name": "School Staff",
+        "parent_module": "List of schools"
+      },
+      {
+        "name": "Student Cards",
+        "parent_module": "List of schools"
+      }
+    ]
+  },
+  {
+    "module": "Group of schools",
+    "sub_module": []
+  },
+  {
+    "module": "Active students",
+    "sub_module": []
+  },
+  {
+    "module": "Completed students",
+    "sub_module": []
+  },
+  {
+    "module": "Deactivated students",
+    "sub_module": []
+  },
+  {
+    "module": "Suspended students",
+    "sub_module": []
+  },
+  {
+    "module": "Companies",
+    "sub_module": []
+  },
+  {
+    "module": "Tasks",
+    "sub_module": []
+  },
+  {
+    "module": "Mailbox",
+    "sub_module": []
+  },
+  {
+    "module": "Users",
+    "sub_module": []
+  },
+  {
+    "module": "RNCP Title Management",
+    "sub_module": [
+      {
+        "name": "Title Identity",
+        "parent_module": "RNCP Title Management"
+      },
+      {
+        "name": "List of Class",
+        "parent_module": "RNCP Title Management"
+      },
+      {
+        "name": "Documents",
+        "parent_module": "RNCP Title Management"
+      },
+      {
+        "name": "Class",
+        "parent_module": "RNCP Title Management"
+      }
+    ]
+  },
+  {
+    "module": "Export",
+    "sub_module": []
+  },
+  {
+    "module": "History of notifications",
+    "sub_module": []
+  },
+  {
+    "module": "Process",
+    "sub_module": [
+      {
+        "name": "Questionnary tools",
+        "parent_module": "Process"
+      },
+      {
+        "name": "Employability survey",
+        "parent_module": "Process"
+      },
+      {
+        "name": "Cross correction",
+        "parent_module": "Process"
+      },
+      {
+        "name": "Process Management",
+        "parent_module": "Process"
+      }
+    ]
+  },
+  {
+    "module": "Message - List of Alerts",
+    "sub_module": []
+  },
+  {
+    "module": "Certification",
+    "sub_module": [
+      {
+        "name": "Jury Organization",
+        "parent_module": "Process"
+      },
+      {
+        "name": "Transcript",
+        "parent_module": "Process"
+      }
+    ]
+  },
+  {
+    "module": "Tutorial",
+    "sub_module": []
+  },
+  {
+    "module": "Promo",
+    "sub_module": []
+  }
+]

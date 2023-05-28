@@ -1,0 +1,224 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+.pad-top-miss {
+  padding-top: 1.8px !important;
+}
+.form-field {
+  margin-top: 0.5px;
+}
+.tag-container {
+  white-space: normal;
+  text-align: left !important;
+  line-height: 2.3;
+  overflow-wrap: break-word;
+}
+.green {
+  color: #adff2f;
+}
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 1em;
+      //   text-align: center !important;
+
+      &:nth-child(1) {
+        width: auto;
+        font-size: 14px;
+        font-weight: 400 !important;
+        min-width: 135px;
+      }
+
+      &:nth-child(2) {
+        width: auto;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+
+      &:nth-child(3) {
+        width: 17%;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+
+      &:nth-child(4) {
+        width: 17%;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+
+      &:nth-child(5) {
+        width: auto;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+      &:nth-child(6) {
+        width: auto;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+
+      &:nth-child(7) {
+        width: 25px;
+        max-width: 120px;
+        text-align: center !important;
+        font-size: 14px;
+        font-weight: 400 !important;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      text-align: center !important;
+      th {
+        color: $white;
+      }
+    }
+  }
+
+  td.mat-cell:last-of-type {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+  }
+}
+
+.red {
+  color: #ff4040;
+}
+.person-image {
+  display: inline-block;
+  margin-right: 0px;
+  height: 18px;
+  width: 18px;
+  vertical-align: baseline;
+}
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.left-margin {
+  margin-left: 3%;
+}
+
+:host ::ng-deep .swal2-checkbox label,
+.swal2-radio label {
+  font-size: 1em !important;
+}
+.school-backdrop + .cdk-overlay-pane {
+  .mat-dialog-container {
+    overflow: visible;
+  }
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pc-section {
+  width: 50%;
+  text-align: right;
+  padding-right: 5px;
+  display: inline-block;
+}
+
+.cr-section {
+  width: 50%;
+  text-align: left;
+  display: inline-block;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: black;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #8c8c8c !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+  color: #ffffff;
+  background-color: #fff0;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #8c8c8c !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  width: 100%;
+}
+
+.top-filter {
+  margin-top: 15px;
+  padding-bottom: 30px;
+}

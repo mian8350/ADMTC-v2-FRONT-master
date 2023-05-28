@@ -1,0 +1,129 @@
+.mat-card-image {
+  height: 120px;
+  width: 120px;
+  object-fit: contain;
+  max-width: unset !important;
+  margin: 0;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+}
+
+.rotate-icon {
+  transform: rotate(250deg);
+}
+
+.mat-raised-button.mat-primary[disabled] {
+  background-color: #1565c0;
+  color: white;
+  opacity: 0.5;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      &:nth-child(1) {
+        width: 15%;
+
+        .mat-form-field {
+          width: 60%;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 25%;
+
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 35%;
+
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 5%;
+
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 5%;
+
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: 10%;
+
+        .mat-form-field {
+          width: 70%;
+        }
+      }
+
+      &:nth-child(7) {
+        width: 5%;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+
+      &:nth-child(4),
+      &:nth-child(5),
+      &:nth-child(6) {
+        text-align: center !important;
+      }
+    }
+
+    th {
+      vertical-align: top;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.5em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) th {
+      border-bottom: 0;
+    }
+  }
+}
+
+.school-margin-top {
+  margin-top: -25px;
+}
+
+:host ::ng-deep .mat-select-trigger {
+  font-size: 0.875rem !important;
+  height: unset !important;
+}
+
+.reset-header-column {
+  vertical-align: middle !important;
+}

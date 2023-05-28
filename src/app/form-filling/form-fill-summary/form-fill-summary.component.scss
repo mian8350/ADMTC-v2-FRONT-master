@@ -1,0 +1,117 @@
+.card-document {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #283d50;
+  color: white;
+}
+
+.pdf-icon {
+  vertical-align: top;
+  margin-top: 2px;
+}
+
+.revision-box-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.signature-box {
+  display: flex;
+
+  div {
+    margin-left: 1rem;
+  }
+}
+
+.pdf-document {
+  padding: 15px;
+  background-color: white;
+  color: black;
+}
+
+.content-terms {
+  text-align: justify;
+}
+
+.full-width {
+  width: 66.67%;
+
+  .p-grid {
+    .p-col-4 {
+      width: 25% !important;
+    }
+
+    .p-col-8 {
+      width: 50% !important;
+    }
+  }
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.right-end {
+  margin-left: auto;
+}
+
+.left-end {
+  margin-right: auto;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.p-col-4 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-wrap: anywhere;
+}
+
+.ql-editor {
+  margin: 1rem auto;
+}
+
+.container-view-lanscape {
+  iframe {
+    height: 600px;
+    width: 100%;
+  }
+}
+
+.step-title {
+  text-align: center;
+  background-color: #c9c9c9 !important;
+  padding-left: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  -webkit-print-color-adjust: exact;
+}
+
+.segment-title {
+  padding-left: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-bottom: 1px solid black;
+  -webkit-print-color-adjust: exact;
+}
+
+.document-question-label {
+  cursor: pointer;
+  color: blue;
+}
+
+.header {
+  margin-bottom: 15px;
+}

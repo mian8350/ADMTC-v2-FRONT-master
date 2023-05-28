@@ -1,0 +1,112 @@
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+.section-header {
+  display: flex;
+  background-color: #424242;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.no-padding {
+  padding: 0px !important;
+}
+.no-padding-y {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+.no-padding-left {
+  padding-left: 0px !important;
+}
+.no-padding-right {
+  padding-right: 0px !important;
+}
+.no-padding-bottom {
+  padding-bottom: 0px !important;
+}
+.border-white {
+  border: 1px solid white;
+}
+.btn-right {
+  position: relative;
+  float: right;
+  font-size: 14px;
+  right: 95px;
+}
+.btn-right-1 {
+  position: relative;
+  float: right;
+  font-size: 14px;
+  right: 140px;
+}
+.icon-action {
+  font-size: 24px;
+}
+.mrgn-btn {
+  margin-bottom: 10px;
+}
+.btn-add {
+  position: relative;
+  top: -10px;
+}
+.mrgn-bottom {
+  margin-bottom: 50px;
+}
+.mat-icon-section-svgIcon {
+  width: 30px !important;
+  height: auto !important;
+  margin-top: -2px !important;
+  margin-right: 10px;
+}
+
+.imgContainer {
+  position: relative;
+  height: 165px;
+  width: 165px;
+  margin-top: 7px;
+  margin-right: 7px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.imgContainer:hover .overlay {
+  opacity: 1;
+}
+.x-pad-none {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.center-image {
+  height: 165px;
+  width: 165px;
+  line-height: 200px;
+  margin: auto;
+  text-align: center;
+}
+.diploma-title {
+  text-decoration: underline;
+}
+.diploma-qualification {
+  font-style: italic;
+}
+.diploma-information {
+  text-align: justify;
+  margin-top: 15px;
+}
+.pad-top-none {
+  padding-top: 0px;
+}
+.float-left {
+  padding: 0px;
+  float: left;
+}
+
+.sub-section-header {
+  background-color: #424242;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+// .diploma-institute {
+
+// }

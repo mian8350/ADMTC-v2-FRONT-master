@@ -1,0 +1,10 @@
+<ng-container *ngIf="showTableMenu()">
+    <ms-title-manager-student-title-class-selection
+    [selectedRncpTitleId]="selectedRncpTitleId" 
+    [selectedClassId]="selectedClassId"
+    ></ms-title-manager-student-title-class-selection>
+    
+    <ms-title-manager-student-table
+    *ngIf="selectedRncpTitleId && selectedRncpTitleId !== '' && selectedClassId && selectedClassId !== ''"
+    ></ms-title-manager-student-table>
+</ng-container>

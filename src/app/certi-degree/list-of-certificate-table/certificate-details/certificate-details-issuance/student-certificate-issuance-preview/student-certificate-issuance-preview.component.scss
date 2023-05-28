@@ -1,0 +1,60 @@
+.background-primary {
+  background-color: #607d8b !important;
+}
+
+.ql-editor {
+  list-style: disc;
+}
+.label-custom {
+  ::ng-deep .mat-tab-label {
+    width: 35% !important;
+  }
+  ::ng-deep .mat-tab-label.mat-tab-label-active {
+    border: 2.5px solid #607d8b !important;
+  }
+}
+
+.document-parent {
+  white-space: normal;
+  overflow: auto;
+  padding: 10px;
+  background: white;
+  color: black;
+  text-align: center;
+  margin: 10px;
+}
+
+.content-empty {
+  font-size: 155px;
+  color: #607d8b;
+  margin: auto;
+  text-align: center;
+  width: 290px;
+  display: block;
+  margin-top: 50px;
+}
+
+.text-empty {
+  font-size: 16px;
+  color: #607d8b;
+  font-weight: 700;
+  width: 311px;
+  text-align: center;
+  margin: auto;
+  display: block;
+  white-space: break-spaces;
+}
+
+.container-view-potrait {
+  iframe {
+    height: 975px;
+    width: 100%;
+  }
+}
+
+.container-view-lanscape {
+  iframe {
+    height: 535px;
+    width: 100%;
+  }
+}

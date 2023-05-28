@@ -1,0 +1,30 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex">
+    <!-- Step Parameter -->
+    <mat-tab label="Template Details">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Template Details' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-form-template-step-detail
+         [templateId]="templateId"
+         [templateType]="templateType"
+        ></ms-form-template-step-detail>
+      </ng-template>
+    </mat-tab>
+  
+    <!-- Step Details -->
+    <mat-tab label="General Notification" *ngIf="templateId">
+      <ng-template mat-tab-label>
+        <h5>{{ 'General Notification' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+       <ms-form-template-general-notification 
+        [templateId]="templateId"
+        [isPublished]="isPublished"
+        [templateType]="templateType"
+        >
+       </ms-form-template-general-notification>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  

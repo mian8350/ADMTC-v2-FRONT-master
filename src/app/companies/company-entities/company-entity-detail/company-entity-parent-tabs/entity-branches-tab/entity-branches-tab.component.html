@@ -1,0 +1,114 @@
+<div class="p-col-12">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="4" class="action-header-column">
+        <div class="p-grid">
+          <div class="p-col-12 text-right">
+            <button mat-button mat-raised-button color="primary" (click)="reset()">
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'COMPANY.RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <!--filter-->
+    <ng-container matColumnDef="SiretFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="siretFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="BranchFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select placeholder="{{ 'COMPANY.SEARCH' | translate }}" [formControl]="branchFilter" style="width: 97%;">
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let branch of branches" [value]="branch.company_name">
+            {{ branch.company_name }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="AddressFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="addressFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="ActionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- table header and data-->
+    <ng-container matColumnDef="Siret">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.Siret' | translate }}">
+        <h5 class="text-center" mat-sort-header="no_RC">{{ 'COMPANY.Siret' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="">
+        {{ element.no_RC }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Branch">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.Branch' | translate }}">
+        <h5 class="text-center" mat-sort-header="company_name">{{ 'COMPANY.Branch' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.company_name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Address">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.Address' | translate }}">
+        <h5 class="text-center" mat-sort-header="company_address">{{ 'COMPANY.Address' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.company_addresses[0]?.address }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.ACTION' | translate }}">
+        <h5 class="text-center">{{ 'COMPANY.ACTION' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          matTooltip="{{ 'COMPANY.Details' | translate }}"
+          matTooltipPosition="above"
+          (click)="viewBranchDetail(element?.no_RC)"
+        >
+          <mat-icon svgIcon="eye"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div>
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      [length]="dataCount"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,584 @@
+{
+  "data": [
+    {
+      "recipient": [
+        {
+          "name": "Teacher",
+          "_id": "5d7227f4d977974d01f8d0c8"
+        }
+      ],
+      "published": false,
+      "requiredResponse": true,
+      "button1": "",
+      "button2": "",
+      "isDeleted": false,
+      "_id": "5d5d07bdb9ed085a2fe55144",
+      "creator": {
+        "entity": {
+          "type": "admtc",
+          "groupOfSchools": null,
+          "company": null,
+          "school": null
+        },
+        "types": [
+          {
+            "name": "ADMTC admin",
+            "isUserCollection": true,
+            "entity": "admtc",
+            "isSystemType": true,
+            "_id": "5a2e1ecd53b95d22c82f954e",
+            "updatedAt": "2017-12-13T11:01:53.185Z"
+          }
+        ],
+        "lastName": "ADMTC",
+        "firstName": "Admin",
+        "civility": "MRS",
+        "sex": "F",
+        "position": "Direction ADMTC",
+        "email": "admin.admtc@admtc.pro",
+        "officePhone": "22222222222",
+        "directLine": "22222222222",
+        "portablePhone": null,
+        "recovery_code": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluLmFkbXRjQGFkbXRjLnBybyIsImRhdGUiOjE1NDMzODQ5MTU3NDYsImlhdCI6MTU0MzM4NDkxNSwiZXhwIjoxNTQ0NTk0NTE1LCJhdWQiOiIxIiwiaXNzIjoiMSJ9.8d_3BRKbFeUdQdSpJBrpZh20GlFmL-DQqZErEnFBTzk",
+        "authToken": null,
+        "emailVerificationCode": "",
+        "emailVerified": false,
+        "phoneVerified": false,
+        "mailserverPassword": "password",
+        "status": "active",
+        "isUserStudent": false,
+        "isPasswordSet": false,
+        "isUserRegistrationEmailSent": false,
+        "isRegistered": false,
+        "incorrectEmail": false,
+        "isSocialLogin": false,
+        "secondaryEmail": [],
+        "isAdministrative": false,
+        "EmployabilitySurvey": "Sent to student",
+        "diplomaUploaded": true,
+        "certifierStatus": "Pass",
+        "certidegree": "Sent to student",
+        "_id": "5a253110cea695495fb77257",
+        "updatedAt": "2019-08-30T09:47:42.144Z",
+        "createdAt": "2017-12-04T11:27:12.974Z",
+        "createdBy": "5a253110cea695495fb77257",
+        "reportTo": null,
+        "hashed_password": "2b3cc15d679c4b7442ce48f615047584a637ff37",
+        "salt": "123460833867",
+        "__v": 0,
+        "avatar": null,
+        "operationRoleType": ""
+      },
+      "name": "Test",
+      "school": {"shortName": "C3 Institute"},
+      "message": "<p>Test</p><p><br></p><p>Mrs Admin ADMTC</p><p> Direction ADMTC</p>",
+      "response": [],
+      "createdAt": "2019-07-02",
+      "updatedAt": "2019-07-04",
+      "__v": 0
+    },
+    {
+      "recipient": [
+        {
+          "name": "Corrector",
+          "_id": "5d7227d6d977974d01f8d0c4"
+        }
+      ],
+      "published": true,
+      "requiredResponse": false,
+      "button1": "",
+      "button2": "",
+      "isDeleted": false,
+      "_id": "5d5d07eeb9ed085a2fe55146",
+      "creator": {
+        "entity": {
+          "type": "admtc",
+          "groupOfSchools": null,
+          "company": null,
+          "school": null
+        },
+        "permissions": {
+          "academicKit": {
+            "test": {
+              "documents": {
+                "create": false,
+                "read": false,
+                "update": false,
+                "delete": false
+              },
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "users": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "rncpTitles": {
+            "create": false,
+            "read": true,
+            "update": false,
+            "delete": false
+          },
+          "sales": true
+        },
+        "socialLogins": {
+          "linkedIn": false
+        },
+        "curriculumVitae": {
+          "filePath": "",
+          "name": "",
+          "isInS3": false,
+          "S3Path": ""
+        },
+        "types": [
+          {
+            "name": "Teacher",
+            "isUserCollection": true,
+            "entity": "academic",
+            "isSystemType": true,
+            "_id": "5a2e1ecd53b95d22c82f954e",
+            "updatedAt": "2017-12-13T11:01:53.185Z",
+            "FolderPermission": [
+              {
+                "admissions": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "annalesEpreuves": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "boiteaOutils": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "communication": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "examens": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "organisation": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "programme": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "epreuvesCertification": {
+                  "permissions": {
+                    "download": true,
+                    "update": true,
+                    "view": true
+                  },
+                  "status": true
+                },
+                "archives": {
+                  "permissions": {
+                    "download": false,
+                    "update": false,
+                    "view": false
+                  },
+                  "status": false
+                },
+                "_id": "5a3108a1ecf43e1f445b7a5e"
+              }
+            ]
+          }
+        ],
+        "lastName": "ADMTC",
+        "firstName": "Admin",
+        "civility": "MRS",
+        "sex": "F",
+        "position": "Direction ADMTC",
+        "email": "admin.admtc@admtc.pro",
+        "officePhone": "22222222222",
+        "directLine": "22222222222",
+        "portablePhone": null,
+        "recovery_code": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluLmFkbXRjQGFkbXRjLnBybyIsImRhdGUiOjE1NDMzODQ5MTU3NDYsImlhdCI6MTU0MzM4NDkxNSwiZXhwIjoxNTQ0NTk0NTE1LCJhdWQiOiIxIiwiaXNzIjoiMSJ9.8d_3BRKbFeUdQdSpJBrpZh20GlFmL-DQqZErEnFBTzk",
+        "authToken": null,
+        "emailVerificationCode": "",
+        "emailVerified": false,
+        "phoneVerified": false,
+        "mailserverPassword": "password",
+        "assignedRncpTitles": [
+          "5982b82f528f24319d462541",
+          "5a44b48e87c22c6b63007207",
+          "594caedef706e87bafc7455d",
+          "594cb162f706e87bafc7462b",
+          "594cb244f706e87bafc74632",
+          "5a7a5660c80a556c76cfde17",
+          "59c4d738da51647ea5ea2fa6",
+          "5a82a614fb17b461f02838a7",
+          "5a7d5e75b462af50901a578b",
+          "5a5c1f3804a3c538cb9f595e",
+          "5a8e13360b7489472a5e9148",
+          "5a8e14400b7489472a5e914b",
+          "5a9814ad624c036414e1e704",
+          "5aa90e32155c845d8f80d90e",
+          "5acc8d0bb29c6b42cdbcb0c3",
+          "5b336e0867912a6bae918a66",
+          "5b37845fa8ac2c0f97824f32",
+          "5b38a755a8ac2c0f9782891d",
+          "5b3b7be2e9a880184ecc5c73",
+          "5b3cf54a76a39548534c8132",
+          "5b3dfce527a41d7a83375b65",
+          "5b3e06e827a41d7a83376067",
+          "5b3e174527a41d7a83376782",
+          "5b3e3c5a27a41d7a83379181",
+          "5b3e4b5727a41d7a8337937c",
+          "5b3f7e311bd78c73bf2f11b3",
+          "5b4ddad0eaf3af61dae1aca3",
+          "5b69c87581935943d24d25c7",
+          "5b69d1c481935943d24d25e8",
+          "5b69dc6f81935943d24d2696",
+          "5b69e61e81935943d24d26bb",
+          "5b69eeba81935943d24d26e9",
+          "5b7657400006052c18abbb11",
+          "5b791476d9dfe135d5461145",
+          "5b825d5dc9797239bd708249",
+          "5b88075120cb206385942d6d",
+          "5b8fb77bb9b61844f93ead94",
+          "5baa3316293eb71d0162c69e",
+          "5c359ae97481e90ab279b96a",
+          "5c372e7a7f2fad35e41a398e",
+          "5c4085fc23a5526862fb5aae",
+          "5c41e03229bb76319a7711b8",
+          "5c41f98529bb76319a7723c1",
+          "5c45e102b7926045d1c4811b",
+          "5c45e203b7926045d1c48158",
+          "5c47126ee174b27384b062ad",
+          "5c503955eb9f9272f18c64bf",
+          "5c6533c86df34f18eb3ab99b",
+          "5c7e8e7803eff177b469409f",
+          "5c98fd155c92023e22f07948",
+          "5cac98dc87a139742e25f676",
+          "5cd05bc678434b65df41870f",
+          "5cd05e3a78434b65df418794",
+          "5cde777c5bdb94110a93e681",
+          "5cee35ded07b8124e4878554",
+          "5cf3fcd559b76650ecf88865",
+          "5d03a940bc8cf462569c85cf",
+          "5d0b63460b24e17f3bb73fe5",
+          "5d1dfaa62cf1f335ce12de34",
+          "5d43d937ee55d64517f63535",
+          "5d5bfc74406c855a675b8f59",
+          "5d66629077ef432f084f4dc2",
+          "5d67c89d124f9915d4afa186",
+          "5d68f0be49d03d7e851a4e1a"
+        ],
+        "status": "active",
+        "isUserStudent": false,
+        "isPasswordSet": false,
+        "isUserRegistrationEmailSent": false,
+        "isRegistered": false,
+        "incorrectEmail": false,
+        "isSocialLogin": false,
+        "secondaryEmail": [],
+        "_id": "5a253110cea695495fb77257",
+        "updatedAt": "2019-08-30T09:47:42.144Z",
+        "createdAt": "2017-12-04T11:27:12.974Z",
+        "createdBy": "5a253110cea695495fb77257",
+        "reportTo": null,
+        "hashed_password": "2b3cc15d679c4b7442ce48f615047584a637ff37",
+        "salt": "123460833867",
+        "__v": 0,
+        "avatar": null,
+        "operationRoleType": ""
+      },
+      "name": "Test 2",
+      "message": "<p>Test 2</p><p><br></p><p>Mrs Admin ADMTC</p><p> Direction ADMTC</p>",
+      "response": [
+        {
+          "responsedAt": "2019-08-29T05:05:06.268Z",
+          "_id": "5d6769d4f826ee454af01074",
+          "userId": "5bd016c9b018f31c37646894",
+          "response": "Test"
+        },
+        {
+          "responsedAt": "2019-08-29T05:05:06.268Z",
+          "_id": "5d6771ddf826ee454af010e9",
+          "userId": "5d0369aad91c5459d3ca1f33",
+          "response": "Test"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d6886ab49d03d7e851a48e8",
+          "userId": "5b9b7cd55784875cb3542ebe",
+          "response": "asdsadwexcvcxvxc cvcxvxcvxc sdfsdfsdf"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d689b1d49d03d7e851a4add",
+          "userId": "5bd814a77e61de726bc2e234",
+          "response": "asdasdsad"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d68bd5f49d03d7e851a4b45",
+          "userId": "5a98dc11ae92e213b56dc3ba",
+          "response": "sdfsdf"
+        },
+        {
+          "responsedAt": "2019-08-30T10:05:06.436Z",
+          "_id": "5d68ffe555d9241bd2428952",
+          "userId": "5bceffb3b018f31c37600440",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T10:05:06.436Z",
+          "_id": "5d69003e55d9241bd2428967",
+          "userId": "5bd1b53707856c7f37f8057a",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690958b5cc1220d03b62bf",
+          "userId": "5bc49be927463a0393759bf2",
+          "response": "ok"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690bb2b5cc1220d03b62ea",
+          "userId": "5bc9d70266dcb81b7323d5aa",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690e35b5cc1220d03b636b",
+          "userId": "5bd2eeb15b7cdf19ace31f68",
+          "response": "tes"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d691175b5cc1220d03b63a7",
+          "userId": "5bd814017e61de726bc2e1f8",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d6911d0b5cc1220d03b63bc",
+          "userId": "5baa30ca293eb71d0162c60b",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d691297b5cc1220d03b63d1",
+          "userId": "5bd0812c457a38388c54f61c",
+          "response": "test"
+        }
+      ],
+      "createdAt": "2019-08-26",
+      "updatedAt": "2019-08-30",
+      "__v": 0
+    },
+    {
+      "recipient": [
+        {
+          "name": "Teacher",
+          "_id": "5d7227f4d977974d01f8d0c8"
+        }
+      ],
+      "published": true,
+      "requiredResponse": false,
+      "button1": "",
+      "button2": "",
+      "isDeleted": false,
+      "_id": "5d5d07eeb9ed085a2fe55146",
+      "creator": {
+        "entity": {
+          "type": "admtc",
+          "groupOfSchools": null,
+          "company": null,
+          "school": null
+        },
+        "types": [
+          {
+            "name": "Academic Director",
+            "isUserCollection": true,
+            "entity": "academic",
+            "isSystemType": true,
+            "_id": "5a2e1ecd53b95d22c82f954e",
+            "updatedAt": "2017-12-13T11:01:53.185Z"
+          }
+        ],
+        "lastName": "ADMTC",
+        "firstName": "Admin",
+        "civility": "MRS",
+        "sex": "F",
+        "position": "Direction ADMTC",
+        "email": "admin.admtc@admtc.pro",
+        "officePhone": "22222222222",
+        "directLine": "22222222222",
+        "portablePhone": null,
+        "recovery_code": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluLmFkbXRjQGFkbXRjLnBybyIsImRhdGUiOjE1NDMzODQ5MTU3NDYsImlhdCI6MTU0MzM4NDkxNSwiZXhwIjoxNTQ0NTk0NTE1LCJhdWQiOiIxIiwiaXNzIjoiMSJ9.8d_3BRKbFeUdQdSpJBrpZh20GlFmL-DQqZErEnFBTzk",
+        "authToken": null,
+        "emailVerificationCode": "",
+        "emailVerified": false,
+        "phoneVerified": false,
+        "mailserverPassword": "password",
+        "status": "active",
+        "isUserStudent": false,
+        "isPasswordSet": false,
+        "isUserRegistrationEmailSent": false,
+        "isRegistered": false,
+        "incorrectEmail": false,
+        "isSocialLogin": false,
+        "secondaryEmail": [],
+        "isAdministrative": true,
+        "EmployabilitySurvey": "Validated by Acad Dir",
+        "diplomaUploaded": true,
+        "certifierStatus": "Fail",
+        "certidegree": "Certificate Issued",
+        "_id": "5a253110cea695495fb77257",
+        "updatedAt": "2019-08-30T09:47:42.144Z",
+        "createdAt": "2017-12-04T11:27:12.974Z",
+        "createdBy": "5a253110cea695495fb77257",
+        "reportTo": null,
+        "hashed_password": "2b3cc15d679c4b7442ce48f615047584a637ff37",
+        "salt": "123460833867",
+        "__v": 0,
+        "avatar": null,
+        "operationRoleType": ""
+      },
+      "name": "Upload Test",
+      "message": "<p>Test 2</p><p><br></p><p>Mrs Admin ADMTC</p><p> Direction ADMTC</p>",
+      "response": [
+        {
+          "responsedAt": "2019-08-29T05:05:06.268Z",
+          "_id": "5d6769d4f826ee454af01074",
+          "userId": "5bd016c9b018f31c37646894",
+          "response": "Test"
+        },
+        {
+          "responsedAt": "2019-08-29T05:05:06.268Z",
+          "_id": "5d6771ddf826ee454af010e9",
+          "userId": "5d0369aad91c5459d3ca1f33",
+          "response": "Test"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d6886ab49d03d7e851a48e8",
+          "userId": "5b9b7cd55784875cb3542ebe",
+          "response": "asdsadwexcvcxvxc cvcxvxcvxc sdfsdfsdf"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d689b1d49d03d7e851a4add",
+          "userId": "5bd814a77e61de726bc2e234",
+          "response": "asdasdsad"
+        },
+        {
+          "responsedAt": "2019-08-30T01:39:09.261Z",
+          "_id": "5d68bd5f49d03d7e851a4b45",
+          "userId": "5a98dc11ae92e213b56dc3ba",
+          "response": "sdfsdf"
+        },
+        {
+          "responsedAt": "2019-08-30T10:05:06.436Z",
+          "_id": "5d68ffe555d9241bd2428952",
+          "userId": "5bceffb3b018f31c37600440",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T10:05:06.436Z",
+          "_id": "5d69003e55d9241bd2428967",
+          "userId": "5bd1b53707856c7f37f8057a",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690958b5cc1220d03b62bf",
+          "userId": "5bc49be927463a0393759bf2",
+          "response": "ok"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690bb2b5cc1220d03b62ea",
+          "userId": "5bc9d70266dcb81b7323d5aa",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d690e35b5cc1220d03b636b",
+          "userId": "5bd2eeb15b7cdf19ace31f68",
+          "response": "tes"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d691175b5cc1220d03b63a7",
+          "userId": "5bd814017e61de726bc2e1f8",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d6911d0b5cc1220d03b63bc",
+          "userId": "5baa30ca293eb71d0162c60b",
+          "response": "test"
+        },
+        {
+          "responsedAt": "2019-08-30T11:26:47.878Z",
+          "_id": "5d691297b5cc1220d03b63d1",
+          "userId": "5bd0812c457a38388c54f61c",
+          "response": "test"
+        }
+      ],
+      "createdAt": "2019-08-21",
+      "updatedAt": "2019-08-30",
+      "__v": 0
+    }
+  ],
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 0,
+  "status": "OK",
+  "code": 200
+}

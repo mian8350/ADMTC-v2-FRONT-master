@@ -1,0 +1,48 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="certsvg"></mat-icon>
+  <h2 *ngIf="!isEdit" class="header-text">
+    {{ 'Add Phrase' | translate }}
+  </h2>
+  <h2 *ngIf="isEdit" class="header-text">
+    {{ 'Edit Phrase' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md" [formGroup]="addPhraseForm">
+  <div fxLayout="row" fxLayoutGap="20px" class="baseline-align">
+    <div fxFlex="30" *ngIf="data?.block_or_competence && data?.block_or_competence === 'block'">
+      <mat-form-field>
+        <mat-label>{{ 'Phrase Type' | translate }}</mat-label>
+        <mat-select formControlName="phrase_type" [disableOptionCentering]="true" panelClass="dropdownPanel">
+          <mat-option *ngFor="let type of phrasesTypes" [value]="type.value">
+            {{ (data?.is_grand_oral ? type.label : 'phrase_status.' + type.label) | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="70">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width">
+          <input matInput required placeholder="{{ 'Phrase Name' | translate }}" formControlName="name" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="submit()" [disabled]="!addPhraseForm.valid">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+</div>

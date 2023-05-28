@@ -1,0 +1,93 @@
+<div class="p-grid">
+  <div class="p-col-3" *ngIf="expandJsonPanel">
+    <button
+      mat-button-sm
+      mat-raised-button
+      color="primary"
+      matTooltip="{{ 'Collapse Json Panel' | translate }}"
+      (click)="toggleJsonPanel()"
+    >
+      << Collapse
+    </button>
+  </div>
+  <div class="p-col" [ngClass]="{ 'p-offset-4': !expandJsonPanel }">
+    <div class="p-grid">
+      <div class="p-col-6">
+        <button
+          *ngIf="!expandJsonPanel"
+          mat-button-sm
+          mat-raised-button
+          matTooltip="{{ 'Expand Json Panel' | translate }}"
+          (click)="toggleJsonPanel()"
+          color="primary"
+        >
+          >> Expand
+        </button>
+        <button mat-button-sm mat-raised-button matTooltip="{{ 'Save Template' | translate }}" (click)="addPage()">
+          <mat-icon>add</mat-icon> Add More Pages
+        </button>
+        <button
+          *ngIf="pages.length > 1"
+          mat-button-sm
+          mat-raised-button
+          color="warn"
+          matTooltip="{{ 'Save Template' | translate }}"
+          (click)="deletePage()"
+        >
+          <mat-icon>remove</mat-icon> Delete selected page
+        </button>
+      </div>
+      <div class="p-col text-right">
+        <ng-container *ngFor="let page of pages">
+          <button
+            mat-button-sm
+            mat-raised-button
+            [color]="page.selected ? 'primary' : ''"
+            matTooltip="{{ 'Save Template' | translate }}"
+            (click)="selectPage(page)"
+          >
+            {{ page.name }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="p-grid">
+  <div class="p-col-3" *ngIf="expandJsonPanel">
+    <pre [innerHTML]="transcriptData"></pre>
+  </div>
+  <div class="p-col">
+    <ng-container *ngFor="let page of pages">
+      <div class="document-editor" *ngIf="page.selected">
+        <ckeditor [editor]="Editor" [(ngModel)]="page.editorData" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
+        <!-- <ms-ck-editor [editorData]="page.editorData"></ms-ck-editor> -->
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col text-center">
+    <button mat-button-sm mat-raised-button color="primary" matTooltip="{{ 'Save Template' | translate }}" (click)="preView()">
+      preview
+    </button>
+    <button mat-button-sm mat-raised-button color="primary" matTooltip="{{ 'Save Template' | translate }}" (click)="submit()">
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- <div class="p-grid">
+        <div class="p-col-8">
+          <div class="document-editor">
+            <div class="document-editor__toolbar"></div>
+            <div class="document-editor__editable-container">
+              <div id="document-editor__editable" class="document-editor__editable">
+                <p>The initial editor data.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->

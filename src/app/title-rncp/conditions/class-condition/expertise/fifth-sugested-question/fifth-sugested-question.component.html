@@ -1,0 +1,369 @@
+<div class="p-grid" style="margin-bottom: 1rem">
+  <div class="p-col-12">
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12 align-right-button no-padding" style="margin-top: 0.5rem">
+        <button
+          [disabled]="!dataBlock"
+          (click)="openUploadQuestionDialog()"
+          [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 200 ? 'scroll-savebtn' : 'savebtn') : ''"
+          mat-raised-button
+          color="accent"
+          style="margin-right: 1rem"
+        >
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'Upload Questions' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-12" [formGroup]="templateForm">
+    <div class="p-grid">
+      <div class="p-col-12 parameter-card">
+        <ng-container formArrayName="block_of_competence_template_input">
+          <mat-accordion [multi]="true" displayMode="flat">
+            <ng-container *ngFor="let block of getBlockFormArray.controls; let blockIndex = index">
+              <mat-expansion-panel
+                [formGroupName]="blockIndex"
+                class="panel-spacing parameter-card"
+                [expanded]="getBlockFormArray.at(blockIndex).get('isExpanded').value"
+                (opened)="openBlock(blockIndex)"
+                (closed)="closeBlock(blockIndex)"
+              >
+                <mat-expansion-panel-header class="panel-header-comp panel-block">
+                  <mat-panel-title>
+                    <div class="p-grid">
+                      <div class="p-col-12 inline-display">
+                        <button
+                          mat-icon-button
+                          color="warn"
+                          (click)="deleteBlockCompetency(blockIndex)"
+                          matTooltip="{{ 'Delete' | translate }}"
+                          disabled="true"
+                        >
+                          <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          class="text-white"
+                          (click)="openBlockCompetencyDialog('edit', blockIndex)"
+                          matTooltip="{{ 'Edit' | translate }}"
+                          disabled="true"
+                        >
+                          <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                        </button>
+                        <button mat-icon-button class="text-white mrgn-left-5 display-flex" matTooltip="{{ 'View' | translate }}">
+                          <mat-icon *ngIf="!getBlockFormArray.at(blockIndex).get('isExpanded').value">visibility</mat-icon>
+                          <mat-icon *ngIf="getBlockFormArray.at(blockIndex).get('isExpanded').value">visibility_off</mat-icon>
+                        </button>
+                        <h2
+                          class="header-text color-white"
+                          style="font-size: 16px !important"
+                          matTooltip="{{ getBlockFormArray.at(blockIndex).get('ref_id').value }} - {{
+                            utilService.cleanHTML(getBlockFormArray.at(blockIndex).get('name').value)
+                          }}"
+                        >
+                          {{ getBlockFormArray.at(blockIndex).get('ref_id').value }} -
+                          {{ utilService.cleanHTML(getBlockFormArray.at(blockIndex).get('name').value) }}
+                        </h2>
+                      </div>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Table -->
+
+                <!-- Add competency button -->
+                <div class="p-grid">
+                  <!-- <div class="p-col-12">
+                    <div class="p-col-align-center text-right no-padding no-margin">
+                      <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="openCompetencyDialog('add', blockIndex)"
+                        [disabled]="
+                          classConditionData && (classConditionData.test_auto_pro_created || classConditionData.test_auto_pro_published)
+                        "
+                      >
+                        <mat-icon class="mat-icon-default">add</mat-icon>
+                        {{ 'EVAL_BY_EXPERTISE.Competency' | translate }}
+                      </button>
+                    </div>
+                  </div> -->
+                </div>
+
+                <ng-container *ngFor="let evalQuest of getEvaluationQuestionFormArray(blockIndex).controls; let evalQuestIndex = index">
+                  <div class="p-grid questEvalContainer pt-1">
+                    <mat-icon style="width: 31px; height: 24px" svgIcon="file-pdf-outline"></mat-icon>
+                    <span class="pr-1 download-question" (click)="downloadQuestion(evalQuest?.get('s3_file_name').value)">{{evalQuest?.get('s3_file_name').value}}</span>
+                    <button 
+                      mat-icon-button 
+                      color="warn"
+                      (click)="deleteEvalQuest(evalQuest?.get('_id').value)" 
+                      matTooltip="{{ 'Delete' | translate }}" 
+                    >
+                        <mat-icon style="width: 24px; height: 24px" svgIcon="close-circle-outline"></mat-icon>
+                    </button>
+                  </div>
+                </ng-container>
+
+                <!-- Competency Section -->
+                <div style="display: none;">
+                  <ng-container formArrayName="competence_templates_id">
+                  <mat-accordion [multi]="true" displayMode="flat">
+                    <ng-container *ngFor="let comp of getCompetenceFormArray(blockIndex).controls; let compIndex = index">
+                      <mat-expansion-panel
+                        [formGroupName]="compIndex"
+                        class="panel-spacing expansion-first"
+                        [expanded]="getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value"
+                        (opened)="openCompetence(blockIndex, compIndex)"
+                        (closed)="closeCompetence(blockIndex, compIndex)"
+                      >
+                        <mat-expansion-panel-header class="panel-header-comp panel-block">
+                          <mat-panel-title>
+                            <div class="p-grid">
+                              <div class="p-col-12 inline-display">
+                                <button
+                                  mat-icon-button
+                                  color="warn"
+                                  (click)="deleteCompetency(blockIndex, compIndex)"
+                                  matTooltip="{{ 'Delete' | translate }}"
+                                  disabled="true"
+                                >
+                                  <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                </button>
+                                <button
+                                  mat-icon-button
+                                  class="text-white"
+                                  (click)="openCompetencyDialog('edit', blockIndex, compIndex)"
+                                  matTooltip="{{ 'Edit' | translate }}"
+                                  disabled="true"
+                                >
+                                  <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                </button>
+                                <button mat-icon-button class="text-white mrgn-left-5 display-flex" matTooltip="{{ 'View' | translate }}">
+                                  <mat-icon *ngIf="!getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value"
+                                    >visibility</mat-icon
+                                  >
+                                  <mat-icon *ngIf="getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value"
+                                    >visibility_off</mat-icon
+                                  >
+                                </button>
+                                <h3
+                                  class="text-white"
+                                  style="font-size: 16px !important"
+                                  matTooltip="{{ getCompetenceFormArray(blockIndex).at(compIndex).get('ref_id').value }} - {{
+                                    utilService.cleanHTML(getCompetenceFormArray(blockIndex).at(compIndex).get('name').value)
+                                  }}"
+                                >
+                                  {{ getCompetenceFormArray(blockIndex).at(compIndex).get('ref_id').value }} -
+                                  {{ utilService.cleanHTML(getCompetenceFormArray(blockIndex).at(compIndex).get('name').value) }}
+                                </h3>
+                              </div>
+                            </div>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- Table -->
+                        <div class="p-grid">
+                          <!-- Condition Parameter Table -->
+                        </div>
+
+                        <!-- Add Evaluation Criteria button -->
+                        <!-- <div class="p-grid">
+                          <div class="p-col-12" style="padding: 0.5em 0em 0em 0em">
+                            <div class="p-col-align-center text-right no-padding no-margin">
+                              <button
+                                mat-raised-button
+                                color="accent"
+                                (click)="openCriteriaEvaluationDialog('add', blockIndex, compIndex)"
+                                [disabled]="
+                                  classConditionData &&
+                                  (classConditionData.test_auto_pro_created || classConditionData.test_auto_pro_published)
+                                "
+                              >
+                                <mat-icon class="mat-icon-default">add</mat-icon>
+                                {{ 'EVAL_BY_EXPERTISE.Evaluation Criteria' | translate }}
+                              </button>
+                            </div>
+                          </div>
+                        </div> -->
+
+                        <!-- Evaluation Criteria Section -->
+                        <ng-container formArrayName="criteria_of_evaluation_templates_id">
+                          <mat-accordion [multi]="true" displayMode="flat">
+                            <ng-container *ngFor="let eva of getEvaluationFormArray(blockIndex, compIndex).controls; let evaIndex = index">
+                              <!-- <mat-expansion-panel
+                              [formGroupName]="compIndex"
+                              class="panel-spacing criteria-card"
+                            > -->
+                              <!-- <mat-expansion-panel-header class="panel-header-comp">
+                                <mat-panel-title> -->
+                              <mat-expansion-panel (opened)="getDataQuestionTemplate(blockIndex, compIndex, evaIndex)" class="class-card">
+                                <mat-expansion-panel-header class="panel-header-comp">
+                                  <mat-panel-title>
+                                    <div class="p-grid">
+                                      <div class="p-col-12 inline-display" style="padding: 0px">
+                                        <button
+                                          mat-icon-button
+                                          color="warn"
+                                          (click)="deleteCriteriaEvaluation(blockIndex, compIndex, evaIndex)"
+                                          matTooltip="{{ 'Delete' | translate }}"
+                                          [disabled]="
+                                            classConditionData &&
+                                            (classConditionData.test_auto_pro_created || classConditionData.test_auto_pro_published)
+                                          "
+                                        >
+                                          <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                        </button>
+                                        <button
+                                          mat-icon-button
+                                          (click)="openCriteriaEvaluationDialog('edit', blockIndex, compIndex, evaIndex)"
+                                          matTooltip="{{ 'Edit' | translate }}"
+                                          [disabled]="
+                                            classConditionData &&
+                                            (classConditionData.test_auto_pro_created || classConditionData.test_auto_pro_published)
+                                          "
+                                        >
+                                          <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                        </button>
+                                        <div class="draggable inline-display" style="white-space: pre-wrap">
+                                          <!-- <h4
+                                        style="margin: 0px" [innerHTML]="getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value + ' - ' + getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value">
+                                      </h4> -->
+                                          <h4
+                                            style="margin: 0px"
+                                            matTooltip="{{
+                                              getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value
+                                            }} - {{
+                                              utilService.cleanHTML(
+                                                getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value
+                                              )
+                                            }}"
+                                          >
+                                            {{ getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value }} -
+                                            {{
+                                              utilService.cleanHTML(
+                                                getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value
+                                              )
+                                            }}
+                                          </h4>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <!-- Add Question button -->
+                                <div class="p-grid">
+                                  <div class="p-col-12" style="padding: 0.5em 0em 0em 0em">
+                                    <div class="p-col-align-center text-right no-padding">
+                                      <button
+                                        style="margin-right: 0px"
+                                        mat-raised-button
+                                        color="accent"
+                                        (click)="openQuestionDialog('add', blockIndex, compIndex, evaIndex)"
+                                      >
+                                        <mat-icon class="mat-icon-default">add</mat-icon>
+                                        {{ 'EVAL_BY_EXPERTISE.Question' | translate }}
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- Question Section -->
+                                <ng-container
+                                  *ngIf="
+                                    getQuestionFormArray(blockIndex, compIndex, evaIndex) &&
+                                    getQuestionFormArray(blockIndex, compIndex, evaIndex).length
+                                  "
+                                >
+                                  <mat-accordion [multi]="true" displayMode="flat">
+                                    <ng-container
+                                      *ngFor="
+                                        let que of getQuestionFormArray(blockIndex, compIndex, evaIndex)?.controls;
+                                        let queIndex = index
+                                      "
+                                    >
+                                      <mat-panel-title class="class-card-orange" style="margin: 10px 0; padding: 5px !important">
+                                        <div class="p-grid">
+                                          <div class="p-col-12 inline-display" style="padding: 0px">
+                                            <button
+                                              mat-icon-button
+                                              color="warn"
+                                              (click)="deleteQuestion(blockIndex, compIndex, evaIndex, queIndex)"
+                                              matTooltip="{{ 'Delete' | translate }}"
+                                            >
+                                              <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                            </button>
+                                            <button
+                                              (click)="editQuestionDialog('edit', blockIndex, compIndex, evaIndex, queIndex)"
+                                              mat-icon-button
+                                              matTooltip="{{ 'Edit' | translate }}"
+                                            >
+                                              <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                            </button>
+                                            <div class="draggable inline-display" style="white-space: pre-wrap">
+                                              <h4
+                                                style="margin: 0px; color: black"
+                                                matTooltip="{{
+                                                  getQuestionFormArray(blockIndex, compIndex, evaIndex).at(queIndex).get('question').value
+                                                }}"
+                                              >
+                                                {{
+                                                  utilService.cleanHTML(
+                                                    getQuestionFormArray(blockIndex, compIndex, evaIndex).at(queIndex).get('question').value
+                                                  )
+                                                }}
+                                              </h4>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </mat-panel-title>
+                                    </ng-container>
+                                  </mat-accordion>
+                                </ng-container>
+                              </mat-expansion-panel>
+                            </ng-container>
+                          </mat-accordion>
+                        </ng-container>
+                      </mat-expansion-panel>
+                    </ng-container>
+                  </mat-accordion>
+                  </ng-container>
+                </div>
+              </mat-expansion-panel>
+            </ng-container>
+          </mat-accordion>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

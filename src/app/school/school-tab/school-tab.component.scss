@@ -1,0 +1,25 @@
+:host ::ng-deep.mat-tab-label.mat-tab-disabled {
+  cursor: pointer !important;
+}
+
+.hide-tab-0 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(1) {
+  display: none;
+}
+.hide-tab-1 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(2) {
+  display: none;
+}
+.hide-tab-2 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(3) {
+  display: none;
+}
+.hide-tab-3 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(4) {
+  display: none;
+}
+.hide-tab-4 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(5) {
+  display: none;
+}
+.hide-tab-5 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(6) {
+  display: none;
+}
+.hide-tab-6 ::ng-deep .mat-tab-label-container .mat-tab-list .mat-tab-label:nth-child(7) {
+  display: none;
+}

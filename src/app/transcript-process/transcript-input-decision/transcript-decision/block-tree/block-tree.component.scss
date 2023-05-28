@@ -1,0 +1,32 @@
+.grey-border {
+  // border-color: #d6d6d6;
+  border-color: #898989;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 1em;
+  font-size: 12px !important;
+  width: 100%;
+}
+
+.mat-list-base .mat-list-item {
+  height: inherit !important;
+}
+
+.select-decision {
+  width: 150px;
+  margin-right: 0.5rem;
+}
+
+.span-text {
+  white-space: normal;
+  font-size: 12px !important;
+}
+
+.span-checkbox-text {
+  white-space: normal;
+  font-size: 12px !important;
+}
+
+.orange {
+  color: #f49f36;
+}

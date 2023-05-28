@@ -1,0 +1,64 @@
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.mat-dialog-content {
+  margin: 15px 0 0 0;
+}
+
+.w-30 {
+  width: 30px;
+}
+
+.w-45 {
+  width: 45px;
+}
+
+.mr-15 {
+  margin-right: 15px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-1-25 {
+  margin-bottom: 1.25em;
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid grey;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+:host::ng-deep.ng-select.ng-invalid.ng-touched {
+  .ng-select-container {
+    border-bottom-color: #ff5722 !important;
+  }
+  .ng-placeholder {
+    color: #ff5722;
+  }
+}

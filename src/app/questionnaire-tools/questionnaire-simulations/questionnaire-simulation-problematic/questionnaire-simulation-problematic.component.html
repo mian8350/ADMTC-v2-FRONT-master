@@ -1,0 +1,938 @@
+<div>
+  <!-- For Status Cards -->
+  <div class="p-grid p-justify-around" >
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+              {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_acadDpt, 'icon-false': !statusCard.sent_to_acadDpt }">
+              {{ statusCard.sent_to_acadDpt ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If havent rejected or validated by acad dept, show reviewed by acad dept X -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="!statusCard.rejected_by_acadDpt && !statusCard.validated_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}">
+            <span class="icon-false">
+              {{ '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If already rejected or validated by acad dept, show rejected/validated -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="background-rejected label-status card-status">
+          <div class="font-status">
+            <p class="text-status label-reject">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_ACAD_DPT' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.validated_by_acadDpt, 'icon-false': !statusCard.validated_by_acadDpt }">
+              {{ statusCard.validated_by_acadDpt ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_certifier, 'icon-false': !statusCard.sent_to_certifier }">
+              {{ statusCard.sent_to_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If havent rejected or validated by certifier, show reviewed by certifier X -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="!statusCard.rejected_by_certifier && !statusCard.validated_by_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}">
+            <span class="icon-false">
+              {{ '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If already rejected or validated by certifier, show rejected/validated -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="background-rejected label-status card-status">
+          <div class="font-status">
+            <p class="text-status label-reject">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.validated_by_certifier, 'icon-false': !statusCard.validated_by_certifier }">
+              {{ statusCard.validated_by_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If resubmitted -->
+    <!-- <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.resubmitted_to_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.RESUBMITTED_TO_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.RESUBMITTED_TO_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.resubmitted_to_certifier, 'icon-false': !statusCard.resubmitted_to_certifier }">
+              {{ statusCard.resubmitted_to_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+
+  <!-- For Title -->
+  <div class="p-grid p-justify-around">
+    <div class="p-col-12 title-header no-padding" style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="text-center">
+        <h4 class="title-job">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.TITLE' | translate }}</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- For Buttons -->
+  <div class="p-grid p-justify-around" style="margin-bottom: 10px;">
+    <div class="p-col-12 title-header no-padding">
+      <div *ngIf="problematicForm && questionResponseForm">
+        <div>
+          <button mat-raised-button color="accent" class="float-right" [disabled]="!problematicForm.valid || !questionResponseForm.valid">
+            {{ 'job_desc.submit' | translate }}
+          </button>
+          <button mat-raised-button color="accent" class="float-right" [disabled]="!problematicForm.valid || !questionResponseForm.valid">
+            {{ 'Save' | translate }}
+          </button>
+          <button mat-raised-button color="accent" class="float-right" (click)="cancelPreview()">
+            {{ 'Cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- For Student Data -->
+  <div class="p-grid">
+    <div class="yellow-border card-row p-col-12 margin-bot-10px">
+      <div class="p-grid">
+        <!-- Student Name -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Student' | translate }} : </span>
+          <span> {{ '061_simulation.Student Name' | translate }} </span>
+        </div>
+        <!-- Student Company -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+          <span>
+            {{ '061_simulation.Company Name' | translate }}
+          </span>
+        </div>
+        <!-- Student School -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'School' | translate }} : </span>
+          <span>
+            {{ '061_simulation.School Name' | translate }}
+          </span>
+        </div>
+        <!-- Student Mentor -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+          <span>
+            {{ '061_simulation.Mentor Name' | translate }}
+          </span>
+        </div>
+        <!-- Student RNCP Title -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'CARDDETAIL.RNCP Titles' | translate }} : </span>
+          <span>
+            {{ '061_simulation.Title Name' | translate }}
+          </span>
+        </div>
+        <!-- Student Class -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Class' | translate }} : </span>
+          <span>
+            {{ '061_simulation.Class Name' | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- for The Form -->
+  <ng-container *ngIf="problematicForm" [formGroup]="problematicForm">
+    
+    <form *ngIf="questionResponseForm" [formGroup]="questionResponseForm">
+      <!-- For Header -->
+      <div
+        class="p-grid"
+        style="margin-bottom: 10px"
+        *ngIf="
+          questionResponseForm.get('questionnaire_grid').get('header').get('title').value ||
+          questionResponseForm.get('questionnaire_grid').get('header').get('text').value ||
+          questionResponseForm.get('questionnaire_grid').get('header').get('direction').value
+        "
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12" style="text-align: center">
+              <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('title').value"></div>
+              <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('text').value"></div>
+              <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('direction').value"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Competence -->
+      <ng-container formArrayName="competence">
+        <ng-container *ngFor="let comp of getCompetenceForm().controls; let compIndex = index" [formGroupName]="compIndex">
+          <div class="p-grid" style="margin-bottom: 10px" *ngIf="renderBlockHideAndShow(comp.value, compIndex)">
+            <div class="yellow-border card-row p-col-12 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h3 style="text-align: center">{{ comp.get('competence_name').value }}</h3>
+                </div>
+
+                <!-- For Segment -->
+                <ng-container formArrayName="segment">
+                  <div
+                    class="p-col-12 yellow-border mrgn-bottom-10"
+                    *ngFor="let segment of getSegmentArray(compIndex).controls; let segmentIndex = index"
+                    [formGroupName]="segmentIndex"
+                  >
+                    <h4>{{ segment.get('segment_name').value }}</h4>
+
+                    <!-- For Question -->
+                    <ng-container formArrayName="question">
+                      <div
+                        class="p-grid" style="margin-bottom: 10px;"
+                        *ngFor="let quest of getQuestionArray(compIndex, segmentIndex).controls; let quesIndex = index"
+                        [formGroupName]="quesIndex"
+                      >
+                        <!-- <div *ngIf="quest.get('is_field').value" class="p-col-12 self-center">
+                          <label style="align-self: center" *ngIf="quest.get('is_answer_required').value">
+                            {{'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate}}*
+                          </label>
+                          <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">
+                            {{'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate}}
+                          </label>
+                        </div>
+
+                        <div *ngIf="!quest.get('is_field').value" class="p-col-12 self-center">
+                          <label style="align-self: center" *ngIf="quest.get('is_answer_required').value">
+                            {{ quest.get('question_name').value }}*
+                          </label>
+                          <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">
+                            {{ quest.get('question_name').value }}
+                          </label>
+                        </div> -->
+
+                        <!-- For question with slider is_field on -->
+                        <div *ngIf="quest.get('is_field').value" class="p-col-12">
+                          <div class="p-grid">
+                            <div class="p-col-3 self-center">
+                              <!-- <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label> -->
+                              <label style="align-self: center" *ngIf="quest.get('is_answer_required').value">
+                                {{'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate}}*
+                              </label>
+                              <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">
+                                {{'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate}}
+                              </label>
+                            </div>
+                            <div class="p-col-9 x-pad-none">
+                              <mat-form-field>
+                                <input
+                                  matInput
+                                  [required]="quest.get('is_answer_required').value"
+                                  formControlName="answer"
+                                  [readonly]="!allowEditForm"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- For question with slider is_field off -->
+                        <div *ngIf="!quest.get('is_field').value" class="p-col-12">
+                          <ng-container *ngIf="quest.get('question_type').value === 'free_text'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <!-- <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label> -->
+                                <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label>
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <ckeditor
+                                  [config]="{
+                                    toolbar: [
+                                      'bold',
+                                      'italic',
+                                      'underline',
+                                      'strikethrough',
+                                      'highlight:redPen',
+                                      'highlight:greenPen',
+                                      'removeHighlight',
+                                      'numberedList',
+                                      'bulletedList',
+                                      'link',
+                                      'undo',
+                                      'redo'
+                                    ],
+                                    link: {
+                                      addTargetToExternalLinks: true
+                                    }
+                                  }"
+                                  [editor]="Editor"
+                                  formControlName="answer"
+                                  (ready)="onReady($event)"
+                                  [disabled]="!allowEditForm"
+                                  [required]="quest.get('is_answer_required').value"
+                                >
+                                </ckeditor>
+                                <!-- <mat-form-field class="width-ninety">
+                                  <input
+                                    matInput
+                                    [required]="quest.get('is_answer_required').value"
+                                    formControlName="answer"
+                                    [readonly]="!allowEditForm"
+                                  />
+                                </mat-form-field> -->
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'email'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-form-field class="width-ninety">
+                                  <input
+                                    matInput
+                                    type="email"
+                                    [required]="quest.get('is_answer_required').value"
+                                    formControlName="answer"
+                                    [readonly]="!allowEditForm"
+                                  />
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'date'" formGroupName="answer_date">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-form-field class="width-ninety">
+                                  <mat-label>{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                                  <input
+                                    matInput
+                                    readonly
+                                    (click)="picker.open()"
+                                    [matDatepicker]="picker"
+                                    formControlName="date"
+                                    [disabled]="!allowEditForm"
+                                  />
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'numeric'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-form-field class="width-ninety">
+                                  <input
+                                    matInput
+                                    type="number"
+                                    [required]="quest.get('is_answer_required').value"
+                                    formControlName="answer_number"
+                                    [readonly]="!allowEditForm"
+                                  />
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'single_option'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-radio-group
+                                  [required]="quest.is_answer_required"
+                                  formControlName="answer"
+                                  [disabled]="!allowEditForm"
+                                  (change)="onChangeSingleOption(comp.value)"
+                                >
+                                  <mat-radio-button
+                                    [value]="option.option_text"
+                                    *ngFor="let option of quest.get('options').value"
+                                    style="padding-right: 10px"
+                                    >{{ option.option_text }}</mat-radio-button
+                                  >
+                                </mat-radio-group>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'multiple_option'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-checkbox
+                                  *ngFor="let option of quest.get('options').value"
+                                  value="{{ option.option_text }}"
+                                  [required]="quest.is_answer_required"
+                                  style="padding-right: 10px"
+                                  [checked]="isCheckboxMultipleOn(option.option_text, compIndex, segmentIndex, quesIndex)"
+                                  (change)="selectionForMultiple($event, option.option_text, compIndex, segmentIndex, quesIndex)"
+                                  [disabled]="!allowEditForm"
+                                >
+                                  {{ option.option_text }}
+                                </mat-checkbox>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'mission_activity'">
+                            <div class="p-grid">
+                              <div
+                                class="p-col-12 pad-btn-none yellow-border mission-activity"
+                                formArrayName="missions_activities_autonomy"
+                              >
+                                <ng-container
+                                  *ngFor="
+                                    let missionActivity of getMissionActivityArray(compIndex, segmentIndex, quesIndex).controls;
+                                    let missionIndex = index
+                                  "
+                                >
+                                  <div class="p-grid" [formGroupName]="missionIndex">
+                                    <div class="p-col-4 pad-btn-none">
+                                      <mat-form-field>
+                                        <mat-label>{{ 'mission' | translate }}</mat-label>
+                                        <textarea
+                                          matInput
+                                          formControlName="mission"
+                                          cdkTextareaAutosize
+                                          cdkAutosizeMinRows="1"
+                                          #autosize="cdkTextareaAutosize"
+                                          [readonly]="!allowEditForm"
+                                        ></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                    <div class="p-col-4 pad-btn-none">
+                                      <mat-form-field>
+                                        <mat-label>{{ 'activity' | translate }}</mat-label>
+                                        <textarea
+                                          matInput
+                                          formControlName="activity"
+                                          cdkTextareaAutosize
+                                          cdkAutosizeMinRows="1"
+                                          #autosize="cdkTextareaAutosize"
+                                          [readonly]="!allowEditForm"
+                                        ></textarea>
+                                      </mat-form-field>
+                                    </div>
+                                    <div class="p-col-4 pad-btn-none">
+                                      <div class="autonomy">
+                                        <mat-form-field>
+                                          <mat-label>{{ 'autonomy level' | translate }}</mat-label>
+                                          <mat-select required formControlName="autonomy_level" [disabled]="!allowEditForm">
+                                            <mat-option *ngFor="let autonomy of autonomyLevel" [value]="autonomy">
+                                              {{ 'MISSIONSACTIVITIESANDAUTONOMY.AUTONOMYLEVEL.'+autonomy | translate }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                                      </div>
+                                      <div class="btn-dynamic">
+                                        <button
+                                          class="pad-top10"
+                                          mat-icon-button
+                                          color="warn"
+                                          (click)="removeMissionActivityFromForm(compIndex, segmentIndex, quesIndex, missionIndex)"
+                                          *ngIf="missionIndex > 0"
+                                          [disabled]="!allowEditForm"
+                                        >
+                                          <mat-icon>remove_circle_outline</mat-icon>
+                                        </button>
+                                        <button
+                                          class="pad-top10"
+                                          mat-icon-button
+                                          color="primary"
+                                          (click)="addMissionActivityToForm(compIndex, segmentIndex, quesIndex)"
+                                          [disabled]="!allowEditForm"
+                                        >
+                                          <mat-icon>add_circle_outline</mat-icon>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'multiple_textbox'">
+                            <div class="p-grid">
+                              <div class="p-col-12 yellow-border mission-activity" formArrayName="multiple_textbox">
+                                <ng-container
+                                  *ngFor="
+                                    let textbox of getMultipleTextboxArray(compIndex, segmentIndex, quesIndex).controls;
+                                    let textboxIndex = index
+                                  "
+                                >
+                                  <div class="p-grid" [formGroupName]="textboxIndex">
+                                    <div class="p-col-12 pad-btn-none">
+                                      <div class="multiple-textbox">
+                                        <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                        <!-- <mat-label class="color-mat" *ngIf="quest.get('is_answer_required').value">{{ quest.get('question_name').value }}*</mat-label>
+                                        <mat-label class="color-mat" *ngIf="!quest.get('is_answer_required').value">{{ quest.get('question_name').value }}</mat-label> -->
+                                        <ckeditor
+                                          [config]="{
+                                            toolbar: [
+                                              'bold',
+                                              'italic',
+                                              'underline',
+                                              'strikethrough',
+                                              'highlight:redPen',
+                                              'highlight:greenPen',
+                                              'removeHighlight',
+                                              'numberedList',
+                                              'bulletedList',
+                                              'link',
+                                              'undo',
+                                              'redo'
+                                            ],
+                                            link: {
+                                              addTargetToExternalLinks: true
+                                            }
+                                          }"
+                                          [editor]="Editor"
+                                          formControlName="text"
+                                          (ready)="onReady($event)"
+                                          [disabled]="!allowEditForm"
+                                          [required]="quest.get('is_answer_required').value"
+                                        >
+                                        </ckeditor>
+                                      </div>
+                                      <div class="btn-dynamic">
+                                        <button
+                                          mat-icon-button
+                                          color="warn"
+                                          (click)="removeMultipleTextboxFromForm(compIndex, segmentIndex, quesIndex, textboxIndex)"
+                                          *ngIf="textboxIndex > 0"
+                                          [disabled]="!allowEditForm"
+                                        >
+                                          <mat-icon>remove_circle_outline</mat-icon>
+                                        </button>
+                                        <button
+                                          class="pad-top10"
+                                          mat-icon-button
+                                          color="primary"
+                                          (click)="addMultipleTextboxToForm(compIndex, segmentIndex, quesIndex)"
+                                          [disabled]="!allowEditForm"
+                                        >
+                                          <mat-icon>add_circle_outline</mat-icon>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.get('question_type').value === 'parent_child'">
+                            <div class="p-grid" *ngIf="quest.get('question_type').value === 'parent_child'">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                <!-- <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                                  >{{ quest.get('question_name').value }}*</label
+                                >
+                                <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                                  quest.get('question_name').value
+                                }}</label> -->
+                              </div>
+                              <div class="p-col-9 x-pad-none">
+                                <mat-radio-group [required]="quest.is_answer_required" formControlName="answer" [disabled]="!allowEditForm">
+                                  <mat-radio-button
+                                    [value]="option.option_text"
+                                    *ngFor="let option of quest.get('parent_child_options').value; let prClIndx = index"
+                                    (change)="
+                                      onChangeParentChild(
+                                        $event,
+                                        option,
+                                        { competenceIndex: compIndex, segmentIndex: segmentIndex, questionIndex: quesIndex },
+                                        prClIndx,
+                                        0
+                                      )
+                                    "
+                                    style="padding-right: 10px"
+                                    >{{ option.option_text }}</mat-radio-button
+                                  >
+                                </mat-radio-group>
+                              </div>
+                            </div>
+                            
+                            <!-- *************** This is failed attemp on using recursive parent child -->
+                            <!-- <ng-container *ngIf="quest.get('parent_child_options').controls" formArrayName="parent_child_options">
+                              <ms-parent-child-recursive
+                                [parentChildOptions]="quest.get('parent_child_options').controls"
+                                [questionResponseForm]="questionResponseForm"
+                              >
+                              </ms-parent-child-recursive>
+                            </ng-container> -->
+
+                            <ng-container formArrayName="parent_child_options">
+                              <ng-container *ngFor="let option1 of quest.get('parent_child_options').controls; let indexSatu = index" [formGroupName]="indexSatu">
+                                <ng-container formArrayName="questions">
+                                  <ng-container *ngFor="let optionQuestion1 of option1.get('questions').controls; let indexQuestionSatu = index" [formGroupName]="indexQuestionSatu">
+                                    <ng-container>
+                                      <div *ngIf="quest.get('answer').value === option1.get('option_text').value" class="field-item" style="padding-left: 2rem;">
+                                        <div fxLayout="row" fxLayoutWrap="wrap">
+                                          <label fxFlex="70" style="align-self: center">{{optionQuestion1.get('question_name').value}}</label>
+                                        </div>
+                                        <div fxLayout="row" fxLayoutWrap="wrap">
+                                          <mat-radio-group formControlName="answer" [disabled]="!allowEditForm">
+                                            <mat-radio-button [value]="option2.option_text" *ngFor="let option2 of optionQuestion1.get('parent_child_options').value"
+                                                             (change)="onChangeParentChild2($event, option2, {competenceIndex: compIndex, segmentIndex: segmentIndex, questionIndex: quesIndex}, indexSatu, indexQuestionSatu)" style="padding-right: 10px;">{{option2.option_text}}</mat-radio-button>
+                                          </mat-radio-group>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+    
+                                    <ng-container formArrayName="parent_child_options">
+                                      <ng-container *ngFor="let option3 of optionQuestion1.get('parent_child_options').controls; let indexDua = index" [formGroupName]="indexDua">
+                                        <ng-container formArrayName="questions">
+                                          <ng-container *ngFor="let optionQuestion2 of option3.get('questions').controls; let indexQuestionDua = index" [formGroupName]="indexQuestionDua">
+                                            <div *ngIf="optionQuestion1.get('answer').value === option3.get('option_text').value" class="field-item" style="padding-left: 4rem;">
+                                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                                <label fxFlex="70" style="align-self: center">{{optionQuestion2.get('question_name').value}}</label>
+                                              </div>
+                                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                                <mat-radio-group formControlName="answer" [disabled]="!allowEditForm">
+                                                  <mat-radio-button [value]="option4.option_text" *ngFor="let option4 of optionQuestion2.get('parent_child_options').value" style="padding-right: 10px;"
+                                                  >{{option4.option_text}}</mat-radio-button>
+                                                </mat-radio-group>
+                                              </div>
+                                            </div>
+                                          </ng-container>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                            
+                          </ng-container>
+                        </div>
+
+                        <ng-container formArrayName="comments">
+                          <div class="p-col-12" *ngFor="let comment of getQuestionCommentsArray(compIndex, segmentIndex, quesIndex).controls; let commentIndex = index; let last = last">
+                            <div class="p-grid" [formGroupName]="commentIndex">
+                              <div class="p-col-3">
+                                <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                                <div>{{ comment.get('date').get('date_utc').value }}</div>
+                                <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                              </div>
+                              <div class="p-col-9">
+                                <ckeditor
+                                  [config]="{
+                                    toolbar: [
+                                      'bold',
+                                      'italic',
+                                      'underline',
+                                      'strikethrough',
+                                      'highlight:redPen',
+                                      'highlight:greenPen',
+                                      'removeHighlight',
+                                      'numberedList',
+                                      'bulletedList',
+                                      'link',
+                                      'undo',
+                                      'redo'
+                                    ],
+                                    link: {
+                                      addTargetToExternalLinks: true
+                                    }
+                                  }"
+                                  [editor]="Editor"
+                                  formControlName="comment"
+                                  (ready)="onReady($event)"
+                                  [disabled]="!allowEditForm || !(isCertifierDirAdmin || isADMTC) || !last"
+                                  required
+                                >
+                                </ckeditor>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <!-- For Footer -->
+      <div
+        class="p-grid"
+        style="margin-bottom: 10px"
+        *ngIf="questionResponseForm.get('questionnaire_grid').get('footer').get('text').value"
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12" style="text-align: center">
+              <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('footer').get('text').value"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- For General Comments -->
+    <div class="p-grid">
+      <div class="yellow-border card-row p-col-12 margin-bot-10px">
+        <ng-container formArrayName="general_comments">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <label>{{ 'PROBLEMATIC_019.PROBLEMATICFORM.COMMENT' | translate }}</label>
+            </div>
+          </div>
+          <div class="p-grid" *ngFor="let gen_comment of getGeneralCommentsArray().controls; let genIndex = index; let last = last">
+            <ng-container [formGroupName]="genIndex">
+              <div class="p-col-3">
+                <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                <div>{{ gen_comment.get('date').get('date_utc').value }}</div>
+                <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+              </div>
+              <div class="p-col-9">
+                <ckeditor
+                  [config]="{
+                    toolbar: [
+                      'bold',
+                      'italic',
+                      'underline',
+                      'strikethrough',
+                      'highlight:redPen',
+                      'highlight:greenPen',
+                      'removeHighlight',
+                      'numberedList',
+                      'bulletedList',
+                      'link',
+                      'undo',
+                      'redo'
+                    ],
+                    link: {
+                      addTargetToExternalLinks: true
+                    }
+                  }"
+                  [editor]="Editor"
+                  formControlName="comment"
+                  (ready)="onReady($event)"
+                  [disabled]="!allowEditForm || !(isCertifierDirAdmin || isADMTC) || !last"
+                >
+                </ckeditor>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- ************** View For Signature -->
+    <div class="p-grid" style="margin-bottom: 10px">
+      <div class="yellow-border card-row p-col-12 x-pad-none">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_student"
+              style="margin-right: 10px"
+              *ngIf="statusCard.sent_to_student"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_student').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYSTUDENT' | translate }}
+              </span>
+            </mat-checkbox>
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_acad_dir"
+              style="margin-right: 10px"
+              *ngIf="statusCard.sent_to_acadDpt && showSignature(isStudent, problematicForm.get('signature_of_the_acad_dir').value)"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_acad_dir').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYACAD' | translate }}
+              </span>
+            </mat-checkbox>
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_certifier"
+              style="margin-right: 10px"
+              *ngIf="statusCard.sent_to_certifier && showSignature(isStudent, problematicForm.get('signature_of_the_certifier').value)"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_certifier').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYCERTI' | translate }}
+              </span>
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Buttons -->
+    <div class="p-grid p-justify-around">
+      <div class="p-col-12 title-header no-padding">
+        <div *ngIf="problematicForm && questionResponseForm">
+          <div>
+            <button mat-raised-button color="accent" class="float-right" [disabled]="!problematicForm.valid || !questionResponseForm.valid">
+              {{ 'job_desc.submit' | translate }}
+            </button>
+            <button mat-raised-button color="accent" class="float-right" [disabled]="!problematicForm.valid || !questionResponseForm.valid">
+              {{ 'Save' | translate }}
+            </button>
+            <button mat-raised-button color="accent" class="float-right" (click)="cancelPreview()">
+              {{ 'Cancel' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

@@ -1,0 +1,144 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.parameter-card {
+  border-radius: 2px;
+}
+
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-right-padding {
+  padding-right: 0px;
+}
+
+.align-item-center {
+  align-items: center;
+}
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-school,
+.mat-column-schoolFilter {
+  text-align: left;
+  width: auto;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+      padding-right: 0.3rem !important;
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.disabled-color {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.span-checkbox-text {
+  white-space: normal;
+}
+
+.span-text {
+  white-space: normal;
+  margin-left: 10px;
+}
+
+.mat-list-base .mat-list-item {
+  height: inherit !important;
+}
+
+.example-tree-invisible {
+  display: none;
+}
+
+.example-tree ul,
+.example-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}

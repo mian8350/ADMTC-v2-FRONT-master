@@ -1,0 +1,165 @@
+<div class="top-space">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+          <div class="p-grid">
+            <div class="p-col-12 text-right">
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="isWaitingForResponse"
+                (click)="reset()"
+                matTooltip="{{ 'RESET' | translate }}"
+              >
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+            </div>
+          </div>
+        </th>
+      </ng-container>
+  
+      <!-- filter section -->  
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <ng-select
+           placeholder="{{ 'search' | translate }}"
+           [clearable]="false"
+           [appendTo]="'body'"
+           [formControl]="schoolFilter"
+           notFoundText="{{ 'No items found' | translate }}"
+          >
+           <ng-option value="">{{ 'AllM' | translate }}</ng-option>
+           <ng-option *ngFor="let school of schoolDropdownList" [value]="school?.short_name">{{ school?.short_name }}</ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+  
+      <ng-container matColumnDef="pcAtFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="example-full-width" style="margin-top: 5px">
+            <input matInput [matDatepicker]="picker" [formControl]="pcAtFilter" placeholder="{{ 'MailBox.DATE' | translate }}" readonly (click)="picker.open()"/>
+            <mat-datepicker-toggle matSuffix [for]="picker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container>
+  
+      <ng-container matColumnDef="signeeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="{{ 'search' | translate }}"
+              [formControl]="signeeFilter"
+            />
+          </mat-form-field>
+        </th>
+      </ng-container>
+  
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <ng-select
+           placeholder="{{ 'search' | translate }}"
+           [clearable]="false"
+           [appendTo]="'body'"
+           notFoundText="{{ 'No items found' | translate }}"
+           [formControl]="statusFilter"
+          >
+           <ng-option value="">{{ 'AllM' | translate }}</ng-option>
+           <ng-option *ngFor="let status of statusList" [value]="status?.value">{{ 'PC_Certification.' + status?.value | translate }}</ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+  
+      <ng-container matColumnDef="signedAtFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="example-full-width" style="margin-top: 5px">
+            <input matInput [matDatepicker]="picker" [formControl]="signedAtFilter" placeholder="{{ 'MailBox.DATE' | translate }}" readonly (click)="picker.open()"/>
+            <mat-datepicker-toggle matSuffix [for]="picker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container>
+        
+      <!-- column header and value -->  
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}">
+          <h5 mat-sort-header="school_name">{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.school_short_name }}">
+          {{ element?.school_short_name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pcAt">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'PC_Certification.PC At' | translate }}">
+          <h5 mat-sort-header="pc_at">{{ 'PC_Certification.PC At' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.pc_at ? element?.pc_at : '-' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="signee">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'PC_Certification.Signee' | translate }}">
+          <h5 mat-sort-header="signee">{{ 'PC_Certification.Signee' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.user_id?.last_name | uppercase }} {{ element?.user_id?.first_name }} {{ element?.user_id?.civility | translate }}">
+          {{ element?.user_id?.last_name | uppercase }} {{ element?.user_id?.first_name }} {{ element?.user_id?.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'STATUS' | translate }}">
+          <h5 mat-sort-header="status">{{ 'STATUS' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ 'PC_Certification.' + element?.status | translate }}">
+          <mat-icon
+          [ngClass]="{
+            'black-icon': element?.status === 'not_receive',
+            'red-icon': element?.status === 'not_signed',
+            'green-icon': element?.status === 'signed'
+          }"
+        >
+          check_circle
+        </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="signedAt">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'PC_Certification.Signed At' | translate }}">
+          <h5 mat-sort-header="signed_at">{{ 'PC_Certification.Signed At' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.signed_at ? element?.signed_at : '-' }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>

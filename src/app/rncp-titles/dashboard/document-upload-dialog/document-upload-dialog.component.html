@@ -1,0 +1,150 @@
+<h1 mat-dialog-title *ngIf="!parentData.isUpdate">{{ 'ACAD_KIT.DOC.Add Document' | translate }}</h1>
+<h1 mat-dialog-title *ngIf="parentData.isUpdate">{{ 'TEST.EDITDOCUMENT' | translate }}</h1>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body" [formGroup]="uploadDocForm">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <mat-form-field class="doctype-input">
+        <mat-label> {{ 'ACAD_KIT.DOC.Type of Document' | translate }}</mat-label>
+        <mat-select formControlName="type_of_document" required [disabled]="isEdit">
+          <mat-option *ngFor="let docType of documentTypes" [value]="docType.value">
+            {{ 'ACAD_KIT.DOC.' + docType.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            uploadDocForm?.get('type_of_document')?.hasError('required') &&
+            (uploadDocForm?.get('type_of_document')?.dirty || uploadDocForm?.get('type_of_document')?.touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="p-col-8">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'ACAD_KIT.DOC.Name of File' | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="document_name"
+          style="font-size: 14px !important"
+          [ngClass]="{ 'disabled-text': isEdit && parentData?.document?.document_generation_type !== 'uploadedFromAcadKit' }"
+          [readonly]="isEdit && parentData?.document?.document_generation_type !== 'uploadedFromAcadKit'"
+        />
+        <mat-error
+          *ngIf="
+            uploadDocForm?.get('document_name')?.hasError('required') &&
+            (uploadDocForm?.get('document_name').dirty || uploadDocForm?.get('document_name').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12">
+      <mat-form-field>
+        <mat-label> {{ 'ACAD_KIT.DOC.Document Type' | translate }}</mat-label>
+        <mat-select [formControl]="fileTypesControl" (selectionChange)="setFileType($event)" required [disabled]="isEdit">
+          <mat-option *ngFor="let fileType of fileTypes" [value]="fileType.value">
+            {{ 'ACAD_KIT.DOC.' + fileType.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="fileTypesControl.hasError('required') && (fileTypesControl.dirty || fileTypesControl.touched)">{{
+          'This field is required' | translate
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isGrandOralCVorPresentation && !isDocumentExpected && parentData && !parentData.isFolder07">
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <mat-checkbox formControlName="published_for_student" (click)="cleanMe()" style="margin-left: 6px">
+          <strong>{{ 'ACAD_KIT.Publish for students' | translate }}</strong>
+        </mat-checkbox>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="parentData?.isFolder07">
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <mat-checkbox formControlName="visible_to_school" style="margin-left: 6px">
+          <strong>{{ 'Visibility to school' | translate }}</strong>
+        </mat-checkbox>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- <ng-container class="p-grid" *ngIf="uploadDocForm?.get('published_for_student')?.value">
+    <div class="p-col-12">
+      <div>
+        <ng-select [items]="classes" bindValue="_id" bindLabel="name" [multiple]="true"
+          placeholder="{{'Select Class'|translate}}" formControlName="parent_class_id"
+          #theNg appendTo="body">
+          <ng-template ng-header-tmp>
+            <div>
+              <button mat-stroked-button color="primary" (click)="onSelectAll(); theNg.close()"
+                style="margin-right: 5px;">Select All</button>
+              <button mat-stroked-button color="warn" (click)="onClearAll()">Clear All</button>
+            </div>
+          </ng-template>
+        </ng-select>
+      </div>
+    </div>
+  </ng-container> -->
+
+  <div class="p-gird" *ngIf="uploadDocForm?.get('s3_file_name')?.value">
+    <div class="p-col-12">
+      <mat-card>
+        <div class="uploaded-file-wrapper">
+          <mat-icon class="icon">insert_drive_file</mat-icon>
+          {{ uploadDocForm?.get('s3_file_name')?.value }}
+        </div>
+        <!-- add and remove file button -->
+        <div class="uploaded-file-wrapper mt-1rem" *ngIf="selectedFile">
+          <button (click)="uploadFile()" mat-button mat-raised-button color="primary">
+            <mat-icon>file_upload</mat-icon>{{ 'ACAD_KIT.DOC.Add this File' | translate }}
+          </button>
+          <button (click)="removeFile()" mat-button mat-raised-button color="warn">
+            <mat-icon>delete</mat-icon>{{ 'ACAD_KIT.DOC.Remove' | translate }}
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- transparent loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    *ngIf="parentData.isUpdate"
+    (click)="submitUpdateDocument()"
+    [disabled]="!uploadDocForm?.valid || !selectedFileType || !fileValidation() || !isUploadedFileExist()"
+  >
+    {{ 'ACAD_KIT.DOC.Submit' | translate }}
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    (click)="openUploadWindow()"
+    *ngIf="!selectedFile"
+    [disabled]="!uploadDocForm?.valid || !selectedFileType || !fileValidation()"
+  >
+    <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+  </button>
+  <input #fileUploadDoc type="file" accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls" class="hidden" (change)="addFile($event)" />
+  <input #fileUploadImg type="file" accept="image/*" class="hidden" (change)="addFile($event)" />
+  <input #fileUploadVid type="file" accept="video/*" class="hidden" (change)="addFile($event)" />
+</div>

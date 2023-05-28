@@ -1,0 +1,236 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="school"></mat-icon>
+  <h2 class="header-text">
+    {{ 'Connect an RNCP Title' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<mat-dialog-content>
+  <!-- TEMP FORM For ADDING BELOW ---------------------------------------------------------------------------->
+
+  <div [formGroup]="tempPreparationCenterForm" class="pad-x-md pad-t-md">
+    <ng-container>
+      <div class="p-grid">
+        <div class="p-col-3">
+          <mat-form-field class="full-width balance-dropdown">
+            <input
+              type="text"
+              tabindex="-1"
+              placeholder="{{ 'Select an RNCP title' | translate }}"
+              matInput
+              formControlName="selectedTitle"
+              [matAutocomplete]="autoTitleTemp"
+              (keyup)="onFilterTempTitle()"
+            />
+            <mat-autocomplete
+              #autoTitleTemp="matAutocomplete"
+              [panelWidth]="'fit'"
+              (optionSelected)="selectTempTitle($event)"
+              [displayWith]="displayTitle"
+            >
+              <mat-option *ngFor="let rncpTitle of filteredTempTitle" [value]="rncpTitle">
+                {{ rncpTitle?.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                tempPreparationCenterForm.get('selectedTitle') &&
+                tempPreparationCenterForm.get('selectedTitle').hasError('required') &&
+                (tempPreparationCenterForm.get('selectedTitle').dirty || tempPreparationCenterForm.get('selectedTitle').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3" *ngIf="tempPreparationCenterForm.get('rncp_title_id').value && allClass.length">
+          <mat-form-field class="full-width balance-dropdown">
+            <input
+              type="text"
+              tabindex="-1"
+              placeholder="{{ 'Select a Class' | translate }}"
+              matInput
+              formControlName="selectedClass"
+              [matAutocomplete]="autoClassTemp"
+              (keyup)="onFilterTempClassOfTitle()"
+            />
+            <mat-autocomplete
+              #autoClassTemp="matAutocomplete"
+              [panelWidth]="'fit'"
+              (optionSelected)="selectTempClass($event)"
+              [displayWith]="displayClass"
+            >
+              <mat-option *ngFor="let class of filteredTempClass" [value]="class">
+                {{ class?.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                tempPreparationCenterForm.get('selectedClass') &&
+                tempPreparationCenterForm.get('selectedClass').hasError('required') &&
+                (tempPreparationCenterForm.get('selectedTitle').dirty || tempPreparationCenterForm.get('selectedTitle').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3" *ngIf="tempPreparationCenterForm.get('selectedClass').value">
+          <mat-form-field class="full-width" floatLabel="auto" style="padding-top: 8px">
+            <mat-label>{{ 'Select specialization' | translate }}</mat-label>
+            <mat-select
+              formControlName="selected_specializations"
+              tabindex="-1"
+              multiple
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <mat-option
+                *ngFor="let specialization of tempPreparationCenterForm?.get('selectedClass')?.value?.specializations"
+                [value]="specialization?._id"
+              >
+                {{ specialization?.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3">
+          <div style="padding-top: 20px">
+            <button
+              matTooltip="{{ 'Add' | translate }}"
+              mat-icon-button
+              color="primary"
+              [disabled]="
+                !tempPreparationCenterForm?.get('selectedTitle')?.value || !tempPreparationCenterForm?.get('selectedClass')?.value
+              "
+              (click)="addPreparationCenterFormArray()"
+            >
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- <h1 mat-dialog-title class="text-center dialog-title">{{ 'Connect an RNCP Title' | translate }}</h1> -->
+  <div [formGroup]="connectedTitleForm" *ngIf="preparationCenterFormArray.length" class="pad-x-md pad-t-md yellow-border bottom-form">
+    <ng-container formArrayName="preparation_center_ats">
+      <div class="p-grid" *ngFor="let preparationCenter of preparationCenterFormArray.controls; let index = index" [formGroupName]="index">
+        <div class="p-col-3">
+          <mat-form-field class="full-width balance-dropdown">
+            <input
+              type="text"
+              tabindex="-1"
+              placeholder="{{ 'Select an RNCP title' | translate }}"
+              matInput
+              formControlName="selectedTitle"
+              [matAutocomplete]="autoTitle"
+              (keyup)="getTitleDropdownList(index)"
+            />
+            <mat-autocomplete
+              #autoTitle="matAutocomplete"
+              [panelWidth]="'fit'"
+              (optionSelected)="selectTitle($event, index)"
+              [displayWith]="displayTitle"
+            >
+              <mat-option *ngFor="let rncpTitle of filteredTitle[index]" [value]="rncpTitle">
+                {{ rncpTitle?.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                connectedTitleForm.get('selectedTitle') &&
+                connectedTitleForm.get('selectedTitle').hasError('required') &&
+                (connectedTitleForm.get('selectedTitle').dirty || connectedTitleForm.get('selectedTitle').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3" *ngIf="preparationCenterFormArray.at(index).get('rncp_title_id').value && allClass.length">
+          <mat-form-field class="full-width balance-dropdown">
+            <input
+              type="text"
+              tabindex="-1"
+              placeholder="{{ 'Select a Class' | translate }}"
+              matInput
+              formControlName="selectedClass"
+              [matAutocomplete]="autoClass"
+              (keyup)="onFilterClassDropdownFromTitle(index)"
+            />
+            <mat-autocomplete
+              #autoClass="matAutocomplete"
+              [panelWidth]="'fit'"
+              (optionSelected)="selectClass($event, index)"
+              [displayWith]="displayClass"
+            >
+              <mat-option *ngFor="let class of filteredClass[index]" [value]="class">
+                {{ class?.name }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error
+              *ngIf="
+                connectedTitleForm.get('selectedClass') &&
+                connectedTitleForm.get('selectedClass').hasError('required') &&
+                (connectedTitleForm.get('selectedTitle').dirty || connectedTitleForm.get('selectedTitle').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3" *ngIf="preparationCenterFormArray.at(index).get('class_id').value">
+          <mat-form-field class="full-width" floatLabel="auto" style="padding-top: 8px">
+            <mat-label>{{ 'Select specialization' | translate }}</mat-label>
+            <mat-select
+              formControlName="selected_specializations"
+              tabindex="-1"
+              multiple
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <mat-option *ngFor="let specialization of filteredSpecialization[index]" [value]="specialization?._id">
+                {{ specialization?.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3">
+          <div style="padding-top: 20px">
+            <button matTooltip="{{ 'Delete' | translate }}" mat-icon-button color="warn" (click)="removePreparationCenterFormArray(index)">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+    <div>
+      <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+    </div>
+    <div>
+      <button mat-button mat-raised-button color="primary" [disabled]="!validateSubmitButton() || isWaitingForResponse" (click)="submit()">
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </div>
+  </div>
+</mat-dialog-actions>
+
+<div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12"
+  style="text-align: center !important; display: contents">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent" style="width: 100px; height: 100px"></mat-spinner>
+  </div>
+</div>

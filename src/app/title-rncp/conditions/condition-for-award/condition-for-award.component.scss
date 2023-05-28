@@ -1,0 +1,82 @@
+#style-4::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar-thumb
+{
+  background-color: #909090;
+  border: 2px solid #555555;
+}
+
+.mat-dark {
+  background-color: #424242;
+  color: #ffffff;
+}
+
+.mat-greyed {
+  background-color: #607D8B;
+  color: #000000;
+}
+
+.condition-card {
+  border-radius: 2px;
+}
+
+.subject-card {
+  border-radius: 2px;
+}
+
+.test-card {
+  border-radius: 2px;
+}
+
+.right-button {
+  float: right;
+}
+
+.page-break-button {
+  float: right;
+  margin-top: 10px;
+}
+
+.small-icon {
+  transform: scale(0.6);
+}
+
+mat-form-field {
+  width: 100%;
+}
+.spinner-container {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.classHeading {
+  text-align: start;
+  // font-size: 1.2rem;
+  // padding: 70px;
+  // padding-bottom: 30px;
+}
+
+.align-item-vcenter {
+  align-self: center;
+}
+
+.align-item-hright {
+  text-align: end;
+}

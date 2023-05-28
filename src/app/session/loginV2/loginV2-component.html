@@ -1,0 +1,142 @@
+<div class="gene-login login-v2 pad-xl primary-login-container">
+  <mat-card class="login-card login-background gene-login-v2">
+    <div class="relative">
+      <span class="lang-dropdown-wrapper">
+        <ms-language-drop-down></ms-language-drop-down>
+      </span>
+      <span class="header">
+        <h1>{{ appData?.group_name || 'ADMTC' }}</h1>
+        <p>{{ 'USERS.SETPASSWORD.WELCOME' | translate }}</p>
+      </span>
+    </div>
+    <form #form="ngForm" (ngSubmit)="login(form.value)">
+      <div class="white-form-label">
+        <mat-form-field color="accent" class="full-wid mrgn-b-md white">
+          <input
+            class="mrgn-t-none white"
+            matInput
+            value="email"
+            placeholder="{{ 'LOGIN.EMAIL' | translate }}"
+            type="text"
+            name="email"
+            required
+            email
+            #name="ngModel"
+            [(ngModel)]="email"
+            (focusout)="getUserEntities()"
+          />
+          <span matSuffix><i class="material-icons">verified_user</i></span>
+          <mat-error *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+            <mat-error *ngIf="name.errors.required"> {{'LOGIN.EMAIL_REQUIRED' |translate}} </mat-error>
+            <mat-error *ngIf="name.errors.email"> {{'LOGIN.EMAIL_INVALID' |translate}} </mat-error>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field color="accent" class="full-wid mrgn-b-md white">
+          <input
+            class="mrgn-t-none white"
+            matInput
+            placeholder="{{ 'LOGIN.PASSWORD' | translate }}"
+            type="password"
+            name="password"
+            required
+            #pass="ngModel"
+            [(ngModel)]="password"
+          />
+          <span matSuffix><i class="material-icons">vpn_key</i></span>
+          <mat-error *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="alert alert-danger">
+            <mat-error *ngIf="pass.errors.required"> {{'LOGIN.PASSWORD REQUIRED' |translate}} </mat-error>
+          </mat-error>
+        </mat-form-field>
+        <div class="mrgn-b-lg">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding">
+              <div
+                [ngClass]="{'p-col-6 field-entity': selectedEntityName === 'academic', 'p-col-12': selectedEntityName !== 'academic'}"
+                class="no-padding"
+              >
+                <!-- entity radio group -->
+                <mat-form-field *ngIf="email && !isEmailInvalid && !isUserHasOneEntity" color="accent" class="full-width radioButtons">
+                  <mat-label>{{ 'Select Entity*' | translate }}</mat-label>
+                  <mat-select class="select-login">
+                    <mat-option (click)="setEntityChecked(entity.label)" *ngFor="let entity of entityVisible" [value]="entity.label">
+                      {{ entity.label | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div
+                [ngClass]="{'p-col-6 field-entity-y': selectedEntityName === 'academic', 'p-col-12': selectedEntityName !== 'academic'}"
+                class="no-padding"
+              >
+                <!-- preparation center radio group -->
+                <mat-form-field
+                  *ngIf="selectedEntityName === 'academic' && !isEmailInvalid && !isUserHasOneEntity"
+                  color="accent"
+                  class="full-width radioButtons"
+                >
+                  <mat-label>{{ 'Select School Type*' | translate }}</mat-label>
+                  <mat-select class="select-login">
+                    <mat-option
+                      (click)="getSchools(schoolType.label)"
+                      *ngFor="let schoolType of schoolTypeVisible"
+                      [value]="schoolType.label"
+                    >
+                      {{ schoolType.label | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- school radio group -->
+          <mat-form-field
+            *ngIf="schools.length > 0 && selectedEntityName === 'academic' && !isEmailInvalid && !isUserHasOneEntity && !isSchoolTypeHasOneSchool"
+            color="accent"
+            class="full-width radioButtons"
+          >
+            <mat-label>{{ 'Select School*' | translate }}</mat-label>
+            <mat-select class="select-login">
+              <mat-option (click)="setSelectedSchool(school)" *ngFor="let school of schools" [value]="school._id">
+                {{ school.shortName | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- User type radio group -->
+          <mat-form-field
+            *ngIf="userTypeList.length > 0 && !isEmailInvalid && !isUserHasOneEntity"
+            color="accent"
+            class="full-width radioButtons"
+          >
+            <mat-label>{{ 'TEST.SELECT_USERTYPE' | translate }}*</mat-label>
+            <mat-select class="select-login">
+              <mat-option (click)="setSelectedUserType(type)" *ngFor="let type of userTypeList" [value]="type.value">
+                {{ 'USER_TYPES.' + type.label | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mrgn-b-md white">
+          <a [routerLink]="['/session/forgot-password']">{{ 'Forgot Password?' | translate }}</a>
+        </div>
+
+        <div class="mrgn-b-md text-center">
+          <button mat-raised-button color="success" [disabled]="form.invalid || isWaitingForResponse">
+            {{ 'LOGIN.LOGIN' | translate }}
+          </button>
+        </div>
+
+        <div class="mrgn-b-md mrgn-t-xl white text-center" *ngIf="incorrectLogin">
+          <p style="color: red">{{'INCORRECT_LOGIN' | translate}}</p>
+        </div>
+      </div>
+    </form>
+    <ng-container *ngIf="isStudent">
+      <iframe style="display: none" [src]="studentDomain | safeResourceUrl" id="ifr"></iframe>
+    </ng-container>
+  </mat-card>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

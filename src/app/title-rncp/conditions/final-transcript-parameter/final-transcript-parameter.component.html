@@ -1,0 +1,132 @@
+<div class="p-grid">
+  <div class="p-col-12 classHeading">
+    <h3><svg style="width:24px;height:24px;float:left; margin-top: 0.09em; margin-right: 0.06em;" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M14 2H7A2 2 0 0 0 5 4V18A2 2 0 0 0 7 20H10V23L12 22L14 23V20H17A2 2 0 0 0 19 18V7M14 15V17L12 16L10 17V15L8 14L10 13V11L12 12L14 11V13L16 14M13 8V3.5L17.5 8Z" />
+  </svg>{{ 'Final Transcript Parameters' | translate }}</h3>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-6">
+    <!-- <mat-card class="parameter-card"> -->
+    <div fxFlex class="align-right">
+      <button mat-button mat-raised-button class="no-margin" color="accent" [disabled]="isWaitingForResponse" (click)="save()">
+        <mat-icon>save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="p-grid" style="margin-top: 0.1rem;">
+  <div class="p-col-6" style="padding-bottom: 0px;">
+    <div class="p-grid yellow-border card-row">
+      <!-- <div class="p-grid" fxLayout="row" fxLayoutAlign="start center"> -->
+        <div class="section-header">
+          <h3>{{ 'Final N2' | translate }}</h3>
+        </div>
+        <div class="p-col-12">
+          <div class="p-grid">
+            <div class="p-col-3" fxFlex="44">
+              {{'Date limit for Student input decision' | translate}}
+            </div>
+            <div class="p-col-3" fxFlex="16" class="align-right">
+              <mat-form-field style="max-width: 105px;" style="margin-top: -1em;">
+                <input matInput [formControl]="finalN2Deadline" [matDatepicker]="picker" (dateChange)="addEvent(1, $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"   ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="p-grid" style="margin-top: 1rem;">
+  <div class="p-col-6" style="padding-bottom: 0px;">
+    <div class="p-grid yellow-border card-row">
+      <!-- <div class="p-grid" fxLayout="row" fxLayoutAlign="start center"> -->
+      <div class="section-header">
+        <h3>{{ 'Final N3' | translate }}</h3>
+      </div>
+      <div class="p-col-12">
+        <div class="p-grid">
+          <div class="p-col-3" fxFlex="44">
+            {{'Date limit for upload document (if any)' | translate}}
+          </div>
+          <div class="p-col-3" fxFlex="16" class="align-right">
+            <mat-form-field style="max-width: 105px; margin-top: -0.7em;">
+              <input matInput [formControl]="finalN3Deadline" [matDatepicker]="picker2" (dateChange)="addEvent(2, $event)">
+              <mat-datepicker-toggle matSuffix [for]="picker2"   ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="p-col-12" style="padding-bottom: 0;">
+            <h5>{{'Special Text - This text will be added on the Final_N3 Notification' | translate}}</h5>
+          </div>
+          <div class="p-col-12 yellow-border" style="padding: 0;">
+            <ckeditor
+            [config]="{
+              toolbar : [
+              'heading', 'bold', 'italic', 'underline', 'strikethrough',
+              'highlight:redPen', 'highlight:greenPen', 'removeHighlight',
+              'numberedList', 'bulletedList', 'link', 'undo', 'redo'
+              ],
+              link : {
+                addTargetToExternalLinks: true
+              }
+            }"
+            [editor]="Editor" [(ngModel)]="textValue" (ready)="onReady($event)">
+            </ckeditor>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="p-grid" style="margin-top: 1rem;">
+  <div class="p-col-6" style="padding-bottom: 0px;">
+    <div class="p-grid yellow-border card-row">
+      <div class="section-header">
+        <h3>{{ 'Final N7' | translate }}</h3>
+      </div>
+      <div class="p-col-12">
+        <div class="p-grid" style="margin-bottom: 1rem;">
+          <!-- <div class="p-col-12"  fxLayout="row" fxLayoutAlign="start center"> -->
+            <div class="p-col-6" fxFlex="50">
+              {{'Date of Jury decision of last final Retake' | translate }}
+            </div>
+            <div class="p-col-6" fxFlex="16" class="align-right">
+              <mat-form-field style="max-width: 105px; margin-top: -0.8em;">
+                <input matInput [formControl]="finalN7JuryDecision" [matDatepicker]="picker3" (dateChange)="addEvent(3, $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker3"   ></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+            </div>
+          <!-- </div> -->
+        </div>
+        <div class="p-grid">
+          <!-- <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center"> -->
+            <div class="p-col-6" fxFlex="50">
+              {{ 'Date for next Final Retake' | translate }}
+            </div>
+            <div class="p-col-6" fxFlex="16" class="align-right">
+              <mat-form-field style="max-width: 105px; margin-top: -0.8em">
+                <input matInput [formControl]="finalN7ExtraRetake" [matDatepicker]="picker4" (dateChange)="addEvent(4, $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker4"   ></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,47 @@
+:host::ng-deep.list-horizontal {
+  padding: 0;
+  flex-wrap: nowrap !important;
+  margin-left: 1.5em !important;
+  & > div {
+    display: inline-block;
+    height: auto;
+    width: 10em;
+    min-width: 9em;
+    margin-right: 10px !important;
+  }
+}
+:host::ng-deep.mat-list-item {
+  max-width: 11rem !important;
+}
+:host::ng-deep.float-right {
+  float: right;
+}
+.left-side {
+  padding-left: 10px;
+  width: 420px;
+}
+
+.right-side {
+  width: auto;
+  position: absolute;
+  right: 0px;
+  left: 350px;
+}
+.fix-company-list-width {
+  margin-top: 10px;
+  width: 420px;
+}
+:host::ng-deep.mat-paginator {
+  background-color: transparent;
+}
+.text-empty {
+  height: auto;
+  margin: 10px auto;
+  font-size: 20px;
+  display: block;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  color: #e4e7ef;
+}

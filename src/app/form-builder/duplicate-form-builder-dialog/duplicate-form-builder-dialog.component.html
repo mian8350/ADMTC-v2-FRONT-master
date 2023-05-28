@@ -1,0 +1,40 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="content-copy"></mat-icon>
+  <h2 class="header-text">
+    {{ 'Duplicate Template' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+
+<div class="pad-x-md pad-t-md" [formGroup]="duplicateTemplateForm">
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width">
+          <input matInput required placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Template Name' | translate }}" formControlName="form_builder_name" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form cta" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="submit()" [disabled]="!duplicateTemplateForm.valid || isWaitingForResponse">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,239 @@
+<div class="header-text">
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.SCHOOL' | translate }}</div>
+    <div class="right">: {{ schoolData?.schools?.school?.short_name }}</div>
+  </div>
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.CITY' | translate }}</div>
+    <div class="right">: {{ schoolData?.schools?.school?.school_address[0]?.city }}</div>
+  </div>
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.RNCP_TITLES' | translate }}</div>
+    <div class="right">: {{ schoolData?.rncp_id?.short_name }}</div>
+  </div>
+  <div class="section">
+    <ng-container *ngIf="isGroupTest">
+      <div class="left">{{ 'JURY_ORGANIZATION.NUMBER_OF_GROUP' | translate }}</div>
+      <div class="right">: {{ countNumberStudent() }} / {{ schoolData?.schools.test_groups?.length }}</div>
+    </ng-container>
+    <ng-container *ngIf="!isGroupTest">
+      <div class="left">{{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }}</div>
+      <div class="right">: {{ countNumberStudent() }} / {{ schoolData?.schools.students?.length }}</div>
+    </ng-container>
+  </div>
+  <div class="section" *ngIf="!isJuryParamSet">
+    <div>
+      <p style="background-color: red">{{ 'JURY_ORGANIZATION.NO_JURY_PARAM' | translate }}</p>
+    </div>
+  </div>
+  <div class="section" *ngIf="isStudentExceeded()">
+    <div>
+      <p style="background-color: red">{{ 'JURY_ORGANIZATION.STUDENT_EXCEEDED' | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<form #f="ngForm" id="f">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="school"
+    matSortDirection="asc"
+    matSortDisableClear
+    class="mat-elevation-z8 mrgn-t-md"
+  >
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="action-header-column">
+        <div class="justify-content-between">
+          <div class="text-left left-side">
+            <div class="left-side-text">{{ 'JURY_ORGANIZATION.NUMBER_OF_JURY' | translate }} :</div>
+            <mat-form-field>
+              <input matInput type="number" [formControl]="numberOfJury" [disabled]="!isJuryParamSet" (focusout)="setTableRow()" required />
+            </mat-form-field>
+          </div>
+          <div class="text-right">
+            <button mat-raised-button class="background-warn" (click)="redirectBack()">
+              {{ 'Cancel' | translate }}
+            </button>
+            <button mat-raised-button (click)="saveForm()" color="accent" [disabled]="checkIsFormInvalid() || isNumberStudentValid() != 0">
+              {{ 'Save' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.START_DATE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="picker"
+            placeholder="{{ 'JURY_ORGANIZATION.START_DATE' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['tempDate']"
+            name="tempDate{{ rowIndex + paginator.pageIndex * 10 }}"
+            readonly
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="startTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.START_TIME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            [ngxTimepicker]="startTime"
+            readonly
+            [format]="24"
+            placeholder="{{ 'JURY_ORGANIZATION.START_TIME' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['start_time']"
+            name="start_time{{ rowIndex + paginator.pageIndex * 10 }}"
+            required
+          />
+          <ngx-material-timepicker-toggle matSuffix [for]="startTime">
+            <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+              <path
+                fill="#ffffff"
+                d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+              />
+            </svg>
+          </ngx-material-timepicker-toggle>
+        </mat-form-field>
+        <ngx-material-timepicker #startTime (closed)="updateTime(rowIndex + paginator.pageIndex * 10)"></ngx-material-timepicker>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="breakTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.BREAK_TIME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            [ngxTimepicker]="breakTime"
+            readonly
+            [format]="24"
+            placeholder="{{ 'JURY_ORGANIZATION.BREAK_TIME' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['break_time']"
+            name="break_time{{ rowIndex + paginator.pageIndex * 10 }}"
+            required
+          />
+          <ngx-material-timepicker-toggle matSuffix [for]="breakTime">
+            <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+              <path
+                fill="#ffffff"
+                d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+              />
+            </svg>
+          </ngx-material-timepicker-toggle>
+        </mat-form-field>
+        <ngx-material-timepicker #breakTime (closed)="updateTime(rowIndex + paginator.pageIndex * 10)"></ngx-material-timepicker>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="breakDuration">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.BREAK_DURATION' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            type="number"
+            placeholder="{{ 'JURY_ORGANIZATION.BREAK_DURATION' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['break_duration']"
+            name="break_duration{{ rowIndex + paginator.pageIndex * 10 }}"
+            (focusout)="countEndDate(rowIndex + paginator.pageIndex * 10)"
+            required
+          />
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfStudent">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="{{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['number_students']"
+            name="number_students{{ rowIndex + paginator.pageIndex * 10 }}"
+            (input)="updateStudentLeft(rowIndex + paginator.pageIndex * 10)"
+            type="number"
+            min="0"
+            max="{{ studentAllowed }}"
+            required
+          />
+        </mat-form-field>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="endTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.END_TIME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="{{ 'JURY_ORGANIZATION.END_TIME' | translate }}"
+            [(ngModel)]="juryDataHolder[rowIndex + paginator.pageIndex * 10]['end_time']"
+            name="end_time{{ rowIndex + paginator.pageIndex * 10 }}"
+            required
+            readonly
+            disabled
+          />
+          <!-- [ngxTimepicker]="breakTime"
+          [format]="24" -->
+          <!-- <ngx-material-timepicker-toggle matSuffix [for]="breakTime" disabled>
+            <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+              <path
+                fill="#ffffff"
+                d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+              />
+            </svg>
+          </ngx-material-timepicker-toggle> -->
+        </mat-form-field>
+        <ngx-material-timepicker #breakTime></ngx-material-timepicker>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [ngClass]="{ 'hide-pagination-buttons': countDocument <= 10 }"
+    [hidePageSize]="true"
+    [pageSizeOptions]="[10]"
+    [pageSize]="[10]"
+    [length]="countDocument"
+    showFirstLastButtons
+  ></mat-paginator>
+</form>

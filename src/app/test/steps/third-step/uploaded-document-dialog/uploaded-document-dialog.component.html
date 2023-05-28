@@ -1,0 +1,410 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="text-box-plus"></mat-icon>
+  <h2 *ngIf="data && data.type; else addDocument" class="header-text">
+    {{ 'TEST.EDITDOCUMENT' | translate }}
+  </h2>
+  <ng-template #addDocument>
+    <h2 class="header-text">{{ 'TEST.ADDDOCUMENT' | translate }}</h2>
+  </ng-template>
+  <button
+    *ngIf="data && data.type; else addDocumentXCancel"
+    mat-icon-button
+    type="button"
+    [disabled]="isFormEditedButFileNotExist()"
+    (click)="cancelEditDoc()"
+    class="header-icon"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+  <ng-template #addDocumentXCancel>
+    <button mat-icon-button type="button" [disabled]="isFormEditedButFileNotExist()" (click)="cancelNewDoc()" class="header-icon">
+      <mat-icon>close</mat-icon>
+    </button>
+  </ng-template>
+</div>
+<hr />
+<form [formGroup]="form" style="padding: 18px 10px; color: black;">
+  <div fxLayout="row">
+    <div fxFlex="50" style="align-self: center;">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-select style="width: 100%;" color="accent" [placeholder]="'DOCUMENT.TYPE' | translate" formControlName="type_of_document" [disableOptionCentering]="true"
+          panelClass="filterPanel custom-matselect-dropdown" (openedChange)="sortDocumentTypeOptions()">
+            <mat-option [value]="">
+              {{ 'None' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let type of types" [value]="type.value">
+              {{ 'DOCUMENTTYPES.' + type.value.toUpperCase() | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              form.get('type_of_document').hasError('required') &&
+              (form.get('type_of_document').dirty || form.get('type_of_document').touched)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field color="accent" style="width: 90%; margin-top: 3px;">
+        <input matInput [placeholder]="'DOCUMENT.NAME' | translate" formControlName="document_name" (keyup)="inputName($event)" type="text" />
+        <mat-error
+          *ngIf="form.get('document_name').hasError('required') && (form.get('document_name').dirty || form.get('document_name').touched)"
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" style="margin-top: 0.9rem;">
+    <div fxFlex="50">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-select
+            #uploadFileControlWho
+            style="width: 95%;"
+            color="accent"
+            [placeholder]="'TEST.CALENDAR.WHO' | translate"
+            formControlName="published_for_user_types_id"
+            style="margin-bottom: -1.4em;"
+            multiple
+            [disableOptionCentering]="true"
+            panelClass="filterPanel custom-matselect-dropdown"
+          >
+            <!-- <mat-option [value]="null" (click)="unSelectedAllItems()">{{ 'NONE' | translate }}</mat-option> -->
+            <mat-option [value]="'AllM'" (click)="toggleAllSelection()"> {{ 'AllM' | translate }} </mat-option>
+            <mat-option *ngFor="let cType of userTypePC" [value]="cType._id" (click)="selectItem()">
+              {{ 'USER_TYPES.' + cType.name | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              form.get('published_for_user_types_id').hasError('required') &&
+              (form.get('published_for_user_types_id').dirty || form.get('published_for_user_types_id').touched)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxFlex="50">
+      <mat-form-field style="width: 90%; margin-top: 3px;">
+        <mat-label> {{'ACAD_KIT.DOC.Document Type'|translate}}</mat-label>
+        <mat-select [formControl]="fileTypesControl" (selectionChange)="setFileType($event)" required [disableOptionCentering]="true"
+        panelClass="filterPanel custom-matselect-dropdown">
+          <mat-option [value]="">
+            {{ 'None' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let fileType of fileTypes" [value]="fileType.value">
+            {{ 'ACAD_KIT.DOC.' + fileType.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="fileTypesControl.hasError('required')
+                                                     && (fileTypesControl.dirty
+                                                     || fileTypesControl.touched)">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div [fxFlex]="docRelativeDate ? 30 : 50" fxLayout="row" fxLayoutAlign="start center">
+      <div class="px-1 select-input-container p-0-6" formGroupName="publication_date">
+        <mat-slide-toggle [formControl]="sliderRelative" style="margin-top: 1rem;" labelPosition="before" (change)="changeValidators()">
+          {{ 'TEST.RELATIVEDATE' | translate }}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div fxFlex>
+      <ng-container *ngIf="!docRelativeDate">
+        <div formGroupName="publication_date" fxFlex="row" class="p-0-6">
+          <div [fxFlex]="50" formGroupName="publication_date">
+            <mat-form-field dividerColor="accent" style="margin-top: 4px; margin-bottom: -1.4em;">
+              <input
+                matInput
+                [min]="today"
+                formControlName="date"
+                [matDatepicker]="pubDatePicker"
+                (click)="pubDatePicker.open()"
+                (dateInput)="datePicked()"
+                [placeholder]="'TEST.CALENDAR.WHEN' | translate"
+                type="text"
+                readonly
+                date
+              />
+              <mat-datepicker-toggle matSuffix [for]="pubDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #pubDatePicker></mat-datepicker>
+              <mat-error
+                *ngIf="
+                  form.get('publication_date').get('publication_date').get('date').hasError('required') &&
+                  (form.get('publication_date').get('publication_date').get('date').dirty ||
+                    form.get('publication_date').get('publication_date').get('date').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="10" formGroupName="publication_date">
+            <mat-form-field style="width: 75px; margin-top: 4px; margin-bottom: -1.4em;">
+              <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time" />
+              <ngx-material-timepicker-toggle matSuffix [for]="time_utc">
+                <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                  <path
+                    fill="#757575"
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+              <mat-error
+                *ngIf="
+                  form.get('publication_date').get('publication_date').get('time').hasError('required') &&
+                  (form.get('publication_date').get('publication_date').get('time').dirty ||
+                    form.get('publication_date').get('publication_date').get('time').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+            <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div fxFlex="20">
+      <div class="px-1 p-0-6">
+        <button
+          mat-raised-button
+          mat-button-sm
+          color="primary"
+          type="button"
+          style="margin-top: 10px;"
+          [disabled]="isUploadButtonDisabled()"
+          (click)="openUploadWindow()"
+          *ngIf="uploader.queue.length === 0"
+        >
+          <mat-icon>add</mat-icon>
+          {{ 'DOCUMENT.FILE' | translate }}
+        </button>
+        <input
+          #uploadFileControlDoc
+          accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls"
+          (change)="onFileSelected($event)"
+          style="display: none;"
+          type="file"
+          ng2FileSelect
+          [uploader]="uploader"
+          disableMultipart="true"
+        />
+        <input
+          #uploadFileControlImg
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          style="display: none;"
+          type="file"
+          ng2FileSelect
+          [uploader]="uploader"
+          disableMultipart="true"
+        />
+        <input
+          #uploadFileControlVid
+          accept="video/*"
+          (change)="onFileSelected($event)"
+          style="display: none;"
+          type="file"
+          ng2FileSelect
+          [uploader]="uploader"
+          disableMultipart="true"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" *ngIf="docRelativeDate">
+    <div fxFlex formGroupName="publication_date" class="pl-1">
+      <mat-radio-group formControlName="before" class="pb-1">
+        <mat-radio-button [value]="true">{{ 'BEFORE' | translate }} {{ 'TEST.AUTOTASK.MARK ENTRY' | translate }}</mat-radio-button>
+        <mat-radio-button [value]="false">{{ 'AFTER' | translate }} {{ 'TEST.AUTOTASK.MARK ENTRY' | translate }}</mat-radio-button>
+        <mat-error
+          *ngIf="
+            form.get('publication_date').get('before').hasError('required') &&
+            (form.get('publication_date').get('before').dirty || form.get('publication_date').get('before').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-radio-group>
+    </div>
+    <div fxFlex="15" [fxFlexOffset]="2" style="padding-top: 3px !important;" formGroupName="publication_date">
+      <mat-form-field>
+        <input matInput (keyup)="checkNumberOfDays($event)" min="0" formControlName="day" [placeholder]="'DAYS' | translate" type="number" />
+        <mat-icon matSuffix>calendar_today</mat-icon>
+        <mat-error
+          *ngIf="
+            form.get('publication_date').get('day').hasError('required') &&
+            (form.get('publication_date').get('day').dirty || form.get('publication_date').get('day').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div #testTimeDivRelative fxFlex="20" [fxFlexOffset]="2" style="align-self: flex-start !important;" formGroupName="publication_date">
+      <mat-form-field style="width: 75px; margin-top: 4px; margin-bottom: -1.4em;">
+        <input matInput [ngxTimepicker]="relative_time_utc" readonly [format]="24" formControlName="relative_time" />
+        <ngx-material-timepicker-toggle matSuffix [for]="relative_time_utc">
+          <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+            <path
+              fill="#757575"
+              d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+            />
+          </svg>
+        </ngx-material-timepicker-toggle>
+        <mat-error
+          *ngIf="
+            form.get('publication_date').get('relative_time').hasError('required') &&
+            (form.get('publication_date').get('relative_time').dirty ||
+              form.get('publication_date').get('relative_time').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+      <ngx-material-timepicker #relative_time_utc></ngx-material-timepicker>
+    </div>
+    <!-- <div fxFlex="20" *ngIf="docRelativeDate" class="justify-content-center pb-1">
+      <button
+        mat-raised-button
+        mat-button-sm
+        color="primary"
+        type="button"
+        [disabled]="isUploadButtonDisabled() || !selectedFileType"
+        (click)="openUploadWindow()"
+        *ngIf="!form.get('s3_file_name').value"
+      >
+        <mat-icon>add</mat-icon>
+        {{ 'DOCUMENT.FILE' | translate }}
+      </button>
+      <input
+        #uploadFileControlDoc
+        accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls"
+        (change)="onFileSelected($event)"
+        style="display: none;"
+        type="file"
+        ng2FileSelect
+        [uploader]="uploader"
+        disableMultipart="true"
+      />
+      <input
+        #uploadFileControlImg
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        style="display: none;"
+        type="file"
+        ng2FileSelect
+        [uploader]="uploader"
+        disableMultipart="true"
+      />
+      <input
+        #uploadFileControlVid
+        accept="video/*"
+        (change)="onFileSelected($event)"
+        style="display: none;"
+        type="file"
+        ng2FileSelect
+        [uploader]="uploader"
+        disableMultipart="true"
+      />
+    </div> -->
+  </div>
+
+  <mat-card *ngIf="form.get('s3_file_name').value" style="color: black;" class="overflow">
+    <mat-card-content>
+      <div fxFlex="row" fxLayoutAlign="space-between center">
+        <div style="display: inline-block;">
+          <mat-icon style="vertical-align: middle;">insert_drive_file</mat-icon>
+          {{ form.get('s3_file_name').value }}
+        </div>
+        <div style="float: right;">
+          <button
+            [disabled]="!isFileUploaded && !form.get('s3_file_name').value"
+            style="vertical-align: middle;"
+            mat-icon-button
+            type="button"
+            color="warn"
+            (click)="removeFile()"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div style="float: right;">
+        <span *ngIf="uploader.queue[0]?.isSuccess">
+          <div style="vertical-align: middle; display: inline-block;">
+            <mat-icon>check</mat-icon>
+          </div>
+          <div style="display: inline-block;">Success</div>
+        </span>
+        <span *ngIf="uploader.queue[0]?.isCancel">
+          <div style="vertical-align: middle; display: inline-block;">
+            <mat-icon>cancel</mat-icon>
+          </div>
+          <div style="display: inline-block;">Cancelled</div>
+        </span>
+        <span *ngIf="uploader.queue[0]?.isError">
+          <div style="vertical-align: middle; display: inline-block;">
+            <mat-icon>error</mat-icon>
+          </div>
+          <div style="display: inline-block;">
+            Error
+          </div>
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</form>
+<hr
+  [ngClass]="{
+    'mrgn-t-mdl':
+      (form.get('publication_date').get('publication_date').get('time').hasError('required') &&
+        (form.get('publication_date').get('publication_date').get('time').dirty ||
+          form.get('publication_date').get('publication_date').get('time').touched)) ||
+      (form.get('publication_date').get('publication_date').get('date').hasError('required') &&
+        (form.get('publication_date').get('publication_date').get('date').dirty ||
+          form.get('publication_date').get('publication_date').get('date').touched))
+  }"
+/>
+<div class="pb-1 pt-1" fxLayout="row" fxLayoutAlign="end center" style="border-top: 1px solid black;">
+  <div>
+    <button
+    *ngIf="data && data.type; else addDocumentCancel"
+    [disabled]="isFormEditedButFileNotExist()"
+    mat-raised-button
+    color="warn"
+    type="button"
+    (click)="cancelEditDoc()"
+    >
+    <mat-icon>delete</mat-icon>
+    {{ 'Cancel' | translate }}
+    </button>
+    <ng-template #addDocumentCancel>
+      <button [disabled]="isFormEditedButFileNotExist()" mat-raised-button color="warn" type="button" (click)="cancelNewDoc()">
+        <mat-icon>delete</mat-icon>
+        {{ 'Cancel' | translate }}
+      </button>
+    </ng-template>
+  </div>
+  <div>
+    <button
+      [disabled]="(!isFileUploaded && !form.get('s3_file_name').value) || isWaitingForResponse || !form.valid"
+      mat-raised-button
+      color="primary"
+      (click)="uploadDocUploaded()"
+      type="button"
+    >
+      <mat-icon>save</mat-icon>
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

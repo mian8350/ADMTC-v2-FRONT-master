@@ -1,0 +1,44 @@
+.dialog-border {
+  border-bottom: 1px solid black;
+  padding: 0px
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.material-icons {
+  margin-top: 3px !important;
+}
+
+.mat-dialog-actions {
+  margin-right: 9px !important;
+}
+
+.dialog-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid 1px black;
+  margin-bottom: 1rem;
+
+  .dialog-title {
+    flex: 1;
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+}
+.box {
+  border: 1px solid black;
+  border-radius: 8px;
+  text-align: center;
+}
+.due-date-form {
+  width: 8vw;
+  margin-top: 3vh;
+}
+.right{
+  text-align: right;
+}

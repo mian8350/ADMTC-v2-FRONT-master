@@ -1,0 +1,57 @@
+<ng-container *ngIf="option">
+  <div [formGroup]="option" cdkDrag class="draggable-box">
+    <div class="p-grid p-align-center">
+      <div class="p-col-6" cdkDragHandle>
+        <ng-container [ngSwitch]="editMode">
+          <ng-container *ngSwitchCase="true">
+            <mat-form-field color="accent">
+              <input matInput [formControl]="updatedText" (mousedown)="$event.stopPropagation()"/>
+              <mat-error *ngIf="updatedText.hasError('required') && (updatedText.dirty || updatedText.touched)">
+                {{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            <span style="text-align: right">{{ optionIndex + 1 }}) {{ option?.value?.option_name }} </span>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="p-col-fixed" cdkDragHandle>
+        <button [disabled]="isPublished" type="button" mat-icon-button (click)="editMode = !editMode">
+          <mat-icon>{{ editMode ? 'close' : 'edit' }}</mat-icon>
+        </button>
+        <button [disabled]="isPublished" type="button" mat-icon-button (click)="onUpdateOptionTextEvent()" *ngIf="editMode">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button [disabled]="isPublished" type="button" mat-icon-button (click)="onRemoveOptionEvent()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <div cdkDragHandle class="p-col" *ngIf="questionField?.get('is_router_on')?.value || (!isFinalStep && questionField?.get('is_router_on')?.value)">
+        <mat-form-field color="accent">
+          <mat-label>{{ 'Go to step' | translate }}</mat-label>
+          <input matInput formControlName="additional_step_name" [matAutocomplete]="nextStepAuto" (keyup)="onNextStepType($event)" />
+          <mat-autocomplete #nextStepAuto [panelWidth]="'fit'" [displayWith]="displayNextStepWithFn.bind(this)">
+            <mat-option
+              *ngFor="let option of filteredConditionalStepsDropdown"
+              [value]="option?.step_title"
+              (click)="onSelectNextStepAt(optionIndex, questionField, option)"
+            >
+              {{ option?.step_title }}
+            </mat-option>
+            <mat-option [value]="'Continue Next Step'" (click)="onSelectNextStepAt(optionIndex, questionField, 'Continue Next Step')">
+              {{ 'Continue Next Step' | translate }}
+            </mat-option>
+            <mat-option [value]="'Go To Final Step'" (click)="onSelectNextStepAt(optionIndex, questionField, 'Go To Final Step')">
+              {{ 'Go To Final Step' | translate }}
+            </mat-option>
+            <mat-option [value]="'Complete the form'" (click)="onSelectNextStepAt(optionIndex, questionField, 'Complete the form')">
+              {{ 'Complete the form' | translate }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</ng-container>

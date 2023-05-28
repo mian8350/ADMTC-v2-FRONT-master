@@ -1,0 +1,236 @@
+<!-- loading spinner Load Field-->
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator-transparent-bg">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>
+<div class="pad-24">
+  <div mat-dialog-title class="dialogTitleWrapper" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="no-padding display-inline icon-alignment">
+      <mat-icon>add</mat-icon>
+    </div>
+    <div class="p-col no-padding display-content">
+      <h1 class="dialogTitle">{{ 'Add User Type' | translate }}</h1>
+    </div>
+    <div class="icon-close">
+      <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div [formGroup]="userEntityForm" mat-dialog-content>
+    <div class="p-grid" style="margin-right: 5px">
+      <div class="p-col-2">
+        <mat-form-field class="full-wid">
+          <mat-select
+            formControlName="entity_name"
+            placeholder="{{ 'Select Entity' | translate }}"
+            (selectionChange)="getUserType($event.value)"
+          >
+            <mat-option *ngFor="let entity of entitiesNameList" [value]="entity">
+              {{ entity | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              (userEntityForm.get('entity_name').hasError('required') && userEntityForm.get('entity_name').touched) ||
+              userEntityForm.get('entity_name').dirty
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <ng-container *ngIf="userEntityForm.get('entity_name').value !== 'admtc'">
+        <div class="p-col-2" [ngClass]="{ 'hide-field': groupSchoolCompany() || companyType() }">
+          <mat-form-field class="full-wid">
+            <mat-select
+              formControlName="school_type"
+              placeholder="{{ 'Select School Type' | translate }}"
+              [disabled]="!userEntityForm.get('entity_name').value || userEntityForm.get('entity_name').value === 'admtc'"
+              (selectionChange)="getSchool($event.value)"
+            >
+              <mat-option *ngFor="let schoolType of schoolTypesList" [value]="schoolType">
+                {{ schoolType | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- *************** If entity is Group of School show field group of school -->
+        <div
+          [ngClass]="{
+            'hide-field': !groupSchoolCompany(),
+            'p-col-7': groupOfSchool()
+          }"
+        >
+          <ng-select placeholder="{{ 'Select Group of School' | translate }}" formControlName="group_of_school" appendTo="body">
+            <ng-option *ngFor="let groupOfSchool of groupOfSchoolList" [value]="groupOfSchool._id">{{
+              groupOfSchool.group_name
+            }}</ng-option>
+          </ng-select>
+        </div>
+
+        <!-- *************** If entity is company, show field company -->
+        <div [ngClass]="{ 'hide-field': !companyType(), 'p-col-7': companyType() }" style="margin-top: -1px !important">
+          <mat-form-field class="full-wid">
+            <input
+              matInput
+              placeholder="{{ 'Select Company' | translate }}"
+              [formControl]="companyControl"
+              [readonly]="!userEntityForm.get('entity_name').value"
+              [matAutocomplete]="autoCompany"
+            />
+            <mat-autocomplete #autoCompany="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let option of filteredCompanies | async" [value]="option?.label" (click)="selectCompany(option?.value)">
+                {{ option?.label }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint *ngIf="companyControl?.value?.length <= 3" class="red-color-important">{{
+              'Please type at least 4 characters to find company' | translate
+            }}</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2" [ngClass]="{ 'hide-field': groupSchoolCompany() || companyType() }">
+          <mat-form-field class="full-wid">
+            <input
+              matInput
+              placeholder="{{ 'Select School' | translate }}"
+              [formControl]="schoolControl"
+              [readonly]="!userEntityForm.get('entity_name').value || userEntityForm.get('entity_name').value === 'admtc'"
+              [matAutocomplete]="autoSchool"
+            />
+            <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let option of filteredSchools | async" [value]="option?.label" (click)="selectSchool(option?.value)">
+                {{ option?.label }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2" [ngClass]="{ 'hide-field': groupSchoolCompany() || companyType() }">
+          <mat-form-field class="full-wid">
+            <input
+              matInput
+              placeholder="{{ 'Select RNCP Title' | translate }}"
+              [formControl]="titleControl"
+              [readonly]="!userEntityForm.get('entity_name').value"
+              [matAutocomplete]="autoTitle"
+            />
+            <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let option of filteredTitles | async" [value]="option?.label" (click)="selectTitle(option?.value)">
+                {{ option?.label }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2" [ngClass]="{ 'hide-field': groupSchoolCompany() || companyType() }">
+          <mat-form-field
+            class="full-wid width-class"
+            *ngIf="userEntityForm.get('school_type').value !== 'certifier'"
+          >
+            <mat-select
+              formControlName="class"
+              placeholder="{{ 'Select Class' | translate }}"
+              (selectionChange)="classSelected($event.value)"
+              [disabled]="userEntityForm.get('entity_name').value === 'admtc' || userEntityForm.get('school_type').value === 'certifier'"
+            >
+              <mat-option *ngFor="let class of classesList" [value]="class.value">
+                {{ class.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field
+            class="full-wid width-class"
+            *ngIf="userEntityForm.get('school_type').value === 'certifier'"
+          >
+            <input matInput placeholder="{{ 'Select Class' | translate }}" [readonly]="true" value="{{ 'All Classes' | translate }}" />
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="type" placeholder="{{ 'Select User Type' | translate }}">
+              <mat-option *ngFor="let userType of userTypesList" [value]="userType.value" (click)="userTypeSelected(userType.value)">
+                {{ 'USER_TYPES.' + userType.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                (userEntityForm.get('type').hasError('required') && userEntityForm.get('type').touched) || userEntityForm.get('type').dirty
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="userEntityForm.get('entity_name').value === 'admtc'">
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="type" placeholder="{{ 'Select User Type' | translate }}">
+              <mat-option *ngFor="let userType of userTypesList" [value]="userType.value" (click)="userTypeSelected(userType.value)">
+                {{ 'USER_TYPES.' + userType.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                (userEntityForm.get('type').hasError('required') && userEntityForm.get('type').touched) || userEntityForm.get('type').dirty
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <!-- Only show Title and Class Selection if usertype selected is ADMTC Visitor, 5a2e1ecd53b95d22c82f954d is ADMTC Visitor Id -->
+        <ng-container>
+          <div class="p-col-2" [ngClass]="{ 'hide-field': userEntityForm.get('type').value !== '5a2e1ecd53b95d22c82f954d' }">
+            <mat-form-field class="full-wid">
+              <input
+                matInput
+                placeholder="{{ 'Select RNCP Title' | translate }}"
+                [formControl]="titleControl"
+                [readonly]="!userEntityForm.get('entity_name').value"
+                [required]="userEntityForm.get('type').value === '5a2e1ecd53b95d22c82f954d'"
+                [matAutocomplete]="autoTitle"
+              />
+              <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+                <mat-option *ngFor="let option of filteredTitles | async" [value]="option?.label" (click)="selectTitle(option?.value)">
+                  {{ option?.label }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="p-col-1" [ngClass]="{ 'hide-field': userEntityForm.get('type').value !== '5a2e1ecd53b95d22c82f954d' }">
+            <mat-form-field class="full-wid">
+              <mat-select
+                formControlName="class"
+                placeholder="{{ 'Select Class' | translate }}"
+                (selectionChange)="classSelected($event.value)"
+                [required]="userEntityForm.get('type').value === '5a2e1ecd53b95d22c82f954d'"
+                [disabled]="userEntityForm.get('type').value !== '5a2e1ecd53b95d22c82f954d'"
+              >
+                <mat-option *ngFor="let class of classesList" [value]="class.value">
+                  {{ class.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <!-- loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator-transparent-bg">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button (click)="closeDialog()" type="button" color="warn">
+    {{ 'Cancel' | translate }}
+  </button>
+  <button mat-raised-button (click)="submit()" type="submit" color="primary">
+    {{ 'USER_TYPE.Submit' | translate }}
+  </button>
+</div>

@@ -1,0 +1,26 @@
+.header-div {
+  & .class-error {
+    // padding-left: 31px;
+    // padding-top: 25px;
+    text-align: center;
+    margin: 80px auto;
+    transform: scale(8);
+  }
+}
+
+.header-form {
+  padding: 18px;
+}
+
+.footer-form {
+  padding: 0px 18px 18px 18px;
+  margin-top: 30px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+p {
+  margin-bottom: 15px;
+}

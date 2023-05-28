@@ -1,0 +1,69 @@
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  background-color: white;
+  color: black;
+}
+
+.yellow-border {
+  padding: 0.5em;
+}
+
+.btn_submit {
+  margin: -1vh;
+}
+
+.btn_cancel {
+  margin: -1vh;
+}
+
+.btn_reject {
+  margin: -1vh;
+}
+
+.btn_validate {
+  margin: -1vh;
+}
+
+.float-right {
+  float: right;
+}
+
+.ml-10 {
+  margin-right: 16px;
+}
+
+.mr-10 {
+  margin-right: 16px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+}
+
+.btn-icon {
+  cursor: pointer;
+}
+
+.cr-green {
+  color: green;
+}
+
+.cr-red {
+  color: red;
+}
+
+.preview-position {
+  margin-top: 30px;
+}
+
+.truncate-text {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

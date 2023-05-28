@@ -1,0 +1,21 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.no-pad-top {
+    padding-top: 0 !important;
+}
+.no-pad-bot {
+    padding-bottom: 0 !important;
+}
+
+.font-style {
+    font-weight: 400;
+    font-size: .87rem;
+    font-family: Roboto,Helvetica Neue,sans-serif;
+}
+
+.scrollable-over {
+    padding-bottom: 0;
+    max-height: 345px;
+    overflow: auto;
+}

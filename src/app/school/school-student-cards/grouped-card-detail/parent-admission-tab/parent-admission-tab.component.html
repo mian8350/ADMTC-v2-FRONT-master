@@ -1,0 +1,56 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #tabMatGroup>
+  <mat-tab
+    *ngIf="permissionService.showAcadJourneyTabStudentCardPerm() && !openFromPrevCourseDetail && admissionStatus === 'received_completed'"
+    label="AdmissionForm"
+  >
+    <ng-template mat-tab-label>
+      <h5>{{ 'Admission_Form_Stud_Card' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-admission-form [formId]="formId"></ms-admission-form>
+    </ng-template>
+  </mat-tab>
+
+  <!-- Academic Journeys tab, dont display for prev course -->
+  <!-- <mat-tab *ngIf="permissionService.showAcadJourneyTabStudentCardPerm() && !openFromPrevCourseDetail && admissionStatus === 'received_completed' && admissionHasAcadJourneyTab" label="AcademicJourney">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Academic Journey' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-summary *ngIf="studentId" [studentIdCardDetail]="studentId" [fromCardDetail]="true" [stepId]="acadJourneyStepId"> </ms-summary>
+    </ng-template>
+  </mat-tab> -->
+
+  <!-- Certification Rule tab, dont display for prev course -->
+  <mat-tab
+    *ngIf="permissionService.showCertificationRuleTabStudentCardPerm() && isReceiveCertRule"
+    label="CertificationRules"
+  >
+    <ng-template mat-tab-label>
+      <h5>{{ 'Certification_Rule_Stud_Card' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-student-certification-rule
+        [selectedRncpTitleId]="titleId"
+        [selectedClassId]="classId"
+        [selectedStudentUserId]="studentData?.user_id?._id"
+        [selectedRncpTitleName]="selectedRncpTitleName"
+        [selectedRncpTitleLongName]="selectedRncpTitleLongName"
+      >
+      </ms-student-certification-rule>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<mat-card
+  *ngIf="
+    (!permissionService.showAcadJourneyTabStudentCardPerm() && !permissionService.showCertificationRuleTabStudentCardPerm()) ||
+    (admissionStatus !== 'received_completed' && !isReceiveCertRule)
+  "
+>
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'Admission' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

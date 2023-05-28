@@ -1,0 +1,129 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="clipboard-check" class="mt-5px" style="padding-top: 3px"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'Commentaries Reply' | translate }}</h3>
+      </div>
+      <div class="p-col no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container mat-dialog-content class="mat-dialog-content dialog-body">
+  <div class="p-grid reply">
+    <ng-container *ngIf="!replies?.is_reply">
+      <div class="p-col-fixed avatar" style="width: 60px">
+        <img
+          [src]="
+            replies?.created_by?.profile_picture
+              ? serverimgPath + replies?.created_by?.profile_picture
+              : replies?.created_by?.civility === 'MR'
+              ? maleStudentIcon
+              : femaleStudentIcon
+          "
+          class="student-details-img"
+        />
+      </div>
+      <div class="p-col">
+        <div class="p-grid">
+          <div class="p-col-12 comment-section">
+            <div class="p-grid comment-header">
+              <div class="p-col comment-name">
+                <span>
+                  {{
+                    replies?.created_by?.civility && replies?.created_by?.civility === 'neutral'
+                      ? ''
+                      : (replies?.created_by?.civility | translate)
+                  }}
+                  {{ replies?.created_by?.first_name }}
+                  {{ replies?.created_by?.last_name }} - {{ transformDate(replies?.date_created) }} -
+                  {{ transformTime(replies?.date_created) }}
+                </span>
+              </div>
+              <div class="p-col-3 comment-subject" style="padding-left: 0px; padding-right: 0px">
+                <span>{{ 'Subject' | translate }} : {{ replies?.subject }}</span>
+              </div>
+              <div class="p-col-3 comment-subject" style="padding-left: 0px; padding-right: 0px">
+                <span>{{ 'Category' | translate }} : {{ replies?.category }}</span>
+              </div>
+            </div>
+            <div class="p-grid comment-message">
+              <div class="p-col-12 message-body" [innerHTML]="replies?.comment"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!--reply-->
+    <ng-container *ngIf="replies?.reply_comment_ids && replies?.reply_comment_ids.length">
+      <ng-container *ngFor="let reply of replies?.reply_comment_ids">
+        <div class="p-grid" style="padding-left: 60px; width: 100%">
+          <div class="p-col-fixed avatar" style="width: 60px">
+            <img
+              [src]="
+                reply?.created_by?.profile_picture
+                  ? serverimgPath + reply?.created_by?.profile_picture
+                  : reply?.created_by?.civility === 'MR'
+                  ? maleStudentIcon
+                  : femaleStudentIcon
+              "
+              class="student-details-img"
+            />
+          </div>
+          <div class="p-col">
+            <div class="p-grid">
+              <div class="p-col-12 comment-section">
+                <div class="p-grid comment-header">
+                  <div class="p-col comment-name">
+                    <span>
+                      {{
+                        reply?.created_by?.civility && reply?.created_by?.civility === 'neutral'
+                          ? ''
+                          : (reply?.created_by?.civility | translate)
+                      }}
+                      {{ reply?.created_by?.first_name }}
+                      {{ reply?.created_by?.last_name }} - {{ transformDate(reply?.date_created) }} -
+                      {{ transformTime(reply?.date_created) }}
+                    </span>
+                  </div>
+                  <div class="p-col-6 comment-subject"></div>
+                </div>
+                <div class="p-grid comment-message">
+                  <div class="p-col-12 message-body" [innerHTML]="reply?.comment"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="p-col-12 answer-section no-padding">
+    <div class="answer-section" style="display: block; position: relative">
+      <div class="ckeditor">
+        <ckeditor #editor [editor]="Editor" [formControl]="commentForm" (ready)="onReady($event)" [config]="config"></ckeditor>
+      </div>
+      <!-- <mat-form-field appearance="outline" class="reply-form">
+        <input matInput [formControl]="commentForm" class="reply-form-text" placeholder="{{ 'Answer' | translate }}"/>
+      </mat-form-field> -->
+      <button
+        matSuffix
+        mat-icon-button
+        [disabled]="!commentForm?.value"
+        (click)="addReply(replies)"
+        style="position: absolute; right: 12px; top: 10px; transform: rotate(337deg)"
+      >
+        <mat-icon class="mat-icon-status">send</mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,60 @@
+<mat-card class="mr-top">
+  <div class="p-col">
+    <div *ngIf="isWaitingForRespose" class="loading-indicator">
+      <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+    <div class="p-grid" *ngIf="!isWaitingForRespose">
+      <div class="p-col-12">
+        <h4>{{ 'COMPANY.Information about this entity' | translate }}</h4>
+      </div>
+      <div class="p-col-12 text">
+        <ul>
+          <li>
+            <span>{{ 'COMPANY.Denomination' | translate }}</span
+            >:<span>{{ company?.denomination ? company.denomination : company?.company_name }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.SIREN' | translate }}</span
+            >:<span>{{ company?.no_RC }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.SIRET of the head office' | translate }}</span
+            >:<span>{{ company?.no_rc_of_head_office }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Main activity of the head office (NAF/APE)' | translate }}</span
+            >:<span>{{ company?.activity }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Employee workforce portion of the entity' | translate }}</span
+            >:
+            <ng-container [ngSwitch]="company?.company_addresses[0]?.country?.toLowerCase()">
+              <span *ngSwitchCase="'france'"
+                >{{ company?.no_of_employee_in_france | translate }}
+                {{ company?.no_of_employee_in_france && company?.no_of_employee_in_france_by_year ? ('in' | translate) : '' }}
+                {{ company?.no_of_employee_in_france_by_year }}</span
+              >
+              <span *ngSwitchDefault>{{ company?.no_of_employee_in_france }}</span>
+            </ng-container>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Business category' | translate }}</span
+            >:<span>
+              {{ company?.type_of_company }}
+              {{ company?.type_of_company && company?.type_of_company_by_year ? ('in' | translate) : '' }}
+              {{ company?.type_of_company_by_year }}
+              </span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Creation date' | translate }}</span
+            >:<span>{{ getDate(company?.created_at) }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Last update' | translate }}</span
+            >:<span>{{ getDate(company?.updated_at) }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</mat-card>

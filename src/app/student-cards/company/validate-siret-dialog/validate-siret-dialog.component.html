@@ -1,0 +1,36 @@
+<div>
+  <div class="p-grid border-bottom" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-col-12 no-padding-bottom">
+      <div class="p-grid">
+        <div class="p-col-10 no-padding-bottom title">
+          <div class="p-grid">
+            <mat-icon class="dialog-icon" style="margin-right: 10px;">business</mat-icon>
+            <h3>{{ 'Please enter siret number for this company' | translate }}</h3>
+          </div>
+        </div>
+        <hr />
+        <div class="p-col no-padding-bottom pad-top-15">
+          <button mat-icon-button mat-dialog-close class="close-icon" tabindex="-1"><mat-icon>close</mat-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin: 20px 20px 10px">
+    <div class="p-grid">
+      <div class="p-col-8">
+        <mat-form-field>
+          <input matInput type="number" required placeholder="{{ 'COMPANY.SIRET_NUMBER' | translate }}" [formControl]="siret" />
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <button mat-raised-button color="accent" (click)="checkSiret()" style="margin-top: 6px">{{ 'Validate' | translate }}</button>
+      </div>
+    </div>
+    <div class="p-col-12 text-center" *ngIf="caseMessage && caseMessage?.includes('The company does not exist in goverment API') && !isWaitingForResponse">
+      <b>{{ 'Sorry, the SIRET number you entered does not match with any company registered in France' | translate }}</b>
+    </div>
+  </div>
+</div>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner color="accent" mode="indeterminate"> </mat-progress-spinner>
+</div>

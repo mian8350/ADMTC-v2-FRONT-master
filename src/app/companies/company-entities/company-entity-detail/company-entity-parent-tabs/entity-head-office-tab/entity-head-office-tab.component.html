@@ -1,0 +1,47 @@
+<mat-card class="mr-top">
+  <div class="p-col">
+    <div *ngIf="isWaitingForResponse" class="loading-indicator">
+      <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+    </div>
+    <div class="p-grid" *ngIf="!isWaitingForResponse">
+      <div class="p-col-12">
+        <h4>{{ 'COMPANY.Head office information' | translate }}</h4>
+      </div>
+      <div class="p-col-12 text">
+        <ul>
+          <li>
+            <span>{{ 'COMPANY.SIRET' | translate }}</span
+            >:<span>{{ company?.no_rc_of_head_office }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.NIC Key' | translate }}</span
+            >:<span>{{ company?.nic }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Main activity of the establishment (NAF/APE)' | translate }}</span
+            >:<span>{{ company?.activity }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Slice of salaried workforce' | translate }}</span
+            >:
+
+            <ng-container [ngSwitch]="company?.company_addresses[0]?.country?.toLowerCase()">
+              <span *ngSwitchCase="'france'"
+                > {{ company?.slice_of_salaried_workforce | translate }} {{ company?.slice_of_salaried_workforce_by_year ? ('in' | translate) : '' }} {{ company?.slice_of_salaried_workforce_by_year }}</span
+              >
+              <span *ngSwitchDefault>{{ company?.slice_of_salary }}</span>
+            </ng-container>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Creation date' | translate }}</span
+            >:<span>{{ company?.created_at_of_head_office ? getDate(company?.created_at_of_head_office):"" }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Last update' | translate }}</span
+            >:<span>{{ company?.updated_at_of_head_office? getDate(company?.updated_at_of_head_office) :"" }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</mat-card>

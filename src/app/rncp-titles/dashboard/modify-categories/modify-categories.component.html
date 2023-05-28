@@ -1,0 +1,128 @@
+<div class="p-grid modify-acadkit-header">
+  <!-- first header section -->
+  <div class="p-col-12 pa-1 navigation-path justify-content-between">
+    <div class="path-wrapper">
+      <a *ngFor="let path of navigationPath; let i = index; let isLastItem = last" (click)="goToFolder(path?.id, i)" class="path-link">
+        <span>{{ path?.name }}</span>
+        <mat-icon *ngIf="!isLastItem" class="vertical-align-mid">chevron_right</mat-icon>
+      </a>
+    </div>
+    <button mat-raised-button class="ml-1" *ngIf="selectedFolderId" (click)="navigationGoUp()">
+      <mat-icon class="mat-icon-default">arrow_upward</mat-icon> {{ 'DASHBOARD.GOUP' | translate }}
+    </button>
+  </div>
+
+  <!-- second header section when click "modify folders" -->
+  <div class="p-col-12 pa-1 text-right btn-modify" *ngIf="!selectedFolderId">
+    <button mat-raised-button (click)="addNewFolder()">
+      <mat-icon class="mat-icon-default">add</mat-icon>
+      {{ 'DASHBOARD.ADDCATEGORY' | translate }}
+    </button>
+  </div>
+
+  <!-- second header section when click pencil icon in one of academic kit root folder -->
+  <div *ngIf="selectedFolderId && selectedFolderData" class="p-col-12 pa-1">
+    <div class="justify-content-between">
+      <div>
+        <p class="folder-title">{{ selectedFolderData?.folder_name }}</p>
+        <p class="folder-description">{{ selectedFolderData?.folder_description }}</p>
+      </div>
+
+      <div class="text-right">
+        <!-- menu to add sub folder, document, or test -->
+        <button mat-mini-fab [matMenuTriggerFor]="addMenu" color="accent" class="mr-1">
+          <mat-icon>add</mat-icon>
+        </button>
+        <mat-menu #addMenu="matMenu">
+          <button mat-menu-item (click)="addSubFolder()"><mat-icon>folder</mat-icon> {{ 'DASHBOARD.SUBCATEGORY' | translate }}</button>
+          <button mat-menu-item (click)="addNewDocument()" *ngIf="selectedFolderData && selectedFolderData.folder_name !== '07. ARCHIVES'">
+            <mat-icon>insert_drive_file</mat-icon> Document
+          </button>
+          <button
+            mat-menu-item
+            (click)="addNewTest(selectedFolderId)"
+            *ngIf="!isFolder07"
+          >
+            <mat-icon>receipt</mat-icon> {{ 'DASHBOARD.TEST' | translate }}
+          </button>
+        </mat-menu>
+
+        <!-- menu to modify, move, or remove folder -->
+        <button mat-mini-fab [matMenuTriggerFor]="folderMenu" class="small-space" color="primary" *ngIf="selectedFolderData?.is_edit_able">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #folderMenu="matMenu">
+          <button mat-menu-item (click)="editFolder()"><mat-icon>edit</mat-icon> {{ 'DASHBOARD.MODIFYCATEGORY' | translate }}</button>
+          <button mat-menu-item (click)="moveFolder()">
+            <mat-icon>format_indent_increase</mat-icon> {{ 'DASHBOARD.MOVECATEGORY' | translate }}
+          </button>
+          <button mat-menu-item (click)="deleteFolder()"><mat-icon>delete</mat-icon> {{ 'DASHBOARD.REMOVECATEGORY' | translate }}</button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- tab section -->
+<div fxLayout="row wrap">
+  <mat-tab-group class="folder-tab-group" [selectedIndex]="displayedTabIndex" animationDuration="0ms">
+    <!-- root folder tab (displayed when click "modify folders" in academic kit UI) -->
+    <mat-tab *ngIf="!selectedFolderId">
+      <ng-template mat-tab-label> {{ 'DASHBOARD.CATEGORIES' | translate }} ({{ acadKitRootFolders?.length }}) </ng-template>
+      <mat-nav-list>
+        <mat-list-item class="default-height" *ngFor="let folder of acadKitRootFolders; index as i" (click)="openFolder(folder)">
+          <span *ngIf="folder?.is_default_folder">{{ folder?.folder_name }}</span>
+          <span *ngIf="!folder?.is_default_folder"> {{ i + 1 < 10 ? '0' : '' }}{{ i + 1 }}. {{ folder?.folder_name | uppercase }} </span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-tab>
+
+    <!-- the tabs that displayed when click pencil icon in one of academic kit root folder -->
+    <ng-container *ngIf="selectedFolderId">
+      <!-- sub folder tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          {{ 'DASHBOARD.SUBCATEGORIES' | translate }} ({{ selectedFolderData?.sub_folders_id?.length }})
+        </ng-template>
+        <mat-nav-list>
+          <mat-list-item
+            class="default-height"
+            *ngFor="let subFolder of selectedFolderData?.sub_folders_id; index as i"
+            (click)="openSubFolder(subFolder)"
+          >
+            {{ subFolder.folder_name }}
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-tab>
+
+      <!-- document tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> {{ 'DOCUMENT.DOCUMENTS' | translate }} ({{ selectedFolderData?.documents?.length }}) </ng-template>
+        <mat-nav-list>
+          <mat-list-item
+            class="default-height"
+            *ngFor="let document of selectedFolderData?.documents; index as i"
+            (click)="openDocumentDetailsDialog(document)"
+          >
+            {{ document.document_name }}
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-tab>
+
+      <!-- test tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> {{ 'TEST.TESTS' | translate }} ({{ selectedFolderData?.tests?.length }}) </ng-template>
+        <mat-nav-list>
+          <mat-list-item class="default-height" *ngFor="let test of selectedFolderData?.tests; index as i" (click)="openTestDetails(test)">
+            {{ test.name }}
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+
+  <!-- transparent loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>

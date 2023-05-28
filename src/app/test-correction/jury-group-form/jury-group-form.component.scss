@@ -1,0 +1,145 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+:host ::ng-deep table.studentForm {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        padding: 0.5rem !important;
+        width: 24%;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+
+      &:nth-child(2) {
+        padding: 0.5rem !important;
+        width: 8%;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+          padding-top: 13px;
+        }
+      }
+
+      &:nth-child(3) {
+        padding: 0.5rem !important;
+        width: 8%;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+          padding-top: 13px;
+        }
+      }
+
+      &:nth-child(4) {
+        padding: 0.5rem !important;
+        width: 8%;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+          padding-top: 13px;
+        }
+      }
+
+      &:nth-child(5) {
+        padding: 0.5rem !important;
+        width: 8%;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+          padding-top: 13px;
+        }
+      }
+
+      &:nth-child(6) {
+        padding: 0rem !important;
+        width: auto;
+        color: white;
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      overflow-wrap: break-word;
+      white-space: normal;
+      height: auto;
+    }
+
+    th {
+      vertical-align: middle;
+      background-color: #212121;
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+
+  tbody tr {
+    height: 28px;
+  }
+}
+
+.footer-row {
+  color: white;
+  padding-top: 0px !important;
+}
+
+.footer-height {
+  height: 28px;
+}
+
+.bg-blue {
+  background-color: $dark-blue;
+}
+
+.mat-icon-style {
+  color: rgb(20, 117, 11);
+  width: 24px;
+  height: 24px;
+}
+.m-tb-10 {
+  margin: 10px 0px 10px 0px;
+}
+.no-pad {
+  padding: 0px;
+}
+.mb-0 {
+  margin-bottom: 0px;
+}
+.only-pad-top-10 {
+  padding: 10px 0px 0px 0px;
+}
+::ng-deep svg.ck.ck-icon.ck-button__icon {
+  width: 14px;
+}
+
+:host ::ng-deep .ck.ck-toolbar {
+  zoom: 0.8;
+}

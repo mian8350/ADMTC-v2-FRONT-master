@@ -1,0 +1,282 @@
+<div class="p-grid background-primary">
+  <div class="p-col-12 padding-none table-section-height" [style.max-height.px]="getSectionHeight()">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- This row is set to hold the style -->
+      <ng-container matColumnDef="HoldStyleRow">
+        <th mat-header-cell *matHeaderCellDef colspan="3"></th>
+      </ng-container>
+
+      <!-- table filter section -->
+      <ng-container matColumnDef="studentNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput [formControl]="studentNameFilter" placeholder="{{ 'STUDENT_RESULT_TABLE.SEARCH' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="docFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="scoreFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- table header and content -->
+      <ng-container matColumnDef="studentName">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'STUDENT_RESULT_TABLE.STUD_NAME' | translate }}"
+          matTooltipPosition="above"
+          class="text-center"
+        >
+          <h5>{{ 'STUDENT_RESULT_TABLE.STUD_NAME' | translate }}</h5>
+        </th>
+        <td
+          mat-cell
+          (click)="selectStudent(element)"
+          class="hover-text clickable"
+          *matCellDef="let element"
+          matTooltip="{{ element.studentName }}"
+          matTooltipPosition="above"
+        >
+          <div class="justify-content-between">
+            <span class="name-text" [ngClass]="element._id === selectedStudenId ? 'tags' : ''">{{ element?.last_name | uppercase }} {{ element?.first_name }}</span>
+            <span>
+              <ng-container *ngIf="element?.missing_copy && element?.is_justified === 'yes'">AJ</ng-container>
+              <ng-container *ngIf="element?.missing_copy && element?.is_justified === 'no'">ANJ</ng-container>
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'STUDENT_RESULT_TABLE.status' | translate }}"
+          matTooltipPosition="above"
+          class="text-center"
+        >
+          <h5>S</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <div [ngSwitch]="element?.is_do_not_participated">
+            <ng-container *ngSwitchCase="true">
+              <mat-icon
+                class="green-icon"
+                *ngIf="element?.score !== null"
+                matTooltip="{{ 'TESTCORRECTIONS.corrected' | translate }}"
+                matTooltipPosition="above"
+                >check_circle</mat-icon
+              >
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <ng-container *ngIf="testData?.type === 'academic_pro_evaluation' || testData?.type === 'soft_skill_pro_evaluation'">
+                <ng-container *ngIf="testData?.type === 'academic_pro_evaluation'">
+                  <mat-icon
+                    class="green-icon"
+                    *ngIf="element?.academic_pro_evaluation?.status === 'submitted' && isAllHaveMark(element)"
+                    matTooltip="{{ 'TESTCORRECTIONS.corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >check_circle</mat-icon
+                  >
+                  <mat-icon
+                    class="red-icon"
+                    *ngIf="element?.academic_pro_evaluation?.status !== 'submitted' || !isAllHaveMark(element)"
+                    matTooltip="{{ 'TESTCORRECTIONS.not_corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >cancel</mat-icon
+                  >
+                </ng-container>
+
+                <ng-container *ngIf="testData?.type === 'soft_skill_pro_evaluation'">
+                  <mat-icon
+                    class="green-icon"
+                    *ngIf="element?.soft_skill_pro_evaluation?.status === 'submitted' && isAllHaveMark(element)"
+                    matTooltip="{{ 'TESTCORRECTIONS.corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >check_circle</mat-icon
+                  >
+                  <mat-icon
+                    class="red-icon"
+                    *ngIf="element?.soft_skill_pro_evaluation?.status !== 'submitted' || !isAllHaveMark(element)"
+                    matTooltip="{{ 'TESTCORRECTIONS.not_corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >cancel</mat-icon
+                  >
+                </ng-container>
+              </ng-container>
+
+              <ng-container *ngIf="testData?.type !== 'academic_pro_evaluation' && testData?.type !== 'soft_skill_pro_evaluation'">
+                <ng-container *ngIf="!element?.missing_copy">
+                  <mat-icon
+                    class="green-icon"
+                    *ngIf="element?.score !== null"
+                    matTooltip="{{ 'TESTCORRECTIONS.corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >check_circle</mat-icon
+                  >
+                  <mat-icon
+                    class="red-icon"
+                    *ngIf="element?.score === null"
+                    matTooltip="{{ 'TESTCORRECTIONS.not_corrected' | translate }}"
+                    matTooltipPosition="above"
+                    >cancel</mat-icon
+                  >
+                </ng-container>
+
+                <ng-container *ngIf="element?.missing_copy">
+                  <mat-icon
+                    class="green-icon"
+                    *ngIf="element?.is_justified === 'yes'"
+                    matTooltip="{{ 'TESTCORRECTIONS.Absence-justified' | translate }}"
+                    matTooltipPosition="above"
+                    svgIcon="text-box-remove"
+                  ></mat-icon>
+                  <mat-icon
+                    class="green-icon"
+                    *ngIf="element?.is_justified === 'no'"
+                    matTooltip="{{ 'TESTCORRECTIONS.Absence-not-justified' | translate }}"
+                    matTooltipPosition="above"
+                    svgIcon="text-box-remove"
+                  ></mat-icon>
+                  <mat-icon
+                    class="red-icon"
+                    *ngIf="!element?.is_justified"
+                    matTooltip="{{ 'TESTCORRECTIONS.MISSINGCOPY' | translate }}"
+                    matTooltipPosition="above"
+                    svgIcon="text-box-remove"
+                  ></mat-icon>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="doc">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'STUDENT_RESULT_TABLE.DOC' | translate }}"
+          matTooltipPosition="above"
+          class="text-center"
+        >
+          <h5>{{ 'STUDENT_RESULT_TABLE.DOC' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-icon
+            *ngIf="element?.doc?.length && isAllDocRejected(element?.doc) && !element?.is_do_not_participated"
+            (click)="downloadDocExpected(element?.doc, element?._id)"
+            class="mat-icon-style clickable"
+            >insert_drive_file</mat-icon
+          >
+          <!-- <div
+            *ngIf="
+              (testData?.block_type === 'competence' || testData?.block_type === 'soft_skill') &&
+              !element?.doc?.length &&
+              element?.missing_copy"
+            (click)="openJustify(element)"
+          >
+            <ng-container *ngIf="(element?.missing_copy && !element?.is_justified)">
+              <span [ngClass]="{'red-text clickable': isMissingCopy(element) && isTaskValidateTest}">
+                {{ 'TESTCORRECTIONS.MISSINGCOPY' | translate }}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="(element?.missing_copy && element?.is_justified === 'yes')">
+              <span>AJ</span>
+            </ng-container>
+            <ng-container *ngIf="(element?.missing_copy && element?.is_justified === 'no')">
+              <span>ANJ</span>
+            </ng-container>
+          </div> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'STUDENT_RESULT_TABLE.SCORE' | translate }}"
+          matTooltipPosition="above"
+          class="text-center"
+        >
+          <h5>{{ 'STUDENT_RESULT_TABLE.SCORE_SHORT' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" (click)="openJustify(element)" class="text-center">
+          <ng-container
+            [ngSwitch]="
+              !element?.is_do_not_participated && !element?.missing_copy
+                ? 'normal_score'
+                : element?.is_do_not_participated
+                ? 'do_not_participate'
+                : 'missing_copy'
+            "
+          >
+            <ng-container *ngSwitchCase="'normal_score'">
+              <span>{{ element?.score }}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'do_not_participate'">
+              <span>-</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'missing_copy'">
+              <span *ngIf="element?.missing_copy && element?.is_justified === 'yes'">-</span>
+              <span *ngIf="element?.missing_copy && element?.is_justified === 'no'">0</span>
+            </ng-container>
+          </ng-container>
+          <!-- <ng-container *ngIf="!(element?.missing_copy)">
+            <span>{{ element?.score }}</span>
+          </ng-container>
+          <ng-container *ngIf="(element?.missing_copy && !element?.is_justified)">
+            <span [ngClass]="{'red-text clickable': isMissingCopy(element) && isTaskValidateTest}">
+              {{ 'TESTCORRECTIONS.MISSINGCOPY' | translate }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="(element?.missing_copy && element?.is_justified === 'yes')">
+            <span>{{"AJ"}}</span>
+          </ng-container>
+          <ng-container *ngIf="(element?.missing_copy && element?.is_justified === 'no')">
+            <span>{{ element?.score }}</span>
+          </ng-container> -->
+        </td>
+      </ng-container>
+
+      <!-- loading spinner -->
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="3" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- Footer for corrected copies -->
+      <ng-container matColumnDef="correctedCopies">
+        <th mat-header-cell *matFooterCellDef [attr.colspan]="displayedColumns?.length" class="footer-row">
+          {{ correctLength }} {{ 'STUDENT_RESULT_TABLE.CORRECT_STUDENT' | translate }} / {{ studentLength }}
+          {{ 'STUDENT_RESULT_TABLE.STUDENTS' | translate }}
+        </th>
+      </ng-container>
+
+      <!-- table setting -->
+      <!-- This line is set to hold the style -->
+      <tr mat-header-row *matHeaderRowDef="['HoldStyleRow']" style="display: none"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns; sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+      <tr mat-header-row *matFooterRowDef="['correctedCopies']; sticky: true" class="footer-height"></tr>
+    </table>
+    <!-- Standard for if there is no Data -->
+    <!-- <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div> -->
+  </div>
+</div>

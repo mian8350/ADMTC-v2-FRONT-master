@@ -1,0 +1,271 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-expansion-panel {
+  margin-right: 24px;
+  margin-top: 10px;
+}
+.detail-school {
+  margin: 15px 15px 15px 15px;
+  border: 1px solid #8888888c;
+  border-radius: 3px;
+  padding: 10px;
+}
+.detail-table {
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+}
+.scholar-school {
+  width: 200px;
+  float: left;
+}
+.school-name {
+  min-width: 130px;
+  float: left;
+  margin-right: 10px;
+}
+.list-body {
+  vertical-align: middle;    
+  max-height: 505px;
+  overflow: auto; 
+  top: -50px;
+  position: relative;
+}
+.label-school-first {    
+  font-weight: 700;
+  font-size: 14px;
+  background: #607d8b;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  padding: 5px 0px;
+  height: 30px;
+}
+.label-level-first {
+  font-size: 14px;
+  background: #565656;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  padding: 5px 0px;
+  height: 30px;
+  top: 30px;
+}
+.title-school {
+  margin-bottom: 20px;
+  font-size: 16px;
+  margin-top: 12px;
+}
+.label-first {
+  height: 55px;
+  width: 145px;
+  float: left;
+  padding: 5px;
+  border: 2px solid #607d8b;
+}
+.list-level {
+  width: 100%;
+  position: relative;
+  display: table-row;
+  vertical-align: inherit;
+}
+.array-school {
+  height: 55px;
+  min-width: 120px;
+  padding: 5px;
+  border: 2px solid #607d8b;
+  text-align: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin: auto;
+  padding-top: 14px;
+  font-size: 15px;
+  display: table-cell;
+  vertical-align: inherit;
+}
+.list-header {
+  vertical-align: middle;
+  border-color: inherit;
+}
+.label-sub-school {
+  height: 30px;
+  font-size: 14px;
+  padding: 5px 0px;
+  background: #565656;
+}
+.label-list-schools {    
+  font-weight: 700;
+  height: 30px;
+  font-size: 14px;
+  padding: 5px 0px;
+  background: #607d8b;
+  text-align: center;
+}
+.list-headers {    
+  position: relative;
+  top: 5.5px;
+  z-index: 9999999;
+  display: block;
+}
+.label-array {
+  height: 55px;
+  width: 185px;
+  min-width: 185px;
+  padding: 5px;
+  border: 2px solid #607d8b;
+  -webkit-box-pack: center;
+  justify-content: center;
+  display: table-cell;
+  vertical-align: inherit;
+  margin: 0px !important;
+  z-index: 9999;
+  position: sticky;
+  left: 0px;
+  background: #363636;
+}
+.label-level {
+}
+.table-school {
+  width: 100%;
+  // overflow: auto;
+}
+.fixed-header {
+  position: sticky;
+  top: 0px !important;
+  z-index: 999;
+  display: block !important;
+  background: #363636;
+}
+.label-list-schools {
+  text-align: center;
+}
+.array-data {
+  width: 120px;
+  min-width: 120px;
+  border: 1px solid #607d8b;
+  margin: auto;
+  display: table-cell;
+  vertical-align: inherit;
+  background: #363636;
+}
+.label-sub {
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+.label-list-school {
+  width: 26px;
+  float: left;
+}
+.label-list-objectives {
+  height: 18px;
+  font-size: 15px;
+  margin-left: 21px;
+  float: left;
+}
+.label-level {
+  font-size: 12px;
+}
+.objective {
+  width: 35px;
+  float: right;
+  margin-left: 10px;
+  font-size: 12px;
+}
+.mat-icon-status {
+  font-size: 16px;
+  padding-top: 11px;
+  padding-left: 5px;
+}
+.label-list-registered {
+  height: 18px;
+  font-size: 11px;
+  margin-left: 25px;
+  float: left;
+}
+.registered {
+  width: 35px;
+  float: right;
+  margin-left: 16px;
+}
+.yellow {
+  color: #ffd740;
+}
+.orange {
+  color: #f49f36;
+}
+.blue {
+  color: #36ebf4;
+}
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+.grey {
+  color: #999999;
+}
+.purple {
+  color: #ff46f9;
+}
+.magenta {
+  color: magenta;
+}
+.black {
+  color: #000000;
+}
+.cyan {
+  color: cyan;
+}
+.status {
+  height: 25px;
+  width: 5px;
+  background-color: #bbb;
+  display: inline-block;
+  float: left;
+}
+.registereds {
+  width: 55px;
+  float: left;
+  text-align: center;    
+  font-weight: 600;
+}
+.objectives {
+  width: 55px;
+  float: left;
+  text-align: center;
+  color: #b1b1b1;
+}
+.bkorange {
+  background-color: #f49f36 !important;
+}
+.bkblue {
+  background-color: #36ebf4 !important;
+}
+.bkred {
+  background-color: #ff4040 !important;
+}
+.bkgreen {
+  background-color: #adff2f !important;
+}
+.bkgrey {
+  background-color: #999999 !important;
+}
+// hr {
+//   width: 100%;
+//     border-top: 1px solid;
+// }
+.amcharts-chart-div a {display:none !important;}
+g[aria-labelledby] {
+  display: none !important;
+}
+.block-hide {
+  width: 90px;
+  position: relative;
+  height: 95px;
+  top: -75px;
+  background: #363636;
+  z-index: 1;
+}

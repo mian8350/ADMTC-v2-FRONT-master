@@ -1,0 +1,7 @@
+<ng-container *ngIf="dataTitleRegistration && dataTitleRegistration.length">
+    <ms-xychart-column-series [dataChart]="dataTitleRegistration"></ms-xychart-column-series>
+</ng-container>
+<div *ngIf="dataTitleRegistration && !dataTitleRegistration.length && !isWaitingForResponse" class="no-data">
+    <span>{{ 'NOT RECORD FOUND' | translate }}</span>
+</div>
+<mat-spinner class="center" *ngIf="isWaitingForResponse" color="accent"></mat-spinner>

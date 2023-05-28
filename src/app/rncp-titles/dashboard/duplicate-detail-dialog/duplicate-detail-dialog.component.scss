@@ -1,0 +1,69 @@
+.no-padding {
+  padding: 0px;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+
+.marker {
+  list-style-position: inside;
+  vertical-align: middle;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.file-container {
+  padding: 3px;
+  border-radius: 2px;
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.mat-raised-button.mat-button-disabled {
+  background-color: rgba(128, 0, 128, 0.3) !important;
+}
+
+:host::ng-deep .p-col-5 {
+  padding: 0;
+}
+
+:host::ng-deep .p-col {
+  padding: 0;
+}
+
+:host::ng-deep .p-col-7 {
+  padding: 0;
+}
+
+:host::ng-deep .mat-icon-button {
+  padding-left: 10px;
+}
+
+.ml-12 {
+  margin-left: -12px;
+  font-size: 14px;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.path-link {
+  font-size: 12px;
+}
+
+.path-link:hover {
+  cursor: pointer;
+}
+
+.icon-blue {
+  color: #1565c0;
+}

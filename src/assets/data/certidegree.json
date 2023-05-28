@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Certidegree C3",
+    "value": "Certidegree C3",
+    "title_id": "",
+    "template": "background-c3",
+    "file": "assets/certidegree/html/certidegree-c3.html"
+  },
+  {
+    "name": "Certidegree CPC 2019",
+    "value": "Certidegree CPC 2019",
+    "title_id": "",
+    "template": "background-cpc",
+    "file": "assets/certidegree/html/certidegree-CPC2019.html"
+  },
+  {
+    "name": "Certidegree CPEB 2019",
+    "value": "Certidegree CPEB 2019",
+    "title_id": "",
+    "template": "background-cpeb",
+    "file": "assets/certidegree/html/certidegree-CPEB2019.html"
+  },
+  {
+    "name": "Certidegree DMOE",
+    "value": "Certidegree DMOE",
+    "title_id": "",
+    "template": "background-c3",
+    "file": "assets/certidegree/html/certidegree-DMOE.html"
+  },
+  {
+    "name": "Certidegree DMOE PIGIER SEP 2019",
+    "value": "Certidegree DMOE PIGIER SEP 2019",
+    "title_id": "",
+    "template": "background-c3",
+    "file": "assets/certidegree/html/certidegree-DMOEPIGIERSEP2017.html"
+  },
+  {
+    "name": "Certidegree DMOE SEP 2017",
+    "value": "Certidegree DMOE SEP 2017",
+    "title_id": "",
+    "template": "background-c3",
+    "file": "assets/certidegree/html/certidegree-DMOESEP2017.html"
+  },
+  {
+    "name": "Certidegree DRH 2019",
+    "value": "Certidegree DRH 2019",
+    "title_id": "",
+    "template": "background-drh-new",
+    "file": "assets/certidegree/html/certidegree-DRH2019.html"
+  },
+  {
+    "name": "Certidegree MPI 2019",
+    "value": "Certidegree MPI 2019",
+    "title_id": "",
+    "template": "background-mpi-sign",
+    "file": "assets/certidegree/html/certidegree-MPI2019.html"
+  },
+  {
+    "name": "Certidegree MPI DIGITAL 1 AN 2019",
+    "value": "Certidegree MPI DIGITAL 1 AN 2019",
+    "title_id": "",
+    "template": "background-mpi-sign",
+    "file": "assets/certidegree/html/certidegree-MPIDIGITAL1AN2019.html"
+  },
+  {
+    "name": "Certidegree MSC 1 AN 2019",
+    "value": "Certidegree MSC 1 AN 2019",
+    "title_id": "",
+    "template": "background-mscian",
+    "file": "assets/certidegree/html/certidegree-MSC1AN2019.html"
+  },
+  {
+    "name": "Certidegree RAB",
+    "value": "Certidegree RAB",
+    "title_id": "",
+    "template": "background-rab",
+    "file": "assets/certidegree/html/certidegree-RAB.html"
+  },
+  {
+    "name": "Certidegree RDC 2019",
+    "value": "Certidegree RDC 2019",
+    "title_id": "",
+    "template": "background-rdc",
+    "file": "assets/certidegree/html/certidegree-RDC2019.html"
+  },
+  {
+    "name": "Certidegree RDC 2020",
+    "value": "Certidegree RDC 2020",
+    "title_id": "",
+    "template": "background-rdc-new",
+    "file": "assets/certidegree/html/certidegree-RDC2020.html"
+  },
+  {
+    "name": "Certidegree RDC DECALE FEV 2020",
+    "value": "Certidegree RDC DECALE FEV 2020",
+    "title_id": "",
+    "template": "background-rdc-new",
+    "file": "assets/certidegree/html/certidegree-RDCDECALEFEV2020.html"
+  },
+  {
+    "name": "Certidegree RGP",
+    "value": "Certidegree RGP",
+    "title_id": "",
+    "template": "background-rgp",
+    "file": "assets/certidegree/html/certidegree-RGP.html"
+  },
+  {
+    "name": "Certidegree RGP DECALE",
+    "value": "Certidegree RGP DECALE",
+    "title_id": "",
+    "template": "background-rgp-new",
+    "file": "assets/certidegree/html/certidegree-RGP-DECALE.html"
+  },
+  {
+    "name": "Certidegree RMO 2019",
+    "value": "Certidegree RMO 2019",
+    "title_id": "",
+    "template": "background-c3",
+    "file": "assets/certidegree/html/certidegree-RMO2019.html"
+  },
+  {
+    "name": "Certidegree RRH 2019",
+    "value": "Certidegree RRH 2019",
+    "title_id": "",
+    "template": "background-rrh",
+    "file": "assets/certidegree/html/certidegree-RRH2019.html"
+  }
+]

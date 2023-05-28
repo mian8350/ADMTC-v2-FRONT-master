@@ -1,0 +1,80 @@
+<mat-tab-group class="label-custom" style="margin-top: 30px;">
+  <mat-tab label="{{ 'Parchemin' | translate }}" *ngIf="shouldDisplayTab.parchemin">
+    <mat-card
+      class="background-primary pa-1"
+      style="box-shadow: none; padding-left: 0px; padding-right: 0px; margin-right: 0px; margin-left: 0px; margin-top: 10px"
+    >
+      <div fxLayout="row" fxLayoutWrap="wrap">
+        <div [fxFlex]="100" fxFlex.lt-md="100" style="overflow: hidden">
+          <div fxLayout="row wrap" fxLayout="space-between center">
+            <div [fxFlex]="100" class="background-primary">
+              <div class="ql-editor document-parent">
+                <ng-container *ngIf="previewUrls?.parchemins_certificate">
+                  <div class="img-preview container-view-lanscape">
+                    <iframe [src]="previewUrls?.parchemins_certificate" frameBorder="0"></iframe>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!previewUrls?.parchemins_certificate">
+                  <mat-icon class="content-empty">article</mat-icon>
+                  <span class="text-empty">{{ 'Certificate has not been generated' | translate }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="{{ 'Supplement' | translate }}" *ngIf="processData?.certificate_type?.supplement_certificate?.is_enabled && shouldDisplayTab.supplement_certificate">
+    <mat-card
+      class="background-primary pa-1"
+      style="box-shadow: none; padding-left: 0px; padding-right: 0px; margin-right: 0px; margin-left: 0px; margin-top: 10px"
+    >
+      <div fxLayout="row" fxLayoutWrap="wrap">
+        <div [fxFlex]="100" fxFlex.lt-md="100" style="overflow: hidden">
+          <div fxLayout="row wrap" fxLayout="space-between center">
+            <div [fxFlex]="100" class="background-primary">
+              <div class="ql-editor document-parent">
+                <ng-container *ngIf="previewUrls?.supplement_certificate">
+                  <div class="img-preview container-view-potrait">
+                    <iframe [src]="previewUrls?.supplement_certificate" frameBorder="0"></iframe>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!previewUrls?.supplement_certificate">
+                  <mat-icon class="content-empty">article</mat-icon>
+                  <span class="text-empty">{{ 'Certificate has not been generated' | translate }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="{{ 'Block' | translate }}" *ngIf="processData?.certificate_type?.block_certificate?.is_enabled && shouldDisplayTab.block_certificate">
+    <mat-card
+      class="background-primary pa-1"
+      style="box-shadow: none; padding-left: 0px; padding-right: 0px; margin-right: 0px; margin-left: 0px; margin-top: 10px"
+    >
+      <div fxLayout="row" fxLayoutWrap="wrap">
+        <div [fxFlex]="100" fxFlex.lt-md="100" style="overflow: hidden">
+          <div fxLayout="row wrap" fxLayout="space-between center">
+            <div [fxFlex]="100" class="background-primary">
+              <div class="ql-editor document-parent">
+                <ng-container *ngIf="previewUrls?.block_certificate">
+                  <div class="img-preview container-view-potrait">
+                    <iframe [src]="previewUrls?.block_certificate" frameBorder="0"></iframe>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!previewUrls?.block_certificate">
+                  <mat-icon class="content-empty">article</mat-icon>
+                  <span class="text-empty">{{ 'Certificate has not been generated' | translate }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>

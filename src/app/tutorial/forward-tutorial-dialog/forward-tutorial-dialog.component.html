@@ -1,0 +1,160 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon svgIcon="key" style="vertical-align: middle"></mat-icon>
+      </div>
+      <div class="p-col-10 acad-title">
+        <h3 class="dialogTitle">{{ 'MailBox.forwardMail.send' | translate }} {{ data?.title }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" mat-dialog-close tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="forwardTutorialForm">
+  <div style="color: black">
+    <mat-dialog-content class="content-height">
+      <div class="p-grid">
+        <div class="p-col pad-r-none pad-l-none">
+          <ng-select
+            [items]="rncpTitlesList"
+            bindLabel="short_name"
+            bindValue="_id"
+            [multiple]="true"
+            [hideSelected]="true"
+            placeholder="{{ 'Select RNCP Title' | translate }}"
+            clearAllText="Clear"
+            formControlName="rncp_ids"
+            (click)="selectedTitle()"
+          >
+          </ng-select>
+          <span
+            style="color: #dc3545"
+            *ngIf="
+              forwardTutorialForm.get('rncp_ids').hasError('required') &&
+              (forwardTutorialForm.get('rncp_ids').dirty || forwardTutorialForm.get('rncp_ids').touched)
+            "
+            >{{ 'This field is required' | translate }}</span
+          >
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col pad-r-none pad-l-none">
+          <ng-select
+            [items]="schools"
+            bindLabel="short_name"
+            bindValue="_id"
+            [multiple]="true"
+            [hideSelected]="true"
+            placeholder="{{ 'Select School' | translate }}*"
+            clearAllText="Clear"
+            formControlName="school_ids"
+            (click)="selectedSchool()"
+            [disabled]="isUserAcadAdmin || isUserAcadDir"
+          >
+          </ng-select>
+          <span
+            style="color: #dc3545"
+            *ngIf="
+              forwardTutorialForm.get('school_ids').hasError('required') &&
+              (forwardTutorialForm.get('school_ids').dirty || forwardTutorialForm.get('school_ids').touched)
+            "
+            >{{ 'This field is required' | translate }}</span
+          >
+        </div>
+      </div>
+
+      <label>{{ 'User' | translate }} </label>
+      <mat-slide-toggle checked="checked" (change)="categoryChange($event)" formControlName="category">{{
+        'TUTORIAL_MENU.CATEGORY' | translate
+      }}</mat-slide-toggle>
+
+      <div class="p-grid">
+        <div class="p-col pad-r-none pad-l-none">
+          <ng-select
+            *ngIf="!forwardTutorialForm.get('category').value"
+            [items]="userList"
+            bindLabel="name"
+            bindValue="id"
+            [multiple]="true"
+            [hideSelected]="true"
+            placeholder="{{ 'Select User' | translate }}*"
+            clearAllText="Clear"
+            formControlName="user_id"
+            (click)="selectedUser()"
+          >
+          </ng-select>
+          <span
+            style="color: #dc3545"
+            *ngIf="
+              forwardTutorialForm.get('user_id').hasError('required') &&
+              (forwardTutorialForm.get('user_id').dirty || forwardTutorialForm.get('user_id').touched) &&
+              !forwardTutorialForm.get('category').value
+            "
+            >{{ 'This field is required' | translate }}</span
+          >
+
+          <ng-select
+            *ngIf="forwardTutorialForm.get('category').value"
+            [items]="userTypesList"
+            bindLabel="name"
+            bindValue="_id"
+            [multiple]="true"
+            [hideSelected]="true"
+            placeholder="{{ 'Select User Type' | translate }}*"
+            clearAllText="Clear"
+            formControlName="user_type_id"
+            (click)="selectedUserType()"
+          >
+          </ng-select>
+          <span
+            style="color: #dc3545"
+            *ngIf="
+              forwardTutorialForm.get('user_type_id').hasError('required') &&
+              (forwardTutorialForm.get('user_type_id').dirty || forwardTutorialForm.get('user_type_id').touched) &&
+              forwardTutorialForm.get('category').value
+            "
+            >{{ 'This field is required' | translate }}</span
+          >
+        </div>
+      </div>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Subject*' | translate }}" formControlName="subject" />
+        <mat-error
+          *ngIf="
+            forwardTutorialForm.get('subject').hasError('required') &&
+            (forwardTutorialForm.get('subject').dirty || forwardTutorialForm.get('subject').touched)
+          "
+        >
+          {{ 'This field is required' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <ckeditor [editor]="Editor" formControlName="message" (ready)="onReady($event)" [config]="config"></ckeditor>
+      <mat-error
+        *ngIf="
+          forwardTutorialForm.get('message').hasError('required') &&
+          (forwardTutorialForm.get('message').dirty || forwardTutorialForm.get('message').touched)
+        "
+      >
+        {{ 'This field is required' | translate }}
+      </mat-error>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CLOSE' | translate }}</button>
+      <button
+        mat-raised-button
+        [disabled]="isWaitingForResponse || !forwardTutorialForm.valid || titleReady || userReady || userTypeReady"
+        color="primary"
+        (click)="forwardTutorial()"
+      >
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</form>

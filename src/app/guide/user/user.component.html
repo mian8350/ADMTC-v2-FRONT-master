@@ -1,0 +1,322 @@
+<div class="p-grid">
+  <div class="p-col">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="9" class="text-right reset-header-column"
+        style=" text-align: right !important;">
+        <button mat-raised-button color="primary" matTooltip="{{'Reset'|translate}}">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>Reset
+        </button>
+        <button mat-raised-button color="primary" matTooltip="{{'Email'|translate}}">
+          <mat-icon svgIcon="email-outline" class="mat-icon-svgIcon"></mat-icon>Email
+        </button>
+        <!-- <button mat-raised-button color="primary" matTooltip="{{'Export'|translate}}" (click)="exportName = 'Export';exportSwal.show()">
+          <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>{{'Export'|translate}}
+        </button> -->
+        <button mat-raised-button color="accent" (click)="userSwal.show()"
+        matTooltip="{{'User'|translate}}">
+        <mat-icon svgIcon="account-plus" class="mat-icon-svgIcon"></mat-icon>{{'User'|translate}}
+      </button>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="selectFilter">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="lastNameFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{'search'|translate}}">
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="cideFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <mat-select [formControl]="cideFilter">
+          <mat-option value="all">{{'All'}}</mat-option>
+          <mat-option value="Admin">{{'Admin'}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="schoolFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <mat-select [formControl]="schoolFilter">
+          <mat-option value="all">{{'All'}}</mat-option>
+          <mat-option value="Admin">{{'Admin'}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="advisorFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <mat-select [formControl]="advisorFilter">
+          <mat-option value="all">{{'All'}}</mat-option>
+          <mat-option value="Advisor">{{'Advisor'}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="etablissementFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <input matInput class="form-field" [formControl]="etablissementFilter" placeholder="{{'search'|translate}}">
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="statusFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field floatLabel="never">
+        <mat-select [formControl]="statusFilter">
+          <mat-option value="all">{{'All'}}</mat-option>
+          <mat-option value="Registered">{{'Registered'}}</mat-option>
+          <mat-option value="Not Registered">{{'Not Registered'}}</mat-option>
+          <mat-option value="Issue on email">{{'Issue on email'}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+  <ng-container matColumnDef="actionFilter">
+    <th mat-header-cell *matHeaderCellDef>
+    </th>
+  </ng-container>
+
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+      [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+    </mat-checkbox>
+  </th>
+  <td mat-cell *matCellDef="let row">
+    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+    [checked]="selection.isSelected(row)">
+  </mat-checkbox>
+</td>
+</ng-container>
+
+<ng-container matColumnDef="lastName">
+  <th mat-header-cell *matHeaderCellDef>
+    <div mat-sort-header="lastName">
+      <h5>{{'Name'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element"> {{(element.lastName | uppercase)+' '+element.firstName+' '+element.civility}} </td>
+</ng-container>
+
+<ng-container matColumnDef="cide">
+  <th mat-header-cell *matHeaderCellDef>
+    <div>
+      <h5>{{'CIDE'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element"> {{element.cide}} </td>
+</ng-container>
+
+<ng-container matColumnDef="school">
+  <th mat-header-cell *matHeaderCellDef>
+    <div>
+      <h5>{{'School'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element"> {{element.school}} </td>
+</ng-container>
+
+<ng-container matColumnDef="advisor">
+  <th mat-header-cell *matHeaderCellDef>
+    <div>
+      <h5>{{'Advisor'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element"> {{element.advisor}} </td>
+</ng-container>
+
+<ng-container matColumnDef="etablissement">
+  <th mat-header-cell *matHeaderCellDef>
+    <div>
+      <h5>{{'Etablissement(s)'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element"> {{element.etablissement}} </td>
+</ng-container>
+
+<ng-container matColumnDef="status">
+  <th mat-header-cell *matHeaderCellDef>
+    <div mat-sort-header="status">
+      <h5>{{'Status'|translate}}</h5>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let element">
+    <button mat-icon-button>
+    <mat-icon
+      matTooltip="{{ element.status | translate }}"
+      matTooltipPosition="right"
+      [ngClass]="{
+        'green-icon': element.status === 'Registered',
+        'black-icon': element.status === 'Not Registered',
+        'red-icon': element.status === 'Issue on email'
+      }"
+    >
+      check_circle
+    </mat-icon>
+  </button>
+</td>
+</ng-container>
+
+<!-- Actoin Column -->
+<ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef>
+    <h5>Action</h5>
+  </th>
+  <td mat-cell *matCellDef="let element; let i = index">
+    <button mat-icon-button class="margin-right-button" matTooltip="{{'Connect as the User'|translate}}">
+      <mat-icon svgIcon="incognito"></mat-icon>
+    </button>
+    <button mat-icon-button class="margin-right-button"
+    matTooltip="{{'Inform the Admin about wrong Email address'|translate}}">
+    <mat-icon svgIcon="alarm-light"></mat-icon>
+  </button>
+  <button mat-icon-button class="margin-right-button" matTooltip="{{'Deactivate'|translate}}"
+  (click)="deactivateSwal.show()">
+  <mat-icon svgIcon="close">clear</mat-icon>
+</button>
+<button mat-icon-button class="margin-right-button" (click)="editUser(i);userSwal.show()"
+matTooltip="{{'View - Edit'|translate}}">
+<mat-icon svgIcon="pencil">edit</mat-icon>
+</button>
+<button mat-icon-button class="margin-right-button" matTooltip="{{'Send an Email'|translate}}">
+  <mat-icon svgIcon="email-outline"></mat-icon>
+</button>
+
+<swal #deactivateSwal
+title="{{('Are you sure to deactive the account of '|translate)+element.civility +' '+(element.lastName | uppercase) +' '+element.firstName }}"
+type="warning" [showCancelButton]="true" confirmButtonText="{{'I Confirm'|translate}}"
+cancelButtonText="{{'I Cancel'|translate}}" (confirm)="removeUser($event)"
+(cancel)="removeUserCancel($event)">
+</swal>
+
+</td>
+</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="['reset']"> </tr>
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-header-row *matHeaderRowDef="filterColumns"> </tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>
+</div>
+
+<swal #userSwal title="{{'Add User'|translate}}" [showConfirmButton]="false" (cancel)="addUserCancel()">
+
+  <form *swalPartial [formGroup]="userForm">
+    <div class="p-grid">
+      <div class="p-col-6">
+        <mat-form-field class="full-wid">
+          <mat-select formControlName="userEntity" placeholder="Select User Entity">
+            <mat-option *ngFor="let entity of userEntities" [value]="entity.value">{{entity.label|translate}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col text-left">
+        <mat-radio-group formControlName="civility" required>
+          <mat-radio-button value="Mr">{{'Mr'|translate}}</mat-radio-button>
+          <mat-radio-button value="Mrs">{{'Mrs'|translate}}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-6">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="firstName" type="text" placeholder="{{'Enter Name'|translate}}" required />
+          <mat-error *ngIf="userForm.get('firstName').hasError('required')
+                                             && (userForm.get('firstName').dirty
+                                             || userForm.get('firstName').touched)">{{'This field is required'|translate}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="lastName" type="text" placeholder="{{'Enter Lastname'|translate}}" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="address" type="text" placeholder="{{'Enter Address'|translate}}" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="email" type="text" placeholder="{{'Enter Email'|translate}}" />
+          <mat-error *ngIf="userForm.get('email').hasError('email')
+                                             && (userForm.get('email').dirty
+                                             || userForm.get('email').touched)">{{ 'Invalid email format' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-6">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="mobilePhone" type="text" placeholder="{{'Enter Phone Number'|translate}}" />
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="position" type="text" placeholder="{{'Enter Position'|translate}}" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col text-right">
+        <button mat-raised-button (click)="userForm.reset()" color="accent"
+        matTooltip="{{'Reset'|translate}}">
+        <mat-icon class="rotate-icon">replay</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="addUser()" [disabled]="userForm.invalid"
+      matTooltip="{{operation|translate}}">
+      {{operation|translate}}
+    </button>
+  </div>
+</div>
+</form>
+</swal>
+
+<swal #exportSwal title="{{'Export Title'|translate}}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{'Export Text1'|translate}}
+    </div>
+    <div class="">
+      {{'Export Text2'|translate}}
+    </div>
+    <div class="">
+      {{'Export Text3'|translate}}
+    </div>
+    <div class="">
+      {{'Export Text4'|translate}}
+    </div>
+    <div>
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{'ExportName'|translate}}" />
+      </mat-form-field>
+    </div>
+    <!-- <button mat-button mat-raised-button color="primary" (click)="export($event)">
+    {{'OK'|translate}}
+  </button> -->
+  <div>
+<button mat-raised-button color="primary" (click)="export($event)">export</button>
+  </div>
+
+</div>
+</swal>

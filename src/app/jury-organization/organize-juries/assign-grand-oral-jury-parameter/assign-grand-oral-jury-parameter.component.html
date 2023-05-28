@@ -1,0 +1,53 @@
+<div class="p-grid">
+  <div *ngIf="juryTitleClassData?.length > 0" class="p-col-11">
+    <ng-container>
+      <button
+        mat-raised-button
+        [color]="index === selectedIndex ? 'accent' : 'primary'"
+        *ngFor="let titleClass of juryTitleClassData; let index = index"
+        (click)="goToTab(titleClass?.rncp_id?._id, titleClass?.class_id?._id, index)"
+        style="margin-top: 10px"
+      >
+        {{ titleClass?.rncp_id?.short_name + '-' + titleClass?.class_id?.name }}
+        <span class="red-icon" *ngIf="exclamationMarkShown[index]">
+          {{ '!' }}
+        </span>
+      </button>
+    </ng-container>
+  </div>
+  <div class="p-col-1">
+    <div class="text-align-right">
+      <button
+        mat-raised-button
+        color="accent"
+        class="button-margin"
+        (click)="submitJury()"
+        [disabled]="
+          !selection?.hasValue() ||
+          isSubmitEnable() ||
+          noBlockSelected() ||
+          !isSaved ||
+          checkExclamationMark() ||
+          juryOrgData?.current_status !== 'set_up_grand_oral_parameter'
+        "
+      >
+        <!-- <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon> -->
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="selectedTitle && selectedClass">
+  <ms-class-grand-oral-jury-parameter
+    [titleId]="selectedTitle"
+    [classId]="selectedClass"
+    [selectedTitleClassData]="selectedTitleClassData"
+    [type]="flowType"
+    [activity]="activity"
+    [isParametersSaved]="isParametersSaved"
+    [current_status]="juryOrgData?.current_status"
+    (saveTitleClass)="saveAllTitleClass($event)"
+    (selectionParent)="getSelectedValue($event)"
+  >
+  </ms-class-grand-oral-jury-parameter>
+</ng-container>

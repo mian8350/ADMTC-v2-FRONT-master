@@ -1,0 +1,49 @@
+<fieldset [ngClass]="{ 'hide-element': !classForm }" class="fieldset-class" [formGroup]="quality_form">
+  <div class="yellow-border card-row">
+    <div class="align-right-button">
+      <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()" [disabled]="compareChanges() || !quality_form.valid">
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-8">
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            class="form-field"
+            formControlName="form_builder_id"
+            [matAutocomplete]="templateType"
+            placeholder="{{ 'Select Template for Quality Form' | translate }}"
+          />
+          <mat-autocomplete #templateType="matAutocomplete" [displayWith]="displayFn.bind(this)" [panelWidth]="'fit'">
+            <mat-option *ngFor="let template of templateTypeFiltered | async" [value]="template._id">
+              {{ template.form_builder_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="p-col-3">
+        <mat-form-field class="full-width">
+          <input
+            type="number"
+            matInput
+            class="form-field"
+            formControlName="due_date"
+            placeholder="{{ 'Due Date (in days)' | translate }}"
+            (input)="preventLeadingZero($event)"
+          />
+        </mat-form-field>
+      </div>
+      <div class="p-col-1" style="margin-top: 16px">
+        <mat-icon matTooltip="{{ 'quality_form_due_date_tooltip' | translate }}">
+          help_outline</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

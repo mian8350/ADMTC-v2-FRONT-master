@@ -1,0 +1,187 @@
+<ng-container>
+  <mat-accordion class="example-headers-align user-summary" #accordion>
+    <mat-expansion-panel [expanded]="userId" class="panel-spacing">
+      <mat-expansion-panel-header class="background-primary panel-header">
+        <mat-panel-title style="display: flex; justify-content: space-between">
+          <h4 style="color: white; align-self: center; margin: 0px">
+            <!-- {{ 'User Summary' | translate }} -->
+          </h4>
+          <div class="action-button">
+            <button
+              *ngIf="permissionService.incignitoActionInUsersTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Connect as the User' | translate }}"
+              (click)="$event.stopPropagation(); connectAsUser(user)"
+            >
+              <mat-icon svgIcon="incognito"></mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.errorMailActionInUsersTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Inform the Acad.D about error on email address' | translate }}"
+              (click)="$event.stopPropagation(); incorrectPassword(user._id, user.civility, user.first_name, user.last_name)"
+            >
+              <mat-icon class="mat-icon-default">block</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.deleteUserActionInUsersTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'deactivate user' | translate }}"
+              (click)="$event.stopPropagation(); confirmDeactivation(user)"
+            >
+              <mat-icon class="mat-icon-default">clear</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.sendMailActionInUsersTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              (click)="$event.stopPropagation(); sendMail(user)"
+              matTooltip="{{ 'Send an EmailUser' | translate }}"
+            >
+              <mat-icon svgIcon="email-outline"></mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.reminderRegistrationActionInUsersTablePerm() && user?.user_status === 'pending'"
+              mat-icon-button
+              class="margin-right-button"
+              (click)="$event.stopPropagation(); sendReminderRegistration(user)"
+              matTooltip="{{ 'Send Registration Email' | translate }}"
+            >
+              <mat-icon svgIcon="email-send-outline"></mat-icon>
+            </button>
+            <button
+              *ngIf="isUserAMentor(user)"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Send an Email to Academic Director' | translate }}"
+              (click)="sendMailToAcadir(user)"
+            >
+              <mat-icon svgIcon="card-account-mail-outline"></mat-icon>
+            </button>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="pane-divider">
+        <div class="student-detail p-grid" *ngIf="user">
+          <div class="right-border p-col-6 no-padding">
+            <div class="p-grid" style="align-items: flex-start">
+              <div class="student-photo icon p-col-fixed">
+                <img
+                  [src]="
+                    user.profile_picture
+                      ? serverimgPath + user.profile_picture
+                      : user.civility === 'MR'
+                      ? maleCandidateIcon
+                      : user?.civility === 'neutral'
+                      ? neutralStudentIcon
+                      : femaleCandidateIcon
+                  "
+                  class="candidate-photo"
+                />
+              </div>
+              <div class="p-col no-padding">
+                <div class="p-grid">
+                  <div class="p-col-12 no-padding" style="margin-bottom: 10px">
+                    <div class="p-grid">
+                      <div class="identity p-col-10">
+                        {{ user?.civility && user?.civility === 'neutral' ? '' : (user?.civility | translate) }}
+                        {{ user?.first_name }} {{ user?.last_name | uppercase }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col no-padding">
+                    <ul class="text-user">
+                      <li>
+                        <span>{{ 'Added At' | translate }} </span>:<span>{{ convertUTCToLocalDate(user?.created_at) }}</span>
+                      </li>
+                      <li>
+                        <span>{{ 'Last Modified at' | translate }} </span>:<span>{{ convertUTCToLocalDate(user?.updated_at) }}</span>
+                      </li>
+                      <li>
+                        <span>{{ 'Current Status' | translate }} </span>:
+                        <span>
+                          <span>{{ user?.user_status | translate }}</span>
+                          <mat-icon
+                            class="dot-status"
+                            matTooltip="{{ user?.user_status | translate }}"
+                            matTooltipPosition="above"
+                            [ngClass]="{
+                              'green-ic': user?.user_status === 'active',
+                              'black-ic': user?.user_status === 'pending',
+                              'red-ic': user?.user_status === 'incorrect_email'
+                            }"
+                          >
+                            lens
+                          </mat-icon>
+                          <!-- <mat-icon
+                            *ngIf="user.incorrect_email"
+                            matTooltip="{{ user?.user_status | translate }}"
+                            matTooltipPosition="above"
+                            class="red-ic dot-status"
+                            [ngClass]="{
+                              'black-ic': user?.user_status === 'pending'
+                            }"
+                          >
+                            lens
+                          </mat-icon> -->
+                        </span>
+                      </li>
+                      <li>
+                        <div class="last-login-container">
+                          <mat-icon class="login-icon">
+                            login
+                          </mat-icon>
+                          <div class="last-login">
+                            <span>
+                              {{ formatDate(user?.last_login) }}
+                            </span>
+                          </div>
+                        </div>                    
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [ngClass]="{ 'p-col-4': true, 'no-padding': true, 'right-border': !!user?.curriculum_vitae?.s3_path }">
+            <div class="p-grid contact-information">
+              <div *ngIf="user?.office_phone" class="phone p-col-12">
+                <mat-icon>business</mat-icon> <span>{{ user?.office_phone }} </span>
+              </div>
+              <div *ngIf="user?.portable_phone" class="phone p-col-12">
+                <mat-icon>phone_iphone</mat-icon> <span>{{ user?.portable_phone }} </span>
+              </div>
+              <div *ngIf="user?.email" class="school-email p-col-12">
+                <mat-icon>email</mat-icon> <span>{{ user?.email }} </span>
+              </div>
+            </div>
+            <div class="actions p-grid">
+              <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Email' | translate }}" (click)="sendMail(user)">
+                <mat-icon class="material-icons icon yellow"> send </mat-icon>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="user?.curriculum_vitae?.s3_path" class="third-section p-col-2">
+            <div class="p-grid">
+              <div (click)="downloadCV()" class="download-cv p-col-12">
+                <mat-icon>file_download </mat-icon>
+                <span class="label"> {{ 'Download CV' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <ng-container>
+    <ms-user-details-parent-tabs [userId]="userId" [status]="status"></ms-user-details-parent-tabs>
+  </ng-container>
+</ng-container>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

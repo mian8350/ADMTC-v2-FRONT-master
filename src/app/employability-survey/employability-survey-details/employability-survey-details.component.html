@@ -1,0 +1,55 @@
+<p [ngClass]="{
+  'text-green': esData?.is_published === true,
+  'text-red': esData?.is_published === false
+  }"
+>
+  {{ esData?.is_published ? ('Employability survey is published' | translate) : ('Employability survey is not published' | translate) }}
+</p>
+
+<mat-tab-group [(selectedIndex)]="selectedIndex">
+  <mat-tab label="{{ 'Step 1: ES Parameters' | translate }}">
+    <ng-template matTabContent>
+      <ng-container *ngIf="!esData?.is_es_new_flow_form_builder">
+        <ms-employability-survey-details-parameters
+          (selectedIndexChange)="IndexChange($event)"          
+          *ngIf="esData"
+          [esProcessId]="esProcessId"
+          [esType]="esData?.employability_survey_type"
+          [selectedRncpTitleId]="titleData?._id"
+          [selectedClassId]="classData?._id"
+          [selectedClassName]="classData?.name"
+          [classData]="classData"
+        ></ms-employability-survey-details-parameters>
+      </ng-container>
+      <ng-container *ngIf="esData?.is_es_new_flow_form_builder">
+        <ms-employability-survey-details-parameters-form-builder
+        (selectedIndexChange)="IndexChange($event)"
+        (triggerRefresh)="getDataEmployabilitySurvey(esProcessId, $event)"
+        *ngIf="esData"
+        [esProcessId]="esProcessId"
+        [esType]="esData?.employability_survey_type"
+        [selectedRncpTitleId]="titleData?._id"
+        [selectedClassId]="classData?._id"
+        [selectedClassName]="classData?.name"
+        [classData]="classData"
+        >
+        </ms-employability-survey-details-parameters-form-builder>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="{{ 'Step 2: ES Result' | translate }}">
+    <ng-template matTabContent>
+      <ms-employability-survey-details-result 
+        *ngIf="esData"
+        [esProcessId]="esProcessId"
+        [esType]="esData?.employability_survey_type"
+        [selectedRncpTitleId]="titleData?._id"
+        [selectedClassId]="classData?._id">
+      </ms-employability-survey-details-result>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,203 @@
+<div class="p-grid">
+  <div class="p-col-12 text-left" style="display: inline-flex; padding-bottom: 0px; margin-top: 15px">
+    <mat-icon class="icon-style">
+      <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+        <path
+          fill="currentColor"
+          d="M4 7V19H19V21H4C2 21 2 19 2 19V7H4M23 3V15C23 15 23 17 21 17H8C8 17 6 17 6 15V3H23M21 5H8V15H21V5M14 7H10V12H14V7M19 7H15V9H19V7M19 10H15V12H19V10Z"
+        />
+      </svg>
+    </mat-icon>
+    <h3 style="margin-bottom: 0px">{{ 'Publishable Document' | translate }}</h3>
+  </div>
+  <div class="p-col-12" style="padding-top: 0px">
+    <h4 style="margin-left: 40px">{{ 'Publishable Document for Student' | translate }}</h4>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- button on top of table -->
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="action-header-column">
+          <button
+            *ngIf="isTutorialAdded"
+            mat-button
+            style="
+              line-height: 16px;
+              margin: 10px !important;
+              padding: 0px !important;
+              width: 16px !important;
+              min-width: 16px;
+              background: #424242 !important;
+            "
+            matTooltip="{{ 'Tutorial for this module' | translate }}"
+            (click)="toggleTutorial(tutorialData)"
+          >
+            <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="isWaitingForResponse"
+            (click)="resetFilter()"
+            matTooltip="{{ 'RESET' | translate }}"
+          >
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+        </th>
+      </ng-container>
+
+      <!-- table filter section -->
+      <ng-container matColumnDef="classNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="autoClass"
+              [formControl]="classNameFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoClass="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="">{{ 'AllM' | translate }}</mat-option>
+              <mat-option *ngFor="let class of classes | async" [value]="class.name">
+                {{ class.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="parentCategoryFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="parentCategoryFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="publishedForStudentFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <mat-select
+              [formControl]="publishedForStudentFilter"
+              [matTooltip]="publishedForStudentFilter.value | translate"
+              style="margin-bottom: -7px"
+            >
+              <mat-option [value]="option" *ngFor="let option of publishedForStudentFilterList">{{ option | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- table header and content -->
+      <ng-container matColumnDef="parent_class_id">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="parent_class_id">{{ 'Class' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p style="display: inline">
+            <span
+              [ngClass]="{
+                customTag: element?.parent_class_id[0].name === 'Not Published',
+                tags: element?.parent_class_id[0].name !== 'Not Published'
+              }"
+              [matTooltip]="renderTooltipClass(element?.parent_class_id) | translate"
+            >
+              {{ element?.parent_class_id[0].name | translate }}
+            </span>
+            <span class="tags" *ngIf="element?.parent_class_id[1]" [matTooltip]="renderTooltipClass(element?.parent_class_id)"> ... </span>
+          </p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="parent_category">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="parent_category">{{ 'FOLDER IN ACADEMIC KIT' | translate | titlecase }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.parent_folder?.folder_name }}">
+          {{ element?.parent_folder?.folder_name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="name">{{ 'DOCUMENT NAME' | translate | titlecase }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.document_name }}">
+          {{ element?.document_name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="published_for_student">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="published_for_student">{{ 'PUBLISHABLE FOR STUDENT' | translate | titlecase }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ (element?.published_for_student ? 'Yes' : 'No') | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Edit' | translate }}"
+            matTooltipPosition="below"
+            (click)="editDocument(element)"
+          >
+            <mat-icon svgIcon="pencil">edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Delete' | translate }}"
+            matTooltipPosition="below"
+            (click)="deleteDoc(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- loading spinner -->
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- table setting -->
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+        [hidePageSize]="true"
+        [pageSizeOptions]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

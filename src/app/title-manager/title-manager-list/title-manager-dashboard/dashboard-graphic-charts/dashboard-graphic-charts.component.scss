@@ -1,0 +1,77 @@
+.panel-color-registration {
+    cursor: pointer;
+    border-radius: 7px;
+    height: 50px;
+    background-color: #16d46d !important;
+}
+.panel-color-school {
+    cursor: pointer;
+    border-radius: 7px;
+    height: 50px;
+    background-color: #f7b149 !important;
+}
+.panel-color-task {
+    cursor: pointer;
+    border-radius: 7px;
+    height: 50px;
+    background-color: #e64f4f !important;
+}
+.panel-color-company {
+    cursor: pointer;
+    border-radius: 7px;
+    height: 50px;
+    background-color: #b7b7b7 !important;
+}
+
+.panel-content {
+    align-items: center;
+}
+
+.min-height {
+    min-height: 400px;
+}
+
+.chart-container {
+    min-height: 355px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+.chart{
+    height: 100%;
+}
+
+.container-btn {
+    display: flex;
+    align-items: center;
+}
+
+.pt-0{
+    padding-top: 0;
+}
+
+.pb-6{
+    padding-bottom: 6px;
+}
+
+.pb-1rem {
+    padding-bottom: 1.5rem
+}
+
+.btn-table {
+    margin: 5px;
+    color: black !important;
+    height: 45px !important;
+    width: 255px !important;
+    background-color: white;
+}
+
+.btn-icon {
+    padding-bottom: 4px;
+    float: right;
+}
+
+.btn-text {
+    float: left;
+}

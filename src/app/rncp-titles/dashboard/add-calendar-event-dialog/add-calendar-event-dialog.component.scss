@@ -1,0 +1,74 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+:host ::ng-deep {
+   
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar .mat-slide-toggle-thumb {
+        background-color: $dark-yellow;
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
+        background-color: rgba(255, 193, 7, 0.5);
+    }
+}
+
+.save-btn{
+    background-color: $green;
+    color: $white;
+    width: auto;
+}
+
+.cancel-btn{
+    width: 1rem; 
+    padding: 0;
+}
+
+.selectDrop{
+    padding-bottom: 1.25em;
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+.pad-left-5 {
+    padding-left: 5px;
+}
+.dialogTitle {
+    display: inline-block;
+  }
+  
+.dialogTitleWrapper {
+    color: black;
+}
+.header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 15px;
+}
+  
+.dialog-border {
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.icon-alignment {
+    height: 24px;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 15px;
+  }
+
+.mat-dialog-content {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.mat-dialog-actions {
+    margin: 0 7px 3px 0px;
+}

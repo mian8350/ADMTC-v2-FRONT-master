@@ -1,0 +1,129 @@
+<div style="border-bottom: 1px solid black">
+  <h2 style="color: black; padding-left: 20px; padding-top: 20px">{{ 'TEST.ADDTASK' | translate }}</h2>
+</div>
+<hr />
+<form [formGroup]="form" style="padding: 18px; color: black">
+  <div fxLayout="row" fxLayoutWrap="wrap">
+    <div fxFlex="50">
+      <div class="px-2" style="width: 90%">
+        <mat-form-field class="no-bottom-margin" fxFlex>
+          <input
+            type="text"
+            placeholder="{{ 'TEST.CALENDAR.WHAT' | translate }}"
+            matInput
+            #myControl
+            formControlName="text"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let calendar of filteredOptions | async" [value]="calendar.title" (click)="changeWhat(calendar)">
+              {{ calendar.title }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="form.get('text').hasError('required') && (form.get('text').dirty || form.get('text').touched)">{{
+            'This field is required' | translate
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <div style="width: 90%">
+        <mat-select color="accent" [placeholder]="'TEST.CALENDAR.WHO' | translate" [formControl]="form.controls['actor']">
+          <mat-option *ngFor="let userType of userTypes" [value]="userType._id">
+            {{ getTranslateADMTCSTAFFKEY(userType.name) }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('actor').hasError('required') && (form.get('actor').dirty || form.get('actor').touched)">{{
+          'This field is required' | translate
+        }}</mat-error>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="start center">
+    <div [fxFlex]="relativeDate ? 75 : 60">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <div [fxFlex]="relativeDate ? 50 : 100" class="p-0-8">
+          <mat-slide-toggle [checked]="relativeDate" style="margin-top: 0.9rem" labelPosition="before" (change)="changeDateType($event)">
+            {{ 'TEST.RELATIVEDATE' | translate }}
+          </mat-slide-toggle>
+        </div>
+        <div [fxFlex]="relativeDate ? 50 : 0" *ngIf="relativeDate" class="pt-1 p-1-8">
+          <mat-radio-group formControlName="daysBefore" style="margin-top: 0.9rem">
+            <mat-radio-button value="before" style="margin-right: 10px">{{ 'CALENDARSTEPS.BEFORE' | translate }}</mat-radio-button>
+            <mat-radio-button value="after">{{ 'CALENDARSTEPS.AFTER' | translate }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    <div [fxFlex]="relativeDate ? 25 : 40">
+      <div *ngIf="relativeDate" style="margin-top: 4px; margin-bottom: -1.4em">
+        <mat-form-field style="width: 100%">
+          <input
+            matInput
+            (input)="checkNumberOfDays($event)"
+            formControlName="numberOfDays"
+            [placeholder]="'TEST.NUMBEROFDAYS' | translate"
+            type="number"
+          />
+          <mat-error
+            *ngIf="form.get('numberOfDays').hasError('required') && (form.get('numberOfDays').dirty || form.get('numberOfDays').touched)"
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div *ngIf="!relativeDate">
+        <div class="px-1">
+          <mat-form-field dividerColor="accent" style="margin-top: 4px; margin-bottom: -1.4em">
+            <input
+              matInput
+              [min]="today"
+              formControlName="date"
+              [matDatepicker]="stepDatePicker"
+              [placeholder]="'TEST.CALENDAR.WHEN' | translate"
+              type="text"
+              date
+            />
+            <mat-datepicker-toggle matSuffix [for]="stepDatePicker"></mat-datepicker-toggle>
+            <mat-error *ngIf="form.get('date').hasError('required') && (form.get('date').dirty || form.get('date').touched)">{{
+              'This field is required' | translate
+            }}</mat-error>
+          </mat-form-field>
+          <mat-datepicker #stepDatePicker></mat-datepicker>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" class="p-0-8">
+    <div fxFlex="50" style="padding-top: 1em">
+      <div style="width: 90%">
+        <mat-select color="accent" [placeholder]="'TEST.CALENDAR.WHOREMINDER' | translate" [formControl]="form.controls['sender']">
+          <mat-option *ngFor="let academicStaffUser of academicStaffUsers" [value]="academicStaffUser._id">
+            {{ academicStaffUser.first_name }} {{ academicStaffUser.last_name }}
+          </mat-option>
+          <mat-option *ngFor="let acadUserType of acadUserTypes" [value]="acadUserType.name">
+            {{ acadUserType.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('sender').hasError('required') && (form.get('sender').dirty || form.get('sender').touched)">{{
+          'This field is required' | translate
+        }}</mat-error>
+      </div>
+    </div>
+  </div>
+</form>
+<hr />
+<div class="pb-1 pt-1" fxLayout="row" fxLayoutAlign="end center" style="border-top: 1px solid black">
+  <div>
+    <button mat-raised-button class="blue-button" [disabled]="!form.valid" (click)="addStepToTest()" type="button">
+      <mat-icon>save</mat-icon>
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button class="orange-button" type="button" (click)="cancelNewStep()">
+      <mat-icon>delete</mat-icon>
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+</div>

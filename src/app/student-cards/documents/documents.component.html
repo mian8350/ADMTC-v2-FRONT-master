@@ -1,0 +1,87 @@
+<div class="p-grid">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px; padding-bottom: 0px;">
+
+    <!-- UI of each acad kit folder in root level (01. ADMISSIONS, 02. ANNALES EPREUVES, etc.) -->
+    <div *ngIf="isRootFolder">
+        <div class="p-grid">
+          <div class="p-col-10">
+            <!-- title for default folder "01. ADMISSIONS" to "07. ARCHIVES" -->
+            <li>
+              <a (click)="toggleFolder(folder?._id)" class="folder-item">
+                <i class="fa" [ngClass]="expandFolder.folders ? 'fa-caret-down': 'fa-caret-right'"></i>
+                <mat-icon class="student-folder-icon">folder</mat-icon>
+                <span *ngIf="folder?.is_default_folder" class="folder-title">{{ folder?.folder_name | uppercase }}</span>
+                <span *ngIf="!folder?.is_default_folder" class="folder-title">
+                  {{ customRootFolderIndex < 10 ? '0' : ''}}{{customRootFolderIndex}}.
+                  {{ folder?.folder_name | uppercase }}</span>
+                <mat-spinner *ngIf="isWaitingForResponse" class="small-spinner" color="accent" [diameter]="16"></mat-spinner>
+              </a>
+
+              <div *ngIf="expandFolder.folders">
+                <!-- sub folder inside of this sub folder -->
+                <ul class="sub-folder-list" *ngIf="folder?.sub_folders_id?.length">
+                  <ms-documents *ngFor="let subFolder of folder?.sub_folders_id; index as i" [folder]="subFolder"
+                    [isRootFolder]="false">
+                  </ms-documents>
+                </ul>
+                <!-- documents inside of this sub folder -->
+                <ul class="document-list" *ngIf="folder?.documents?.length">
+                  <li>
+                    <ul class="document-sub-list">
+                      <li *ngFor="let document of folder?.documents">
+                        <a class="document-item" (click)="openDocumentDetails(document)">
+                          <mat-icon class="student-doc-icon">insert_drive_file</mat-icon> {{document?.document_name}}
+                        </a>
+                        <!-- <a target="_blank" [href]="downloadDocumentAdded(document)" [download]="document.s3_file_name"
+                          class="document-item">
+                          <mat-icon class="student-doc-icon">insert_drive_file</mat-icon> {{document?.document_name}}
+                        </a> -->
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </div>
+        </div>
+    </div>
+
+    <!-- UI of each sub folder inside root folder -->
+    <ng-container *ngIf="!isRootFolder">
+      <li>
+        <!-- sub folder icon and name -->
+        <a (click)="toggleSubFolder(folder?._id)" class="folder-item">
+          <i class="fa" [ngClass]="expandFolder.subFolder ? 'fa-caret-down': 'fa-caret-right'"></i>
+          <mat-icon class="student-folder-icon">folder</mat-icon>
+          <span class="folder-title">{{ folder?.folder_name }}</span>
+          <mat-spinner *ngIf="isWaitingForResponse" class="small-spinner" color="accent" [diameter]="16"></mat-spinner>
+        </a>
+
+        <div *ngIf="expandFolder.subFolder">
+          <!-- sub folder inside of this sub folder -->
+          <ul class="sub-folder-list" *ngIf="folder?.sub_folders_id?.length">
+            <ms-documents *ngFor="let subFolder of folder?.sub_folders_id; index as i" [folder]="subFolder"
+              [isRootFolder]="false">
+            </ms-documents>
+          </ul>
+          <!-- documents inside of this sub folder -->
+          <ul class="document-list" *ngIf="folder?.documents?.length">
+            <li>
+              <ul class="document-sub-list">
+                <li *ngFor="let document of folder?.documents">
+                  <a class="document-item" (click)="openDocumentDetails(document)">
+                    <mat-icon class="student-doc-icon">insert_drive_file</mat-icon> {{document?.document_name}}
+                  </a>
+                  <!-- <a target="_blank" [href]="downloadDocumentAdded(document)" [download]="s3_file_name" class="document-item">
+                    <mat-icon class="student-doc-icon">insert_drive_file</mat-icon> {{document?.document_name}}
+                  </a> -->
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ng-container>
+
+  </div>
+</div>

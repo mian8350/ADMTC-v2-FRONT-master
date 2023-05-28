@@ -1,0 +1,108 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="account-group" class="mt-5px"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'Export Groups' | translate }}</h3>
+        <button
+          *ngIf="isTutorialAdded"
+          matTooltip="{{ 'Tutorial for this module' | translate }}"
+          (click)="toggleTutorial(tutorialData)"
+          mat-icon-button
+          style="margin-left: 5px; vertical-align: top"
+        >
+          <mat-icon>help</mat-icon>
+        </button>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body">
+  <div class="p-grid">
+    <!-- title -->
+    <div class="p-col-12 pad-y-none">
+      <mat-form-field class="full-wid">
+        <input
+          matInput
+          placeholder="{{ 'Select RNCP Title' | translate }}"
+          [formControl]="titleCtrl"
+          [matAutocomplete]="autoTitle"
+          required
+        />
+        <mat-autocomplete #autoTitle="matAutocomplete">
+          <mat-option *ngFor="let option of filteredTitle | async" [value]="option?.short_name" (click)="getClassDropdown(option?._id)">
+            {{ option?.short_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- class -->
+    <div class="p-col-12 pad-y-none">
+      <mat-form-field class="full-wid">
+        <input matInput placeholder="{{ 'Select Class' | translate }}" [formControl]="classCtrl" [matAutocomplete]="autoClass" required />
+        <mat-autocomplete #autoClass="matAutocomplete">
+          <mat-option *ngFor="let option of filteredClass | async" [value]="option?.name" (click)="getTestDropdown(option?._id)">
+            {{ option?.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- test -->
+    <div class="p-col-12 pad-y-none">
+      <mat-form-field class="full-wid">
+        <input matInput placeholder="{{ 'Select Test' | translate }}" [formControl]="testCtrl" [matAutocomplete]="autoTest" required />
+        <mat-autocomplete #autoTest="matAutocomplete">
+          <mat-option *ngFor="let option of filteredTest | async" [value]="option?.name" (click)="getDelimeterDropdown(option?._id)">
+            {{ option?.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- delimeter -->
+    <div class="p-col-12 pad-y-none" [formGroup]="exportGroupForm">
+      <mat-form-field class="full-wid">
+        <mat-label>{{ 'STUDENT_IMPORT.DELIMETER.TITLE' | translate }}</mat-label>
+        <mat-select
+          required
+          formControlName="file_delimeter"
+          [disabled]="
+            !(exportGroupForm?.get('rncp_id').value && exportGroupForm?.get('class_id').value && exportGroupForm?.get('test_id').value)
+          "
+        >
+          <mat-option *ngFor="let delimeter of delimeterOptions" [value]="delimeter?.value">
+            {{ 'STUDENT_IMPORT.DELIMETER.' + delimeter?.name | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    class="mr-0"
+    (click)="submit()"
+    [disabled]="!exportGroupForm.valid || isWaitingForResponse"
+  >
+    {{ 'Enter' | translate }}
+  </button>
+</div>

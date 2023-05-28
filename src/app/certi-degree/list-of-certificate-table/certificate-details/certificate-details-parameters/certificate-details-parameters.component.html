@@ -1,0 +1,300 @@
+<div class="p grid">
+  <div class="p-col-12 inline-blk">
+    <div class="p-col-3 left-rl">
+      <button mat-raised-button color="warn" (click)="leaveDetails()" [disabled]="isWaitingForResponse || isTableLoading">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+    </div>
+    <div class="p-col-9 right-rl">
+      <button mat-raised-button color="accent" [disabled]="shouldFormDisable()" (click)="saveStep()">
+        <mat-icon>save</mat-icon>
+        {{ 'Save' | translate }}
+      </button>
+      <button [disabled]="shouldContinueDisable()" mat-raised-button color="accent" (click)="nextStep()">
+        {{ 'CONTINUE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="p-grid main-content">
+  <mat-progress-spinner class="spinner" color="accent" mode="indeterminate" *ngIf="isWaitingForResponse"></mat-progress-spinner>
+
+  <div class="p-col-6" *ngIf="!isWaitingForResponse">
+    <div class="certificate-type form-box">
+      <div class="header">{{ 'Details_Parameters.Certificate Type' | translate }}</div>
+      <form [formGroup]="certificateTypeForm">
+        <div class="form-content" formGroupName="certificate_type">
+          <div formGroupName="parchemin">
+            <div>
+              <p>{{ 'Details_Parameters.Parchemin' | translate }}</p>
+            </div>
+            <div>
+              <mat-checkbox formControlName="for_pass_student" style="margin-left: 0px" disabled>{{
+                'Details_Parameters.Pass Student' | translate
+              }}</mat-checkbox>
+              <mat-checkbox formControlName="for_retake_student" class="example-margin">{{
+                'Details_Parameters.Retake Student' | translate
+              }}</mat-checkbox>
+              <mat-checkbox formControlName="for_fail_student" class="example-margin">{{
+                'Details_Parameters.Fail Student' | translate
+              }}</mat-checkbox>
+            </div>
+          </div>
+          <div formGroupName="supplement_certificate">
+            <div>
+              <mat-slide-toggle
+                formControlName="is_enabled"
+                color="accent"
+                #supplement
+                (change)="onSlideToggle('supplement', supplement.checked)"
+              >
+                <span *ngIf="supplement.checked; else supplementDisabled">
+                  {{ 'Details_Parameters.Supplement Certificate is enabled' | translate }}
+                </span>
+                <ng-template #supplementDisabled>
+                  {{ 'Details_Parameters.Supplement Certificate is disabled' | translate }}
+                </ng-template>
+              </mat-slide-toggle>
+            </div>
+            <div *ngIf="supplement.checked">
+              <mat-checkbox formControlName="for_pass_student" style="margin-left: 0px">{{
+                'Details_Parameters.Pass Student' | translate
+              }}</mat-checkbox>
+              <mat-checkbox formControlName="for_retake_student">{{ 'Details_Parameters.Retake Student' | translate }}</mat-checkbox>
+              <mat-checkbox formControlName="for_fail_student">{{ 'Details_Parameters.Fail Student' | translate }}</mat-checkbox>
+            </div>
+          </div>
+          <div formGroupName="block_certificate">
+            <div>
+              <mat-slide-toggle formControlName="is_enabled" color="accent" #block (change)="onSlideToggle('block', block.checked)">
+                <span *ngIf="block.checked; else blockDisabled">
+                  {{ 'Details_Parameters.Block Certificate Enabled' | translate }}
+                </span>
+                <ng-template #blockDisabled>
+                  {{ 'Details_Parameters.Block Certificate Disabled' | translate }}
+                </ng-template>
+              </mat-slide-toggle>
+            </div>
+            <div *ngIf="block.checked">
+              <mat-checkbox formControlName="for_pass_student" class="example-margin" style="margin-left: 0px">{{
+                'Details_Parameters.Pass Student' | translate
+              }}</mat-checkbox>
+              <mat-checkbox formControlName="for_retake_student" class="example-margin">{{
+                'Details_Parameters.Retake Student' | translate
+              }}</mat-checkbox>
+              <mat-checkbox formControlName="for_fail_student" class="example-margin">{{
+                'Details_Parameters.Fail Student' | translate
+              }}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ////// Table Start //////-->
+  <div class="p-col-6">
+    <div class="certificate-type form-box">
+      <div class="header">
+        {{ 'Details_Parameters.Date of Issuance' | translate }}
+      </div>
+      <div>
+        <form #f="ngForm" id="f">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+            <ng-container matColumnDef="reset">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column">
+                <div class="top-container">
+                  <div style="display: flex; margin: 0 !important; padding: 0 !important">
+                    <div></div>
+                  </div>
+                  <div style="display: flex; margin: 0 !important; padding: 0 !important">
+                    <div class="datePicker-container">
+                      <ng-container matColumnDef="datePass">
+                        <!--  Date Picker Here -->
+                        <mat-form-field class="top-date-picker" color="accent">
+                          <input
+                            matInput
+                            [matDatepicker]="datePassGlobal"
+                            placeholder="{{ 'Date for pass' | translate }}"
+                            [formControl]="datePass"
+                            (dateInput)="fillDatePass($event)"
+                            (click)="datePassGlobal.open()"
+                            readonly
+                            [disabled]="statusCertiDegree === 'fourth'"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="datePassGlobal" style="margin-right: 5px"></mat-datepicker-toggle>
+                          <mat-datepicker #datePassGlobal></mat-datepicker>
+                        </mat-form-field>
+                      </ng-container>
+                    </div>
+                    <div class="datePicker-container">
+                      <ng-container matColumnDef="dateRetake">
+                        <!--  Date Picker Here -->
+                        <mat-form-field class="top-date-picker" color="accent">
+                          <input
+                            matInput
+                            [matDatepicker]="dateRetakeGlobal"
+                            placeholder="{{ 'Date for pass after retake' | translate }}"
+                            [formControl]="dateRetake"
+                            (dateInput)="fillDateRetake($event)"
+                            (click)="dateRetakeGlobal.open()"
+                            readonly
+                            [disabled]="statusCertiDegree === 'fourth'"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="dateRetakeGlobal" style="margin-right: 5px"></mat-datepicker-toggle>
+                          <mat-datepicker #dateRetakeGlobal></mat-datepicker>
+                        </mat-form-field>
+                      </ng-container>
+                    </div>
+                    <div class="buttonReset">
+                      <button mat-raised-button color="primary" matTooltip="{{ 'RESET' | translate }}" (click)="resetFilter()">
+                        <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                        {{ 'RESET' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </th>
+            </ng-container>
+
+            <!-- Filter Start -->
+            <ng-container matColumnDef="schoolFilter">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                  <input
+                    matInput
+                    class="form-field"
+                    [matAutocomplete]="schoolFilterAuto"
+                    [formControl]="schoolFilter"
+                    placeholder="{{ 'search' | translate }}"
+                  />
+                  <mat-autocomplete #schoolFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+                    <mat-option value="" (click)="setSchoolFilter(null)">{{ 'All' | translate }}</mat-option>
+                    <mat-option
+                      *ngFor="let school of filteredSchools | async"
+                      [value]="school?.short_name"
+                      (click)="setSchoolFilter(school?.short_name)"
+                    >
+                      {{ school?.short_name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </th>
+            </ng-container>
+
+            <ng-container matColumnDef="datePassFilter">
+              <th mat-header-cell *matHeaderCellDef></th>
+            </ng-container>
+
+            <ng-container matColumnDef="dateRetakeFilter">
+              <th mat-header-cell *matHeaderCellDef></th>
+            </ng-container>
+
+            <!-- Table Data Start -->
+            <ng-container matColumnDef="school">
+              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+                <h5 mat-sort-header="short_name">{{ 'School' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element" matTooltipPosition="above" class="pad-l-xs">
+                <span> {{ element?.school_id?.short_name }} </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="datePass">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                matTooltip="{{ 'Date for pass' | translate }}"
+                matTooltipPosition="above"
+                style="text-align: center"
+              >
+                <h5>{{ 'Date for pass' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element; let rowIndex = index" matTooltipPosition="above" class="pad-l-xs">
+                <!--  Date picker TD Here -->
+                <mat-form-field color="accent">
+                  <input
+                    required
+                    matInput
+                    [matDatepicker]="datePass"
+                    placeholder="{{ 'Date for pass' | translate }}"
+                    [(ngModel)]="tableDateList[rowIndex + paginator.pageIndex * 10]['school_issuance_date']"
+                    name="date_pass{{ rowIndex }}"
+                    (dateInput)="updateDatePass($event, element)"
+                    (click)="datePass.open()"
+                    readonly
+                    [disabled]="statusCertiDegree === 'fourth'"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="datePass" style="margin-right: 5px"></mat-datepicker-toggle>
+                  <mat-datepicker #datePass></mat-datepicker>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateRetake">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                matTooltip="{{ 'Date for pass after retake' | translate }}"
+                matTooltipPosition="above"
+                style="text-align: center"
+              >
+                <h5>{{ 'Date for pass after retake' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element; let rowIndex = index" matTooltipPosition="above" class="pad-l-xs">
+                <!--  Date picker TD Here -->
+                <mat-form-field color="accent">
+                  <input
+                    required
+                    matInput
+                    [matDatepicker]="dateRetake"
+                    placeholder="{{ 'Date for pass after retake' | translate }}"
+                    [(ngModel)]="tableDateList[rowIndex + paginator.pageIndex * 10]['school_issuance_date_retake']"
+                    name="date_retake{{ rowIndex }}"
+                    (dateInput)="updateDateRetake($event, element)"
+                    (click)="dateRetake.open()"
+                    readonly
+                    [disabled]="statusCertiDegree === 'fourth'"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="dateRetake" style="margin-right: 5px"></mat-datepicker-toggle>
+                  <mat-datepicker #dateRetake></mat-datepicker>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loading">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+                <div class="center-spinner">
+                  <mat-spinner color="accent"></mat-spinner>
+                </div>
+              </th>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isTableLoading"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isTableLoading"></tr>
+          </table>
+          <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isTableLoading }">
+            {{ 'NOT RECORD FOUND' | translate }}
+          </div>
+          <div [ngClass]="{ hide: noData | async }">
+            <mat-paginator
+              [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+              [pageSize]="10"
+              [pageSizeOptions]="[10]"
+              showFirstLastButtons
+            >
+            </mat-paginator>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoadingDate" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

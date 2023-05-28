@@ -1,0 +1,207 @@
+<!-- <div class="row wrap" style="max-width:100vw" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div fxFlex="90">
+    <div class="emp-survey-title">{{ 'EMPLOYABILITY_SURVEY.FORM.TITLE' | translate }}{{ survey?.rncpId?.longName.toUpperCase() }}</div>
+  </div>
+</div> -->
+
+<div [ngStyle]="{'pointer-events': isPreviousCourse ? 'none' : 'all'}" class="row wrap" style="max-width:100vw" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px" fxLayoutGap.xs="0">
+  <div fxFlex="90">
+    <mat-card-content style="text-align: left;">
+      <mat-card class="primary-background dark-header border-yellow mt-5px" id="cardOneTitle">
+        <mat-card-content style="text-align: center">
+          <div [innerHTML]="questionnaire?.questionnaire_grid?.header.title"></div>
+          <div [innerHTML]="questionnaire?.questionnaire_grid?.header.text"></div>
+          <div [innerHTML]="questionnaire?.questionnaire_grid?.header.direction"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <form #f="ngForm">
+        <ng-container *ngFor="let comp of competences; let compIndex = index">
+          <mat-card class="primary-background dark-header border-yellow mt-5px" *ngIf="renderBlockHideAndShow(comp, compIndex)">
+            <mat-card-content>
+              <div fxLayout fxLayout.xs="column" fxLayoutAlign="start" fxLayoutGap="20px" fxLayoutGap.xs="0">
+                <h3 style="text-align: center">{{comp?.competence_name}}</h3>
+              </div>
+              <div *ngFor="let segment of comp?.segment; let i = index">
+                <h4>{{segment.segment_name}}</h4>
+                <div *ngFor="let quest of comp?.segment[i].question; let quesIndex = index">
+                  <div *ngIf="quest.is_field" class="field-item">
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                      <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{ 'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate}}*</label>
+                      <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{ 'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate}}</label>
+                    </div>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                      <mat-form-field fxFlex="70">
+                        <input matInput name="{{quest.questionnaire_field_key}}{{quesIndex}}"
+                               [required]="quest.is_answer_required" [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div *ngIf="!quest.is_field">
+                    <div *ngIf="quest?.question_type === 'free_text'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <mat-form-field fxFlex="70">
+                          <input matInput name="free_text{{compIndex}}{{i}}{{quesIndex}}"
+                                 [required]="quest.is_answer_required" [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="quest?.question_type === 'email'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <mat-form-field fxFlex="70">
+                          <input matInput name="email{{compIndex}}{{i}}{{quesIndex}}"
+                                 [required]="quest.is_answer_required" type="email"
+                                 [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="quest?.question_type === 'date'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <div fxFlex="70">
+                          <mat-form-field>
+                            <input matInput type="text" [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer"
+                                   name="date{{compIndex}}{{i}}{{quesIndex}}" [matDatepicker]="conStartDate" [required]="quest.is_answer_required">
+                            <button matSuffix class="white-datepicker-button"></button>
+                          </mat-form-field>
+                          <mat-datepicker #conStartDate [touchUi]="true"></mat-datepicker>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="quest?.question_type === 'numeric'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <mat-form-field fxFlex="70">
+                          <input matInput name="numeric{{compIndex}}{{i}}{{quesIndex}}"
+                                 [required]="quest.is_answer_required" type="number"
+                                 [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="quest?.question_type === 'multiple_option'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <mat-checkbox *ngFor="let option of quest?.options" value="{{option.option_text}}"
+                                     (change)="onChangeMultipleQuestion($event, { competences: compIndex, segment: i, question: quesIndex }, option.option_text,
+                                    competences[compIndex].segment[i].question[quesIndex].answer_multiple)"
+                                     [required] = "quest.is_answer_required"
+                                     style="padding-right: 10px;">
+                          {{option.option_text}}
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                    <div *ngIf="quest?.question_type === 'single_option'" class="field-item">
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                        <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                      </div>
+                      <div fxLayout="row" fxLayoutWrap="wrap">
+                        <mat-radio-group name="single{{compIndex}}{{i}}{{quesIndex}}"
+                                        [required] = "quest.is_answer_required"
+                                        (change)="onChangeSingleOption($event, comp)"
+                                        [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                          <mat-radio-button [value]="option.option_text"
+                                           *ngFor="let option of quest?.options" style="padding-right: 10px;">{{option.option_text}}</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+
+                    <ng-container *ngIf="quest?.question_type === 'parent_child'">
+
+                      <div class="field-item">
+                        <div fxLayout="row" fxLayoutWrap="wrap">
+                          <label fxFlex="70" style="align-self: center" *ngIf="quest.is_answer_required">{{quest.question_name}}*</label>
+                          <label fxFlex="70" style="align-self: center" *ngIf="!quest.is_answer_required">{{quest.question_name}}</label>
+                        </div>
+                        <div fxLayout="row" fxLayoutWrap="wrap">
+                          <mat-radio-group name="parentChild1{{compIndex}}{{i}}{{quesIndex}}"
+                                          [required] = "quest.is_answer_required"
+                                          [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].answer">
+                            <mat-radio-button [value]="option.option_text" *ngFor="let option of quest?.parent_child_options; let prClIndx = index"
+                                             (change)="onChangeParentChild($event, option, {competenceIndex: compIndex, segmentIndex: i, questionIndex: quesIndex}, prClIndx, 0)" style="padding-right: 10px;">{{option.option_text}}</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </div>
+
+                      <ng-container *ngFor="let option1 of quest?.parent_child_options; let indexSatu = index">
+                        <ng-container *ngFor="let optionQuestion1 of option1.questions; let indexQuestionSatu = index">
+                          <ng-container>
+                            <div *ngIf="competences[compIndex].segment[i].question[quesIndex].answer === option1.option_text" class="field-item" style="padding-left: 2rem;">
+                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                <label fxFlex="70" style="align-self: center">{{optionQuestion1.question_name}}</label>
+                              </div>
+                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                <mat-radio-group name="parentChild2{{optionQuestion1.question_name}}{{quesIndex}}{{indexQuestionSatu}}"
+                                                [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].parent_child_options[indexSatu].questions[indexQuestionSatu].answer">
+                                  <mat-radio-button [value]="option2.option_text" *ngFor="let option2 of optionQuestion1?.parent_child_options"
+                                                   (change)="onChangeParentChild2($event, option2, {competenceIndex: compIndex, segmentIndex: i, questionIndex: quesIndex}, indexSatu, indexQuestionSatu)" style="padding-right: 10px;">{{option2.option_text}}</mat-radio-button>
+                                </mat-radio-group>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngFor="let option3 of optionQuestion1?.parent_child_options; let indexDua = index">
+                            <ng-container *ngFor="let optionQuestion2 of option3?.questions; let indexQuestionDua = index">
+                              <div *ngIf="optionQuestion1.answer === option3.option_text" class="field-item" style="padding-left: 4rem;">
+                                <div fxLayout="row" fxLayoutWrap="wrap">
+                                  <label fxFlex="70" style="align-self: center">{{optionQuestion2.question_name}}</label>
+                                </div>
+                                <div fxLayout="row" fxLayoutWrap="wrap">
+                                  <mat-radio-group name="parentChild3{{optionQuestion2.question_name}}{{quesIndex}}{{indexQuestionSatu}}{{indexQuestionDua}}"
+                                                  [(ngModel)]="competences[compIndex].segment[i].question[quesIndex].parent_child_options[indexSatu].questions[indexQuestionSatu].parent_child_options[indexDua].questions[indexQuestionDua].answer">
+                                    <mat-radio-button [value]="option4.option_text" *ngFor="let option4 of optionQuestion2?.parent_child_options" style="padding-right: 10px;"
+                                    >{{option4.option_text}}</mat-radio-button>
+                                  </mat-radio-group>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
+                          
+                        </ng-container>
+                      </ng-container>
+
+                    </ng-container>
+
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+
+        <mat-card class="primary-background dark-header border-yellow mt-5px" *ngIf="questionnaire?.questionnaire_grid?.footer.text !== ''">
+          <mat-card-content style="text-align: center">
+            <div [innerHTML]="questionnaire?.questionnaire_grid?.footer.text"></div>
+            <!--<div *ngFor="let field of questionnaire?.questionnaire_grid?.footer.fields">
+              <p>{{field.value}}.................................</p>
+            </div>-->
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <div>
+        <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+          {{ 'LEAVE' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

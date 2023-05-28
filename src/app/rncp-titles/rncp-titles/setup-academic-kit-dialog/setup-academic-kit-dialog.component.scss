@@ -1,0 +1,61 @@
+
+.duplicate-form-container {
+  margin-top: 1rem !important;
+  margin-left: 3.5rem !important;
+}
+
+.aligned-paragraph {
+  margin-bottom: 0 !important;
+}
+.dialogTitle {
+    display: inline-block;
+}
+
+.no-padding-y {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.text-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+  
+.dialogTitleWrapper {
+    color: black;
+}
+.header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 15px;
+}
+  
+.dialog-border {
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}
+
+.icon-alignment {
+    height: 24px;
+    padding-top: 5px;
+    margin-right: 10px;
+}
+
+.mat-radio-outer-circle{
+  border-color: white;
+}
+
+// .mat-form-field-underline {
+//   background-color: white !important;
+// } 
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+.acad-title {
+  padding: 0px;
+  margin-right: 25px;
+}

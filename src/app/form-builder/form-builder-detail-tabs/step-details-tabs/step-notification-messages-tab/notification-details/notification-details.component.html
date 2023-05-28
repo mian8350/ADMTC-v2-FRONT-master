@@ -1,0 +1,210 @@
+<div class="container" [formGroup]="formDetails">
+  <mat-accordion>
+    <mat-expansion-panel class="custom-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h4>{{ 'Notification Detail' | translate }}</h4>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="content">
+        <div class="p-grid">
+          <div class="p-col-6">
+            <mat-form-field floatLabel="auto" color="accent">
+              <input
+                matInput
+                class="form-field"
+                formControlName="ref_id"
+                placeholder="{{ 'Notification Ref Id' | translate }}"
+                [readonly]="true"
+              />
+            </mat-form-field>
+            <mat-error
+              *ngIf="
+                formDetails.get('ref_id').hasError('required') && (formDetails.get('ref_id').touched || formDetails.get('ref_id').dirty)
+              "
+            >
+              {{ 'This field is required' | translate }}
+            </mat-error>
+          </div>
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <input
+                matInput
+                required
+                [formControl]="trigerCondition"
+                [matAutocomplete]="sendingCond"
+                placeholder="{{ 'Sending condition' | translate }}"
+              />
+              <mat-autocomplete
+                #sendingCond="matAutocomplete"
+                [panelWidth]="'max-content'"
+                (optionSelected)="selectTrigerCondition($event.option.value)"
+              >
+                <mat-option *ngFor="let sending of sendingFilterList" [value]="sending.value">
+                  {{ sending.value}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="formDetails.get('trigger_condition').hasError('required') && (trigerCondition.dirty || trigerCondition.touched)">
+                {{ 'This field is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <input
+                matInput
+                [formControl]="filterRecipient"
+                [matAutocomplete]="recipient"
+                placeholder="{{ 'Recipient' | translate }}"
+                (keyup)="onValueRecChange()"
+              />
+              <mat-autocomplete #recipient="matAutocomplete" [panelWidth]="'fit'" (optionSelected)="selectRecipient($event.option.value)">
+                <mat-option *ngFor="let recipient of filteredRecipientList" [value]="recipient.name">
+                  {{ recipient.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="formDetails.get('recipient_id').hasError('required') && (filterRecipient.dirty || filterRecipient.touched)">
+                {{ 'This field is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <input
+                matInput
+                [formControl]="filterRecipientCC"
+                [matAutocomplete]="recipientCC"
+                placeholder="{{ 'Recipient in cc' | translate }}"
+                (keyup)="onValueRecCCChange()"
+              />
+              <mat-autocomplete #recipientCC="matAutocomplete" [panelWidth]="'fit'" (optionSelected)="selectRecipientCC($event.option.value)">
+                <mat-option *ngFor="let recipientCC of filteredRecipientCCList" [value]="recipientCC.name">
+                  {{ recipientCC.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error
+                *ngIf="(filterRecipientCC.dirty || filterRecipientCC.touched) && formDetails.get('recipient_cc_id').hasError('required')"
+              >
+                {{ 'This field is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <input
+                matInput
+                [formControl]="filterSignatory"
+                [matAutocomplete]="signatory"
+                placeholder="{{ 'Signatory' | translate }}"
+                (keyup)="onValueSigChange()"
+              />
+              <mat-autocomplete #signatory="matAutocomplete" [panelWidth]="'fit'" (optionSelected)="selectSignatory($event.option.value)">
+                <mat-option *ngFor="let signatory of filteredSignatoryList" [value]="signatory.name">
+                  {{ signatory.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="(filterSignatory.dirty || filterSignatory.touched) && formDetails.get('signatory_id').hasError('required')">
+                {{ 'This field is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="p-grid attachment">
+          <div class="attachment-section p-col-12 no-padding">
+            <h4>{{ 'ATTACHMENT' | translate }}</h4>
+          </div>
+        </div>
+        <div class="p-grid slider" *ngIf="stepType !== 'final_message'">
+          <div class="p-col-12 no-padding">
+            <mat-slide-toggle formControlName="is_include_pdf_this_step" color="accent">
+              <span [ngClass]="{ 'text-slider-color': formDetails.get('is_include_pdf_this_step').value }">
+                {{
+                  (formDetails.get('is_include_pdf_this_step').value
+                    ? 'Include this step as a pdf attachment'
+                    : 'Dont include this step as a pdf attachment'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+        <div class="p-grid p-align-baseline">
+          <div class="p-col-8">
+            <mat-form-field color="accent">
+              <mat-label>
+                <strong>{{ 'DOCUMENT NAME' | translate | titlecase }}</strong>
+              </mat-label>
+              <input matInput type="text" [formControl]="document_name_attachment" />
+            </mat-form-field>
+          </div>
+          <div class="p-col-4">
+            <input type="file" accept="pdf" style="display: none" (change)="onFileChange($event)" #fileInputRef />
+            <button mat-button mat-raised-button color="accent" (click)="fileInputRef.click()" [disabled]="!document_name_attachment.value">
+              <mat-icon class="mat-icon-default" *ngIf="!isUploadingFile">add</mat-icon>
+              <mat-icon class="mat-icon-default" *ngIf="isUploadingFile">
+                <mat-spinner [diameter]="18"></mat-spinner>
+              </mat-icon>
+              {{ 'Select File' | translate }}
+            </button>
+          </div>
+        </div>
+        <ng-container formArrayName="pdf_attachments">
+          <div class="p-grid p-dir-col" *ngFor="let docGroup of getAttachmentsFormarray()?.controls; let idx = index">
+            <div class="file-item" [formGroupName]="idx">
+              <div class="p-col-9 attachmen-file">
+                <mat-icon>insert_drive_file</mat-icon>
+                <div class="file-item__name" *ngIf="docGroup?.get('name').value">{{ docGroup?.get('name').value }}</div>
+              </div>
+              <div class="p-col-1">
+                <button mat-icon-button color="warn" (click)="onDeleteFileAt(idx)" class="remove-icon-disabled" *ngIf="!isPublished">
+                  <mat-icon class="remove-icon">remove_circle</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-card style="margin-top: 1.5rem">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <div
+          [ngClass]="
+            formDetails.get('subject').hasError('required') && (formDetails.get('subject').dirty || formDetails.get('subject').touched)
+              ? 'color-red'
+              : ''
+          "
+        >
+          {{ 'Subject' | translate }}*
+        </div>
+        <textarea style="width: 100%" rows="5" formControlName="subject"></textarea>
+      </div>
+
+      <div class="p-col-12">
+        <div
+          [ngClass]="
+            formDetails.get('body').hasError('required') && (formDetails.get('body').dirty || formDetails.get('body').touched)
+              ? 'color-red'
+              : ''
+          "
+        >
+          {{ 'Body' | translate }}*
+        </div>
+        <div class="document-editor">
+          <div class="document-editor__toolbar"></div>
+          <div class="document-editor__editable-container" (focusout)="onEditableContainerFocusOut()">
+            <div class="document-editor__editable">
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>

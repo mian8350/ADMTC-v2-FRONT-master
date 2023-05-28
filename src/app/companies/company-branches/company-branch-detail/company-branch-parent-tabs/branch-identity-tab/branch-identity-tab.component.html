@@ -1,0 +1,31 @@
+<div class="float-right" *ngIf="companyLocation && companyLocation !== 'france' && companyLocation !== 0">
+    <button 
+    mat-raised-button 
+    color="accent" 
+    (click)="editForm()" 
+    *ngIf="editMode === false"
+    >{{'COMPANY.Edit' | translate}}</button>
+
+    <button 
+    mat-raised-button 
+    color="accent" 
+    (click)="onCancel()" 
+    *ngIf="editMode === true">
+    {{'Cancel' | translate}}
+    </button>
+</div>
+<div class="display-container">
+    <ms-branch-identity-display 
+    [branchId]="branchId"
+    [company]="companyData"
+    *ngIf="editMode === false">
+    </ms-branch-identity-display>
+
+    <ms-branch-identity-form 
+    *ngIf="editMode === true"
+    [branchId]="branchId"
+    [company]="companyData"
+    (saveFormNonFrance)="isSaveForm($event)"
+    >
+    </ms-branch-identity-form>
+</div>

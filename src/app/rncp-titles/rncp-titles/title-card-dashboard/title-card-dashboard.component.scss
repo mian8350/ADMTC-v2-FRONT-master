@@ -1,0 +1,139 @@
+@import '~assets/scss/theme/admtc.variables';
+.rncp-title-tile {
+  background-color: $dark-blue !important;
+  border-radius: 22px;
+  &:hover {
+    cursor: pointer;
+    background-color: #d28104 !important;
+    box-shadow: 0 0 10px #a0a0a0 !important;
+  }
+}
+
+.rncp-title-tile-not-published {
+  background-color: #9D3730 !important;
+  border-radius: 22px;
+  &:hover {
+    cursor: pointer;
+    background-color: #d28104 !important;
+    box-shadow: 0 0 10px #a0a0a0 !important;
+  }
+}
+
+.first {
+  height: 235px;
+  width: 237px;
+}
+.test {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+.second {
+  height: 200px;
+  width: 202px;
+  font-size: 20px;
+}
+.third {
+  height: 160px;
+  width: 160px;
+  font-size: 14px;
+}
+
+.rncp-menu-btn {
+  background-color: #212121;
+  border: none !important;
+}
+
+.rncp-menu-btn-selected {
+  background-color: $dark-blue;
+  border: none !important;
+}
+
+.center-card {
+  justify-content: center;
+}
+
+// .divider-line {
+//   border-color: white !important;
+//   width: 90%;
+//   margin-left: 1rem;
+// }
+
+.divider-line-container .mat-divider {
+  border-color: white !important;
+  width: 90%;
+  margin-left: 1rem;
+}
+
+.title-long-name {
+  font-size: 14px;
+  height: 25% !important;
+  max-height: 25%;
+  margin-top: 1rem;
+}
+.card-dashboard {
+  padding: 0px !important;
+}
+.mrgn-t1 {
+  margin-top: 1rem;
+}
+.content-dashboard {
+  padding: 1rem 0px 0px 0px;
+  margin-bottom: 0;
+  position: relative;
+}
+.detail-title {
+  height: auto !important;
+  margin-top: 2px;
+  word-break: break-word;
+  overflow: visible;
+  margin-bottom: 10px;
+}
+.icon-status {
+  font-size: 14px !important;
+}
+.little-title {
+  padding: 0px 12px 0px 12px;
+  height: auto !important;
+  margin-bottom: 0px;
+  width: 237px;
+  overflow: hidden;
+  text-align: center;
+}
+.font-26 {
+  font-size: 26px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.mrgn-t10 {
+  margin-top: 10px;
+}
+.detail-content {
+  padding: 0rem 1rem 0rem 1rem;
+}
+.only-2-line {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+}
+.mrgn-btn50 {
+  margin-bottom: 50px;
+}
+
+.certifier-logo-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding-bottom: 5px;
+}
+
+.logo-white-bg {
+  background-color: white;
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.certifier-logo {
+  height: 50px !important;
+}

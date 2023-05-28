@@ -1,0 +1,205 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="p-col-10 no-padding" style="display: flex">
+        <mat-icon class="icon-alignment material-icons-outlined" mat-icon-button style="margin-right: 10px; align-self: flex-start">
+          timer
+        </mat-icon>
+        <h3 class="dialogTitle">
+          <span>{{ 'ASSIGNJURIESMULTIPLE.TITLE_2' | translate }}</span>
+        </h3>
+      </div>
+      <div class="p-col-2 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+  <ng-container *ngIf="!isWaitingForResponse">
+    <section style="margin: 1em auto">
+      <div class="grid-block">
+          <span class="title">{{ 'COMPANY.SCHOOL' | translate }}</span>
+          <span>:</span>
+          <span>{{ data?.school?.short_name }}</span>
+      </div>
+      <div class="grid-block">
+          <span class="title2">{{ 'ASSIGNJURIESMULTIPLE.NUMBERSTUDENT' | translate }}</span>
+          <span>:</span>
+          <span>{{ data?.is_all_selected ? data?.count_document : data?.students?.length }}</span>
+      </div>
+    </section>
+
+    <section [formGroup]="sessionsForm">
+      <div formArrayName="sessions">
+        <div
+          class="p-grid main-container"
+          [formGroupName]="sessionIndex"
+          *ngFor="let session of sessions?.controls; let sessionIndex = index"
+        >
+          <div class="yellow-border p-col">
+            <div class="p-grid">
+              <div class="p-col" style="margin-top: 8px">
+                <mat-form-field>
+                  <mat-label>{{ 'JURY_ORGANIZATION.START_DATE' | translate }}*</mat-label>
+                  <input matInput (click)="startDate.open()" readonly formControlName="date_test" [matDatepicker]="startDate" />
+                  <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                  <mat-datepicker #startDate></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      session.get('date_test').hasError('required') && (session.get('date_test').dirty || session.get('date_test').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col">
+                <mat-form-field class="example-full-width" style="margin-top: 5px">
+                  <input
+                    matInput
+                    formControlName="start_time"
+                    [ngxTimepicker]="startTime"
+                    readonly
+                    [format]="24"
+                    placeholder="{{ 'JURY_ORGANIZATION.START_TIME' | translate }}*"
+                  />
+                  <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="startTime">
+                    <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                      <path
+                        fill="#ffffff"
+                        d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                      />
+                    </svg>
+                  </ngx-material-timepicker-toggle>
+                  <mat-error
+                    *ngIf="
+                      session.get('start_time').hasError('required') &&
+                      (session.get('start_time').dirty || session.get('start_time').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <ngx-material-timepicker #startTime></ngx-material-timepicker>
+              </div>
+              <div class="p-col">
+                <mat-form-field class="example-full-width" style="margin-top: 5px">
+                  <input
+                    matInput
+                    formControlName="break_time"
+                    [ngxTimepicker]="breakTime"
+                    readonly
+                    [format]="24"
+                    placeholder="{{ 'JURY_ORGANIZATION.BREAK_TIME' | translate }}*"
+                  />
+                  <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="breakTime">
+                    <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                      <path
+                        fill="#ffffff"
+                        d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                      />
+                    </svg>
+                  </ngx-material-timepicker-toggle>
+                  <mat-error
+                    *ngIf="
+                      session.get('break_time').hasError('required') &&
+                      (session.get('break_time').dirty || session.get('break_time').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+                <ngx-material-timepicker #breakTime></ngx-material-timepicker>
+              </div>
+              <div class="p-col">
+                <mat-form-field style="margin-top: 8px">
+                  <mat-label>{{ 'JURY_ORGANIZATION.BREAK_DURATION' | translate }} ({{ 'minutes' | translate }})*</mat-label>
+                  <input formControlName="break_duration" matInput type="text" />
+                  <mat-error
+                    *ngIf="
+                      session.get('break_duration').hasError('required') &&
+                      (session.get('break_duration').dirty || session.get('break_duration').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col">
+                <mat-form-field style="margin-top: 8px">
+                  <mat-label>{{ 'SETUPSCHEDULE.Session/Day' | translate }}*</mat-label>
+                  <input formControlName="session_per_day" matInput type="number" />
+                  <mat-error
+                    *ngIf="
+                      session.get('session_per_day').hasError('required') &&
+                      (session.get('session_per_day').dirty || session.get('session_per_day').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-3">
+                <mat-form-field style="margin-top: 5px">
+                  <mat-label>{{ 'SETUPSCHEDULE.Presentation Duration' | translate }} ({{ 'minutes' | translate }})*</mat-label>
+                  <input formControlName="presentation_duration" matInput type="number" />
+                  <mat-error
+                    *ngIf="
+                      session.get('presentation_duration').hasError('required') &&
+                      (session.get('presentation_duration').dirty || session.get('presentation_duration').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col-3">
+                <mat-form-field style="margin-top: 5px">
+                  <mat-label>{{ 'SETUPSCHEDULE.Each Block Duration' | translate }} ({{ 'minutes' | translate }})*</mat-label>
+                  <input formControlName="each_block_duration" matInput type="number" />
+                  <mat-error
+                    *ngIf="
+                      session.get('each_block_duration').hasError('required') &&
+                      (session.get('each_block_duration').dirty || session.get('each_block_duration').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <span class="p-col-fixed" style="display: flex; flex-direction: column">
+            <button (click)="addSession()" mat-icon-button color="primary">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+            <button (click)="removeSession(sessionIndex)" mat-icon-button color="warn" [ngClass]="{ hide: sessions.length === 1 }">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </span>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="isWaitingForResponse">
+    <div class="center-spinner" style="margin: 1rem;">
+      <mat-spinner color="accent" [diameter]='100'></mat-spinner>
+    </div>
+  </ng-container>
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close (click)="closeDialog()" color="warn">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-raised-button color="primary" (click)="save()">
+    {{ 'SAVE' | translate }}
+  </button>
+</div>

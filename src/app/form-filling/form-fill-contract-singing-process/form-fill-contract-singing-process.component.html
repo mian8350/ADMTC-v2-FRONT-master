@@ -1,0 +1,118 @@
+<div class="revision-box-container" *ngIf="stepData?.revise_request_messages?.length">
+  <ms-form-filling-revision-box
+    [formDetail]="formDetail"
+    [stepData]="stepData"
+    [messages]="stepData?.revise_request_messages"
+    (triggerRefresh)="triggerRefresh.emit(formId)"
+    [stepId]="stepData?._id"
+  ></ms-form-filling-revision-box>
+
+  <div *ngIf="formDetail?.revise_request_messages?.length">
+    {{ 'the contract is currently on revision by other signatory' | translate }}
+  </div>
+</div>
+
+<div class="header" [innerHTML]="stepData?.direction"></div>
+
+<ng-container *ngIf="!checkAllUserAlreadySubmit(userId, 'display')">
+  <div class="p-grid" style="margin-bottom: 10px">
+    <div class="p-col-12 no-padding">
+      <span *ngIf="!formDetail.isPreview" style="text-align: end; float: right">
+        <button
+          color="accent"
+          mat-raised-button
+          class="btn-save"
+          matTooltip="{{ 'Expand' | translate }}"
+          [disabled]="!linkPdf"
+          (click)="expand()"
+        >
+          {{ 'Expand' | translate }}
+        </button>
+        <button
+          color="accent"
+          mat-raised-button
+          class="btn-save"
+          matTooltip="{{ 'PDF' | translate }}"
+          [disabled]="!linkPdf"
+          (click)="downloadPDF()"
+        >
+          <mat-icon class="pdf-icon" svgIcon="file-pdf-outline"></mat-icon>
+          {{ 'PDF' | translate }}
+        </button>
+      </span>
+      <span *ngIf="formDetail.isPreview" style="text-align: end; float: right">
+        <button color="accent" mat-raised-button class="btn-save" matTooltip="{{ 'Expand' | translate }}">
+          {{ 'Expand' | translate }}
+        </button>
+        <button color="accent" mat-raised-button class="btn-save" matTooltip="{{ 'PDF' | translate }}">
+          <mat-icon class="pdf-icon" svgIcon="file-pdf-outline"></mat-icon>
+          {{ 'PDF' | translate }}
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="document-parent" *ngIf="documentOnPreviewUrl">
+    <iframe
+      [src]="documentOnPreviewUrl"
+      frameBorder="0"
+      allow="autoplay; encrypted-media"
+      [style.min-height.px]="getAutomaticHeight()"
+      style="width: 100%"
+    >
+    </iframe>
+  </div>
+
+  <div class="btn-conditions">
+    <ng-container *ngIf="isUser() && stepData?.step_status !== 'accept'">
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.custom_button_text?.sign_contract_text ? custom_button_text?.sign_contract_text : ('Sign Contract' | translate) }} "
+        (click)="signingUser()"
+        [disabled]="userSigned()"
+      >
+        {{ stepData?.custom_button_text?.sign_contract_text ? custom_button_text?.sign_contract_text : ('Sign Contract' | translate) }}
+      </button></ng-container
+    >
+    <ng-container *ngIf="isStudent() && stepData?.step_status !== 'accept'">
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.custom_button_text?.sign_contract_text ? custom_button_text?.sign_contract_text : ('Sign Contract' | translate) }} "
+        (click)="signingReceiver()"
+        [disabled]="stepData?.user_recipient_signatory?.is_already_sign"
+        >
+        {{ stepData?.custom_button_text?.sign_contract_text ? custom_button_text?.sign_contract_text : ('Sign Contract' | translate) }}
+      </button></ng-container
+    >
+    <!-- <button
+      *ngIf="
+        stepData?.step_status !== 'accept' &&
+        enabledButton &&
+        (stepData?.contract_signatory_status?.length === 0 ||
+          (formDetail?.formId !== userId && !userSigned()) ||
+          (formDetail?.formId === userId && !stepData?.user_recipient_signatory?.is_already_sign))
+      "
+      color="accent"
+      mat-raised-button
+      class="btn-accept"
+      (click)="onSubmitSignature()"
+      matTooltip="{{ 'Submit Signature' | translate }} "
+    >
+      {{ 'Submit Signature' | translate }}
+    </button> -->
+  </div>
+</ng-container>
+
+<ng-container *ngIf="checkAllUserAlreadySubmit(userId, 'display')">
+  <div style="margin-top: 20px !important; text-align: center">
+    <div class="row no-margin msg-pay" style="font-size: 25px; margin-top: 170px !important">
+      {{ 'Thank you for submitting the contract' | translate }}
+    </div>
+  </div>
+</ng-container>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,53 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+:host::ng-deep .mat-dialog-content {
+    overflow: unset !important;
+  }
+  
+  .doctype-input {
+    width: 90%;
+  }
+  
+  .uploaded-file-wrapper {
+    display: block;
+  }
+  
+  .icon {
+    vertical-align: middle;
+  }
+  
+  .no-padding {
+    padding-top: 0 !important;
+  }
+
+  .dialog-body {
+    font-size: 14px !important;
+  }
+
+  .mat-select{
+    margin-bottom: -7px;
+  }
+
+  h1{
+    color: black;
+    margin-left: 6px;
+    margin-bottom: 10px !important;
+  }
+
+  .dialog-border {
+    border-bottom: 1px solid black;
+  }
+
+  .dialogTitleWrapper {
+    color: black;
+  }
+
+  .header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 0px;
+  }
+
+  .dialogTitle {
+    display: inline-block;
+  }

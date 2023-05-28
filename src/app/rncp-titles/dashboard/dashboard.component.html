@@ -1,0 +1,247 @@
+<div class="p-grid">
+  <div class="p-col-12 pad-l-0">
+    <div class="p-grid header-box">
+      <div class="logo-img-wrapper p-col-3 content-left">
+        <div *ngIf="rncpTitle?.certifier?.logo">
+          <img class="center-image" style="background-color: white; border-radius: 5px; width: auto;" [src]="imgURL(rncpTitle?.certifier?.logo)" />
+        </div>
+      </div>
+      <div class="text-center p-col-9 float-left" style="height: 100%; align-self: flex-end;">
+        <div style="justify-content: center;">
+          <span class="text-xl mr-2">{{ rncpTitle?.short_name }}</span>
+          <span class="text-xl mr-2">-</span>
+          <span class="text-xl mr-2"> {{ 'DASHBOARD.LEVEL' | translate }} {{ rncpTitle?.rncp_level }}</span> <br />
+          <span class="text-xl mr-2">{{ rncpTitle?.long_name }}</span> <br />
+          <span class="text-xl mr-2">{{ 'Select the class of your choice' | translate}}</span>
+        </div>
+        <div class="class-option-container" *ngIf="classList?.length">          
+          <mat-form-field color="accent" class="form-control">
+            <input
+                    type="text"                    
+                    matInput
+                    placeholder="{{ 'Other Classes' | translate }}"
+                    [formControl]="titleClassesFilter"                    
+                    [matAutocomplete]="titleClasses"                    
+            >
+            <mat-autocomplete #titleClasses="matAutocomplete" [panelWidth]="'fit'">
+                <mat-option *ngFor="let class of filteredClass | async" [value]="class?.name" (click)="setClassFilter(class)">
+                    {{class.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <!-- <mat-error *ngIf="titleClassesFilter.hasError('required') && (titleClassesFilter.dirty || titleClassesFilter.touched)">
+              {{'This field is required'|translate}}
+        </mat-error>             -->
+        </mat-form-field>
+        <div class="class-pilbox-container">
+          <button mat-raised-button [color]="getColorPilbox(indexClass)" *ngFor="let class of classListPillbox; let indexClass=index" (click)="setClassPilbox(class)">{{ class?.name }}</button>
+        </div>
+        </div>
+      </div>
+      <!-- <div class="logo-img-right p-col-3 content-center">
+        <div *ngIf="rncpTitle?.rncp_logo">
+          <img class="center-image" [src]="imgURL(rncpTitle?.rncp_logo)" />
+        </div>
+      </div> -->
+    </div>
+    <!-- <div style="float: right;">
+      <button *ngIf="!noTaskAndEvent && permissionService.showCalendarPerm()" mat-raised-button color="accent" type="button" class="margin-right-0" (click)="scrollToCalender()">
+        <mat-icon class="mat-icon-default">event</mat-icon> {{ 'CALENDAR' | translate }}
+      </button>
+    </div> -->
+  </div>
+</div>
+
+<div
+  class="p-grid"
+  [ngClass]="{
+    'mt-10': noTaskAndEvent
+  }"
+  style="margin-bottom: 2rem"
+  *ngIf="rncpTitle && selectedClass"
+>
+  <!-- pending task and calendar section -->
+  <div *ngIf="!noTaskAndEvent" class="p-col-8 pad-r-none pad-l-none">
+    <div #colTaskCalender>
+      <div class="adjustWidth" *ngIf="isAllowedPendingTask()">
+        <ng-container *ngIf="permissionService.showPendingTaskPerm() || isUserChiefGroupAcademic">
+          <ms-pendingtask [titleId]="rncpTitle?._id" (goToCalendar)="scrollToCalender()"></ms-pendingtask>
+        </ng-container>
+      </div>
+      <div id="calendar" class="adjustWidth">
+        <ng-container *ngIf="permissionService.showCalendarPerm()">
+          <ms-calendar [rncpTitle]="rncpTitle"></ms-calendar>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- academic kit section -->
+  <ng-container>
+    <div
+      #colAcadKit
+      [class.hide]="!permissionService.showAcadKitPerm()"
+      class="pad-r-none pad-l-none sticky-acadkit"
+      [ngClass]="{
+        'p-col-4': !noTaskAndEvent,
+        'p-col-12': noTaskAndEvent
+      }"
+    >
+      <!-- <div style="float: right;">
+        <button mat-raised-button color="accent" type="button" class="margin-right-0" (click)="scrollToCalender()">
+          <mat-icon class="mat-icon-default">event</mat-icon> Calendar
+        </button>
+      </div> -->
+      <mat-card
+        class="small-margin-left no-padding"
+        [ngClass]="{ 'basic-height': isWaitingForResponse, 'small-margin-right': noTaskAndEvent, adjustWidth: !noTaskAndEvent }"
+      >
+        <div [ngClass]="{ 'p-col-6 margin-auto head-acadkit': noTaskAndEvent }">
+          <div
+            #headerAcadKit
+            class="p-grid justify-content-between p-align-center"
+            [ngClass]="{
+              'align-header-pending-task': !noTaskAndEvent,
+              'align-header-no-task': noTaskAndEvent
+            }"
+          >
+            <!-- title section -->
+            <div class="p-grid">
+              <div class="p-col">
+                {{ 'DASHBOARD.ACADKIT' | translate }} - {{'COMPANY.CLASS' | translate}} {{selectedClass?.name}}
+                <span *ngIf="displayModifyMode">
+                  &nbsp;-&nbsp;
+                  <i class="fa fa-file"></i>
+                  {{ 'DASHBOARD.MODIFYCATEGORIES' | translate }}
+                </span>
+              </div>
+            </div>
+            <!-- modify or back button -->
+            <div *ngIf="permissionService.editAcadKitNot06Perm() && acadKitFolders?.length">
+              <button
+                *ngIf="!displayModifyMode && permissionService.editAcadKitNot06Perm()"
+                mat-raised-button
+                color="accent"
+                class="float-right"
+                [ngClass]="{
+                  'margin-no': noTaskAndEvent
+                }"
+                [disabled]="isWaitingForResponse"
+                (click)="modifyAcadKit()"
+              >
+                <mat-icon class="mat-icon-default">edit</mat-icon> {{ 'DASHBOARD.MODIFYCATEGORIES' | translate }}
+              </button>
+              <button
+                *ngIf="displayModifyMode"
+                mat-raised-button
+                [ngClass]="{
+                  'margin-no': noTaskAndEvent
+                }"
+                color="primary"
+                (click)="showAcadKit()"
+              >
+                <mat-icon class="mat-icon-default">reply</mat-icon> {{ 'DASHBOARD.GOBACK' | translate }}
+              </button>
+            </div>
+          </div>
+          <div style="display: none">
+            <div class="p-grid justify-content-between p-align-center">
+              <div class="quick-search p-col-7" style="padding-top: 0; padding-bottom: 0;">
+                <mat-form-field class="search-acad-kit">
+                  <input
+                      type="text"                    
+                      matInput
+                      placeholder="{{ 'search' | translate }}"
+                      [formControl]="quickSearchAcadKit"
+                  >
+                </mat-form-field>
+                <button 
+                  mat-icon-button
+                  class="button-icon"
+                  matTooltip="{{'ACAD_KIT.Search document/evaluation' | translate}}" 
+                  [disabled]="quickSearchAcadKit.value.length < 3" 
+                  (click)="quickSearchKit()"
+                  style="margin-left: 5px"
+                >
+                  <mat-icon svgIcon="text-search-variant" class="mat-icon-section-svgIcon align-icon"></mat-icon>
+                </button>
+              </div>
+              <div class="p-col-5" style="padding-top: 0; padding-bottom: 0" *ngIf="permissionService.editAcadKitNot06Perm() && acadKitFolders?.length">
+                <button
+                  *ngIf="!displayModifyMode && permissionService.editAcadKitNot06Perm()"
+                  mat-raised-button
+                  color="accent"
+                  class="float-right"
+                  [ngClass]="{
+                    'margin-no': noTaskAndEvent
+                  }"
+                  [disabled]="isWaitingForResponse"
+                  (click)="modifyAcadKit()"
+                >
+                  <mat-icon class="mat-icon-default">edit</mat-icon> {{ 'DASHBOARD.MODIFYCATEGORIES' | translate }}
+                </button>
+                <button
+                  *ngIf="displayModifyMode"
+                  mat-raised-button
+                  class="float-right"
+                  [ngClass]="{
+                    'margin-no': noTaskAndEvent
+                  }"
+                  color="primary"
+                  (click)="showAcadKit()"
+                >
+                  <mat-icon class="mat-icon-default">reply</mat-icon> {{ 'DASHBOARD.GOBACK' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <mat-card-content class="alternate-color mb-0" [ngStyle]="{'overflow': 'auto', 'position':'sticky', 'max-height': getDataElement()}">
+            <!-- modify academic kit view -->
+            <ms-modify-categories *ngIf="displayModifyMode" [selectedFolderId]="selectedFolderId" [rncpTitle]="rncpTitle" [currentClass]="selectedClass">
+            </ms-modify-categories>
+
+            <!-- academic kit view -->
+            <ng-container *ngIf="!displayModifyMode && acadKitFolders?.length && !isWaitingForResponse">
+              <ng-container *ngFor="let folder of acadKitFolders; let i = index">
+                <ms-academic-kit
+                  *ngIf="isAllowedToShowKit(i)"
+                  [currentFolder]="folder"
+                  [isRootFolderView]="true"
+                  (selectedRootFolderToModify)="selectFolder($event)"
+                  [customRootFolderIndex]="getCustomRootFolderIndex(i)"
+                  [isToggleAllSubFolder]="false"
+                  [currentClass]="selectedClass"
+                >
+                </ms-academic-kit>
+              </ng-container>
+            </ng-container>
+
+            <!-- text if acad kit not created yet -->
+            <div class="acadkit-card" *ngIf="!acadKitFolders?.length">
+              <div class="p-grid">
+                <div class="p-col-12 text-center">
+                  {{ 'DASHBOARD.NOKIT' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <!-- transparent loading spinner -->
+            <div *ngIf="isWaitingForResponse && !noTaskAndEvent" class="loading-indicator loading-acad">
+              <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+            </div>
+            <!-- transparent loading spinner -->
+            <div *ngIf="isWaitingForResponse && noTaskAndEvent" class="loading-indicator loading-spinner">
+              <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+            </div>
+          </mat-card-content>
+        </div>
+      </mat-card>
+    </div>
+  </ng-container>
+</div>
+
+<ng-container *ngIf="isLoading">
+  <div class="spinner-overlay center-spinner">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-container>

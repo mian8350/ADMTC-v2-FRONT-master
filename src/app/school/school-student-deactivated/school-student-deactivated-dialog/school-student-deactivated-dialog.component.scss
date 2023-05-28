@@ -1,0 +1,67 @@
+
+.btn-student {
+    line-height: 30px;
+    font-size: 12px !important;
+    border-radius: 2px;
+  }
+
+  .spinner-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 998;
+    background-color: #a9a9a945;
+  }
+  :host::ng-deep.mat-radio-outer-circle {
+    border-color: rgba(0, 0, 0, 0.54) !important;
+  }
+  :host::ng-deep.mat-form-field-underline {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .dialogTitle {
+    display: inline-block;
+  }
+  
+  .dialogTitleWrapper {
+    color: black;
+    padding: 10px;
+    font-weight: 500 !important;
+    font-size: 19px;
+  }
+  
+  .dialog-border {
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+  }
+  .no-padding {
+    padding: 0px;
+  }
+
+  .ml-20 {
+    margin-left: 20px;
+  }
+  
+  .w-30 {
+    width: 30px;
+  }
+  .w-65 {
+    width: 60px;
+  }
+  
+  .mat-dialog-content {
+    margin: 0 !important;
+  }
+  
+  .mr-16 {
+    margin-right: 16px;
+  }
+
+  .ml-25 {
+    margin-left: 25px;
+  }

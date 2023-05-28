@@ -1,0 +1,62 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="dialogTitleWrapper header-dialog">
+        <div class="p-grid">
+            <div class="w-30 icon-top no-padding">
+                <mat-icon class="icon-alignment" mat-icon-button>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" />
+                    </svg>
+                </mat-icon>
+            </div>
+            <div class="p-col-10 no-padding">
+                <h3 class="dialogTitle">
+                    <span>{{"RESIGNATION_STUD_S1_BLOCK.TITLE" | translate}}</span>
+                </h3>
+            </div>
+            <div class="p-col-1 no-padding ml-2">
+                <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <p>
+                {{
+                    'RESIGNATION_STUD_S3_BLOCK.TEXT_1' | translate : {
+                        civ: studentData?.civility | translate,
+                        fname : studentData?.first_name,
+                        lname : studentData?.last_name,
+                        schoolcommercialname : studentData?.school?.short_name,
+                        titlecommercialname : studentData?.rncp_title?.short_name,
+                        classname : studentData?.current_class?.name
+                    }
+                }}
+            </p>
+            <P>
+                {{
+                    'RESIGNATION_STUD_S3_BLOCK.TEXT_2' | translate : {
+                        civ : studentData?.civility | translate,
+                        fname: studentData?.first_name,
+                        lname: studentData?.last_name
+                    }
+                }}
+            </P>
+            <P>{{'RESIGNATION_STUD_S3_BLOCK.TEXT_3' | translate}}</P>
+            <ol type="1">
+                <li [innerHTML]="'RESIGNATION_STUD_S3_BLOCK.LIST_1' | translate"></li><br>
+                <li [innerHTML]="'RESIGNATION_STUD_S3_BLOCK.LIST_2' | translate"></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="justify-content-end mr-15 mb-10">
+    <button mat-raised-button (click)="closeDialog()" color="warn">{{'CANCEL' | translate}}</button>
+    <button mat-raised-button (click)="transferStudent()" color="accent">{{'RESIGNATION_STUD_S1_BLOCK.BUTTON' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="suspendStudent()">{{'RESIGNATION_STUD_S3_BLOCK.BUTTON_SUSPENDED' | translate}}</button>
+</div>
+

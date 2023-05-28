@@ -1,0 +1,66 @@
+<div fxLayout="row wrap" [style.height.px]="getAutomaticHeight()" class="center-card mrgn-btn50 mrgn-t1" *ngIf="filteredTitles && filteredTitles.length">
+  <div *ngFor="let data of filteredTitles">
+    <!-- [ngClass]="{
+      'rncp-title-tile': data?.is_published,
+      'rncp-title-tile-not-published': !data?.is_published
+    }" -->
+    <mat-card
+      class="rncp-title-tile card-dashboard"
+    >
+      <mat-card-content
+        ngClass="first content-dashboard"
+        [ngClass.md]="{ first: false, second: true }"
+        [ngClass.sm]="{ first: false, second: true }"
+        [ngClass.xs]="{ second: false, third: true }"
+        (click)="goToRncpTitle(data)"
+      >
+        <h5 class="little-title only-2-line" style="-webkit-box-orient: vertical !important">
+          <b class="test" [style.font-size.px]="getFontSize(data.short_name)" matTooltip="{{ data.short_name }}" matTooltipPosition="above">
+            {{ data.short_name }}
+          </b>
+        </h5>
+        <div class="detail-content">
+          <div class="divider-line-container">
+            <mat-divider></mat-divider>
+          </div>
+
+          <p [matTooltip]="data.long_name?.length > 39 ? data.long_name : ''" class="title-long-name detail-title">
+            {{ data.long_name }} <br />
+            <!-- {{ data.long_name | limitTo: 40:false }} <br /> -->
+          </p>
+          <span> {{ 'DASHBOARD.LEVEL' | translate }} {{ data.rncp_level }}</span>
+
+          <!-- if there is certifier logo, display the logo -->
+          <!-- <div class="p-grid pad-t-xs justify-content-center certifier-logo-wrapper" *ngIf="data?.certifier?.logo">
+            <div class="logo-white-bg">
+              <img [src]="imgUrl(data?.certifier?.logo)" class="certifier-logo">
+            </div>
+          </div> -->
+
+          <!-- if there is no certifier logo, display the name -->
+          <!-- *ngIf="!data?.certifier?.logo" -->
+          <h6 class="mrgn-t10" >
+            <b class="font-16"> {{ data.certifier && data.certifier.short_name ? data.certifier.short_name : '' }} &nbsp; </b>
+          </h6>
+
+          <span
+            title="{{ 'PARAMETERS-RNCP.Activation.Published' | translate }}"
+            placement="right"
+            *ngIf="data.is_published"
+            style="color: green"
+          >
+            <mat-icon aria-hidden="true" class="icon-status">lens</mat-icon>
+          </span>
+          <span
+            title="{{ 'PARAMETERS-RNCP.Activation.Unpublished' | translate }}"
+            placement="right"
+            *ngIf="!data.is_published"
+            style="color: #f44336"
+          >
+            <mat-icon aria-hidden="true" class="icon-status">lens</mat-icon>
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

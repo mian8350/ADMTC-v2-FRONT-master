@@ -1,0 +1,26 @@
+<div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <button mat-raised-button color="warn" (click)="leaveDetails()">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        {{ 'Back' | translate }}
+      </button>
+    </div>
+    <div class="p-col-6">
+      <ms-student-certificate-issuance-table (isDownloading)="downloadSpinner($event)"></ms-student-certificate-issuance-table>
+    </div>
+    <div class="p-col-6">
+      <ng-container *ngIf="studentSelected">
+        <ms-student-certificate-issuance-preview></ms-student-certificate-issuance-preview>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

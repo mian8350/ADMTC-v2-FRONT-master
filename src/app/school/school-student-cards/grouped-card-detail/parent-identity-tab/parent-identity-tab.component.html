@@ -1,0 +1,73 @@
+<mat-tab-group #tabMatGroup [(selectedIndex)]="selectedIndex">
+  <mat-tab 
+    *ngIf="permissionService.showCourseTabStudentCardPerm() && isStatusStudent === 'active' " label="Course">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Course' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-course
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [studentPrevCourseData]="studentPrevCourseData"
+        [schoolId]="schoolId"
+        (continue)="nextTab($event)"
+        #course
+      >
+      </ms-course>
+    </ng-template>
+  </mat-tab>
+
+  <!-- Identity tab, dont display for prev course -->
+  <mat-tab 
+    *ngIf="
+      permissionService.showIdentityTabStudentCardPerm() && !openFromPrevCourseDetail" label="Identity">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Identity' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-identity
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [studentPrevCourseData]="studentPrevCourseData"
+        [schoolId]="schoolId"
+        (continue)="nextTab($event)"
+        #identity
+      >
+      </ms-identity>
+    </ng-template>
+  </mat-tab>
+
+  <!-- Parents tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showParentTabStudentCardPerm() && !openFromPrevCourseDetail" label="Parents">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Parents' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-parents
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [studentPrevCourseData]="studentPrevCourseData"
+        [schoolId]="schoolId"
+        (continue)="nextTab($event)"
+        #parents
+      >
+      </ms-parents>
+    </ng-template>
+  </mat-tab>
+
+  <!-- diploma tab, dont display for prev course -->
+  <mat-tab 
+    *ngIf="permissionService.showDiplomaTabStudentCardPerm() 
+    && !studentPrevCourseData 
+    && !openFromPrevCourseDetail
+    && isStatusStudent === 'active'" label="Diploma">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.DIPLOMA' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-diploma *ngIf="studentId" [studentId]="studentId" [schoolId]="schoolId" (continue)="nextTab($event)"> </ms-diploma>
+    </ng-template>
+  </mat-tab>
+
+
+</mat-tab-group>

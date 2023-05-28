@@ -1,0 +1,256 @@
+<div class="container">
+    <div class="p-grid">
+        <div class="p-col-12" (click)="goToStudentTableTitle()">
+            <div class="card-container pointer">
+                <mat-card class="card-segment" style="padding: 7px 15px; background: #ffffff">
+                  <div class="p-grid no-margin">
+                    <div class="p-col-fixed no-padding icon-grid first-card">
+                      <label class="pointer">{{ 'All' | translate }}</label>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" style="padding: 7px; background: #ffffff; color: #7d7d7d">
+                  <div class="p-grid no-margin">
+                    <div class="p-col-fixed no-padding icon-grid">
+                      <div
+                        class="segment-icon"  [ngClass]="{
+                            'chart-pie-css-1': allCompanyProcess?.percentage <= 1 && allCompanyProcess?.percentage > 0,
+                            'chart-pie-css-3': allCompanyProcess?.percentage <= 3 && allCompanyProcess?.percentage > 1,
+                            'chart-pie-css-5': allCompanyProcess?.percentage <= 5 && allCompanyProcess?.percentage > 3,
+                            'chart-pie-css-36': allCompanyProcess?.percentage <= 10 && allCompanyProcess?.percentage > 5,
+                            'chart-pie-css-60': allCompanyProcess?.percentage <= 15 && allCompanyProcess?.percentage > 10,
+                            'chart-pie-css-120': allCompanyProcess?.percentage <= 33 && allCompanyProcess?.percentage > 15,
+                            'chart-pie-css-180': allCompanyProcess?.percentage <= 50 && allCompanyProcess?.percentage > 33,
+                            'chart-pie-css-240': allCompanyProcess?.percentage <= 66 && allCompanyProcess?.percentage > 50,
+                            'chart-pie-css-300': allCompanyProcess?.percentage <= 80 && allCompanyProcess?.percentage > 66,
+                            'chart-pie-css-350': allCompanyProcess?.percentage <= 99 && allCompanyProcess?.percentage > 80,
+                            'chart-pie-css-360': allCompanyProcess?.percentage === 100,
+                            'chart-pie-css-0': allCompanyProcess?.percentage === 0
+                          }"
+                      ></div>
+                    </div>
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Active Contract' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score-contract">{{allCompanyProcess?.student_with_active_contract_count}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" [ngClass]="checkClassCard(allCompanyProcess?.total_student,allCompanyProcess?.job_description_done_count)">
+                  <div class="p-grid no-margin">
+              
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Job Description' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score">{{allCompanyProcess?.job_description_done_count}}</div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" [ngClass]="checkClassCard(allCompanyProcess?.total_student,allCompanyProcess?.problematic_done_count)">
+                  <div class="p-grid no-margin">
+                 
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Problematic' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score">{{allCompanyProcess?.problematic_done_count}}</div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" [ngClass]="checkClassCard(allCompanyProcess?.total_student, allCompanyProcess?.mentor_evaluation_done_count)">
+                  <div class="p-grid no-margin">
+             
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Mentor Evaluation' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score">{{allCompanyProcess?.mentor_evaluation_done_count}}</div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" [ngClass]="checkClassCard(allCompanyProcess?.total_student, allCompanyProcess?.pro_evaluation_done_count)">
+                  <div class="p-grid no-margin">
+                   
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Pro Evaluation' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score">{{allCompanyProcess?.pro_evaluation_done_count}}</div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="card-container">
+                <mat-card class="card-segment" [ngClass]="checkClassCard(allCompanyProcess?.total_student, allCompanyProcess?.soft_skill_pro_evaluation_done_count)">
+                  <div class="p-grid no-margin">
+                   
+                    <div class="p-col no-padding">
+                      <div class="p-grid no-margin segment-title">
+                        <div>{{ 'Soft Skill Pro Evaluation' | translate }}</div>
+                      </div>
+                      <div class="p-grid no-margin">
+                        <div class="segment-score">{{allCompanyProcess?.soft_skill_pro_evaluation_done_count}}</div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12" *ngFor="let data of companyProcessData">
+          <div (click)="goToStudentTableSchool(data?.school_id?._id)">
+            <div class="card-container pointer">
+              <mat-card class="card-segment" style="padding: 7px; background: #ffffff">
+                <div class="first-card-school">
+                  <label class="pointer">{{data?.school_id?.short_name}}</label>
+                </div>
+                <!-- <div class="p-grid no-margin">
+                  <div class="p-col-fixed no-padding icon-grid first-card-school">
+                    <label>{{data?.school_id?.short_name}}</label>
+                  </div>
+                </div> -->
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" style="padding: 7px 15px; background: #ffffff; color: #7d7d7d">
+                <div class="p-grid no-margin">
+                  <div class="p-col-fixed no-padding icon-grid">
+                    <div
+                      class="segment-icon" [ngClass]="{
+                          'chart-pie-css-1': data?.percentage <= 1 && data?.percentage > 0,
+                          'chart-pie-css-3': data?.percentage <= 3 && data?.percentage > 1,
+                          'chart-pie-css-5': data?.percentage <= 5 && data?.percentage > 3,
+                          'chart-pie-css-36': data?.percentage <= 10 && data?.percentage > 5,
+                          'chart-pie-css-60': data?.percentage <= 15 && data?.percentage > 10,
+                          'chart-pie-css-120': data?.percentage <= 33 && data?.percentage > 15,
+                          'chart-pie-css-180': data?.percentage <= 50 && data?.percentage > 33,
+                          'chart-pie-css-240': data?.percentage <= 66 && data?.percentage > 50,
+                          'chart-pie-css-300': data?.percentage <= 80 && data?.percentage > 66,
+                          'chart-pie-css-350': data?.percentage <= 99 && data?.percentage > 80,
+                          'chart-pie-css-360': data?.percentage === 100,
+                          'chart-pie-css-0': data?.percentage === 0
+                        }"
+                    ></div>
+                  </div>
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Active Contract' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score-contract">{{data?.student_with_active_contract_count}}</div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" [ngClass]="checkClassCard(data?.total_student, data?.job_description_done_count)">
+                <div class="p-grid no-margin">
+            
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Job Description' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score">{{data?.job_description_done_count}}</div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" [ngClass]="checkClassCard(data?.total_student, data?.problematic_done_count)">
+                <div class="p-grid no-margin">
+               
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Problematic' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score">{{data?.problematic_done_count}}</div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" [ngClass]="checkClassCard(data?.total_student, data?.mentor_evaluation_done_count)">
+                <div class="p-grid no-margin">
+           
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Mentor Evaluation' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score">{{data?.mentor_evaluation_done_count}}</div>
+                    </div>
+                   
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" [ngClass]="checkClassCard(data?.total_student, data?.pro_evaluation_done_count)">
+                <div class="p-grid no-margin">
+                 
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Pro Evaluation' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score">{{data?.pro_evaluation_done_count}}</div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+            <div class="card-container">
+              <mat-card class="card-segment" [ngClass]="checkClassCard(data?.total_student, data?.soft_skill_pro_evaluation_done_count)">
+                <div class="p-grid no-margin">
+                  <div class="p-col no-padding">
+                    <div class="p-grid no-margin segment-title">
+                      <div>{{ 'Soft Skill Pro Evaluation' | translate }}</div>
+                    </div>
+                    <div class="p-grid no-margin">
+                      <div class="segment-score">{{data?.soft_skill_pro_evaluation_done_count}}</div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

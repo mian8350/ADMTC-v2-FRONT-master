@@ -1,0 +1,103 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="incognito"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'Select Entity to Connect !' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- *************** Old UI with only select entity and usertype -->
+<div mat-dialog-content class="mat-dialog-content dialog-body" [formGroup]="loginAsUserForm">
+  <div class="p-grid">
+    <div class="p-col-5 no-padding pad-right">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'Select Entity' | translate }}</mat-label>
+        <mat-select (selectionChange)="getSchoolTypesDropdown($event)" formControlName="entity" [disableOptionCentering]="true" panelClass="filterPanel">
+          <mat-option *ngFor="let entity of entities" [value]="entity">
+            {{ entity | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="loginAsUserForm.get('entity').hasError('required')">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+
+
+    <div class="p-col-5 no-padding pad-right" [ngStyle]="{'display': loginAsUserForm.get('entity').value === 'academic' && (schoolTypes && schoolTypes.length) ? 'block' : 'none'}">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'Select School Type' | translate }}</mat-label>
+        <mat-select (selectionChange)="getSchoolsDropdown($event)" formControlName="schoolType"
+          [required]="loginAsUserForm.get('entity').value === 'academic' && (schoolTypes && schoolTypes.length)"
+          [disableOptionCentering]="true" panelClass="filterPanel">
+          <mat-option *ngFor="let schoolType of schoolTypes" [value]="schoolType">
+            {{ schoolType | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="loginAsUserForm.get('schoolType').hasError('required')">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-5 no-padding pad-right" [ngStyle]="{'display': schools && schools.length ? 'block' : 'none'}">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'Select School' | translate }}</mat-label>
+        <mat-select formControlName="school" [required]="loginAsUserForm.get('schoolType').value && (schools && schools.length)"  [disableOptionCentering]="true" panelClass="filterPanel">
+          <mat-option *ngFor="let school of schools" [value]="school._id" (click)="getUserTypeDropdown()">
+            {{ school.short_name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="loginAsUserForm.get('school').hasError('required')">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-5 no-padding pad-right" [ngStyle]="{'display': userTypeList && userTypeList.length ? 'block' : 'none'}">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'TEST.SELECT_USERTYPE' | translate }}</mat-label>
+        <mat-select
+          formControlName="user_type"
+          [required]="userTypeList && userTypeList.length"
+          [disabled]="loginAsUserForm.get('entity').value === 'academic' && schools?.length && !loginAsUserForm.get('school').value"
+          [disableOptionCentering]="true" panelClass="filterPanel"
+        >
+          <mat-option *ngFor="let type of userTypeList" [value]="type.value">
+            {{ 'USER_TYPES.' + type.label | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="loginAsUserForm.get('user_type').hasError('required')">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- <div class="p-col-5 no-padding p-offset-1">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'Select User Type' | translate }}</mat-label>
+        <mat-select formControlName="userType">
+          <mat-option *ngFor="let type of userTypes" [value]="type">
+            {{ 'USER_TYPES.' + type | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="loginAsUserForm.get('userType').hasError('required')">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div> -->
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="warn" class="mr-0" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button mat-button mat-raised-button color="accent" (click)="loginAsUser()" [disabled]="!loginAsUserForm.valid || isWaitingForResponse">
+    {{ 'CONNECT' | translate }}
+  </button>
+</div>

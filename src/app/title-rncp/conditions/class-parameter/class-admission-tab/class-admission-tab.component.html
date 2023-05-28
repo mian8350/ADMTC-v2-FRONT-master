@@ -1,0 +1,64 @@
+<fieldset [ngClass]="{ 'hide-element': !classForm }" class="fieldset-class" [formGroup]="admissionFormGroup">
+  <div class="yellow-border card-row">
+    <div class="align-right-button">
+      <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()" [disabled]="compareChanges() || !admissionFormGroup.valid">
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-8">
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            class="form-field"
+            formControlName="form_builder_id"
+            [matAutocomplete]="templateType"
+            placeholder="{{ 'Select Template for Admission Form' | translate }}"
+          />
+          <mat-autocomplete #templateType="matAutocomplete" [displayWith]="displayFn.bind(this)" [panelWidth]="'fit'">
+            <mat-option *ngFor="let template of templateTypeFiltered | async" [value]="template._id">
+              {{ template.form_builder_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col">
+        <mat-slide-toggle color="accent" formControlName="is_admission_due_date_enabled" (change)="toggleDueDateSlider($event)">
+          <span [ngStyle]="{ color: admissionFormGroup.get('is_admission_due_date_enabled').value ? '#fdd835' : 'white' }">
+            {{
+            (admissionFormGroup.get('is_admission_due_date_enabled').value ? 'With Due Date' : 'Without Due Date') | translate
+            }}
+          </span>
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div class="p-grid">
+      <ng-container *ngIf="admissionFormGroup.get('is_admission_due_date_enabled').value">
+        <div class="p-col-3">
+          <mat-form-field class="full-width">
+            <input
+              type="number"
+              matInput
+              class="form-field"
+              formControlName="due_date"
+              placeholder="{{ 'Due Date (in days)' | translate }}"
+              (input)="preventLeadingZero($event)"
+            />
+          </mat-form-field>
+        </div>
+        <div class="p-col-1" style="margin-top: 16px">
+          <mat-icon matTooltip="{{ 'Due date is counted on the date student in registered plus value you put in the field' | translate }}">
+            help_outline</mat-icon
+          >
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</fieldset>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

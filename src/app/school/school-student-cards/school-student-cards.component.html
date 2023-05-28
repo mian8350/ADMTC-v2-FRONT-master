@@ -1,0 +1,52 @@
+<ms-create-student-detail 
+#createStudent
+*ngIf="isAddUser"
+[schoolId]="schoolId" 
+[selectedRncpTitleId]="selectedRncpTitleId" 
+[selectedClassId]="selectedClassId"
+></ms-create-student-detail>
+
+<ms-select-title-class 
+[schoolId]="schoolId" 
+[selectedRncpTitleId]="selectedRncpTitleId" 
+[selectedClassId]="selectedClassId"
+[selectedStatusId]="selectedStatusId"
+[isStudentCardTab]="true"
+[searchStudent]="searchStudent"
+*ngIf="!isAddUser"
+(isRefresh)="triggerRefresh($event)"
+>
+</ms-select-title-class>
+
+<!-- <mat-card class="mt-1rem">
+  <mat-card-content>
+    <div class="p-grid">
+      <div class="p-col-2">
+        <mat-form-field dividerColor="accent" fxFlex="100" fxFlex.lt-md="100" style="height: 45px;font-size:14px">
+          <input
+            matInput
+            type="text"
+            placeholder="Search"
+            [(ngModel)]="searchPendingTask"
+            (keyup)="filterPendingTask($event.target.value)"
+          />
+        </mat-form-field>
+      </div>
+      <div class="p-col-6 p-col-align-center">
+        <button mat-button-sm mat-raised-button class="blue-patina-button" (click)="resetFilter()" matTooltip="{{ 'RESET' | translate }}">
+          <mat-icon svgIcon="loop"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+
+        <button mat-button mat-raised-button class="yellow-button" style="color: black !important;" (click)="onAddSchool()">
+          <mat-icon>account_balance</mat-icon> {{ 'Add Student' | translate }}
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> -->
+
+<ms-cards-list
+  *ngIf="selectedRncpTitleId && selectedRncpTitleId !== '' && selectedClassId && selectedClassId !== '' && !isAddUser && showCards"
+  [schoolId]="schoolId" [studentSelected]="studentSelected" [studentTabSelected]="studentTabSelected"
+></ms-cards-list>

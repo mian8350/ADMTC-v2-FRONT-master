@@ -1,0 +1,292 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.baseline {
+    float: left;
+  padding-right: 10px;
+  align-items: baseline;
+}
+.label-reject {
+  color: white !important;
+}
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+.justify-around {
+  text-align: center;
+  position: relative;
+  display: inline-flex;
+}
+.spinner-wrapper {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  top: 0px;
+  left: 0;
+  z-index: 998;
+  position: absolute;
+  background-color: #00000059;
+  margin: 0 auto;
+}
+
+.label-status {
+  padding: 0px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif !important;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: 0;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  text-decoration: none;
+  vertical-align: baseline;
+  transform: translate3d(0, 0, 0);
+  transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: black;
+}
+.card-status {
+  border-radius: 4px;
+  width: 175px;
+  height: 65px !important;    
+  float: left;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
+.font-status {
+  width: 140px;
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  float: left;
+  font-weight: 600;
+}
+
+.text-status {
+  font-size: 14px;
+  max-width: 140px;
+  margin: 2px auto;
+  color: #000;
+  font-weight: 700;
+}
+
+.font-status-validate {
+  width: 110px;
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  float: left;
+  font-weight: 600;
+}
+
+.text-status-validate {   
+  font-size: 14px; 
+  max-width: 95px;
+  margin: auto;
+  color: #000;
+  font-weight: 700;
+}
+.title-job {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.background-status {
+  border-radius: 10px;
+  background-color: #ffd740;
+  border-color: #353535;
+  cursor: default;
+  margin-right: 10px;
+}
+
+.background-rejected {
+  border-radius: 10px;
+  background-color: red;
+  border-color: #353535;
+  cursor: default;
+}
+
+.icon-true {
+  color: green;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 900;
+  position: relative;
+  top: 0px;
+  right: 4px;
+}
+
+.icon-false {
+  color: red;
+  text-align: center;
+  font-size: 50px;
+  position: relative;
+  font-weight: 900;
+  top: -5px;
+  right: 4px;
+}
+.red-button {
+  color: white !important;
+  background-color: red;
+}
+.yellow-button {
+  background-color: #fdd835;
+}
+
+.grey-text {
+  color: darkgray;
+}
+
+.width-eighty {
+  width: 80%;
+}
+
+.width-ninety {
+  width: 90%;
+}
+
+.width-95 {    
+  width: 95%;
+}
+
+.self-center {
+  align-self: center;
+}
+
+.white-border-center {
+  border: 2px solid whitesmoke;
+  text-align: center;
+}
+
+.white-border-start {
+  border: 2px solid whitesmoke;
+}
+
+.mission-activity {    
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.plus_button {
+  margin-top: 15px;
+  margin-right: 5px;
+  height: 250%;
+  width: 35px;
+}
+.title-header {
+  margin: 35px 0px 10px 0px;
+}
+.text-center {
+  text-align: center;
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+.margin-none {
+  margin: 0px;
+}
+.criteria-section {
+  margin: 0px 0px 0px 20px;
+}
+.criteria-section-field {
+  padding: 0px 0px 0px 0px;
+}
+.competency-section {
+  padding: 10px 0px 0px 0px;
+}
+.padding-5 {
+  padding: 5px;
+}
+.criteria-border-top {
+  border-top: none;
+}
+.criteria-border-bottom {
+  border-bottom: none;
+}
+.pad-top10 {
+  padding-top: 10px;
+}
+.pad-btn-none {
+  padding-bottom: 0px;
+}
+.pad-top-none {
+  padding-top: 0px;
+}
+.x-pad-none {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+:host ::ng-deep textarea.mat-input-element {
+  padding: 0px;
+  margin: -2px 0;
+}
+.overlow-auto {
+  overflow: auto;
+}
+.btn-sticky {
+  position: fixed;
+  top: 302px;
+  right: 120px;
+}
+.btn-sticky-save {    
+  position: fixed;
+  top: 302px;
+  right: 32px;
+}
+.mrgn-right-15 {
+  margin-right: 15px !important;
+}
+.autonomy {
+  width: 65%;
+  float: left;
+}
+.knowledges {    
+  width: 85%;
+  float: left;
+}
+.knowhow {    
+  width: 85%;
+  float: left;
+}
+.objective {
+  width: 75%;
+  float: left;
+}
+.objective-s {
+  width: 60%;
+  float: left;
+}
+.mrgn-10 {
+  margin: 10px;
+}
+.mrgn-right-none {
+  margin-right: 0px;
+}
+.height-50 {
+  max-height: 50px;
+}
+.width-objective {
+  width: 44.555% !important;
+}
+.full-width {
+  width: 100%;
+}
+.pad-left {
+  padding: 0.5em;
+}

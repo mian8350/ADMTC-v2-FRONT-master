@@ -1,0 +1,165 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon class="mt-5px">
+          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M3,15H1V3A2,2 0 0,1 3,1H19V3H3V15M12,23A1,1 0 0,1 11,22V19H7A2,2 0 0,1 5,17V7A2,2 0 0,1 7,5H21A2,2 0 0,1 23,7V17A2,2 0 0,1 21,19H16.9L13.2,22.71C13,22.89 12.76,23 12.5,23H12M9,9V11H19V9H9M9,13V15H17V13H9Z"
+            />
+          </svg>
+        </mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span>{{ 'Create and Send Employability Survey' | translate }}</span>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+  <div class="test-card-form" style="margin-bottom: 0.5rem">
+    <div class="p-grid">
+      <div style="width: 100%">
+        <form [formGroup]="SendOneTimeEmployabilitySurveyProcessForm">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding" style="width: 100%">
+              <div class="p-col-12 no-padding" style="width: 100%">
+                <mat-form-field floatLabel="never">
+                  <input matInput formControlName="name" class="form-field" placeholder="{{ 'Employability Survey Name' | translate }}"/>
+                  <mat-error *ngIf="SendOneTimeEmployabilitySurveyProcessForm.get('name').hasError('required') && (SendOneTimeEmployabilitySurveyProcessForm.get('name').dirty || SendOneTimeEmployabilitySurveyProcessForm.get('name').touched)">
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col-12 no-padding" style="width: 100%">
+                <mat-form-field floatLabel="never">
+                  <input
+                    matInput
+                    class="form-field"
+                    formControlName="form_builder_id"
+                    [matAutocomplete]="esTemplate"
+                    placeholder="{{ 'Select Employability Survey Template' | translate }}"
+                  />
+                  <mat-autocomplete #esTemplate="matAutocomplete" [displayWith]="displayFnES.bind(this)" [panelWidth]="'fit'">
+                    <mat-option *ngFor="let es of esTemplateListFilter | async" [value]="es._id">
+                      {{ es.form_builder_name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="SendOneTimeEmployabilitySurveyProcessForm.get('form_builder_id').hasError('required') && (SendOneTimeEmployabilitySurveyProcessForm.get('form_builder_id').dirty || SendOneTimeEmployabilitySurveyProcessForm.get('form_builder_id').touched)">
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col-12 no-padding">
+                <div class="p-grid">
+                  <div class="p-col-6">
+                    <span>{{ 'Send Date' | translate }} *</span>
+                    <mat-form-field
+                      style="width: 120px; height: 30px; margin-left: 10px"
+                      [ngStyle]="{
+                        'margin-bottom':
+                          SendOneTimeEmployabilitySurveyProcessForm.get('send_date').hasError('required') &&
+                          SendOneTimeEmployabilitySurveyProcessForm.get('send_date').touched
+                            ? '25px'
+                            : '0'
+                      }"
+                    >
+                      <input
+                        (click)="sendDate.open()"
+                        matInput
+                        formControlName="send_date"
+                        [matDatepicker]="sendDate"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        [min]="today"
+                        readonly
+                        required
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="sendDate" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #sendDate></mat-datepicker>
+                      <mat-error *ngIf="SendOneTimeEmployabilitySurveyProcessForm.get('send_date').hasError('required') && (SendOneTimeEmployabilitySurveyProcessForm.get('send_date').dirty || SendOneTimeEmployabilitySurveyProcessForm.get('send_date').touched)">
+                        {{ 'This field is required' | translate }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-6" style="text-align: end">
+                    <span>{{ 'Expiration Date' | translate }} *</span>
+                    <mat-form-field
+                      style="width: 120px; height: 30px; margin-left: 10px"
+                      [ngStyle]="{
+                        'margin-bottom':
+                          SendOneTimeEmployabilitySurveyProcessForm.get('expiration_date').hasError('required') &&
+                          SendOneTimeEmployabilitySurveyProcessForm.get('expiration_date').touched
+                            ? '25px'
+                            : '0'
+                      }"
+                    >
+                      <input
+                        (click)="expDate.open()"
+                        matInput
+                        [matDatepicker]="expDate"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        formControlName="expiration_date"
+                        [min]="SendOneTimeEmployabilitySurveyProcessForm.get('send_date').value"
+                        readonly
+                        required
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="expDate" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker
+                        #expDate
+                        [disabled]="!SendOneTimeEmployabilitySurveyProcessForm.get('send_date').value"
+                      ></mat-datepicker>
+                      <mat-error *ngIf="SendOneTimeEmployabilitySurveyProcessForm.get('expiration_date').hasError('required') && (SendOneTimeEmployabilitySurveyProcessForm.get('expiration_date').dirty || SendOneTimeEmployabilitySurveyProcessForm.get('expiration_date').touched)">
+                        {{ 'This field is required' | translate }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-12 no-padding pt-1">
+                <mat-slide-toggle
+                  matTooltip="{{
+                    (SendOneTimeEmployabilitySurveyProcessForm.get('is_required_for_certificate').value
+                      ? 'Employability Survey is required to be submitted before student receive a diploma'
+                      : 'Employability Survey is not required to be submitted before student receive a diploma'
+                    ) | translate
+                  }}"
+                  formControlName="is_required_for_certificate"
+                >
+                  <span>
+                    {{
+                      (SendOneTimeEmployabilitySurveyProcessForm.get('is_required_for_certificate').value
+                        ? 'Employability Survey is required to be submitted before student receive a diploma'
+                        : 'Employability Survey is not required to be submitted before student receive a diploma'
+                      ) | translate
+                    }}
+                  </span>
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="justify-content-end mr-10">
+    <button mat-raised-button color="accent" (click)="submitDialog()" [disabled]="SendOneTimeEmployabilitySurveyProcessForm.invalid">
+      {{ 'Submit' | translate }}
+    </button>
+    <button mat-raised-button mat-dialog-close color="warn" (click)="closeDialog()">
+      {{ 'CANCEL' | translate }}
+    </button>
+  </div>
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+</div>

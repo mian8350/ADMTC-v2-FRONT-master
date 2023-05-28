@@ -1,0 +1,73 @@
+.dialogTitle {
+  display: inline-block;
+}
+
+.blockSelected {
+  background-color: #ffd740; 
+  padding: 5px 8px; 
+  border-radius: 5px;
+}
+
+.blockNotSelected {
+  background-color: rgb(107, 107, 107); 
+  padding: 5px 8px; 
+  border-radius: 5px;
+  color: white
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+.dialog-border-light {
+  border-bottom: 1px solid #c9c0c0;
+}
+.no-padding {
+  padding: 0px;
+}
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 65px;
+}
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+
+.flex {
+  display: flex;
+}
+
+.setup-info-key {
+  min-width: 60px;
+}
+
+.setup-info-value {
+  margin-left: 1rem;
+}
+
+.mx-05 {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+}
+
+span > p {
+  margin: 0 !important;
+}
+
+.mat-checkbox-layout,
+.mat-checkbox-label,
+span {
+  white-space: pre-line !important;
+}

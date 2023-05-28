@@ -1,0 +1,261 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.form-field {
+  margin-top: 6px;
+}
+
+::ng-deep .no-padding-dialog  {
+  mat-dialog-container {
+    padding: 0;
+  }
+}
+::ng-deep .cdk-overlay-pane:has(.mat-select-panel-wrap) {
+  transform: translateX(-1rem) translateY(1.5rem) !important;
+}
+
+.table-action-header {
+  padding: .25rem;
+  text-align: right;
+  background-color: $medium-grey;
+}
+.full-border-blue {
+  border: solid 4px $dark-blue;
+}
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+:host ::ng-deep table {
+  border-collapse: separate !important;
+  tr {
+    td {
+      border-right: 1px solid $grey;
+      padding-left: 0.5rem !important;
+      &:nth-child(1) {
+        width: 30px;
+        min-width: 30px;
+        padding-left: 0px !important;
+        text-align: center;
+      }
+
+      &:nth-child(2) {
+        min-width: 100px;
+        width: 15%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(3) {
+        min-width: 150px;
+        width: 15%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(4) {
+        min-width: 100px;
+        width: 15%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(n + 5) {
+        min-width: 60px;
+        max-width: 60px;
+        text-align: center !important;
+        padding-left: 0px !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-last-child(2) {
+        min-width: 50px;
+        max-width: 50px;
+        border-right-width: 0px;
+      }
+
+      &:nth-last-child(1) {
+        min-width: 150px;
+        min-width: 150px;
+        text-align: center !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        border-left: solid 1px $grey;
+        border-right-width: 0px;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.5rem !important;
+      padding-top: 0.5rem;
+      &:nth-child(1) {
+        width: 4%;
+        padding-left: 0px !important;
+        text-align: center;
+      }
+
+      &:nth-child(2) {
+        min-width: 100px;
+        width: 15%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 15%;
+        min-width: 150px;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 15%;
+        min-width: 100px;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(n + 5) {
+        min-width: 60px;
+        text-align: center !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-last-child(2) {
+        border-right-width: 0px;
+      }
+
+      &:nth-last-child(1) {
+        border-left: solid 1px $grey;
+        border-right-width: 0px;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(1) {
+      height: 35px;
+      border-top: 0px;
+    }
+    &:nth-child(1),
+    &:nth-child(2) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  tbody tr:last-child {
+    border-bottom: 0px;
+  }
+}
+
+.action-header-column {
+  text-align: right !important;
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.red {
+  cursor: default;
+  color: #ff4040;
+}
+.green {
+  cursor: default;
+  color:green;
+}
+
+.greenYellow {
+  cursor: default;
+  color: greenyellow;
+}
+
+.orange {
+  cursor: default;
+  color: orange;
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.left-rl {
+  float: left !important;
+}
+.icon-certifier {
+  width: 17px !important
+}
+i.fa.fa-circle {
+  margin: 0px;
+}

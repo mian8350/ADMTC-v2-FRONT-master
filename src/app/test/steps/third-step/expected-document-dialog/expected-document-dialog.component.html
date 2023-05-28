@@ -1,0 +1,299 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="text-box-plus"></mat-icon>
+  <h2 *ngIf="data && data.type && data.type === 'edit'; else addDocument" class="header-text">
+    {{ 'TEST.EDITDOCUMENT' | translate }}
+  </h2>
+  <ng-template #addDocument>
+    <h2 class="header-text">{{ 'TEST.ADDDOCUMENT' | translate }}</h2>
+  </ng-template>
+  <button mat-icon-button type="button" (click)="cancelNewExpectedDoc()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+<form [formGroup]="expectedForm" style="padding: 18px; color: black;">
+  <div fxLayout="row wrap" fxLayoutAlign="start center">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" style="margin-top: 3px;" style="width: 100% !important;">
+          <input matInput [placeholder]="'DOCUMENT.NAME' | translate" formControlName="document_name" (keyup)="inputName($event)" required type="text" />
+          <mat-error *ngIf="expectedForm.get('document_name').hasError('required')&&
+                                            (expectedForm.get('document_name').dirty ||
+                                             expectedForm.get('document_name').touched)">{{'This field is required'|translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" style="align-items: baseline;">
+    <div fxFlex="50">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-select
+            (selectionChange)="studentCheck($event)"
+            color="accent"
+            [placeholder]="'TEST.CALENDAR.WHO' | translate"
+            formControlName="document_user_type"
+            style="margin-bottom: -1.4em;"
+            [disableOptionCentering]="true"
+          panelClass="filterPanel custom-matselect-dropdown"
+          >
+            <mat-option *ngIf="loadingUserType" class="is-loading">
+              <mat-spinner diameter="20"></mat-spinner>
+            </mat-option>
+            <ng-container *ngIf="!loadingUserType">
+              <mat-option *ngFor="let cType of userTypePC" [value]="cType._id">
+                {{ 'USER_TYPES.' + cType.name | translate }}
+              </mat-option>
+            </ng-container>
+            
+          </mat-select>
+          <mat-error *ngIf="expectedForm.get('document_user_type').hasError('required')&&
+                                            (expectedForm.get('document_user_type').dirty ||
+                                             expectedForm.get('document_user_type').touched)">{{'This field is required'|translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field style="width: 90%; margin-top: 3px;">
+        <mat-label> {{'ACAD_KIT.DOC.Document Type'|translate}}</mat-label>
+        <mat-select formControlName="file_type" required [disableOptionCentering]="true"
+        panelClass="filterPanel custom-matselect-dropdown">
+          <mat-option *ngFor="let fileType of fileTypes" [value]="fileType.value">
+            {{ 'ACAD_KIT.DOC.' + fileType.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="expectedForm.get('file_type').hasError('required')
+                                                     && (expectedForm.get('file_type').dirty
+                                                     || expectedForm.get('file_type').touched)">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50" style="margin-top: 15px;" *ngIf="
+      expectedForm.get('document_user_type').value 
+      && expectedForm.get('document_user_type').value !== certifierAdminId
+      && expectedForm.get('document_user_type').value !== studentId"
+    >
+      <div *ngIf="!test?.group_test" class="px-1 select-input-container">
+        <mat-checkbox formControlName="is_for_all_student">
+          <div class="space-text">{{ 'DOCUMENT.FOREACHSTUDENT' | translate }}</div>
+        </mat-checkbox>
+      </div>
+      <div *ngIf="test?.group_test" class="px-1 select-input-container">
+        <mat-checkbox formControlName="is_for_all_group">
+          <div class="space-text">{{ 'DOCUMENT.FOREACHGROUP' | translate }}</div>
+        </mat-checkbox>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-fixed" style="min-width: 175px; align-self: center; padding-left: 0px;">
+      <div class="px-1 p-0-6">
+        <mat-slide-toggle
+          [formControl]="sliderRelative"
+          style="margin-top: 0.5rem;"
+          labelPosition="before"
+          (change)="changeValidators()"
+          [disabled]="isAutoProMultipleDateTest"
+        >
+          {{ 'TEST.RELATIVEDATE' | translate }}
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="p-col" *ngIf="!relativeDate">
+      <div formGroupName="deadline_date" class="p-grid p-0-6">
+        <div formGroupName="deadline" class="p-col-6">
+          <mat-form-field dividerColor="accent" style="margin-top: 4px; margin-bottom: -1.4em;">
+            <input
+              matInput
+              [min]="today"
+              formControlName="date"
+              [matDatepicker]="pubDatePicker"
+              (click)="pubDatePicker.open()"
+              (dateInput)="datePicked()"
+              [placeholder]="'TEST.CALENDAR.WHEN' | translate"
+              type="text"
+              date
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="pubDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #pubDatePicker></mat-datepicker>
+            <mat-error *ngIf="expectedForm.get('deadline_date').get('deadline').get('date').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('deadline').get('date').dirty ||
+                                             expectedForm.get('deadline_date').get('deadline').get('date').touched)">{{'This field is required'|translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div #testTimeDiv formGroupName="deadline" class="p-col-6">
+          <mat-form-field style="width: 75px; margin-top: 4px; margin-bottom: -1.4em;">
+            <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time" />
+            <ngx-material-timepicker-toggle matSuffix [for]="time_utc">
+              <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                <path
+                  fill="#757575"
+                  d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                />
+              </svg>
+            </ngx-material-timepicker-toggle>
+            <mat-error *ngIf="expectedForm.get('deadline_date').get('deadline').get('time').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('deadline').get('time').dirty ||
+                                             expectedForm.get('deadline_date').get('deadline').get('time').touched)">{{'This field is required'|translate}}</mat-error>
+          </mat-form-field>
+          <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col" *ngIf="relativeDate" style="align-self: flex-end; padding-bottom: 0px;">
+      <div class="p-grid" formGroupName="deadline_date">
+        <div class="p-col-9 padx-none vertical-center">
+          <mat-radio-group formControlName="before" class="pb-1">
+            <mat-radio-button [value]="true">{{ 'BEFORE' | translate }} {{ 'TEST.AUTOTASK.MARK ENTRY' | translate }}</mat-radio-button>
+            <mat-radio-button [value]="false">{{ 'AFTER' | translate }} {{ 'TEST.AUTOTASK.MARK ENTRY' | translate }}</mat-radio-button>
+            <mat-error *ngIf="expectedForm.get('deadline_date').get('before').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('before').dirty ||
+                                             expectedForm.get('deadline_date').get('before').touched)">{{'This field is required'|translate}}</mat-error>
+          </mat-radio-group>
+        </div>
+        <div class="p-col-3">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              (keyup)="checkNumberOfDays($event)"
+              formControlName="day"
+              [placeholder]="'TEST.NUMBEROFDAYS' | translate"
+              type="number"
+              min="0"
+            />
+            <mat-icon matSuffix>calendar_today</mat-icon>
+            <mat-error *ngIf="expectedForm.get('deadline_date').get('day').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('day').dirty ||
+                                             expectedForm.get('deadline_date').get('day').touched)">{{'This field is required'|translate}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div fxLayout="row" fxLayoutAlign="start center">
+    <div [fxFlex]="relativeDate ? 30 : 50" class="pt-1 p-1-8" fxLayoutAlign="start center">
+      <div class="px-1 p-0-6">
+        <mat-slide-toggle [formControl]="sliderRelative" style="margin-top: 0.5rem" labelPosition="before" (change)="changeValidators()">
+          {{'TEST.RELATIVEDATE' | translate}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div [fxFlex]="relativeDate ? 30 : 0" *ngIf="relativeDate" class="pt-1 p-1-8" style="margin-top: 1rem;" formGroupName="deadline_date">
+      <mat-radio-group formControlName="before" class="p-0-6">
+        <mat-radio-button [value]="true">{{'BEFORE' | translate}}</mat-radio-button>
+        <mat-radio-button [value]="false">{{'AFTER' | translate}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div fxFlex style="margin-top: 1rem; padding-top: 8px">
+      <div fxFlex="row" *ngIf="relativeDate" style="display: inline-flex; float: right; margin-top:4px; margin-bottom: -1.4em" formGroupName="deadline_date">
+        <input matInput (change)="checkNumberOfDays($event)" formControlName="day" [placeholder]="'TEST.NUMBEROFDAYS' | translate"
+        type="number" />
+          <mat-icon>calendar_today</mat-icon>
+      </div>
+      <ng-container *ngIf="!relativeDate">
+        <div formGroupName="deadline_date" fxFlex="row" class="p-0-6">
+          <div [fxFlex]="50" formGroupName="deadline">
+            <mat-form-field dividerColor="accent" style="margin-top:4px; margin-bottom: -1.4em">
+              <input matInput [min]="today" formControlName="date" [matDatepicker]="pubDatePicker" [placeholder]="'TEST.CALENDAR.WHEN'|translate"
+              type="text" date>
+              <mat-datepicker-toggle matSuffix [for]="pubDatePicker"></mat-datepicker-toggle>
+            </mat-form-field>
+            <mat-datepicker #pubDatePicker></mat-datepicker>
+          </div>
+          <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="10" formGroupName="deadline">
+            <mat-form-field style="width: 75px; margin-top:4px; margin-bottom: -1.4em">
+              <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time" />
+              <ngx-material-timepicker-toggle matSuffix [for]="time_utc">
+                <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                  <path
+                    fill="#757575"
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+            </mat-form-field>
+            <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div> -->
+
+  <!-- <div fxLayout="row" fxLayoutAlign="start center">
+    <div [fxFlex]="relativeDate ? 30 : 50" class="pt-1 p-1-8" fxLayoutAlign="start center">
+      <div class="px-1 p-0-6">
+        <mat-slide-toggle [formControl]="sliderRelative" style="margin-top: 0.5rem" labelPosition="before" (change)="changeValidators()">
+          {{'TEST.RELATIVEDATE' | translate}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+    <div [fxFlex]="relativeDate ? 30 : 0" *ngIf="relativeDate" class="pt-1 p-1-8" style="margin-top: 1rem;" formGroupName="deadline_date">
+      <mat-radio-group formControlName="before" class="p-0-6">
+        <mat-radio-button [value]="true">{{'BEFORE' | translate}}</mat-radio-button>
+        <mat-radio-button [value]="false">{{'AFTER' | translate}}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div fxFlex style="margin-top: 1rem; padding-top: 8px">
+      <div fxFlex="row" *ngIf="relativeDate" style="display: inline-flex; float: right; margin-top:4px; margin-bottom: -1.4em" formGroupName="deadline_date">
+        <input matInput (change)="checkNumberOfDays($event)" formControlName="day" [placeholder]="'TEST.NUMBEROFDAYS' | translate"
+        type="number" />
+          <mat-icon>calendar_today</mat-icon>
+      </div>
+      <ng-container *ngIf="!relativeDate">
+        <div formGroupName="deadline_date" fxFlex="row" class="p-0-6">
+          <div [fxFlex]="50" formGroupName="deadline">
+            <mat-form-field dividerColor="accent" style="margin-top:4px; margin-bottom: -1.4em">
+              <input matInput [min]="today" formControlName="date" [matDatepicker]="pubDatePicker" [placeholder]="'TEST.CALENDAR.WHEN'|translate"
+              type="text" date>
+              <mat-datepicker-toggle matSuffix [for]="pubDatePicker"></mat-datepicker-toggle>
+            </mat-form-field>
+            <mat-datepicker #pubDatePicker></mat-datepicker>
+          </div>
+          <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="10" formGroupName="deadline">
+            <mat-form-field style="width: 75px; margin-top:4px; margin-bottom: -1.4em">
+              <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time" />
+              <ngx-material-timepicker-toggle matSuffix [for]="time_utc">
+                <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                  <path
+                    fill="#757575"
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+            </mat-form-field>
+            <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div> -->
+</form>
+<hr [ngClass]="{'mrgn-t-md':(expectedForm.get('deadline_date').get('deadline').get('time').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('deadline').get('time').dirty ||
+                                             expectedForm.get('deadline_date').get('deadline').get('time').touched))
+                                             ||(expectedForm.get('deadline_date').get('deadline').get('date').hasError('required')&&
+                                            (expectedForm.get('deadline_date').get('deadline').get('date').dirty ||
+                                             expectedForm.get('deadline_date').get('deadline').get('date').touched))}"/>
+
+<div class="pb-1 pt-1" fxLayout="row" fxLayoutAlign="end center" style="border-top: 1px solid black;">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="cancelNewExpectedDoc()">
+      <mat-icon>delete</mat-icon>
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="!expectedForm.valid || this.expectedForm.get('document_name').value === ''" (click)="passExpectedFormData()" type="button">
+      <mat-icon>save</mat-icon>
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+</div>

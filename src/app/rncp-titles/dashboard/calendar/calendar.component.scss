@@ -1,0 +1,153 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        padding-left: 0.5rem !important;
+        width: 9rem;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(2) {
+        padding-left: 0.5rem !important;
+        width: 9rem;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(3) {
+        padding-left: 0.5rem !important;
+        width: auto;
+        .mat-form-field {
+          width: 95%;
+        }
+      }
+
+      // &:nth-child(4) {
+      //   padding-left: 0.5rem !important;
+      //   width: 15%;
+      //   .mat-form-field {
+      //     width: 90%;
+      //   }
+      // }
+      &:nth-child(4) {
+        padding-left: 0.5rem !important;
+        width: 15%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(5) {
+        width: 6rem;
+        min-width: 50px;
+        padding-right: 0 !important;
+        text-align: center;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+
+.btnReset {
+  background-color: $dark-blue;
+  color: $white !important;
+  height: max-content;
+  margin-top: 12px;
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.btnCalendar {
+  background-color: $dark-yellow !important;
+  color: $black !important;
+  min-width: 7em;
+  height: 2.8em;
+  font-size: 1.2em;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+.header-style {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.width {
+  width: 95%;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.btn-calendar {
+  font-size: 12px !important;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.some-radius {
+  overflow: hidden;
+  border-radius: 4px;
+}

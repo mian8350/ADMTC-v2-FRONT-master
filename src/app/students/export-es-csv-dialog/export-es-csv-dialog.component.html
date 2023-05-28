@@ -1,0 +1,60 @@
+<div class="fontColor">
+    <a class="close_icon">
+        <i class="material-icons icon-style" (click)="cancelDelete()">close</i>
+    </a>
+    <h1 mat-dialog-title>
+      <mat-icon class="icon-styling">list</mat-icon> <span class="alignment">{{ 'Export_S1.EXPORTCSVTITLE' | translate }}</span>
+    </h1>
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+      <form  [formGroup]="form">
+    <mat-form-field>
+      <mat-select placeholder="{{ 'Select RNCP Title' | translate }}" [(ngModel)]="titleID" (selectionChange)="titleSelected(titleID)" formControlName="rncpTitleList">
+        <!-- <mat-option *ngFor="let title of rncpTitleList" [value]="title.id">{{ title.shortname }}</mat-option> -->
+        <mat-option *ngFor="let title of titleList" [value]="title._id">
+          {{ title.short_name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('rncpTitleList').hasError('required')&&
+                                            (form.get('rncpTitleList').dirty ||
+                                             form.get('rncpTitleList').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="{{ 'Export_S1.SELECTCLASS' | translate }}" [(ngModel)]="classID" (selectionChange)="classSelected(classID)"formControlName="classes">
+        <mat-option *ngFor="let class of classes" [value]="class.id">{{ class.class }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('classes').hasError('required')&&
+                                            (form.get('classes').dirty ||
+                                             form.get('classes').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="{{ 'Export_S1.SELECTSCHOLARSEASON' | translate }}" [(ngModel)]="seasonID" (selectionChange)="seasonSelected(seasonID)"formControlName="scholarSeason">
+        <mat-option *ngFor="let season of scholarSeason" [value]="season.id">{{ season.season }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('scholarSeason').hasError('required')&&
+                                            (form.get('scholarSeason').dirty ||
+                                             form.get('scholarSeason').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="{{ 'Export_S1.ALLSCHOOLS' | translate }}" [(ngModel)]="schoolID" (selectionChange)="schoolSelected(schoolID)"formControlName="schools">
+        <mat-option *ngFor="let school of schools" [value]="school.id">{{ school.name }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('schools').hasError('required')&&
+                                            (form.get('schools').dirty ||
+                                             form.get('schools').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="{{ 'Export_S1.SELECTQUESTIONNAIRE' | translate }}" formControlName="questionnaire">
+        <mat-option *ngFor="let question of questionnaire" [value]="question._id">{{ question.questionnaireName }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('questionnaire').hasError('required')&&
+                                            (form.get('questionnaire').dirty ||
+                                             form.get('questionnaire').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+</form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+    <button mat-button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="!form.valid" (click)="downloadCSV()"> {{ 'ENTER' | translate }}</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,109 @@
+.parameter-boxes {
+  margin: 1vw auto;
+  padding: 0.5vw;
+}
+
+.yellow-boxes-container {
+  max-height: 78vh;
+  overflow-y: scroll;
+}
+
+.select-label {
+  font-size: 10px;
+  color: lightgrey;
+}
+
+.label-error {
+  font-size: 75%;
+  color: #ff5722;
+}
+
+.action-button-container,
+.leave {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  div {
+    width: fit-content;
+  }
+}
+
+#add-task-button {
+  width: fit-content;
+  text-align: left;
+  margin-top: 0.5em;
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.ng-select.options-d-5 .scroll-host {
+  max-height: 196px;
+}
+:host::ng-deep.ng-select.ng-touched.ng-invalid .ng-select-container {
+  color: #ff5722;
+  border-bottom: 1px solid #ff5722 !important;
+}
+:host::ng-deep.ng-select.ng-touched.ng-invalid .ng-value-container .ng-placeholder {
+  color: #ff5722;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select {
+  padding-top: 3px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  padding-left: 0px !important;
+  width: 100%;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  font-size: 14px !important;
+}
+.ng-select-custom-header {
+  cursor: pointer;
+}
+:host::ng-deep.ng-select .ng-dropdown-panel {
+  text-align: left !important;
+  font-size: 15px !important;
+}
+.preview-position {
+  margin-top: 30px;
+}
+.added-task-list {
+  & .visib {
+    padding: 15px;
+  }
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  background-color: white;
+  color: black;
+}

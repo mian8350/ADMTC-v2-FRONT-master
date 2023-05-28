@@ -1,0 +1,1686 @@
+<div class="p-grid row-margin" style="margin: 0px !important">
+  <div class="p-col-12 align-left" style="padding-top: 0px; padding-left: 0px"></div>
+</div>
+
+<mat-card
+  *ngIf="secondStepForm"
+  [formGroup]="secondStepForm"
+  style="margin-top: 10px; margin-right: 10px; margin-left: 0px; padding-right: 0px; padding-left: 0px; box-shadow: none"
+>
+  <div class="p-grid create-test-header-button">
+    <button
+      mat-raised-button
+      *ngIf="!formData?.is_published"
+      color="accent"
+      [disabled]="testProgress && testProgress.is_mark_entry_done"
+      (click)="openDuplicateDialog()"
+    >
+      <mat-icon class="mat-icon-default">content_copy</mat-icon>
+      {{ 'TEST.DUPLICATETEST' | translate }}
+    </button>
+    <button mat-raised-button color="accent" (click)="saveTest()" [disabled]="secondStepForm?.invalid || isWaitingForResponse">
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'TEST.SAVE' | translate }}
+    </button>
+  </div>
+
+  <ng-container formGroupName="correction_grid">
+    <!-- toggle potrait or landscape -->
+    <mat-card-title>
+      <div class="justify-content-end" style="margin-right: 13px">
+        <mat-slide-toggle
+          style="font-size: 14px"
+          labelPosition="before"
+          [checked]="secondStepForm?.get('correction_grid')?.get('orientation')?.value === 'landscape'"
+          (change)="toggleOrientation($event)"
+          [disabled]="formData?.date_type === 'multiple_date' && formData?.multiple_dates?.length > 2"
+          matTooltip="{{ 'TEST.To fully display all the column of mark the orientation is set as landscape.' | translate }}"
+          [matTooltipDisabled]="!(formData?.date_type === 'multiple_date' && formData?.multiple_dates?.length > 2)"
+        >
+          {{ 'TEST.LANDSCAPE' | translate }}
+        </mat-slide-toggle>
+      </div>
+    </mat-card-title>
+    <hr />
+
+    <!-- heading, notation, penalties/bonus, and footer tabs -->
+    <mat-card-content>
+      <mat-tab-group mat-stretch-tabs>
+        <!-- header tab -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>vertical_align_top</mat-icon>
+            {{ 'TEST.HEADING' | translate }}
+            <mat-icon class="middle red-text" *ngIf="!headerFieldForm.valid && !(testProgress && testProgress.is_mark_entry_done)"
+              >priority_high</mat-icon
+            >
+          </ng-template>
+          <div class="pt-2">
+            <fieldset class="yellow-border">
+              <legend>{{ 'TEST.HEADING' | translate }}</legend>
+              <ng-container formGroupName="header">
+                <mat-card class="background-primary">
+                  <mat-card-header class="pb-1 px-1">
+                    <mat-card-title class="m-0">{{ 'TEST.HEADER' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-divider></mat-divider>
+                  <mat-card-content class="pt-1">
+                    <div class="p-grid">
+                      <div class="p-col-12 text-justify" style="width: 99% !important">
+                        <ckeditor
+                          [config]="{
+                            toolbar: [
+                              'heading',
+                              '|',
+                              'fontSize',
+                              'fontFamily',
+                              'fontColor',
+                              'fontBackgroundColor',
+                              '|',
+                              'bold',
+                              'italic',
+                              'underline',
+                              'strikethrough',
+                              '|',
+                              'alignment',
+                              '|',
+                              'numberedList',
+                              'bulletedList',
+                              'todoList',
+                              '|',
+                              'indent',
+                              'outdent',
+                              '|',
+                              'link',
+                              'blockQuote',
+                              'imageUpload',
+                              'insertTable',
+                              'horizontalLine',
+                              'pageBreak',
+                              '|',
+                              'undo',
+                              'redo'
+                            ],
+                            link: {
+                              addTargetToExternalLinks: true
+                            },
+                            table: {
+                              contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+                            }
+                          }"
+                          [editor]="Editor"
+                          formControlName="text"
+                          (ready)="onReady($event)"
+                        >
+                        </ckeditor>
+                      </div>
+                      <!-- <div class="p-col-10 px-1 text-justify">
+                        <label class="mr-1">
+                          {{
+                            !secondStepForm?.get('correction_grid')?.get('header')?.get('text')?.value
+                              ? ('Text' | translate)
+                              : getFullTextFromHtml(secondStepForm?.get('correction_grid')?.get('header')?.get('text')?.value)
+                          }}
+                        </label>
+                        <button 
+                          *ngIf="!secondStepForm?.get('correction_grid')?.get('header')?.get('text')?.value"
+                          mat-mini-fab
+                          color="accent" 
+                          type="button" 
+                          (click)="addHeaderText()"
+                          [disabled]="(testProgress && testProgress.is_mark_entry_done)"
+                        >
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="p-col-2 text-right" *ngIf="secondStepForm?.get('correction_grid')?.get('header')?.get('text')?.value">
+                        <button 
+                          mat-mini-fab
+                          color="accent" 
+                          type="button" 
+                          (click)="addHeaderText()"
+                          [disabled]="(testProgress && testProgress.is_mark_entry_done)"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div> -->
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+                <!-- header fields section -->
+                <mat-card class="background-primary mt-1" formArrayName="fields">
+                  <mat-card-header class="pb-1 px-1 justify-content-between">
+                    <mat-card-title class="m-0">{{ 'TEST.HEADERFIELDS' | translate }}</mat-card-title>
+                    <button
+                      color="accent"
+                      mat-raised-button
+                      type="button"
+                      (click)="addHeaderFieldForm()"
+                      [disabled]="testProgress && testProgress.is_mark_entry_done"
+                    >
+                      <mat-icon class="mat-icon-default">add</mat-icon>
+                      {{ 'ADD' | translate }}
+                    </button>
+                  </mat-card-header>
+                  <mat-divider></mat-divider>
+                  <mat-card-content class="pt-1" *ngIf="headerFieldForm?.length">
+                    <div *ngFor="let field of headerFieldForm.controls; let i = index" [formGroupName]="i">
+                      <div class="p-grid">
+                        <div class="p-col-1 vertical-align-center justify-content-center px-0">
+                          <button
+                            mat-icon-button
+                            mat-button-sm
+                            type="button"
+                            color="warn"
+                            (click)="removeHeaderFieldForm(i)"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                          <!-- <button
+                            mat-icon-button
+                            mat-button-sm
+                            *ngIf="field.get('isEditMode').value"
+                            type="button"
+                            (click)="toggleHeaderEditMode(i, false)"
+                            class="greenyellow-text"
+                          >
+                            <mat-icon>check_circle</mat-icon>
+                          </button> -->
+                          <button
+                            mat-icon-button
+                            mat-button-sm
+                            *ngIf="!field.get('isEditMode').value"
+                            type="button"
+                            (click)="toggleHeaderEditMode(i, true)"
+                            color="accent"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        </div>
+                        <ng-container *ngIf="field.get('isEditMode').value">
+                          <div class="p-col-4">
+                            <mat-form-field class="full-width" color="accent">
+                              <input
+                                matInput
+                                [placeholder]="'FIELDTEXT' | translate"
+                                type="text"
+                                formControlName="value"
+                                required
+                                [readonly]="testProgress && testProgress.is_mark_entry_done"
+                              />
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="p-col-3">
+                            <mat-form-field class="full-width" color="accent">
+                              <mat-label>{{ 'FIELDTYPE' | translate }}</mat-label>
+                              <mat-select color="accent" formControlName="type" required>
+                                <ng-container *ngFor="let hfType of headerFooterFieldTypes">
+                                  <mat-option
+                                    class="color-default"
+                                    *ngIf="!isHeaderAlreadyExist(hfType?.type, i)"
+                                    [value]="hfType?.type"
+                                    (click)="setHeaderDataType(i, hfType)"
+                                  >
+                                    {{ 'TEST.FIELDTYPES.' + hfType?.view | translate }}
+                                  </mat-option>
+                                </ng-container>
+                              </mat-select>
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="p-col-3">
+                            <mat-form-field class="full-width" color="accent">
+                              <mat-label>{{ 'ALIGNMENT' | translate }}</mat-label>
+                              <mat-select color="accent" formControlName="align" required>
+                                <mat-option class="color-default" *ngFor="let alignment of alignments" [value]="alignment?.value">
+                                  {{ alignment?.label | translate }}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+                        <div *ngIf="!field.get('isEditMode').value" class="p-col-11 vertical-center">
+                          {{ field.get('value').value }} - {{ field.get('align').value.toUpperCase() | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <!-- For Long Directives -->
+                <mat-card class="background-primary mt-1">
+                  <mat-card-header class="pb-1 px-1">
+                    <mat-card-title class="m-0">{{ 'TEST.DIRECTIVES_LONG' | translate }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-divider></mat-divider>
+                  <mat-card-content class="pt-1">
+                    <div class="p-grid">
+                      <div class="p-col-12 text-justify" style="width: 99% !important">
+                        <ckeditor
+                          [config]="{
+                            toolbar: [
+                              'heading',
+                              '|',
+                              'fontSize',
+                              'fontFamily',
+                              'fontColor',
+                              'fontBackgroundColor',
+                              '|',
+                              'bold',
+                              'italic',
+                              'underline',
+                              'strikethrough',
+                              '|',
+                              'alignment',
+                              '|',
+                              'numberedList',
+                              'bulletedList',
+                              'todoList',
+                              '|',
+                              'indent',
+                              'outdent',
+                              '|',
+                              'link',
+                              'blockQuote',
+                              'imageUpload',
+                              'insertTable',
+                              'horizontalLine',
+                              'pageBreak',
+                              '|',
+                              'undo',
+                              'redo'
+                            ],
+                            link: {
+                              addTargetToExternalLinks: true
+                            },
+                            table: {
+                              contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+                            }
+                          }"
+                          [editor]="Editor"
+                          formControlName="directive_long"
+                          (ready)="onReady($event)"
+                        >
+                        </ckeditor>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+              <!-- group detail section -->
+              <mat-card *ngIf="formData?.group_test" formGroupName="group_detail" class="background-primary mt-1">
+                <mat-card-header class="pb-1">
+                  <mat-card-title class="m-0">{{ 'TEST.GROUPDETAILS' | translate }}</mat-card-title>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="pt-1">
+                  <div class="p-grid">
+                    <div class="p-col-6">
+                      <mat-form-field class="full-width">
+                        <input matInput type="text" [placeholder]="'TEST.TITLETEXT' | translate" formControlName="header_text" />
+                      </mat-form-field>
+                    </div>
+                    <div class="p-col-6">
+                      <mat-form-field class="full-width">
+                        <input matInput type="number" [placeholder]="'TEST.NOOFSTUDENTS' | translate" formControlName="no_of_student" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </fieldset>
+          </div>
+        </mat-tab>
+
+        <!-- notation tab -->
+        <mat-tab formGroupName="correction">
+          <ng-template mat-tab-label>
+            <mat-icon>format_line_spacing</mat-icon>
+            {{ 'TEST.NOTATION' | translate }}
+            <mat-icon class="middle red-text" *ngIf="!sectionForm.valid && !(testProgress && testProgress.is_mark_entry_done)"
+              >priority_high</mat-icon
+            >
+          </ng-template>
+          <div class="pt-2">
+            <fieldset class="yellow-border">
+              <legend>{{ 'TEST.NOTATION' | translate }}</legend>
+              <div fxLayout="row wrap" fxLayoutAlign="end">
+                <button mat-raised-button type="button" color="primary" (click)="showOptions = !showOptions">
+                  {{ showOptions ? ('TEST.HIDEOPTIONS' | translate) : ('TEST.SHOWOPTIONS' | translate) }}
+                  <mat-icon class="mat-icon-default">{{ showOptions ? 'arrow_drop_up' : 'arrow_drop_down' }}</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  color="accent"
+                  (click)="addSectionForm(!this.correctionForm.get('show_number_marks_column').value)"
+                  [disabled]="testProgress && testProgress.is_mark_entry_done"
+                  *ngIf="blockType !== 'competence' && blockType !== 'soft_skill'"
+                >
+                  <mat-icon class="mat-icon-default">add</mat-icon>
+                  {{ 'TEST.ADDSECTION' | translate }}
+                </button>
+              </div>
+              <!-- notation option section -->
+              <div *ngIf="showOptions" fxLayout="row wrap">
+                <div fxFlex>
+                  <mat-card class="background-primary" style="margin-left: 0px; margin-right: 5px">
+                    <mat-card-content *ngIf="showOptions">
+                      <div fxLayout="row wrap" class="py-1">
+                        <div fxFlex>
+                          <div class="px-1">
+                            <div fxLayout="row wrap" fxLayoutAlign="start center">
+                              <span>{{ 'VIEW' | translate }} 1</span>
+                              <mat-slide-toggle class="mx-1" color="accent" formControlName="show_as_list"> </mat-slide-toggle>
+                              <span>{{ 'VIEW' | translate }} 2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div fxFlex>
+                          <div class="px-1">
+                            <mat-checkbox class="mt-1" *ngIf="isNotationView2" color="accent" formControlName="show_notation_marks">
+                              {{ 'TEST.SHOWNOTATIONMARKS' | translate }}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                      <ng-container *ngIf="!isNotationView2">
+                        <div fxLayout="row wrap" class="py-1">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_direction_column">
+                                {{ 'TEST.DIRECTIONSCOLUMN' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1" [ngStyle]="{ display: correctionForm.get('show_direction_column').value ? 'block' : 'none' }">
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  [required]="correctionForm.get('show_direction_column').value"
+                                  formControlName="directions_column_header"
+                                  [placeholder]="'TEST.DIRECTIONSHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1" *ngIf="this.formData.type !== 'academic_recommendation'">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_number_marks_column" (change)="toggleNumberMark($event)">
+                                {{ 'TEST.NUMBERMARKSCOLUMN' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div
+                              class="px-1"
+                              [ngStyle]="{ display: correctionForm.get('show_number_marks_column').value ? 'block' : 'none' }"
+                            >
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  [required]="correctionForm.get('show_number_marks_column').value"
+                                  formControlName="number_marks_column_header"
+                                  [placeholder]="'TEST.COLUMNHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1" *ngIf="this.formData.type !== 'academic_recommendation'">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_letter_marks_column" (change)="toggleLetterMark($event)">
+                                {{ 'TEST.LETTERMARKSCOLUMN' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div
+                              class="px-1"
+                              [ngStyle]="{ display: correctionForm.get('show_letter_marks_column').value ? 'block' : 'none' }"
+                            >
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  [required]="correctionForm.get('show_letter_marks_column').value"
+                                  formControlName="letter_marks_column_header"
+                                  [placeholder]="'TEST.COLUMNHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1" *ngIf="this.formData.type !== 'academic_recommendation'">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_phrase_marks_column" (change)="togglePhraseMark($event)">
+                                {{ 'TEST.PHRASEMARKSCOLUMN' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div
+                              class="px-1"
+                              [ngStyle]="{ display: correctionForm.get('show_phrase_marks_column').value ? 'block' : 'none' }"
+                            >
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  [required]="correctionForm.get('show_phrase_marks_column').value"
+                                  formControlName="phrase_marks_column_header"
+                                  [placeholder]="'TEST.COLUMNHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                      </ng-container>
+                      <div fxLayout="row wrap" class="py-1">
+                        <div fxFlex fxFlex="100">
+                          <div class="px-1">
+                            <mat-checkbox color="accent" formControlName="comment_for_each_section">
+                              {{ isNotationView2 ? ('TEST.SECTION_COMMENTS' | translate) : ('TEST.SECTION_COMMENTSCOLUMN' | translate) }}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                        <div fxFlex fxFlex="100">
+                          <div
+                            class="px-1"
+                            [ngStyle]="{ display: correctionForm.get('comment_for_each_section').value ? 'block' : 'none' }"
+                          >
+                            <mat-form-field color="accent">
+                              <input
+                                matInput
+                                type="text"
+                                [required]="correctionForm.get('comment_for_each_section').value"
+                                formControlName="comment_for_each_section_header"
+                                [placeholder]="'TEST.COMMENTSHEADER' | translate"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                      <div fxLayout="row wrap" class="py-1">
+                        <div fxFlex fxFlex="100">
+                          <div class="px-1">
+                            <mat-checkbox color="accent" formControlName="comment_for_each_sub_section">
+                              {{
+                                isNotationView2
+                                  ? ('TEST.SUB_SECTION_COMMENTS' | translate)
+                                  : ('TEST.SUB_SECTION_COMMENTSCOLUMN' | translate)
+                              }}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                        <div fxFlex fxFlex="100">
+                          <div
+                            class="px-1"
+                            [ngStyle]="{ display: correctionForm.get('comment_for_each_sub_section').value ? 'block' : 'none' }"
+                          >
+                            <mat-form-field color="accent">
+                              <input
+                                matInput
+                                type="text"
+                                [required]="correctionForm.get('comment_for_each_sub_section').value"
+                                formControlName="comment_for_each_sub_section_header"
+                                [placeholder]="'TEST.COMMENTSHEADER' | translate"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                      <div fxLayout="row wrap" class="py-1">
+                        <div fxFlex fxFlex="100">
+                          <div class="px-1">
+                            <mat-checkbox color="accent" formControlName="show_final_comment">
+                              {{ 'TEST.FINALCOMMENTS' | translate }}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                        <div fxFlex fxFlex="100">
+                          <div class="px-1" [ngStyle]="{ display: correctionForm.get('show_final_comment').value ? 'block' : 'none' }">
+                            <mat-form-field color="accent">
+                              <input
+                                matInput
+                                type="text"
+                                [required]="correctionForm.get('show_final_comment').value"
+                                formControlName="final_comment_header"
+                                [placeholder]="'TEST.FINALCOMMENTSHEADER' | translate"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                      <ng-container
+                        *ngIf="blockType !== 'competence' && blockType !== 'soft_skill' && this.formData.type !== 'academic_recommendation'"
+                      >
+                        <div fxLayout="row wrap" class="py-1">
+                          <div fxFlex="50">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="display_final_total" (change)="isDisplayFinalTotal($event)">
+                                {{ 'TEST.SHOWTOTAL' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex="50" formGroupName="total_zone">
+                            <div class="px-1" *ngIf="correctionForm.get('display_final_total').value">
+                              <mat-checkbox
+                                color="accent"
+                                formControlName="display_additional_total"
+                                (change)="updateCheckboxAdditionalTotal($event)"
+                              >
+                                {{ 'TEST.SHOWEXTRATOTAL' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          fxLayout="row wrap"
+                          class="pb-1"
+                          *ngIf="correctionForm.get('total_zone').get('display_additional_total').value"
+                        >
+                          <div fxFlex="50"></div>
+                          <div fxFlex="50">
+                            <div class="px-1">
+                              <div fxLayout="row wrap" formGroupName="total_zone">
+                                <div fxFlex="50">
+                                  <div class="pr-1">
+                                    <mat-form-field color="accent">
+                                      <input
+                                        matInput
+                                        type="number"
+                                        formControlName="additional_max_score"
+                                        [placeholder]="'ADDITIONALMAXTOTAL' | translate"
+                                      />
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div fxFlex="50">
+                                  <div class="px-1">
+                                    <mat-form-field class="full-width">
+                                      <mat-label>{{ 'DECIMALPOINTS' | translate }}</mat-label>
+                                      <mat-select color="accent" formControlName="decimal_place">
+                                        <mat-option *ngFor="let decimal of decimalPlacesValues" [value]="decimal"
+                                          >{{ decimal }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_penalty" (change)="togglePenalties($event)">
+                                {{ 'TEST.PENALTIES' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1" *ngIf="correctionForm.get('show_penalty').value">
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="penalty_header"
+                                  [placeholder]="'TEST.PENALTIESHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_bonus" (change)="toggleBonuses($event)">
+                                {{ 'TEST.BONUSES' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1" *ngIf="correctionForm.get('show_bonus').value">
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="bonus_header"
+                                  [placeholder]="'TEST.BONUSESHEADER' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <div fxLayout="row wrap" class="py-1">
+                          <div fxFlex fxFlex="100">
+                            <div class="px-1">
+                              <mat-checkbox color="accent" formControlName="show_elimination">
+                                {{ 'TEST.ELIMINATION' | translate }}
+                              </mat-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+              <!-- competence or soft skill for normal eval notation section fields -->
+              <ng-container
+                formArrayName="sections_evalskill"
+                *ngIf="(blockType === 'competence' || blockType === 'soft_skill') && !isTestAutoProEval"
+              >
+                <ng-container
+                  *ngFor="let section of getSectionEvalskill().controls; let sectionIndex = index; let isLastSection = last"
+                  [formGroupName]="sectionIndex"
+                >
+                  <mat-card class="section mt-1">
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                      <div fxFlex="5" class="evalskill-checkbox">
+                        <mat-checkbox
+                          [indeterminate]="isSomeSubsectionSelected(sectionIndex)"
+                          formControlName="is_selected"
+                          (change)="toggleSectionEvalskill($event, sectionIndex)"
+                        >
+                        </mat-checkbox>
+                      </div>
+                      <div fxFlex="60">
+                        <div class="card-margin text-justify">
+                          <label class="mr-1 gene-block">
+                            {{ section.get('ref_id').value }}
+                          </label>
+                          <label class="mr-1">
+                            {{
+                              !section.get('title').value
+                                ? ('TEST.SECTIONTITLE' | translate)
+                                : getFullTextFromHtml(section.get('title').value)
+                            }}
+                          </label>
+                        </div>
+                      </div>
+                      <div fxFlex="35" class="justify-content-end">
+                        <div class="pl-1">
+                          <button
+                            mat-mini-fab
+                            color="accent"
+                            type="button"
+                            (click)="addSectionTitle(section.get('title'))"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon>{{ !section.get('title').value ? 'add' : 'edit' }}</mat-icon>
+                          </button>
+                          <mat-icon class="middle red-text small-width" *ngIf="!section.get('title').value"> priority_high </mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-container formArrayName="sub_sections">
+                      <mat-card
+                        *ngFor="let subsection of getSubSectionEvalskillForm(sectionIndex).controls; let subSectionIndex = index"
+                        [formGroupName]="subSectionIndex"
+                        class="mb-1"
+                      >
+                        <mat-card-content>
+                          <div fxLayout="row" fxLayoutWrap="wrap">
+                            <div fxFlex="5" class="evalskill-checkbox">
+                              <mat-checkbox
+                                formControlName="is_selected"
+                                (change)="toggleSubSectionEvalskill($event, sectionIndex, subSectionIndex)"
+                              >
+                              </mat-checkbox>
+                            </div>
+                            <div fxFlex="60">
+                              <div class="card-margin text-justify">
+                                <label class="mr-1 gene-block">
+                                  {{ subsection.get('ref_id').value }}
+                                </label>
+                                <label class="mr-1">
+                                  {{
+                                    !subsection.get('title').value
+                                      ? ('TEST.NOTATIONTITLE' | translate)
+                                      : getFullTextFromHtml(subsection.get('title').value)
+                                  }}
+                                </label>
+                              </div>
+                            </div>
+                            <div fxFlex="35" class="justify-content-end">
+                              <div class="pl-1">
+                                <button
+                                  mat-mini-fab
+                                  type="button"
+                                  color="accent"
+                                  (click)="addSubSectionTitle(subsection.get('title'))"
+                                  [disabled]="testProgress && testProgress.is_mark_entry_done"
+                                >
+                                  <mat-icon>
+                                    {{ !subsection.get('title').value ? 'add' : 'edit' }}
+                                  </mat-icon>
+                                </button>
+                                <mat-icon class="middle red-text small-width" *ngIf="!subsection.get('title').value">
+                                  priority_high
+                                </mat-icon>
+                              </div>
+                            </div>
+                          </div>
+                          <div fxLayout="row wrap" *ngIf="correctionForm.get('show_direction_column').value && !isNotationView2">
+                            <div fxFlex class="text-justify mrgn-t-md">
+                              <label class="mr-1">
+                                {{
+                                  !subsection.get('direction').value
+                                    ? ('Directive' | translate)
+                                    : getFullTextFromHtml(subsection.get('direction').value)
+                                }}
+                              </label>
+                              <button
+                                mat-mini-fab
+                                type="button"
+                                color="accent"
+                                (click)="addSubSectionDirection(subsection.get('direction'))"
+                                [disabled]="testProgress && testProgress.is_mark_entry_done"
+                              >
+                                <mat-icon>{{ !subsection.get('direction').value ? 'add' : 'edit' }}</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </ng-container>
+                    <div
+                      fxLayout="row wrap"
+                      fxLayoutAlign="end"
+                      class="card-margin"
+                      *ngIf="!section.get('page_break').value && !isLastSection"
+                    >
+                      <button mat-raised-button mat-button-sm (click)="toggleSectionEvalskillPageBreak(sectionIndex, true)">
+                        <i class="fa fa-plus fa-xs"></i>
+                        {{ 'TEST.PAGEBREAK' | translate }}
+                      </button>
+                    </div>
+                  </mat-card>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start center"
+                    class="background-primary px-1"
+                    *ngIf="section.get('page_break').value && !isLastSection"
+                  >
+                    <div fxFlex class="text-center text-weight-bold">
+                      {{ 'TEST.PAGEBREAK' | translate }}
+                    </div>
+                    <i class="fa-solid fa-xmark fa-xs" (click)="toggleSectionEvalskillPageBreak(sectionIndex, false)"></i>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <!-- competence or soft skill for auto/pro eval notation section fields -->
+              <ng-container
+                formArrayName="sections_evalskill"
+                *ngIf="(blockType === 'competence' || blockType === 'soft_skill') && isTestAutoProEval"
+              >
+                <fieldset class="grey-border" *ngFor="let block of blockList">
+                  <legend>{{ block?.ref_id }} - {{ getTextFromHtml(block?.name) }}</legend>
+                  <ng-container
+                    *ngFor="let section of getSectionEvalskill().controls; let sectionIndex = index; let isLastSection = last"
+                    [formGroupName]="sectionIndex"
+                  >
+                    <ng-container
+                      *ngIf="
+                        section.get('soft_skill_block_template_id').value === block?._id ||
+                        section.get('academic_skill_block_template_id').value === block?._id
+                      "
+                    >
+                      <mat-card class="section mt-1">
+                        <div fxLayout="row" fxLayoutWrap="wrap">
+                          <div fxFlex="5" class="evalskill-checkbox">
+                            <mat-checkbox
+                              [indeterminate]="isSomeSubsectionSelected(sectionIndex)"
+                              formControlName="is_selected"
+                              (change)="toggleSectionEvalskill($event, sectionIndex)"
+                            >
+                            </mat-checkbox>
+                          </div>
+                          <div fxFlex="60">
+                            <div class="card-margin text-justify">
+                              <label class="mr-1 gene-block">
+                                {{ section.get('ref_id').value }}
+                              </label>
+                              <label class="mr-1">
+                                {{
+                                  !section.get('title').value
+                                    ? ('TEST.SECTIONTITLE' | translate)
+                                    : getFullTextFromHtml(section.get('title').value)
+                                }}
+                              </label>
+                            </div>
+                          </div>
+                          <div fxFlex="35" class="justify-content-end">
+                            <div class="pl-1">
+                              <button
+                                mat-mini-fab
+                                color="accent"
+                                type="button"
+                                (click)="addSectionTitle(section.get('title'))"
+                                [disabled]="testProgress && testProgress.is_mark_entry_done"
+                              >
+                                <mat-icon>{{ !section.get('title').value ? 'add' : 'edit' }}</mat-icon>
+                              </button>
+                              <mat-icon class="middle red-text small-width" *ngIf="!section.get('title').value"> priority_high </mat-icon>
+                            </div>
+                          </div>
+                        </div>
+                        <ng-container formArrayName="sub_sections">
+                          <mat-card
+                            *ngFor="let subsection of getSubSectionEvalskillForm(sectionIndex).controls; let subSectionIndex = index"
+                            [formGroupName]="subSectionIndex"
+                            class="mb-1"
+                          >
+                            <mat-card-content>
+                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                <div fxFlex="5" class="evalskill-checkbox">
+                                  <mat-checkbox
+                                    formControlName="is_selected"
+                                    (change)="toggleSubSectionEvalskill($event, sectionIndex, subSectionIndex)"
+                                  >
+                                  </mat-checkbox>
+                                </div>
+                                <div fxFlex="60">
+                                  <div class="card-margin text-justify">
+                                    <label class="mr-1 gene-block">
+                                      {{ subsection.get('ref_id').value }}
+                                    </label>
+                                    <label class="mr-1">
+                                      {{
+                                        !subsection.get('title').value
+                                          ? ('TEST.NOTATIONTITLE' | translate)
+                                          : getFullTextFromHtml(subsection.get('title').value)
+                                      }}
+                                    </label>
+                                  </div>
+                                </div>
+                                <div fxFlex="35" class="justify-content-end">
+                                  <div class="pl-1">
+                                    <button
+                                      mat-mini-fab
+                                      type="button"
+                                      color="accent"
+                                      (click)="addSubSectionTitle(subsection.get('title'))"
+                                      [disabled]="testProgress && testProgress.is_mark_entry_done"
+                                    >
+                                      <mat-icon>
+                                        {{ !subsection.get('title').value ? 'add' : 'edit' }}
+                                      </mat-icon>
+                                    </button>
+                                    <mat-icon class="middle red-text small-width" *ngIf="!subsection.get('title').value">
+                                      priority_high
+                                    </mat-icon>
+                                  </div>
+                                </div>
+                              </div>
+                              <div fxLayout="row wrap" *ngIf="correctionForm.get('show_direction_column').value && !isNotationView2">
+                                <div fxFlex class="text-justify mrgn-t-md">
+                                  <label class="mr-1">
+                                    {{
+                                      !subsection.get('direction').value
+                                        ? ('Directive' | translate)
+                                        : getFullTextFromHtml(subsection.get('direction').value)
+                                    }}
+                                  </label>
+                                  <button
+                                    mat-mini-fab
+                                    type="button"
+                                    color="accent"
+                                    (click)="addSubSectionDirection(subsection.get('direction'))"
+                                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                                  >
+                                    <mat-icon>{{ !subsection.get('direction').value ? 'add' : 'edit' }}</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </mat-card-content>
+                          </mat-card>
+                        </ng-container>
+                        <div
+                          fxLayout="row wrap"
+                          fxLayoutAlign="end"
+                          class="card-margin"
+                          *ngIf="!section.get('page_break').value && !isLastSection"
+                        >
+                          <button mat-raised-button mat-button-sm (click)="toggleSectionEvalskillPageBreak(sectionIndex, true)">
+                            <i class="fa fa-plus fa-xs"></i>
+                            {{ 'TEST.PAGEBREAK' | translate }}
+                          </button>
+                        </div>
+                      </mat-card>
+                      <div
+                        fxLayout="row wrap"
+                        fxLayoutAlign="start center"
+                        class="background-primary px-1"
+                        *ngIf="section.get('page_break').value && !isLastSection"
+                      >
+                        <div fxFlex class="text-center text-weight-bold">
+                          {{ 'TEST.PAGEBREAK' | translate }}
+                        </div>
+                        <i class="fa-solid fa-xmark fa-xs" (click)="toggleSectionEvalskillPageBreak(sectionIndex, false)"></i>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </fieldset>
+              </ng-container>
+
+              <!-- normal notation section fields -->
+              <ng-container formArrayName="sections" *ngIf="blockType !== 'competence' && blockType !== 'soft_skill'">
+                <ng-container
+                  *ngFor="let section of sectionForm.controls; let sectionIndex = index; let isLastSection = last"
+                  [formGroupName]="sectionIndex"
+                >
+                  <mat-card class="section mt-1">
+                    <button
+                      mat-mini-fab
+                      color="warn"
+                      type="button"
+                      class="remove-section-btn"
+                      (click)="removeSection(sectionIndex)"
+                      [disabled]="testProgress && testProgress.is_mark_entry_done"
+                      *ngIf="sectionForm.length > 1"
+                    >
+                      <mat-icon class="remove-section-icon">close</mat-icon>
+                    </button>
+                    <mat-card-content class="background-primary">
+                      <!-- button if score conversion is on -->
+                      <div
+                        fxLayout="row"
+                        fxLayoutWrap="wrap"
+                        class="mrgn-b-md"
+                        *ngIf="!correctionForm.get('show_number_marks_column').value"
+                      >
+                        <div fxFlex="65">
+                          <div class="text-justify">
+                            <label class="mr-1">
+                              {{
+                                !section.get('title').value
+                                  ? ('TEST.SECTIONTITLE' | translate)
+                                  : getFullTextFromHtml(section.get('title').value)
+                              }}
+                            </label>
+                          </div>
+                        </div>
+                        <div fxFlex="35" class="justify-content-end">
+                          <div class="pl-1">
+                            <button
+                              mat-mini-fab
+                              color="accent"
+                              type="button"
+                              (click)="addSectionTitle(section.get('title'))"
+                              [disabled]="testProgress && testProgress.is_mark_entry_done"
+                            >
+                              <mat-icon>{{ !section.get('title').value ? 'add' : 'edit' }}</mat-icon>
+                            </button>
+                            <mat-icon
+                              class="middle red-text small-width"
+                              *ngIf="
+                                !section.get('title').value || section.get('maximum_rating').value !== getTotalSubSectionScore(sectionIndex)
+                              "
+                            >
+                              priority_high
+                            </mat-icon>
+                          </div>
+                          <div class="pl-1"></div>
+                          <div class="pl-1"></div>
+                        </div>
+                      </div>
+                      <!-- score conversion section -->
+                      <div class="p-grid" *ngIf="!correctionForm.get('show_number_marks_column').value">
+                        <div class="p-col-12 padding-none justify-content-between" *ngIf="this.formData.type !== 'academic_recommendation'">
+                          <mat-form-field color="accent" class="medium-input">
+                            <input
+                              id="max_rating_section_score_conversion"
+                              matInput
+                              [placeholder]="'TEST.MAXIMUMNOTATION' | translate"
+                              formControlName="maximum_rating"
+                              type="number"
+                              required
+                              (focusout)="editSectionTotal(sectionIndex)"
+                            />
+                          </mat-form-field>
+                          <button
+                            mat-raised-button
+                            type="button"
+                            color="accent"
+                            class="mb-1"
+                            (click)="addScoreConversionForm(sectionIndex)"
+                          >
+                            <mat-icon class="mat-icon-default">add</mat-icon>
+                            {{ 'SCORE_CONVERSION' | translate }}
+                          </button>
+                        </div>
+                      </div>
+                      <!-- score conversion table -->
+                      <div class="p-grid mrgn-b-md" *ngIf="!correctionForm.get('show_number_marks_column').value">
+                        <div class="p-col-12 padding-none" *ngIf="this.formData.type !== 'academic_recommendation'">
+                          <table
+                            mat-table
+                            formArrayName="score_conversions"
+                            [dataSource]="scoreConversionDataSource[sectionIndex]"
+                            class="mat-elevation-z8 score-conversion-table"
+                          >
+                            <ng-container matColumnDef="score">
+                              <th mat-header-cell *matHeaderCellDef class="text-center">
+                                <h5 class="mb-0">{{ 'Score' | translate }}</h5>
+                              </th>
+                              <td mat-cell *matCellDef="let row; let scoreConversionIndex = index" [formGroupName]="scoreConversionIndex">
+                                <mat-form-field color="accent" class="full-width">
+                                  <input
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    max="{{ section.get('maximum_rating')?.value ? section.get('maximum_rating')?.value : 0 }}"
+                                    (keyup)="validateScore(sectionIndex, scoreConversionIndex, section.get('maximum_rating')?.value)"
+                                    formControlName="score"
+                                  />
+                                  <span matSuffix>
+                                    / {{ section.get('maximum_rating')?.value ? section.get('maximum_rating')?.value : 0 }}
+                                  </span>
+                                </mat-form-field>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="phrase">
+                              <th mat-header-cell *matHeaderCellDef class="text-center">
+                                <h5 class="mb-0">{{ 'PHRASE' | translate }}</h5>
+                              </th>
+                              <td mat-cell *matCellDef="let row; let scoreConversionIndex = index" [formGroupName]="scoreConversionIndex">
+                                <mat-form-field color="accent" class="full-width">
+                                  <input matInput formControlName="phrase" class="text-center" />
+                                </mat-form-field>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="letters">
+                              <th mat-header-cell *matHeaderCellDef class="text-center">
+                                <h5 class="mb-0">{{ 'LETTERS' | translate }}</h5>
+                              </th>
+                              <td mat-cell *matCellDef="let row; let scoreConversionIndex = index" [formGroupName]="scoreConversionIndex">
+                                <mat-form-field color="accent" class="full-width">
+                                  <input matInput formControlName="letter" class="text-center" />
+                                </mat-form-field>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+                              <td mat-cell *matCellDef="let row; let scoreConversionIndex = index" [formGroupName]="scoreConversionIndex">
+                                <button
+                                  mat-mini-fab
+                                  color="warn"
+                                  type="button"
+                                  class="remove-score-conversion-btn"
+                                  [disabled]="getScoreConversionForm(sectionIndex).length < 2"
+                                  (click)="removeScoreConversion(sectionIndex, scoreConversionIndex)"
+                                >
+                                  <mat-icon class="remove-score-conversion-icon">close</mat-icon>
+                                </button>
+                              </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="scoreConversionColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: scoreConversionColumns"></tr>
+                          </table>
+                        </div>
+                      </div>
+
+                      <!-- UI if score conversion off -->
+                      <div fxLayout="row" fxLayoutWrap="wrap" *ngIf="correctionForm.get('show_number_marks_column').value">
+                        <div fxFlex="65">
+                          <div class="card-margin text-justify">
+                            <label class="mr-1">
+                              {{
+                                !section.get('title').value
+                                  ? ('TEST.SECTIONTITLE' | translate)
+                                  : getFullTextFromHtml(section.get('title').value)
+                              }}
+                            </label>
+                          </div>
+                        </div>
+                        <div fxFlex="35" class="justify-content-end">
+                          <div class="pl-1">
+                            <button
+                              mat-mini-fab
+                              color="accent"
+                              type="button"
+                              (click)="addSectionTitle(section.get('title'))"
+                              [disabled]="testProgress && testProgress.is_mark_entry_done"
+                            >
+                              <mat-icon>{{ !section.get('title').value ? 'add' : 'edit' }}</mat-icon>
+                            </button>
+                            <mat-icon
+                              class="middle red-text small-width"
+                              *ngIf="
+                                !section.get('title').value || section.get('maximum_rating').value !== getTotalSubSectionScore(sectionIndex)
+                              "
+                            >
+                              priority_high
+                            </mat-icon>
+                          </div>
+                          <div class="pl-1" *ngIf="this.formData.type !== 'academic_recommendation'">
+                            <mat-form-field color="accent" class="small-input">
+                              <input
+                                id="max_rating_section"
+                                matInput
+                                [placeholder]="'TEST.MAXIMUMNOTATION' | translate"
+                                formControlName="maximum_rating"
+                                type="number"
+                                required
+                                (focusout)="editSectionTotal(sectionIndex)"
+                              />
+                            </mat-form-field>
+                          </div>
+                          <div class="pl-1"></div>
+                        </div>
+                      </div>
+                      <div fxLayout="row wrap">
+                        <button
+                          mat-raised-button
+                          type="button"
+                          color="accent"
+                          class="mb-1"
+                          (click)="addSubSection(sectionIndex)"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon class="mat-icon-default">add</mat-icon>
+                          {{ 'TEST.ADDNOTATION' | translate }}
+                        </button>
+                      </div>
+                      <ng-container formArrayName="sub_sections">
+                        <mat-card
+                          *ngFor="let subsection of getSubSectionForm(sectionIndex).controls; let subSectionIndex = index"
+                          [formGroupName]="subSectionIndex"
+                          class="mb-1"
+                        >
+                          <button
+                            *ngIf="getSubSectionForm(sectionIndex)?.length > 1"
+                            mat-mini-fab
+                            color="warn"
+                            class="remove-section-btn"
+                            (click)="removeSubSection(sectionIndex, subSectionIndex)"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon class="remove-section-icon">close</mat-icon>
+                          </button>
+                          <mat-card-content>
+                            <div fxLayout="row" fxLayoutWrap="wrap">
+                              <div fxFlex="65">
+                                <div class="card-margin text-justify">
+                                  <label class="mr-1">
+                                    {{
+                                      !subsection.get('title').value
+                                        ? ('TEST.NOTATIONTITLE' | translate)
+                                        : getFullTextFromHtml(subsection.get('title').value)
+                                    }}
+                                  </label>
+                                </div>
+                              </div>
+                              <div fxFlex="35" class="justify-content-end">
+                                <div class="pl-1">
+                                  <button
+                                    mat-mini-fab
+                                    type="button"
+                                    color="accent"
+                                    (click)="addSubSectionTitle(subsection.get('title'))"
+                                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                                  >
+                                    <mat-icon>
+                                      {{ !subsection.get('title').value ? 'add' : 'edit' }}
+                                    </mat-icon>
+                                  </button>
+                                  <mat-icon class="middle red-text small-width" *ngIf="!subsection.get('title').value">
+                                    priority_high
+                                  </mat-icon>
+                                </div>
+                                <div class="pl-1" *ngIf="this.formData.type !== 'academic_recommendation'">
+                                  <mat-form-field color="accent" class="small-input">
+                                    <input
+                                      id="max_rating_notation"
+                                      matInput
+                                      required
+                                      [placeholder]="'TEST.MAXIMUMNOTATION' | translate"
+                                      formControlName="maximum_rating"
+                                      type="number"
+                                      (focusout)="editNotationTotal(sectionIndex, subSectionIndex)"
+                                    />
+                                  </mat-form-field>
+                                </div>
+                                <div class="pl-1"></div>
+                              </div>
+                            </div>
+                            <div fxLayout="row wrap" *ngIf="correctionForm.get('show_direction_column').value && !isNotationView2">
+                              <div fxFlex class="text-justify mrgn-t-md">
+                                <label class="mr-1">
+                                  {{
+                                    !subsection.get('direction').value
+                                      ? ('Directive' | translate)
+                                      : getFullTextFromHtml(subsection.get('direction').value)
+                                  }}
+                                </label>
+                                <button
+                                  mat-mini-fab
+                                  type="button"
+                                  color="accent"
+                                  (click)="addSubSectionDirection(subsection.get('direction'))"
+                                  [disabled]="testProgress && testProgress.is_mark_entry_done"
+                                >
+                                  <mat-icon>{{ !subsection.get('direction').value ? 'add' : 'edit' }}</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </mat-card-content>
+                        </mat-card>
+                      </ng-container>
+                      <div
+                        fxLayout="row wrap"
+                        fxLayoutAlign="end"
+                        class="card-margin"
+                        *ngIf="!section.get('page_break').value && !isLastSection"
+                      >
+                        <button mat-raised-button mat-button-sm (click)="toggleSectionPageBreak(sectionIndex, true)">
+                          <i class="fa fa-plus fa-xs"></i>
+                          {{ 'TEST.PAGEBREAK' | translate }}
+                        </button>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <div
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start center"
+                    class="background-primary px-1"
+                    *ngIf="section.get('page_break').value && !isLastSection"
+                  >
+                    <div fxFlex class="text-center text-weight-bold">
+                      {{ 'TEST.PAGEBREAK' | translate }}
+                    </div>
+                    <i class="fa-solid fa-xmark fa-xs" (click)="toggleSectionPageBreak(sectionIndex, false)"></i>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </fieldset>
+          </div>
+        </mat-tab>
+
+        <!-- peanlties/bonuses tab -->
+        <mat-tab *ngIf="correctionForm.get('show_penalty').value || correctionForm.get('show_bonus').value">
+          <ng-template mat-tab-label>
+            <mat-icon>check</mat-icon>
+            {{ 'TEST.PENALTIES' | translate }}/{{ 'TEST.BONUSES' | translate }}
+            <mat-icon
+              class="middle red-text"
+              *ngIf="!penaltiesFieldForm.valid || (!bonusesFieldForm.valid && !(testProgress && testProgress.is_mark_entry_done))"
+              >priority_high</mat-icon
+            >
+          </ng-template>
+          <div class="pt-2">
+            <fieldset class="yellow-border">
+              <legend>{{ 'TEST.PENALTIES' | translate }}/{{ 'TEST.BONUSES' | translate }}</legend>
+              <!-- penalties section -->
+              <mat-card class="background-primary" *ngIf="correctionForm.get('show_penalty').value">
+                <mat-card-header class="pb-1 px-1 justify-content-between">
+                  <mat-card-title class="m-0">{{ 'TEST.PENALTIES' | translate }}</mat-card-title>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn-test"
+                    color="accent"
+                    (click)="addPenaltyFieldForm()"
+                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                  >
+                    <mat-icon style="font-size: 18px; height: 18px; width: 18px">add</mat-icon>
+                    {{ 'ADD' | translate }}
+                  </button>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content formGroupName="correction" class="pt-1">
+                  <div formArrayName="penalties">
+                    <div class="p-grid" *ngFor="let field of penaltiesFieldForm.controls; let i = index" [formGroupName]="i">
+                      <div class="p-col-1 vertical-align-center justify-content-center px-0">
+                        <button
+                          mat-icon-button
+                          mat-button-sm
+                          type="button"
+                          (click)="removePenaltyFieldForm(i)"
+                          color="warn"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                        <!-- <button
+                          mat-icon-button
+                          mat-button-sm
+                          *ngIf="field.get('isEditMode').value"
+                          type="button"
+                          (click)="togglePenaltyFieldEditMode(i, false)"
+                          class="greenyellow-text"
+                        >
+                          <mat-icon>check_circle</mat-icon>
+                        </button> -->
+                        <button
+                          mat-icon-button
+                          mat-button-sm
+                          *ngIf="!field.get('isEditMode').value"
+                          type="button"
+                          (click)="togglePenaltyFieldEditMode(i, true)"
+                          color="accent"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div>
+                      <div *ngIf="field.get('isEditMode').value" class="p-col-9">
+                        <mat-form-field class="full-wdith" color="accent">
+                          <input matInput [placeholder]="'TEST.PENALTYTEXT' | translate" type="text" formControlName="title" required />
+                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="field.get('isEditMode').value" class="p-col-2">
+                        <mat-form-field class="full-wdith" color="accent">
+                          <span matPrefix>- &nbsp;</span>
+                          <input
+                            matInput
+                            [placeholder]="'TEST.PENALTY' | translate"
+                            type="number"
+                            min="0"
+                            formControlName="count"
+                            (keyup)="validatePenaltyBonusNumberInput(field)"
+                            required
+                          />
+                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="!field.get('isEditMode').value" class="p-col-11 vertical-center">
+                        <span class="mr-1">- {{ field.get('count').value }}</span>
+                        <span>{{ field.get('title').value }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="background-primary mt-1" *ngIf="correctionForm.get('show_bonus').value">
+                <mat-card-header class="pb-1 px-1 justify-content-between">
+                  <mat-card-title class="m-0">{{ 'TEST.BONUSES' | translate }}</mat-card-title>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn-test"
+                    color="accent"
+                    (click)="addBonusFieldForm()"
+                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                  >
+                    <mat-icon style="font-size: 18px; height: 18px; width: 18px">add</mat-icon>
+                    {{ 'ADD' | translate }}
+                  </button>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content formGroupName="correction" class="pt-1">
+                  <div formArrayName="bonuses">
+                    <div class="p-grid" *ngFor="let field of bonusesFieldForm.controls; let i = index" [formGroupName]="i">
+                      <div class="p-col-1 vertical-align-center justify-content-center px-0">
+                        <button
+                          mat-icon-button
+                          mat-button-sm
+                          type="button"
+                          (click)="removeBonusFieldForm(i)"
+                          color="warn"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                        <!-- <button
+                          mat-icon-button
+                          mat-button-sm
+                          *ngIf="field.get('isEditMode').value"
+                          type="button"
+                          (click)="toggleBonusFieldEditMode(i, false)"
+                          class="greenyellow-text"
+                        >
+                          <mat-icon>check_circle</mat-icon>
+                        </button> -->
+                        <button
+                          mat-icon-button
+                          mat-button-sm
+                          *ngIf="!field.get('isEditMode').value"
+                          type="button"
+                          (click)="toggleBonusFieldEditMode(i, true)"
+                          color="accent"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div>
+                      <div *ngIf="field.get('isEditMode').value" class="p-col-9">
+                        <mat-form-field class="full-wdith" color="accent">
+                          <input matInput [placeholder]="'TEST.BONUSTEXT' | translate" type="text" formControlName="title" required />
+                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="field.get('isEditMode').value" class="p-col-2">
+                        <mat-form-field class="full-wdith" color="accent">
+                          <span matPrefix>+ &nbsp;</span>
+                          <input
+                            matInput
+                            [placeholder]="'TEST.BONUS' | translate"
+                            type="number"
+                            min="0"
+                            formControlName="count"
+                            (keyup)="validatePenaltyBonusNumberInput(field)"
+                            required
+                          />
+                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="!field.get('isEditMode').value" class="p-col-11 vertical-center">
+                        <span class="mr-1">+ {{ field.get('count').value }}</span>
+                        <span>{{ field.get('title').value }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </fieldset>
+          </div>
+        </mat-tab>
+
+        <!-- footer tab -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>vertical_align_bottom</mat-icon>
+            {{ 'TEST.FOOTER' | translate }}
+            <mat-icon class="middle red-text" *ngIf="!footerFieldForm.valid && !(testProgress && testProgress.is_mark_entry_done)"
+              >priority_high</mat-icon
+            >
+          </ng-template>
+          <div class="pt-2">
+            <fieldset class="yellow-border">
+              <legend>{{ 'TEST.FOOTER' | translate }}</legend>
+              <ng-container formGroupName="footer">
+                <mat-card class="background-primary">
+                  <mat-card-header class="pb-1 px-1 justify-content-between">
+                    <mat-card-title class="m-0">{{ 'TEST.MAINFOOTER' | translate }}</mat-card-title>
+                    <mat-checkbox color="accent" formControlName="text_below">
+                      {{ 'TEST.FOOTERBELOW' | translate }}
+                    </mat-checkbox>
+                  </mat-card-header>
+                  <mat-divider></mat-divider>
+                  <mat-card-content class="pt-1">
+                    <div class="p-grid">
+                      <div class="p-col-10 px-1 text-justify">
+                        <label class="mr-1">
+                          {{
+                            !secondStepForm?.get('correction_grid')?.get('footer')?.get('text')?.value
+                              ? ('Text' | translate)
+                              : getFullTextFromHtml(secondStepForm?.get('correction_grid')?.get('footer')?.get('text')?.value)
+                          }}
+                        </label>
+                        <button
+                          *ngIf="!secondStepForm?.get('correction_grid')?.get('footer')?.get('text')?.value"
+                          mat-mini-fab
+                          color="accent"
+                          type="button"
+                          (click)="addFooterText()"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="p-col-2 text-right" *ngIf="secondStepForm?.get('correction_grid')?.get('footer')?.get('text')?.value">
+                        <button
+                          mat-mini-fab
+                          color="accent"
+                          type="button"
+                          (click)="addFooterText()"
+                          [disabled]="testProgress && testProgress.is_mark_entry_done"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+                <!-- footer fields section -->
+                <mat-card class="background-primary mt-1" formArrayName="fields">
+                  <mat-card-header class="pb-1 px-1 justify-content-between">
+                    <mat-card-title class="m-0">{{ 'TEST.FOOTERFIELDS' | translate }}</mat-card-title>
+                    <button
+                      mat-raised-button
+                      type="button"
+                      color="accent"
+                      class="btn-test"
+                      (click)="addFooterFieldForm()"
+                      [disabled]="testProgress && testProgress.is_mark_entry_done"
+                    >
+                      <mat-icon style="font-size: 18px; height: 18px; width: 18px">add</mat-icon>
+                      {{ 'ADD' | translate }}
+                    </button>
+                  </mat-card-header>
+                  <mat-divider></mat-divider>
+                  <mat-card-content *ngIf="footerFieldForm?.length" class="pt-1">
+                    <div *ngFor="let field of footerFieldForm.controls; let i = index" [formGroupName]="i">
+                      <div class="p-grid">
+                        <div class="p-col-1 vertical-align-center justify-content-center px-0">
+                          <button
+                            mat-icon-button
+                            mat-button-sm
+                            type="button"
+                            color="warn"
+                            (click)="removeFooterFieldForm(i)"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                          <!-- <button
+                            mat-icon-button
+                            mat-button-sm
+                            *ngIf="field.get('isEditMode').value"
+                            type="button"
+                            (click)="toggleFooterEditMode(i, false)"
+                            class="greenyellow-text"
+                          >
+                            <mat-icon>check_circle</mat-icon>
+                          </button> -->
+                          <button
+                            mat-icon-button
+                            mat-button-sm
+                            *ngIf="!field.get('isEditMode').value"
+                            type="button"
+                            (click)="toggleFooterEditMode(i, true)"
+                            color="accent"
+                            [disabled]="testProgress && testProgress.is_mark_entry_done"
+                          >
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        </div>
+                        <ng-container *ngIf="field.get('isEditMode').value">
+                          <div class="p-col-5">
+                            <mat-form-field class="full-width" color="accent">
+                              <input matInput [placeholder]="'FIELDTEXT' | translate" type="text" formControlName="value" required />
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="p-col-3">
+                            <mat-form-field class="full-width" color="accent">
+                              <mat-label>{{ 'FIELDTYPE' | translate }}</mat-label>
+                              <mat-select color="accent" formControlName="type" required>
+                                <ng-container *ngFor="let hfType of headerFooterFieldTypes">
+                                  <mat-option
+                                    class="color-default"
+                                    *ngIf="!isFooterAlreadyExist(hfType?.type, i)"
+                                    [value]="hfType?.type"
+                                    (click)="setFooterDataType(i, hfType)"
+                                  >
+                                    {{ 'TEST.FIELDTYPES.' + hfType?.view | translate }}
+                                  </mat-option>
+                                </ng-container>
+                              </mat-select>
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div class="p-col-3">
+                            <mat-form-field class="full-width" color="accent">
+                              <mat-label>{{ 'ALIGNMENT' | translate }}</mat-label>
+                              <mat-select color="accent" formControlName="align" required>
+                                <mat-option class="color-default" *ngFor="let alignment of alignments" [value]="alignment?.value">
+                                  {{ alignment?.label | translate }}
+                                </mat-option>
+                              </mat-select>
+                              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+                        <div *ngIf="!field.get('isEditMode').value" class="p-col-11 vertical-center">
+                          {{ field.get('value').value }} - {{ field.get('align').value.toUpperCase() | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+            </fieldset>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </ng-container>
+  <div class="justify-content-end" style="margin-top: 20px">
+    <button
+      mat-raised-button
+      class="btn-test"
+      color="accent"
+      (click)="saveTest()"
+      [disabled]="!secondStepForm.valid || isWaitingForResponse"
+    >
+      <mat-icon style="font-size: 18px; height: 18px; width: 18px">save</mat-icon>
+      {{ 'TEST.SAVE' | translate }}
+    </button>
+  </div>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

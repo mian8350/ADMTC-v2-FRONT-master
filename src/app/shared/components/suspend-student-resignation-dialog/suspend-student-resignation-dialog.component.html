@@ -1,0 +1,97 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="dialogTitleWrapper header-dialog">
+      <div class="p-grid">
+        <div class="w-30 no-padding">
+          <mat-icon mat-icon-button svgIcon="alert-circle-outline" class="mt-5px"></mat-icon>
+        </div>
+        <div class="p-col-10 no-padding">
+          <h3 class="dialogTitle">{{ 'RESIGNATION_STUD_S3_SUSPEND.TITLE' | translate }}</h3>
+        </div>
+        <div class="w-65 no-padding">
+          <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+<div mat-dialog-content class="mat-dialog-content dialog-body">
+    <div class="p-grid">
+        <div class="p-col-12">
+            {{ 
+                'RESIGNATION_STUD_S3_SUSPEND.CAPTION_1' | translate: {
+                    civility: studentData?.civility | translate,
+                    firstName: studentData?.first_name,
+                    lastName: studentData?.last_name,
+                    schoolName: studentData?.school?.short_name,
+                    titleName: studentData?.rncp_title?.short_name,
+                    className: studentData?.current_class?.name
+                } 
+            }}
+        </div>
+        <div class="p-col-12">
+            {{ 
+                'RESIGNATION_STUD_S3_SUSPEND.CAPTION_2' | translate: {
+                    civility: studentData?.civility | translate,
+                    firstName: studentData?.first_name,
+                    lastName: studentData?.last_name
+                }
+            }}
+        </div>
+        <div class="p-col-12">
+            {{ 
+                'RESIGNATION_STUD_S3_SUSPEND.CAPTION_3' | translate: {
+                    civility: studentData?.civility | translate,
+                    firstName: studentData?.first_name,
+                    lastName: studentData?.last_name
+                } 
+            }}
+        </div>
+        <div class="p-col-12 text-area-border" [ngClass]="inputReason.hasError('required') && (inputReason.dirty || inputReason.touched) ? 'invalid' : ''">
+          <textarea
+            maxLength="300"
+            rows="4" 
+            cols="40" 
+            [formControl]="inputReason" 
+            matTextareaAutosize 
+            matInput 
+            placeholder="{{ 'RESIGNATION_STUD_S3_SUSPEND.INPUT_Reason' | translate }} *"
+            tabindex="-1"
+            ></textarea>
+        </div>
+        <mat-error 
+          *ngIf="inputReason.hasError('required') &&
+          (inputReason.dirty || inputReason.touched)"
+        >
+          {{ 'This field is required' | translate }}
+        </mat-error>
+        <div class="p-col-12">
+            <div class="p-grid" *ngIf="blockList?.length">
+                <div class="p-col-12 pad-y-none">
+                  <span>{{ 'RESIGNATION_STUD_S3_SUSPEND.SELECT_Tests' | translate }}</span>
+                </div>
+                <div class="p-col-12 pad-y-none">
+                  <ul class="pad-l-20px mt-5px">
+                    <li *ngFor="let block of blockList">
+                      <span> {{ utilService.cleanHTML(block?.name) }} </span>
+                      <div class="pad-l-20px test-item" *ngFor="let test of block.tests">
+                        <mat-checkbox [checked]="true" (change)="onCheckTest($event, test)">{{ test?.name }}</mat-checkbox>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+      <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+    </div>
+</div>
+  
+<div mat-dialog-actions class="justify-content-end mr-10">
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'RESIGNATION_STUD_S3_SUSPEND.BTN_Cancel' | translate }}</button>
+    <button mat-button mat-raised-button color="primary" class="mr-0" (click)="confirmDialog()" [disabled]="inputReason.invalid">
+        {{ 'RESIGNATION_STUD_S3_SUSPEND.BTN_Confirm' | translate }}
+    </button>
+</div>  

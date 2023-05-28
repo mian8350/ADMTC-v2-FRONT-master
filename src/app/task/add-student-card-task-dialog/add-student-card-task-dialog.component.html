@@ -1,0 +1,106 @@
+<form [formGroup]="form">
+  <div style="color: black" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <h1 mat-dialog-title style="display: flex;">
+      <mat-icon class="dialog-icon" svgIcon="tick-checkbox" style="margin-top: -2px; margin-right: 5px"></mat-icon>
+      {{ 'Add_Task' | translate }}
+      <button mat-icon-button type="button" style="padding-top: 3px;" (click)="closeDialog()" class="header-icon">
+        <mat-icon style="vertical-align: baseline;">close</mat-icon>
+      </button>
+    </h1>
+    <mat-dialog-content>
+      <div class="p-grid">
+        <div class="p-col-6 no-padding">
+          <mat-form-field>
+            <input readonly type="text" placeholder="{{ 'TASK.RNCP_Title' | translate }}**" matInput formControlName="rncpTitle" />
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-6 no-padding">
+          <mat-form-field>
+            <input readonly type="text" placeholder="{{ 'TASK.Class' | translate }}**" matInput formControlName="class_id" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field>
+        <input readonly type="text" placeholder="{{ 'User' | translate }}*" matInput formControlName="users" />
+      </mat-form-field>
+
+      <div class="p-grid">
+        <div class="p-col-6 pad-t-md pad-l-none">
+          <label>{{ 'DASHBOARD.PRIORITY' | translate }}:</label>
+          <mat-radio-group formControlName="priority">
+            <mat-radio-button value="1" id="one">1</mat-radio-button>
+            <mat-radio-button value="2" id="two">2</mat-radio-button>
+            <mat-radio-button value="3" id="three">3</mat-radio-button>
+            <!-- <mat-error>{{'This field is required'|translate}}</mat-error> -->
+          </mat-radio-group>
+        </div>
+        <div class="p-col-6">
+          <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              (click)="picker.open()"
+              readonly
+              placeholder="{{ 'DASHBOARD.DUEDATE' | translate }}**"
+              formControlName="date"
+              [min]="today"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field>
+        <textarea matInput placeholder="{{ 'Description' | translate }}*" rows="2" formControlName="description"></textarea>
+        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+      </mat-form-field>
+
+      <ng-container *ngIf="isADMTC">
+        <div class="p-grid">
+          <div class="p-col-7 pad-l-none">
+            <mat-form-field>
+              <input matInput placeholder="{{ 'TASK.NAMEDOCUMENT' | translate }}" #docAdd onkeypress="return /[^?*:\/]/i.test(event.key)" />
+            </mat-form-field>
+          </div>
+          <div class="p-col-5 pad-r-none">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="!docAdd.value"
+              class="float-right"
+              type="button"
+              (click)="addDocument(docAdd)"
+            >
+              {{ 'TASK.ADDEXPECTEDDOCUMENT' | translate }}
+            </button>
+          </div>
+        </div>
+        <div formArrayName="documents" *ngFor="let document of documents?.value; let i = index">
+          <mat-form-field [formGroupName]="i" style="width: 80%">
+            <input matInput type="text" formControlName="name" [readonly]="form.value.documents[i].isDocumentAssigned" />
+          </mat-form-field>
+          <a color="primary" type="button" (click)="removeDocument(i)" style="cursor: pointer">
+            <mat-icon>remove_circle</mat-icon>
+          </a>
+        </div>
+      </ng-container>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="createTask()"
+      >
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

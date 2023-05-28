@@ -1,0 +1,31 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+.heading{
+    text-align: center; 
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+.border-yellow{
+    border: 2px solid  $dark-yellow;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+label{
+    font-weight: 700;
+    margin-top: 1.5rem;
+}
+
+.m-1{
+    margin-top: 1.25rem;
+}
+
+.m-2{
+    margin-top: 0.75rem;
+}
+
+.mat-button{
+    background: $dark-blue;
+}

@@ -1,0 +1,87 @@
+<!-- <div class="logo-spinner-wrapper" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+</div> -->
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div [formGroup]="addCompanySubForm">
+  <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-grid">
+      <div class="p-col-12 no-padding-bottom">
+        <div class="p-grid">
+          <div class="p-col-9 no-padding-bottom">
+            <mat-icon class="dialog-icon">business</mat-icon>
+            <h2 class="dialog-title-text">{{ 'COMPANY.ADD_COMPANY' | translate }}</h2>
+          </div>
+          <div class="p-col-3 no-padding-bottom pad-top-15">
+            <button mat-icon-button class="close-icon" (click)="onClose()" tabindex="-1"><mat-icon>close</mat-icon></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12 dialog-fields-container">
+      <mat-form-field class="standard-width">
+        <input matInput required formControlName="company_name" placeholder="{{ 'COMPANY.NAME' | translate }}" />
+        <mat-error
+          *ngIf="
+            addCompanySubForm.get('company_name').hasError('required') &&
+            (addCompanySubForm.get('company_name').dirty || addCompanySubForm.get('company_name').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="standard-width">
+        <input matInput type="text" required formControlName="zip_code" maxlength="5" placeholder="{{ 'COMPANY.ZIPCODE' | translate }}" />
+        <mat-error
+          *ngIf="
+            addCompanySubForm.get('zip_code').hasError('required') &&
+            (addCompanySubForm.get('zip_code').dirty || addCompanySubForm.get('zip_code').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="standard-width" color="accent">
+        <input
+          type="text"
+          formControlName="country"
+          placeholder="{{ 'COMPANY.COUNTRY' | translate }} "
+          [matAutocomplete]="autoCountry"
+          (keyup)="filterCountry()"
+          matInput
+          required
+        />
+        <mat-autocomplete #autoCountry="matAutocomplete"  [panelWidth]="'fit'">
+          <mat-option *ngFor="let option of countriesList" [value]="option.name" (click)="countrySelected()">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="
+            addCompanySubForm.get('country').hasError('required') &&
+            (addCompanySubForm.get('country').dirty || addCompanySubForm.get('country').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+      <!-- <mat-form-field class="standard-width">
+        <input matInput required formControlName="country" placeholder="{{ 'COMPANY.COUNTRY' | translate }}" />
+      </mat-form-field> -->
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onCloseCreation()"
+        [disabled]="!addCompanySubForm.valid || isWaitingForResponse || buttonDisabled"
+        class="float-right btn-standard"
+      >
+        {{ 'Submit' | translate }}
+      </button>
+      <button mat-raised-button color="red" (click)="onClose()" class="float-right btn-standard">{{ 'COMPANY.CANCEL' | translate }}</button>
+    </div>
+  </div>
+</div>

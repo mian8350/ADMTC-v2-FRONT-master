@@ -1,0 +1,172 @@
+<mat-card *ngIf="questionnaire && questionnaire.questionnaire_grid">
+  <mat-card-content>
+    <div class="p-grid p-justify-between">
+      <div class="p-col-12 document-view background-primary pa-1" style="min-height: 62px;">
+        <div class="p-grid justify-content-between">
+          <button mat-mini-fab color="background" (click)="showPreviousPage()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-raised-button class="active-tab btn-test" (click)="openPreview()" *ngIf="questionnaire && questionnaire.questionnaire_name">
+            <mat-icon>{{ expanded ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+            {{ 'Preview' | translate }}
+          </button>
+          <div class="gene-relative">
+            <div class="page-text">Page {{ visiblePage }} / {{ pages }}</div>
+            <button mat-mini-fab color="background" (click)="showNextPage()">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ql-editor document-parent">
+      <div #pagesElement style="overflow: auto;">
+        <div class="document" *ngIf="questionnaire && questionnaire.questionnaire_grid">
+          <div class="pa-1" style="height:93%">
+            <div class="doc-page-no" style="text-align:right;"> {{visiblePage}} / {{ pages }}
+              <div class="doc-rncp-title" style="text-align: center; font-size:16px" [innerHtml]="questionnaire?.questionnaire_grid?.header?.title | safeHtml"></div>
+              <div class="doc-header">
+                <div class="doc-header-top" style="text-align: left;" *ngIf="questionnaire.questionnaire_grid && questionnaire.questionnaire_grid.header.text"
+                  [innerHtml]="questionnaire.questionnaire_grid.header.text | safeHtml"></div>
+                <div class="doc-header-top" style="text-align: left;" *ngIf="questionnaire.questionnaire_grid && questionnaire.questionnaire_grid.header.direction"
+                  [innerHtml]="questionnaire.questionnaire_grid.header.direction | safeHtml"></div>
+                <div class="doc-header-fields" *ngIf="questionnaire.questionnaire_grid.header.fields.length > 0">
+                  <div class="p-grid p-justify-center">
+                    <ng-template ngFor let-i="index" let-c="count" let-field [ngForOf]="questionnaire.questionnaire_grid.header.fields">
+                      <ng-template [ngIf]="field.data_type === 'longtext'">
+                        <div class="p-col-12 lineme">
+                          {{ field.value }} :
+                        </div>
+                      </ng-template>
+                      <ng-template [ngIf]="field.data_type != 'longtext' && field.align === 'left'">
+                        <div [ngClass]="{
+                                           'lineme': field.data_type != 'signature',
+                                           'signature': field.data_type === 'signature',
+                                           'pr-1': (field.align === 'left')
+                                           }"
+                          class="p-col-6">
+                          {{field.value}} :
+                        </div>
+                        <ng-template [ngIf]="i === c-1 || questionnaire.questionnaire_grid.header.fields[i+1].align === 'left'">
+                          <div class="p-col-6"></div>
+                        </ng-template>
+                      </ng-template>
+                      <ng-template [ngIf]="field.data_type != 'longtext' && field.align === 'right'">
+                        <ng-template [ngIf]="i === 0 ||
+                                          questionnaire.questionnaire_grid.header.fields[i-1].align === 'right' ||
+                                          questionnaire.questionnaire_grid.header.fields[i-1].data_type === 'longtext'">
+                          <div class="p-col-6"></div>
+                        </ng-template>
+                        <div [ngClass]="{
+                                           'lineme': field.data_type != 'signature',
+                                           'signature': field.data_type === 'signature'
+                                            }"
+                                            class="p-col-6">
+                          {{field.value}} :
+                        </div>
+                      </ng-template>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+
+              <div class="doc-grid">
+                <ng-template ngFor let-competence let-competenceIndex="index" [ngForOf]="pageSectionsArray[visiblePage - 1]">
+                  <table width="100%" class="doc-table notif-table" style="margin-bottom: 5px;" *ngIf="competence.competence_name != ''">
+                    <tbody>
+                      <tr class="section" style="border: 2px solid #000;">
+                        <td class="text-left font-weight-bold" [width]="'100%'">{{competence.competence_name}}</td>
+                      </tr>
+                      <ng-template ngFor let-segment let-segmentIndex="index" [ngForOf]="competence.segment">
+                        <tr class="sub-section" style="border: 2px solid #000;" *ngIf="segment.segment_name != ''">
+                          <td class="text-left font-weight-bold"><b> {{segment.segment_name}}</b></td>
+                        </tr>
+                        <ng-template ngFor let-question let-questionIndex="index" [ngForOf]="segment.question">
+                          <tr class="sub-section comment-section" *ngIf="question.question_name !== '' || (question?.is_field && question.questionnaire_field_key)"
+                            style="border-top: 1px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
+                            <td class="text-left">
+                              <span *ngIf="question?.is_field &&  question.questionnaire_field_key; else question_nameDisp">
+                                {{ questionIndex+1 }} {{ "QUESTIONNAIRE_FIELDS." + question.questionnaire_field_key |
+                                translate }}</span>
+                              <ng-template #question_nameDisp>
+                                {{ question?.question_name ? questionIndex+1 + ' ' + question.question_name : '' }}</ng-template>
+                              <ul *ngIf="question?.question_type === 'parent_child' && question?.parent_child_options?.length > 0">
+                                <li *ngFor="let option of question?.parent_child_options;let
+                                                                    optionIndex=index;">
+                                  <ms-parent-child-nesting [parent_child_options]="option" [question]="question"
+                                    [optionIndex]="optionIndex" [questionnaireForm]="questionnaire" [competenceIndex]="competenceIndex"
+                                    [segmentIndex]="segmentIndex" [questionIndex]="questionIndex" [isViewOnly]="true"></ms-parent-child-nesting>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                          <ng-template ngFor let-options let-optionsIndex="index" [ngForOf]="question.options">
+                            <tr class="sub-section comment-section" *ngIf="question.options" style="border-top: 1px solid #000;border-left: 2px solid #000;border-right: 2px solid #000">
+                              <td class="text-left" style="padding-left: 10px;">{{optionsIndex+1}})
+                                {{options.option_text}}</td>
+                            </tr>
+                          </ng-template>
+
+
+
+                        </ng-template>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </div>
+              <div class="doc-footer">
+                <div class="doc-footer-text" style="text-align:left;" *ngIf="questionnaire.questionnaire_grid && questionnaire.questionnaire_grid.header.direction && !questionnaire.questionnaire_grid.footer.text_below"
+                  [innerHtml]="questionnaire.questionnaire_grid.footer.text | safeHtml"> </div>
+                <div class="doc-footer-fields" *ngIf="questionnaire.questionnaire_grid.footer.fields.length > 0">
+                  <div class="p-grid p-justify-center">
+                    <ng-template ngFor let-i="index" let-c="count" let-field [ngForOf]="questionnaire.questionnaire_grid.footer.fields">
+                      <ng-template [ngIf]="field.data_type === 'longtext'">
+                        <div class="p-col-12 lineme">
+                          {{field.value}} :
+                        </div>
+                      </ng-template>
+                      <ng-template [ngIf]="field.data_type != 'longtext' && field.align === 'left'">
+                        <div [ngClass]="{
+                                                               'lineme': field.data_type != 'signature',
+                                                               'signature': field.data_type === 'signature',
+                                                               'pr-1': (field.align === 'left')
+                                                               }"
+                          class="p-col-6">
+                          {{field.value}} :
+                        </div>
+                        <ng-template [ngIf]="i === c-1 || questionnaire.questionnaire_grid.footer.fields[i+1].align === 'left'">
+                          <div class="p-col-6"></div>
+                        </ng-template>
+                      </ng-template>
+                      <ng-template [ngIf]="field.data_type != 'longtext' && field.align === 'right'">
+                        <ng-template [ngIf]="i === 0 ||
+                                                              questionnaire.questionnaire_grid.footer.fields[i-1].align === 'right' ||
+                                                              questionnaire.questionnaire_grid.footer.fields[i-1].data_type === 'longtext'">
+                          <div class="p-col-6"></div>
+                        </ng-template>
+                        <div [ngClass]="{
+                                                               'lineme': field.data_type != 'signature',
+                                                               'signature': field.data_type === 'signature'
+                                                               }"
+                                                               class="p-col-6">
+                          {{field.value}} :
+                        </div>
+                      </ng-template>
+
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="doc-footer-text" style="text-align:left;" *ngIf="questionnaire.questionnaire_grid && questionnaire.questionnaire_grid.header.direction && questionnaire.questionnaire_grid.footer.text_below"
+                  [innerHtml]="questionnaire.questionnaire_grid.footer.text | safeHtml">
+                </div>
+              </div>
+              <!-- <div *ngIf="true;then gridFooter"></div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-card-content>
+</mat-card>

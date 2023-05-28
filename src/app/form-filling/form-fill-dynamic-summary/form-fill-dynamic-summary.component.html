@@ -1,0 +1,813 @@
+<!-- <ms-form-filling-revision-box
+  *ngIf="formDetail?.revise_request_messages?.length"
+  [formDetail]="formDetail"
+  [messages]="formDetail?.revise_request_messages"
+></ms-form-filling-revision-box> -->
+
+<div class="revision-box-container" *ngIf="stepData?.is_final_step && formDetail?.revise_request_messages?.length">
+  <ms-form-filling-revision-box
+    [formDetail]="formDetail"
+    [stepData]="stepData"
+    [messages]="formDetail?.revise_request_messages"
+    (triggerRefresh)="this.triggerRefresh.emit(formDetail.formId)"
+  ></ms-form-filling-revision-box>
+</div>
+<div class="revision-box-container" *ngIf="!stepData?.is_final_step && stepData?.revise_request_messages?.length">
+  <ms-form-filling-revision-box
+    [formDetail]="formDetail"
+    [stepId]="stepData?._id"
+    [stepData]="stepData"
+    [messages]="stepData?.revise_request_messages"
+    (triggerRefresh)="this.triggerRefresh.emit(formDetail.formId)"
+  ></ms-form-filling-revision-box>
+</div>
+
+<div class="row">
+  <div>
+    <div class="row">
+      <div>
+        <div class="pdf-document">
+          <!-- Header Document -->
+          <div class="header">
+            <div [innerHTML]="stepData?.direction"></div>
+            <!-- {{ stepData.segments[0].segment_title }} -->
+          </div>
+          <div class="p-grid" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 0.1px solid rgba(0, 0, 0, 0.1)">
+            <div class="p-col-12">
+              <span style="font-size: 1.7rem">
+                <b> {{ stepData?.segments[0]?.segment_title | titlecase }} </b>
+              </span>
+              <span *ngIf="!formDetail.isPreview" style="text-align: end; float: right">
+                <button
+                  color="accent"
+                  mat-raised-button
+                  class="btn-save"
+                  matTooltip="{{ 'PDF' | translate }}"
+                  [disabled]="isLoading"
+                  (click)="downloadPDF()"
+                >
+                  <mat-icon class="pdf-icon" svgIcon="file-pdf-outline"></mat-icon>
+                  {{ 'PDF' | translate }}
+                </button>
+              </span>
+              <span *ngIf="formDetail?.isPreview" style="text-align: end; float: right">
+                <button color="accent" mat-raised-button class="btn-save" matTooltip="{{ 'PDF' | translate }}">
+                  <mat-icon class="pdf-icon" svgIcon="file-pdf-outline"></mat-icon>
+                  {{ 'PDF' | translate }}
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <!-- HEADER -->
+          <ng-container>
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div [innerHTML]="stepData?.segments[0]?.questions[0]?.special_question?.summary_header"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <form [formGroup]="templateSummaryForm">
+            <div class="top-button">              
+              <div>
+                <!-- Signature Box -->
+                <ng-container
+                  *ngIf="formDetail && formDetail.formType && formDetail.formType === 'student_admission' && !isValidator && isReceiver">
+                  <div>
+                    <div>
+                      <!-- <div class="p-col-12">
+                        {{ 'Please check this box which is valid for signing the school contract' | translate }}
+                      </div> -->
+                      <div class="signature-box">
+                        <mat-checkbox
+                          formControlName="signature"
+                          [disabled]="formData?.signature_date?.date"
+                          [(ngModel)]="signature"
+                          style="padding-left: 15px"
+                          >{{ 'Signature' | translate }}</mat-checkbox
+                        >
+                        <div *ngIf="formattedSignatureDate">{{ formattedSignatureDate }} ({{ 'Paris Time' | translate }})</div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <div>
+                <ng-container
+                  *ngIf="formDetail && formDetail.formType && formDetail.formType === 'student_admission' && !isValidator && isReceiver">
+                  <div *ngIf="!formDetail.isPreview && formDetail?.admission_status !== 'submitted'" class="p-grid">
+                    <ng-container *ngIf="stepData?.is_final_step && formData?.is_final_validator_active">
+                      <div style="text-align: end; padding-right: 11px; margin-bottom: 10px">
+                        <button
+                          *ngIf="isValidator && formDetail?.isFinalValidatorUser && formDetail?.admission_status !== 'ask_for_revision'"
+                          color="accent"
+                          mat-raised-button
+                          class="btn-save"
+                          matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }} "
+                          (click)="onAskForRevision()"
+                        >
+                          {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }}
+                        </button>
+                        <!-- ask_for_revision + student = complete revision  -->
+                        <button
+                          *ngIf="isReceiver && formDetail?.isFinalRevisionUser && formDetail?.admission_status === 'ask_for_revision'"
+                          color="accent"
+                          mat-raised-button
+                          matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}"
+                          (click)="onCompleteRevision()"
+                        >
+                          {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+                        </button>
+                        <button
+                          *ngIf="isValidator && formDetail?.isFinalValidatorUser && formDetail?.admission_status !== 'ask_for_revision'"
+                          color="accent"
+                          mat-raised-button
+                          class="btn-save"
+                          matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}"
+                          [disabled]="!signature"
+                          (click)="validateForm()"
+                        >
+                          <mat-icon class="mat-icon-default">
+                            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}
+                        </button>
+                        <button
+                          *ngIf="isReceiver && formDetail?.admission_status !== 'ask_for_revision' && stepData?.step_status === 'not_started'"
+                          color="accent"
+                          mat-raised-button
+                          class="btn-save"
+                          matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}"
+                          (click)="nextStepMessage('waiting_for_validation')"
+                          [disabled]="!signature"
+                        >
+                          <mat-icon class="mat-icon-default">save</mat-icon>
+                          {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}
+                        </button>
+                      </div>
+                    </ng-container>
+      
+                    <ng-container *ngIf="!stepData?.is_final_step || (stepData?.is_final_step && !formData?.is_final_validator_active)">
+                      <div style="text-align: end; padding-right: 11px; margin-bottom: 10px">
+                        <ng-container>
+                          <button
+                            *ngIf="
+                              isReceiver && isValidator && (stepData?.step_status === 'not_started' || stepData?.step_status === 'need_validation')
+                            "
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }} "
+                            (click)="onAskForRevision()"
+                          >
+                            {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }}
+                          </button>
+                          <button
+                            *ngIf="isValidator && stepData?.step_status === 'need_validation' && !isReceiver"
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }} "
+                            (click)="onAskForRevision()"
+                          >
+                            {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }}
+                          </button>
+                          <button
+                            *ngIf="isValidator && stepData.step_status === 'need_validation' && !isReceiver"
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            (click)="nextStepMessage('validated')"
+                            matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('I accept all form above' | translate) }} "
+                          >
+                            {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('I accept all form above' | translate) }}
+                          </button>
+                        </ng-container>
+                        <ng-container *ngIf="isReceiver">
+                          <button
+                            *ngIf="isReceiver && stepData.step_status === 'not_started'"
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            (click)="nextStepMessage('waiting_for_validation')"
+                            matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }} "
+                          >
+                            <!--      [disabled]="templateStepForm.invalid"-->
+                            {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}
+                          </button>
+                          <button
+                            *ngIf="isReceiver && isValidator && stepData.step_status === 'need_validation'"
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            (click)="nextStepMessage('validated')"
+                            matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }} "
+                          >
+                            {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}
+                          </button>
+                        </ng-container>
+                        <ng-container>
+                          <button
+                            *ngIf="stepData.step_status === 'ask_for_revision' && isReceiver"
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            (click)="onCompleteRevision()"
+                            matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }} "
+                          >
+                            {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+                          </button>
+                          <button
+                            *ngIf="
+                              (formDetail?.isFinalRevisionUser &&
+                                formDetail?.admission_status &&
+                                formDetail?.admission_status === 'ask_for_revision') ||
+                              (isReceiver &&
+                                stepData?.step_status === 'accept' &&
+                                formDetail?.is_final_validator_active &&
+                                !formDetail?.admission_status)
+                            "
+                            color="accent"
+                            mat-raised-button
+                            class="btn-accept"
+                            (click)="nextStepMessage('waiting_for_validation')"
+                            matTooltip="{{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }} "
+                          >
+                            {{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}
+                          </button>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div style="border: 1px solid black" *ngIf="!isLoading">
+              <ng-container *ngFor="let step of templateStep; let in = index">
+                <ng-container *ngIf="step?.is_include_in_summary && step?.step_status !== 'pending'">
+                  <div class="p-col-12 step-title">
+                    <div style="display: flex">
+                      <div class="p-col-12 no-padding" style="text-align: center">
+                        <b>{{ step?.step_title }}</b>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-container *ngIf="step?.step_type === 'question_and_field' || step?.step_type === 'academic_journey'">
+                    <ng-container *ngFor="let segment of step?.segments; let segmentInd = index">
+                      <div class="p-col-12 segment-title">
+                        <div style="display: flex">
+                          <div class="p-col-12">
+                            <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="p-col-12 pad-ver-none">
+                        <div class="p-grid">
+                          <div
+                            #questionLoop
+                            *ngFor="let question of segment?.questions; let questInd = index"
+                            [ngClass]="[
+                              (segment?.questions[questInd + 1]?.field_position === 'right' && question?.field_position !== 'right') ||
+                              (segment?.questions[questInd === 0 ? 0 : questInd - 1]?.field_position === 'left' &&
+                                question?.field_position === 'right')
+                                ? 'p-col-12 p-md-6'
+                                : 'p-col-12 p-md-6 full-width',
+                              questionLoop.classList.contains('full-width') && question?.field_position === 'right'
+                                ? 'right-end'
+                                : 'left-end'
+                            ]"
+                          >
+                            <!----- IF is_field is TRUE ------------------------------------------------------>
+                            <ng-container *ngIf="question?.is_field">
+                              <ng-container *ngIf="['parent_relation', 'parent2_relation'].includes(question?.field_type); else default">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ 'FORM_BUILDER_FIELD.' + question?.field_type | translate }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ 'CARDDETAIL.RELATION.' + question?.answer | translate }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-template #default>
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ isStaticFieldType(question?.field_type) ? ('FORM_BUILDER_FIELD.' + question?.field_type | translate):question?.field_type }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    :
+                                    <ng-container *ngIf="question?.answer_type !== 'multiple_option'">
+                                      <span style="margin-left: 10px">{{
+                                        ['parent_civility', 'parent2_civility', 'student_civility'].includes(question?.field_type)
+                                          ? (question?.answer | translate)
+                                          : question?.answer
+                                      }}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="question?.answer_type === 'multiple_option'">                                      
+                                      <span
+                                        style="margin-left: 10px"
+                                        *ngFor="let answer_multiple of question?.answer_multiple; let isLast = last"
+                                        >{{ answer_multiple }}<span *ngIf="!isLast">, </span>
+                                      </span>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </ng-template>
+                            </ng-container>
+
+                            <!----- IF is_field is FALSE ------------------------------------------------------>
+                            <ng-container *ngIf="!question?.is_field">
+                              <!----- Short Text ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'short_text'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Long Text ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'long_text'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Email ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'email'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Date Type ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'date'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.date_value }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Numeric ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'numeric'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer_number }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Single Option ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'single_option'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <!----- Multiple Option ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'multiple_option'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    :
+                                    <span
+                                      style="margin-left: 10px"
+                                      *ngFor="let answer_multiple of question?.answer_multiple; let isLast = last"
+                                      >{{ answer_multiple }}<span *ngIf="!isLast">, </span>
+                                    </span>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <!----- Time ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'time'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer_time }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <!----- Duration ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'duration'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer_duration }}</span>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <!----- Parent & Child Option ------------------------------->
+                              <ng-container *ngIf="question?.answer_type === 'parent_child_option'">
+                                <div
+                                  class="p-grid"
+                                  [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                                >
+                                  <div class="p-col-4">
+                                    <p>{{ question?.question_label }}</p>
+                                  </div>
+                                  <div class="p-col-8">
+                                    : <span style="margin-left: 10px">{{ question?.answer }}</span> <br>
+                                  </div>
+                                </div>
+                                    <ng-container *ngFor="let questionChild of question?.parent_child_options">
+                                      <ng-container *ngIf="questionChild?.option_text === question?.answer">
+                                        <ng-container *ngFor="let questionChildSecond of questionChild?.questions">
+                                          <div class="p-grid">
+                                            <div class="p-col-4 jc-fs"> <span class="ml-10">{{questionChildSecond?.question_name}}</span></div>
+                                            <div class="p-col-8"> : <span class="ml-10">{{checkQuestionChildType(questionChildSecond)}}</span></div>
+                                          </div>
+                                          <ng-container *ngFor="let parentChild of questionChildSecond?.parent_child_options">
+                                            <ng-container *ngIf="parentChild?.option_text === questionChildSecond?.answer">
+                                              <ng-container *ngFor="let questionChildThird of parentChild?.questions">
+                                                <div class="p-grid">
+                                                  <div class="p-col-4 jc-fs"><span class="ml-10 pl-10">{{questionChildThird?.question_name}}</span></div>
+                                                  <div class="p-col-8"> : <span class="ml-10 pl-0">{{checkQuestionChildType(questionChildThird)}}</span></div>
+                                                </div>
+                                                <ng-container *ngFor="let parentChild of questionChildThird?.parent_child_options">
+                                                  <ng-container *ngIf="parentChild?.option_text === questionChildThird?.answer">
+                                                    <ng-container *ngFor="let questionChildFourth of parentChild?.questions">
+                                                      <div class="p-grid">
+                                                        <div class="p-col-4 jc-fs" ><span class="ml-10 pl-20">{{questionChildFourth?.question_name}}</span></div>
+                                                        <div class="p-col-8"> : <span class="ml-10 pl-0">{{checkQuestionChildType(questionChildFourth)}}</span></div>
+                                                      </div>
+                                                      <ng-container *ngFor="let parentChild of questionChildFourth?.parent_child_options">
+                                                        <ng-container *ngIf="parentChild?.option_text === questionChildFourth?.answer">
+                                                          <ng-container *ngFor="let questionChildFifth of parentChild?.questions">
+                                                            <div class="p-grid">
+                                                              <div class="p-col-4 jc-fs"> <span class="ml-10 pl-30">{{questionChildFifth?.question_name}}</span></div>
+                                                              <div class="p-col-8"> : <span class="ml-10 pl-0">{{checkQuestionChildType(questionChildFifth)}}</span></div>
+                                                            </div>
+                                                          </ng-container>
+                                                        </ng-container>
+                                                      </ng-container>
+                                                    </ng-container>
+                                                  </ng-container>
+
+                                                </ng-container>
+                                              </ng-container>
+                                            </ng-container>
+                                          </ng-container>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="step?.step_type === 'document_expected'">
+                    <ng-container *ngFor="let segment of step?.segments">
+                      <div class="p-col-12 segment-title">
+                        <div style="display: flex">
+                          <div class="p-col-12">
+                            <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- The name and status of document expected -->
+                      <div class="p-col-12 pad-ver-none">
+                        <div class="p-grid">
+                          <ng-container *ngFor="let question of segment?.questions">
+                            <div class="full-width left-end">
+                              <div class="p-grid justify-start">
+                                <div (click)="setDocumentDisplayed(in, question?.answer)" class="p-col-4">
+                                  <p class="document-question-label">{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8">
+                                  <ng-container *ngIf="question?.document_validation_status === 'validated'">
+                                    : <span style="margin-left: 10px">{{ 'SummaryForm.Submitted' | translate }}</span>
+                                  </ng-container>
+                                  <ng-container *ngIf="question?.document_validation_status === 'waiting_for_validation'">
+                                    : <span style="margin-left: 10px">{{ 'SummaryForm.Waiting Validation' | translate }}</span>
+                                  </ng-container>
+                                  <ng-container
+                                    *ngIf="
+                                      question?.document_validation_status === 'not_validated' ||
+                                      question?.document_validation_status === null
+                                    "
+                                  >
+                                    : <span style="margin-left: 10px">{{ 'SummaryForm.Not Submitted' | translate }}</span>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+
+                      <!-- The IFRAME for the document expected -->
+                      <div
+                        class="p-col-12 pad-ver-none"
+                        *ngIf="documentExpectedDisplays && documentExpectedDisplays.length && getDocumentSelectedUrl(in)"
+                      >
+                        <div>
+                          <div class="ql-editor document-parent">
+                            <div class="img-preview container-view-lanscape">
+                              <iframe [src]="getDocumentSelectedUrl(in)" frameBorder="0"></iframe>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-container *ngIf="step?.step_type === 'condition_acceptance'">
+                    <ng-container *ngFor="let segment of step?.segments">
+                      <div class="p-col-12 segment-title">
+                        <div style="display: flex">
+                          <div class="p-col-12 no-padding">
+                            <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="p-col-12 pad-ver-none">
+                        <div *ngIf="segment?.acceptance_pdf || segment?.acceptance_pdf !== ''">
+                          <div class="ql-editor document-parent">
+                            <div class="img-preview container-view-lanscape">
+                              <iframe [src]="setPreviewUrl(segment?.acceptance_pdf)" frameBorder="0"></iframe>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
+              <div class="separator"></div>
+
+              <!-- Signature Box -->  
+              <ng-container>
+                <div class="p-col-12 pad-ver-none">
+                  <div class="p-grid">
+                    <!-- <div class="p-col-12">
+                      {{ 'Please check this box which is valid for signing the school contract' | translate }}
+                    </div> -->
+                    <div class="p-col-12 signature-box">
+                      <mat-checkbox
+                        formControlName="signature"
+                        [disabled]="formData?.signature_date?.date"
+                        [(ngModel)]="signature"
+                        style="padding-left: 15px"
+                        >{{ 'Signature' | translate }}</mat-checkbox
+                      >
+                      <div *ngIf="formattedSignatureDate">{{ formattedSignatureDate }} ({{ 'Paris Time' | translate }})</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </form>
+          <!-- FOOTER -->
+          <ng-container>
+            <div class="p-grid" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 0.1px solid rgba(0, 0, 0, 0.1)">
+              <div class="p-col-12">
+                <div [innerHTML]="stepData?.segments[0]?.questions[0]?.special_question?.summary_footer"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="center-spinner" *ngIf="isLoading">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+
+          <div *ngIf="!formDetail.isPreview && formDetail?.admission_status !== 'submitted'" class="p-grid">
+            <ng-container *ngIf="stepData?.is_final_step && formData?.is_final_validator_active">
+              <div class="p-col-12" style="text-align: end; padding-right: 11px; margin-bottom: 10px">
+                <button
+                  *ngIf="isValidator && formDetail?.isFinalValidatorUser && formDetail?.admission_status !== 'ask_for_revision'"
+                  color="accent"
+                  mat-raised-button
+                  class="btn-save"
+                  matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }} "
+                  (click)="onAskForRevision()"
+                >
+                  {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }}
+                </button>
+                <!-- ask_for_revision + student = complete revision  -->
+                <button
+                  *ngIf="isReceiver && formDetail?.isFinalRevisionUser && formDetail?.admission_status === 'ask_for_revision'"
+                  color="accent"
+                  mat-raised-button
+                  matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}"
+                  (click)="onCompleteRevision()"
+                >
+                  {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+                </button>
+                <button
+                  *ngIf="isValidator && formDetail?.isFinalValidatorUser && formDetail?.admission_status !== 'ask_for_revision'"
+                  color="accent"
+                  mat-raised-button
+                  class="btn-save"
+                  matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}"
+                  [disabled]="!signature"
+                  (click)="validateForm()"
+                >
+                  <mat-icon class="mat-icon-default">
+                    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                      <path
+                        fill="currentColor"
+                        d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
+                      />
+                    </svg>
+                  </mat-icon>
+                  {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}
+                </button>
+                <button
+                  *ngIf="isReceiver && formDetail?.admission_status !== 'ask_for_revision' && stepData?.step_status === 'not_started'"
+                  color="accent"
+                  mat-raised-button
+                  class="btn-save"
+                  matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}"
+                  (click)="nextStepMessage('waiting_for_validation')"
+                  [disabled]="!signature"
+                >
+                  <mat-icon class="mat-icon-default">save</mat-icon>
+                  {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}
+                </button>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="!stepData?.is_final_step || (stepData?.is_final_step && !formData?.is_final_validator_active)">
+              <div class="p-col-12" style="text-align: end; padding-right: 11px; margin-bottom: 10px">
+                <ng-container>
+                  <button
+                    *ngIf="
+                      isReceiver && isValidator && (stepData?.step_status === 'not_started' || stepData?.step_status === 'need_validation')
+                    "
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }} "
+                    (click)="onAskForRevision()"
+                  >
+                    {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }}
+                  </button>
+                  <button
+                    *ngIf="isValidator && stepData?.step_status === 'need_validation' && !isReceiver"
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }} "
+                    (click)="onAskForRevision()"
+                  >
+                    {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }}
+                  </button>
+                  <button
+                    *ngIf="isValidator && stepData.step_status === 'need_validation' && !isReceiver"
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    (click)="nextStepMessage('validated')"
+                    matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('I accept all form above' | translate) }} "
+                  >
+                    {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('I accept all form above' | translate) }}
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="isReceiver">
+                  <button
+                    *ngIf="isReceiver && stepData.step_status === 'not_started'"
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    (click)="nextStepMessage('waiting_for_validation')"
+                    matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }} "
+                  >
+                    <!--      [disabled]="templateStepForm.invalid"-->
+                    {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}
+                  </button>
+                  <button
+                    *ngIf="isReceiver && isValidator && stepData.step_status === 'need_validation'"
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    (click)="nextStepMessage('validated')"
+                    matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }} "
+                  >
+                    {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}
+                  </button>
+                </ng-container>
+                <ng-container>
+                  <button
+                    *ngIf="stepData.step_status === 'ask_for_revision' && isReceiver"
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    (click)="onCompleteRevision()"
+                    matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }} "
+                  >
+                    {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+                  </button>
+                  <button
+                    *ngIf="
+                      (formDetail?.isFinalRevisionUser &&
+                        formDetail?.admission_status &&
+                        formDetail?.admission_status === 'ask_for_revision') ||
+                      (isReceiver &&
+                        stepData?.step_status === 'accept' &&
+                        formDetail?.is_final_validator_active &&
+                        !formDetail?.admission_status)
+                    "
+                    color="accent"
+                    mat-raised-button
+                    class="btn-accept"
+                    (click)="nextStepMessage('waiting_for_validation')"
+                    matTooltip="{{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }} "
+                  >
+                    {{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}
+                  </button>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+
+          <div *ngIf="formDetail?.isPreview" class="p-grid">
+            <div class="p-col-12" style="text-align: end; padding-right: 11px; margin-bottom: 10px">
+              <button color="accent" mat-raised-button class="btn-save" matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}" [disabled]="!signature">
+                <mat-icon class="mat-icon-default">save</mat-icon>
+                {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('I accept and continue to next step' | translate) }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+</div>

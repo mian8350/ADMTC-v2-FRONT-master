@@ -1,0 +1,263 @@
+<div class="top-space">
+  <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- ROW RESET START -->
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column text-right">
+        <div class="p-grid">
+          <div class="p-col-12 text-right">
+            <button
+              mat-raised-button
+              *ngIf="permissionService.editUserActionInUsersTablePerm() && isDisplayActionBtn"
+              (click)="addUserType()"
+              matTooltip="{{ 'COMPANY.USER_TYPE' | translate }}"
+              color="accent"
+            >
+              <mat-icon class="mat-icon-svgIcon" svgIcon="plus">plus</mat-icon>
+              {{ 'COMPANY.USER_TYPE' | translate }}
+            </button>
+            <button mat-raised-button color="primary" (click)="resetTable()" matTooltip="{{ 'RESET' | translate }}">
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+    <!-- ROW RESET END -->
+    <!---ROW FILTER START-->
+    <ng-container matColumnDef="user_type_filter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="userTypeFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let type of types" [value]="type?.name" [disabled]="type?.disabled">
+            {{ 'USER_TYPES.' + type?.name | translate }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="entityFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="entityFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let entity of entities" [value]="entity" [disabled]="entity?.disabled">
+            {{ entity | translate }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="companyFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="companyFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let company of companies" [value]="company?.company_name">
+            {{ company?.company_name }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="schoolFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let school of schools" [value]="school?.short_name" [disabled]="school?.disabled">
+            {{ school?.short_name | translate }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="rncpFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="rncpFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let title of titles" [value]="title?.short_name" [disabled]="title?.disabled">
+            {{ title?.short_name | translate }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="classFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+          [appendTo]="'body'"
+          style="width: 80%"
+          class="mrgn-btn"
+          placeholder="{{ 'Search' | translate }}*"
+          [formControl]="classFilter"
+          [clearable]="false"
+        >
+          <ng-option value="">
+            {{ 'AllM' | translate }}
+          </ng-option>
+          <ng-option *ngFor="let class of classes" [value]="class?.name" [disabled]="class?.disabled">
+            {{ class?.name | translate }}
+          </ng-option>
+        </ng-select>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <!--ROW FILTER END-->
+    <!-- ROW HEADER AND CONTENT START -->
+
+    <ng-container matColumnDef="user_type">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.USER_TYPE' | translate }}">
+        <h5 mat-sort-header="user_type">{{ 'COMPANY.USER_TYPE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.type?.name | translate">
+        {{ element?.type?.name | translate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="entity">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Entity' | translate }}">
+        <h5 mat-sort-header="entity">{{ 'Entity' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="'ENTITY.ENTITY_NAME.' + element?.entity_name | translate">
+        {{ 'ENTITY.ENTITY_NAME.' + element?.entity_name | translate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="company">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Company' | translate }}">
+        <h5 mat-sort-header="company">{{ 'Company' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [matTooltip]="element?.companies && element?.companies?.length ? element?.companies[0]?.company_name : ''"
+      >
+        {{ element?.companies && element?.companies?.length ? element?.companies[0]?.company_name : '' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="school">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}">
+        <h5 mat-sort-header="school">{{ 'School' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.school?.short_name">
+        {{ element?.school?.short_name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="rncp_title">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'RNCP Title' | translate }}">
+        <h5 mat-sort-header="rncp_title">{{ 'RNCP Title' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [matTooltip]="
+          element?.type?.name === 'ADMTC Director' ? getRncpTitleList(element?.titles_in_charge) : element?.assigned_rncp_title?.short_name
+        "
+      >
+        {{
+          element?.type?.name === 'ADMTC Director' ? getRncpTitleList(element?.titles_in_charge) : element?.assigned_rncp_title?.short_name
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="class">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Class' | translate }}">
+        <h5 mat-sort-header="class">{{ 'Class' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [matTooltip]="element?.school_type !== 'certifier' ? element?.class?.name : ('All Classes' | translate)"
+      >
+        {{ element?.school_type !== 'certifier' ? element?.class?.name : ('All Classes' | translate) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}">
+        <h5>{{ 'Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          (click)="onRemoveEntity(element)"
+          class="margin-right-button"
+          matTooltip="{{ 'Delete' | translate }}"
+          matTooltipPosition="above"
+          *ngIf="
+            (isOperator || (!isOperator && element.entity_name !== 'operator')) &&
+            dataCount &&
+            dataCount > 1 &&
+            permissionService.editUserActionInUsersTablePerm() &&
+            isDisplayActionBtn
+          "
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <!-- ROW HEADER AND CONTENT END -->
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'User Has No User Type Yet' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+      [length]="dataCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

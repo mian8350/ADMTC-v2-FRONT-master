@@ -1,0 +1,89 @@
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<div (click)="disableContextMenu()">
+  <div class="p-grid" fxLayout="row" fxLayoutAlign="start start" style="padding: 0px">
+    <div class="p-col-1">
+      <mat-icon style="vertical-align: middle; color: black">receipt</mat-icon>
+    </div>
+    <div class="p-col-10">
+      <h4 style="color: black">{{ 'Test' | translate }}</h4>
+    </div>
+    <div class="p-col-1">
+      <mat-icon (click)="closeDialog()" style="vertical-align: middle; color: black; cursor: pointer; float: right">clear</mat-icon>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 70px; height: 350px">
+    <mat-tab-group>
+      <mat-tab *ngIf="test" [label]="'Identity' | translate">
+        <ms-identity [testData]="test"></ms-identity>
+      </mat-tab>
+
+      <mat-tab *ngIf="test" [label]="'Tasks for this test' | translate">
+        <ms-automatic-task [testData]="test"></ms-automatic-task>
+      </mat-tab>
+
+      <mat-tab *ngIf="test" [label]="'Document uploaded' | translate">
+        <ms-document-uploaded [testData]="test"></ms-document-uploaded>
+      </mat-tab>
+
+      <mat-tab *ngIf="test" [label]="'Document Expected' | translate">
+        <ms-document-expected [testData]="test"></ms-document-expected>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div oncontextmenu="return false;">
+    <div fxFlex="20"></div>
+    <div fxFlex="80" fxLayout="row" fxLayoutAlign="space-around center">
+      <button
+        class="mat-button mat-raised-button mat-warn"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        (click)="onDelete()"
+        *ngIf="permissionService.editAcadKitNot06Perm()"
+        
+      >
+        <i class="fa-solid fa-trash-can" aria-hidden="true"></i> {{ 'Delete' | translate }}
+      </button>
+      <button
+        class="mat-button mat-raised-button"
+        style="background-color: #ffd740 !important"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        (click)="moveTest()"
+        *ngIf="permissionService.editAcadKitNot06Perm()"
+      >
+        <i class="fa fa-align-right" aria-hidden="true"></i>{{ 'Move' | translate }}
+      </button>
+      <button
+        class="mat-button mat-raised-button"
+        style="background-color: #fd9802 !important"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        (contextmenu)="onrightClick($event)"
+        (click)="onEdit()"
+        *ngIf="permissionService.editAcadKitNot06Perm()"
+      >
+        <i class="fa-solid fa-pencil" aria-hidden="true"></i>{{ 'Edit' | translate }}
+      </button>
+      <div *ngIf="contextmenu === true">
+        <div class="contextmenu" [ngStyle]="{ 'left.px': 10, 'top.px': 10 }">
+          <span (click)="editInNewTab()" class="context-message">Open in New Tab</span>
+        </div>
+      </div>
+      <button
+        class="mat-button mat-raised-button"
+        style="background-color: #4cb04e !important; color: white"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        (click)="onView()"
+      >
+        <mat-icon>fullscreen</mat-icon>{{ 'View' | translate }}
+      </button>
+    </div>
+    <div fxFlex="20"></div>
+  </div>
+</div>

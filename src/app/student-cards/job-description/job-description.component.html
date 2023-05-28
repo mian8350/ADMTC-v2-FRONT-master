@@ -1,0 +1,50 @@
+<div class="p-grid" *ngIf="!isWaitingForResponse">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <div class="p-col-12 button-right" *ngIf="classData && (classData.type_evaluation === 'score' || classData.type_evaluation === 'expertise')">
+      <button mat-raised-button color="accent" (click)="connectAsUser()">
+        {{ 'Access Student Job Description View' | translate }}
+      </button>
+    </div>
+    <mat-card *ngIf="classData && classData.type_evaluation === 'score'" class="pad-right-none">
+      <ng-container *ngIf="isOldJobDesc">
+        <ms-job-by-score-imported
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [classId]="classId"
+          [typeDisplay]="typeDisplay"
+          [jobDescriptionId]="jobDescriptionId"
+          [titleId]="titleId"
+          [studentPrevCourseData]="studentPrevCourseData"
+        >
+        </ms-job-by-score-imported>
+      </ng-container>
+      <ng-container *ngIf="!isOldJobDesc" class="pad-right-none">
+        <ms-job-by-score
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [classId]="classId"
+          [typeDisplay]="typeDisplay"
+          [jobDescriptionId]="jobDescriptionId"
+          [titleId]="titleId"
+          [studentPrevCourseData]="studentPrevCourseData"
+        >
+        </ms-job-by-score>
+      </ng-container>
+    </mat-card>
+    <mat-card *ngIf="classData && classData.type_evaluation === 'expertise'" class="pad-right-none">
+      <ms-job-by-competency
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [typeDisplay]="typeDisplay"
+        [jobDescriptionId]="jobDescriptionId"
+        [titleId]="titleId"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-job-by-competency>
+    </mat-card>
+  </div>
+</div>
+<div style="display: none">
+  <iframe [src]="studentJobDescDomain | safeResourceUrl" id="ifr"></iframe>  
+</div>

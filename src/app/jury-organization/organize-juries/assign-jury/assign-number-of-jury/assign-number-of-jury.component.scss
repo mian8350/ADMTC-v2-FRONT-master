@@ -1,0 +1,7 @@
+.jury-name {
+  font-size: 16px;
+  text-transform: capitalize;
+}
+:host ::ng-deep.mat-tab-label.mat-tab-disabled {
+  cursor: pointer !important;
+}

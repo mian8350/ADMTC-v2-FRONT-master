@@ -1,0 +1,32 @@
+[
+    {
+        "civility": "Mr",
+        "firstName": "James",
+        "lastName": "Smith",
+        "cide": "Admin",
+        "school": "Admin",
+        "advisor": "Advisor",
+        "etablissement": "",
+        "status": "Registered"
+    },
+    {
+        "civility": "Mr",
+        "firstName": "Robert",
+        "lastName": "REdford",
+        "cide": "",
+        "school": "Admin",
+        "advisor": "",
+        "etablissement": "School ABC",
+        "status": "Not Registered"
+    },
+    {
+        "civility": "Mrs",
+        "firstName": "Angelina",
+        "lastName": "Jolie",
+        "cide": "",
+        "school": "",
+        "advisor": "Advisor",
+        "etablissement": "",
+        "status": "Issue on email"
+    }
+]

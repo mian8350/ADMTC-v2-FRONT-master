@@ -1,0 +1,29 @@
+<!-- Spinner while waiting for the data -->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator-documents">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<!-- Looping throw root folders -->
+
+<mat-card *ngIf="!isWaitingForResponse && rootFolders.length>0" >
+  <ms-subjects-for-certification-folder
+      *ngFor="let folder of rootFolders; let i = index" 
+      [folder]="folder"
+      [isSubfolder]="false"
+      [dataSubFolder]=""
+      [schoolId]="schoolId"
+      [isRootFolder]="true"
+      [customRootFolderIndex]="getCustomRootFolderIndex(i)"
+      (updateDocument)="updateDocument($event)">
+  </ms-subjects-for-certification-folder>
+</mat-card>
+
+
+<mat-card  *ngIf="!isWaitingForResponse && rootFolders.length===0">
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'STUDENT_CARD.SUBJECTFORCERTIFICATION' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

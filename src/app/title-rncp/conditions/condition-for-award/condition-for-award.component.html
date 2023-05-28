@@ -1,0 +1,505 @@
+<div class="p-grid">
+  <div class="p-col-12 classHeading">
+    <h3>{{'PARAMETERS-RNCP.TEST.ConditionsTitleTxt' | translate}}</h3>
+  </div>
+</div>
+<div class="p-grid" *ngIf="!isWaitingForResponse">
+    <div class="p-col-6">
+        <div class="p-grid">
+            <div class="p-col-3 align-item-vcenter">
+                <span style="margin-right: 10px; margin-left: 10px">{{'EXPERTISE.Marks.title' | translate}}</span>
+                <mat-slide-toggle [(ngModel)]="expertise_mark_point_status"></mat-slide-toggle>
+                <span style="margin-left: 10px">{{'EXPERTISE.Points.title' | translate}}</span>
+            </div>
+            <div class="p-col-2">
+                <mat-form-field *ngIf="expertise_mark_point_status === true" style="margin-top: 10px">
+                    <input matInput [(ngModel)]="expertise_max_point" placeholder="{{'EXPERTISE.MAXPOINT.title' | translate}}" type="number" min="0">
+                </mat-form-field>
+            </div>
+            <div class="p-col-7 align-item-hright">
+              <button mat-raised-button color="accent" (click)="onDuplicatedExpertise()"
+                      *ngIf="form.length < 1"
+                      [matTooltip]="'PARAMETERS-RNCP.DUPLICATE_CONDITION_CLASS' | translate">
+                  <mat-icon>file_copy</mat-icon>
+              </button>
+              <button mat-raised-button color="accent" (click)="addNewExpertiseDialog()" class="right-button">
+                  <mat-icon>add</mat-icon>
+                  {{'EXPERTISE.ADDEXPERTISE' | translate}}
+              </button>
+            </div>
+        </div>
+        <form [formGroup]="form">
+            <div cdkDropList (cdkDropListDropped)="dropDragExpertise($event)">
+                <mat-card class="condition-card accent-border" *ngFor="let expertise of form['controls'];
+        let expertiseIndex = index" [formGroupName]="expertiseIndex" cdkDrag>
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title style="margin-left: 7px">
+                                    {{expertise.get('block_of_experise').value}}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="p-grid">
+                                <div class="p-col-10">
+                                    <mat-form-field>
+                                        <input matInput placeholder="{{'EXPERTISE.NAME.title' | translate}}"
+                                               formControlName="block_of_experise"/>
+                                    </mat-form-field>
+                                </div>
+                                <div class="p-col-2">
+                                  <div class="p-grid" style="justify-content: flex-end;">
+                                    <!--Remove Expertise-->
+                                    <button mat-icon-button mat-mini-fab class="small-icon" color="red"
+                                    style="float: right"
+                                    (click)="removeExpertise(expertiseIndex, expertise.get('_id').value)">
+                                    <mat-icon>remove</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="p-grid"
+                                 *ngIf="!expertise.get('transversal_block').value;">
+                                <div class="p-col-4">
+                                    <span style="text-align: center">{{'EXPERTISE.FINALSCORE.title' | translate}}</span>
+                                    <br>
+                                    <mat-slide-toggle style="text-align: center"
+                                                      formControlName="count_for_title_final_score"></mat-slide-toggle>
+                                </div>
+                                <div class="p-col-2">
+                                    <mat-form-field>
+                                        <input matInput placeholder="{{'EXPERTISE.MAXPOINT.title' | translate}}"
+                                               type="number" min="0"
+                                               formControlName="max_point"/>
+                                    </mat-form-field>
+                                </div>
+                                <div class="p-col-2">
+                                    <mat-form-field>
+                                        <input matInput placeholder="{{'EXPERTISE.MINSCORE.title' | translate}}"
+                                               type="number" min="0"
+                                               formControlName="min_score"/>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="p-grid">
+                                <div class="p-col">
+                                    <mat-form-field>
+                                        <textarea matInput formControlName="description"
+                                                  cdkTextareaAutosize
+                                                  cdkAutosizeMaxRows="500"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="p-grid">
+                                <div class="p-col">
+                                    <button mat-raised-button color="greyed" style="margin-left: 7px"
+                                            (click)="addNewSubject(expertiseIndex)">
+                                        <mat-icon>add</mat-icon>
+                                        {{'PARAMETERS-RNCP.TEST.ADDSUBJECT' | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div formGroupName="subjects">
+                                <mat-card class="background-primary subject-card"
+                                          *ngFor=" let subject of expertise.controls['subjects']['controls']; let subjectIndex = index"
+                                          [formGroupName]="subjectIndex">
+                                    <mat-card-content>
+                                        <div class="p-grid" *ngIf="!expertise.get('transversal_block').value">
+                                            <mat-slide-toggle
+                                                    formControlName="is_subject_transversal_block">{{'PARAMETERS-RNCP.TEST.TRANSVERSAL_BLOCK' | translate}}</mat-slide-toggle>
+                                        </div>
+                                        <!-- For normal block Start-->
+                                        <div *ngIf="!subject.get('is_subject_transversal_block').value; else transversalOption">
+                                            <div class="p-grid" style="margin-top: 10px"
+                                                 *ngIf="!expertise.get('transversal_block').value; else subjectForTransversal">
+                                                <div class="p-col-11">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.SUBJECTNAME' | translate}}"
+                                                               formControlName="subject_name"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-1">
+                                                  <div class="p-grid" style="justify-content: flex-end;">
+                                                    <button mat-icon-button class="small-icon" color="red"
+                                                    (click)="removeSubject(expertiseIndex, subjectIndex, subject.get('_id').value)">
+                                                        <mat-icon>remove</mat-icon>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-grid">
+                                                <div class="p-col-2">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.COEFFICIENT' | translate}}"
+                                                               type="number" min="0"
+                                                               formControlName="coefficient"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-2">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.MINIMUMSCORE' | translate}}"
+                                                               type="number" min="0"
+                                                               formControlName="minimum_score_for_certification"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-2">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.CREDITS' | translate}}"
+                                                               formControlName="credit"
+                                                               type="number" min="0"/>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <ng-template #subjectForTransversal>
+                                                <div class="p-grid" style="margin-top: 10px">
+                                                    <div class="p-col-10">
+                                                        <mat-form-field>
+                                                            <input matInput
+                                                                   placeholder="{{'PARAMETERS-RNCP.TEST.SUBJECTNAME' | translate}}"
+                                                                   formControlName="subject_name"/>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="p-col-2">
+                                                        <button mat-icon-button color="dark"
+                                                                style="float: right"
+                                                                (click)="removeSubject(expertiseIndex, subjectIndex, subject.get('_id').value)">
+                                                            <mat-icon>close</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                            <div class="p-grid">
+                                                <div class="p-col">
+                                                    <button mat-raised-button color="dark" style="margin-left: 7px"
+                                                            (click)="addNewTest(expertiseIndex, subjectIndex)">
+                                                        <mat-icon>add</mat-icon>
+                                                        {{'PARAMETERS-RNCP.TEST.ADDTEST' | translate}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div formGroupName="subject_tests">
+                                                <mat-card class="test-card"
+                                                          *ngFor="let subject_tests of subject.controls['subject_tests']['controls']; let testIndex = index"
+                                                          [formGroupName]="testIndex">
+                                                    <mat-card-content>
+                                                        <!---------------General Test Start------------>
+                                                        <div class="p-grid">
+                                                            <div class="p-col-6">
+                                                                <mat-form-field>
+                                                                    <input matInput
+                                                                           placeholder="{{'PARAMETERS-RNCP.TEST.TESTNAME' | translate}}"
+                                                                           formControlName="evaluation">
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="p-col-3">
+                                                                <mat-select
+                                                                        placeholder="{{'PARAMETERS-RNCP.TEST.TESTTYPE' | translate}}"
+                                                                        formControlName="type">
+                                                                    <mat-option [value]="type.key"
+                                                                                *ngFor="let type of testType">{{'PARAMETERS-RNCP.TEST.TYPE.' + type.value | translate}}</mat-option>
+                                                                </mat-select>
+                                                            </div>
+                                                            <div class="p-col-2">
+                                                                <mat-form-field>
+                                                                    <input matInput
+                                                                           placeholder="{{'PARAMETERS-RNCP.TEST.WEIGHT' | translate}}"
+                                                                           formControlName="weight" type="number"
+                                                                           min="0.1" max="100">
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="p-col-1">
+                                                                <button mat-icon-button class="small-icon" color="red"
+                                                                        (click)="removeTest(expertiseIndex, subjectIndex, testIndex, subject_tests.get('_id').value)">
+                                                                    <mat-icon>remove</mat-icon>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <!---------------General Test End------------>
+                                                        <!-- Prarael intake start-->
+                                                        <div class="p-grid">
+                                                            <div class="p-col-12">
+                                                                <fieldset>
+                                                                    <legend>{{'PARAMETERS-RNCP.TEST.PARALLEL_INTAKE' | translate}}
+                                                                        :
+                                                                    </legend>
+                                                                    <div class="p-grid">
+                                                                        <div class="p-col-6">
+                                                                            <mat-slide-toggle style="margin-top: 15px"
+                                                                                    formControlName="parallel_intake">{{'PARAMETERS-RNCP.TEST.PI' | translate}}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                        <div class="p-col-6">
+                                                                            <div class="p-grid"
+                                                                                 *ngIf="subject_tests.get('parallel_intake').value; else noPararelIntake">
+                                                                                <div class="p-col-8">
+                                                                                    <mat-form-field>
+                                                                                        <input matInput
+                                                                                               formControlName="auto_mark"
+                                                                                               type="number" min="1" max="20"
+                                                                                               placeholder="{{'PARAMETERS-RNCP.TEST.AUTO_MARK' | translate}}">
+                                                                                        <span matSuffix>/20</span>
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                            </div>
+                                                                            <ng-template #noPararelIntake>
+                                                                                <div class="p-grid">
+                                                                                    <div class="p-col">
+                                                                                        <p style="margin-top: 15px">{{'PARAMETERS-RNCP.TEST.AUTO_MARK' | translate}}
+                                                                                            /20</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ng-template>
+                                                                        </div>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Prarael intake End-->
+                                                        <!-----------Retake Test Start----------------->
+                                                        <div class="p-grid"
+                                                             *ngIf="!disableRetake(subject_tests.get('type').value)
+                                                             && !expertise.get('is_retake_by_block').value">
+                                                            <div class="p-col-12">
+                                                                <fieldset>
+                                                                    <legend>Rattrapage pendant I'Année:</legend>
+                                                                    <div class="p-grid">
+                                                                        <div class="p-col-3">
+                                                                            <br>
+                                                                            <mat-slide-toggle
+                                                                                    formControlName="is_retake_test">
+                                                                                {{'PARAMETERS-RNCP.TEST.RETAKE' | translate}}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                        <div class="p-col-3"
+                                                                             *ngIf="subject_tests.value?.is_retake_test">
+                                                                            <br>
+                                                                            <mat-slide-toggle
+                                                                                    formControlName="use_best_mark">
+                                                                                {{'TESTCORRECTIONS.BEST_MARK' | translate }}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                        <div class="p-col-3"
+                                                                             *ngIf="subject_tests.value?.is_retake_test">
+                                                                            <mat-form-field>
+                                                                                <span matPrefix>≤ &nbsp;</span>
+                                                                                <input matInput
+                                                                                       placeholder="{{'PARAMETERS-RNCP.TEST.MIN_SCORE'| translate }}"
+                                                                                       formControlName="minimum_score"
+                                                                                       type="number" min="0">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="p-col-3"
+                                                                             *ngIf="subject_tests.value?.is_retake_test">
+                                                                            <br>
+                                                                            <mat-checkbox
+                                                                                    formControlName="retake_when_absent_justified">
+                                                                                {{'TESTCORRECTIONS.AJ' | translate}}
+                                                                            </mat-checkbox>
+                                                                            <mat-checkbox style="margin-left: 10px"
+                                                                                          formControlName="retake_when_absent_not_justified">
+                                                                                {{'TESTCORRECTIONS.ANJ' | translate}}
+                                                                            </mat-checkbox>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--Different notation Grid Start-->
+                                                                    <div class="p-grid"
+                                                                         *ngIf="subject_tests.value?.is_retake_test">
+                                                                        <div class="p-col-4">
+                                                                            <br/>
+                                                                            <mat-slide-toggle
+                                                                                    formControlName="is_different_condition">
+                                                                                {{'PARAMETERS-RNCP.TEST.DIFF_NOTATION_GRID' | translate}}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                        <div class="p-col-8"
+                                                                             formGroupName="retake_subject_test"
+                                                                             *ngIf="subject_tests.value.is_different_condition">
+                                                                            <div class="p-grid">
+                                                                                <div class="p-col-6">
+                                                                                    <mat-form-field>
+                                                                                        <input matInput
+                                                                                               placeholder="{{'PARAMETERS-RNCP.TEST.TESTNAME' | translate}}"
+                                                                                               formControlName="evaluation">
+                                                                                    </mat-form-field>
+                                                                                </div>
+                                                                                <div class="p-col-6">
+                                                                                    <mat-select
+                                                                                            placeholder="{{'PARAMETERS-RNCP.TEST.EVALUATIONTYPE' | translate}}"
+                                                                                            formControlName="type">
+                                                                                        <mat-option [value]="type.key"
+                                                                                                    *ngFor="let type of testTypeRetake">{{'PARAMETERS-RNCP.TEST.TYPE.' + type.value | translate}}
+                                                                                        </mat-option>
+                                                                                    </mat-select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--Different notation Grid End-->
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                        <!-----------Retake Test ENd------------------->
+                                                        <!-----------Retake Block Start---------------->
+                                                        <div class="p-grid"
+                                                             *ngIf="!disableRetake(subject_tests.get('type').value)
+                                                             && !expertise.get('is_retake_by_block').value
+                                                             && showSliderRetakeBlock(expertise.get('_id').value)">
+                                                            <div class="p-col-12">
+                                                                <fieldset>
+                                                                    <legend>Rattrapage de Bloc:</legend>
+                                                                    <div class="p-grid">
+                                                                        <div class="p-col-12">
+                                                                            <mat-slide-toggle formControlName="score_not_calculated_for_retake_block"
+                                                                                              (change)="changeEvaluationSelection(subject_tests, $event)">
+                                                                                {{subject_tests.get('score_not_calculated_for_retake_block').value
+                                                                              ? ('RETAKE_BY_BLOCK.CALCULATED' | translate) : ('RETAKE_BY_BLOCK.NOT_CALCULATED' | translate)}}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="p-grid">
+                                                                        <div class="p-col-6">
+                                                                            <br>
+                                                                            <mat-slide-toggle formControlName="test_is_not_retake_able_in_retake_block"
+                                                                                              (change)="testIsNotRetakeAble(subject_tests, $event)">
+                                                                                {{subject_tests.get('test_is_not_retake_able_in_retake_block').value
+                                                                              ? ('RETAKE_BY_BLOCK.RETAKE_ABLE' | translate) : ('RETAKE_BY_BLOCK.NOT_RETAKE' | translate)}}
+                                                                            </mat-slide-toggle>
+                                                                        </div>
+                                                                        <div class="p-col-6" *ngIf="subject_tests.get('test_is_not_retake_able_in_retake_block').value">
+                                                                            <mat-select placeholder="{{'Select Test' | translate}}" formControlName="selected_test_retake_block">
+                                                                                <mat-option [value]="eval.id" *ngFor="let eval of evaluationRetakeBlock.get(expertise.get('_id').value)"
+                                                                                            (click)="selectTestEval(expertiseIndex, subjectIndex, testIndex, eval , subject_tests.get('_id').value)">
+                                                                                    {{eval.name}}</mat-option>
+                                                                            </mat-select>
+                                                                        </div>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                        <!-----------Retake Block END---------------->
+                                                        <!------------Visible No Visible Start------------->
+                                                        <div class="p-grid" style="margin-top: 20px">
+                                                            <div class="p-col-2">
+                                                                <span>{{'PARAMETERS-RNCP.TEST.RESULT_VISIBLE' | translate}}</span>
+                                                            </div>
+                                                            <div class="p-col-4">
+                                                                <mat-slide-toggle
+                                                                        formControlName="visible_before_decision_jury">
+                                                                    {{subject_tests.get('visible_before_decision_jury').value ? ('PARAMETERS-RNCP.TEST.VISIBLE' | translate) : ('PARAMETERS-RNCP.TEST.NONVISIBLE' | translate)}}
+                                                                </mat-slide-toggle>
+                                                            </div>
+                                                            <div class="p-col-6">
+                                                                <mat-slide-toggle
+                                                                        formControlName="never_visible_for_student">{{'PARAMETERS-RNCP.TEST.NEVERVISBLE' | translate}}</mat-slide-toggle>
+                                                            </div>
+                                                        </div>
+                                                        <!------------Visible No Visible END------------->
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </div>
+                                        </div>
+                                        <!-- For normal block End-->
+                                        <!-- For transversal subject Start-->
+                                        <ng-template #transversalOption>
+                                            <div class="p-grid">
+                                                <mat-select placeholder="Select subject"
+                                                            formControlName="subject_transversal_block_id">
+                                                    <mat-option [value]="sub._id"
+                                                                *ngFor="let sub of getAllSubjectOfTransversal()">{{sub?.subject_name}}</mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="p-grid">
+                                                <div class="p-col-3">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.COEFFICIENT' | translate}}"
+                                                               type="number" min="0"
+                                                               formControlName="coefficient"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-3">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.MINIMUMSCORE' | translate}}"
+                                                               type="number" min="0"
+                                                               formControlName="minimum_score_for_certification"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-3">
+                                                    <mat-form-field>
+                                                        <input matInput
+                                                               placeholder="{{'PARAMETERS-RNCP.TEST.CREDITS' | translate}}"
+                                                               formControlName="credit"
+                                                               type="number" min="0"/>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="p-col-3">
+                                                    <button mat-icon-button color="dark" style="float: right"
+                                                            (click)="removeSubject(expertiseIndex, subjectIndex, subject.get('_id').value)">
+                                                        <mat-icon>close</mat-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="p-grid">
+                                                <p style="align-content: center">{{'PARAMETERS-RNCP.TRANSVERSAL_MESSAGES' | translate}}</p>
+                                            </div>
+                                        </ng-template>
+                                        <!-- For transversal subject End-->
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="p-grid">
+                                <div class="p-col">
+                                    <button mat-raised-button class="page-break-button"
+                                            *ngIf="!expertise.get('page_break').value"
+                                            color="greyed"
+                                            (click)="addPageBreak(expertiseIndex)">
+                                        <mat-icon>add</mat-icon>
+                                        {{'TEST.PAGEBREAK' | translate}}
+                                    </button>
+                                    <button mat-raised-button class="page-break-button"
+                                      *ngIf="expertise.get('page_break').value"
+                                      color="red"
+                                      (click)="removePageBreak(expertiseIndex)">
+                                        <mat-icon>remove</mat-icon>
+                                        {{'TEST.PAGEBREAK' | translate}}
+                                    </button>                                   
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                    <mat-card-content>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </form>
+    </div>
+    <div class="p-col-6">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <button mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="submitExpertise()" style="float: right">
+            <mat-icon>save</mat-icon>
+            {{'Save' | translate}}
+          </button>
+          <button mat-raised-button color="accent" style="float: right" (click)="onPdfGeneration()">
+            <i class="fa fa-file-pdf-o mr-1"></i>PDF
+          </button>
+        </div>
+      </div>
+        <ms-condition-preview [expertise]="form.value" [rncpTitle]="rncpTitle"
+                              [classData]="classData" [markPointStatus]="expertise_mark_point_status" [maxPoint]="expertise_max_point"></ms-condition-preview>
+    </div>
+</div>
+<!-- <div class="p-grid" *ngIf="isWaitingForResponse">
+    <div class="spinner-container">
+        <mat-spinner color="accent"></mat-spinner>
+    </div>
+</div> -->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

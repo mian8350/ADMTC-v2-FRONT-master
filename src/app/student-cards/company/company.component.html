@@ -1,0 +1,834 @@
+<div
+  class="p-grid"
+  *ngIf="isLoadingDetail || isLoadingUpdateStudent"
+  class="p-col-12"
+  style="text-align: center !important; display: contents"
+>
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
+
+<div *ngIf="!isLoadingDetail && !isLoadingUpdateStudent && companyForm" class="p-grid" [formGroup]="companyForm">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12" style="text-align: right; padding-right: 0px">
+        <button
+          *ngIf="!isStudent && active && permissionService.editCompanyTabStudentCardPerm()"
+          mat-raised-button
+          color="accent"
+          [disabled]="studentPrevCourseData"
+          (click)="updateCompany()"
+        >
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+        <button mat-raised-button color="accent" class="margin-right-0" (click)="continue.emit('next')">
+          {{ 'CARDDETAIL.Continue' | translate }}
+          <mat-icon class="mat-icon-default">keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+    <fieldset class="fieldset-class">
+      <mat-card style="margin-left: 0px; margin-right: 0px; margin-top: 0px; min-height: 200px">
+        <mat-card-header style="display: flex; justify-content: space-between; place-items: center">
+          <mat-card-title>
+            <div class="p-grid">
+              <H3 style="margin-bottom: 2rem">{{ 'SM_COMPANY.Current Company contract' | translate }}</H3>
+            </div>
+          </mat-card-title>
+          <div class="p-grid p-justify-around">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ (active ? 'SM_COMPANY.CONTRACT_ACTIVE' : 'SM_COMPANY.CONTRACT_INACTIVE') | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ (active ? 'SM_COMPANY.CONTRACT_ACTIVE' : 'SM_COMPANY.CONTRACT_INACTIVE') | translate }}">
+                    <span [ngClass]="{ 'icon-true': active, 'icon-false': !active }">
+                      {{ active ? '&#10004;' : '&#10799;' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-grid p-justify-around">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status" style="padding-top: 7px">
+                    <p
+                      class="text-status"
+                      style="text-overflow: ellipsis; line-height: 13px; white-space: break-spaces; max-width: 133px !important"
+                    >
+                      {{ 'Évaluation pro pédagogique' | translate }}
+                    </p>
+                  </div>
+                  <span
+                    title="{{
+                      (studentData?.academic_pro_evaluation?.status
+                        ? 'eval_pro_status.' + studentData?.academic_pro_evaluation?.status
+                        : 'eval_pro_status.not_sent'
+                      ) | translate
+                    }}"
+                  >
+                    <span
+                      [ngClass]="{
+                        'icon-true': studentData?.academic_pro_evaluation?.status === 'submitted',
+                        'icon-false': studentData?.academic_pro_evaluation?.status !== 'submitted'
+                      }"
+                    >
+                      {{ studentData?.academic_pro_evaluation?.status === 'submitted' ? '&#10004;' : '&#10799;' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-grid p-justify-around">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status" style="padding-top: 7px">
+                    <p
+                      class="text-status"
+                      style="text-overflow: ellipsis; line-height: 13px; white-space: break-spaces; max-width: 133px !important"
+                    >
+                      {{ 'Soft Skill Evaluation Professionnelle' | translate }}
+                    </p>
+                  </div>
+                  <span
+                    title="{{
+                      (studentData?.soft_skill_pro_evaluation?.status
+                        ? 'eval_pro_status.' + studentData?.soft_skill_pro_evaluation?.status
+                        : 'eval_pro_status.not_sent'
+                      ) | translate
+                    }}"
+                  >
+                    <span
+                      [ngClass]="{
+                        'icon-true': studentData?.soft_skill_pro_evaluation?.status === 'submitted',
+                        'icon-false': studentData?.soft_skill_pro_evaluation?.status !== 'submitted'
+                      }"
+                    >
+                      {{ studentData?.soft_skill_pro_evaluation?.status === 'submitted' ? '&#10004;' : '&#10799;' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Dummy so status card can be centered -->
+          <div class="p-grid p-justify-around" style="visibility: hidden">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ (active ? 'SM_COMPANY.CONTRACT_ACTIVE' : 'SM_COMPANY.CONTRACT_INACTIVE') | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ (active ? 'SM_COMPANY.CONTRACT_ACTIVE' : 'SM_COMPANY.CONTRACT_INACTIVE') | translate }}">
+                    <span [ngClass]="{ 'icon-true': active, 'icon-false': !active }">
+                      {{ active ? '&#10004;' : '&#10799;' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-divider class="mrgn-b-lg"></mat-divider>
+        <mat-card-content>
+          <fieldset
+            class="fieldset-class"
+            [disabled]="isStudent || studentPrevCourseData || !permissionService.editCompanyTabStudentCardPerm()"
+          >
+            <div class="p-col-12 no-padding">
+              <div class="p-col-8 no-padding float-left">
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form">
+                        <label>{{ 'SM_COMPANY.Company' | translate }} :</label>
+                      </div>
+                      <div class="p-col-8 width-55">
+                        <mat-form-field fxFlex>
+                          <input
+                            type="text"
+                            placeholder="{{ 'Select Company' | translate }}"
+                            matInput
+                            #myControl
+                            formControlName="company"
+                            [matAutocomplete]="auto"
+                            (keyup)="CompanyData()"
+                          />
+                          <mat-autocomplete #auto="matAutocomplete" [panelWidth]="'fit'" class="company-option">
+                            <mat-option [value]="'NEW'" (click)="changeCompany('NEW')"
+                              ><mat-icon class="icon-add mat-icon-default">add</mat-icon
+                              >{{ 'job_desc.add_company' | translate }}</mat-option
+                            >
+                            <mat-option [value]="" (click)="changeCompany('')">{{ 'None' | translate }}</mat-option>
+                            <mat-option *ngFor="let company of companys" [value]="company.company_name" (click)="changeCompany(company)">
+                              {{ company?.company_name + (company && company.no_RC ? ' - ' + company.no_RC : '') }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form-distance-left mentor-label">
+                        <label>{{ 'Mentor' | translate }} :</label>
+                      </div>
+                      <div class="p-col-8 width-55">
+                        <ng-container *ngIf="!companyForm.get('mentor').disabled">
+                          <ng-select
+                            *ngIf="isMentorEnable"
+                            class="ng-select-input custom"
+                            appendTo="body"
+                            [items]="mentors"
+                            bindValue="_id"
+                            bindLabel="name"
+                            formControlName="mentor"
+                            #select
+                            (change)="changeMentor($event)"
+                          >
+                            <ng-template ng-header-tmp>
+                              <div class="ng-select-custom-header" (click)="addMentor(select)">
+                                <mat-icon class="icon-add mat-icon-default">add</mat-icon> {{ 'job_desc.add_mentor' | translate }}
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                          <mat-form-field fxFlex *ngIf="!isMentorEnable">
+                            <input type="text" placeholder="{{ 'SM_COMPANY.Select Mentor' | translate }}" matInput [disabled]="true" />
+                          </mat-form-field>
+                        </ng-container>
+                        <ng-container *ngIf="companyForm.get('mentor').disabled">
+                          <div class="mentor-container">
+                            <div class="mentor-email-container">
+                              <span class="active-mentor">
+                                {{ mentorActive }}
+                              </span>
+                              <span class="active-mentor">({{ mentorEmail }})</span>
+                            </div>
+                            <mat-icon
+                              class="icon-status"
+                              [matTooltip]="mentorEmailStatus | translate"
+                              matTooltipPosition="above"
+                              *ngIf="mentorEmailStatus"
+                              [ngClass]="{
+                                red: mentorEmailStatus === 'incorrect_email',
+                                black: mentorEmailStatus === 'pending',
+                                green: mentorEmailStatus === 'active'
+                              }"
+                              aria-hidden="true"
+                              >lens
+                            </mat-icon>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form">
+                        <label> Categorie Accrochage:</label>
+                      </div>
+                      <div class="p-col-8 width-55">
+                        <mat-form-field fxFlex>
+                          <input
+                            type="text"
+                            placeholder="Categorie Accrochage"
+                            matInput
+                            formControlName="type_of_formation"
+                            [matAutocomplete]="autoFormation"
+                            matAutocompletePosition="below"
+                            (keyup)="filterFormation()"
+                          />
+                          <mat-autocomplete
+                            #autoFormation="matAutocomplete"
+                            [panelWidth]="'fit'"
+                            [displayWith]="displayFormation.bind(this)"
+                          >
+                            <mat-option *ngFor="let option of typeInformation" [value]="option.key" (click)="checkTypeFormation()">
+                              {{ option.value }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form">
+                        <label> Categorie Suivi Insertion :</label>
+                      </div>
+                      <div class="p-col-8 width-55" style="padding-left: 0px">
+                        <mat-form-field fxFlex>
+                          <input
+                            type="text"
+                            placeholder="Categorie Suivi Insertion"
+                            matInput
+                            formControlName="category_insertion"
+                            [matAutocomplete]="autoCategory"
+                            matAutocompletePosition="below"
+                            disabled
+                            readonly
+                          />
+                          <mat-autocomplete
+                            #autoCategory="matAutocomplete"
+                            [panelWidth]="'fit'"
+                            [displayWith]="displayInsertion.bind(this)"
+                          >
+                            <mat-option *ngFor="let option of fieldTwoOption" [value]="option.key">
+                              {{ option.value }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form">
+                        <label>{{ 'SM_COMPANY.From' | translate }} :</label>
+                      </div>
+                      <div class="p-col-8 width-55">
+                        <mat-form-field>
+                          <mat-label>{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                          <input
+                            matInput
+                            readonly
+                            formControlName="start_date"
+                            [max]="companyForm.get('end_date').value"
+                            (click)="picker1.open()"
+                            [matDatepicker]="picker1"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                          <mat-error
+                            *ngIf="
+                              companyForm.get('start_date').hasError('required') &&
+                              (companyForm.get('start_date').dirty || companyForm.get('start_date').touched)
+                            "
+                            >{{ 'This field is required' | translate }}</mat-error
+                          >
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <div class="p-grid baseline">
+                      <div class="p-col-4 width-form-distance-left">
+                        <label>{{ 'SM_COMPANY.To' | translate }} :</label>
+                      </div>
+                      <div class="p-col-8 width-55">
+                        <mat-form-field>
+                          <mat-label>{{ 'SM_COMPANY.To' | translate }}</mat-label>
+                          <input
+                            matInput
+                            formControlName="end_date"
+                            [min]="companyForm.get('start_date').value"
+                            readonly
+                            (click)="picker2.open()"
+                            [matDatepicker]="picker2"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                          <mat-error
+                            *ngIf="
+                              companyForm.get('end_date').hasError('required') &&
+                              (companyForm.get('end_date').dirty || companyForm.get('end_date').touched)
+                            "
+                            >{{ 'This field is required' | translate }}</mat-error
+                          >
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="no-padding btn-status">
+                <div class="p-grid">
+                  <!-- <div style="padding-top: 1rem" class="no-padding">
+                    <div class="p-grid baseline" style="text-align: right; padding-top: 4px; display: block">
+                      <label class="yellow-button btn-student label-status" style="width: 160px" *ngIf="active">
+                        <span title="{{ 'SM_COMPANY.Contract Active' | translate }}" style="color: green">
+                          <mat-icon aria-hidden="true" style="font-size: 12px">lens</mat-icon>
+                        </span>
+                        {{ 'SM_COMPANY.Contract Active' | translate }}
+                      </label>
+                      <label mat-raised-button class="yellow-button btn-student label-status" style="width: 160px" *ngIf="!active">
+                        <span title="{{ 'SM_COMPANY.Contract Non Active' | translate }}" style="color: #f44336">
+                          <mat-icon aria-hidden="true" style="font-size: 12px">lens</mat-icon>
+                        </span>
+                        {{ 'SM_COMPANY.Contract Non Active' | translate }}
+                      </label>
+                    </div>
+                  </div> -->
+                  <div class="no-padding">
+                    <ng-container *ngIf="!active && permissionService.editCompanyTabStudentCardPerm() && !studentPrevCourseData">
+                      <div class="p-grid baseline" style="text-align: right; padding-top: 4px; display: block">
+                        <button
+                          *ngIf="!active && !isStudent"
+                          mat-raised-button
+                          color="primary"
+                          type="submit"
+                          class="company-button"
+                          [disabled]="!companyForm.valid || studentPrevCourseData"
+                          (click)="onClickActiveContract()"
+                        >
+                          <mat-icon svgIcon="signature-freehand" class="mat-icon-svgIcon"></mat-icon>
+                          {{ 'SM_COMPANY.Activate this Contract' | translate }}
+                        </button>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="active && permissionService.editCompanyTabStudentCardPerm() && !studentPrevCourseData">
+                      <div class="p-grid baseline" style="text-align: right; padding-top: 4px; display: block">
+                        <button
+                          *ngIf="active && !isStudent"
+                          mat-raised-button
+                          color="accent"
+                          class="company-button"
+                          [disabled]="companyForm.get('mentor').enabled || studentPrevCourseData"
+                          (click)="changeMentorButton()"
+                        >
+                          <mat-icon svgIcon="account-child-circle" class="mat-icon-svgIcon"></mat-icon>
+                          {{ 'SM_COMPANY.Change the Mentor' | translate }}
+                        </button>
+                      </div>
+                      <div class="p-grid baseline" style="text-align: right; padding-top: 4px; display: block">
+                        <button
+                          *ngIf="active && !isStudent"
+                          mat-raised-button
+                          color="warn"
+                          type="submit"
+                          class="company-button"
+                          [disabled]="!companyForm.valid || studentPrevCourseData"
+                          (click)="onClickInActiveContract()"
+                        >
+                          <mat-icon svgIcon="close-circle-outline" class="mat-icon-svgIcon"></mat-icon>
+                          {{ 'SM_COMPANY.Close the contract' | translate }}
+                        </button>
+                      </div>
+                      <div class="p-grid baseline alert-block">
+                        <span *ngIf="active && !isStudent && !companyForm.valid" class="message-alert">{{
+                          'Button will active if date of end contract is populated' | translate
+                        }}</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div *ngIf="contractStatus && contractStatus.length" class="p-grid width-100">
+            <div class="p-col-12 no-header" style="padding-left: 0px">
+              <table mat-table class="mat-elevation-z8" [dataSource]="contractStatus" class="no-action-header">
+                <!-- done-->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SM_COMPANY.Form to send' | translate }}</th>
+                  <td mat-cell *matCellDef="let element">
+                    <span *ngIf="element?.type === 'auto-eval'">{{ element?.name | translate }}</span>
+                    <span *ngIf="!element?.type">{{ 'SM_COMPANY.' + element?.name | translate }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SM_COMPANY.Date Send' | translate }}</th>
+                  <td mat-cell *matCellDef="let element">{{ element?.status }}</td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SM_COMPANY.Latest Status' | translate }}</th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="!element?.type">
+                      <span *ngIf="element?.lattest_status === 'opened'">
+                        {{ 'opened by mentor' | translate : { date: element?.last_access || '' } }}
+                      </span>
+                      <span *ngIf="element?.lattest_status === 'sent' || element?.lattest_status === 'resend'">
+                        {{ 'sent to mentor' | translate : { date: element?.last_access || '' } }}
+                      </span>
+                      <span
+                        *ngIf="
+                          element?.lattest_status !== 'opened' && element?.lattest_status !== 'sent' && element?.lattest_status !== 'resend'
+                        "
+                      >
+                        {{ element?.lattest_status | translate }}
+                      </span>
+                    </ng-container>
+                    <ng-container *ngIf="element?.type === 'auto-eval'">
+                      <span>{{ (element?.lattest_status === 'done' ? 'Mark Entry Done' : 'Mark Entry To Do') | translate }}</span>
+                    </ng-container>
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SM_COMPANY.Action' | translate }}</th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container
+                      *ngIf="
+                        active &&
+                        element?.name === 'Job Description' &&
+                        permissionService.editCompanyTabStudentCardPerm() &&
+                        !studentPrevCourseData
+                      "
+                    >
+                      <button
+                        class="mrgn-rght-5"
+                        mat-icon-button
+                        [disabled]="
+                          (classData && classData.job_desc_activation_date && classData.job_desc_activation_date.date < today) ||
+                          studentPrevCourseData
+                        "
+                        *ngIf="
+                          element?.name === 'Job Description' &&
+                          classData &&
+                          classData.type_evaluation !== null &&
+                          !element?.status &&
+                          !isStudent
+                        "
+                        (click)="sendJobDesc()"
+                      >
+                        <mat-icon class="fs-16" matTooltip="{{ 'SM_COMPANY.Send Job description' | translate }}">send</mat-icon>
+                      </button>
+                      <button
+                        *ngIf="element?.name === 'Job Description' && classData && classData.type_evaluation !== null && element?.status"
+                        mat-icon-button
+                        class="margin-right-button"
+                        matTooltip="{{ 'View' | translate }}"
+                        matTooltipPosition="above"
+                        (click)="moveToJobDesc()"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-20">remove_red_eye</mat-icon>
+                      </button>
+                      <button
+                        *ngIf="
+                          element?.name === 'Job Description' &&
+                          classData &&
+                          classData.type_evaluation !== null &&
+                          element?.status &&
+                          element?.lattest_status === 'sent_to_student' &&
+                          !isStudent
+                        "
+                        mat-icon-button
+                        class="margin-right-button"
+                        matTooltip="{{ 'QUESTIONNAIRE.TABLE.Send_Reminder' | translate }}"
+                        matTooltipPosition="above"
+                        (click)="sendReminderToStudent()"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-20">notifications</mat-icon>
+                      </button>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="element?.name === 'Problematic' && permissionService.editCompanyTabStudentCardPerm() && !studentPrevCourseData"
+                    >
+                      <button
+                        mat-icon-button
+                        class="mrgn-rght-5"
+                        [disabled]="
+                          (classData && classData.problematic_activation_date && classData.problematic_activation_date.date < today) ||
+                          studentPrevCourseData
+                        "
+                        *ngIf="
+                          element?.name === 'Problematic' &&
+                          classData &&
+                          classData.type_evaluation !== null &&
+                          !element?.status &&
+                          !isStudent &&
+                          !IsFinalTranscriptStarted
+                        "
+                        (click)="sendProblematic()"
+                      >
+                        <mat-icon class="fs-16" matTooltip="{{ 'SM_COMPANY.Send Problematic' | translate }}">send</mat-icon>
+                      </button>
+                      <button
+                        *ngIf="element?.name === 'Problematic' && classData && classData.type_evaluation !== null && element?.status"
+                        mat-icon-button
+                        class="margin-right-button"
+                        matTooltip="{{ 'View' | translate }}"
+                        matTooltipPosition="above"
+                        (click)="moveToProblematic()"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-20">remove_red_eye</mat-icon>
+                      </button>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="
+                        element?.name === 'Mentor Evaluation' && permissionService.editCompanyTabStudentCardPerm() && !studentPrevCourseData
+                      "
+                    >
+                      <button
+                        mat-icon-button
+                        class="mrgn-rght-5"
+                        *ngIf="
+                          element?.name === 'Mentor Evaluation' &&
+                          classData &&
+                          classData.type_evaluation !== 'expertise' &&
+                          classData.type_evaluation !== null &&
+                          !isStudent
+                        "
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-16" matTooltip="{{ 'SM_COMPANY.Send Mentor Evaluation' | translate }}">send</mat-icon>
+                      </button>
+                      <button
+                        *ngIf="element?.name === 'Mentor Evaluation'"
+                        mat-icon-button
+                        class="margin-right-button"
+                        matTooltip="{{ 'View' | translate }}"
+                        matTooltipPosition="above"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-20">remove_red_eye</mat-icon>
+                      </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="isUserAcadAdmin || isUserAcadir || isUserAdmtc">
+                      <ng-container *ngIf="element?.type === 'auto-eval'">
+                        <button
+                          mat-icon-button
+                          class="margin-right-button"
+                          matTooltip="{{ 'View' | translate }}"
+                          matTooltipPosition="above"
+                          (click)="openAutoEval(element?.testId, element?.taskId)"
+                        >
+                          <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          element?.name === 'Soft Skill Evaluation Professionnelle' ||
+                          element?.name === 'Evaluation professionnelle pédagogique'
+                        "
+                      >
+                        <button
+                          mat-icon-button
+                          class="margin-right-button"
+                          matTooltip="{{ 'View' | translate }}"
+                          matTooltipPosition="above"
+                          (click)="openEvalPro(element?.testId)"
+                        >
+                          <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                        <button
+                          *ngIf="element?.lattest_status !== 'submitted'"
+                          (click)="resend(element?.name)"
+                          mat-icon-button
+                          class="mrgn-rght-5"
+                        >
+                          <mat-icon class="fs-16" matTooltip="{{ (element?.lattest_status === 'opened' ? 'Send' : 'Resend') | translate }}">
+                            send
+                          </mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          *ngIf="element?.lattest_status !== 'opened' && element?.lattest_status !== 'submitted'"
+                          class="margin-right-button"
+                          matTooltip="{{ 'Reminder' | translate }}"
+                          (click)="remider(element?.name)"
+                          matTooltipPosition="above"
+                        >
+                          <mat-icon class="fs-20">notifications</mat-icon>
+                        </button>
+                      </ng-container>
+                    </ng-container>
+
+                    <!-- <ng-container *ngIf="element?.name === 'Send Pro Evaluation to Mentor'">
+                      <button
+                        mat-icon-button
+                        class="mrgn-rght-5"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon class="fs-16">send</mat-icon>
+                      </button>
+                      <button
+                        mat-icon-button
+                        class="mrgn-rght-5"
+                        [disabled]="studentPrevCourseData"
+                      >
+                        <mat-icon svgIcon="bell" class="fs-16"></mat-icon>
+                      </button>
+                    </ng-container> -->
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card style="margin-left: 0px; margin-right: 0px" *ngIf="contractHistory && contractHistory.length">
+        <mat-card-header>
+          <mat-card-title>
+            <H3 style="margin-bottom: 2rem">{{ 'SM_COMPANY.Company Contract History' | translate }}</H3>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider class="mrgn-b-lg"></mat-divider>
+        <mat-card-content>
+          <div class="p-grid">
+            <div class="p-col-12 histCompany" style="padding-left: 0px">
+              <table mat-table matSort class="mat-elevation-z8" [dataSource]="contractHistory" class="no-action-header">
+                <ng-container matColumnDef="companyName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'SM_COMPANY.Company' | translate">
+                    {{ 'SM_COMPANY.Company' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.company?.company_name }}</td>
+                </ng-container>
+
+                <!-- First Name LastName -->
+                <ng-container matColumnDef="selectMentor">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'SM_COMPANY.Mentor' | translate">
+                    {{ 'SM_COMPANY.Mentor' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element?.mentor?.last_name | uppercase }} {{ element?.mentor?.first_name }} {{ element?.mentor?.civility }}
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <!-- <ng-container matColumnDef="Status">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SM_COMPANY.Status' | translate }}</th>
+                  <td mat-cell *matCellDef="let row"><mat-icon>clear</mat-icon></td>
+                </ng-container> -->
+                <ng-container matColumnDef="dFrom">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'SM_COMPANY.From' | translate">
+                    {{ 'SM_COMPANY.From' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.start_date.date }}</td>
+                </ng-container>
+                <ng-container matColumnDef="dTo">
+                  <th mat-header-cell mat-sort-header *matHeaderCellDef [matTooltip]="'SM_COMPANY.To' | translate">
+                    {{ 'SM_COMPANY.To' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.end_date.date }}</td>
+                </ng-container>
+                <ng-container matColumnDef="closed">
+                  <th mat-header-cell mat-sort-header *matHeaderCellDef [matTooltip]="'End Date' | translate">
+                    {{ 'End Date' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row?.contract_closed_date?.date }}</td>
+                </ng-container>
+                <ng-container matColumnDef="J">
+                  <th mat-header-cell *matHeaderCellDef [matTooltip]="'Job Description' | translate">{{ 'J' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-icon
+                      (click)="openJobDesc(row?.job_description_id?._id)"
+                      style="color: #81b441 !important; cursor: pointer"
+                      *ngIf="row?.job_description_id && row?.job_description_id?.job_description_status"
+                      ><svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                        <path
+                          fill="currentColor"
+                          d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"
+                        />
+                      </svg>
+                    </mat-icon>
+                    <mat-icon *ngIf="!row?.job_description_id">clear</mat-icon>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="P">
+                  <th mat-header-cell *matHeaderCellDef [matTooltip]="'Problematic' | translate">{{ 'P' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-icon
+                      style="color: #81b441 !important; cursor: pointer"
+                      *ngIf="row?.problematic_id?.problematic_status"
+                      (click)="openProblematic(row?.problematic_id?._id)"
+                      ><svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                        <path
+                          fill="currentColor"
+                          d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"
+                        />
+                      </svg>
+                    </mat-icon>
+                    <mat-icon *ngIf="!row?.problematic_id?.problematic_status">clear</mat-icon>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="M">
+                  <th mat-header-cell *matHeaderCellDef [matTooltip]="'Mentor Evaluation' | translate">{{ 'M' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-icon
+                      style="color: #81b441 !important; cursor: pointer"
+                      *ngIf="row?.mentor_evaluation_id?.mentor_evaluation_status"
+                      (click)="continue.emit('next')"
+                      ><svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                        <path
+                          fill="currentColor"
+                          d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"
+                        />
+                      </svg>
+                    </mat-icon>
+                    <mat-icon *ngIf="!row?.mentor_evaluation_id?.mentor_evaluation_status">clear</mat-icon>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell mat-sort-header *matHeaderCellDef [matTooltip]="'MENTOREVALUATION.QUESTIONNAIRE.ACTIONS' | translate">
+                    <label class="action-column-header">{{ 'MENTOREVALUATION.QUESTIONNAIRE.ACTIONS' | translate }}</label>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <button
+                      mat-icon-button
+                      (click)="onClickResignationReasonDialog(row.reason_deactivating_contract)"
+                      class="margin-right-button"
+                      matTooltip="{{ 'Reason of Deactivation' | translate }}"
+                    >
+                      <mat-icon svgIcon="eye"></mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsCompany"></tr>
+                <!--                <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>-->
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsCompany"></tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </fieldset>
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12" style="text-align: right; padding-right: 0px">
+        <button
+          *ngIf="!isStudent && active && permissionService.editCompanyTabStudentCardPerm()"
+          mat-raised-button
+          color="accent"
+          [disabled]="!companyForm.get('type_of_formation').valid || studentPrevCourseData"
+          (click)="updateCompany()"
+        >
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+        <button mat-raised-button color="accent" class="margin-right-0" (click)="continue.emit(true)">
+          {{ 'CARDDETAIL.Continue' | translate }}
+          <mat-icon class="mat-icon-default">keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container-spinner" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner color="accent" class="spin" mode="indeterminate"> </mat-progress-spinner>
+</div> -->

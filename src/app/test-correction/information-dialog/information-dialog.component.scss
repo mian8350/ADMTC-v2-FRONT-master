@@ -1,0 +1,49 @@
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.adjust-dialog-header {
+  padding-bottom: 0px;
+}
+
+.adjust-dialog-title {
+  padding-bottom: 0px;
+  display: flex;
+}
+
+.dialog-title-text {
+  color: black;
+  padding-left: 10px;
+  float: left;
+}
+
+.dialog-icon {
+  float: left;
+  margin-top: 8px !important;
+  width: 24px;
+  height: 24px;
+  color: black;
+}
+
+.close-icon {
+  float: right;
+  margin-top: 3px;
+}
+.text-bold-underline {
+  font-weight: bold;
+  text-decoration: underline;  
+}
+.pad-top-10 {
+  padding-top: 10px;
+}
+.box-text {
+  width: 100%;
+  border: 1px solid #2d2d2d;
+  padding: 5px;
+  margin-top: 2px;
+}
+
+.dialog-container {
+  max-height: 500px;
+  overflow: auto;
+}

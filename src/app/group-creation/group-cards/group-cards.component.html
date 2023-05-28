@@ -1,0 +1,140 @@
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator-transparent-bg">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>
+<div class="p-grid">
+  <div class="p-col padding-none">
+    <div class="p-grid background-black">
+      <div class="p-col-5">
+        <div>
+          <mat-slide-toggle
+            #toggleElement
+            (change)="automaticGroups($event)"
+            [formControl]="is_automatic"
+            [disabled]="testProgressData?.already_filled_mark_entry"
+          >
+            <span [ngClass]="{ 'text-slider-color': is_automatic.value }">{{
+              (is_automatic.value ? 'Automatic' : 'Manual') | translate
+            }}</span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div class="p-col-7">
+        <div class="justify-content-between float-right">
+          <button
+            class="pad-btn"
+            *ngIf="!isAllGroupSelected"
+            mat-raised-button
+            color="primary"
+            (click)="selectAllGroup()"
+            [disabled]="isAllGroupSelected || testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="selection" class="mat-icon-svgIcon"></mat-icon> {{ 'GROUP_CREATION.Select All' | translate }}
+          </button>
+          <button
+            class="pad-btn"
+            *ngIf="isAllGroupSelected"
+            mat-raised-button
+            color="primary"
+            (click)="unselectAllGroup()"
+            [disabled]="!isAllGroupSelected || testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="selection" class="mat-icon-svgIcon"></mat-icon> {{ 'GROUP_CREATION.Unselect All' | translate }}
+          </button>
+          <button
+            class="pad-btn"
+            mat-raised-button
+            color="warn"
+            (click)="deleteGroups()"
+            [disabled]="!isGroupSelected || isTaskDoneAndAllGroupSelected()"
+          >
+            <mat-icon svgIcon="trash-can" class="mat-icon-svgIcon"></mat-icon>
+            {{ (isAllGroupSelected ? 'GROUP_CREATION.Delete All' : 'GROUP_CREATION.Delete') | translate }}
+          </button>
+          <button
+            class="pad-btn"
+            mat-raised-button
+            color="accent"
+            (click)="openAddGroup()"
+            [disabled]="testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="plus" class="mat-icon-svgIcon"></mat-icon>{{ 'GROUP_CREATION.Add Group' | translate }}
+          </button>
+          <button
+            class="pad-btn"
+            mat-raised-button
+            color="primary"
+            (click)="openDuplicateGroup()"
+            [disabled]="testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="content-copy" class="mat-icon-svgIcon"></mat-icon>{{ 'GROUP_CREATION.Duplicate Group' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-container [formGroup]="dummyFormGroup">
+      <div class="p-grid">
+        <p class="total-info">
+          {{ 'Total Active Student' | translate }}: {{ totalStudent }}  -  {{ 'Student Complete Admission' | translate }}:
+          {{ totalCompleteAdmission }}
+        </p>
+      </div>
+      <div class="p-grid">
+        <span
+          *ngIf="
+            testData &&
+            testData.correction_grid &&
+            testData.correction_grid.group_detail &&
+            testData.correction_grid.group_detail.min_no_of_student &&
+            testData.correction_grid.group_detail.no_of_student
+          "
+          style="margin-right: 2rem"
+        >
+          {{ 'GROUP_CREATION.Suggested Student per group' | translate }} {{ 'GROUP_CREATION.Min' | translate }}
+          {{ testData?.correction_grid?.group_detail?.min_no_of_student }} - {{ 'GROUP_CREATION.Max' | translate }}
+          {{ testData?.correction_grid?.group_detail?.no_of_student }}
+        </span>
+        {{ getTitleForGeneratedGroup() }}
+      </div>
+      <div class="p-grid" formArrayName="testGroups">
+        <div class="p-col-4" *ngFor="let group of testGroups.controls; let groupIndex = index" [formGroupName]="groupIndex">
+          <mat-card class="rncp-title-tile">
+            <mat-card-content>
+              <div class="align-end">
+                <mat-checkbox
+                  formControlName="dummySelect"
+                  [disabled]="testProgressData?.already_filled_mark_entry && group.get('students').length > 0"
+                ></mat-checkbox>
+              </div>
+
+              <div class="align-center">
+                <mat-form-field class="input-groupname" color="accent">
+                  <textarea
+                    matInput
+                    class="input-font"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    [readonly]="testProgressData?.already_filled_mark_entry"
+                    formControlName="name"
+                  >
+                  </textarea>
+                </mat-form-field>
+              </div>
+
+              <!-- <div class="divider-line-container">
+                <mat-divider></mat-divider>
+              </div> -->
+
+              <ng-container *ngFor="let student of group.get('students').controls; let studentIndex = index">
+                <div class="align-center">
+                  <span class="student-name" matTooltip="{{ getStudentName(student.get('student_id').value) }}" matTooltipPosition="above">
+                    {{ getStudentName(student.get('student_id').value) }}
+                  </span>
+                </div>
+              </ng-container>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

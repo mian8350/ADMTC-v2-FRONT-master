@@ -1,0 +1,112 @@
+<div class="p-grid p-justify-end search-title-row">
+  <div class="p-col content-end">
+    <div class="search-field">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{ 'search' | translate }}" [formControl]="searchForm" />
+      </mat-form-field>
+    </div>
+    <div class="search-btn">
+      <button mat-raised-button color="primary" (click)="resetSearch()">{{ 'All Titles' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="isACADIRMIN">
+  <div style="margin-top: 1rem">
+    <mat-tab-group
+      animationDuration="500ms"
+      (selectedTabChange)="selectTab($event.tab.textLabel)"
+    >
+      <mat-tab label="active">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Active' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <div>
+            <mat-tab-group
+              animationDuration="500ms"
+              [selectedIndex]="tabIndex"
+              (selectedTabChange)="filterTitleByCertifier($event.tab.textLabel, $event.index)"
+              class="list-of-certifier"
+            >
+              <mat-tab label="{{ 'All' | translate }}">
+                <ng-template matTabContent>
+                  <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+                </ng-template>
+              </mat-tab>
+              <ng-container *ngIf="listOfCertifier && listOfCertifier.length">
+                <ng-container *ngFor="let certifier of listOfCertifier">
+                  <mat-tab label="{{ certifier }}">
+                    <ng-template matTabContent>
+                      <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+                    </ng-template>
+                  </mat-tab>
+                </ng-container>
+              </ng-container>
+            </mat-tab-group>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="archived">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Archived' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <div>
+            <mat-tab-group
+              animationDuration="500ms"
+              [selectedIndex]="tabIndex"
+              (selectedTabChange)="filterTitleByCertifier($event.tab.textLabel, $event.index)"
+              class="list-of-certifier"
+            >
+              <mat-tab label="{{ 'All' | translate }}">
+                <ng-template matTabContent>
+                  <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+                </ng-template>
+              </mat-tab>
+              <ng-container *ngIf="listOfCertifier && listOfCertifier.length">
+                <ng-container *ngFor="let certifier of listOfCertifier">
+                  <mat-tab label="{{ certifier }}">
+                    <ng-template matTabContent>
+                      <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+                    </ng-template>
+                  </mat-tab>
+                </ng-container>
+              </ng-container>
+            </mat-tab-group>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!isACADIRMIN">
+  <div>
+    <mat-tab-group
+      animationDuration="500ms"
+      [selectedIndex]="tabIndex"
+      (selectedTabChange)="filterTitleByCertifier($event.tab.textLabel, $event.index)"
+      class="list-of-certifier margin-tab"
+    >
+      <mat-tab label="{{ 'All' | translate }}">
+        <ng-template matTabContent>
+          <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+        </ng-template>
+      </mat-tab>
+      <ng-container *ngIf="listOfCertifier && listOfCertifier.length">
+        <ng-container *ngFor="let certifier of listOfCertifier">
+          <mat-tab label="{{ certifier }}">
+            <ng-template matTabContent>
+              <ms-title-card-dashboard [filteredTitles]="filteredTitles"></ms-title-card-dashboard>
+            </ng-template>
+          </mat-tab>
+        </ng-container>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</ng-container>
+
+<div *ngIf="isLoading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

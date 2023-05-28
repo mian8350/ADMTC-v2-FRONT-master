@@ -1,0 +1,70 @@
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: #3f3f3f;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.preview-image {
+  margin: 10px 0px 10px 0px;
+}
+
+.header-form {
+  padding: 18px;
+}
+
+.footer-form {
+  padding: 0px 18px 18px 18px;
+}
+.no-margin {
+  margin: 0px !important;
+}
+.disabledd {
+  background-color: #565656 !important;
+  color: #ababab !important;
+}
+.no-padding {
+  padding: 0px !important;
+}
+.no-padding-y {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+.no-padding-b {
+  padding-bottom: 0px !important;
+}
+.no-padding-t {
+  padding-bottom: 0px !important;
+}
+
+.float-left {
+  float: left;
+}
+.align-button {
+  text-align: center !important;
+}
+:host ::ng-deep {
+  .mat-dialog-content {
+    margin: 0px !important;
+    padding: 0px !important;
+    max-height: unset;
+  }
+}
+.step-validation {
+  max-height: 390px;
+}
+.background-dark {
+  background-color: #3f3f3f;
+  color: white;
+}
+.background-grey {
+  background-color: #78909c;
+  color: white;
+}
+.background-white {
+  background-color: white;
+  color: #000000;
+}
+.color-dark {
+  color: #3f3f3f !important;
+}

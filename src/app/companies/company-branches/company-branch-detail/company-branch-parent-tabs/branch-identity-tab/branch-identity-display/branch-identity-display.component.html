@@ -1,0 +1,62 @@
+<mat-card class="mr-top">
+  <div class="p-col">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <h4>{{ 'COMPANY.Information about this branche' | translate }}</h4>
+      </div>
+      <div class="p-col-12 text">
+        <ul>
+          <li>
+            <span> {{ 'COMPANY.Branche Emblem' | translate }} </span>:<span>
+              {{ company?.company_name || company?.company_name_2 || company?.company_name_3 }}
+            </span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.RC' | translate }}</span
+            >:<span>{{ company?.no_RC }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.NIC Key' | translate }}</span
+            >:<span>{{ company?.nic }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.COMPANY_TYPE' | translate }}</span 
+            >:<span>{{ company?.type_of_company }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.ZIPCODE' | translate }}</span 
+            >:<span>{{ company?.company_addresses[0].postal_code }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.COUNTRY' | translate }}</span
+            >:<span>{{ company?.company_addresses[0].country }}</span> 
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Main activity of the establishment (NAF/APE)' | translate }}</span
+            >:<span>{{ company?.activity }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Slice of salaried workforce' | translate }}</span
+            >:
+            <ng-container [ngSwitch]="company?.company_addresses[0]?.country?.toLowerCase()">
+              <span *ngSwitchCase="'france'"
+                >{{ company?.no_of_employee_in_france | translate }}
+                {{ company?.no_of_employee_in_france && company?.no_of_employee_in_france_by_year ? ('in' | translate) : '' }}
+                {{ company?.no_of_employee_in_france_by_year }}</span
+              >
+              <span *ngSwitchDefault>{{ company?.no_of_employee_in_france }}</span>
+            </ng-container>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Creation date' | translate }}</span
+            >:<span>{{ getDate(company?.created_at) }}</span>
+          </li>
+          <li>
+            <span>{{ 'COMPANY.Last update' | translate }}</span
+            >:<span> {{ getDate(company?.updated_at) }} </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</mat-card>

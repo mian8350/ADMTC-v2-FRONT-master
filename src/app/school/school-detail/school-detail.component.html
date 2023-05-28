@@ -1,0 +1,688 @@
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<fieldset
+  class="fieldset-class"
+  [ngClass]="{ 'pad-top-30': isUserAcadir || isPCDir || isACADAdmin || isCRDir || isCRAdmin }"
+  [disabled]="!permissionService.editSchoolIdentityPerm()"
+>
+  <div class="p-grid save-button-section">
+    <div *ngIf="!isUserAcadir && !isPCDir && !isACADAdmin && !isCRDir && !isCRAdmin" class="p-col-12 text-right">
+      <button
+        mat-raised-button
+        color="accent"
+        *ngIf="loadSchoolForm && showSaveButton()"
+        [disabled]="isWaitingForResponse || !isEditable || !saveButtonValidation() || !this.schoolForm.valid"
+        (click)="save()"
+      >
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="p-grid yellow-border card-row school-detail-fieldset">
+    <div class="section-header display-flex">
+      <h3>{{ 'School Detail' | translate }}</h3>
+      <span
+        *ngIf="isTutorialAdded"
+        mat-button
+        class="questionMarkSpan"
+        matTooltip="{{ 'Tutorial for this module' | translate }}" (click)="toggleTutorial(tutorialData)">
+        <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+      </span>
+      <!-- <button
+        *ngIf="isTutorialAdded"
+        mat-button
+        style="
+          margin-left: 10px !important;
+          line-height: 16px;
+          margin: 0px;
+          padding: 0px !important;
+          width: 16px !important;
+          min-width: 16px;
+        "
+        matTooltip="{{ 'Tutorial for this module' | translate }}"
+        (click)="toggleTutorial(tutorialData)"
+      >
+        <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+      </button> -->
+    </div>
+    <div class="p-col-12" [formGroup]="schoolForm">
+      <div class="p-grid">
+        <!-- school logo section -->
+        <div class="p-col-2 logo-section">
+          <div (click)="showAddButtonLogo() ? uploadLogo.click() : null" class="imgContainer">
+            <div [ngStyle]="{cursor: showAddButtonLogo() ? 'pointer' : 'auto'}" *ngIf="!schoolForm.get('logo').value && !isUploading; else showLogoTemplate" class="no-image ml-0">
+              {{ '580 x 208 px' | translate }}
+            </div>
+
+            <ng-template #showLogoTemplate class="p-grid p-justify-center">
+              <div class="logo-img-wrapper" *ngIf="!isUploading">
+                <img class="center-image school-details-img" [src]="getImgURL()" />
+              </div>
+            </ng-template>
+
+            <div class="logo-spinner-wrapper" *ngIf="isUploading">
+              <mat-progress-spinner class="m-auto" mode="indeterminate" color="accent"></mat-progress-spinner>
+            </div>
+
+            <div *ngIf="showAddButtonLogo()" class="overlay">
+              <div class="text">
+                {{ 'DOCUMENT.LOGO' | translate }}
+                <!-- {{ 'Click Here to Upload Logo' | translate }} -->
+              </div>
+            </div>
+
+            <div class="p-grid image-text">
+              <div class="text-logo-section">
+                {{ 'School logo' | translate }}
+              </div>
+            </div>
+          </div>
+          <input  hidden type="file" (change)="chooseFile($event)" #uploadLogo accept="image/png,image/jpeg" />
+          <div class="buttonContainer" *ngIf="schoolForm.get('logo').value">
+            <button
+              style="margin-right: 10px"
+              matTooltip="{{ 'Edit logo' | translate }}"
+              mat-mini-fab
+              color="primary"
+              (click)="uploadLogo.click()"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button matTooltip="{{ 'Delete logo' | translate }}" mat-mini-fab color="warn" (click)="deleteLogo()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div class="buttonContainer">
+            {{ 'SUGGESTED_RESOLUTION' | translate }}
+          </div>
+        </div>
+
+        <div class="p-col-9">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  matInput
+                  required
+                  class="text-white"
+                  type="text"
+                  formControlName="long_name"
+                  placeholder="{{ 'School legal name' | translate }}"
+                />
+                <mat-error>
+                  {{ 'School legal name is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field color="accent" class="balance-dropdown full-width">
+                <input
+                  matInput
+                  required
+                  class="text-white"
+                  type="text"
+                  formControlName="short_name"
+                  placeholder="{{ 'School commercial name' | translate }}"
+                />
+                <mat-error>
+                  {{ 'School commercial name is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field color="accent" class="full-width p-top-8">
+                <input
+                  type="text"
+                  placeholder="{{ 'Group of school' | translate }}"
+                  matInput
+                  [formControl]="groupControl"
+                  [matAutocomplete]="autoGroupName"
+                  readonly
+                />
+                <mat-autocomplete #autoGroupName="matAutocomplete" [displayWith]="displayGroupName" [panelWidth]="'fit'">
+                  <mat-option value="" (click)="setGroupOfSchool(null)">
+                    {{ 'None' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let group of filteredGroupName | async" [value]="group" (click)="setGroupOfSchool(group._id)">
+                    {{ group?.group_name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- <mat-label>{{ 'Select group of school' | translate }}</mat-label>
+                <mat-select formControlName="group_of_school_id"></mat-select> -->
+              </mat-form-field>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  type="text"
+                  class="text-white"
+                  placeholder="{{ 'Retake Center' | translate }}"
+                  matInput
+                  [formControl]="retakeCenterControl"
+                  [matAutocomplete]="autoRetakeCenter"
+                  (keyup)="getValueRetake()"
+                />
+                <mat-autocomplete
+                  #autoRetakeCenter="matAutocomplete"
+                  (optionSelected)="selectRetakeCenter($event)"
+                  [displayWith]="displayRetakeCenterName"
+                  [panelWidth]="'fit'"
+                >
+                  <mat-option *ngFor="let school of schools" [value]="school">
+                    {{ school?.long_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field color="accent">
+                <input
+                  matInput
+                  class="text-white"
+                  type="text"
+                  formControlName="school_siret"
+                  placeholder="{{ 'School Siret' | translate }}"
+                />
+              </mat-form-field>
+
+            </div>
+
+            <div class="p-col-6" [ngClass]="{'hidden': !hasCertifier}">
+              <mat-form-field color="accent">
+                <input
+                  matInput
+                  class="text-white"
+                  type="text"
+                  [required]="hasCertifier && schoolId"
+                  formControlName="government_certifier_id"
+                  placeholder="{{'Certifier ID' | translate}}"
+                />
+                <mat-error
+                  *ngIf="
+                    schoolForm.get('government_certifier_id').hasError('required') &&
+                    (schoolForm.get('government_certifier_id').dirty || schoolForm.get('government_certifier_id').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+              <div class="p-col-6" [ngClass]="{'hidden': !hasCertifier}">
+                <mat-form-field color="accent">
+                  <input
+                    matInput
+                    class="text-white"
+                    type="text"
+                    [required]="hasCertifier && schoolId"
+                    formControlName="contract_number_certifier"
+                    placeholder="{{'Contract Number of Certifier' | translate}}"
+                  />
+                  <mat-error
+                    *ngIf="
+                      schoolForm.get('contract_number_certifier').hasError('required') &&
+                      (schoolForm.get('contract_number_certifier').dirty || schoolForm.get('contract_number_certifier').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid mt-1rem mb-1rem">
+        <div class="p-col-6 text-bold">
+          {{ 'Address' | translate }}
+        </div>
+        <div class="p-col-6 text-right">
+          <button
+            *ngIf="showAddAddressButton()"
+            (click)="addAddressForm()"
+            mat-raised-button
+            class="no-margin"
+            color="primary"
+          >
+            <mat-icon class="mat-icon-default">add</mat-icon>
+            {{ 'Add address' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- address cards section -->
+      <div class="p-grid" formArrayName="school_address">
+        <div
+          class="p-col-12 mb-1rem border-white"
+          *ngFor="let address of addressFormArray.controls; let addressIndex = index"
+          [formGroupName]="addressIndex"
+        >
+          <!-- only show delete button if more than 1 address -->
+          <div class="p-grid" *ngIf="addressFormArray?.length > 1">
+            <div class="p-col-12 text-right">
+              <mat-slide-toggle
+                formControlName="is_main_address"
+                (change)="checkingMainAddress($event)"
+                *ngIf="
+                  (!isMainAddressSelectedd || address.get('is_main_address').value) &&
+                  !isUserAcadir &&
+                  !isPCDir &&
+                  !isACADAdmin &&
+                  !isCRDir &&
+                  !isCRAdmin
+                "
+              >
+                <span [ngStyle]="{ color: address.get('is_main_address').value ? '#ffe77a' : 'white' }" class="fix-font-size">
+                  {{ 'MAIN_ADDRESS' | translate }}
+                </span>
+              </mat-slide-toggle>
+              <!-- <mat-slide-toggle formControlName="is_main_address" (change)="checkingMainAddress($event)" *ngIf="!isMainAddressSelectedd || address.get('is_main_address').value || !isUserAcadir && !isPCDir && !isACADAdmin">
+                <span [ngStyle]="{'color' : address.get('is_main_address').value ? '#ffe77a' : 'white'}">{{'MAIN_ADDRESS' | translate}}</span>
+              </mat-slide-toggle> -->
+              <button
+                *ngIf="!isUserAcadir && !isPCDir && !isACADAdmin && !isCRDir && !isCRAdmin"
+                mat-icon-button
+                class="small-icon"
+                color="red"
+                (click)="removeAddressForm(addressIndex, address.get('is_main_address').value)"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  matInput
+                  class="text-white"
+                  type="text"
+                  formControlName="address1"
+                  placeholder="{{ 'Address' | translate }}"
+                  required
+                />
+                <mat-error
+                  *ngIf="address.get('address1').hasError('required') && (address.get('address1').dirty || address.get('address1').touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-4">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  matInput
+                  class="text-white"
+                  type="text"
+                  formControlName="postal_code"
+                  (keyup)="getPostcodeData(addressIndex)"
+                  placeholder="{{ 'Zipcode' | translate }}"
+                  required
+                  maxlength="5"
+                />
+                <mat-error
+                  *ngIf="
+                    address.get('postal_code').hasError('required') &&
+                    (address.get('postal_code').dirty || address.get('postal_code').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-4">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  type="text"
+                  class="text-white"
+                  placeholder="{{ 'Country' | translate }}"
+                  matInput
+                  formControlName="country"
+                  [matAutocomplete]="autoCountry"
+                  (keyup)="filterCountry(addressIndex)"
+                  required
+                />
+                <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="getPostcodeData(addressIndex)" [panelWidth]="'fit'">
+                  <mat-option *ngFor="let option of filteredCountry[addressIndex]" [value]="'NATIONALITY.' + option | translate">
+                    {{ 'NATIONALITY.' + option | translate }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error
+                  *ngIf="address.get('country').hasError('required') && (address.get('country').dirty || address.get('country').touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-4">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  type="text"
+                  class="text-white"
+                  placeholder="{{ 'City' | translate }}"
+                  matInput
+                  formControlName="city"
+                  [matAutocomplete]="autoCity"
+                  (keyup)="filterCity(addressIndex)"
+                  required
+                />
+                <mat-autocomplete #autoCity="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option *ngFor="let option of filteredCities[addressIndex]" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="address.get('city').hasError('required') && (address.get('city').dirty || address.get('city').touched)">
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-4">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  type="text"
+                  class="text-white"
+                  placeholder="{{ 'Department' | translate }}"
+                  matInput
+                  formControlName="department"
+                  [matAutocomplete]="autoDepartment"
+                  (keyup)="filterDepartment(addressIndex)"
+                  required
+                />
+                <mat-autocomplete #autoDepartment="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option *ngFor="let option of filteredDepartments[addressIndex]" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error
+                  *ngIf="
+                    address.get('department').hasError('required') && (address.get('department').dirty || address.get('department').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-4">
+              <mat-form-field color="accent" class="full-width">
+                <input
+                  type="text"
+                  class="text-white"
+                  placeholder="{{ 'Region' | translate }}"
+                  matInput
+                  formControlName="region"
+                  [matAutocomplete]="autoRegion"
+                  (keyup)="filterRegion(addressIndex)"
+                  required
+                />
+                <mat-autocomplete #autoRegion="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option *ngFor="let option of filteredRegions[addressIndex]" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error
+                  *ngIf="address.get('region').hasError('required') && (address.get('region').dirty || address.get('region').touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<!-- connected RNCP title table section. only show when school has been created -->
+<div class="p-grid yellow-border card-row rncp-title-fieldset" *ngIf="schoolId && permissionService.showConnectedRncpTablePerm()">
+  <div class="section-header">
+    <h3>{{ 'Connected RNCP Title' | translate }}</h3>
+  </div>
+  <div class="p-col-12">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortConnectedTitle($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="6" class="action-header-column">
+          <div class="p-grid">
+            <div class="p-col-12 text-right">
+              <button mat-raised-button color="primary" [disabled]="isResetTableProcess" (click)="resetFilter()">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                [disabled]="isResetTableProcess"
+                (click)="connectRncpTitle()"
+                *ngIf="permissionService.addConnectedRncpTablePerm()"
+              >
+                {{ 'Connect RNCP Title' | translate }}
+              </button>
+            </div>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- table filter section -->
+      <ng-container matColumnDef="shortNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="text-white"
+              class="form-field"
+              [matAutocomplete]="autoShortName"
+              [formControl]="shortNameFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoShortName="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setShortNameFilter('')">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let title of filteredShortName"
+                [value]="title.short_name"
+                [matTooltip]="title.short_name"
+                (click)="setShortNameFilter(title?.short_name)"
+                >{{ title.short_name }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="longNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="text-white"
+              class="form-field"
+              [matAutocomplete]="autoLongName"
+              [formControl]="longNameFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoLongName="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setLongNameFilter('')">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let title of filteredLongName"
+                [value]="title.long_name"
+                [matTooltip]="title.long_name"
+                (click)="setLongNameFilter(title?.long_name)"
+                >{{ title.long_name }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="classFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="text-white"
+              class="form-field"
+              [matAutocomplete]="autoClass"
+              [formControl]="classFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoClass="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setClassFilter('')">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let class of filteredClass"
+                [value]="class?.name"
+                [matTooltip]="class?.name"
+                (click)="setClassFilter(class?.name)"
+                >{{ class?.name }}</mat-option
+              >
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="specializationFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="text-white"
+              class="form-field"
+              [formControl]="specializationFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="connectedAsFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <!-- <mat-form-field>
+            <mat-label>{{ 'search' | translate }}</mat-label>
+            <mat-select [formControl]="connectedAsFilter">
+              <mat-option *ngFor="let connect of connectedAsFilterList" [value]="connect.value">
+                {{ connect.name | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="actionFilter" *ngIf="isADMTC || isADMTCDir">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- table header and value section -->
+      <ng-container matColumnDef="shortName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="short_name">
+          <h5 class="text-center">{{ 'Title Short Name' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span [matTooltip]="element?.short_name">{{ element?.short_name }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="longName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="long_name">
+          <h5 class="text-center">{{ 'Title Long Name' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span [matTooltip]="element?.long_name">{{ element?.long_name }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="class">
+          <h5 class="text-center">{{ 'COMPANY.CLASS' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span [matTooltip]="element?.class_id?.name">{{ element?.class_id?.name }}</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="specialization">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 class="text-center">{{ 'Specialization' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div [matTooltip]="tooltipSpecialization(element?.specializations)">
+            <span *ngFor="let spec of element?.specializations" class="tags">
+              {{ spec?.name }}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="connectedAs">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 class="text-center">{{ 'Connected as' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <ng-container *ngFor="let type of element?.type">
+            <div class="logo-section">
+              <img
+                *ngIf="translate.currentLang === 'en' && type === 'preparation_center'"
+                [matTooltip]="type === 'preparation_center' ? 'Preparation Center' : ''"
+                [src]="iconPc"
+                width="28px"
+              />
+              <img
+                *ngIf="translate.currentLang === 'fr' && type === 'preparation_center'"
+                [matTooltip]="type === 'preparation_center' ? 'Centre de Préparation' : ''"
+                [src]="iconCp"
+                width="28px"
+              />
+              <img
+                *ngIf="type === 'certifier'"
+                [matTooltip]="type === 'certifier' ? 'Certifier' : ''"
+                src="../../../assets/img/icon-cr.png"
+                width="28px"
+              />
+            </div>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action" *ngIf="isADMTC || isADMTCDir">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 class="text-center">{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'REMOVE' | translate }}"
+            matTooltipPosition="above"
+            (click)="removeConnectedRncpTitle(element)"
+            *ngIf="permissionService.deleteConnectedRncpTablePerm()"
+          >
+            <mat-icon svgIcon="close">clear</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Edit' | translate }}"
+            matTooltipPosition="above"
+            (click)="editConnectedRncpTitle(element)"
+            *ngIf="permissionService.editConnectedRncpTablePerm()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-row *matHeaderRowDef="['loading']" [hidden]="!isResetTableProcess"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isResetTableProcess"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

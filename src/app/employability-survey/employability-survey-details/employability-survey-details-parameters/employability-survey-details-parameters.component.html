@@ -1,0 +1,667 @@
+<div class="p-grid">
+  <div class="p-col-6">
+    <!-- Parameter form -->
+    <div class="top-space">
+      <div class="horizontal" style="display: flex; flex-direction: column">
+        <div class="addBtn" style="margin-bottom: 10px; margin-left: 10px">
+          <button mat-raised-button color="warn" class="mrgn-btn11" (click)="leave()">
+            <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'LEAVE' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            class="mrgn-btn11"
+            color="accent"
+            style="float: right"
+            (click)="addESFormGroup()"
+            *ngIf="esData?.employability_survey_type === 'continuous'"
+          >
+            <mat-icon>
+              <svg style="width: 24px; height: 24px; padding-bottom: 2px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+              </svg>
+            </mat-icon>
+            {{ 'Add Chain of ES' | translate }}
+          </button>
+        </div>
+        <fieldset [formGroup]="employabilitySurveyForm" style="border: none">
+          <div class="card-row">
+            <ng-container formArrayName="employability_surveys">
+              <ng-container *ngFor="let esForm of getESFormArray().controls; let esIndex = index; let lastIndex = last">
+                <div class="p-grid" style="margin-bottom: 15px" [formGroupName]="esIndex">
+                  <div style="width: 100%">
+                    <div class="p-grid yellow-border" style="margin-bottom: 10px; padding: 0">
+                      <div class="section-header no-padding">
+                        <h3 class="legent-title">{{ esIndex + 1 }} {{ 'Employability Survey' | translate }}</h3>
+                      </div>
+                      <!-- Form Field -->
+                      <fieldset style="width: 100%; border: none">
+                        <!-- Button here -->
+                        <div class="no-padding" style="float: right">
+                          <div class="no-padding">
+                            <button type="button" mat-icon-button color="warn" *ngIf="esIndex !== 0" (click)="removeESFormGroup(esIndex)">
+                              <mat-icon>
+                                <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                                  <path
+                                    fill="currentColor"
+                                    d="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                                  />
+                                </svg>
+                              </mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="p-col no-padding" style="width: 94%">
+                          <!-- Survey Name -->
+                          <div class="p-grid" *ngIf="esIndex === 0">
+                            <div class="p-col no-padding mrgn-l-10">
+                              <mat-form-field class="top-x">
+                                <input
+                                  matInput
+                                  type="text"
+                                  required
+                                  [attr.disabled]="
+                                    esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length
+                                  "
+                                  [formControl]="employabilitySurveyForm.controls['name']"
+                                  style="width: 100%"
+                                  color="accent"
+                                  [placeholder]="'Employability Survey Name' | translate"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <!-- Select Template Name -->
+                          <div class="p-grid">
+                            <div class="p-col no-padding mrgn-l-10">
+                              <mat-form-field class="top-x">
+                                <input
+                                  required
+                                  matInput
+                                  type="text"
+                                  [attr.disabled]="
+                                    esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length
+                                  "
+                                  formControlName="questionnaire_template_id"
+                                  style="width: 100%"
+                                  color="accent"
+                                  [placeholder]="'056_ES.Select Form Template for Employability Survey' | translate"
+                                  [matAutocomplete]="listESQuestionaire"
+                                  matAutocompletePosition="below"
+                                  (keyup)="filterES(esIndex)"
+                                />
+                                <mat-autocomplete
+                                  #listESQuestionaire="matAutocomplete"
+                                  [panelWidth]="'fit'"
+                                  [displayWith]="displayFn.bind(this)"
+                                  #autoCompleteBox
+                                >
+                                  <mat-option
+                                    (click)="saveQuestionnaireID(esIndex, quest)"
+                                    *ngFor="let quest of ESQuestionaireListFiltered[esIndex]"
+                                    [value]="quest._id"
+                                  >
+                                    {{ quest.questionnaire_name }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <!-- Date picker -->
+                          <div class="p-grid">
+                            <div class="p-col-6" style="padding-left: 0">
+                              <div style="display: flex; flex-direction: row; width: 100%">
+                                <label style="padding-top: 15px; margin-right: 30px"> {{ 'Send Date' | translate }}* </label>
+                                <div [fxFlex]="50" *ngIf="esType === 'one_time'">
+                                  <mat-form-field style="margin-bottom: -1.4em">
+                                    <input
+                                      matInput
+                                      readonly
+                                      [placeholder]="'056_ES.Date of send' | translate"
+                                      formControlName="send_date"
+                                      (click)="pickerStart.open()"
+                                      [matDatepicker]="pickerStart"
+                                      [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+                                    />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerStart></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                                <div [fxFlex]="28" *ngIf="esType === 'continuous'">
+                                  <mat-form-field style="margin-bottom: -1.4em">
+                                    <input matInput [placeholder]="'056_ES.Days' | translate" formControlName="send_date_continuous" type="number" max-lenght="3">
+                                  </mat-form-field>
+                                </div>
+                                <p *ngIf="esType === 'continuous'" style="padding-top: 15px; padding-left: 13px; margin: 0">
+                                  {{ '056_ES.After_PASS_Decision' | translate }}
+                                </p>
+                              </div>
+                            </div>
+                            <div class="p-col-6">
+                              <div style="display: flex; flex-direction: row; width: 100%">
+                                <label style="padding-top: 15px; margin-right: 30px"> {{ 'Expiration Date' | translate }}* </label>
+                                <div [fxFlex]="50" *ngIf="esType === 'one_time'">
+                                  <mat-form-field style="margin-top: 2px; margin-bottom: -1.4em">
+                                    <input
+                                      matInput
+                                      readonly
+                                      [placeholder]="'Expiration Date' | translate"
+                                      formControlName="expiration_date"
+                                      (click)="pickerExp.open()"
+                                      [matDatepicker]="pickerExp"
+                                      [min]="esForm.get('send_date').value"
+                                      [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+                                    />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerExp"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerExp [disabled]="!esForm.get('send_date').value"></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                                <div [fxFlex]="50" *ngIf="esType === 'continuous'">
+                                  <mat-form-field style="margin-top: 2px; margin-bottom: -1.4em">
+                                    <input
+                                      matInput
+                                      readonly
+                                      [placeholder]="'Expiration Date' | translate"
+                                      formControlName="expiration_date"
+                                      (click)="pickerExp.open()"
+                                      [matDatepicker]="pickerExp"
+                                      [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+
+                                    />
+                                    <mat-datepicker-toggle matSuffix [for]="pickerExp"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerExp></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Select Validator -->
+                          <div class="p-grid">
+                            <div class="p-col-4 no-padding pad-10">
+                              <mat-form-field>
+                                <input
+                                  matInput
+                                  [attr.disabled]="
+                                    esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length
+                                  "
+                                  [placeholder]="'056_ES.Select Validator' | translate"
+                                  formControlName="validator"
+                                  style="width: 100%"
+                                  color="accent"
+                                  [matAutocomplete]="validator"
+                                  (keyup)="filterValidator(esIndex)"
+                                />
+                                <mat-autocomplete
+                                  #validator="matAutocomplete"
+                                  [panelWidth]="'fit'"
+                                  [displayWith]="displayValidator.bind(this)"
+                                  #validatorAutoComplete
+                                >
+                                  <!-- <mat-option (click)="saveValidator(esIndex, no_validator)" value="No Validator">
+                                  {{'056_ES.validator_dropdown.No Validator' | translate }}
+                                </mat-option> -->
+                                  <mat-option
+                                    (click)="saveValidator(esIndex, validator)"
+                                    *ngFor="let validator of validatorFiltered[esIndex]"
+                                    [value]="validator"
+                                  >
+                                    {{ '056_ES.validator_dropdown.' + validator | translate }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                            <div class="p-col-7 no-padding" *ngIf="esForm.get('validator').value !== 'no_validator'">
+                              <mat-slide-toggle
+                                color="accent"
+                                class="flow"
+                                formControlName="with_rejection_flow"
+                                [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+                              >
+                                <span
+                                  #tooltip="matTooltip"
+                                  matTooltip="{{
+                                    (esForm.get('with_rejection_flow').value ? '056_ES.With Rejection Flow' : '056_ES.No Rejection Flow')
+                                      | translate
+                                  }}"
+                                  matTooltipPosition="above"
+                                  [ngStyle]="{ color: esForm.get('with_rejection_flow').value ? '#fdd835' : 'white' }"
+                                >
+                                  {{
+                                    (esForm.get('with_rejection_flow').value ? '056_ES.With Rejection Flow' : '056_ES.No Rejection Flow')
+                                      | translate
+                                  }}
+                                </span>
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+                          <!-- Select Toggle -->
+                          <div class="p-grid">
+                            <div class="p-col-11 no-padding">
+                              <mat-slide-toggle color="accent" [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length" formControlName="is_required_for_certificate">
+                                <span
+                                  #tooltip="matTooltip"
+                                  matTooltip="{{
+                                    (esForm.get('is_required_for_certificate').value
+                                      ? '056_ES.ES is required for generating the certificate'
+                                      : '056_ES.ES is not required for generating the certificate'
+                                    ) | translate
+                                  }}"
+                                  matTooltipPosition="above"
+                                  [ngStyle]="{ color: esForm.get('is_required_for_certificate').value ? '#fdd835' : 'white' }"
+                                >
+                                  {{
+                                    (esForm.get('is_required_for_certificate').value
+                                      ? '056_ES.ES is required for generating the certificate'
+                                      : '056_ES.ES is not required for generating the certificate'
+                                    ) | translate
+                                  }}
+                                </span>
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+                          <div class="p-grid">
+                            <div class="p-col-11 no-padding" *ngIf="esIndex > 0">
+                              <mat-slide-toggle color="accent" [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length" formControlName="is_send_es_if_prev_not_answered">
+                                <span
+                                  #tooltip="matTooltip"
+                                  matTooltip="{{
+                                    (esForm.get('is_send_es_if_prev_not_answered').value
+                                      ? '056_ES.ES send after previous ES is done'
+                                      : '056_ES.ES Send at the send date time'
+                                    ) | translate
+                                  }}"
+                                  matTooltipPosition="above"
+                                  [ngStyle]="{ color: esForm.get('is_send_es_if_prev_not_answered').value ? '#fdd835' : 'white' }"
+                                >
+                                  {{
+                                    (esForm.get('is_send_es_if_prev_not_answered').value
+                                      ? '056_ES.ES send after previous ES is done'
+                                      : '056_ES.ES Send at the send date time'
+                                    ) | translate
+                                  }}
+                                </span>
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+                          <div class="p-grid">
+                            <div class="p-col-11 no-padding" *ngIf="esIndex > 0">
+                              <mat-slide-toggle
+                                color="accent"
+                                formControlName="send_only_to_pass_student"
+                                [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+                              >
+                                <span
+                                  #tooltip="matTooltip"
+                                  matTooltip="{{
+                                    (esForm.get('send_only_to_pass_student').value
+                                      ? '056_ES.Only send to Pass Students'
+                                      : '056_ES.Send to ALL Students(Admin ou non)'
+                                    ) | translate
+                                  }}"
+                                  matTooltipPosition="above"
+                                  [ngStyle]="{ color: esForm.get('send_only_to_pass_student').value ? '#fdd835' : 'white' }"
+                                >
+                                  {{
+                                    (esForm.get('send_only_to_pass_student').value
+                                      ? '056_ES.Only send to Pass Students'
+                                      : '056_ES.Send to ALL Students(Admin ou non)'
+                                    ) | translate
+                                  }}
+                                </span>
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+                          <div class="p-grid">
+                            <div class="p-col-11 no-padding" *ngIf="esIndex > 0">
+                              <mat-slide-toggle
+                                color="accent"
+                                formControlName="send_only_to_not_mention_continue_study"
+                                [disabled]="esForm.get('is_already_sent').value || esForm?.get('students_already_sent')?.value?.length"
+                              >
+                                <span
+                                  #tooltip="matTooltip"
+                                  matTooltip="{{
+                                    (esForm.get('send_only_to_not_mention_continue_study').value
+                                      ? '056_ES.Send only to Students who did NOT mention Continue Studies in the Previous Survey'
+                                      : '056_ES.Send to ALL Students Situation(even if Continue Studies in Previous Survey)'
+                                    ) | translate
+                                  }}"
+                                  matTooltipPosition="above"
+                                  [ngStyle]="{ color: esForm.get('send_only_to_not_mention_continue_study').value ? '#fdd835' : 'white' }"
+                                >
+                                  {{
+                                    (esForm.get('send_only_to_not_mention_continue_study').value
+                                      ? '056_ES.Send only to Students who did NOT mention Continue Studies in the Previous Survey'
+                                      : '056_ES.Send to ALL Students Situation(even if Continue Studies in Previous Survey)'
+                                    ) | translate
+                                  }}
+                                </span>
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </fieldset>
+
+        <div *ngIf="isFormLoading" class="loading-indicator">
+          <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-6">
+    <!-- Parameter student table -->
+    <div class="top-space">
+      <div class="horizontal">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+          <ng-container matColumnDef="reset">
+            <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column">
+              <button mat-raised-button color="primary" matTooltip="{{ 'RESET' | translate }}" (click)="reset()">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                *ngIf="esType !== 'continuous'"
+                matTooltip="{{ 'Include Student' | translate }}"
+                [disabled]="!selection.hasValue()"
+                (click)="updateIncludedToggle()"
+              >
+                <mat-icon class="mat-icon-default"> add </mat-icon>
+                {{ 'Include Student' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                [disabled]="employabilitySurveyForm.valid ? isStudentTableModifiedCheck() && isFormChanged() : true"
+                matTooltip="{{ 'Save' | translate }}"
+                (click)="saveESProcess()"
+              >
+                <mat-icon class="mat-icon-default">save</mat-icon>
+                {{ 'Save' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                [disabled]="employabilitySurveyForm.invalid || checkExpirateDate(getESFormArray()?.at(0)?.get('expiration_date')?.value)"
+                *ngIf="!published"
+                matTooltip="{{ 'Send To Student' | translate }}"
+                (click)="sendEStoStudent()"
+              >
+                <mat-icon class="mat-icon-default">send</mat-icon>
+                {{ 'Send To Student' | translate }}
+              </button>
+              <button mat-raised-button id="published_button" color="accent" matTooltip="{{ 'Published' | translate }}">
+                <mat-icon [ngClass]="published ? 'green' : 'red'" aria-hidden="true">lens </mat-icon>
+                {{ 'Published' | translate }}
+              </button>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null; showOptions('all')"
+                [checked]="(selection.hasValue() && isAllSelected()) || isCheckedAll"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row) || isCheckedAll"
+                (change)="showOptions('one')"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="selectFilter">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <ng-container matColumnDef="schoolFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="schoolFilterAuto"
+                  [formControl]="schoolFilter"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-autocomplete #schoolFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option value="" (click)="setSchoolFilter(null)">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let school of filteredSchools | async"
+                    [value]="school?.short_name"
+                    (click)="setSchoolFilter(school?._id)"
+                  >
+                    {{ school?.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="studentFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput [formControl]="studentNameFilter" placeholder="{{ 'GROUP_TEST_TABLE.SEARCH' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="finalTranscripResultFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field floatLabel="never">
+                <mat-select [formControl]="transcriptResultFilter">
+                  <mat-option *ngFor="let list of listTranscriptResult" [value]="list.value"> {{ list.name | translate }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="includedFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field floatLabel="never">
+                <mat-select [formControl]="includedFilter">
+                  <mat-option *ngFor="let list of includedFilterList" [value]="list.value"> {{ list.name | translate }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="school">
+            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+              <h5 mat-sort-header="school_name">{{ 'School' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltipPosition="above" class="pad-l-xs">
+              <span> {{ element?.school_employability ? element?.school_employability : element?.student_id?.school?.short_name }} </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="student">
+            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'student' | translate }}" matTooltipPosition="above">
+              <h5 mat-sort-header="student_name">{{ 'student' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltipPosition="above" class="pad-l-xs">
+              <span>
+                {{ element?.student_id?.last_name }} {{ element?.student_id?.first_name }}
+                {{ element?.student_id?.civility | translate }}</span
+              >
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="finalTranscripResult">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              matTooltip="{{ 'Final Transcript Result' | translate }}"
+              matTooltipPosition="above"
+              mat-sort-header="final_transcript_result"
+            >
+              <span placement="above">
+                <!-- <img class="icon-certifier" src="assets/icons/gavel.svg" alt="" /> -->
+                <mat-icon class="mat-icon-default" svgIcon="gavel" style="width: 22px !important"></mat-icon>
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltipPosition="above" class="pad-l-xs">
+              <div
+                style="cursor: pointer"
+                style="text-align: center; padding-bottom: 2px;"
+                *ngIf="element?.student_id?.final_transcript_id?.jury_decision_for_final_transcript"
+                [ngSwitch]="element?.student_id?.final_transcript_id?.jury_decision_for_final_transcript"
+              >
+                <i
+                  *ngSwitchCase="'failed'"
+                  style="color: red"
+                  class="fa fa-circle statusIcon"
+                  aria-hidden="true"
+                  matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                  matTooltipPosition="right"
+                ></i>
+                <i
+                  *ngSwitchCase="'eliminated'"
+                  style="color: red"
+                  class="fa fa-circle statusIcon"
+                  aria-hidden="true"
+                  matTooltip="{{ 'FINAL_TRANSCRIPT.ELIMINATED' | translate }}"
+                  matTooltipPosition="right"
+                ></i>
+                <div *ngSwitchCase="'retaking'">
+                  <ng-template [ngIf]="!element?.student_id?.final_transcript_id?.after_final_retake_decision">
+                    <i
+                      *ngIf="
+                        element?.student_id?.final_transcript_id?.student_decision === 'retaking' ||
+                        element?.student_id?.final_transcript_id?.student_decision === ''
+                      "
+                      style="color: orange"
+                      class="fa fa-circle statusIcon"
+                      aria-hidden="true"
+                      matTooltip="{{ 'FINAL_TRANSCRIPT.RETAKE' | translate }}"
+                      matTooltipPosition="right"
+                    ></i>
+                    <i
+                      *ngIf="element?.student_id?.final_transcript_id?.student_decision === 'failed'"
+                      style="color: red"
+                      class="fa fa-circle statusIcon"
+                      aria-hidden="true"
+                      matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                      matTooltipPosition="right"
+                    ></i>
+                  </ng-template>
+
+                  <ng-template [ngIf]="element?.student_id?.final_transcript_id?.after_final_retake_decision">
+                    <!-- If Jury has not Finally Decided -->
+                    <span *ngIf="!element?.student_id?.final_transcript_id?.has_jury_finally_decided; else decisonDone">
+                      <i
+                        *ngIf="
+                          element?.student_id?.final_transcript_id?.student_decision === 'retaking' ||
+                          element?.student_id?.final_transcript_id?.student_decision === ''
+                        "
+                        style="color: orange"
+                        class="fa fa-circle statusIcon"
+                        aria-hidden="true"
+                        matTooltip="{{ 'FINAL_TRANSCRIPT.RETAKE' | translate }}"
+                        matTooltipPosition="right"
+                      ></i>
+                      <i
+                        *ngIf="element?.student_id?.final_transcript_id?.student_decision === 'failed'"
+                        style="color: red"
+                        class="fa fa-circle statusIcon"
+                        aria-hidden="true"
+                        matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                        matTooltipPosition="right"
+                      ></i>
+                    </span>
+                    <!-- / -->
+
+                    <ng-template #decisonDone>
+                      <!-- If Jury has Finally Decided -->
+                      <i
+                        *ngIf="
+                          getFinalResultAfterReTake(element?.student_id?.final_transcript_id?.after_final_retake_decision) === 'FAILED'
+                        "
+                        style="color: red"
+                        class="fa fa-circle statusIcon"
+                        aria-hidden="true"
+                        matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                        matTooltipPosition="right"
+                      ></i>
+                      <i
+                        *ngIf="getFinalResultAfterReTake(element?.student_id?.final_transcript_id?.after_final_retake_decision) === 'PASS'"
+                        style="color: greenyellow"
+                        class="fa fa-circle statusIcon"
+                        aria-hidden="true"
+                        matTooltip="{{ 'FINAL_TRANSCRIPT.PASS' | translate }}"
+                        matTooltipPosition="right"
+                      ></i>
+                      <!-- / -->
+                    </ng-template>
+                  </ng-template>
+                </div>
+                <i
+                  *ngSwitchCase="'pass'"
+                  style="color: greenyellow"
+                  class="fa fa-circle statusIcon"
+                  aria-hidden="true"
+                  matTooltip="{{ 'FINAL_TRANSCRIPT.PASS' | translate }}"
+                  matTooltipPosition="right"
+                ></i>
+                <i *ngSwitchDefaul aria-hidden="true"></i>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="included">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              matTooltip="{{ 'Included' | translate }}"
+              matTooltipPosition="above"
+              style="text-align: start"
+            >
+              <h5 mat-sort-header="included">{{ 'Included' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-slide-toggle [(ngModel)]="element.is_send_to_student" (change)="onStudentIncludedToggle(element)"></mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+              <div class="center-spinner">
+                <mat-spinner color="accent"></mat-spinner>
+              </div>
+            </th>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+        </table>
+        <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+          {{ 'NOT RECORD FOUND' | translate }}
+        </div>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[10]" [length]="dataCount" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loadingDropdown" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

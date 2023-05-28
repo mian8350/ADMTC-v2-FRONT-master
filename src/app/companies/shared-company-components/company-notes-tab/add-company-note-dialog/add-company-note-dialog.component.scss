@@ -1,0 +1,64 @@
+.dialogTitle {
+  display: inline-block;
+}
+.dialogTitleWrapper {
+  color: black;
+}
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+.float-right {
+  float: right;
+}
+.header-dialog {
+  padding: 10px 5px 0 15px;
+}
+.comment {
+  height: 100px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mr-0 {
+  margin-right: 0px;
+}
+.comment-text2 {
+  height: 30px;
+  color: black;
+}
+.add-comment {
+  ::ng-deep .mat-form-field-outline {
+    height: 70px;
+  }
+  ::ng-deep .mat-form-field-outline-start {
+    border-radius: 0 !important;
+    border-color: inherit;
+  }
+
+  ::ng-deep .mat-form-field-outline-end {
+    border-radius: 0 !important;
+    border-color: inherit;
+  }
+}
+.no-padding {
+  padding: 0;
+}
+
+:host::ng-deep.ckeditor {
+  .ck-content {
+    min-height: 10rem !important;
+  }
+  .ck-editor__editable_inline {
+    border: 1px solid #b8b8b8;
+  }
+  .ng-invalid.ng-touched .ck-editor__editable_inline {
+    border: 1px solid #f44336;
+  }
+}
+
+:host::ng-deep.ck.ck-toolbar {
+  border: none;
+}
+:host::ng-deep.ck-content .mention {
+  color: black;
+}

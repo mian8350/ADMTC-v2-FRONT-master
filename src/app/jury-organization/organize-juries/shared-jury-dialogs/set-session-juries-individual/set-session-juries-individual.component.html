@@ -1,0 +1,314 @@
+<div *ngIf="!isWaitingForResponse; else spinner" class="dialog-wraper">
+  <div class="dialog-border">
+    <div class="dialogTitleWrapper header-dialog">
+      <div class="p-grid">
+        <div class="w-30 no-padding" style="margin-right: 5px; align-self: center">
+          <mat-icon class="icon-alignment" mat-icon-button> alarm_add </mat-icon>
+        </div>
+        <div class="p-col-11 no-padding">
+          <h3 class="dialogTitle">
+            <span>
+              {{ 'SETSESSIONJURIESINDIVIDUAL.TITLE' | translate }} {{ studentData?.student_id?.civility | translate }}
+              {{ studentData?.student_id?.first_name }} {{ studentData?.student_id?.last_name | uppercase }}
+            </span>
+          </h3>
+        </div>
+        <div class="w-26 no-padding">
+          <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+    <!-- DIALOG INFO -->
+    <div class="dialog-info">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <div class="p-grid">
+            <span class="dialog-info-key">{{ 'Student' | translate }}</span>
+            <span>:</span>
+            <div class="dialog-info-value">
+              {{ studentData?.student_id?.civility | translate }} {{ studentData?.student_id?.first_name }}
+              {{ studentData?.student_id?.last_name | uppercase }}
+            </div>
+          </div>
+          <div class="p-grid">
+            <span class="dialog-info-key">{{ 'School' | translate }}</span>
+            <span>:</span>
+            <div class="dialog-info-value">{{ studentData?.school?.short_name }}</div>
+          </div>
+          <div class="p-grid block-grid" *ngIf="parentData?.juryOrgData?.type === 'retake_grand_oral'">
+            <span class="dialog-info-key">{{ 'SETUPSCHEDULE.Block_Retaken' | translate }}</span>
+            <span>:</span>
+            <div class="dialog-info-value">
+              <mat-chip-list color="accent">
+                <mat-chip
+                  *ngFor="let block of blockData"
+                  class="block-chip"
+                  matTooltip="{{ this.utilService.cleanHTML(block.block_id.block_of_competence_condition) }}"
+                >
+                  <p class="truncate">
+                    {{ this.utilService.cleanHTML(block?.block_id?.block_of_competence_condition) }}
+                  </p>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          <div class="p-grid block-grid" *ngIf="parentData?.juryOrgData?.type === 'grand_oral' && (parentData?.juryOrgData?.jury_activity === 'visio_jury' || parentData?.juryOrgData?.jury_activity === 'offline_jury')"> 
+            <span class="dialog-info-key">{{ 'Block' | translate }}</span>
+            <span>:</span>
+            <div class="dialog-info-value">
+              <mat-chip-list color="accent">
+                <mat-chip
+                  *ngFor="let block of selectedBlock"
+                  class="block-chip"
+                  matTooltip="{{ this.utilService.cleanHTML(block.block_id.block_of_competence_condition) }}"
+                >
+                  <p class="truncate">
+                    {{ this.utilService.cleanHTML(block?.block_id?.block_of_competence_condition) }}
+                  </p>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- DIALOG INFO END -->
+
+    <!-- DIALOG FORM -->
+    <form [formGroup]="setupSessionAndJury">
+      <div class="p-grid">
+        <div class="p-col-3">
+          <mat-form-field>
+            <mat-label>{{ 'SETUPSCHEDULE.Set_Date' | translate }}</mat-label>
+            <input readonly formControlName="date_test" matInput [matDatepicker]="picker" (click)="picker.open()" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('date_test').hasError('required') &&
+              (setupSessionAndJury.get('date_test').dirty || setupSessionAndJury.get('date_test').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}*
+          </mat-error>
+        </div>
+
+        <!-- Set Start Time -->
+        <div class="p-col-3">
+          <mat-form-field>
+            <input
+              formControlName="startTime"
+              matInput
+              class="form-field"
+              [ngxTimepicker]="setStartTime"
+              formControlName="start_time"
+              readonly
+              [format]="24"
+              placeholder="{{ 'SETUPSCHEDULE.Set_Start_time' | translate }}"
+            />
+            <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="setStartTime">
+              <svg data-testid="AccessTime"></svg>
+            </ngx-material-timepicker-toggle>
+          </mat-form-field>
+          <ngx-material-timepicker #setStartTime></ngx-material-timepicker>
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('start_time').hasError('required') &&
+              (setupSessionAndJury.get('start_time').dirty || setupSessionAndJury.get('start_time').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}*
+          </mat-error>
+        </div>
+        <!-- Set Start Time end -->
+
+        <!-- Set Duration -->
+        <div class="p-col-3">
+          <mat-form-field>
+            <mat-label>{{ 'SETUPSCHEDULE.Set_Duration' | translate }} ({{ 'minutes' | translate }})</mat-label>
+            <div class="field-wrap">
+              <input
+                formControlName="test_duration"
+                matInput
+                type="text"
+                style="margin-top: 10px"
+                [readonly]="!setupSessionAndJury.get('start_time').valid"
+              />
+              <mat-icon>access_time</mat-icon>
+            </div>
+            <!-- <input formControlName="test_duration" matInput type="text" [readonly]="!setupSessionAndJury.get('start_time').valid" /> -->
+          </mat-form-field>
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('test_duration').hasError('required') &&
+              (setupSessionAndJury.get('test_duration').dirty || setupSessionAndJury.get('test_duration').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}*
+          </mat-error>
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('test_duration').hasError('pattern') &&
+              (setupSessionAndJury.get('test_duration').dirty || setupSessionAndJury.get('test_duration').touched)
+            "
+          >
+            {{ 'Please Input Number Only' | translate }}*
+          </mat-error>
+        </div>
+        <!-- Set Duration end -->
+
+        <!-- End Time -->
+        <div class="p-col-3">
+          <mat-form-field>
+            <mat-label>{{ 'JURY_ORGANIZATION.END_TIME' | translate }}</mat-label>
+            <div class="field-wrap">
+              <input formControlName="end_time" matInput type="text" readonly style="margin-top: 10px" />
+              <mat-icon>access_time</mat-icon>
+            </div>
+            <!-- <svg data-testid="AccessTime"></svg> -->
+          </mat-form-field>
+
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('end_time').hasError('required') &&
+              (setupSessionAndJury.get('end_time').dirty || setupSessionAndJury.get('end_time').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}*
+          </mat-error>
+
+          <!-- <mat-form-field>
+            <input
+              formControlName="end_time"
+              matInput
+              class="form-field"
+              [ngxTimepicker]="endTime"
+              readonly
+              [format]="24"
+              placeholder="{{ 'JURY_ORGANIZATION.END_TIME' | translate }}*"
+            />
+
+            <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="endTime">
+              <svg data-testid="AccessTime"></svg>
+            </ngx-material-timepicker-toggle>
+          </mat-form-field>
+          <ngx-material-timepicker #endTime></ngx-material-timepicker> -->
+        </div>
+        <!-- End Time End -->
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-6 px-25 py-10">
+          <ng-select
+            *ngIf="!isPresidentJury"
+            appendTo="body"
+            [items]="presidentList"
+            bindLabel="short_name"
+            bindValue="_id"
+            placeholder="{{ 'ASSIGNJURIESMULTIPLE.OPTION_1' | translate }}"
+            clearAllText="Clear"
+            formControlName="president_of_jury"
+          >
+          </ng-select>
+
+          <mat-form-field *ngIf="isPresidentJury">
+            <input matInput [value]="getPresidentJury()" disabled />
+          </mat-form-field>
+
+          <mat-error
+            *ngIf="
+              setupSessionAndJury.get('president_of_jury').hasError('required') &&
+              (setupSessionAndJury.get('president_of_jury').dirty || setupSessionAndJury.get('president_of_jury').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}*
+          </mat-error>
+        </div>
+
+        <div class="p-col-6 px-25 py-10">
+          <ng-select
+            *ngIf="!isPresidentJury"
+            appendTo="body"
+            [items]="professionalList"
+            bindLabel="short_name"
+            bindValue="_id"
+            placeholder="{{ 'ASSIGNJURIESMULTIPLE.OPTION_2' | translate }}"
+            clearAllText="Clear"
+            formControlName="professional_jury_member"
+          >
+          </ng-select>
+
+          <mat-form-field *ngIf="isPresidentJury">
+            <input matInput [value]="getProfessionalJuryMember()" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-6 px-25 py-10">
+          <ng-select
+            *ngIf="!isPresidentJury"
+            appendTo="body"
+            [items]="academicList"
+            bindLabel="name"
+            bindValue="_id"
+            placeholder="{{ 'ASSIGNJURIESMULTIPLE.OPTION_3' | translate }}"
+            clearAllText="Clear"
+            formControlName="academic_jury_member"
+          >
+          </ng-select>
+
+          <mat-form-field *ngIf="isPresidentJury">
+            <input matInput [value]="getAcademicJuryMember()" disabled />
+          </mat-form-field>
+        </div>
+        <div class="p-col-6 px-25 py-10">
+          <ng-select
+            *ngIf="!isPresidentJury"
+            appendTo="body"
+            [items]="subtituteList"
+            bindLabel="name"
+            bindValue="_id"
+            placeholder="{{ 'ASSIGNJURIESMULTIPLE.OPTION_4' | translate }}"
+            clearAllText="Clear"
+            formControlName="substitution_jury_member"
+          >
+          </ng-select>
+
+          <mat-form-field *ngIf="isPresidentJury">
+            <input matInput [value]="getSubstitutionJuryMember()" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid" *ngIf="parentData?.is_postpone">
+        <mat-form-field class="reason-textarea">
+          <mat-label>{{ 'JURY_ORGANIZATION.Reason for Postponing' | translate }}</mat-label>
+          <textarea matInput formControlName="reason_for_postpone" [required]="parentData?.is_postpone" rows="5"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+    <!-- DIALOG FORM END -->
+  </mat-dialog-content>
+
+  <div class="footer-form" fxLayout="row" fxLayoutAlign="end center" mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close (click)="closeDialog()" color="warn">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-raised-button color="primary" (click)="save()">
+      {{ 'SAVE' | translate }}
+    </button>
+  </div>
+</div>
+
+<ng-template #spinner>
+  <div class="center-spinner">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-template>

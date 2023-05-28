@@ -1,0 +1,1875 @@
+<!-- ************** Job Description Data Import -->
+<div class="overlow-auto" id="pdf-job" style="display: none">
+  <div class="p-grid" *ngIf="jobDescriptionType === 'import'">
+    <div class="mrgn-right-15">
+      <div class="p-col-12" style="text-align: center">
+        <!-- ************** For Status Cards -->
+        <div class="p-grid justify-around">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to Student' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard?.sent_to_student, 'icon-false': !statusCard?.sent_to_student }">
+                    {{ statusCard?.sent_to_student ? '&#10004;' : '&#10799;' }}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- *************** If mentor is selected -->
+          <ng-container *ngIf="classData && classData.is_mentor_selected_in_job_description">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ 'JOB_STATUS.Sent to Mentor' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Sent to Mentor' | translate }}">
+                    <span [ngClass]="{ 'icon-true': statusCard?.sent_to_mentor, 'icon-false': !statusCard?.sent_to_mentor }">
+                      {{ statusCard?.sent_to_mentor ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ 'JOB_STATUS.Validated by Mentor' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                    <span [ngClass]="{ 'icon-true': statusCard?.validated_by_mentor, 'icon-false': !statusCard?.validated_by_mentor }">
+                      {{ statusCard?.validated_by_mentor ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to School' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to School' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard?.sent_to_school, 'icon-false': !statusCard?.sent_to_school }">
+                    {{ statusCard?.sent_to_school ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- If Rejected by Acad Dep -->
+          <ng-container *ngIf="statusCard.rejected_by_acad_dir">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="background-rejected label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status label-reject">
+                      {{ 'JOB_STATUS.Rejected by Academic Dpt' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- If not rejected by acad dep -->
+          <ng-container *ngIf="!statusCard.rejected_by_acad_dir">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div
+                    [ngClass]="{
+                      'font-status': translate.currentLang === 'en',
+                      'font-status-validate': translate.currentLang === 'fr'
+                    }"
+                    class=""
+                  >
+                    <p
+                      [ngClass]="{
+                        'text-status': translate.currentLang === 'en',
+                        'text-status-validate': translate.currentLang === 'fr'
+                      }"
+                    >
+                      {{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}">
+                    <span
+                      [ngClass]="{ 'icon-true': statusCard?.validated_by_acad_staff, 'icon-false': !statusCard?.validated_by_acad_staff }"
+                    >
+                      {{ statusCard?.validated_by_acad_staff ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Job Description Title -->
+      <div class="p-grid p-justify-around">
+        <div class="p-col-12 title-header no-padding">
+          <div class="text-center">
+            <h4 class="title-job">{{ 'JOBDESCRIPTIONFORM.TITLE' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+        <div class="yellow-border card-row p-col-12">
+          <div class="p-grid" style="float: left">
+            <!-- Student Name -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Student' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }}
+              </span>
+            </div>
+            <!-- Student Company -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.company?.company_name }}
+              </span>
+            </div>
+            <!-- Student School -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'School' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.school?.short_name }}
+              </span>
+            </div>
+            <!-- Student Mentor -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+                {{ studentData?.companies[0]?.mentor?.last_name }}
+              </span>
+            </div>
+            <!-- Student RNCP Title -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.rncp_title?.short_name }}
+              </span>
+            </div>
+            <!-- Student Class -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Class' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.current_class?.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form *ngIf="jobDescForm">
+        <!-- View for Job Identity Data -->
+        <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+          <div class="yellow-border card-row p-col-12 pad-btn-none">
+            <div class="p-grid">
+              <div class="p-col-3 self-center font-bolds">
+                {{ 'JOB_DESCRIPTION_TEXT.Job Identity' | translate }}
+              </div>
+              <div class="p-col-8 pad-btn-none">
+                <div class="width-ninety">
+                  <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Job Name' | translate }}</mat-label>
+                  <div>
+                    <span class="font-bolds">
+                      {{ jobDescForm?.job_name }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-3 self-center font-bolds">
+                {{ 'JOB_DESCRIPTION_TEXT.Date of Mission' | translate }}
+              </div>
+              <div class="p-col-8 x-pad-none">
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <div class="width-eighty">
+                      <mat-label class="grey-text">{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                      <div class="font-bolds">
+                        {{
+                          jobDescForm?.date_of_the_mission?.from?.date ? translateDate(jobDescForm?.date_of_the_mission?.from?.date) : ''
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <div class="width-eighty">
+                      <mat-label class="grey-text">{{ 'SM_COMPANY.To' | translate }}</mat-label>
+                      <div class="font-bolds">
+                        {{ jobDescForm?.date_of_the_mission?.to?.date ? translateDate(jobDescForm?.date_of_the_mission?.to?.date) : '' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-3 self-center font-bolds">
+                {{ 'JOB_DESCRIPTION_TEXT.Presentation Of The Department' | translate }}
+              </div>
+              <div class="p-col-8 x-pad-none">
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <div class="width-eighty">
+                      <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission Of The Department' | translate }}</mat-label>
+                      <div>
+                        <span class="font-bolds">
+                          {{ jobDescForm?.main_mission_of_the_department }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <div class="width-eighty">
+                      <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Organisation of the Department' | translate }}</mat-label>
+                      <div>
+                        <span class="font-bolds">
+                          {{ jobDescForm?.organization_of_the_department }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-3 self-center font-bolds">
+                {{ 'JOB_DESCRIPTION_TEXT.Job Mission' | translate }}
+              </div>
+              <div class="p-col-8 x-pad-none">
+                <div class="width-ninety">
+                  <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission' | translate }}</mat-label>
+                  <div>
+                    <span class="font-bolds">
+                      {{ jobDescForm?.main_mission }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="p-grid"
+            *ngIf="
+              jobDescForm?.old_job_desc?.missions_activities_autonomy && jobDescForm?.old_job_desc?.missions_activities_autonomy.length
+            "
+          >
+            <div class="card-row p-col-12 no-padding">
+              <div>
+                <!-- Dipslay For Autonomy Fields -->
+                <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                  <div *ngFor="let missionActivity of jobDescForm?.old_job_desc?.missions_activities_autonomy; let missionIndex = index">
+                    <div class="p-grid">
+                      <div class="p-col-3 pad-btn-none">
+                        <div>
+                          <mat-label class="grey-text">{{ 'mission' | translate }}</mat-label>
+                          <div>
+                            <span class="font-bolds">
+                              {{ jobDescForm?.old_job_desc?.missions_activities_autonomy[missionIndex]?.mission | translate }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="p-col-4 pad-btn-none">
+                        <div>
+                          <mat-label class="grey-text">{{ 'activity' | translate }}</mat-label>
+                          <div>
+                            <span class="font-bolds">
+                              {{ jobDescForm?.old_job_desc?.missions_activities_autonomy[missionIndex]?.activity | translate }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="p-col-4 pad-btn-none">
+                        <div class="autonomy">
+                          <div>
+                            <mat-label class="grey-text">{{ 'autonomy level' | translate }}</mat-label>
+                            <div>
+                              <span class="font-bolds">
+                                {{ jobDescForm?.old_job_desc?.missions_activities_autonomy[missionIndex]?.autonomy_level | translate }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="card-row p-col-12 no-padding">
+              <div
+                *ngIf="
+                  (jobDescForm?.old_job_desc?.knowledges && jobDescForm?.old_job_desc?.knowledges.length) ||
+                  (jobDescForm?.old_job_desc?.know_how && jobDescForm?.old_job_desc?.know_how?.length)
+                "
+              >
+                <!-- Dipslay For Competencies For This Job Field -->
+                <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                  <div *ngIf="jobDescForm?.old_job_desc?.knowledges && jobDescForm?.old_job_desc?.knowledges.length">
+                    <div *ngFor="let knowledges of jobDescForm?.old_job_desc?.knowledges; let knowledgesIndex = index">
+                      <div class="p-grid">
+                        <div class="p-col-3 self-center font-bolds" style="float: left" *ngIf="knowledgesIndex === 0">
+                          {{ 'REQUIREDCOMPETENCIESFORTHISJOB.JOBPROFILE' | translate }}
+                        </div>
+                        <div class="p-col-3 self-center" style="float: left" *ngIf="knowledgesIndex >= 1"></div>
+                        <div class="p-col-8 x-pad-none">
+                          <div class="knowledges">
+                            <div class="width-95">
+                              <mat-label class="grey-text">{{ 'REQUIREDCOMPETENCIESFORTHISJOB.KNOWLEDGE' | translate }}</mat-label>
+                              <div>
+                                <span class="font-bolds">
+                                  {{ jobDescForm?.old_job_desc?.knowledges[knowledgesIndex]?.knowledges }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="jobDescForm.old_job_desc.know_how && jobDescForm?.old_job_desc?.know_how.length">
+                    <div *ngFor="let objectives of jobDescForm?.old_job_desc?.know_how; let knowhowIndex = index">
+                      <div class="p-grid">
+                        <div class="p-col-3 self-center" style="float: left"></div>
+                        <div class="p-col-8 x-pad-none">
+                          <div class="knowhow">
+                            <div class="width-95">
+                              <mat-label class="grey-text">{{ 'REQUIREDCOMPETENCIESFORTHISJOB.KNOWHOW' | translate }}</mat-label>
+                              <div>
+                                <span class="font-bolds">
+                                  {{ jobDescForm?.old_job_desc?.know_how[knowhowIndex]?.know_how }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="card-row p-col-12 no-padding">
+              <div
+                *ngIf="
+                  (jobDescForm?.old_job_desc?.expected_from_the_students &&
+                    jobDescForm?.old_job_desc?.expected_from_the_students?.length) ||
+                  (jobDescForm?.old_job_desc?.objectives_of_the_department &&
+                    jobDescForm?.old_job_desc?.objectives_of_the_department?.length)
+                "
+              >
+                <!-- Dipslay For Objectives Of The Job And Expected Contributions Of The Students Field -->
+                <div class="p-col-12 float-left yellow-border mission-activity">
+                  <div class="p-col-5 mrgn-right-none mrgn-10 no-padding float-left yellow-border width-objective">
+                    <div class="p-grid">
+                      <div class="p-col-12 self-center font-bolds">
+                        {{ 'OBJECTIVESOFTHEDEPARTMENT' | translate }}
+                      </div>
+                      <div
+                        class="full-width"
+                        *ngIf="
+                          jobDescForm?.old_job_desc?.objectives_of_the_department &&
+                          jobDescForm?.old_job_desc?.objectives_of_the_department.length
+                        "
+                      >
+                        <div
+                          class="full-width"
+                          *ngFor="let objectives of jobDescForm?.old_job_desc?.objectives_of_the_department; let objectiveIndex = index"
+                        >
+                          <div>
+                            <div>
+                              <div class="p-col-12 pad-left" style="float: left">
+                                <div class="objective">
+                                  <div>
+                                    <mat-label class="grey-text">{{ 'Objective' | translate }}</mat-label>
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{
+                                          jobDescForm?.old_job_desc?.objectives_of_the_department[objectiveIndex]
+                                            ?.objectives_of_the_department
+                                        }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 mrgn-10 no-padding float-right yellow-border">
+                    <div class="p-grid">
+                      <div class="p-col-12 self-center font-bolds">
+                        {{ 'EXPECTEDFROMSTUDENT.TITLE' | translate }}
+                      </div>
+                      <div
+                        *ngIf="
+                          jobDescForm?.old_job_desc?.expected_from_the_students &&
+                          jobDescForm?.old_job_desc?.expected_from_the_students.length
+                        "
+                      >
+                        <div class="p-col-12 x-pad-none">
+                          <div *ngFor="let objectives of jobDescForm?.old_job_desc?.expected_from_the_students; let objectiveIndex = index">
+                            <div class="p-grid">
+                              <div class="p-col-5 float-left x-pad-none">
+                                <div>
+                                  <mat-label class="grey-text">{{ 'EXPECTEDFROMSTUDENT.CONTRIBUTION' | translate }}</mat-label>
+                                  <div>
+                                    <span class="font-bolds">
+                                      {{ jobDescForm?.old_job_desc?.expected_from_the_students[objectiveIndex]?.contribution }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="p-col-7 float-left x-pad-none">
+                                <div class="objective-s">
+                                  <div>
+                                    <mat-label class="grey-text">{{ 'EXPECTEDFROMSTUDENT.OBJECTIVE' | translate }}</mat-label>
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ jobDescForm?.old_job_desc?.expected_from_the_students[objectiveIndex]?.objective }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ************* View for Rejection Information -->
+        <div
+          class="p-grid"
+          style="margin-bottom: 1px; margin-top: 1px"
+          *ngIf="jobDescForm?.job_desc_rejections && jobDescForm?.job_desc_rejections.length"
+        >
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid" *ngFor="let reason of jobDescForm?.job_desc_rejections; let reasonIndex = index">
+              <ng-container>
+                <div class="p-col-12">
+                  <div class="p-grid">
+                    <div class="p-col-3 self-center">
+                      {{ 'Reason' | translate }}
+                    </div>
+                    <div class="p-col-9 x-pad-none">
+                      <div class="width-ninety">
+                        <mat-label class="grey-text">{{ 'EXPECTEDFROMSTUDENT.OBJECTIVE' | translate }}</mat-label>
+                        <div>
+                          <span>
+                            {{ jobDescForm?.job_desc_rejections[reasonIndex]?.reason_of_rejection }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="p-grid">
+                    <div class="p-col-3 self-center">
+                      {{ 'Date of Rejection' | translate }}
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      {{ translateDate(reason?.rejection_date?.date) }}
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- ************** View For Signature -->
+        <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div class="p-col-3" style="float: left">
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_student }">
+                    {{ jobDescForm?.signature_of_the_student ? '&#10004;' : '&#10799;' }}
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Student' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_company_mentor)">
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_company_mentor }">
+                    {{ jobDescForm?.signature_of_the_company_mentor ? '&#10004;' : '&#10799;' }}
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Mentor' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_acadir)">
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_acadir }">
+                    {{ jobDescForm?.signature_of_the_acadir ? '&#10004;' : '&#10799;' }}
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Acad Dir' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ************** Job Description Eval By Score -->
+<div class="overlow-auto" id="pdf-job-score" style="display: none">
+  <div class="mrgn-right-15" *ngIf="jobDescriptionType === 'score'">
+    <!-- ************** For Status Cards -->
+    <div class="p-col-12" style="text-align: center">
+      <!-- ************** For Status Cards -->
+      <div class="p-grid justify-around">
+        <div class="p-col no-padding" style="text-align: center">
+          <div class="p-grid" style="padding-top: 4px; display: block">
+            <div class="yellow-button background-status label-status card-status">
+              <div class="font-status">
+                <p class="text-status">
+                  {{ 'JOB_STATUS.Sent to Student' | translate }}
+                </p>
+              </div>
+              <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                <span [ngClass]="{ 'icon-true': statusCard?.sent_to_student, 'icon-false': !statusCard?.sent_to_student }">
+                  {{ statusCard?.sent_to_student ? '&#10004;' : '&#10799;' }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- *************** If mentor is selected -->
+        <ng-container *ngIf="classData && classData.is_mentor_selected_in_job_description">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to Mentor' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Mentor' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard?.sent_to_mentor, 'icon-false': !statusCard?.sent_to_mentor }">
+                    {{ statusCard?.sent_to_mentor ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Validated by Mentor' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard?.validated_by_mentor, 'icon-false': !statusCard?.validated_by_mentor }">
+                    {{ statusCard?.validated_by_mentor ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="p-col no-padding" style="text-align: center">
+          <div class="p-grid" style="padding-top: 4px; display: block">
+            <div class="yellow-button background-status label-status card-status">
+              <div class="font-status">
+                <p class="text-status">
+                  {{ 'JOB_STATUS.Sent to School' | translate }}
+                </p>
+              </div>
+              <span title="{{ 'JOB_STATUS.Sent to School' | translate }}">
+                <span [ngClass]="{ 'icon-true': statusCard?.sent_to_school, 'icon-false': !statusCard?.sent_to_school }">
+                  {{ statusCard?.sent_to_school ? '&#10004;' : '&#10799;' }}</span
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- If Rejected by Acad Dep -->
+        <ng-container *ngIf="statusCard.rejected_by_acad_dir">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'JOB_STATUS.Rejected by Academic Dpt' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- If not rejected by acad dep -->
+        <ng-container *ngIf="!statusCard.rejected_by_acad_dir">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div
+                  [ngClass]="{
+                    'font-status': translate.currentLang === 'en',
+                    'font-status-validate': translate.currentLang === 'fr'
+                  }"
+                  class=""
+                >
+                  <p
+                    [ngClass]="{
+                      'text-status': translate.currentLang === 'en',
+                      'text-status-validate': translate.currentLang === 'fr'
+                    }"
+                  >
+                    {{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}">
+                  <span
+                    [ngClass]="{ 'icon-true': statusCard?.validated_by_acad_staff, 'icon-false': !statusCard?.validated_by_acad_staff }"
+                  >
+                    {{ statusCard?.validated_by_acad_staff ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- *************** For Title -->
+    <div class="p-grid p-justify-around">
+      <div class="p-col-12 title-header no-padding">
+        <div class="text-center">
+          <h4 class="title-job">{{ 'JOBDESCRIPTIONFORM.TITLE' | translate }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Identity Data Title -->
+    <div class="p-grid" style="margin-bottom: 1px">
+      <div class="yellow-border card-row p-col-12">
+        <div class="p-grid" style="float: left">
+          <!-- Student Name -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Student' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }}
+            </span>
+          </div>
+          <!-- Student Company -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.companies[0]?.company?.company_name }}
+            </span>
+          </div>
+          <!-- Student School -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'School' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.school?.short_name }}
+            </span>
+          </div>
+          <!-- Student Mentor -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+              {{ studentData?.companies[0]?.mentor?.last_name }}
+            </span>
+          </div>
+          <!-- Student RNCP Title -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.rncp_title?.short_name }}
+            </span>
+          </div>
+          <!-- Student Class -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Class' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.current_class?.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form For Job Desc Form without Signature -->
+    <form *ngIf="jobDescForm">
+      <!-- View for Job Identity Data -->
+      <div class="p-grid" style="margin-bottom: 10px">
+        <div class="yellow-border card-row p-col-12 pad-btn-none">
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Job Identity' | translate }}
+            </div>
+            <div class="p-col-8 pad-btn-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Job Name' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.job_name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Date of Mission' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                    <div class="font-bolds">
+                      {{ jobDescForm.date_of_the_mission.from.date ? translateDate(jobDescForm.date_of_the_mission.from.date) : '' }}
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'SM_COMPANY.To' | translate }}</mat-label>
+                    <div class="font-bolds">
+                      {{ jobDescForm.date_of_the_mission.to.date ? translateDate(jobDescForm.date_of_the_mission.to.date) : '' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Presentation Of The Department' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission Of The Department' | translate }}</mat-label>
+                    <div>
+                      <span class="font-bolds">
+                        {{ jobDescForm?.main_mission_of_the_department }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Organisation of the Department' | translate }}</mat-label>
+                    <div>
+                      <span class="font-bolds">
+                        {{ jobDescForm?.organization_of_the_department }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Job Mission' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.main_mission }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Web/URL' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Web/URL' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_web_url ? jobDescForm?.company_web_url : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Presentation' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Presentation' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_presentation?.file_url ? jobDescForm?.company_presentation?.file_url : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Industry Sector' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Industry Sector' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.industry_sector ? jobDescForm?.industry_sector : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Main Activity' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Main Activity' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_main_activity ? jobDescForm?.company_main_activity : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Form for Questionnaire Response -->
+    <form *ngIf="questionResponseForm">
+      <!-- For Header -->
+      <div
+        class="p-grid"
+        style="margin-bottom: 10px"
+        *ngIf="
+          questionResponseForm.questionnaire_grid.header.title ||
+          questionResponseForm.questionnaire_grid.header.text ||
+          questionResponseForm.questionnaire_grid.header.direction
+        "
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12" style="text-align: center">
+              <div [innerHTML]="questionResponseForm.questionnaire_grid.header.title"></div>
+              <div [innerHTML]="questionResponseForm.questionnaire_grid.header.text"></div>
+              <div [innerHTML]="questionResponseForm.questionnaire_grid.header.direction"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Competence -->
+      <ng-container>
+        <ng-container *ngFor="let comp of questionResponseForm.competence; let compIndex = index">
+          <div class="p-grid" style="margin-bottom: 10px" *ngIf="renderBlockHideAndShow(comp, compIndex)">
+            <div class="yellow-border card-row p-col-12 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <h3 style="text-align: center">{{ comp.competence_name }}</h3>
+                </div>
+
+                <!-- For Segment -->
+                <ng-container>
+                  <div
+                    class="p-col-12"
+                    *ngFor="let segment of questionResponseForm.competence[compIndex].segment; let segmentIndex = index"
+                  >
+                    <h4>{{ segment.segment_name }}</h4>
+
+                    <!-- For Question -->
+                    <ng-container>
+                      <div
+                        class="p-grid"
+                        *ngFor="
+                          let quest of questionResponseForm.competence[compIndex].segment[segmentIndex].question;
+                          let quesIndex = index
+                        "
+                      >
+                        <!-- For question with slider is_field on -->
+                        <div *ngIf="quest.is_field" class="p-col-12">
+                          <div class="p-grid">
+                            <div class="p-col-3 self-center">
+                              <label style="align-self: center" *ngIf="quest.is_answer_required"
+                                >{{ 'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate }}*</label
+                              >
+                              <label style="align-self: center" *ngIf="!quest.is_answer_required">{{
+                                'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate
+                              }}</label>
+                            </div>
+                            <div class="p-col-8 x-pad-none">
+                              <div>
+                                <span class="font-bolds" [innerHTML]="quest.answer">
+                                  <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- For question with slider is_field off -->
+                        <div *ngIf="!quest.is_field" class="p-col-12">
+                          <ng-container *ngIf="quest.question_type === 'free_text'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div>
+                                  <span class="font-bolds" [innerHTML]="quest.answer">
+                                    <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'email'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div class="width-ninety">
+                                  <span class="font-bolds" [innerHTML]="quest.answer">
+                                    <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'date'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div class="width-ninety">
+                                  <mat-label class="grey-text">{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                                  <div>
+                                    <span class="font-bolds">
+                                      {{ quest.answer_date?.date ? quest.answer_date?.date : '-' }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'numeric'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div class="width-ninety">
+                                  <span class="font-bolds">
+                                    {{ quest.answer_number }}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'single_option'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div>
+                                  <span class="font-bolds" [innerHTML]="quest.answer">
+                                    <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'multiple_option'">
+                            <div class="p-grid">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <mat-checkbox
+                                  *ngFor="let option of quest.options"
+                                  value="{{ option.option_text }}"
+                                  style="padding-right: 10px"
+                                  [disabled]="true"
+                                >
+                                  {{ option.option_text }}
+                                </mat-checkbox>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'mission_activity'">
+                            <div class="p-grid">
+                              <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                                <div
+                                  *ngFor="
+                                    let missionActivity of questionResponseForm.competence[compIndex].segment[segmentIndex].question[
+                                      quesIndex
+                                    ].missions_activities_autonomy;
+                                    let missionIndex = index
+                                  "
+                                >
+                                  <div class="p-grid">
+                                    <div class="p-col-3 pad-btn-none">
+                                      <div>
+                                        <mat-label class="grey-text">{{ 'mission' | translate }}</mat-label>
+                                        <div>
+                                          <span class="font-bolds">
+                                            {{ missionActivity?.mission | translate }}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="p-col-4 pad-btn-none">
+                                      <div>
+                                        <mat-label class="grey-text">{{ 'activity' | translate }}</mat-label>
+                                        <div>
+                                          <span class="font-bolds">
+                                            {{ missionActivity?.activity | translate }}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="p-col-4 pad-btn-none">
+                                      <div class="autonomy">
+                                        <div>
+                                          <mat-label class="grey-text">{{ 'autonomy level' | translate }}</mat-label>
+                                          <div>
+                                            <span class="font-bolds">
+                                              {{ missionActivity?.autonomy_level | translate }}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'multiple_textbox'">
+                            <div class="p-grid">
+                              <div class="p-col-12 yellow-border mission-activity">
+                                <ng-container
+                                  *ngFor="
+                                    let textbox of questionResponseForm.competence[compIndex].segment[segmentIndex].question[quesIndex]
+                                      .multiple_textbox;
+                                    let textboxIndex = index
+                                  "
+                                >
+                                  <div class="p-grid">
+                                    <div class="p-col-12 pad-btn-none">
+                                      <div class="multiple-textbox">
+                                        <mat-label class="color-mat" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</mat-label>
+                                        <mat-label class="color-mat" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</mat-label>
+                                        <div class="width-ninety">
+                                          <span class="font-bolds" [innerHTML]="textbox.text">
+                                            <!-- {{ utilService.cleanHTML(textbox.text) }} -->
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <ng-container *ngIf="quest.question_type === 'parent_child'">
+                            <div class="p-grid" *ngIf="quest.question_type === 'parent_child'">
+                              <div class="p-col-3 self-center">
+                                <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                              </div>
+                              <div class="p-col-8 x-pad-none">
+                                <div>
+                                  <span class="font-bolds" [innerHTML]="quest.answer">
+                                    <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <ng-container>
+                              <ng-container *ngFor="let option1 of quest.parent_child_options; let indexSatu = index">
+                                <ng-container>
+                                  <ng-container *ngFor="let optionQuestion1 of option1.questions; let indexQuestionSatu = index">
+                                    <ng-container>
+                                      <div *ngIf="quest.answer === option1.option_text" class="field-item" style="padding-left: 2rem">
+                                        <div fxLayout="row" fxLayoutWrap="wrap">
+                                          <label fxFlex="70" style="align-self: center">{{ optionQuestion1.question_name }}</label>
+                                        </div>
+                                        <div fxLayout="row" fxLayoutWrap="wrap">
+                                          <div>
+                                            <span class="font-bolds" [innerHTML]="quest.answer">
+                                              <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                      <ng-container *ngFor="let option3 of optionQuestion1.parent_child_options; let indexDua = index">
+                                        <ng-container>
+                                          <ng-container *ngFor="let optionQuestion2 of option3.questions; let indexQuestionDua = index">
+                                            <div
+                                              *ngIf="optionQuestion1.answer === option3.option_text"
+                                              class="field-item"
+                                              style="padding-left: 4rem"
+                                            >
+                                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                                <label fxFlex="70" style="align-self: center">{{ optionQuestion2.question_name }}</label>
+                                              </div>
+                                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                                <div>
+                                                  <span class="font-bolds" [innerHTML]="quest.answer">
+                                                    <!-- {{ utilService.cleanHTML(quest.answer) }} -->
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </ng-container>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <!-- For Footer -->
+      <div class="p-grid" style="margin-bottom: 10px" *ngIf="questionResponseForm.questionnaire_grid.footer.text">
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12" style="text-align: center">
+              <div [innerHTML]="questionResponseForm.questionnaire_grid.footer.text"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Form For Job Desc, but only signature and rejection reason -->
+    <form *ngIf="jobDescForm">
+      <!-- ************* View for Rejection Information -->
+      <div
+        class="p-grid"
+        style="margin-bottom: 1px; margin-top: 1px"
+        *ngIf="jobDescForm?.job_desc_rejections && jobDescForm?.job_desc_rejections.length"
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid" *ngFor="let reason of jobDescForm?.job_desc_rejections; let reasonIndex = index">
+            <ng-container>
+              <div class="p-col-12">
+                <div class="p-grid">
+                  <div class="p-col-3 self-center">
+                    {{ 'Reason' | translate }}
+                  </div>
+                  <div class="p-col-9 x-pad-none">
+                    <div class="width-ninety">
+                      <mat-label class="grey-text">{{ 'EXPECTEDFROMSTUDENT.OBJECTIVE' | translate }}</mat-label>
+                      <div>
+                        <span>
+                          {{ jobDescForm?.job_desc_rejections[reasonIndex]?.reason_of_rejection }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-3 self-center">
+                    {{ 'Date of Rejection' | translate }}
+                  </div>
+                  <div class="p-col-8 x-pad-none">
+                    {{ translateDate(reason?.rejection_date?.date) }}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- ************** View For Signature -->
+      <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <div class="p-col-3" style="float: left">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_student }">
+                  {{ jobDescForm?.signature_of_the_student ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Student' | translate }}
+                </span>
+              </div>
+              <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_company_mentor)">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_company_mentor }">
+                  {{ jobDescForm?.signature_of_the_company_mentor ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Mentor' | translate }}
+                </span>
+              </div>
+              <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_acadir)">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_acadir }">
+                  {{ jobDescForm?.signature_of_the_acadir ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Acad Dir' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ************** Job Description Data Competence -->
+<div class="overlow-auto" id="pdf-job-competence" style="display: none">
+  <div class="mrgn-right-15" *ngIf="jobDescriptionType === 'competence'">
+    <!-- ************** For Status Cards -->
+    <div class="p-col-12" style="text-align: center">
+      <!-- ************** For Status Cards -->
+      <div class="p-grid justify-around">
+        <div class="p-col no-padding" style="text-align: center">
+          <div class="p-grid" style="padding-top: 4px; display: block">
+            <div class="yellow-button background-status label-status card-status">
+              <div class="font-status">
+                <p class="text-status">
+                  {{ 'JOB_STATUS.Sent to Student' | translate }}
+                </p>
+              </div>
+              <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+                  {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- *************** If mentor is selected -->
+        <ng-container *ngIf="classData && classData.is_mentor_selected_in_job_description">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to Mentor' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Mentor' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_mentor, 'icon-false': !statusCard.sent_to_mentor }">
+                    {{ statusCard.sent_to_mentor ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Validated by Mentor' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_mentor, 'icon-false': !statusCard.validated_by_mentor }">
+                    {{ statusCard.validated_by_mentor ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="p-col no-padding" style="text-align: center">
+          <div class="p-grid" style="padding-top: 4px; display: block">
+            <div class="yellow-button background-status label-status card-status">
+              <div class="font-status">
+                <p class="text-status">
+                  {{ 'JOB_STATUS.Sent to School' | translate }}
+                </p>
+              </div>
+              <span title="{{ 'JOB_STATUS.Sent to School' | translate }}">
+                <span [ngClass]="{ 'icon-true': statusCard.sent_to_school, 'icon-false': !statusCard.sent_to_school }">
+                  {{ statusCard.sent_to_school ? '&#10004;' : '&#10799;' }}</span
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- If Rejected by Acad Dep -->
+        <ng-container *ngIf="statusCard.rejected_by_acad_dir">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'JOB_STATUS.Rejected by Academic Dpt' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- If not rejected by acad dep -->
+        <ng-container *ngIf="!statusCard.rejected_by_acad_dir">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div
+                  [ngClass]="{
+                    'font-status': translate.currentLang === 'en',
+                    'font-status-validate': translate.currentLang === 'fr'
+                  }"
+                  class=""
+                >
+                  <p
+                    [ngClass]="{
+                      'text-status': translate.currentLang === 'en',
+                      'text-status-validate': translate.currentLang === 'fr'
+                    }"
+                  >
+                    {{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_acad_staff, 'icon-false': !statusCard.validated_by_acad_staff }">
+                    {{ statusCard.validated_by_acad_staff ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- *************** For Buttons -->
+    <div class="p-grid p-justify-around">
+      <div class="p-col-12 title-header no-padding">
+        <div class="text-center">
+          <h4 class="title-job">{{ 'JOBDESCRIPTIONFORM.TITLE' | translate }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Identity Data Title -->
+    <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+      <div class="yellow-border card-row p-col-12">
+        <div class="p-grid" style="float: left">
+          <!-- Student Name -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Student' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }}
+            </span>
+          </div>
+          <!-- Student Company -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.companies[0]?.company?.company_name }}
+            </span>
+          </div>
+          <!-- Student School -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'School' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.school?.short_name }}
+            </span>
+          </div>
+          <!-- Student Mentor -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+              {{ studentData?.companies[0]?.mentor?.last_name }}
+            </span>
+          </div>
+          <!-- Student RNCP Title -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.rncp_title?.short_name }}
+            </span>
+          </div>
+          <!-- Student Class -->
+          <div class="p-col-5" style="float: left">
+            <span class="grey-text"> {{ 'Class' | translate }} : </span>
+            <span class="font-bolds">
+              {{ studentData?.current_class?.name }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form *ngIf="jobDescForm">
+      <!-- View for Job Identity Data -->
+      <div class="p-grid" style="margin-bottom: 1px">
+        <div class="yellow-border card-row p-col-12 pad-btn-none">
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Job Identity' | translate }}
+            </div>
+            <div class="p-col-8 pad-btn-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Job Name' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.job_name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Date of Mission' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                    <div class="font-bolds">
+                      {{ jobDescForm?.date_of_the_mission?.from?.date ? translateDate(jobDescForm?.date_of_the_mission?.from?.date) : '' }}
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'SM_COMPANY.To' | translate }}</mat-label>
+                    <div class="font-bolds">
+                      {{ jobDescForm?.date_of_the_mission?.to?.date ? translateDate(jobDescForm?.date_of_the_mission?.to?.date) : '' }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Presentation Of The Department' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission Of The Department' | translate }}</mat-label>
+                    <div>
+                      <span class="font-bolds">
+                        {{ jobDescForm?.main_mission_of_the_department }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <div class="width-eighty">
+                    <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Organisation of the Department' | translate }}</mat-label>
+                    <div>
+                      <span class="font-bolds">
+                        {{ jobDescForm?.organization_of_the_department }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Job Mission' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Main Mission' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.main_mission }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Web/URL' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Web/URL' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_web_url ? jobDescForm?.company_web_url : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Presentation' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Presentation' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_presentation?.file_url ? jobDescForm?.company_presentation?.file_url : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Industry Sector' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Industry Sector' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.industry_sector ? jobDescForm?.industry_sector : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="p-col-3 self-center font-bolds">
+              {{ 'JOB_DESCRIPTION_TEXT.Company Main Activity' | translate }}
+            </div>
+            <div class="p-col-8 x-pad-none">
+              <div class="width-ninety">
+                <mat-label class="grey-text">{{ 'JOB_DESCRIPTION_TEXT.Company Main Activity' | translate }}</mat-label>
+                <div>
+                  <span class="font-bolds">
+                    {{ jobDescForm?.company_main_activity ? jobDescForm?.company_main_activity : '-' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- *************** View for Block -->
+      <div class="p-grid">
+        <div class="card-row no-padding">
+          <!-- Display For Each Block -->
+          <ng-container *ngIf="jobDescForm.block_of_template_competences && jobDescForm.block_of_template_competences.length">
+            <div class="p-grid" *ngFor="let block of jobDescForm.block_of_template_competences; let blockIndex = index">
+              <ng-container
+                *ngIf="
+                  block.block_of_template_competence_id &&
+                  academicTemplate[blockIndex] &&
+                  academicTemplate[blockIndex]._id === block.block_of_template_competence_id
+                "
+              >
+                <div class="p-col-12 yellow-border no-padding" style="text-align: center">
+                  <h3 class="margin-none">
+                    {{ academicTemplate[blockIndex].ref_id }} - {{ utilService.cleanHTML(academicTemplate[blockIndex].name) }}
+                  </h3>
+                </div>
+
+                <!-- Display For Each Competence -->
+                <div
+                  class="p-col-12 no-padding-r competency-section"
+                  *ngIf="
+                    jobDescForm.block_of_template_competences[blockIndex].competence_templates &&
+                    jobDescForm.block_of_template_competences[blockIndex].competence_templates.length
+                  "
+                >
+                  <div
+                    class="p-grid"
+                    *ngFor="
+                      let competence of jobDescForm.block_of_template_competences[blockIndex].competence_templates;
+                      let compIndex = index
+                    "
+                  >
+                    <ng-container
+                      *ngIf="
+                        competence.competence_template_id &&
+                        academicTemplate[blockIndex] &&
+                        academicTemplate[blockIndex].competence_templates_id[compIndex] &&
+                        academicTemplate[blockIndex].competence_templates_id[compIndex]._id === competence.competence_template_id
+                      "
+                    >
+                      <div class="yellow-border padding-5 margin-bot-10px" style="width: 99%">
+                        <div>
+                          <h4 class="margin-none">
+                            {{ academicTemplate[blockIndex].competence_templates_id[compIndex].ref_id }} -
+                            {{ utilService.cleanHTML(academicTemplate[blockIndex].competence_templates_id[compIndex].name) }}
+                          </h4>
+                        </div>
+
+                        <!-- Display For Each Criteria -->
+                        <div
+                          class="p-col-12 no-padding x-pad-none"
+                          *ngIf="
+                            academicTemplate[blockIndex].competence_templates_id[compIndex] &&
+                            academicTemplate[blockIndex].competence_templates_id[compIndex].criteria_of_evaluation_templates_id &&
+                            academicTemplate[blockIndex].competence_templates_id[compIndex].criteria_of_evaluation_templates_id.length
+                          "
+                        >
+                          <div class="criteria-section-field">
+                            <div
+                              class="p-grid"
+                              *ngFor="
+                                let criteria of academicTemplate[blockIndex].competence_templates_id[compIndex]
+                                  .criteria_of_evaluation_templates_id
+                              "
+                            >
+                              <ul class="margin-none">
+                                <li>
+                                  <div class="p-col-11 padding-5">
+                                    <h6 class="margin-none">{{ criteria.ref_id }} - {{ utilService.cleanHTML(criteria.name) }}</h6>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Add checkbox to show/hide autonomy fields or not -->
+                        <div class="p-grid">
+                        <div class="p-col-11 no-padding x-pad-none" style="float: left">
+                          <span [ngClass]="{ 'text-slider-color': competence.is_mission_related_to_competence }">
+                            {{ competence.is_mission_related_to_competence ? '&#10004;' : '&#10799;' }}
+                            {{ 'JOB_DESCRIPTION_TEXT.No Mission related to this competency' | translate }}
+                          </span>
+                        </div>
+                        </div>
+
+                        <!-- Dipslay For Autonomy Fields -->
+                        <ng-container *ngIf="!competence.is_mission_related_to_competence">
+                          <div class="p-col-11 pad-btn-none yellow-border mission-activity">
+                            <div
+                              *ngFor="
+                                let missionActivity of jobDescForm.block_of_template_competences[blockIndex].competence_templates[compIndex]
+                                  .missions_activities_autonomy;
+                                let missionIndex = index
+                              "
+                            >
+                              <div class="p-grid">
+                                <div class="p-col-3 pad-btn-none">
+                                  <div>
+                                    <mat-label class="grey-text">{{ 'mission' | translate }}</mat-label>
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ missionActivity?.mission | translate }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="p-col-4 pad-btn-none">
+                                  <div>
+                                    <mat-label class="grey-text">{{ 'activity' | translate }}</mat-label>
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ missionActivity?.activity | translate }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="p-col-4 pad-btn-none">
+                                  <div class="autonomy">
+                                    <div>
+                                      <mat-label class="grey-text">{{ 'autonomy level' | translate }}</mat-label>
+                                      <div>
+                                        <span class="font-bolds">
+                                          {{ missionActivity?.autonomy_level | translate }}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- ************* View for Rejection Information -->
+      <div
+        class="p-grid"
+        style="margin-bottom: 0px; margin-top: 0px"
+        *ngIf="jobDescForm?.job_desc_rejections && jobDescForm?.job_desc_rejections.length"
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid" *ngFor="let reason of jobDescForm?.job_desc_rejections; let reasonIndex = index">
+            <ng-container>
+              <div class="p-col-12">
+                <div class="p-grid">
+                  <div class="p-col-3 self-center">
+                    {{ 'Reason' | translate }}
+                  </div>
+                  <div class="p-col-9 x-pad-none">
+                    <div class="width-ninety">
+                      <mat-label class="grey-text">{{ 'EXPECTEDFROMSTUDENT.OBJECTIVE' | translate }}</mat-label>
+                      <div>
+                        <span>
+                          {{ jobDescForm?.job_desc_rejections[reasonIndex]?.reason_of_rejection }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-3 self-center">
+                    {{ 'Date of Rejection' | translate }}
+                  </div>
+                  <div class="p-col-8 x-pad-none">
+                    {{ translateDate(reason?.rejection_date?.date) }}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- ************** View For Signature -->
+      <div class="p-grid" style="margin-bottom: 0px; margin-top: 0px">
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <div class="p-col-3" style="float: left">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_student }">
+                  {{ jobDescForm?.signature_of_the_student ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Student' | translate }}
+                </span>
+              </div>
+              <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_company_mentor)">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_company_mentor }">
+                  {{ jobDescForm?.signature_of_the_company_mentor ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Mentor' | translate }}
+                </span>
+              </div>
+              <div class="p-col-3" style="float: left" *ngIf="showSignature(jobDescForm?.signature_of_the_acadir)">
+                <span [ngClass]="{ 'text-slider-color': jobDescForm.signature_of_the_acadir }">
+                  {{ jobDescForm?.signature_of_the_acadir ? '&#10004;' : '&#10799;' }}
+                  {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Acad Dir' | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

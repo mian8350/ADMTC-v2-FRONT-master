@@ -1,0 +1,607 @@
+<!-- UI of each acad kit folder in root level (01. ADMISSIONS, 02. ANNALES EPREUVES, etc.) -->
+<div class="acadkit-card" *ngIf="isRootFolderView">
+  <div class="p-grid">
+    <div
+      class="p-col-10"
+      [ngClass]="{
+        'p-col-10': permissionService.editAcadKitNot06Perm() && !isFolder06,
+        'p-col-12': !(permissionService.editAcadKitNot06Perm() && !isFolder06)
+      }"
+    >
+      <!-- title for default folder "01. ADMISSIONS" to "07. ARCHIVES" -->
+      <div *ngIf="folder?.is_default_folder" class="folder-title">{{ utilService.cleanHTML(folder?.folder_name) | uppercase | translate }}</div>      
+
+      <!-- title for custom folder after folder "01. ADMISSIONS" to "07. ARCHIVES" -->
+      <div *ngIf="!folder?.is_default_folder" class="folder-title">
+        {{ customRootFolderIndex < 10 ? '0' : '' }}{{ customRootFolderIndex }}. {{ utilService.cleanHTML(folder?.folder_name) | uppercase }}
+      </div>
+
+      <!-- eye button to show all of the sub folders inside this root folder except for folder 06 -->
+      <a
+        (click)="toggleAllSubFolder(folder?._id)"
+        class="folder-item"
+        *ngIf="!expandFolder.subFolder && folder.folder_name !== '06. EPREUVES DE LA CERTIFICATION'"
+        ><i class="fa fa-eye"></i
+      ></a>
+      <a
+        (click)="toggleOffAllSubFolder(folder?._id)"
+        class="folder-item"
+        *ngIf="expandFolder.subFolder && folder.folder_name !== '06. EPREUVES DE LA CERTIFICATION'"
+        ><i class="fa fa-eye-slash"></i
+      ></a>
+
+      <!-- display sub folder of this root folder -->
+      <ul class="sub-folder-list">
+        <ng-container>
+          <ms-academic-kit
+            *ngFor="let subFolder of folder?.sub_folders_id"
+            [currentFolder]="subFolder"
+            [isRootFolderView]="false"
+            [isToggleAllSubFolder]="isToggleAllSubFolder"
+            [isFolder06]="isFolder06"
+            [isFolder03]="isFolder03"
+            [isFolder07]="isFolder07"
+            [currentClass]="currentClass"
+          >
+          </ms-academic-kit>
+        </ng-container>
+      </ul>
+
+      <!-- display documents of this root folder -->
+      <ul class="document-list" *ngIf="folder?.documents?.length">
+        <li>
+          <a (click)="toggleDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.documents ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size">Documents </span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder.documents">
+            <li *ngFor="let document of folder?.documents">
+              <ng-container>
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size">{{ document?.type_of_document === 'task_builder' ? document?.task_id?.description : document?.document_name }}</span>
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- display tests of this root folder -->
+      <ul class="test-list" *ngIf="folder?.tests?.length">
+        <li>
+          <a (click)="toggleTests()" class="test-item">
+            <i class="fa" [ngClass]="expandFolder.tests ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">toc</mat-icon> <span class="acad-kit-font-size">{{ 'TEST.TESTS' | translate }}</span>
+          </a>
+          <ul class="test-list" *ngIf="expandFolder.tests && isPublishedTestExist(folder?.tests, isFolder06)">
+            <li *ngFor="let test of folder?.tests; let testIndex = index">
+              <a (click)="toggleTestDetail(testIndex)" class="test-item">
+                <i class="fa" [ngClass]="expandFolder.testDetail[testIndex] ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                <mat-icon class="acadkit-icon">format_align_justify</mat-icon> <span class="acad-kit-font-size">{{ test?.name }}</span>
+              </a>
+              <ul
+                class="test-list"
+                *ngIf="expandFolder.testDetail[testIndex] && allowedToSeeUnpublishedTest(test, isFolder06) && showVisibility(test)"
+              >
+                <li>
+                  <a (click)="openTestDetails(test)" class="test-item">
+                    <mat-icon class="acadkit-icon">mode_edit</mat-icon>
+                    <span>{{ test?.name }}</span>
+                    <mat-icon
+                      *ngIf="!isFolder06"
+                      class="acadkit-icon mrgn-l-xs"
+                      [ngClass]="{
+                        'greenyellow-icon': test?.is_published,
+                        'red-icon': !test?.is_published
+                      }"
+                      >check_circle</mat-icon
+                    >
+                  </a>
+                </li>
+                <li *ngFor="let doc of test?.documents; index as i">
+                  <ng-container *ngIf="isDocumentTimePassedCurrentTime(doc, isFolder06)">
+                    <a (click)="openDocumentDetails(doc)" class="test-item">
+                      <mat-icon class="acadkit-icon">description</mat-icon> <span class="acad-kit-font-size">{{ doc?.document_name }}</span>
+                    </a>
+                  </ng-container>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="p-col-2 text-right" *ngIf="permissionService.editAcadKitNot06Perm() && !isFolder06">
+      <button mat-mini-fab color="accent" [disabled]="isWaitingForResponse" (click)="modifyAcadKit(folder?._id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- UI of each sub folder inside root folder -->
+<ng-container
+  *ngIf="
+    !isRootFolderView &&
+    (!schoolId ||
+      !folder ||
+      !folder.school ||
+      !folder.school._id ||
+      (schoolId && folder && folder.school && folder.school._id === schoolId))
+  "
+>
+  <li>
+    <!-- sub folder icon and name -->
+    <a #toggleSubFolderRef (click)="toggleFolder(folder?._id)" class="folder-item">
+      <i class="fa" [ngClass]="expandFolder.subFolder ? 'fa-caret-down' : 'fa-caret-right'"></i>
+      <mat-icon class="acadkit-icon">{{folder?.folder_name === 'Quality Form' ? 'library_books' : 'folder'}}</mat-icon>
+      <!-- <span class="folder-title acad-kit-font-size">{{ utilService.cleanHTML(folder?.folder_name) }}</span> -->
+      <ng-container *ngIf="folder?.folder_name === 'Certifier Rule for Student'">
+        <span class="folder-title acad-kit-font-size">{{ 'Certifier Rule For Student' | translate }}</span>
+      </ng-container>
+      <ng-container *ngIf="folder?.folder_name === 'Certification Rules for Preparation Centres' || folder?.folder_name === 'Quality Form' || folder?.folder_name === 'Follow up' || folder?.folder_name === 'Enquête Employabilité' ; else normalFolder">
+        <span class="folder-title acad-kit-font-size">{{ ('Folder.' + utilService.cleanHTML(folder?.folder_name) | translate) | uppercase }}</span>
+      </ng-container>
+      <ng-template #normalFolder>
+        <span class="folder-title acad-kit-font-size">{{ utilService.cleanHTML(folder?.folder_name) | uppercase }}</span>
+      </ng-template>
+      <mat-spinner *ngIf="isWaitingForResponse" class="small-spinner" color="accent" [diameter]="16"></mat-spinner>
+    </a>
+
+    <!-- eye button to show all of the sub folders inside this root folder -->
+    <a (click)="toggleAllSubFolder(folder?._id)" *ngIf="!expandFolder.subFolder" class="folder-item"><i class="fa fa-eye"></i></a>
+    <a (click)="toggleOffAllSubFolder(folder?._id)" *ngIf="expandFolder.subFolder" class="folder-item"><i class="fa fa-eye-slash"></i></a>
+    <div *ngIf="expandFolder.subFolder">
+      <ul class="document-list" *ngIf="qualityFormDocument?.form_process_id?._id && qualityFormRoot && isFolder07">
+        <li>
+          <a (click)="openQualityForm(qualityFormDocument?.form_process_id?._id, qualityFormDocument?.form_process_id?.user_id?._id)" class="document-item">
+            <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+            <span class="acad-kit-font-size">{{ 'Quality Form' | translate }} </span>
+            <mat-icon *ngIf="isFolder07" class="acadkit-icon mrgn-l-xs" 
+              [ngClass]="{
+                'black-icon': qualityFormDocument?.form_process_id?.admission_status === 'not_published' || qualityFormDocument?.form_process_id?.admission_status === null,
+                'yellow-icon': qualityFormDocument?.form_process_id?.admission_status === 'signing_process',
+                'red-icon': qualityFormDocument?.form_process_id?.admission_status === 'ask_for_revision',
+                'green-icon': qualityFormDocument?.form_process_id?.admission_status === 'submitted'
+              }"
+            >check_circle</mat-icon>
+          </a>
+        </li>
+      </ul>
+      <!-- sub folder inside of this sub folder -->
+      <ul class="sub-folder-list" *ngIf="folder?.sub_folders_id?.length">
+        <ms-academic-kit
+          *ngFor="let subFolder of folder?.sub_folders_id; index as i"
+          [currentFolder]="subFolder"
+          [isRootFolderView]="false"
+          [isToggleAllSubFolder]="isToggleAllSubFolder"
+          [isFolder06]="isFolder06"
+          [isFolder03]="isFolder03"
+          [isFolder07]="isFolder07"
+          [currentClass]="currentClass"
+        >
+        </ms-academic-kit>
+      </ul>
+
+      <!-- documents inside of this sub folder -->
+      <!-- Document For Task Builder  -->
+      <ul class="document-list" *ngIf="folder?.documents?.length && taskBuilderFolder?.length && !isFolder06">
+        <li>
+          <a (click)="toggleDocuments('task_builder')" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.documentTaskBuilder ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon> <span class="acad-kit-font-size">{{'Folder.Follow up' | translate | uppercase}}</span>
+          </a>          
+          <ul class="document-list" *ngIf="expandFolder.documentTaskBuilder">
+            <li *ngFor="let document of folder?.documents">
+              <ng-container *ngIf="document?.type_of_document === 'task_builder'">
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size">{{  document?.task_id?.description  }}</span>
+                </a>
+              </ng-container>              
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- Document For Non Task Builder  -->
+      <ul class="document-list" *ngIf="folder?.documents?.length && nonTaskBuilderFolder?.length && !isFolder06">
+        <li>
+          <a (click)="toggleDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.documents ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon> <span class="acad-kit-font-size">Documents</span>
+          </a>          
+          <ul class="document-list" *ngIf="expandFolder.documents">
+            <li *ngFor="let document of folder?.documents">
+              <ng-container *ngIf="document?.type_of_document !== 'task_builder'">
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size">{{ document?.type_of_document === 'task_builder' ? document?.task_id?.description : document?.document_name }}</span>
+                </a>
+              </ng-container>              
+            </li>
+          </ul>
+        </li>
+      </ul>      
+
+      <!-- manual documents folder that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.manualDocuments?.length && isFolder06 && !isDocumentElementProof?.length">
+        <li>
+          <a (click)="toggleManualDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.manualDocuments ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size">Documents</span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.manualDocuments">
+            <li *ngFor="let document of folder?.manualDocuments">
+              <ng-container>
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size">{{ document?.document_name }} </span>
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- added documents folder that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.addedDocuments?.length && isFolder06">
+        <li>
+          <a (click)="toggleAddedDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.addedDocuments ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size">{{ 'DOCUMENTSADDED' | translate }}</span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.addedDocuments">
+            <li *ngFor="let document of folder?.addedDocuments">
+              <ng-container>
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size">{{ document?.document_name }} </span>
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- element of proof documents that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.elementOfProofDocument && isFolder06">
+        <li>
+          <a (click)="toggleElementOfProofDocument()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.elementOfProofDocument ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size">{{ getElementOfProofDocumentName(folder?.elementOfProofDocument[0]) }}</span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.elementOfProofDocument">
+            <li *ngFor="let elementOfProofDoc of folder?.elementOfProofDocument">
+              <a (click)="openDocumentDetails(elementOfProofDoc)" class="document-item">
+                <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                <span class="acad-kit-font-size">
+                  {{ elementOfProofDoc?.uploaded_for_student?.last_name }} {{ elementOfProofDoc?.uploaded_for_student?.first_name }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- expected documents that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.expectedDocuments?.length && isFolder06">
+        <li>
+          <a (click)="toggleParentExpectedDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.parentExpectedDocuments ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size">{{ 'Document Expected' | translate }}</span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.parentExpectedDocuments">
+            <li *ngFor="let expectedDoc of folder?.expectedDocuments; let expectedDocIndex = index">
+              <a (click)="toggleExpectedDocuments(expectedDocIndex)" (contextmenu)="openDownloadDocument($event)" class="document-item">
+                <i class="fa" [ngClass]="expandFolder.expectedDocuments[expectedDocIndex] ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                <mat-icon class="acadkit-icon">library_books</mat-icon>
+                <span class="acad-kit-font-size">
+                  {{ expectedDoc?.name }}
+                  <button
+                    mat-icon-button
+                    [ngClass]="
+                      folder?.expectedDocuments[expectedDocIndex]?.documents.length === numberOfStudent
+                        ? 'gray-count-badge'
+                        : 'red-count-badge'
+                    "
+                    *ngIf="
+                      folder?.expectedDocuments[expectedDocIndex]?.is_for_all_group ||
+                      folder?.expectedDocuments[expectedDocIndex]?.is_for_all_student ||
+                      folder?.expectedDocuments[expectedDocIndex]?.is_for_student ||
+                      folder?.expectedDocuments[expectedDocIndex]?.is_for_group
+                    "
+                  >
+                    <span
+                      >{{
+                        folder?.expectedDocuments[expectedDocIndex]?.documents.length > 0
+                          ? folder?.expectedDocuments[expectedDocIndex]?.documents.length
+                          : 0
+                      }}
+                      / {{ numberOfStudent }}</span
+                    >
+                  </button>
+                </span>
+              </a>
+              <span class="container-download-documents">
+                <button mat-button mat-raised-button color="accent" class="btn-download-documents" *ngIf="donwloadAllDocButton" (click)="downloadAllDocuments(folder?._id)">{{ 'Download ALL documents' | translate}}</button>
+              </span>
+              <ul class="document-list" *ngIf="expandFolder.expectedDocuments[expectedDocIndex]">
+                <li *ngFor="let document of expectedDoc?.documents">
+                  <a (click)="openDocumentDetails(document)" class="document-item">
+                    <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                    <span *ngIf="document?.uploaded_for_student" class="acad-kit-font-size">
+                      {{ document?.uploaded_for_student?.last_name }} {{ document?.uploaded_for_student?.first_name }}
+                    </span>
+                    <span *ngIf="document?.uploaded_for_other_user" class="acad-kit-font-size">
+                      {{ document?.uploaded_for_other_user?.last_name }} {{ document?.uploaded_for_other_user?.first_name }}
+                    </span>
+                    <span *ngIf="document?.uploaded_for_group" class="acad-kit-font-size">
+                      {{ document?.uploaded_for_group?.name + ' ' + getDocNameExpectedDoc(document) }}
+                    </span>
+                    <span
+                      *ngIf="!document?.uploaded_for_student && !document?.uploaded_for_other_user && !document?.uploaded_for_group"
+                      class="acad-kit-font-size"
+                    >
+                      {{ document?.document_name }}
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- presentation docs that will be shown in folder 06 only and is_grand_oral_folder === true -->
+      <ul class="document-list" *ngIf="folder?.is_grand_oral_folder && folder?.presentation_docs?.length && isFolder06">
+        <li *ngIf="presentationCvCount?.presentation?.to_show">
+          <a (click)="togglePresentationDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.presentationDocument ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size"
+              >{{
+                folder?.jury_id?.type === 'retake_grand_oral' || folder?.jury_id?.type === 'grand_oral'
+                  ? ('Certification Passport Document' | translate)
+                  : ('Presentation Document' | translate)
+              }}
+              <button
+                mat-icon-button
+                [ngClass]="
+                  folder?.presentation_docs?.length === presentationCvCount?.presentation?.student_count
+                    ? 'gray-count-badge'
+                    : 'red-count-badge'
+                "
+              >
+                <span
+                  >{{ folder?.presentation_docs?.length > 0 ? folder?.presentation_docs?.length : 0 }} /
+                  {{ presentationCvCount?.presentation?.student_count }}</span
+                >
+              </button>
+            </span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.presentationDocument">
+            <li *ngFor="let presentationDoc of folder?.presentation_docs">
+              <a (click)="openDocumentDetails(presentationDoc)" class="document-item">
+                <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                <span class="acad-kit-font-size">
+                  {{ presentationDoc?.uploaded_for_student?.last_name }} - {{ presentationDoc?.uploaded_for_student?.first_name }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- cv docs that will be shown in folder 06 only and is_grand_oral_folder === true -->
+      <ul class="document-list" *ngIf="folder?.is_grand_oral_folder && folder?.cv_docs?.length && isFolder06">
+        <li *ngIf="presentationCvCount?.cv?.to_show">
+          <a (click)="toggleCVDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.cvDocuments ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size"
+              >{{ 'Document CV' | translate }}
+              <button
+                mat-icon-button
+                [ngClass]="folder?.cv_docs?.length === presentationCvCount?.cv?.student_count ? 'gray-count-badge' : 'red-count-badge'"
+              >
+                <span>{{ folder?.cv_docs?.length > 0 ? folder?.cv_docs?.length : 0 }} / {{ presentationCvCount?.cv?.student_count }}</span>
+              </button>
+            </span>
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.cvDocuments">
+            <li *ngFor="let cvDoc of folder?.cv_docs">
+              <a (click)="openDocumentDetails(cvDoc)" class="document-item">
+                <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                <span class="acad-kit-font-size">
+                  {{ cvDoc?.uploaded_for_student?.last_name }} - {{ cvDoc?.uploaded_for_student?.first_name }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- grand oral PDF documents folder that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.grandOralPDFDocuments?.length && isFolder06">
+        <li>
+          <a (click)="toggleGrandOralPDFDocuments()" class="document-item">
+            <i class="fa" [ngClass]="expandFolder.grandOralPDFdocument ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">library_books</mat-icon>
+            <span class="acad-kit-font-size"
+              >{{ folder?.jury_id?.type === 'retake_grand_oral' ? (juryProcessName ? ('Grand_Oral_Improvement.Retake Grand Oral PDF' | translate : {processName : juryProcessName}) : ('Retake Grand Oral PDF' | translate)) : 
+              (juryProcessName ?  ('Grand_Oral_Improvement.Grand Oral PDF' | translate : {processName : juryProcessName}) : ('Grand Oral PDF' | translate)) }}
+              <button
+                mat-icon-button
+                [ngClass]="
+                  folder?.grandOralPDFDocuments?.length === grandOralPdfCount?.grand_oral_pdf?.student_count
+                    ? 'gray-count-badge'
+                    : 'red-count-badge'
+                "
+              >
+                <span
+                  >{{ folder?.grandOralPDFDocuments?.length > 0 ? folder?.grandOralPDFDocuments?.length : 0 }} /
+                  {{ grandOralPdfCount?.grand_oral_pdf?.student_count }}</span
+                >
+              </button></span
+            >
+          </a>
+          <ul class="document-list" *ngIf="expandFolder?.grandOralPDFdocument">
+            <li *ngFor="let document of folder?.grandOralPDFDocuments">
+              <ng-container>
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size"
+                    >{{ (juryProcessName ?  ('Grand_Oral_Improvement.Grand Oral PDF' | translate : {processName : juryProcessName}) : ('Grand Oral PDF' | translate)) }} {{ document?.uploaded_for_student?.last_name }}
+                    {{ document?.uploaded_for_student?.first_name }}
+                  </span>
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- grand oral Result documents folder that will be shown in folder 06 only -->
+      <ul class="document-list" *ngIf="folder?.grandOralResultDocuments?.length && isFolder06">
+        <li>
+          <div>
+            <a (click)="toggleGrandOralResultDocuments()" class="document-item">
+              <i class="fa" [ngClass]="expandFolder.grandOralResultdocument ? 'fa-caret-down' : 'fa-caret-right'"></i>
+              <mat-icon class="acadkit-icon">library_books</mat-icon>
+              <span class="acad-kit-font-size"
+                >{{ juryProcessName ? ('Grand_Oral_Improvement.Grand Oral Result' | translate : {processName : juryProcessName}) : ('GrandOralResult' | translate) }}
+                <button
+                  mat-icon-button
+                  [ngClass]="
+                    folder?.grandOralResultDocuments?.length === grandOralPdfCount?.grand_oral_pdf?.student_count
+                      ? 'gray-count-badge'
+                      : 'red-count-badge'
+                  "
+                >
+                  <span
+                    >{{ folder?.grandOralResultDocuments?.length > 0 ? folder?.grandOralResultDocuments?.length : 0 }} /
+                    {{ grandOralPdfCount?.grand_oral_pdf?.student_count }}</span
+                  >
+                </button>
+              </span>
+            </a>
+            <mat-spinner *ngIf="isLoadingRegenerate" class="small-spinner" color="accent" [diameter]="16"></mat-spinner>
+            <mat-icon
+              class="refresh"
+              matTooltip="{{ 'GROUPOFSCHOOL.Refresh' | translate }}"
+              (click)="regenerateGrandOralPDFResult()"
+              >sync</mat-icon
+            >
+          </div>
+          <ul class="document-list" *ngIf="expandFolder?.grandOralResultdocument">
+            <li *ngFor="let document of folder?.grandOralResultDocuments">
+              <ng-container>
+                <a (click)="openDocumentDetails(document)" class="document-item">
+                  <mat-icon class="acadkit-icon">insert_drive_file</mat-icon>
+                  <span class="acad-kit-font-size"
+                    >{{ document?.uploaded_for_student?.last_name }} {{ document?.uploaded_for_student?.first_name }}</span
+                  >
+                </a>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- display tests of this sub folder -->
+      <ul class="test-list" *ngIf="folder?.tests?.length">
+        <li>
+          <a (click)="toggleTests()" class="test-item">
+            <i class="fa" [ngClass]="expandFolder.tests ? 'fa-caret-down' : 'fa-caret-right'"></i>
+            <mat-icon class="acadkit-icon">toc</mat-icon>
+            <span *ngIf="isFolder06" class="acad-kit-font-size">{{ 'Result' | translate }}</span>
+            <span *ngIf="!isFolder06" class="acad-kit-font-size">{{ 'TEST.TESTS' | translate }}</span>
+            <mat-spinner *ngIf="expandFolder.tests && isFolder06 && isLoadingTestProgress" class="small-spinner mrgn-l-xs" color="accent" [diameter]="14"></mat-spinner>
+          </a>
+          <ul class="test-list" *ngIf="expandFolder.tests && isPublishedTestExist(folder?.tests, isFolder06)">
+            <li *ngFor="let test of folder?.tests; let testIndex = index">
+              <ng-container *ngIf="!isFolder06 || showTestData(isFolder06, test, testIndex)">
+                <a (click)="toggleTestDetail(testIndex)" class="test-item">
+                  <i class="fa" [ngClass]="expandFolder.testDetail[testIndex] ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                  <mat-icon class="acadkit-icon">format_align_justify</mat-icon> <span class="acad-kit-font-size">{{ test?.name }}</span>
+                </a>
+                <ul class="test-list" *ngIf="expandFolder.testDetail[testIndex] && allowedToSeeUnpublishedTest(test, isFolder06)">
+                  <li *ngIf="showTestVisibility || isAutoEvaluation(test, isFolder06)">
+                    <a (click)="openTestDetails(test, folder, isFolder06, testIndex)" class="test-item">
+                      <mat-icon class="acadkit-icon">mode_edit</mat-icon>
+                      <span class="acad-kit-font-size">{{ test?.name }}</span>
+                      <mat-icon
+                        *ngIf="!isFolder06"
+                        class="acadkit-icon mrgn-l-xs"
+                        [ngClass]="{
+                          'greenyellow-icon': test?.is_published,
+                          'red-icon': !test?.is_published
+                        }"
+                        >check_circle</mat-icon
+                      >
+                      <button
+                        *ngIf="isFolder06"
+                        style="margin: 0px 0px 3px 8px;"
+                        mat-icon-button
+                        [ngClass]="
+                          test?.documents?.length === numberOfStudent
+                            ? 'gray-count-badge'
+                            : 'red-count-badge'
+                        "
+                      >
+                        <span
+                          >{{ test?.documents?.length > 0 ? filterDocumentLength(test?.documents, isFolder06, 'testResult') : 0 }} /
+                          {{ numberOfStudent }}</span
+                        >
+                      </button>
+                    </a>
+                  </li>
+
+                  <!-- result document here -->
+                  <li *ngFor="let doc of test?.documents; index as i">
+                    <ng-container *ngIf="isDocumentTimePassedCurrentTime(doc, isFolder06, 'testResult')">
+                      <a (click)="openDocumentDetails(doc)" class="test-item">
+                        <mat-icon class="acadkit-icon">description</mat-icon>
+                        <span *ngIf="doc?.uploaded_for_student" class="acad-kit-font-size">
+                          {{ doc?.uploaded_for_student?.last_name }} {{ doc?.uploaded_for_student?.first_name }}
+                        </span>
+                        <span *ngIf="doc?.uploaded_for_other_user" class="acad-kit-font-size">
+                          {{ doc?.uploaded_for_other_user?.last_name }} {{ doc?.uploaded_for_other_user?.first_name }}
+                        </span>
+                        <span *ngIf="!doc?.uploaded_for_student && !doc?.uploaded_for_other_user" class="acad-kit-font-size">
+                          {{ doc?.document_name }}
+                        </span>
+                      </a>
+                    </ng-container>
+                  </li>
+                </ul>
+              </ng-container>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Display Groups and redrect to group if true -->
+      <ul class="test-list" *ngIf="folder?.tests?.length > 0 && isFolder06">
+        <li *ngFor="let test of folder?.tests; index as i">
+          <ng-template [ngIf]="test?.group_test && test?.task_id">
+            <a class="test-item">
+              <i class="fa" [ngClass]="'fa-caret-down'" style="visibility: hidden"></i>
+              <mat-icon style="vertical-align: middle; margin-right: 0.35rem">group</mat-icon>
+              <span *ngIf="isFolder06" (click)="redirectToGroupCreationPage(test)" class="acad-kit-font-size">
+                {{ 'ASSIGN_CORRECTOR_DIALOG.Groups' | translate }}
+              </span>
+            </a>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-container>

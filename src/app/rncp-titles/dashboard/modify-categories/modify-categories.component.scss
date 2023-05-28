@@ -1,0 +1,78 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.modify-acadkit-header {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -5px !important;
+  margin-left: -5px !important;
+  margin-top: -5px !important;
+  background: rgba(0, 0, 0, 0.3)
+}
+
+.navigation-path {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.path-wrapper {
+  display: inline-block;
+  width: 270px;
+}
+
+.path-link:hover {
+  cursor: pointer;
+}
+
+.path-link:last-child {
+  color: #ffd740;
+}
+
+.pa-1 {
+  padding: 1rem 1rem!important;
+}
+
+.default-height {
+  height: 48px !important;
+}
+
+.folder-tab-group {
+  min-height: 200px;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: $medium-grey !important;
+}
+
+:host ::ng-deep .mat-tab-header {
+  border-bottom: none;
+}
+
+:host ::ng-deep .mat-tab-label {
+  opacity: 1;
+}
+
+:host ::ng-deep .mat-tab-label .mat-tab-label-active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.folder-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.folder-description {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.small-space {
+  margin-left: 8px;
+}
+
+.tab-margin {
+  margin-top: unset !important;
+}
+
+:host ::ng-deep.mat-tab-link, :host ::ng-deep.mat-tab-label, :host ::ng-deep.mat-tab-label-active{
+  min-width: 100px!important;
+}

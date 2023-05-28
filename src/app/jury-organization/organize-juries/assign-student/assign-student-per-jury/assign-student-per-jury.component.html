@@ -1,0 +1,453 @@
+<a class="back-button" (click)="goBack()">
+  <i class="fa fa-chevron-left" aria-hidden="true"></i>
+  <span class="jury-name">{{ juryOrgData?.name }}</span>
+</a>
+
+<div class="header-text">
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.SCHOOL' | translate }}</div>
+    <div class="right">: {{ schoolData?.schools?.school?.short_name }}</div>
+  </div>
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.CITY' | translate }}</div>
+    <div class="right">: {{ schoolData?.schools?.school?.school_address[0]?.city }}</div>
+  </div>
+  <div class="section">
+    <div class="left">{{ 'JURY_ORGANIZATION.RNCP_TITLES' | translate }}</div>
+    <div class="right">: {{ schoolData?.rncp_id?.short_name }}</div>
+  </div>
+  <div class="section">
+    <ng-container *ngIf="isGroupTest">
+      <div class="left">{{ 'JURY_ORGANIZATION.NUMBER_OF_GROUP' | translate }}</div>
+      <div class="right">: {{ schoolData?.schools.test_groups?.length }}</div>
+    </ng-container>
+    <ng-container *ngIf="!isGroupTest">
+      <div class="left">{{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }}</div>
+      <div class="right">: {{ schoolData?.schools.students?.length }}</div>
+    </ng-container>
+  </div>
+</div>
+
+<form #f="ngForm" id="f">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="school"
+    matSortDirection="asc"
+    matSortDisableClear
+    class="mat-elevation-z8 mrgn-t-md"
+  >
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns?.length" class="action-header-column">
+        <div class="p-grid">
+          <div class="p-col-12" style="display: flex; justify-content: space-between; padding: 0 !important">
+            <!-- <div class="text-left display-flex"> -->
+            <!-- <span>Selected by Default :</span> -->
+            <!-- <div class="p-col-1" style="width: 9.5% !important"></div> -->
+            <!-- <div class="p-col-1" style="width: 9.5% !important"></div> -->
+            <!-- <div class="p-col-2"></div> -->
+            <div class="p-col-9 margin-auto no-padding" style="width: 70% !important" *ngIf="JuryMemberRequire">
+              <h4 style="text-align: left; color: white; font-size: 17px; margin-left: 5px; margin-top: 7px">
+                {{ 'JURY_ORGANIZATION.Selected by Default' | translate }}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <div class="text-right" style="margin-bottom: 0px">
+          <div style="display: flex; justify-content: flex-end; padding: 0 !important">
+            <div style="width: 12.5% !important">
+              <ng-container matColumnDef="profesionalJury" *ngIf="JuryMemberRequire">
+                <div>
+                  <ng-select
+                    [items]="professionalJuriesList"
+                    bindLabel="short_name"
+                    bindValue="_id"
+                    placeholder="{{ 'JURY_ORGANIZATION.PROFESIONAL' | translate }}"
+                    clearAllText="Clear"
+                    [formControl]="profesionalJuryDefault"
+                    (change)="fillTheValuePresident()"
+                  >
+                  </ng-select>
+                </div>
+                <!-- <td mat-cell *matCellDef="let element; let rowIndex = index"> -->
+                <!-- <mat-form-field>
+                  <mat-select
+                    placeholder="{{ 'JURY_ORGANIZATION.PROFESIONAL' | translate }}"
+                    [formControl]="profesionalJuryDefault"
+                    (selectionChange)="fillTheValuePresident()"
+                  >
+                    <mat-option [value]="">
+                      {{ 'NONE' | translate }}
+                    </mat-option>
+                    <ng-container *ngFor="let pro of professionalJuries">
+                      <mat-option [value]="pro?._id"> {{ pro?.last_name | uppercase }} {{ pro?.first_name }} </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field> -->
+                <!-- </td> -->
+              </ng-container>
+            </div>
+            <div style="width: 12.5% !important; margin-left: 10px">
+              <ng-container matColumnDef="academicJury" *ngIf="JuryMemberRequire">
+                <div>
+                  <ng-select
+                    [items]="academicJuriesList"
+                    bindLabel="name"
+                    bindValue="_id"
+                    placeholder="{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}"
+                    clearAllText="Clear"
+                    [formControl]="academicJuryDefault"
+                    (change)="fillTheValueAcademic()"
+                  >
+                  </ng-select>
+                </div>
+                <!-- <mat-form-field>
+                  <mat-select
+                    placeholder="{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}"
+                    [formControl]="academicJuryDefault"
+                    (selectionChange)="fillTheValueAcademic()"
+                  >
+                    <mat-option [value]="">
+                      {{ 'NONE' | translate }}
+                    </mat-option>
+                    <ng-container *ngFor="let academic of academicJuries">
+                      <mat-option [value]="academic?._id"> {{ academic?.last_name | uppercase }} {{ academic?.first_name }} </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field> -->
+              </ng-container>
+            </div>
+            <div style="width: 12.5% !important; margin-right: 10px; margin-left: 10px">
+              <ng-container matColumnDef="subtituteJury" *ngIf="JuryMemberRequire">
+                <div>
+                  <ng-select
+                    [items]="subtituteJuriesList"
+                    bindLabel="name"
+                    bindValue="_id"
+                    placeholder="{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}"
+                    clearAllText="Clear"
+                    [formControl]="subtituteJuryDefault"
+                    (change)="fillTheValueSubstitue()"
+                  >
+                  </ng-select>
+                </div>
+                <!-- <mat-form-field>
+                  <mat-select
+                    placeholder="{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}"
+                    [formControl]="subtituteJuryDefault"
+                    (selectionChange)="fillTheValueSubstitue()"
+                  >
+                    <mat-option [value]="">
+                      {{ 'NONE' | translate }}
+                    </mat-option>
+                    <ng-container *ngFor="let sub of subtituteJuries">
+                      <mat-option [value]="sub?._id"> {{ sub?.last_name | uppercase }} {{ sub?.first_name }} </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field> -->
+              </ng-container>
+            </div>
+            <div [ngStyle]="{'margin-bottom': !JuryMemberRequire ? '7px' : null }">
+              <button mat-raised-button color="warn" (click)="goBack()" style="margin-top: 9px; padding: 0px">
+                {{ 'JURY_ORGANIZATION.BUTTON.CANCEL' | translate }}
+              </button>
+              <button mat-raised-button color="accent" (click)="saveAssignStudent()" style="margin-top: 9px; padding: 0px 4px">
+                {{ 'JURY_ORGANIZATION.BUTTON.SAVE_AND_LEAVE' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                (click)="submitAssignStudent()"
+                style="margin-top: 9px; padding: 0px 4px"
+                [disabled]="checkIfNotAssign()"
+              >
+                {{ 'JURY_ORGANIZATION.BUTTON.SAVE_AND_SUBMIT' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="serialDateFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="dateFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="dateFilter"
+            [matDatepicker]="picker"
+            placeholder="{{ 'SELECTDATE' | translate }}"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="presidentJuryFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="presidentJuryFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="timeFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="professionalFilter" *ngIf="juryOrgData?.jury_member_required">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="academicFilter" *ngIf="juryOrgData?.jury_member_required">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="subtituteFilter" *ngIf="juryOrgData?.jury_member_required">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="studentFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="serialDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.JURY_GROUP_ID' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        {{ formatJurySerialNumber(element?.jury_serial_number) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.DATES' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <span>{{ element?.date_test | date: 'dd/MM/yyyy' }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.TIME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <span>{{ element?.test_hours_start }} - {{ element?.test_hours_finish }} </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="presidentJury">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.PRESIDENT' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <span>{{ element?.president }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="profesionalJury" *ngIf="JuryMemberRequire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.PROFESIONAL' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <div style="padding-right: 5px">
+          <ng-select
+            class="custom"
+            appendTo="body"
+            [items]="professionalJuriesListPerIndex[rowIndex + paginator.pageIndex * 10]"
+            bindLabel="short_name"
+            bindValue="_id"
+            clearAllText="Clear"
+            [(ngModel)]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].professional_jury_member"
+            name="profesionalJury{{ rowIndex }}"
+            (change)="selectProfessional($event, rowIndex + paginator.pageIndex * 10)"
+          >
+          </ng-select>
+        </div>
+        <!-- <mat-form-field>
+          <mat-select
+            name="profesionalJury{{ rowIndex }}"
+            [ngModel]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].professional_jury_member"
+            (selectionChange)="selectProfessional($event, rowIndex + paginator.pageIndex * 10)"
+          >
+            <mat-option [value]="">
+              {{ 'NONE' | translate }}
+            </mat-option>
+            <ng-container *ngFor="let pro of professionalJuries">
+              <mat-option [value]="pro?._id"> {{ pro?.last_name | uppercase }} {{ pro?.first_name }} </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="academicJury" *ngIf="JuryMemberRequire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <div style="padding-right: 5px">
+          <ng-select
+            class="custom"
+            appendTo="body"
+            [items]="academicJuriesList"
+            bindLabel="name"
+            bindValue="_id"
+            clearAllText="Clear"
+            [(ngModel)]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].academic_jury_member"
+            name="academicJury{{ rowIndex }}"
+            (change)="selectAcademic($event, rowIndex + paginator.pageIndex * 10)"
+          >
+          </ng-select>
+        </div>
+        <!-- <mat-form-field>
+          <mat-select
+            name="academicJury{{ rowIndex }}"
+            [ngModel]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].academic_jury_member"
+            (selectionChange)="selectAcademic($event, rowIndex + paginator.pageIndex * 10)"
+          >
+            <mat-option [value]="">
+              {{ 'NONE' | translate }}
+            </mat-option>
+            <ng-container *ngFor="let academic of academicJuries">
+              <mat-option [value]="academic?._id"> {{ academic?.last_name | uppercase }} {{ academic?.first_name }} </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="subtituteJury" *ngIf="JuryMemberRequire">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <div style="padding-right: 5px">
+          <ng-select
+            class="custom"
+            appendTo="body"
+            [items]="subtituteJuriesList"
+            bindLabel="name"
+            bindValue="_id"
+            clearAllText="Clear"
+            [(ngModel)]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].substitution_jury_member"
+            name="subtituteJury{{ rowIndex }}"
+            (change)="selectSubtitute($event, rowIndex + paginator.pageIndex * 10)"
+          >
+          </ng-select>
+        </div>
+        <!-- <mat-form-field>
+          <mat-select
+            name="subtituteJury{{ rowIndex }}"
+            [ngModel]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].substitution_jury_member"
+            (selectionChange)="selectSubtitute($event, rowIndex + paginator.pageIndex * 10)"
+          >
+            <mat-option [value]="">
+              {{ 'NONE' | translate }}
+            </mat-option>
+            <ng-container *ngFor="let sub of subtituteJuries">
+              <mat-option [value]="sub?._id"> {{ sub?.last_name | uppercase }} {{ sub?.first_name }} </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field> -->
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="endTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h5>{{ 'JURY_ORGANIZATION.END_TIME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <span>{{ element?.test_hours_finish }}</span>
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="student">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span *ngIf="isGroupTest"> {{ 'JURY_ORGANIZATION.NUMBER_OF_GROUP' | translate }} </span>
+        <span *ngIf="!isGroupTest"> {{ 'JURY_ORGANIZATION.NUMBER_OF_STUDENT' | translate }} </span>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <div style="padding-left: 10px">
+          <ng-select
+            *ngIf="!isGroupTest"
+            class="custom"
+            appendTo="body"
+            clearAllText="Clear"
+            [ngClass]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].studentId === '0' ? 'not-assigned' : ''"
+            [(ngModel)]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].studentId"
+            name="student{{ rowIndex }}"
+            [clearable]="false"
+            (change)="assignSelectedStudent($event, rowIndex + paginator.pageIndex * 10, element)"
+          >
+            <ng-option
+              *ngFor="let student of studentsToAssign"
+              [value]="student.id"
+              [ngStyle]="{ display: student.disabled ? 'none' : '' }"
+              [disabled]="isStudentSelected(student.id)"
+            >
+              <span *ngIf="student.text === 'Not assigned'">
+                {{ 'JURY_ORGANIZATION.NOT_ASSIGNED' | translate }}
+              </span>
+              <span *ngIf="student.text !== 'Not assigned'">{{ student.text }}</span>
+            </ng-option>
+          </ng-select>
+        </div>
+        <!-- <mat-form-field>
+          <mat-select
+            *ngIf="!isGroupTest"
+            style="width: 100%"
+            name="student{{ rowIndex }}"
+            [ngModel]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].studentId"
+            [ngClass]="studentDataToSend.students[rowIndex + paginator.pageIndex * 10].studentId === '0' ? 'not-assigned' : ''"
+            (selectionChange)="assignSelectedStudent($event, rowIndex + paginator.pageIndex * 10, element)"
+            required
+          >
+            <mat-option
+              [value]="student.id"
+              [ngStyle]="{ display: student.disabled ? 'none' : '' }"
+              *ngFor="let student of studentsToAssign"
+            >
+              <span *ngIf="student.text === 'Not assigned'">{{ 'JURY_ORGANIZATION.NOT_ASSIGNED' | translate }}</span>
+              <span *ngIf="student.text !== 'Not assigned'">{{ student.text }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns?.length" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+  </table>
+
+  <mat-paginator
+    [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+    [hidePageSize]="true"
+    [pageSizeOptions]="[10]"
+    showFirstLastButtons
+  ></mat-paginator>
+</form>
+
+<div style="margin-top: 20px">
+  <!-- Padder only -->
+</div>

@@ -1,0 +1,31 @@
+.dialog-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid 1px black;
+  margin-bottom: 1rem;
+
+  .dialog-title {
+    flex: 1;
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+}
+
+.file-item {
+  gap: 1rem;
+  display: flex;
+  padding: 0.5em;
+  align-items: center;
+  transition: background-color 150ms ease-out;
+
+  &__name {
+    flex: 1;
+    flex-grow: 1;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.125);
+  }
+}

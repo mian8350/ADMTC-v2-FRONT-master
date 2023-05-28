@@ -1,0 +1,161 @@
+.parameter-card {
+  border-radius: 2px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 50%;
+  float: left;
+}
+
+.card-row {
+  margin-bottom: 8px !important;
+  padding: 8px;
+}
+
+.align-right-button {
+  margin-right: 0px;
+  text-align: right;
+  padding-right: 0px;
+}
+
+.classHeading {
+  margin-top: 10px;
+  text-align: start;
+  // font-size: 1.2rem;
+  // padding: 70px;
+  // padding-bottom: 30px;
+}
+
+.icon-title {
+  width: 24px;
+  height: 25px;
+  padding-top: 5px;
+  margin-right: 5px;
+  float: left;
+}
+.mrgn-btn11 {
+  margin-bottom: 11px !important;
+}
+.pad-none {
+  padding: 0px;
+}
+.pad-top-none {
+  padding-top: 0px;
+}
+.section-header {
+  background-color: #363636;
+  margin-top: -18px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 145px;
+}
+.border-white {
+  border: 1px solid white;
+  margin-top: 15px;
+}
+.en-job {
+  width: 160px;
+}
+.fr-job {
+  width: 250px;
+}
+.en-activation {
+  width: 140px;
+}
+.fr-activation {
+  width: 150px;
+}
+.en-sent {
+  width: 165px;
+}
+.fr-sent {
+  width: 165px;
+}
+.small-txt {
+  font-size: 13px;
+}
+
+.owl-datetime-input {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #8e8e8e !important;
+  background: #424242 !important;
+}
+
+.ngui-datetime-picker-wrapper {
+  background-color: blue !important;
+}
+
+:host ::ng-deep button.ngx-material-timepicker-toggle {
+  border-radius: 0px !important;
+  // border-bottom: 1px solid #c7c7c7 !important;
+  padding-bottom: 0.6px !important;
+  padding-right: 0px !important;
+}
+.btn-time {
+  float: right;
+  position: relative;
+  top: 8px;
+  right: -4px;
+}
+.mrgn-left15 {
+  margin-left: 15px;
+}
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+
+.hide-element {
+  display: none;
+}
+
+.hide-tab-jobdesc ::ng-deep div.mat-tab-label:nth-child(1) {
+  display: none;
+}
+
+.hide-tab-problematic ::ng-deep div.mat-tab-label:nth-child(2) {
+  display: none;
+}
+
+.hide-tab-mentoreval ::ng-deep div.mat-tab-label:nth-child(3) {
+  display: none;
+}
+
+.pad-top10 {
+  padding-top: 10px;
+}
+
+.btn-es {
+  float: left;
+  display: flex;
+  vertical-align: middle;
+  justify-content: center;
+  margin: auto;
+}
+
+.top-x {
+  padding-top: 26px;
+}
+
+.top-xx {
+  padding-top: 23px;
+}
+.flow {
+  padding-top: 14px;
+  margin-left: 10px;
+}
+.mrgn-l-10 {
+  // margin-left: 10px;
+}
+.mrgn-10 {
+  margin-left: 10px;
+}
+.pad-10 {
+  padding-left: 15px !important;
+}

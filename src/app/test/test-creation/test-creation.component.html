@@ -1,0 +1,172 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <mat-card fxFlex="100" >
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutWrap="wrap">
+        <button
+          class="tab-button"
+          mat-raised-button
+          [fxFlex.gt-sm]="firstTabData.controlled_test ? 33.33 : 20"
+          [fxFlex.gt-xs]="33.33"
+          fxFlex="100"
+          (click)="goToTab('first')"
+          [ngClass]="{'completed-tab' : (progress >= 20), 'active-tab' : isLocationTrue('first')}"
+          color="{{ progress >= 20 ? 'primary' : '' }}"
+        >
+          <div class="tab-span">1</div>
+          <span>{{ 'TEST.TESTIDENTITY' | translate }}</span>
+        </button>
+        <button
+          class="tab-button"
+          mat-raised-button
+          fxFlex.gt-sm="20"
+          fxFlex.gt-xs="50"
+          fxFlex="100"
+          *ngIf="!firstTabData.controlled_test"
+          [ngClass]="{'completed-tab' : (progress >= 40), 'active-tab' : isLocationTrue('second')}"
+          color="{{ progress >= 40 ? 'primary' : '' }}"
+          (click)="goToTab('second')"
+          [disabled]="!firstTabData._id || !tabPermission.secondTab"
+        >
+          <div class="tab-span" [ngClass]="{'tab-span': !(!firstTabData._id || !tabPermission.secondTab), 'tab-disable' : (!firstTabData._id || !tabPermission.secondTab)}">2</div>
+          <span>{{ 'TEST.NOTATIONGRID' | translate }}</span>
+        </button>
+        <button
+          class="tab-button"
+          mat-raised-button
+          fxFlex.gt-sm="20"
+          fxFlex.gt-xs="50"
+          fxFlex="100"
+          [ngClass]="{'completed-tab' : (progress >= 60), 'active-tab' : isLocationTrue('third')}"
+          color="{{ progress >= 60 ? 'primary' : '' }}"
+          (click)="goToTab('third')"
+          [disabled]="!firstTabData._id || !tabPermission.thirdTab"
+        >
+          <div class="tab-span" [ngClass]="{'tab-span': !(!firstTabData._id || !tabPermission.thirdTab), 'tab-disable' : (!firstTabData._id || !tabPermission.thirdTab)}">
+            <span *ngIf="firstTabData.controlled_test">2</span>
+            <span *ngIf="!firstTabData.controlled_test">3</span>
+          </div>
+          <span>{{ 'TEST.RELATEDDOCUMENTS' | translate }}</span>
+        </button>
+        <button
+          class="tab-button"
+          mat-raised-button
+          [fxFlex.gt-sm]="firstTabData.controlled_test ? 33.33 : 20"
+          fxFlex.gt-xs="33.33"
+          fxFlex="100"
+          [ngClass]="{'completed-tab' : (progress === 100), 'active-tab' : isLocationTrue('fourth')}"
+          color="{{ progress > 60 ? 'primary' : '' }}"
+          (click)="goToTab('fourth')"
+          [disabled]="!firstTabData._id || !tabPermission.fourthTab"
+        >
+          <div class="tab-span" [ngClass]="{'tab-span': !(!firstTabData._id || !tabPermission.fourthTab), 'tab-disable' : (!firstTabData._id || !tabPermission.fourthTab)}">
+            <span *ngIf="firstTabData.controlled_test">3</span>
+            <span *ngIf="!firstTabData.controlled_test">4</span>
+          </div>
+          <span>{{ 'TASKS' | translate }}</span>
+        </button>
+        <button
+          class="tab-button"
+          mat-raised-button
+          [fxFlex.gt-sm]="firstTabData.controlled_test ? 33.33 : 20"
+          fxFlex.gt-xs="33.33"
+          fxFlex="100"
+          [ngClass]="{'completed-tab' : (progress === 100), 'active-tab' : isLocationTrue('fifth')}"
+          color="{{ progress > (firstTabData.controlled_test ? 66.66 : 80) ? 'primary' : '' }}"
+          (click)="goToTab('fifth')"
+          [disabled]="!firstTabData._id || !tabPermission.fifthTab || currentStep !== 'fifth'"
+        >
+          <div class="tab-span" [ngClass]="{'tab-span': !(!firstTabData._id || !tabPermission.fifthTab || currentStep !== 'fifth'), 'tab-disable' : (!firstTabData._id || !tabPermission.fifthTab || currentStep !== 'fifth')}">
+            <span *ngIf="firstTabData.controlled_test">4</span>
+            <span *ngIf="!firstTabData.controlled_test">5</span>
+          </div>
+          <span>{{ 'TEST.PREVIEWTASK' | translate }}</span>
+        </button>
+      </div>
+      <mat-progress-bar mode="determinate" [value]="progress" class="mb-1 active-tab"></mat-progress-bar>
+      <div style="min-height: 500px; overflow: auto">
+        <div fxLayout="row" fxLayoutWrap="wrap">
+          <div fxFlex="30" fxFlex.lt-md="100" [ngStyle]="{ display: expanded ? 'none' : '' }">
+            <div style="text-align: left; padding-bottom:4px;">
+              <button *ngIf="currentStep !== 'first'" (click)="goToPreviousStep()" mat-raised-button color="primary" type="button" style="padding-left: 4px;">
+                <mat-icon class="mat-icon-default">keyboard_arrow_left</mat-icon>
+                {{'PREVIOUS' | translate}}
+              </button>
+              <button mat-raised-button class="padding-left-4px" color="warn" (click)="leaveTest()">
+                <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'LEAVE' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div fxFlex="40" fxFlex.lt-md="100">
+            <div *ngIf="firstTabData.is_published" style="text-align: center; padding-bottom:4px;">
+              <h4>{{getTaskProgressText()}}</h4>
+            </div>
+          </div>
+
+          <div [fxFlex]="expanded ? 50 : 30" fxFlex.lt-md="100" style="overflow: hidden">
+            <div style="text-align: right; padding-bottom:4px;">
+              <button mat-raised-button class="green-button" *ngIf="firstTabData.is_published" style="padding-left: 5px; padding-right: 10px; cursor: none; font-size: 12px; margin-right: 5px;">
+                <mat-icon aria-hidden="true" class="mat-icon-default" style="color: green;">lens</mat-icon>
+                {{ 'TEST.PUBLISHED' | translate }}
+              </button>
+              <button mat-raised-button class="active-tab" *ngIf="!firstTabData.is_published" style="padding-left: 5px; padding-right: 10px; cursor: none; font-size: 12px; margin-right: 5px;">
+                <mat-icon aria-hidden="true" class="mat-icon-default" style="color: #F44336;">lens</mat-icon>
+                {{ 'TEST.NOT_PUBLISHED' | translate }}
+              </button>
+              <button mat-raised-button 
+                *ngIf="!isFifthStep"
+                color="accent"
+                (click)="goToNextStep()"
+                [disabled]="!canUserGoToNextStep()"
+                style="margin-right: 0px; padding-right: 4px;">
+                {{ 'CONTINUE' | translate }}
+                <mat-icon class="mat-icon-default">keyboard_arrow_right</mat-icon>
+              </button>
+              <!-- for normal eval type test -->
+              <button
+                mat-raised-button
+                color="accent"
+                *ngIf="isFifthStep && firstTabData?.block_type !== 'competence' && firstTabData?.block_type !== 'soft_skill'"
+                [disabled]="(testProgress && testProgress.is_mark_entry_done) || !isRNCPPublished"
+                (click)="publishTest()"
+                name="single-click"
+                class="btn-test button-right-side"
+              >
+                <mat-icon svgIcon="bullhorn" class="svg-icon"></mat-icon>
+                {{ 'TEST.PUBLISH' | translate }}
+              </button>
+              <!-- for expertise eval type test -->
+              <button
+                mat-raised-button
+                color="accent"
+                *ngIf="isFifthStep && (firstTabData?.block_type === 'competence' || firstTabData?.block_type === 'soft_skill')"
+                [disabled]="(testProgress && testProgress.is_mark_entry_done) || !isRNCPPublished"
+                (click)="publishExpertiseTest()"
+                name="single-click"
+                class="btn-test button-right-side"
+              >
+                <mat-icon svgIcon="bullhorn" class="svg-icon"></mat-icon>
+                {{ 'TEST.PUBLISH' | translate }}
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutWrap="wrap">
+          <div fxFlex="50" fxFlex.lt-md="100" [ngStyle]="{ display: expanded ? 'none' : '' }">
+            <ng-container>
+              <router-outlet (activate)="eventChange($event)"></router-outlet>
+            </ng-container>
+          </div>
+          <div [fxFlex]="expanded ? 100 : 50" fxFlex.lt-md="100" style="overflow: hidden">
+            <ng-container *ngIf="rncpTitle">
+              <ms-test-document (expandView)="expand($event)" [rncpTitle]="rncpTitle" [expanded]="false"></ms-test-document>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

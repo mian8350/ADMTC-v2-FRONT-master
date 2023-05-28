@@ -1,0 +1,61 @@
+<!-- <div class="p-grid" *ngIf="companies.length === 0 && !isWaitingForResponse">
+  <h4 class="text-empty">{{ 'COMPANY_EMPTY' | translate }}</h4>
+</div> -->
+<div
+  class="scrollbar company-list-scroll"
+  id="style-4"
+  *ngIf="companies.length > 0 && !this.isWaitingForResponse"
+  [style.height.px]="getAutomaticHeight()"
+  [style.max-height.px]="getAutomaticHeight()"
+>
+  <mat-card
+    *ngFor="let company of companies"
+    class="company-list-mat-card mrgn-top-none"
+    (click)="selectCompany(company._id, company.company_name)"
+    [ngClass]="companyId === company._id ? 'company-select mrgn-all-md' : 'mrgn-all-md'"
+  >
+    <mat-card-subtitle id="item-{{ company._id }}" [ngClass]="companyId === company._id ? 'company-text' : ''">
+      <div class="p-grid">
+        <div class="p-col-2 company-list-icon-container">
+          <span>
+            <img
+              class="company-list-icon radius-50"
+              *ngIf="company.company_logo"
+              matTooltip="{{ company.company_name }}"
+              [src]="imgURL(company.company_logo)"
+            />
+            <mat-icon *ngIf="!company.company_logo" matTooltip="{{ company.company_name }}" class="company-list-icon">business</mat-icon>
+          </span>
+        </div>
+        <div
+          [ngClass]="{
+            'p-col-10': isUserAcadir || isUserAcadAdmin,
+            'p-col-9': isUserAdmtc || isUserAdmtcDir
+          }"
+        >
+          <div class="p-grid no-padding">
+            <div class="p-col-12 no-padding company-list-details">
+              <h5 class="no-margin company-list-shortName" matTooltip="{{ company.company_name }}">{{formBranch && company?.company_entity_id?.company_name ? company.company_entity_id.company_name+" - " :""}} {{ company.company_name }}</h5>
+            </div>
+            <div *ngIf="company && company.no_RC" class="p-col-12 no-padding company-list-details">
+              <p class="no-margin one-line-text fix-font-size">
+                {{ company?.no_RC }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isUserAdmtc || isUserAdmtcDir" class="p-col-1 no-padding btn-close">
+          <div [ngClass]="companyId === company._id ? 'company-text' : ''">
+            <mat-icon
+              *ngIf="permissionService.addcompanyPerm()"
+              class="icon-style font-20"
+              matTooltip="{{ 'Delete' | translate }}"
+              (click)="deleteCompany(company._id, company.company_name)"
+              >close</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+    </mat-card-subtitle>
+  </mat-card>
+</div>

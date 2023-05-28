@@ -1,0 +1,50 @@
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<div class="p-grid dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="p-col-12 adjust-dialog-header">
+    <div class="p-grid">
+      <div class="p-col-10 adjust-dialog-title">
+        <mat-icon class="dialog-icon">info</mat-icon>
+        <h2 class="dialog-title-text">
+          {{ 'INFORMATION' | translate }}
+        </h2>
+      </div>
+      <div class="p-col-2 no-padding-bottom">
+        <button mat-icon-button class="close-icon" (click)="close()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="dialog-container">
+  <div class="p-grid p-justify-center pad-top-10">
+    <div class="p-col-12" *ngIf="data?.correction_grid?.header?.text">
+      <b>{{ 'TEST.HEADER' | translate }}</b>
+    </div>
+    <div class="p-col-10 padding-none" [innerHTML]="data?.correction_grid?.header?.text"></div>
+  </div>
+
+  <div class="p-grid p-justify-center pad-top-10">
+    <div class="p-col-12" *ngIf="data?.correction_grid?.header?.directive_long">
+      <b>{{ 'TEST.DIRECTIVES_LONG' | translate }}</b>
+    </div>
+    <div class="p-col-10 pad-x-none pad-b-none" [innerHTML]="data?.correction_grid?.header?.directive_long"></div>
+  </div>
+
+  <div class="p-grid p-justify-center pad-top-10">
+    <div class="p-col-12" *ngIf="data?.correction_grid?.footer?.text">
+      <b>{{ 'TEST.FOOTER' | translate }}</b>
+    </div>
+    <div class="p-col-10 pad-x-none pad-b-none" [innerHTML]="data?.correction_grid?.footer?.text"></div>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <button mat-raised-button color="warn" class="float-right" (click)="close()">{{ 'CLOSE' | translate }}</button>
+  </div>
+</div>

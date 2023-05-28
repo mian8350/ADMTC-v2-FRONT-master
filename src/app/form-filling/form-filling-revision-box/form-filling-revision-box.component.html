@@ -1,0 +1,36 @@
+<section>
+  <div class="p-grid">
+    <div class="p-col-12 no-padding" style="margin-bottom: 5px;">
+      <span style="font-size: 1.7rem">
+        {{ 'Request to Revise the Form' | translate }}
+      </span>
+      <span style="text-align: end; float: right;">
+        <button color="accent" mat-raised-button (click)="isExpanded = !isExpanded">
+          <mat-icon>open_in_full</mat-icon>
+            {{ 'Toggle Expand' | translate }}
+        </button>
+      </span>
+    </div>
+  </div>
+  <!-- <h3>
+   {{ 'Request to Revise the Form' | translate }}
+    <button color="accent" mat-raised-button (click)="isExpanded = !isExpanded" style="float: right">
+      <mat-icon>open_in_full</mat-icon>
+        {{ 'Toggle Expand' | translate }}
+    </button>
+  </h3> -->
+  <div class="yellow-border chat-container" [ngClass]="isExpanded ? 'expanded' : 'normal'">
+    <div class="chat-row p-grid" *ngFor="let message of messages">
+      <div class="bubble-chat p-col-9 p-md-5" [ngClass]="message?.created_by?._id === formDetail?.userId ? 'right-side' : 'left-side'">
+        <p class="chat-header">
+          {{ message?.created_date }} <span style="color: red">{{ message?.created_time }}</span> {{ message?.created_by?.civility | translate}}
+          {{ message?.created_by?.first_name }} {{ message?.created_by?.last_name }}, {{message?.user_type_id?.name | translate}}
+        </p>
+        <div [innerHTML]="message?.message"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!this.stepData?.isCompletingUser">
+      <button mat-raised-button color="accent" style="float:right; margin-top: 10px"  (click)="openRevisionDialog()">{{'Reply'| translate }}</button>
+  </div>
+</section>

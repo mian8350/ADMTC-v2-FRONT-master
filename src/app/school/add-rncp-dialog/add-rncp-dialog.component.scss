@@ -1,0 +1,24 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.m-2 {
+  margin-left: 2.5rem;
+}
+.button-align {
+  float: right;
+  margin-right: 0;
+}
+
+.mat-dialog-container {
+  padding: 12px !important;
+}
+
+:host ::ng-deep {
+  .mat-select-trigger,
+  .mat-option {
+    font-size: 0.875rem !important;
+  }
+  .mat-dialog-content {
+    height: 80vh;
+  }
+}

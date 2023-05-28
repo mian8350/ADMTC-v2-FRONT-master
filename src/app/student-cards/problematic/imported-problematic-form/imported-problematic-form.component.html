@@ -1,0 +1,702 @@
+<div>
+  <!-- For Status Cards -->
+  <div class="p-grid p-justify-around">
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+              {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_acadDpt, 'icon-false': !statusCard.sent_to_acadDpt }">
+              {{ statusCard.sent_to_acadDpt ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If havent rejected or validated by acad dept, show reviewed by acad dept X -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="!statusCard.rejected_by_acadDpt && !statusCard.validated_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}">
+            <span class="icon-false"> {{ '&#10799;' }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If already rejected or validated by acad dept, show rejected/validated -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="background-rejected label-status card-status">
+          <div class="font-status-rejected">
+            <p class="text-status label-reject">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_ACAD_DPT' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_acadDpt">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.validated_by_acadDpt, 'icon-false': !statusCard.validated_by_acadDpt }">
+              {{ statusCard.validated_by_acadDpt ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.sent_to_certifier, 'icon-false': !statusCard.sent_to_certifier }">
+              {{ statusCard.sent_to_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If havent rejected or validated by certifier, show reviewed by certifier X -->
+    <div
+      class="p-col no-padding"
+      style="text-align: center"
+      *ngIf="!statusCard.rejected_by_certifier && !statusCard.validated_by_certifier"
+    >
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}">
+            <span class="icon-false"> {{ '&#10799;' }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If already rejected or validated by certifier, show rejected/validated -->
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="background-rejected label-status card-status">
+          <div class="font-status-rejected">
+            <p class="text-status label-reject">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.validated_by_certifier, 'icon-false': !statusCard.validated_by_certifier }">
+              {{ statusCard.validated_by_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- If resubmitted -->
+    <!-- <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.resubmitted_to_certifier">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.RESUBMITTED_TO_CERTIFIER' | translate }}
+            </p>
+          </div>
+          <span title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.RESUBMITTED_TO_CERTIFIER' | translate }}">
+            <span [ngClass]="{ 'icon-true': statusCard.resubmitted_to_certifier, 'icon-false': !statusCard.resubmitted_to_certifier }">
+              {{ statusCard.resubmitted_to_certifier ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <!-- For Buttons -->
+  <div class="p-grid p-justify-around">
+    <div class="p-col-12 title-header no-padding" style="margin-top: 20px; margin-bottom: 10px">
+      <div class="text-center">
+        <h4 class="title-job">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.TITLE' | translate }}</h4>
+        <div *ngIf="problematicForm">
+          <!-- Save button for student -->
+          <div
+            *ngIf="
+              (problematicData?.problematic_status === 'sent_to_student' ||
+                problematicData?.problematic_status === 'rejected_by_acadDpt' ||
+                problematicData?.problematic_status === 'rejected_by_certifier') &&
+              isStudent
+            "
+            style="text-align: right"
+          >
+            <button mat-raised-button color="accent" [disabled]="IsFinalTranscriptStarted || studentPrevCourseData" (click)="saveForm()">
+              <mat-icon class="mat-icon-default">save</mat-icon>
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SAVEBTN' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="submitForm('student')"
+            >
+              <mat-icon class="mat-icon-default">send</mat-icon>
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SENDBTN' | translate }}
+            </button>
+          </div>
+          <!-- Save button for admtc always show up, but send only if status is correct -->
+          <div
+            *ngIf="
+              isADMTC ||
+              (isAcadDirAdmin &&
+                ['sent_to_student', 'sent_to_acadDpt', 'rejected_by_acadDpt', 'validated_by_acadDpt'].indexOf(
+                  problematicData?.problematic_status
+                ) !== -1)
+            "
+            style="text-align: right; float: right"
+          >
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="saveForm()"
+              [disabled]="
+                problematicData.problematic_status === 'sent_to_student'
+                  ? false
+                  : problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData
+              "
+            >
+              <mat-icon class="mat-icon-default">save</mat-icon>
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SAVEBTN' | translate }}
+            </button>
+            <button
+              *ngIf="
+                problematicData?.problematic_status === 'sent_to_student' ||
+                problematicData?.problematic_status === 'rejected_by_acadDpt' ||
+                problematicData?.problematic_status === 'rejected_by_certifier'
+              "
+              mat-raised-button
+              color="accent"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="submitForm('student')"
+            >
+              <mat-icon class="mat-icon-default">send</mat-icon>
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SENDBTN' | translate }}
+            </button>
+          </div>
+          <!-- Validate reject for acad dept -->
+          <div *ngIf="problematicData?.problematic_status === 'sent_to_acadDpt' && (isADMTC || isAcadDirAdmin)" style="text-align: right">
+            <button
+              *ngIf="problematicData?.number_of_rejection < 3"
+              mat-raised-button
+              color="warn"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="rejectFormAcad()"
+            >
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.REJECT' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="submitForm('academic')"
+            >
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.VALID' | translate }}
+            </button>
+          </div>
+          <!-- Validate reject for certifier -->
+          <div
+            *ngIf="problematicData?.problematic_status === 'sent_to_certifier' && (isADMTC || isCertifierDirAdmin)"
+            style="text-align: right"
+          >
+            <button
+              *ngIf="problematicData?.number_of_rejection < 3"
+              mat-raised-button
+              color="warn"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="rejectFormCertifier()"
+            >
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.REJECT' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              class="float-right"
+              color="accent"
+              [disabled]="problematicForm.invalid || IsFinalTranscriptStarted || studentPrevCourseData"
+              (click)="submitForm('certifier')"
+            >
+              {{ 'PROBLEMATIC_019.PROBLEMATICFORM.VALID' | translate }}
+            </button>
+          </div>
+          <button mat-raised-button (click)="exportPdf()" class="float-right" color="accent">
+            <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'PDF' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- For Student Data -->
+  <div class="p-grid">
+    <div class="yellow-border card-row p-col-12 margin-bot-10px">
+      <div class="p-grid">
+        <!-- Student Name -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Student' | translate }} : </span>
+          <span> {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }} </span>
+        </div>
+        <!-- Student Company -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+          <span>
+            {{ studentData?.companies[0]?.company?.company_name }}
+          </span>
+        </div>
+        <!-- Student School -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'School' | translate }} : </span>
+          <span>
+            {{ studentData?.school?.short_name }}
+          </span>
+        </div>
+        <!-- Student Mentor -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+          <span>
+            {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+            {{ studentData?.companies[0]?.mentor?.last_name }}
+          </span>
+        </div>
+        <!-- Student RNCP Title -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+          <span>
+            {{ studentData?.rncp_title?.short_name }}
+          </span>
+        </div>
+        <!-- Student Class -->
+        <div class="p-col-6">
+          <span class="grey-text"> {{ 'Class' | translate }} : </span>
+          <span>
+            {{ studentData?.current_class?.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- for The Form -->
+  <ng-container *ngIf="problematicForm" [formGroup]="problematicForm">
+    <!-- For Question 1 -->
+    <div class="p-grid">
+      <div class="yellow-border card-row p-col-12 margin-bot-10px">
+        <div class="p-grid">
+          <div class="p-col-12 self-center">
+            {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_1' | translate }}
+          </div>
+          <ng-container formGroupName="question_1">
+            <div class="p-col-3">
+              <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+            </div>
+            <div class="p-col-9">
+              <ckeditor
+                [config]="{
+                  toolbar: [
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    'highlight:redPen',
+                    'highlight:greenPen',
+                    'removeHighlight',
+                    'numberedList',
+                    'bulletedList',
+                    'link',
+                    'undo',
+                    'redo'
+                  ],
+                  link: {
+                    addTargetToExternalLinks: true
+                  }
+                }"
+                [editor]="Editor"
+                formControlName="answer"
+                (ready)="onReady($event)"
+                [disabled]="!allowEditForm || !isStudent || studentPrevCourseData"
+                required
+              >
+              </ckeditor>
+            </div>
+
+            <ng-container formArrayName="comments">
+              <div class="p-col-12" *ngFor="let comment of getQuestion1CommentArray().controls; let commentIndex = index">
+                <div class="p-grid" [formGroupName]="commentIndex">
+                  <div class="p-col-3 no-padding">
+                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                    <div>{{ comment.get('date').get('date_utc').value }}</div>
+                  </div>
+                  <div class="p-col-9 no-padding">
+                    <ckeditor
+                      [config]="{
+                        toolbar: [
+                          'bold',
+                          'italic',
+                          'underline',
+                          'strikethrough',
+                          'highlight:redPen',
+                          'highlight:greenPen',
+                          'removeHighlight',
+                          'numberedList',
+                          'bulletedList',
+                          'link',
+                          'undo',
+                          'redo'
+                        ],
+                        link: {
+                          addTargetToExternalLinks: true
+                        }
+                      }"
+                      [editor]="Editor"
+                      formControlName="comment"
+                      (ready)="onReady($event)"
+                      [disabled]="!allowEditForm || !isCertifierDirAdmin || studentPrevCourseData"
+                      required
+                    >
+                    </ckeditor>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Question 2 -->
+    <div class="p-grid">
+      <div class="yellow-border card-row p-col-12 margin-bot-10px">
+        <div class="p-grid">
+          <div class="p-col-12 self-center">
+            {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_2' | translate }}
+          </div>
+          <ng-container formGroupName="question_2">
+            <div class="p-col-3">
+              <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+            </div>
+            <div class="p-col-9">
+              <ckeditor
+                [config]="{
+                  toolbar: [
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    'highlight:redPen',
+                    'highlight:greenPen',
+                    'removeHighlight',
+                    'numberedList',
+                    'bulletedList',
+                    'link',
+                    'undo',
+                    'redo'
+                  ],
+                  link: {
+                    addTargetToExternalLinks: true
+                  }
+                }"
+                [editor]="Editor"
+                formControlName="answer"
+                (ready)="onReady($event)"
+                [disabled]="!allowEditForm || !isStudent || studentPrevCourseData"
+                required
+              >
+              </ckeditor>
+            </div>
+
+            <ng-container formArrayName="comments">
+              <div class="p-col-12" *ngFor="let comment of getQuestion2CommentArray().controls; let commentIndex = index">
+                <div class="p-grid" [formGroupName]="commentIndex">
+                  <div class="p-col-3 no-padding">
+                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                    <div>{{ comment.get('date').get('date_utc').value }}</div>
+                    <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                  </div>
+                  <div class="p-col-9 no-padding">
+                    <ckeditor
+                      [config]="{
+                        toolbar: [
+                          'bold',
+                          'italic',
+                          'underline',
+                          'strikethrough',
+                          'highlight:redPen',
+                          'highlight:greenPen',
+                          'removeHighlight',
+                          'numberedList',
+                          'bulletedList',
+                          'link',
+                          'undo',
+                          'redo'
+                        ],
+                        link: {
+                          addTargetToExternalLinks: true
+                        }
+                      }"
+                      [editor]="Editor"
+                      formControlName="comment"
+                      (ready)="onReady($event)"
+                      [disabled]="!allowEditForm || !isCertifierDirAdmin || studentPrevCourseData"
+                      required
+                    >
+                    </ckeditor>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Question 3 -->
+    <div class="p-grid">
+      <div class="yellow-border card-row p-col-12 margin-bot-10px">
+        <div class="p-grid">
+          <div class="p-col-12 self-center">
+            {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_3' | translate }}
+          </div>
+          <ng-container formGroupName="question_3">
+            <div class="p-col-3">
+              <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+            </div>
+            <div class="p-col-9">
+              <ckeditor
+                [config]="{
+                  toolbar: [
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    'highlight:redPen',
+                    'highlight:greenPen',
+                    'removeHighlight',
+                    'numberedList',
+                    'bulletedList',
+                    'link',
+                    'undo',
+                    'redo'
+                  ],
+                  link: {
+                    addTargetToExternalLinks: true
+                  }
+                }"
+                [editor]="Editor"
+                formControlName="answer"
+                (ready)="onReady($event)"
+                [disabled]="!allowEditForm || !isStudent || studentPrevCourseData"
+                required
+              >
+              </ckeditor>
+            </div>
+
+            <ng-container formArrayName="comments">
+              <div class="p-col-12" *ngFor="let comment of getQuestion3CommentArray().controls; let commentIndex = index">
+                <div class="p-grid" [formGroupName]="commentIndex">
+                  <div class="p-col-3 no-padding">
+                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                    <div>{{ comment.get('date').get('date_utc').value }}</div>
+                    <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                  </div>
+                  <div class="p-col-9 no-padding">
+                    <ckeditor
+                      [config]="{
+                        toolbar: [
+                          'bold',
+                          'italic',
+                          'underline',
+                          'strikethrough',
+                          'highlight:redPen',
+                          'highlight:greenPen',
+                          'removeHighlight',
+                          'numberedList',
+                          'bulletedList',
+                          'link',
+                          'undo',
+                          'redo'
+                        ],
+                        link: {
+                          addTargetToExternalLinks: true
+                        }
+                      }"
+                      [editor]="Editor"
+                      formControlName="comment"
+                      (ready)="onReady($event)"
+                      [disabled]="!allowEditForm || !isCertifierDirAdmin || studentPrevCourseData"
+                      required
+                    >
+                    </ckeditor>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- For General Comments -->
+    <div class="p-grid">
+      <div class="yellow-border card-row p-col-12 margin-bot-10px">
+        <ng-container formArrayName="general_comments">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <label>{{ 'PROBLEMATIC_019.PROBLEMATICFORM.COMMENT' | translate }}</label>
+            </div>
+          </div>
+          <div class="p-grid" *ngFor="let gen_comment of getGeneralCommentsArray().controls; let genIndex = index">
+            <ng-container [formGroupName]="genIndex">
+              <div class="p-col-3">
+                <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                <div>{{ gen_comment.get('date').get('date_utc').value }}</div>
+                <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+              </div>
+              <div class="p-col-9">
+                <ckeditor
+                  [config]="{
+                    toolbar: [
+                      'bold',
+                      'italic',
+                      'underline',
+                      'strikethrough',
+                      'highlight:redPen',
+                      'highlight:greenPen',
+                      'removeHighlight',
+                      'numberedList',
+                      'bulletedList',
+                      'link',
+                      'undo',
+                      'redo'
+                    ],
+                    link: {
+                      addTargetToExternalLinks: true
+                    }
+                  }"
+                  [editor]="Editor"
+                  formControlName="comment"
+                  (ready)="onReady($event)"
+                  [disabled]="!allowEditForm || !isCertifierDirAdmin || studentPrevCourseData"
+                >
+                </ckeditor>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- ************** View For Signature -->
+    <div class="p-grid" style="margin-bottom: 10px">
+      <div class="yellow-border card-row p-col-12 x-pad-none">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_student"
+              style="margin-right: 10px"
+              [disabled]="problematicData?.problematic_status !== 'sent_to_student' || !allowEditForm || studentPrevCourseData"
+              *ngIf="statusCard.sent_to_student"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_student').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYSTUDENT' | translate }}
+              </span>
+            </mat-checkbox>
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_acad_dir"
+              style="margin-right: 10px"
+              [disabled]="problematicData?.problematic_status !== 'sent_to_acadDpt' || !allowEditForm || studentPrevCourseData"
+              *ngIf="statusCard.sent_to_acadDpt && showSignature(isStudent, problematicForm.get('signature_of_the_acad_dir').value)"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_acad_dir').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYACAD' | translate }}
+              </span>
+            </mat-checkbox>
+            <mat-checkbox
+              color="accent"
+              formControlName="signature_of_the_certifier"
+              style="margin-right: 10px"
+              [disabled]="problematicData?.problematic_status !== 'sent_to_certifier' || !allowEditForm || studentPrevCourseData"
+              *ngIf="statusCard.sent_to_certifier && showSignature(isStudent, problematicForm.get('signature_of_the_certifier').value)"
+            >
+              <span [ngClass]="{ 'text-slider-color': problematicForm.get('signature_of_the_certifier').value }">
+                {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYCERTI' | translate }}
+              </span>
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ms-problematic-pdf
+  *ngIf="problematicForm"
+  #problematicPDF
+  [studentData]="studentData"
+  [schoolId]="schoolId"
+  [titleId]="titleId"
+  [problematicForm]="problematicForm.value"
+  [problematicData]="problematicData"
+  [problematicType]="problematicType"
+  [statusCard]="statusCard"
+>
+</ms-problematic-pdf>

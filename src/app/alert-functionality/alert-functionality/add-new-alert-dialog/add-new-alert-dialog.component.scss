@@ -1,0 +1,65 @@
+.dialog-title-border {
+  border-bottom: 1px solid black;
+  padding: 0 15px;
+  margin-top: 15px;
+}
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+  max-height: 485px;
+}
+:host ::ng-deep .ck-editor__editable_inline {
+  color: black;
+}
+:host::ng-deep.ck.ck-editor__editable_inline {
+  border: 1px solid grey;
+}
+:host::ng-deep.mat-form-field-infix {
+  padding: 0.3em 0 0.8em 0;
+}
+.position-right {
+  justify-content: flex-end;
+}
+.cancel-button {
+  background-color: red;
+  color: white;
+}
+.save-button,
+.publish-button {
+  background-color: blue;
+  color: white;
+}
+:host::ng-deep.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+.title-left {
+  padding-left: 10px !important;
+}
+.action-button {
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+.icon-button {
+  height: 28px !important;
+}
+.icon-button-svg {
+  height: 30px !important;
+  margin-top: -6px !important;
+  margin-right: 2px !important;
+}
+// :host::ng-deep .red-border-invalid {
+//   .ck-editor__editable_inline,
+//   .ng-select .ng-select-container {
+//     border-color: red !important;
+//   }
+// }
+:host::ng-deep .red-border-invalid.ng-select .ng-select-container {
+  border-color: red !important;
+}
+:host::ng-deep .red-border-invalid .ck-editor__editable_inline {
+  border-color: red !important;
+}
+// :host::ng-deep .invalid .mat-form-field-appearance-outline .mat-form-field-outline {
+//   color: red;
+// }

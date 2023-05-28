@@ -1,0 +1,128 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="account-question"></mat-icon>
+  <h2 class="header-text">
+    {{ 'PROBLEMATIC_019.assign_corrector_of_problematic' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr/>
+
+<form [formGroup]="assignCorrrectorForm" class="header-form" *ngIf="taskDataTitle">
+  <div fxLayout="row">
+    <div fxFlex fxLayout="column" >
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'PROBLEMATIC_019.title_rncp' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ taskDataTitle?.rncp?.short_name }} - {{ taskDataTitle?.rncp?.long_name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'PROBLEMATIC_019.class' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ taskData?.class_id?.name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'PROBLEMATIC_019.due_date' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ getTranslatedDate(taskData?.due_date) }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'PROBLEMATIC_019.number_of_school' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{(schoolData && schoolData.length) ? schoolData.length : '0'}}
+            <!-- {{ getTranslatedDate(testData?.date) }} -->
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!isWaitingForUserList">
+        <!-- if user to select exist -->
+        <div *ngIf="userCorrectorList?.length" fxFlex class="pad-t-md">
+          <div fxLayout="row wrap" fxLayoutAlign="center start" >
+            <div fxFlex="100">
+              <div class="px-1 select-input-container">
+                <mat-form-field>
+                  <mat-select
+                    color="accent"
+                    [placeholder]="'PROBLEMATIC_019.assign_one_or_sevetal_correctors_of_problematic' | translate"
+                    formControlName="corrector_problematic"
+                    style="margin-bottom: -1.4em;"
+                    multiple
+                  >
+                    <mat-option *ngFor="let user of userCorrectorList" [value]="user._id">
+                      {{ user.civility | translate }} {{ user.first_name }} {{user.last_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="assignCorrrectorForm.get('corrector_problematic').errors">{{'This field is required'|translate}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!userCorrectorList?.length" fxFlex class="pad-t-md">
+          <div fxLayout="row wrap" fxLayoutAlign="center start" >
+            <div fxFlex="100">
+              {{ 'PROBLEMATIC_019.there_is_no_corrector_of_problematic' }}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>  
+  </div>  
+</form>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'ASSIGN_CORRECTOR_DIALOG.CANCEL' | translate }}
+    </button>
+  </div>
+  <div>
+    <button
+      [disabled]="assignCorrrectorForm.invalid || isCorrectorMoreThanSchool()"
+      mat-raised-button
+      color="primary"
+      (click)="submitAssignCorrector()"
+      type="button"
+    >
+      {{ 'ASSIGN_CORRECTOR_DIALOG.SUBMIT' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

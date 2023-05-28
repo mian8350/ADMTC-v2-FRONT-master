@@ -1,0 +1,54 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="gavel"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.TITLE' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body" [formGroup]="justifyAbsenceForm">
+  <div class="p-grid">
+    <div class="p-col-12" *ngIf="parentData.type === 'online_jury_student_attendance_justification'">
+      <p style="margin-bottom: 0px;">{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.TEXT_1' | translate }} {{ parentData?.jury_id?.name }} {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.on' | translate }} {{ sessionDate }} {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.at' | translate }} {{ sessionTime }}</p>
+      <p style="margin-bottom: 0px;">{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.TEXT_2' | translate }}</p>
+    </div>
+    <div class="p-col-12" *ngIf="parentData.type === 'online_jury_jury_member_attendance_justification'">
+      <p style="margin-bottom: 0px;">{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.TEXT_1' | translate }} {{ parentData?.jury_id?.name }} :</p>
+      <ng-container *ngFor="let session of juryData?.students; let sessionIndex = index">
+        <p style="margin-bottom: 0px;">
+          {{sessionIndex+1}}. {{'JURY_ORGANIZATION.ABSENT_JUSTIFY.On' | translate }} {{convertUTCToLocalDate(session)}} {{'JURY_ORGANIZATION.ABSENT_JUSTIFY.at' | translate }} {{parseUTCtoLocal.transform(session.test_hours_start)}}
+        </p>
+      </ng-container>
+      <p style="margin-bottom: 0px;">{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.TEXT_2' | translate }}</p>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <h5>{{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.REASON' | translate }}</h5>
+      <textarea  required style="height: 100px; color: black; border: 1px solid grey;" formControlName="reason" matInput type="text" placeholder="{{'JURY_ORGANIZATION.ABSENT_JUSTIFY.Reason_Placeholder'| translate}}"></textarea>
+    </div>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="accent" (click)="submitAbsence()" [disabled]="!justifyAbsenceForm.valid || isWaitingForResponse">
+    {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.Submit' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="warn" class="mr-0" (click)="closeDialog()">
+    {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.Cancel' | translate }}
+  </button>
+</div>

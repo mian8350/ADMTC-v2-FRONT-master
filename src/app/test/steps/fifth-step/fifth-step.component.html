@@ -1,0 +1,166 @@
+<!-- <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="card-margin">
+  <button mat-raised-button color="primary" type="button" class="btn-test" (click)="goToPreviousStep()">
+    <mat-icon>chevron_left</mat-icon>
+    {{'PREVIOUS' | translate}}
+  </button>
+  <button mat-raised-button class="active-tab btn-test" type="button" (click)="submitTest()">
+    {{'REGISTERTEST' | translate}}
+    <mat-icon style="font-size: 18px;">done</mat-icon>
+  </button>
+</div> -->
+
+<div class="p-grid row-margin" style="margin: 0px !important;">
+  <div class="p-col-12 align-left" style="padding-top: 0px; padding-left: 0px;">
+  </div>
+</div>
+
+<mat-card class="mat-card-style">
+  <!-- <div class="p-grid create-test-header-button">
+    <button mat-raised-button class="btn-test" color="accent" type="button" style="padding-right: 4px;" (click)="publishTask()">
+      {{'REGISTERTEST' | translate}}
+      <mat-icon style="font-size: 18px; vertical-align: sub;">done</mat-icon>
+    </button>
+  </div> -->
+
+  <table mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="sortData($event)"
+    matSortDisableClear
+    class="mat-elevation-z8">
+
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="4" class="action-header-column">
+        <div class="justify-content-between">
+          <div class="table-header-title">{{ 'TASK_WILL_BE_GENERATED' | translate }}</div>
+          <div>
+            <button mat-raised-button [disabled]="!dueDateFilter.value" color="primary" (click)="resetDate()">
+              <!-- <mat-icon style="font-size: 18px;">replay</mat-icon> -->
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET DATE' | translate }}
+            </button>
+            <button mat-raised-button color="primary" (click)="resetAllFilter()">
+              <!-- <mat-icon style="font-size: 18px;">replay</mat-icon> -->
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-select [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}">
+            <mat-option [value]="">{{ 'ALL' | translate }}</mat-option>
+            <mat-option *ngFor="let school of schoolList" [value]="school?.short_name">
+              {{ school?.short_name }}
+            </mat-option>
+          </mat-select>
+          <!-- <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" /> -->
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="dateFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- <mat-form-field>
+          <input matInput class="form-field" [formControl]="dueDateFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field> -->
+        <mat-form-field>
+          <input
+            matInput
+            [formControl]="dueDateFilter"
+            readonly
+            [matDatepicker]="testDatePicker"
+            placeholder="{{ 'search' | translate }}"
+            (click)="testDatePicker.open()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="testDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #testDatePicker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="userFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="assignedToFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="descriptionFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="taskFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="12" style=" text-align: center !important">
+        <!-- <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div> -->
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="school.short_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="school.short_name">
+        <h5>{{'SCHOOLTITLE' | translate}}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.school.short_name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="due_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="due_date">
+        <h5>{{'DASHBOARD.DUEDATE' | translate}}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ getTranslatedDate(element.due_date) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="user_selection">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="user_selection">
+        <h5>{{'DASHBOARD.ASSIGNEDTO' | translate}}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element?.user_selection?.user_id && (element?.description !== 'Validate Test'); else userType">
+          {{ element?.user_selection?.user_id?.last_name | uppercase }} {{ element?.user_selection?.user_id?.first_name }} {{ (element?.user_selection?.user_id?.civility) | translate }} 
+        </ng-container>
+        <ng-template #userType>
+          {{element?.user_selection?.user_type_id?.name | translate}}
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="description">
+        <h5>{{'DASHBOARD.TASK' | translate}}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- {{element?.description | translate}} -->
+        {{getTaskTranslation(element?.description)}}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']" style="height: 40px !important;"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10]" [ngClass]="{ 'hide-pagination-buttons': (taskList.length <= 10) }" showFirstLastButtons [hidePageSize]="true"></mat-paginator>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+
+

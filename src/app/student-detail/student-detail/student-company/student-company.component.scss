@@ -1,0 +1,27 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+label{
+    color: $dark-grey;
+}
+
+.padding{
+    padding-top: 20px;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+
+:host ::ng-deep{
+
+    .mat-slide-toggle-thumb{
+        background-color: $medium-grey;
+    }
+
+    .mat-slide-toggle-bar{
+        background-color: rgba(255, 255, 255, 0.12);
+        margin-left: 0.5rem;
+    }
+}

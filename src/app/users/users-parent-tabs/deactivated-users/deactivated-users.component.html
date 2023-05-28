@@ -1,0 +1,643 @@
+<div class="p-grid">
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="entitySuperFilterList"
+      bindLabel="key"
+      bindValue="value"
+      appendTo="body"
+      placeholder="{{ 'Entity' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="entitySuperFilter"
+      (close)="selectEntitySuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" />
+        {{ item.key | translate }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('entity') || checkSuperFilterIndeterminate('entity') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('entity')"
+          [indeterminate]="checkSuperFilterIndeterminate('entity')"
+          (change)="selectedAllSuperFilter('entity', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="userTypeSuperFilterList"
+      bindLabel="name_with_entity"
+      bindValue="_id"
+      appendTo="body"
+      placeholder="{{ 'UserType' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="userTypeSuperFilter"
+      (close)="selectUserTypeSuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" />
+        {{ item.name_with_entity }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('userType') || checkSuperFilterIndeterminate('userType') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('userType')"
+          [indeterminate]="checkSuperFilterIndeterminate('userType')"
+          (change)="selectedAllSuperFilter('userType', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="statusSuperFilterList"
+      bindLabel="key"
+      bindValue="value"
+      appendTo="body"
+      placeholder="{{ 'Status' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="statusSuperFilter"
+      (close)="selectStatusSuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" />
+        {{ item.key | translate }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('status') || checkSuperFilterIndeterminate('status') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('status')"
+          [indeterminate]="checkSuperFilterIndeterminate('status')"
+          (change)="selectedAllSuperFilter('status', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="titleSuperFilterList"
+      bindLabel="short_name"
+      bindValue="_id"
+      appendTo="body"
+      placeholder="{{ 'Title' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="titleSuperFilter"
+      (close)="selectTitleSuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" />
+        {{ item.short_name }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('title') || checkSuperFilterIndeterminate('title') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('title')"
+          [indeterminate]="checkSuperFilterIndeterminate('title')"
+          (change)="selectedAllSuperFilter('title', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="classSuperFilterList"
+      bindLabel="name"
+      bindValue="name"
+      appendTo="body"
+      placeholder="{{ 'Class' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="classSuperFilter"
+      (close)="selectClassSuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" /> {{ item.name }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('class') || checkSuperFilterIndeterminate('class') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('class')"
+          [indeterminate]="checkSuperFilterIndeterminate('class')"
+          (change)="selectedAllSuperFilter('class', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed no-padding super-filter-input">
+    <ng-select
+      class="mrgn-btn"
+      [items]="schoolSuperFilterList"
+      bindLabel="short_name"
+      bindValue="_id"
+      appendTo="body"
+      placeholder="{{ 'School' | translate }}"
+      [multiple]="true"
+      [clearable]="false"
+      [closeOnSelect]="false"
+      [formControl]="schoolSuperFilter"
+      (close)="selectSchoolSuperFilter()"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input type="checkbox" id="item-{{ index }}" [ngModel]="item$.selected" [ngModelOptions]="{ standalone: true }" />
+        {{ item.short_name }}
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <mat-checkbox
+          [ngClass]="checkAllSuperFilter('school') || checkSuperFilterIndeterminate('school') ? 'checkBoxAll' : ''"
+          style="cursor: pointer"
+          [checked]="checkAllSuperFilter('school')"
+          [indeterminate]="checkSuperFilterIndeterminate('school')"
+          (change)="selectedAllSuperFilter('school', $event)"
+        >
+          {{ 'All' | translate }}
+        </mat-checkbox>
+      </ng-template>
+    </ng-select>
+  </div>
+
+  <div class="p-col-fixed super-filter">
+    <button
+      mat-raised-button
+      matTooltip="{{ 'Apply Filter' | translate }}"
+      color="accent"
+      [disabled]="isWaitingForResponse"
+      (click)="applyFilter()"
+    >
+      {{ 'Apply Filter' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="top-space">
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="9" class="action-header-column text-right">
+          <button
+            mat-raised-button
+            color="primary"
+            matTooltip="{{ 'RESET' | translate }}"
+            matTooltipPosition="above"
+            [disabled]="isWaitingForResponse"
+            (click)="resetSelection()"
+          >
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button
+            [disabled]="disabledExport || isWaitingForResponse"
+            matTooltip="{{ 'Export' | translate }}"
+            matTooltipPosition="above"
+            mat-raised-button
+            color="primary"
+            (click)="exportName = 'Export'; exportSwal.show()"
+            *ngIf="permissionService.exportShowPerm()"
+          >
+            <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Export' | translate }}
+          </button>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            (change)="showOptions('all')"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            (change)="showOptions('one')"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="schoolFilter"
+              [matAutocomplete]="schoolAuto"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #schoolAuto="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setSchoolFilter(null)">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredSchoolNames | async"
+                [value]="option?.short_name"
+                matTooltip="{{ option?.short_name }}"
+                (click)="setSchoolFilter(option?._id)"
+              >
+                {{ option?.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="titleFilter"
+              [matAutocomplete]="titleAuto"
+              placeholder="{{ 'List of RNCP Title' | translate }}"
+            />
+            <mat-autocomplete #titleAuto="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setTitleFilter(null, null)">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredTitleNames | async"
+                [value]="option?.short_name"
+                matTooltip="{{ option?.short_name }}"
+                (click)="setTitleFilter(option?._id, option?.short_name)"
+              >
+                {{ option?.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="classFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <!-- <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="classFilter"
+              [matAutocomplete]="classAuto"
+              placeholder="{{ 'List of Class' | translate }}"
+            />
+            <mat-autocomplete #classAuto="matAutocomplete" [panelWidth]="300">
+              <mat-option value="" (click)="setClassFilter(null)">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredClasses | async"
+                [value]="option?.name"
+                matTooltip="{{ option?.name }}"
+                (click)="setClassFilter(option?._id, option?.name)"
+              >
+                {{ option?.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+          <ng-select
+            placeholder="{{ 'List of Class' | translate }}"
+            [formControl]="classFilter"
+            [multiple]="true"
+            [items]="classes"
+            bindValue="name"
+            bindLabel="name"
+            appendTo="body"
+            (change)="setClassFilter($event)"
+          >
+            <ng-option [value]="null">{{ 'AllM' | translate }}</ng-option>
+            <ng-template ng-option-tmp let-item="item">
+              <span class="option">{{ item.name }}</span>
+              <span class="option-tooltip">{{ item.name }}</span>
+            </ng-template>
+          </ng-select>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="userTypeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="userTypeFilter"
+              [matAutocomplete]="userType"
+              placeholder="{{ 'List of User Type' | translate }}"
+            />
+            <mat-autocomplete #userType="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setTypeFilter(null)">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let type of userTypeListFilter | async"
+                [value]="type?.name_with_entity"
+                matTooltip="{{ type?.name_with_entity }}"
+                (click)="setTypeFilter(type?._id)"
+              >
+                {{ type?.name_with_entity | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="entityFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="entityFilter" placeholder="{{ 'List of Entity' | translate }}">
+              <mat-option class="width-size" [value]="entity" *ngFor="let entity of entityList"> {{ entity | translate }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="statusFilter">
+              <mat-option class="width-size" [value]="record" *ngFor="let record of statusFilterList">{{ record | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="selectFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="last_name" matTooltip="{{ 'Name' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Name' | translate }}</h5>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}"
+        >
+          {{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let school of element?.mergedSchool; index as i">
+            <span *ngIf="school?.short_name">
+              <p class="display-inline">
+                <span>
+                  <span class="tags" *ngIf="i === 0">
+                    {{ school?.short_name }}
+                  </span>
+                  <span class="tags" *ngIf="i === 1" [matTooltip]="renderTooltipMergedSchool(element?.mergedSchool)"> ... </span>
+                </span>
+              </p>
+            </span>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Title' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Title' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let entity of getUniqueRncpTitles(element.entities); index as i">
+            <!-- For non group of school -->
+            <p *ngIf="entity?.entity_name !== 'group_of_schools'" class="display-inline">
+              <span class="tags" *ngIf="entity?.assigned_rncp_title && i <= 1" [matTooltip]="renderTooltipTitle(element.entities)">
+                {{ entity?.assigned_rncp_title?.short_name }}
+              </span>
+              <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipTitle(element.entities)"> ... </span>
+            </p>
+            <!-- For group of school -->
+            <p *ngIf="entity?.entity_name === 'group_of_schools'" class="display-inline">
+              <ng-container *ngIf="entity?.group_of_school">
+                <ng-container *ngFor="let title of getUniquGroupTitles(entity); index as j">
+                  <span class="tags" *ngIf="j <= 1" [matTooltip]="renderTooltipTitleGroupofSchool(entity)">
+                    {{ title?.rncp_title_id?.short_name }}
+                  </span>
+                  <span class="tags" *ngIf="j === 2" [matTooltip]="renderTooltipTitleGroupofSchool(entity)"> ... </span>
+                </ng-container>
+              </ng-container>
+            </p>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Class' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Class' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let entity of getUniqueClassesFromEntities(element.entities); index as i">
+            <!-- For non group of school -->
+            <p *ngIf="entity?.entity_name !== 'group_of_schools'" class="display-inline">
+              <span class="tags" *ngIf="entity?.class && i <= 1" [matTooltip]="renderTooltipClasses(element.entities)">
+                {{ entity?.class?.name }}
+              </span>
+              <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipClasses(element.entities)"> ... </span>
+            </p>
+            <!-- For group of school -->
+            <p *ngIf="entity?.entity_name === 'group_of_schools'" class="display-inline">
+              <ng-container *ngIf="entity?.group_of_school">
+                <ng-container *ngFor="let title of getUniquGroupTitles(entity); index as j">
+                  <span class="tags" *ngIf="j <= 1" [matTooltip]="renderTooltipTitleGroupofSchool(entity)">
+                    {{ title?.class_id?.name }}
+                  </span>
+                  <span class="tags" *ngIf="j === 2" [matTooltip]="renderTooltipTitleGroupofSchool(entity)"> ... </span>
+                </ng-container>
+              </ng-container>
+            </p>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userType">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'UserType' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'UserType' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of getUniqueUserType(element.entities); index as i" class="display-inline">
+            <span class="tags" *ngIf="entity?.type && i <= 1" [matTooltip]="renderTooltipType(element.entities)">{{
+              'USER_TYPES.' + entity?.type?.name | translate
+            }}</span>
+            <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipType(element.entities)"> ... </span>
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="entity">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Entity' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Entity' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of getUniqueEntities(element.entities); index as i" class="display-inline">
+            <span class="tags" *ngIf="entity?.entity_name && i === 0" [matTooltip]="renderTooltipEntity(element.entities)">
+              {{ entity?.entity_name | translate }}
+            </span>
+            <span class="tags" *ngIf="i === 1" [matTooltip]="renderTooltipEntity(element.entities)"> ... </span>
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="user_status"
+          matTooltip="{{ 'Status' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Status' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            matTooltip="{{ element.user_status | translate }}"
+            matTooltipPosition="above"
+            [ngClass]="{
+              'greenyellow-icon': element.user_status === 'active',
+              'black-icon': element.user_status === 'pending',
+              'red-icon': element.user_status === 'incorrect_email'
+            }"
+          >
+            check_circle
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <ng-container *ngIf="displayAllActionBtn(element)">
+            <button
+              *ngIf="permissionService.editUsersDeactivedTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'View - EditUser' | translate }}"
+              (click)="editUser(element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.editUsersDeactivedTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'DEACTIVATEDUSER.REASON' | translate }}"
+              (click)="viewReason(element)"
+            >
+              <!-- matTooltipPosition="above" -->
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+
+            <button
+              *ngIf="permissionService.editUsersDeactivedTablePerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Reactivation' | translate }}"
+              (click)="onReactivation(element._id, element.civility, element.first_name, element.last_name)"
+            >
+              <mat-icon svgIcon="backup-restore"></mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="9" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'No User Data' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': usersCount <= 10 }"
+        [length]="usersCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>

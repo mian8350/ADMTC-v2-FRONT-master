@@ -1,0 +1,50 @@
+<form [formGroup]="sendEmailForm">
+  <div style="color: black;">
+    <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+      <div mat-dialog-title class="p-grid header-wrapper">
+        <div class="alignment float-left">
+          <mat-icon svgIcon="pencil" class="icon-style"></mat-icon> {{ 'MailBox.composeMail.title' | translate }}
+        </div>
+        <div class="alignment float-right">
+          <mat-icon class="icon-style" matTooltip="{{'CLOSE' | translate}}" (click)="closeDialog()">close</mat-icon>
+          <label>
+            <mat-icon matTooltip="{{ 'MailBox.ATTACH_FILE' | translate }}" class="icon-style">attachment</mat-icon>
+            <input
+              type="file"
+              #myInput
+              style="display: none;"
+              name="file"
+              multiple
+              accept=".jpeg,.png,.rar,.zip,.doc,.docx,.ppt,.pdf,.xls"
+              (change)="handleInputChange($event)"
+            />
+          </label>
+          <mat-icon
+            class="vertical-align-mid cursorStyle"
+            matTooltip="{{ 'MailBox.SEND' | translate }}"
+            (click)="sendMail()"
+            >send</mat-icon
+          >
+        </div>
+      </div>
+    </div>
+    <mat-dialog-content>
+      <div class="p-col-12 padding-none">
+        <span class="recipient">{{ adminMail }}</span>
+      </div>
+
+      <div class="file-section p-col-12 pad-left-none">
+        <div *ngFor="let file of attachmnetsPaths" class="fileInfo mrgn-left-none">
+          <button mat-icon-button type="button">
+            <mat-icon>insert_drive_file</mat-icon>
+          </button>
+          <label>{{ file.name }}</label>
+          <button mat-icon-button type="button" (click)="removeAttachment(file)">
+            <mat-icon> close </mat-icon>
+          </button>
+        </div>
+      </div>
+      <ckeditor [editor]="Editor" (ready)="onReady($event)" [config]="config" formControlName="message"> </ckeditor>
+    </mat-dialog-content>
+  </div>
+</form>

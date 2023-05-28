@@ -1,0 +1,4024 @@
+{
+  "data": {
+    "academicKit": {
+      "categories": [
+        {
+          "sortOrder": 1,
+          "documents": [],
+          "tests": [
+            {
+              
+            }
+          ],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d2686",
+          "title": "01. ADMISSIONS",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-08-07T17:30:00.532Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 2,
+          "documents": [],
+          "tests": [],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d2687",
+          "title": "02. ANNALES EPREUVES",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-08-07T17:30:00.532Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 3,
+          "documents": [],
+          "tests": [],
+          "subCategories": [
+            {
+              "sortOrder": 1,
+              "documents": [
+                {
+                  "storedInS3": true,
+                  "status": "active",
+                  "documentType": "uploadedFromAcadKit",
+                  "isInternalTask": false,
+                  "addTaskDocUpload": false,
+                  "publishedForStudent": false,
+                  "_id": "5bfd304a9c94f60bb6a60c5b",
+                  "name": "Fiche RNCP Titre AGIR",
+                  "type": "Guidelines",
+                  "filePath": "uploads/test/1543319623653_Fiche RNCP Titre AGIR.pdf",
+                  "fileName": "Fiche RNCP Titre AGIR.pdf",
+                  "parentCategory": "5b69d71881935943d24d268d",
+                  "parentRNCPTitle": {
+                    "shortName": "S-AGIR-GL-2019",
+                    "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                    "_id": "5b69d1c481935943d24d25e8",
+                    "id": "5b69d1c481935943d24d25e8"
+                  },
+                  "createdBy": "5a253110cea695495fb77257",
+                  "publicationDateForSchools": [],
+                  "createdAt": "2018-11-27",
+                  "updatedAt": "2018-11-29T07:19:35.630Z",
+                  "__v": 0,
+                  "S3FileName": "1543475974475_Fiche RNCP Titre AGIR.pdf",
+                  "movedToS3": true,
+                  "id": "5bfd304a9c94f60bb6a60c5b"
+                },
+                {
+                  "storedInS3": true,
+                  "status": "active",
+                  "documentType": "uploadedFromAcadKit",
+                  "isInternalTask": false,
+                  "addTaskDocUpload": false,
+                  "publishedForStudent": false,
+                  "_id": "5c06ab8ac2526f5e1efacb77",
+                  "name": "Présentation Titre Informatique Niveau II - AGIIR-INSTA",
+                  "type": "Guidelines",
+                  "filePath": "uploads/test/1543941000878_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+                  "fileName": "Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+                  "parentCategory": "5b69d71881935943d24d268d",
+                  "parentRNCPTitle": {
+                    "shortName": "S-AGIR-GL-2019",
+                    "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                    "_id": "5b69d1c481935943d24d25e8",
+                    "id": "5b69d1c481935943d24d25e8"
+                  },
+                  "createdBy": "5a3bf526e04708414763c73c",
+                  "S3FileName": "1543940999701_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+                  "publicationDateForSchools": [],
+                  "createdAt": "2018-12-4",
+                  "updatedAt": "2018-12-04T00:00:00.000Z",
+                  "__v": 0,
+                  "id": "5c06ab8ac2526f5e1efacb77"
+                }
+              ],
+              "tests": [],
+              "subCategories": [],
+              "status": "active",
+              "_id": "5b69d71881935943d24d268d",
+              "title": "COMMUNICATION",
+              "parentCategory": "5b69d71881935943d24d2688",
+              "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+              "createdAt": "2018-08-07T17:30:00.538Z",
+              "updatedAt": "2018-12-04T16:30:02.850Z",
+              "__v": 0
+            },
+            {
+              "sortOrder": 1,
+              "documents": [],
+              "tests": [],
+              "subCategories": [
+                {
+                  "sortOrder": 1,
+                  "documents": [],
+                  "tests": [
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": false,
+                          "showDirectionsColumn": false,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Directives",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-6-27"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b89492220cb206385943ec3",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 1,
+                      "groupTest": false,
+                      "controlledTest": true,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b89492220cb206385943ec2",
+                      "name": "Certification Windows",
+                      "type": "free-continuous-control",
+                      "correctionType": "free",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-6-28",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89475420cb206385943eab",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d5d781935943d24d267e",
+                      "subjectTestId": "5b89486320cb206385943eae",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 100,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T13:56:50.145Z",
+                      "updatedAt": "2018-08-31T13:56:50.145Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b89492220cb206385943ec2"
+                    },
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": false,
+                          "showDirectionsColumn": false,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Directives",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-6-27"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b89494220cb206385943ec5",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 1,
+                      "groupTest": false,
+                      "controlledTest": true,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b89494220cb206385943ec4",
+                      "name": "Certification CISCO",
+                      "type": "free-continuous-control",
+                      "correctionType": "free",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-6-28",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89475420cb206385943eab",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d5d781935943d24d267f",
+                      "subjectTestId": "5b89486320cb206385943eaf",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 100,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T13:57:22.792Z",
+                      "updatedAt": "2018-08-31T13:57:22.792Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b89494220cb206385943ec4"
+                    },
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": false,
+                          "showDirectionsColumn": false,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Directives",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-6-27"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b89495b20cb206385943ec7",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 1,
+                      "groupTest": false,
+                      "controlledTest": true,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b89495b20cb206385943ec6",
+                      "name": "Certification CITRIX",
+                      "type": "free-continuous-control",
+                      "correctionType": "free",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-6-28",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89475420cb206385943eab",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d5d781935943d24d2680",
+                      "subjectTestId": "5b89486320cb206385943eb0",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 100,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T13:57:47.731Z",
+                      "updatedAt": "2018-08-31T13:57:47.731Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b89495b20cb206385943ec6"
+                    }
+                  ],
+                  "subCategories": [],
+                  "status": "active",
+                  "_id": "5b89475420cb206385943eab",
+                  "title": "Certifications optionnelles",
+                  "description": "Certifications optionnelles",
+                  "parentCategory": "5b69d71881935943d24d268e",
+                  "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                  "createdAt": "2018-08-31T13:49:08.869Z",
+                  "updatedAt": "2018-08-31T13:57:47.732Z",
+                  "__v": 0
+                },
+                {
+                  "sortOrder": 1,
+                  "documents": [],
+                  "tests": [],
+                  "subCategories": [
+                    {
+                      "sortOrder": 1,
+                      "documents": [],
+                      "tests": [
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b89498020cb206385943ec9",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b89498020cb206385943ec8",
+                          "name": "Web habillage",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25ec",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T13:58:24.359Z",
+                          "updatedAt": "2018-08-31T14:02:57.354Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b89498020cb206385943ec8"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b89499e20cb206385943ece",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b89499e20cb206385943ecd",
+                          "name": "Langage Javascript",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25ed",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T13:58:54.425Z",
+                          "updatedAt": "2018-08-31T14:03:11.102Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b89499e20cb206385943ecd"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b8949b320cb206385943ed0",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b8949b320cb206385943ecf",
+                          "name": "Langage PHP",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25ee",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T13:59:15.916Z",
+                          "updatedAt": "2018-08-31T14:03:28.229Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b8949b320cb206385943ecf"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b8949d820cb206385943ed2",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b8949d820cb206385943ed1",
+                          "name": "Framework Symfony",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25ef",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T13:59:52.571Z",
+                          "updatedAt": "2018-08-31T14:03:45.582Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b8949d820cb206385943ed1"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b8949f020cb206385943ed4",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b8949f020cb206385943ed3",
+                          "name": "Développement applicatif Java",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25f0",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:00:16.552Z",
+                          "updatedAt": "2018-08-31T14:03:58.079Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b8949f020cb206385943ed3"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894a0d20cb206385943ed6",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894a0d20cb206385943ed5",
+                          "name": "Développement Web C#",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25f1",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.28,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:00:45.721Z",
+                          "updatedAt": "2018-08-31T14:04:10.928Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894a0d20cb206385943ed5"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894a2420cb206385943ee0",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 7,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": null,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": null,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": null,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894a2420cb206385943edf",
+                          "name": "Développement Mobile Android",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894a8120cb206385943ee1",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25eb",
+                          "subjectTestId": "5b69d53981935943d24d25f2",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 14.320000000000007,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:01:08.732Z",
+                          "updatedAt": "2018-08-31T14:04:25.069Z",
+                          "__v": 0,
+                          "dateReTakeExam": null,
+                          "questionnaire": null,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894a2420cb206385943edf"
+                        }
+                      ],
+                      "subCategories": [],
+                      "status": "active",
+                      "_id": "5b894a8120cb206385943ee1",
+                      "title": "Module 1 : Conception et développement web, applicatif et mobile",
+                      "description": "Module 1 : Conception et développement web,\napplicatif et mobile",
+                      "parentCategory": "5b89476520cb206385943eac",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "createdAt": "2018-08-31T14:02:41.645Z",
+                      "updatedAt": "2018-08-31T14:04:26.264Z",
+                      "__v": 0,
+                      "class": null,
+                      "school": null
+                    },
+                    {
+                      "sortOrder": 1,
+                      "documents": [],
+                      "tests": [
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894b3f20cb206385943eed",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894b3f20cb206385943eec",
+                          "name": "SI et méthodes de modélisation",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b0820cb206385943ee9",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f3",
+                          "subjectTestId": "5b69d53981935943d24d25f4",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 50,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:05:51.311Z",
+                          "updatedAt": "2018-08-31T14:05:51.311Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894b3f20cb206385943eec"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894b5920cb206385943eef",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894b5920cb206385943eee",
+                          "name": "Administration",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b0820cb206385943ee9",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f3",
+                          "subjectTestId": "5b69d53981935943d24d25f5",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 50,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:06:17.014Z",
+                          "updatedAt": "2018-08-31T14:06:17.014Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894b5920cb206385943eee"
+                        }
+                      ],
+                      "subCategories": [],
+                      "status": "active",
+                      "_id": "5b894b0820cb206385943ee9",
+                      "title": "Module 2 : Base de données",
+                      "description": "Module 2 : Base de données",
+                      "parentCategory": "5b89476520cb206385943eac",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "createdAt": "2018-08-31T14:04:56.991Z",
+                      "updatedAt": "2018-08-31T14:06:17.016Z",
+                      "__v": 0
+                    },
+                    {
+                      "sortOrder": 1,
+                      "documents": [],
+                      "tests": [
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894bdf20cb206385943ef9",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 3,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894bdf20cb206385943ef8",
+                          "name": "Architecture et applications réseaux",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b1920cb206385943eea",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53a81935943d24d25fb",
+                          "subjectTestId": "5b69d53a81935943d24d25fc",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 33.33,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:08:31.343Z",
+                          "updatedAt": "2018-08-31T14:08:31.343Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894bdf20cb206385943ef8"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894bf320cb206385943efb",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 3,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894bf320cb206385943efa",
+                          "name": "Sécurité",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b1920cb206385943eea",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53a81935943d24d25fb",
+                          "subjectTestId": "5b69d53a81935943d24d25fd",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 33.33,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:08:51.879Z",
+                          "updatedAt": "2018-08-31T14:08:51.879Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894bf320cb206385943efa"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894c0720cb206385943efd",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 3,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894c0720cb206385943efc",
+                          "name": "Programmation systèmes et réseaux",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b1920cb206385943eea",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53a81935943d24d25fb",
+                          "subjectTestId": "5b69d53a81935943d24d25fe",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 33.34,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:09:11.665Z",
+                          "updatedAt": "2018-08-31T14:09:11.665Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894c0720cb206385943efc"
+                        }
+                      ],
+                      "subCategories": [],
+                      "status": "active",
+                      "_id": "5b894b1920cb206385943eea",
+                      "title": "Module 4 : Architecte, sécurité et réseaux",
+                      "description": "Module 4 : Architecte, sécurité et réseaux",
+                      "parentCategory": "5b89476520cb206385943eac",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "createdAt": "2018-08-31T14:05:13.693Z",
+                      "updatedAt": "2018-08-31T14:09:11.667Z",
+                      "__v": 0
+                    },
+                    {
+                      "sortOrder": 1,
+                      "documents": [],
+                      "tests": [
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894b7320cb206385943ef1",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894b7320cb206385943ef0",
+                          "name": "Scrum",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b2520cb206385943eeb",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f6",
+                          "subjectTestId": "5b69d53981935943d24d25f7",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 25,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:06:43.013Z",
+                          "updatedAt": "2018-08-31T14:06:43.013Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894b7320cb206385943ef0"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894b9420cb206385943ef3",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894b9420cb206385943ef2",
+                          "name": "Culture et communication écrite",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b2520cb206385943eeb",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f6",
+                          "subjectTestId": "5b69d53981935943d24d25f8",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 25,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:07:16.706Z",
+                          "updatedAt": "2018-08-31T14:07:16.706Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894b9420cb206385943ef2"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894bb020cb206385943ef5",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894bb020cb206385943ef4",
+                          "name": "Conduite de projets et qualité",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b2520cb206385943eeb",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f6",
+                          "subjectTestId": "5b69d53981935943d24d25f9",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 25,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:07:44.016Z",
+                          "updatedAt": "2018-08-31T14:07:44.016Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894bb020cb206385943ef4"
+                        },
+                        {
+                          "correctionGrid": {
+                            "header": {
+                              "text": "",
+                              "fields": []
+                            },
+                            "groupDetails": {
+                              "groupsAllocation": true,
+                              "noOfStudents": 3,
+                              "minNoOfStudents": 1,
+                              "headerText": "Liste des élèves"
+                            },
+                            "correction": {
+                              "totalZone": {
+                                "displayAdditionalTotal": false,
+                                "additionalMaxScore": 20,
+                                "decimalPlaces": 0
+                              },
+                              "displayFinalTotal": true,
+                              "showAsList": false,
+                              "showFinalComments": false,
+                              "showNotationsMarks": true,
+                              "commentArea": false,
+                              "showDirectionsColumn": false,
+                              "showNumberMarksColumn": true,
+                              "showLetterMarksColumn": false,
+                              "showPenalties": false,
+                              "showBonuses": false,
+                              "showEliminations": false,
+                              "finalCommentsHeader": "Observations",
+                              "commentsHeader": "Observations",
+                              "directionsColumnHeader": "Directives",
+                              "numberMarksColumnHeader": "Note",
+                              "letterMarksColumnHeader": "Note",
+                              "sections": [],
+                              "penaltiesHeader": "Pénalités",
+                              "penalties": [],
+                              "bonusesHeader": "Bonus",
+                              "bonuses": []
+                            },
+                            "footer": {
+                              "text": "",
+                              "textBelow": "false",
+                              "fields": []
+                            },
+                            "orientation": "portrait"
+                          },
+                          "calendar": {
+                            "steps": [
+                              {
+                                "date": {
+                                  "before": false,
+                                  "type": "fixed",
+                                  "value": "2019-6-27"
+                                },
+                                "createdFrom": "testType",
+                                "_id": "5b894bc120cb206385943ef7",
+                                "id": 0,
+                                "text": "Marks Entry",
+                                "sender": "5a3bf69fe04708414763c743",
+                                "actor": "5a2e1ecd53b95d22c82f9554"
+                              }
+                            ]
+                          },
+                          "maxScore": 0,
+                          "coefficient": 2,
+                          "groupTest": false,
+                          "controlledTest": true,
+                          "documents": [],
+                          "incompleteCreation": false,
+                          "status": "active",
+                          "juryMin": 0,
+                          "juryMax": 0,
+                          "addedQuestionnaire": false,
+                          "correctionStatus": "pending",
+                          "allowReTakeExam": false,
+                          "isPublished": false,
+                          "registeredStudents": 0,
+                          "allowFinalRetake": false,
+                          "isPFE": false,
+                          "qualityControl": false,
+                          "isQualityN3Sent": false,
+                          "schoolCountAtQCCreation": [],
+                          "randomStudentsForQC": [],
+                          "isAlreadyPublished": false,
+                          "isInitialTest": false,
+                          "isRetakeTest": false,
+                          "isDifferentNotationGrid": false,
+                          "isRetakeN1Sent": false,
+                          "correctorAssignedForRetakeV2": [],
+                          "correctorAssignedForQualityControl": [],
+                          "presidentJuryAssigned": [],
+                          "correctionStatusForSchoolsForReTakeV2": [],
+                          "studentShouldRetake": [],
+                          "_id": "5b894bc120cb206385943ef6",
+                          "name": "Anglais technique",
+                          "type": "free-continuous-control",
+                          "correctionType": "free",
+                          "organiser": "PREPARATIONCENTER",
+                          "dateType": "Marks",
+                          "date": "2019-6-28",
+                          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                          "parentCategory": "5b894b2520cb206385943eeb",
+                          "linkedTests": [],
+                          "class": "5b69d22581935943d24d25e9",
+                          "subjectId": "5b69d53981935943d24d25f6",
+                          "subjectTestId": "5b69d53981935943d24d25fa",
+                          "testDatePC": [],
+                          "schools": [],
+                          "weight": 25,
+                          "correctorAssigned": [],
+                          "expectedDocuments": [],
+                          "correctorAssignedForFinalRetake": [],
+                          "correctionStatusForSchools": [],
+                          "createdAt": "2018-08-31T14:08:01.881Z",
+                          "updatedAt": "2018-08-31T14:08:01.881Z",
+                          "__v": 0,
+                          "numberOfTimesPublished": 0,
+                          "id": "5b894bc120cb206385943ef6"
+                        }
+                      ],
+                      "subCategories": [],
+                      "status": "active",
+                      "_id": "5b894b2520cb206385943eeb",
+                      "title": "Module 3 : Analyse, communication et conduite de projets",
+                      "description": "Module 3 : Analyse, communication et conduite\nde projets",
+                      "parentCategory": "5b89476520cb206385943eac",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "createdAt": "2018-08-31T14:05:25.207Z",
+                      "updatedAt": "2018-08-31T14:08:01.882Z",
+                      "__v": 0
+                    }
+                  ],
+                  "status": "active",
+                  "_id": "5b89476520cb206385943eac",
+                  "title": "Contrôle continu",
+                  "description": "Contrôle continu",
+                  "parentCategory": "5b69d71881935943d24d268e",
+                  "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                  "createdAt": "2018-08-31T13:49:25.059Z",
+                  "updatedAt": "2018-08-31T14:05:25.207Z",
+                  "__v": 0,
+                  "class": null,
+                  "school": null
+                },
+                {
+                  "sortOrder": 1,
+                  "documents": [
+                    {
+                      "storedInS3": true,
+                      "status": "active",
+                      "documentType": "uploadedFromAcadKit",
+                      "isInternalTask": false,
+                      "addTaskDocUpload": false,
+                      "publishedForStudent": false,
+                      "_id": "5bfd31dd9c94f60bb6a61deb",
+                      "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+                      "type": "Test",
+                      "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+                      "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "parentRNCPTitle": {
+                        "shortName": "S-AGIR-GL-2019",
+                        "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                        "_id": "5b69d1c481935943d24d25e8",
+                        "id": "5b69d1c481935943d24d25e8"
+                      },
+                      "createdBy": "5a253110cea695495fb77257",
+                      "publicationDateForSchools": [],
+                      "createdAt": "2018-11-27",
+                      "updatedAt": "2018-11-29T07:19:36.727Z",
+                      "__v": 0,
+                      "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+                      "movedToS3": true,
+                      "id": "5bfd31dd9c94f60bb6a61deb"
+                    },
+                    {
+                      "storedInS3": true,
+                      "status": "active",
+                      "documentType": "uploadedFromAcadKit",
+                      "isInternalTask": false,
+                      "addTaskDocUpload": false,
+                      "publishedForStudent": false,
+                      "_id": "5bfd32179c94f60bb6a61ded",
+                      "name": "AGIR-GL-2019_Soutenance du Rapport",
+                      "type": "Test",
+                      "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+                      "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "parentRNCPTitle": {
+                        "shortName": "S-AGIR-GL-2019",
+                        "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                        "_id": "5b69d1c481935943d24d25e8",
+                        "id": "5b69d1c481935943d24d25e8"
+                      },
+                      "createdBy": "5a253110cea695495fb77257",
+                      "publicationDateForSchools": [],
+                      "createdAt": "2018-11-27",
+                      "updatedAt": "2018-11-29T07:19:37.766Z",
+                      "__v": 0,
+                      "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+                      "movedToS3": true,
+                      "id": "5bfd32179c94f60bb6a61ded"
+                    },
+                    {
+                      "storedInS3": true,
+                      "status": "active",
+                      "documentType": "uploadedFromAcadKit",
+                      "isInternalTask": false,
+                      "addTaskDocUpload": false,
+                      "publishedForStudent": false,
+                      "_id": "5bfd32b99c94f60bb6a61df7",
+                      "name": "AGIR-GL-2019_Rapport",
+                      "type": "Test",
+                      "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+                      "fileName": "AGIR-GL-2019_Rapport.pdf",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "parentRNCPTitle": {
+                        "shortName": "S-AGIR-GL-2019",
+                        "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                        "_id": "5b69d1c481935943d24d25e8",
+                        "id": "5b69d1c481935943d24d25e8"
+                      },
+                      "createdBy": "5a253110cea695495fb77257",
+                      "publicationDateForSchools": [],
+                      "createdAt": "2018-11-27",
+                      "updatedAt": "2018-11-29T07:19:38.789Z",
+                      "__v": 0,
+                      "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+                      "movedToS3": true,
+                      "id": "5bfd32b99c94f60bb6a61df7"
+                    },
+                    {
+                      "storedInS3": true,
+                      "status": "active",
+                      "documentType": "uploadedFromAcadKit",
+                      "isInternalTask": false,
+                      "addTaskDocUpload": false,
+                      "publishedForStudent": false,
+                      "_id": "5bfd32dd9c94f60bb6a61df9",
+                      "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+                      "type": "Test",
+                      "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+                      "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "parentRNCPTitle": {
+                        "shortName": "S-AGIR-GL-2019",
+                        "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                        "_id": "5b69d1c481935943d24d25e8",
+                        "id": "5b69d1c481935943d24d25e8"
+                      },
+                      "createdBy": "5a253110cea695495fb77257",
+                      "publicationDateForSchools": [],
+                      "createdAt": "2018-11-27",
+                      "updatedAt": "2018-11-29T07:19:39.791Z",
+                      "__v": 0,
+                      "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+                      "movedToS3": true,
+                      "id": "5bfd32dd9c94f60bb6a61df9"
+                    }
+                  ],
+                  "tests": [
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": true,
+                          "showDirectionsColumn": false,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Directives",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [
+                            {
+                              "pageBreak": false,
+                              "subSections": [
+                                {
+                                  "_id": "5b841a49c9797239bd70b8da",
+                                  "title": "<p>Qualité du travail effectué</p>",
+                                  "maximumRating": 10,
+                                  "direction": ""
+                                },
+                                {
+                                  "_id": "5b841a49c9797239bd70b8d9",
+                                  "title": "<p>Implication dans la mission, Capacité de travail en équipe, Sens des responsabilités, Curiosité</p>",
+                                  "maximumRating": 4,
+                                  "direction": ""
+                                },
+                                {
+                                  "_id": "5b841a49c9797239bd70b8d8",
+                                  "title": "<p>Assiduité</p>",
+                                  "maximumRating": 4,
+                                  "direction": ""
+                                },
+                                {
+                                  "_id": "5b841a49c9797239bd70b8d7",
+                                  "title": "<p>Attitude professionnelle</p>",
+                                  "maximumRating": 2,
+                                  "direction": ""
+                                }
+                              ],
+                              "_id": "5b841a49c9797239bd70b8d6",
+                              "title": "<p>Critères</p>",
+                              "maximumRating": 20
+                            }
+                          ],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "landscape"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-5-29"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b895a7f20cb206385943fb8",
+                            "id": 0,
+                            "text": "Send the Evaluation to Company's Mentor",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          },
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-6-27"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b895a7f20cb206385943fb7",
+                            "id": 0,
+                            "text": "Validation of Mentor Evaluation",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 14,
+                      "groupTest": false,
+                      "controlledTest": null,
+                      "documents": [],
+                      "incompleteCreation": null,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": true,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": null,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b894c5220cb206385943f00",
+                      "name": "Evaluation du Tuteur Entreprise",
+                      "type": "mentor-evaluation",
+                      "correctionType": "free",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-6-27",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b850990c9797239bd7563ce",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d69581935943d24d2682",
+                      "subjectTestId": "5b69d69581935943d24d2683",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 20,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T14:10:26.428Z",
+                      "updatedAt": "2018-08-31T15:10:55.887Z",
+                      "__v": 0,
+                      "dateReTakeExam": null,
+                      "questionnaire": null,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b894c5220cb206385943f00"
+                    },
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": true,
+                          "showDirectionsColumn": true,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Critère d'évaluation",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [
+                            {
+                              "pageBreak": false,
+                              "subSections": [
+                                {
+                                  "_id": "5b842818c9797239bd70c1ee",
+                                  "title": "<p>Aptitude à communiquer</p>",
+                                  "maximumRating": 8,
+                                  "direction": "<p>Respect des règles de style et de l'orthographe</p><p>Clarté de la pensée</p><p>Respect du plan</p>"
+                                },
+                                {
+                                  "_id": "5b842818c9797239bd70c1ed",
+                                  "title": "<p>Capacité à analyser une situation</p>",
+                                  "maximumRating": 8,
+                                  "direction": "<p><span style=\"color: black;\">Présentation de l’entreprise et de la problématique</span></p><p><span style=\"color: black;\">Argumentation sur la problématique</span></p><p>  </p>"
+                                },
+                                {
+                                  "_id": "5b842818c9797239bd70c1ec",
+                                  "title": "<p>Capacité à gérer un projet&nbsp;</p>",
+                                  "maximumRating": 8,
+                                  "direction": "<p>Argumentation de la méthodologie choisie</p><p>&nbsp;</p><p>Présentation des différentes étapes du projet&nbsp;:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyse des besoins aux spécifications fonctionnelles,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conception,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réalisation,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tests.</p>"
+                                },
+                                {
+                                  "_id": "5b842818c9797239bd70c1eb",
+                                  "title": "<p>Capacité à proposer les meilleures solutions technologiques</p>",
+                                  "maximumRating": 8,
+                                  "direction": "<p>Argumentation des technologies proposées</p><p>Maîtrise des technologies</p>"
+                                },
+                                {
+                                  "_id": "5b842818c9797239bd70c1ea",
+                                  "title": "<p><span style=\"color: black;\">Capacité à prendre du recul&nbsp;</span></p>",
+                                  "maximumRating": 6,
+                                  "direction": "<p><span style=\"color: black;\">Difficultés rencontrées&nbsp;</span></p><p><span style=\"color: black;\">Apports personnels et professionnels</span></p><p>  </p>"
+                                }
+                              ],
+                              "_id": "5b842818c9797239bd70c1e9",
+                              "title": "<p>Aptitudes / Capacités</p>",
+                              "maximumRating": 38
+                            }
+                          ],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": true,
+                              "type": "relative",
+                              "days": 30
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894d2b20cb206385943f28",
+                            "id": 0,
+                            "text": "Assign Corrector",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9550"
+                          },
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-10-17"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894d2b20cb206385943f27",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9559"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 14,
+                      "groupTest": false,
+                      "controlledTest": false,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b894d2b20cb206385943f20",
+                      "name": "Rapport",
+                      "type": "Memoire-ECRIT",
+                      "correctionType": "cp",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-10-18",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d69581935943d24d2682",
+                      "subjectTestId": "5b69d69581935943d24d2684",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 38,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [
+                        {
+                          "deadlineDate": {
+                            "before": false,
+                            "type": "fixed",
+                            "deadline": "2019-9-1"
+                          },
+                          "isForAllStudents": false,
+                          "_id": "5b894d2b20cb206385943f29",
+                          "documentName": "Projet de fin d'études",
+                          "documentUserType": {
+                            "name": "student",
+                            "entity": "academic",
+                            "_id": "5a067bba1c0217218c75f8ab"
+                          },
+                          "docUploadDateRetakeExam": null,
+                          "id": "5b894d2b20cb206385943f29"
+                        }
+                      ],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T14:14:03.586Z",
+                      "updatedAt": "2018-08-31T14:14:03.586Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b894d2b20cb206385943f20"
+                    },
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": false,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": true,
+                          "showDirectionsColumn": true,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Critères d'évaluation",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [
+                            {
+                              "pageBreak": false,
+                              "subSections": [
+                                {
+                                  "_id": "5b850c7ec9797239bd7564d3",
+                                  "title": "<p><span style=\"color: black;\">Aptitude à communiquer</span></p>",
+                                  "maximumRating": 20,
+                                  "direction": "<p><span style=\"color: black;\">Présentation personnelle (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Capacité à convaincre</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Respect du temps imparti</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des supports de présentation </span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p>"
+                                },
+                                {
+                                  "_id": "5b850c7ec9797239bd7564d2",
+                                  "title": "<p><span style=\"color: black;\">Capacité à exposer clairement une problématique</span></p>",
+                                  "maximumRating": 4,
+                                  "direction": "<p><span style=\"color: black;\">Clarté de la problématique </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Positionnement de la problématique par rapport à son contexte</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Savoir-faire professionnel démontré</span></p>"
+                                },
+                                {
+                                  "_id": "5b850c7ec9797239bd7564d1",
+                                  "title": "<p><span style=\"color: black;\">Capacité à réaliser une veille, à synthétiser des informations</span></p>",
+                                  "maximumRating": 4,
+                                  "direction": "<p><span style=\"color: black;\">Pertinence, structuration, cohérence des données sélectionnées et présentées, </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des sources</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse et solidité du raisonnement</span></p>"
+                                },
+                                {
+                                  "_id": "5b850c7ec9797239bd7564d0",
+                                  "title": "<p><span style=\"color: black;\">Capacité à défendre ses choix technologiques</span></p>",
+                                  "maximumRating": 4,
+                                  "direction": "<p><span style=\"color: black;\">Qualité des solutions technologiques proposées</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse de l’impact du projet, mesures de pilotage proposées</span></p>"
+                                },
+                                {
+                                  "_id": "5b850c7ec9797239bd7564cf",
+                                  "title": "<p><span style=\"color: black;\">Capacité à prendre du recul</span></p>",
+                                  "maximumRating": 6,
+                                  "direction": "<p><span style=\"color: black;\">Bilan personnel, capacité à défendre son point de vue, remise en cause personnelle, analyse du vécu</span></p>"
+                                }
+                              ],
+                              "_id": "5b850c7ec9797239bd7564ce",
+                              "title": "<p>Aptitudes / capacités</p>",
+                              "maximumRating": 38
+                            }
+                          ],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": true,
+                              "type": "relative",
+                              "days": 30
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894da520cb206385943f3b",
+                            "id": 0,
+                            "text": "Assign Corrector",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9550"
+                          },
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-10-17"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894da520cb206385943f3a",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9559"
+                          }
+                        ]
+                      },
+                      "maxScore": 0,
+                      "coefficient": 14,
+                      "groupTest": false,
+                      "controlledTest": false,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 20,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b894da520cb206385943f33",
+                      "name": "Soutenance du Rapport",
+                      "type": "Memoire-ORAL",
+                      "correctionType": "cp",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-10-18",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d69581935943d24d2682",
+                      "subjectTestId": "5b69d69581935943d24d2685",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 38,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T14:16:05.865Z",
+                      "updatedAt": "2018-08-31T14:16:05.865Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b894da520cb206385943f33"
+                    },
+                    {
+                      "correctionGrid": {
+                        "header": {
+                          "text": "",
+                          "fields": []
+                        },
+                        "groupDetails": {
+                          "groupsAllocation": true,
+                          "noOfStudents": 3,
+                          "minNoOfStudents": 1,
+                          "headerText": "Liste des élèves"
+                        },
+                        "correction": {
+                          "totalZone": {
+                            "displayAdditionalTotal": true,
+                            "additionalMaxScore": 20,
+                            "decimalPlaces": 0
+                          },
+                          "displayFinalTotal": true,
+                          "showAsList": false,
+                          "showFinalComments": false,
+                          "showNotationsMarks": true,
+                          "commentArea": true,
+                          "showDirectionsColumn": false,
+                          "showNumberMarksColumn": true,
+                          "showLetterMarksColumn": false,
+                          "showPenalties": false,
+                          "showBonuses": false,
+                          "showEliminations": false,
+                          "finalCommentsHeader": "Observations",
+                          "commentsHeader": "Observations",
+                          "directionsColumnHeader": "Directives",
+                          "numberMarksColumnHeader": "Note",
+                          "letterMarksColumnHeader": "Note",
+                          "sections": [
+                            {
+                              "pageBreak": false,
+                              "subSections": [
+                                {
+                                  "_id": "5b86b086c9797239bd87a97b",
+                                  "title": "<p>Assiduité / Ponctualité</p>",
+                                  "maximumRating": 20,
+                                  "direction": ""
+                                },
+                                {
+                                  "_id": "5b86b086c9797239bd87a97a",
+                                  "title": "<p>Participation</p>",
+                                  "maximumRating": 10,
+                                  "direction": ""
+                                },
+                                {
+                                  "_id": "5b86b086c9797239bd87a979",
+                                  "title": "<p>Contribution à la vie du centre</p>",
+                                  "maximumRating": 10,
+                                  "direction": ""
+                                }
+                              ],
+                              "_id": "5b86b086c9797239bd87a978",
+                              "title": "<p>Capacités / Compétences évaluées</p>",
+                              "maximumRating": 40
+                            }
+                          ],
+                          "penaltiesHeader": "Pénalités",
+                          "penalties": [],
+                          "bonusesHeader": "Bonus",
+                          "bonuses": []
+                        },
+                        "footer": {
+                          "text": "",
+                          "textBelow": "false",
+                          "fields": []
+                        },
+                        "orientation": "portrait"
+                      },
+                      "calendar": {
+                        "steps": [
+                          {
+                            "date": {
+                              "before": true,
+                              "type": "relative",
+                              "days": 30
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894ed120cb206385943f90",
+                            "id": 0,
+                            "text": "Assign Corrector",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9554"
+                          },
+                          {
+                            "date": {
+                              "before": false,
+                              "type": "fixed",
+                              "value": "2019-6-27"
+                            },
+                            "createdFrom": "testType",
+                            "_id": "5b894ed120cb206385943f8f",
+                            "id": 0,
+                            "text": "Marks Entry",
+                            "sender": "5a3bf69fe04708414763c743",
+                            "actor": "5a2e1ecd53b95d22c82f9559"
+                          }
+                        ]
+                      },
+                      "maxScore": 30,
+                      "coefficient": 14,
+                      "groupTest": false,
+                      "controlledTest": false,
+                      "documents": [],
+                      "incompleteCreation": false,
+                      "status": "active",
+                      "juryMin": 0,
+                      "juryMax": 0,
+                      "addedQuestionnaire": false,
+                      "correctionStatus": "pending",
+                      "allowReTakeExam": false,
+                      "isPublished": false,
+                      "registeredStudents": 0,
+                      "allowFinalRetake": false,
+                      "isPFE": false,
+                      "qualityControl": false,
+                      "isQualityN3Sent": false,
+                      "schoolCountAtQCCreation": [],
+                      "randomStudentsForQC": [],
+                      "isAlreadyPublished": false,
+                      "isInitialTest": false,
+                      "isRetakeTest": false,
+                      "isDifferentNotationGrid": false,
+                      "isRetakeN1Sent": false,
+                      "correctorAssignedForRetakeV2": [],
+                      "correctorAssignedForQualityControl": [],
+                      "presidentJuryAssigned": [],
+                      "correctionStatusForSchoolsForReTakeV2": [],
+                      "studentShouldRetake": [],
+                      "_id": "5b894ed120cb206385943f8a",
+                      "name": "Attitude professionnelle en centre de formation",
+                      "type": "Written",
+                      "correctionType": "free",
+                      "organiser": "PREPARATIONCENTER",
+                      "dateType": "Marks",
+                      "date": "2019-6-28",
+                      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                      "parentCategory": "5b89477520cb206385943ead",
+                      "linkedTests": [],
+                      "class": "5b69d22581935943d24d25e9",
+                      "subjectId": "5b69d69581935943d24d2682",
+                      "subjectTestId": "5b8948c620cb206385943ec1",
+                      "testDatePC": [],
+                      "schools": [],
+                      "weight": 4,
+                      "correctorAssigned": [],
+                      "expectedDocuments": [],
+                      "correctorAssignedForFinalRetake": [],
+                      "correctionStatusForSchools": [],
+                      "createdAt": "2018-08-31T14:21:05.370Z",
+                      "updatedAt": "2018-08-31T14:21:05.370Z",
+                      "__v": 0,
+                      "numberOfTimesPublished": 0,
+                      "id": "5b894ed120cb206385943f8a"
+                    }
+                  ],
+                  "subCategories": [],
+                  "status": "active",
+                  "_id": "5b89477520cb206385943ead",
+                  "title": "Projet de Fin d'Etudes",
+                  "description": "Projet de Fin d'Etudes ",
+                  "parentCategory": "5b69d71881935943d24d268e",
+                  "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+                  "createdAt": "2018-08-31T13:49:41.309Z",
+                  "updatedAt": "2018-11-27T12:04:45.719Z",
+                  "__v": 0
+                }
+              ],
+              "status": "active",
+              "_id": "5b69d71881935943d24d268e",
+              "title": "EXAMENS",
+              "parentCategory": "5b69d71881935943d24d2688",
+              "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+              "createdAt": "2018-08-07T17:30:00.538Z",
+              "updatedAt": "2018-08-31T13:49:41.310Z",
+              "__v": 0
+            }
+          ],
+          "status": "active",
+          "_id": "5b69d71881935943d24d2688",
+          "title": "03. BOITE A OUTILS",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-08-07T17:30:00.540Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 4,
+          "documents": [
+            {
+              "storedInS3": true,
+              "status": "active",
+              "documentType": "uploadedFromAcadKit",
+              "isInternalTask": false,
+              "addTaskDocUpload": false,
+              "publishedForStudent": false,
+              "_id": "5bfd34459c94f60bb6a61e0b",
+              "name": "Guide des épreuves Titre AGIR",
+              "type": "Guidelines",
+              "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+              "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+              "parentCategory": "5b69d71881935943d24d2689",
+              "parentRNCPTitle": {
+                "shortName": "S-AGIR-GL-2019",
+                "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                "_id": "5b69d1c481935943d24d25e8",
+                "id": "5b69d1c481935943d24d25e8"
+              },
+              "createdBy": "5a253110cea695495fb77257",
+              "publicationDateForSchools": [],
+              "createdAt": "2018-11-27",
+              "updatedAt": "2018-11-29T07:19:42.574Z",
+              "__v": 0,
+              "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+              "movedToS3": true,
+              "id": "5bfd34459c94f60bb6a61e0b"
+            },
+            {
+              "storedInS3": true,
+              "status": "active",
+              "documentType": "uploadedFromAcadKit",
+              "isInternalTask": false,
+              "addTaskDocUpload": false,
+              "publishedForStudent": false,
+              "_id": "5bfd524c8e8fdf60c34162e5",
+              "name": "Guide Méthodologique Projet de Fin d'Etudes",
+              "type": "Guidelines",
+              "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+              "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+              "parentCategory": "5b69d71881935943d24d2689",
+              "parentRNCPTitle": {
+                "shortName": "S-AGIR-GL-2019",
+                "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                "_id": "5b69d1c481935943d24d25e8",
+                "id": "5b69d1c481935943d24d25e8"
+              },
+              "createdBy": "5a253110cea695495fb77257",
+              "publicationDateForSchools": [],
+              "createdAt": "2018-11-27",
+              "updatedAt": "2018-11-29T07:19:45.058Z",
+              "__v": 0,
+              "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+              "movedToS3": true,
+              "id": "5bfd524c8e8fdf60c34162e5"
+            },
+            {
+              "storedInS3": true,
+              "status": "active",
+              "documentType": "uploadedFromAcadKit",
+              "isInternalTask": false,
+              "addTaskDocUpload": false,
+              "publishedForStudent": false,
+              "_id": "5bfd5286fb6a7b60ea130af9",
+              "name": "Calendrier AGIR 2018-2019",
+              "type": "Guidelines",
+              "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+              "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+              "parentCategory": "5b69d71881935943d24d2689",
+              "parentRNCPTitle": {
+                "shortName": "S-AGIR-GL-2019",
+                "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                "_id": "5b69d1c481935943d24d25e8",
+                "id": "5b69d1c481935943d24d25e8"
+              },
+              "createdBy": "5a253110cea695495fb77257",
+              "publicationDateForSchools": [],
+              "createdAt": "2018-11-27",
+              "updatedAt": "2018-11-29T07:19:46.558Z",
+              "__v": 0,
+              "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+              "movedToS3": true,
+              "id": "5bfd5286fb6a7b60ea130af9"
+            },
+            {
+              "storedInS3": true,
+              "status": "active",
+              "documentType": "uploadedFromAcadKit",
+              "isInternalTask": false,
+              "addTaskDocUpload": false,
+              "publishedForStudent": false,
+              "_id": "5bfd5522fb6a7b60ea130cb3",
+              "name": "Guide du Lieu de Préparation",
+              "type": "Guidelines",
+              "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+              "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+              "parentCategory": "5b69d71881935943d24d2689",
+              "parentRNCPTitle": {
+                "shortName": "S-AGIR-GL-2019",
+                "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                "_id": "5b69d1c481935943d24d25e8",
+                "id": "5b69d1c481935943d24d25e8"
+              },
+              "createdBy": "5a253110cea695495fb77257",
+              "publicationDateForSchools": [],
+              "createdAt": "2018-11-27",
+              "updatedAt": "2018-11-29T07:19:53.353Z",
+              "__v": 0,
+              "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+              "movedToS3": true,
+              "id": "5bfd5522fb6a7b60ea130cb3"
+            }
+          ],
+          "tests": [
+            { "id" : "5ddc8840a27692531dd7662a", "name" : "V2 Test"},
+            { "id" : "5de0c1226c58c555289f0cdf", "name" : "V1 BE test 1" },
+            { "id": "5de0c0396c58c555289f0cdd",  "name": "V1 BE test 2" },
+            { "id": "5dd78588e2f76d1e6c5f5f0c", "name": "V1 BE test 3"}
+          ],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d2689",
+          "title": "04. ORGANISATION",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-11-27T14:30:58.435Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 5,
+          "documents": [
+            {
+              "storedInS3": true,
+              "status": "active",
+              "documentType": "uploadedFromAcadKit",
+              "isInternalTask": false,
+              "addTaskDocUpload": false,
+              "publishedForStudent": false,
+              "_id": "5bfd53bdfb6a7b60ea130b18",
+              "name": "Programme Titre AGIR - Option Génie Logiciel",
+              "type": "Guidelines",
+              "filePath": "uploads/test/1543328698933_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+              "fileName": "PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+              "parentCategory": "5b69d71881935943d24d268a",
+              "parentRNCPTitle": {
+                "shortName": "S-AGIR-GL-2019",
+                "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+                "_id": "5b69d1c481935943d24d25e8",
+                "id": "5b69d1c481935943d24d25e8"
+              },
+              "createdBy": "5a253110cea695495fb77257",
+              "publicationDateForSchools": [],
+              "createdAt": "2018-11-27",
+              "updatedAt": "2018-11-29T07:19:47.936Z",
+              "__v": 0,
+              "S3FileName": "1543475986559_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+              "movedToS3": true,
+              "id": "5bfd53bdfb6a7b60ea130b18"
+            }
+          ],
+          "tests": [
+            {
+              "_id": "5db54c57610c1344fe409055",
+              "name": "Certification Windows",
+              "date" : 20190820,
+              "max_score": 1,
+              "type": "Written",
+              "coefficient": 1,
+              "test_date_pc": [],
+              "correction_type": "ADMTC",
+              "date_type": "Marks",
+              "organiser": "Preparation Center",
+              "status": "active",
+              "tasks" : [
+                {"name" : "Send the Evaluation to Company's Mentor", "date" : "May 29, 2019"},
+                {"name" : "Validation of Mentor Evaluation", "date" : "Jun 27, 2019"}
+              ],
+              "uploaded_documents": [
+                {
+                  "name" : "Evaluation Handbook", 
+                  "created_at" : 20190519,
+                  "file_name": "noiterable-2b8db9de-f062-48a5-8d1f-e43ec391361c.jpg",
+                  "type": "fixed",
+                  "publication_date": {
+                    "before": null,
+                    "day": null,
+                    "publication_date" : {
+                      "date": 27,
+                      "hour": 0,
+                      "minute": 0,
+                      "month": 11,
+                      "time_zone": "-480",
+                      "year": 2019
+                    }
+                  }
+                },
+                {
+                  "name" : "Basic of", 
+                  "created_at" : 20192701,
+                  "file_name": "noiterable-2b8db9de-f062-48a5-8d1f-e43ec391361c.jpg",
+                  "type": "fixed",
+                  "publication_date": {
+                    "before": null,
+                    "day": null,
+                    "publication_date" : {
+                      "date": 27,
+                      "hour": 0,
+                      "minute": 0,
+                      "month": 11,
+                      "time_zone": "-480",
+                      "year": 2019
+                    }
+                  }
+                },
+                {
+                  "name" : "Behaviour", 
+                  "created_at" : 20190207,
+                  "file_name": "noiterable-2b8db9de-f062-48a5-8d1f-e43ec391361c.jpg",
+                  "type": "relative",
+                  "publication_date": {
+                    "before": false,
+                    "day": 10,
+                    "publication_date" : {
+                      "date": null,
+                      "hour": null,
+                      "minute": null,
+                      "month": null,
+                      "time_zone": null,
+                      "year": null
+                    }
+                  }
+                }
+              ],
+              "expected_documents": [
+                {"document_name" : "Score A", "deadline_date" : {
+                  "deadline" : 20190203,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                }},
+                {"document_name" : "Score B", "deadline_date" : {
+                  "deadline": 20190308,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                  }},
+                {"document_name" : "Score C", "deadline_date" : {
+                  "deadline": 20192003,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                  }},
+                {"document_name" : "Score D", "deadline_date" : {
+                  "deadline": 20190503,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                  }}
+              ]
+            },
+            {
+              "_id": "5db54c57610c1344fe409056",
+              "name": "Certification Linux",
+              "date" : 20170101,
+              "max_score": 2,
+              "type": "Competition",
+              "coefficient": 1,
+              "test_date_pc": [
+                {
+                  "preparation_center_id" : "123213",
+                  "test_date" : "May 27 2019"
+                }
+              ],
+              "correction_type": "ADMTC",
+              "date_type": "Marks",
+              "organiser": "Preparation Center",
+              "status": "active",
+              "tasks" : [
+                {"name" : "Validation of Mentor Evaluation", "date" : "Jun 27, 2019"}
+              ],
+              "uploaded_documents": [],
+              "expected_documents": [
+                {"document_name" : "Score A", "deadline_date" : {
+                  "deadline":20190205,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                  }
+                },
+                {"document_name" : "Score B", "deadline_date" : {
+                  "deadline":20190205,
+                  "type" : "fixed",
+                  "before" : null,
+                  "day" : null
+                  }
+                }
+              ]
+            },
+            {
+              "_id": "5db54c57610c1344fe409057",
+              "name": "Certification Mac",
+              "date" : 20190925,
+              "max_score": 0,
+              "type": "Written",
+              "coefficient": 1,
+              "test_date_pc": [],
+              "correction_type": "ADMTC",
+              "date_type": "Marks",
+              "organiser": "Preparation Center",
+              "status": "deleted",
+              "tasks" : [],
+              "uploaded_documents": [],
+              "expected_documents": []
+            }
+          ],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d268a",
+          "title": "05. PROGRAMME",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-11-27T14:25:01.365Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 6,
+          "documents": [],
+          "tests": [],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d268b",
+          "title": "06. EPREUVES DE LA CERTIFICATION",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-08-07T17:30:00.532Z",
+          "__v": 0
+        },
+        {
+          "sortOrder": 7,
+          "documents": [],
+          "tests": [],
+          "subCategories": [],
+          "status": "active",
+          "_id": "5b69d71881935943d24d268c",
+          "title": "07. ARCHIVES",
+          "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+          "createdAt": "2018-08-07T17:30:00.532Z",
+          "updatedAt": "2018-08-07T17:30:00.532Z",
+          "__v": 0
+        }
+      ],
+      "isCreated": true
+    },
+    "employabilitySurvey": {
+      "isRMO": false,
+      "isDMOE": false
+    },
+    "shortName": "S-AGIR-GL-2019",
+    "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+    "rncpCode": "29069",
+    "rncpLevel": "II",
+    "isPublished": true,
+    "hasProblematic": false,
+    "europeanLevel": null,
+    "nfsCode": [],
+    "isAdmtcManagement": null,
+    "legalText": null,
+    "journalText": null,
+    "expertiseMarkPointStatus": null,
+    "expertiseMaxPoints": 0,
+    "preparationCenters": [
+      {
+        "schoolAddress": {
+          "address1": "7, rue Maurice Grandcoing",
+          "address2": "",
+          "postalCode": "94200",
+          "city": "Ivry-sur-Seine",
+          "region": ""
+        },
+        "socialAddresses": {
+          "webUrl": "",
+          "email": "",
+          "facebookUrl": "",
+          "googleUrl": "",
+          "instagramUrl": "",
+          "vimeoUrl": "",
+          "viadeoUrl": "",
+          "linkedinUrl": "",
+          "twitterUrl": "",
+          "youtubeUrl": ""
+        },
+        "legalDetails": {
+          "companyName": "",
+          "legalType": "sas",
+          "capitalAmmount": 0,
+          "capitalCurrency": "EUR",
+          "siretNumber": "",
+          "certifications": [],
+          "professionalRegistrationNumber": "",
+          "tradeName": "",
+          "activityDeclarationNumber": ""
+        },
+        "taxStatus": {
+          "apprenticeTax": false,
+          "vatTaxable": false,
+          "salaryTax": false
+        },
+        "shortName": "ETNA",
+        "longName": "ETNA",
+        "belongToGroup": false,
+        "groupName": "",
+        "rncpTitles": [
+          "5b3cf54a76a39548534c8132",
+          "5b69d1c481935943d24d25e8"
+        ],
+        "companies": [],
+        "users": [
+          "5b967d07f69d200b4390dbeb",
+          "5bd06f89b018f31c3764aacc",
+          "5bd6e5d710440c7ce9e22874"
+        ],
+        "schoolRefId": "",
+        "status": "active",
+        "_id": "5b9636f75e248507a26f8c4d",
+        "country": "1",
+        "specializations": [],
+        "addresses": [],
+        "createdAt": "2018-09-10T09:18:47.751Z",
+        "updatedAt": "2018-10-29T10:49:59.848Z",
+        "__v": 0
+      },
+      {
+        "schoolAddress": {
+          "address1": "84 Bd St Michel",
+          "address2": "",
+          "postalCode": "75006",
+          "city": "Paris",
+          "region": ""
+        },
+        "socialAddresses": {
+          "webUrl": "",
+          "email": "",
+          "facebookUrl": "",
+          "googleUrl": "",
+          "instagramUrl": "",
+          "vimeoUrl": "",
+          "viadeoUrl": "",
+          "linkedinUrl": "",
+          "twitterUrl": "",
+          "youtubeUrl": ""
+        },
+        "legalDetails": {
+          "companyName": "",
+          "legalType": "sas",
+          "capitalAmmount": 0,
+          "capitalCurrency": "EUR",
+          "siretNumber": "",
+          "certifications": [],
+          "professionalRegistrationNumber": "",
+          "tradeName": "",
+          "activityDeclarationNumber": "",
+          "legalRepresentative": null
+        },
+        "taxStatus": {
+          "apprenticeTax": false,
+          "vatTaxable": false,
+          "salaryTax": false,
+          "salaryTaxAmmount": null
+        },
+        "shortName": "ECOLE TESTDOM",
+        "longName": "ECOLE TESTDOM",
+        "belongToGroup": false,
+        "groupName": "",
+        "rncpTitles": [
+          "5b3cf54a76a39548534c8132",
+          "5b3e06e827a41d7a83376067",
+          "5b3e174527a41d7a83376782",
+          "5b3e4b5727a41d7a8337937c",
+          "5b4ddad0eaf3af61dae1aca3",
+          "5b69c87581935943d24d25c7",
+          "5b69d1c481935943d24d25e8",
+          "5b69dc6f81935943d24d2696",
+          "5b69e61e81935943d24d26bb",
+          "5b69eeba81935943d24d26e9",
+          "5baa3316293eb71d0162c69e",
+          "5c4085fc23a5526862fb5aae",
+          "5c41e03229bb76319a7711b8",
+          "5c41f98529bb76319a7723c1",
+          "5c7e8e7803eff177b469409f",
+          "5cac98dc87a139742e25f676",
+          "5cd05bc678434b65df41870f",
+          "5cd05e3a78434b65df418794"
+        ],
+        "companies": [
+          "5ca76c680bdbe242526055fa",
+          "5cec5a45e106c4282f1ca291"
+        ],
+        "users": [
+          "5b83ff6dc9797239bd70b25b",
+          "5b9125c0c0d38572970c2178",
+          "5ba9f3c71f3b2e3b681216bf",
+          "5ba9f6da1f3b2e3b681216fa",
+          "5bd03be0b018f31c37648aff",
+          "5bd03f30b018f31c37648ee1",
+          "5c3338273689485f65a88e7f",
+          "5c3c9d69f9a4502ef8112273",
+          "5c3d884a2a13f240b46e11ca",
+          "5c409a9723a5526862fb67cb",
+          "5c5abc3b6569e3115e8e879e",
+          "5c6198a57f4d89740071aef5",
+          "5c643a9b6df34f18eb3a927c",
+          "5c7e413f03eff177b468ecec",
+          "5c7fc85e03eff177b469b4bc",
+          "5ca76cbb0bdbe242526055fe",
+          "5b3dd9d8dfe9476d658efaa2",
+          "5d5aa3ff406c855a675b6861"
+        ],
+        "schoolRefId": "",
+        "status": "active",
+        "_id": "5b3dd945dfe9476d658ef783",
+        "addresses": [],
+        "createdAt": "2018-07-05T08:39:33.712Z",
+        "updatedAt": "2019-08-19T13:28:31.909Z",
+        "__v": 24,
+        "country": "1",
+        "specializations": [
+          {
+            "isSpecializationAssigned": false,
+            "_id": "5c4085fc23a5526862fb5ab1",
+            "name": "APPLI"
+          },
+          {
+            "isSpecializationAssigned": false,
+            "_id": "5c4085fc23a5526862fb5ab0",
+            "name": "WEB"
+          },
+          {
+            "isSpecializationAssigned": false,
+            "_id": "5c4085fc23a5526862fb5aaf",
+            "name": "RES-SYS"
+          }
+        ]
+      }
+    ],
+    "classes": [
+      "5b69d22581935943d24d25e9"
+    ],
+    "status": "prospect",
+    "hasMentorEvaluation": null,
+    "displaySurveySet2": false,
+    "considerWhichSetForFinalTranscript": "one",
+    "isMPI": false,
+    "_id": "5b69d1c481935943d24d25e8",
+    "certifier": {
+      "shortName": "INSTA",
+      "longName": "ENSA-2i INSTA",
+      "_id": "5b3cdb6476a39548534c757a"
+    },
+    "createdAt": "2018-08-07T17:07:16.589Z",
+    "updatedAt": "2019-08-22T01:36:09.008Z",
+    "__v": 0,
+    "decisionDate": null,
+    "expiredDate": null,
+    "publishedDate": null,
+    "specializations": [],
+    "pdfBackgroundURL": null,
+    "admtcDirResponsible": {
+      "entity": {
+        "school": null,
+        "company": null
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "HUNIN",
+      "firstName": "Dominique",
+      "sex": "M",
+      "email": "dominique.hunin@admtc.pro",
+      "_id": "5a3bf526e04708414763c73c"
+    },
+    "journalDate": null,
+    "id": "5b69d1c481935943d24d25e8"
+  },
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 1,
+  "status": "OK",
+  "code": 200
+}

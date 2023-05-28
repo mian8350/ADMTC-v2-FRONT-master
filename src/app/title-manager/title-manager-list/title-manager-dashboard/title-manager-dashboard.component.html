@@ -1,0 +1,52 @@
+<div class="p-grid">
+	<div class="p-col-12 pad-l-0">
+		<div class="p-grid header-box">
+  		<div class="logo-img-wrapper p-col-3 content-left">
+        <div *ngIf="rncpTitle?.certifier?.logo">
+          <img class="center-image" style="background-color: white; border-radius: 5px; width: auto;" [src]="imgURL(rncpTitle?.certifier?.logo)" />
+        </div>
+      </div>
+      <div class="text-center p-col-9 float-left" style="height: 100%; align-self: flex-end;">
+        <div style="justify-content: center;">
+          <span class="text-xl mr-2">{{ rncpTitle?.short_name }}</span>
+          <span class="text-xl mr-2">-</span>
+          <span class="text-xl mr-2"> {{ 'DASHBOARD.LEVEL' | translate }} {{ rncpTitle?.rncp_level }}</span> <br />
+          <span class="text-xl mr-2">{{ rncpTitle?.long_name }}</span>
+        </div>
+        <div class="class-option-container" *ngIf="classList?.length">          
+          <mat-form-field color="accent" class="form-control">
+            <input
+                    type="text"                    
+                    matInput
+                    required
+                    placeholder="{{ 'Class' | translate }}"
+                    [formControl]="titleClassesFilter"                    
+                    [matAutocomplete]="titleClasses"                    
+            >
+            <mat-autocomplete #titleClasses="matAutocomplete" [panelWidth]="'fit'">
+                <mat-option *ngFor="let class of filteredClass | async" [value]="class?.name" (click)="setClassFilter(class)">
+                    {{class.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="titleClassesFilter.hasError('required') && (titleClassesFilter.dirty || titleClassesFilter.touched)">
+                  {{'This field is required'|translate}}
+            </mat-error>            
+        </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-grid" *ngIf="rncpTitle && selectedClass">
+  <div class="p-col-12 pad-r-none pad-l-none" *ngIf="showPendingTask()">
+    <div class="adjustWidth">
+        <ms-manager-tasks-table [rncp]="rncpTitle" [class]="selectedClass" [classId]="selectedClass._id"></ms-manager-tasks-table>
+    </div>
+  </div>
+
+  <div class="p-col-12 pad-r-none pad-l-none">
+    <ms-dashboard-graphic-charts [rncpId]="rncpTitle._id" [classId]="selectedClass._id"></ms-dashboard-graphic-charts>
+  </div>
+
+</div>

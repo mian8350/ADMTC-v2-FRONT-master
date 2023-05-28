@@ -1,0 +1,96 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="p-col-6 no-padding">
+        <div class="dialogTitle">{{ 'Jury Kit' | translate }}</div>
+      </div>
+      <div class="p-col-6 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body gene-relative">
+  <ng-container [formGroup]="uploadDocForm">
+    <mat-form-field class="full-width">
+      <mat-label>{{ 'Document Name' | translate }}</mat-label>
+      <input matInput formControlName="document_name" />
+      <!-- <mat-error>{{ 'This field is required' | translate }}</mat-error> -->
+    </mat-form-field>
+    <div class="p-gird" *ngIf="isUploadedFileExist()">
+      <div class="p-col-12 no-padding">
+        <mat-card>
+          <div class="uploaded-file-wrapper">
+            <mat-icon class="icon">insert_drive_file</mat-icon>
+            {{ selectedFile ? selectedFile.name : uploadDocForm.get('s3_file_name').value }}
+          </div>
+          <div class="uploaded-file-wrapper mt-1rem">
+            <button
+              mat-button
+              mat-raised-button
+              color="primary"
+              (click)="uploadFile()"
+              [disabled]="!selectedFile || !uploadDocForm?.get('document_name').value"
+            >
+              <mat-icon>file_upload</mat-icon>{{ 'ACAD_KIT.DOC.Add this File' | translate }}
+            </button>
+            <button mat-button mat-raised-button color="warn" (click)="removeFile()">
+              <mat-icon>delete</mat-icon>{{ 'ACAD_KIT.DOC.Remove' | translate }}
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 no-padding mrgn-t-xs text-right">
+        <button mat-button mat-raised-button color="primary" (click)="fileUpload.click()">
+          <mat-icon>add</mat-icon>
+          {{ 'File' | translate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="p-grid" [formGroup]="juryKitForm">
+    <ng-container formArrayName="survival_kit">
+      <div
+        *ngFor="let kit of getSurvivalKitDocForm().controls; let i = index"
+        [formGroupName]="i"
+        class="p-col-12 no-padding mrgn-t-sm"
+      >
+        <mat-card class="pad-all-sm justify-content-between">
+          <div class="text-left">{{ kit.get('document_name').value }}</div>
+          <div class="text-right">
+            <button mat-icon-button mat-button-sm type="button" (click)="downloadSurvivalKitDocForm(i)">
+              <mat-icon>get_app</mat-icon>
+            </button>
+            <button mat-icon-button mat-button-sm type="button" (click)="editSurvivalKitDocForm(i)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button mat-button-sm type="button" (click)="deleteSurvivalKitDocForm(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- transparent loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end pr-20">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'ASSIGN_CORRECTOR_DIALOG.CANCEL' | translate }}
+  </button>
+  <button [disabled]="!juryKitForm.valid" (click)="createJuryOrganizationSurvivalKit()" mat-raised-button color="accent" type="button">
+    {{ 'ASSIGN_CORRECTOR_DIALOG.SUBMIT' | translate }}
+  </button>
+</div>
+<input hidden type="file" name="fileUpload" #fileUpload (change)="chooseFile($event)" />

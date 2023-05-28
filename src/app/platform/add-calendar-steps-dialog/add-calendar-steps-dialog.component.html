@@ -1,0 +1,26 @@
+<div style="color: black;">
+    <h1 mat-dialog-title>
+        <mat-icon>receipt</mat-icon>{{ 'PLATFORM.ADDCALENDARSTEP' | translate }}
+    </h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput placeholder="{{ 'CALENDARSTEPS.WHAT' | translate }}">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-select placeholder="{{ 'CALENDARSTEPS.WHO' | translate }}">
+                <mat-option value="all">All</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="{{ 'CALENDARSTEPS.NUMOFDAYS' | translate }}">
+        </mat-form-field>
+        <mat-radio-group>
+            <mat-radio-button value="before" id="before">{{ 'CALENDARSTEPS.BEFORE' | translate }}</mat-radio-button>
+            <mat-radio-button value="after" id="after">{{ 'CALENDARSTEPS.AFTER' | translate }}</mat-radio-button>
+        </mat-radio-group>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-button mat-raised-button type="button" color="warn" mat-dialog-close>Cancel</button>
+        <button mat-button mat-raised-button color="primary" [mat-dialog-close]="true">Save</button>
+    </mat-dialog-actions>
+</div>

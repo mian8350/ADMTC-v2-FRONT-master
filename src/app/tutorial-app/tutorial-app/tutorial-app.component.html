@@ -1,0 +1,213 @@
+<div class="top-space">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column">
+        <button mat-raised-button color="primary" (click)="resetFilter()">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+        <button
+          mat-raised-button
+          (click)="tutorialDialog('')"
+          color="accent"
+          [disabled]="isWaitingForResponse"
+          matTooltip="{{ 'Add an InApp Tutorial' | translate }}"
+        >
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'Add an InApp Tutorial' | translate }}
+        </button>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="moduleFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <input matInput class="form-field" [formControl]="moduleFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="subModuleFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <input matInput class="form-field" [formControl]="subModuleFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="userTypeFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="presentationFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="videoFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="scenarioFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="qaFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="module">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="module"
+        style="text-align: left"
+        matTooltip="{{ 'Module' | translate }}"
+        matTooltipPosition="above"
+        [style.width.%]="titleColumn"
+      >
+        <h5>{{ 'Module' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element.module | translate }}"
+        matTooltipPosition="above"
+        [style.width.%]="titleColumn"
+      >
+        {{ element.module | translate }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sub_module">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Sub Module' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Sub Module' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltipPosition="above">
+        <div class="truncate-text" *ngFor="let data of element?.sub_modules">
+          <span class="sub-module" matTooltip="{{ data?.sub_module }}">{{ data?.sub_module }}</span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'UserType' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'UserType' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltipPosition="above">
+        <p *ngFor="let entity of getUniqueUserType(element.user_types); index as i" class="display-inline">
+          <span class="tags" *ngIf="entity?.name && i <= 1" [matTooltip]="renderTooltipType(element.user_types)">{{
+            'USER_TYPES.' + entity?.name | translate
+          }}</span>
+          <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipType(element.user_types)">
+            ...
+          </span>
+        </p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="presentation">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Link Presentation' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Link Presentation' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ utilService.cleanHTML(element.video_presentation) }}"
+        matTooltipPosition="above"
+      >
+        <span *ngIf="element.video_presentation" class="link" (click)="viewTutorial(element.video_presentation)"
+          ><mat-icon style="color: #adff2f">check_circle</mat-icon></span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="video">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Video Link' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Video Link' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ utilService.cleanHTML(element.video_url) }}" matTooltipPosition="above">
+        <span *ngIf="element.video_url" class="link" (click)="viewTutorial(element.video_url)"
+          ><mat-icon style="color: #adff2f">check_circle</mat-icon></span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="scenario">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Scenario Link' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Scenario Link' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ utilService.cleanHTML(element.scenario_checklist_url) }}"
+        matTooltipPosition="above"
+      >
+        <span *ngIf="element.scenario_checklist_url" class="link" (click)="viewTutorial(element.scenario_checklist_url)"
+          ><mat-icon style="color: #adff2f">check_circle</mat-icon></span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="qa">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Checklist QA Link' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Checklist QA Link' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ utilService.cleanHTML(element.qa_checklist_url) }}" matTooltipPosition="above">
+        <span *ngIf="element.qa_checklist_url" class="link" (click)="viewTutorial(element.qa_checklist_url)"
+          ><mat-icon style="color: #adff2f">check_circle</mat-icon></span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button class="margin-right-button" (click)="publishTutorial(element)" matTooltip="{{ 'Publish' | translate }}">
+          <mat-icon *ngIf="!element?.is_published" svgIcon="thumb-up-outline" style="color: #ff4040"> </mat-icon>
+          <mat-icon *ngIf="element?.is_published" svgIcon="thumb-up-outline" style="color: #adff2f"> </mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" (click)="editTutorial(element)" matTooltip="{{ 'Edit' | translate }}" *ngIf="permissionEdit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" (click)="deleteTutorial(element)" matTooltip="{{ 'Delete' | translate }}">
+          <mat-icon>clear</mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" (click)="toggleSidebar(element)" matTooltip="{{ 'View' | translate }}">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+      [length]="dataCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

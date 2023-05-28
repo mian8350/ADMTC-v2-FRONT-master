@@ -1,0 +1,21 @@
+.dialog-border {
+    border-bottom: 1px solid black;
+    margin-bottom: 20px;
+  }
+
+  .dialogTitleWrapper {
+    color: black;
+  }
+
+  .header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 0px;
+  }
+
+  .dialogTitle {
+    display: inline-block;
+  }
+
+  ::ng-deep .mat-dialog-title {
+    margin: 0 0 10px;
+  }

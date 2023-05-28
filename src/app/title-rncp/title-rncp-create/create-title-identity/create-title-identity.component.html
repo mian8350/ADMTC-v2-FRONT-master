@@ -1,0 +1,536 @@
+<div style="margin-bottom: 5px;">
+  <mat-icon aria-hidden="false" aria-label="Example home icon" style="float:left; margin-right: 5px">
+    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M20,4A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4H20M20,18V6H4V18H20M6,10H8V12H6V10M6,14H14V16H6V14M16,14H18V16H16V14M10,10H18V12H10V10Z" />
+    </svg>
+  </mat-icon>
+  <h3> {{ 'Title Details' | translate }}</h3>
+  <button style="float: right"  mat-button mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="saveCreate()">
+    <mat-icon>save</mat-icon> {{ 'Save' | translate }}
+  </button>
+  <button style="float: right; background-color: red;"  mat-button mat-raised-button color="warning" (click)="goToDashboard()">
+    <mat-icon>cancel</mat-icon> {{ 'Cancel' | translate }}
+  </button>
+</div>
+
+<form style="margin-top: 45px;" [formGroup]="titleIdentityForm">
+  <div id="titleDetail" class="p-grid yellow-border card-row">
+    <div class="section-header">
+      <h3>{{ 'RNCP Title details' | translate }}</h3>
+    </div>
+    <div class="p-col-12 align-right">
+<!--        <button mat-button mat-raised-button class="background-accent" (click)="saveCreate()">-->
+<!--          <mat-icon>save</mat-icon> {{ 'Save' | translate }}-->
+<!--        </button>-->
+      <!-- <mat-slide-toggle color="accent" (change)="changePublished($event)" formControlName="is_published"> {{ 'Published' | translate }} </mat-slide-toggle> -->
+    </div>
+    <div class="p-col-12">
+      <div class="p-grid">
+        <div class="p-col-3">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding">
+              <div class="imgContainer">
+                <div *ngIf="!titleIdentityForm.get('rncp_logo').value && !isTitleLogoUploading; else showImageRncp" (click)="fileUpload.click()" class="no-image">
+                  {{ '580 x 208 px' | translate }}
+                </div>
+                <input hidden type="file" id="fileUpload" (change)="chooseFile($event, 'rncpLogo')" name="fileUpload" #fileUpload accept="image/png,image/jpeg" />
+                <div class="overlay" (click)="fileUpload.click()">
+                  <div class="text">
+                    {{ 'Click Here to Upload Logo' | translate }}
+                  </div>
+                </div>
+                <ng-template #showImageRncp class="p-grid p-justify-center">
+                  <div class="logo-img-wrapper" *ngIf="!isTitleLogoUploading">
+                    <img class="center-image" (click)="fileUpload.click()" [src]="imgURL( titleIdentityForm.get('rncp_logo').value)">
+                  </div>
+                </ng-template>
+                <div class="logo-spinner-wrapper" *ngIf="isTitleLogoUploading">
+                  <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" color="accent"></mat-progress-spinner>
+                </div>
+              </div>
+              <div class="buttonContainer" *ngIf="titleIdentityForm.get('rncp_logo').value">
+                <button
+                  style="margin-right: 10px;"
+                  matTooltip="{{ 'Edit logo' | translate }}"
+                  mat-mini-fab
+                  color="primary"
+                  (click)="fileUpload.click()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  matTooltip="{{ 'Delete logo' | translate }}"
+                  mat-mini-fab
+                  color="warn"
+                  (click)="deleteLogoTitle()"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <div class="p-grid p-justify-center image-text">
+                {{'RNCP Logo' | translate}}
+              </div>
+              <div class="p-grid p-justify-center">
+                <div class="text-center">
+                  {{ 'SUGGESTED_RESOLUTION' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="p-col-12 no-padding margin-center">
+              <mat-slide-toggle color="accent" formControlName="is_certifier_also_pc"> 
+                <span [ngClass]="{'text-slider-color': titleIdentityForm.get('is_certifier_also_pc').value}">
+                  {{ (titleIdentityForm.get('is_certifier_also_pc').value ? 'Certifier is also PC for this title' : 'Certifier is not PC for this title') | translate }}
+                </span>
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+        <div class="p-col-9">
+          <div class="p-grid">
+            <div class="p-col-10 py-0">
+              <mat-form-field color="accent" class="full-wid">
+                <input matInput required formControlName="long_name" type="text" placeholder="{{ 'TITLE_IDENTITY.RNCP Title Long Name' | translate }}"/>
+                <mat-error>
+                  <p *ngIf="titleIdentityForm.get('long_name').hasError('required')">
+                    {{ 'RNCP Long Name is Required' | translate }}
+                  </p>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-2 py-0"></div>
+
+            <div class="p-col-10 py-0">
+              <div class="p-grid">
+
+                <div class="p-col-6 py-0 pl-0">
+                  <mat-form-field color="accent">
+                    <input matInput required formControlName="short_name" type="text" placeholder="{{ 'TITLE_IDENTITY.RNCP Title Short Name' | translate }}"/>
+                    <mat-error>
+                      <p *ngIf="titleIdentityForm.get('short_name').hasError('required')">
+                        {{ 'RNCP Short Name is Required and must be unique' | translate }}
+                      </p>
+                    </mat-error>
+                  </mat-form-field>
+                </div> 
+
+                <div class="p-col-2 py-0 pl-0 align-right">
+                  <mat-form-field color="accent">
+                    <input 
+                    matInput 
+                    required 
+                    formControlName="rncp_code" 
+                    type="text" 
+                    placeholder="{{ 'TITLE_IDENTITY.RNCP Code' | translate }}"
+                    />
+                    <mat-error>
+                      <p *ngIf="titleIdentityForm.get('rncp_code').hasError('required')">
+                        {{ 'RNCP Code is Required' | translate }}
+                      </p>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="p-col-2 py-0 pl-0">
+                  <mat-form-field>
+                    <mat-label matTooltip="{{ 'TITLE_IDENTITY.France RNCP Level' | translate }}">{{'TITLE_IDENTITY.France RNCP Level' | translate}}</mat-label>
+                    <mat-select formControlName="rncp_level" required>
+                      <mat-option *ngFor="let rncp_level of franceArray" [value]="rncp_level">
+                        {{rncp_level}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error>
+                      <p *ngIf="titleIdentityForm.get('rncp_level').hasError('required')">
+                        {{ 'SCHOOL.This field is required' | translate }}
+                      </p>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="p-col-2 pr-0 py-0 pl-0">
+                  <mat-form-field>
+                    <mat-label matTooltip="{{ 'TITLE_IDENTITY.Europe RNCP Level' | translate }}">{{'TITLE_IDENTITY.Europe RNCP Level' | translate}}</mat-label>
+                    <mat-select formControlName="rncp_level_europe">
+                      <mat-option (click)="setRncpLevelEurope()">{{'NONE' | translate}}</mat-option>
+                      <mat-option *ngFor="let rncp_level_europe of europeanArray" [value]="rncp_level_europe">
+                        {{rncp_level_europe}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-col-2 py-0"></div>
+
+            <div class="p-col-10 py-0">
+              <div class="p-grid">
+                <div class="p-col-6 py-0 pl-0">
+                  <mat-form-field>
+                    <mat-label>{{'TITLE_IDENTITY.ADMTC Responsible' | translate}}</mat-label>
+                    <mat-select formControlName="admtc_dir_responsible" required>
+                      <mat-option *ngFor="let admtc_dir_responsible of responsablePersons" [value]="admtc_dir_responsible._id">
+                         {{ admtc_dir_responsible.last_name | uppercase }} {{ admtc_dir_responsible.first_name }} {{admtc_dir_responsible.civility | translate}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error>
+                      <p *ngIf="titleIdentityForm.get('admtc_dir_responsible').hasError('required')">
+                        {{ 'SCHOOL.This field is required' | translate }}
+                      </p>
+                    </mat-error>
+                  </mat-form-field>
+                </div>  
+                <div class="p-col-4 pl-0 py-0">
+                  <mat-form-field>
+                    <input matInput placeholder="{{'TITLE_IDENTITY.Date of Official Journal' | translate}}" readonly (click)="picker.open()" formControlName="journal_date" [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="p-col-2 pl-0 py-0 pr-0">
+                  <mat-form-field>
+                    <!-- <input matInput formControlName="year_of_certification" placeholder="{{'TITLE_IDENTITY.Year of Certification' | translate}}"> -->
+                    <input [matDatepicker]="year" class="hidden-date-input" [readonly]="true">
+                    <input matInput placeholder="{{'TITLE_IDENTITY.Year of Certification' | translate}}"[value]="myDate" (click)="year.open()" [readonly]="true">
+                    <mat-datepicker-toggle matSuffix [for]="year"></mat-datepicker-toggle>
+                    <mat-datepicker #year name="myDate" startView="multi-year" (yearSelected)="closedYearSelected($event, year)"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            
+            <div class="p-col-2 py-0"></div>
+
+            <div class="p-col-10 py-0">
+              <div class="p-grid">
+                <div class="p-col-6 pl-0 py-0">
+                  <mat-form-field color="accent" class="full-wid">
+                    <input
+                      matInput
+                      formControlName="name_of_signatory"
+                      type="text"
+                      placeholder="{{ 'TITLE_IDENTITY.Name of Signatory' | translate }}"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="p-col-4 py-0 pl-0"></div>
+                <div class="p-col-2 pl-0 py-0 pr-0"></div>
+              </div>
+            </div>
+
+            <div class="p-col-10 py-0">
+              <mat-label class="color-mat">{{ 'TITLE_IDENTITY.Text of Official Journal' | translate }}</mat-label>
+              <div class="yellow-border" style="padding: 0;">
+                <ckeditor 
+                  [config]="{
+                    toolbar : [
+                    'heading', 'bold', 'italic', 'underline', 'strikethrough',
+                    'highlight:redPen', 'highlight:greenPen', 'removeHighlight',
+                    'numberedList', 'bulletedList', 'link', 'undo', 'redo'
+                    ],
+                    link : {
+                      addTargetToExternalLinks: true
+                    }
+                  }" 
+                  [editor]="Editor" 
+                  formControlName="journal_text"
+                  (ready)="onReady($event)">
+                </ckeditor>
+              </div>
+              <!-- <mat-form-field class="full-width">
+                <textarea matInput formControlName="journal_text" placeholder="{{ 'TITLE_IDENTITY.Journal Text' | translate }}"></textarea>
+              </mat-form-field> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="certifierSelector" class="p-grid p-justify-center mrgn-cert">
+    <div class="p-col-10">
+      <div class="p-grid p-justify-center">
+        <div class="p-col-12 selection-text" [ngStyle]="{color: isSchoolNotFilled ? 'red' : 'white'}">
+          {{ 'Please Select or add new certifier school that own this title' | translate}}{{isSchoolNotFilled ? '*' : ''}}
+        </div>
+        <div (click)="pickSelectOrCreate('select')" class="p-col-5 selection-text create-or-select-pill">
+          {{ 'Select existing School as Certifier' | translate}}
+        </div>
+        <div class="p-col-2 selection-text">
+          {{'OR' | translate}}
+        </div>
+        <div (click)="pickSelectOrCreate('create')" class="p-col-5 selection-text create-or-select-pill">
+          {{ 'Create new Certifier' | translate}}
+        </div>
+        <div *ngIf="isExistingSelected" class="p-col-12">
+          <mat-form-field style="width: 100%;">
+            <input type="text" placeholder="{{ 'Select Certifier School' | translate}}" matInput [formControl]="certifierControl" [matAutocomplete]="autoCert">
+            <mat-autocomplete #autoCert="matAutocomplete" [autoActiveFirstOption]="true" (optionSelected)="saveCertifierData($event)" [displayWith]="displayCertName" [panelWidth]="'fit'">
+              <ng-container *ngIf="!certLoading">
+                <mat-option *ngFor="let cert of filteredCertifier | async" [value]="cert">
+                  {{cert.short_name}}
+                </mat-option>
+              </ng-container>
+              <mat-option *ngIf="certLoading" class="is-loading">
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>
+              <p *ngIf="isSchoolNotFilled">
+                {{ 'Please select Certifier who will own this title' | translate }}
+              </p>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="certifierDetail" *ngIf="hasSelected && hasSelectedSchool" formGroupName="add_school" class="p-grid yellow-border card-row mrgn-top-2rem">
+    <div class="section-header">
+      <h3>{{ 'Certifier Details' | translate }}</h3>
+    </div>
+    <div class="p-col-12">
+      <div class="p-grid">
+        <div class="p-col-3">
+          <div class="imgContainer1">
+            <div *ngIf="!titleIdentityForm.get('add_school').get('logo').value && !isCertiLogoUploading; else showImageCertifier" (click)="fileUploadCert.click()" class="no-image">
+              {{ '580 x 208 px' | translate }}
+            </div>
+            <input hidden type="file" id="fileUploadCert" (change)="chooseFile($event, 'certifierLogo')" name="fileUploadCert" #fileUploadCert accept="image/png,image/jpeg" />              
+            <div class="overlay1" (click)="fileUploadCert.click()">
+              <div class="text">
+                {{ 'Click Here to Upload Logo' | translate }}
+              </div>
+            </div>
+            <ng-template #showImageCertifier class="p-grid p-justify-center">
+              <div class="logo-img-wrapper" *ngIf="!isCertiLogoUploading">
+                <img class="center-image" (click)="fileUploadCert.click()" [src]="imgURL(titleIdentityForm.get('add_school').get('logo').value)">
+              </div>
+            </ng-template>
+            <div class="logo-spinner-wrapper" *ngIf="isCertiLogoUploading">
+              <mat-progress-spinner style="margin:0 auto;" mode="indeterminate" color="accent"></mat-progress-spinner>
+            </div>
+          </div>
+          <div class="buttonContainer" *ngIf="titleIdentityForm.get('add_school').get('logo').value">
+            <button
+              style="margin-right: 10px;"
+              matTooltip="{{ 'Edit logo' | translate }}"
+              mat-mini-fab
+              color="primary"
+              (click)="fileUpload.click()"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              matTooltip="{{ 'Delete logo' | translate }}"
+              mat-mini-fab
+              color="warn"
+              (click)="deleteLogoTitle()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div class="p-grid p-justify-center image-text">
+            {{'Certifier School Logo' | translate}}
+          </div>
+          <div class="p-grid p-justify-center" style="text-align: center;">
+            {{ 'SUGGESTED_RESOLUTION' | translate }}
+          </div>
+        </div>
+        <div class="p-col-9">
+          <div class="p-grid">
+            <div class="p-col-10">
+              <mat-form-field color="accent" class="full-wid">
+                <input matInput required formControlName="long_name" type="text" placeholder="{{ 'TITLE_IDENTITY.School long name' | translate }}"/>
+                <mat-error>
+                  <p *ngIf="titleIdentityForm.get('add_school').get('long_name').hasError('required')">
+                    {{ 'School Long Name is Required' | translate }}
+                  </p>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-2"></div>
+
+            <div class="p-col-10">
+              <mat-form-field color="accent">
+                <input matInput required formControlName="short_name" type="text" placeholder="{{ 'TITLE_IDENTITY.School short name' | translate }}"/>
+                <mat-error>
+                  <p *ngIf="titleIdentityForm.get('add_school').get('short_name').hasError('required')">
+                    {{ 'School Short name is Required' | translate }}
+                  </p>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="p-col-2"></div>
+
+            <!-- Button for adding address -->
+            <div class="p-col-10" style="padding: 0;">
+              <div class="p-grid" style="margin-bottom: 0.8rem;">
+                <div class="p-col-6"></div>
+                <div class="p-col-6 text-right" style="padding: 0;">
+                  <button type="button" (click)="addAddressForm()" mat-button mat-raised-button class="no-margin" color="primary">
+                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                    </svg>
+                    {{ 'Add address' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <ng-container formArrayName="school_address">
+              <div 
+              class="p-col-10 mb-1rem border-white address-padding"
+              *ngFor="let address of addressFormArray.controls; let addressIndex = index;"
+              [formGroupName]="addressIndex">
+                <div class="p-grid" *ngIf="addressFormArray?.length > 1">
+                  <div class="p-col-12 no-padding">
+                    <div class="p-grid p-justify-end p-align-center">
+                      <mat-slide-toggle formControlName="is_main_address" (change)="checkMainAddress()" *ngIf="!checkMainAddress() || address.get('is_main_address').value"> 
+                        <span [ngStyle]="{'color' : address.get('is_main_address').value ? '#ffe77a' : 'white'}">{{'MAIN_ADDRESS' | translate}}</span>
+                      </mat-slide-toggle>
+                      <button type="button" mat-icon-button class="small-icon" color="red" (click)="removeAddressForm(addressIndex)">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <div class="p-col-12">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        matInput 
+                        type="text" 
+                        formControlName="address1"
+                        placeholder="{{ 'Address' | translate }}"
+                        required
+                      >
+                      <mat-error>
+                        <p *ngIf="addressFormArray.at(addressIndex).get('address1').hasError('required')">
+                          {{ 'SCHOOL.This field is required' | translate }}
+                        </p>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <div class="p-col-4">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        matInput 
+                        type="text" 
+                        formControlName="postal_code"
+                        (keyup)="getPostcodeData(addressIndex)"
+                        placeholder="{{ 'Zipcode' | translate }}"
+                        maxlength="5"
+                        required
+                      >
+                      <mat-error>
+                        <p *ngIf="addressFormArray.at(addressIndex).get('postal_code').hasError('required')">
+                          {{ 'ZipCode is required' | translate }}
+                        </p>
+                        <p *ngIf="addressFormArray.at(addressIndex).get('postal_code').hasError('pattern')">
+                          {{ 'This Field only accept numeric' | translate }}
+                        </p>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-4">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        type="text"
+                        placeholder="{{ 'Country' | translate }}"
+                        matInput
+                        formControlName="country"
+                        [matAutocomplete]="autoCountry"
+                        (keyup)="filterCountry(addressIndex)"
+                        (focusout)="getPostcodeData(addressIndex)"
+                        required
+                      >
+                      <mat-autocomplete #autoCountry="matAutocomplete"  autoActiveFirstOption (optionSelected)="getPostcodeData(addressIndex)" [panelWidth]="'fit'">
+                        <mat-option *ngFor="let option of filteredCountry[addressIndex]" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error>
+                        <p *ngIf="addressFormArray.at(addressIndex).get('country').hasError('required')">
+                          {{ 'Country Is required' | translate }}
+                        </p>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <div class="p-col-4">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        type="text"
+                        placeholder="{{ 'City' | translate }}"
+                        matInput
+                        formControlName="city"
+                        [matAutocomplete]="autoCity"
+                        (keyup)="filterCity(addressIndex)"
+                      >
+                      <mat-autocomplete #autoCity="matAutocomplete" autoActiveFirstOption [panelWidth]="'fit'">
+                        <mat-option *ngFor="let option of filteredCities[addressIndex]" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-4">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        type="text"
+                        placeholder="{{ 'Department' | translate }}"
+                        matInput
+                        formControlName="department"
+                        [matAutocomplete]="autoDepartment"
+                        (keyup)="filterDepartments(addressIndex)"
+                      >
+                      <mat-autocomplete #autoDepartment="matAutocomplete" autoActiveFirstOption [panelWidth]="'fit'">
+                        <mat-option *ngFor="let option of filteredDepartments[addressIndex]" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-4">
+                    <mat-form-field color="accent" class="full-width">
+                      <input 
+                        type="text"
+                        placeholder="{{ 'Region' | translate }}"
+                        matInput
+                        formControlName="region"
+                        [matAutocomplete]="autoRegion"
+                        (keyup)="filterRegion(addressIndex)"
+                      >
+                      <mat-autocomplete #autoRegion="matAutocomplete" autoActiveFirstOption [panelWidth]="'fit'">
+                        <mat-option *ngFor="let option of filteredRegions[addressIndex]" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form> 
+
+<div style="margin-bottom: 4rem">
+  <button style="float: right"  mat-button mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="saveCreate()">
+    <mat-icon>save</mat-icon> {{ 'Save' | translate }}
+  </button>
+  <button style="float: right; background-color: red;"  mat-button mat-raised-button color="warning" (click)="goToDashboard()">
+    <mat-icon>cancel</mat-icon> {{ 'Cancel' | translate }}
+  </button>
+</div>
+
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>

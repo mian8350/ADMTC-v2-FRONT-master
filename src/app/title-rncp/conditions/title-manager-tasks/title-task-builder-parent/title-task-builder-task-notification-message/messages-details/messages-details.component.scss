@@ -1,0 +1,41 @@
+.message-container {
+  background-color: #607d8b;
+  border-radius: 0px 0px 5px 5px;
+  padding: 10px;
+}
+
+.header-message {
+  background-color: #424242;
+  color: white;
+  padding: 10px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.preview-image {
+  margin: 10px 0px 10px 0px;
+}
+
+.header-text {
+  margin-bottom: 0px;
+  color: white;
+}
+
+::ng-deep.mat-form-field.mat-focused .mat-form-field-label {
+  color: #ffffff78 !important;
+}
+
+:host::ng-deep.ckeditor {
+    label {
+      font-size: 14px;
+    }
+    .ck-content {
+      min-height: 10rem !important;
+      background: white !important;
+      color: #000 !important;
+    }
+  }
+
+  .help-button {
+    height: fit-content;
+    align-self: center;
+  }

@@ -1,0 +1,153 @@
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <div class="spacing">
+        <h3>{{ 'PLATFORM.SCHOLARSEASON' | translate }}</h3>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+<mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="horizontal">
+        <table mat-table [dataSource]="dataSource" (matSortChange)="sorting($event)" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="reset">
+            <th mat-header-cell *matHeaderCellDef colspan="6" class="action-header-column" style=" text-align: right !important;">
+              <button mat-raised-button color="primary" (click)="resetFilter()">
+                  <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+              <button mat-raised-button color="accent" (click)="addScholarSeason()">
+                <mat-icon class="mat-icon-default">add</mat-icon>
+                {{ 'Add a Scholar Season' | translate }}
+              </button>
+            </th>
+          </ng-container>
+          <ng-container matColumnDef="scholarseasonfilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="scholarFilter" placeholder="{{ 'search' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="descriptionfilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="descriptionFilter" placeholder="{{ 'search' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="fromfilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [formControl]="fromFilter"
+                  [matDatepicker]="picker"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="tofilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [formControl]="toFilter"
+                  [matDatepicker]="picker"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="rncpTitlesfilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="rncpFilter" placeholder="{{ 'search' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="actionfilter">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <ng-container matColumnDef="scholarseason">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Scholar Season' | translate }}">
+              <h5>{{ 'Scholar Season' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltip="{{ element.scholarseason }}" style="padding-left: 0.5rem !important">
+              {{ element.scholarseason }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Description' | translate }}">
+              <h5>{{ 'Description' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltip="{{ element.description }}">{{ element.description }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="from">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'From' | translate }}">
+              <h5>{{ 'From' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltip="{{ element.from | date: 'dd/MM/yyyy' }}">{{ element.from | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="to">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'To' | translate }}">
+              <h5>{{ 'To' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element" matTooltip="{{ element.to | date: 'dd/MM/yyyy' }}">{{ element.to | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rncpTitles">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'RNCP Titles' | translate }}">
+              <h5>{{ 'RNCP Titles' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngFor="let title of element.rncptitles" class="tags" [matTooltip]="renderTooltipTitle(element.rncptitles)"> {{ title.shortName }} </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}">
+              <h5>{{ 'Action' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button class="margin-right-button" matTooltip="{{'Edit' | translate}} "(click)="openEditDialog(element)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button class="margin-right-button" matTooltip="{{'Delete' | translate}} " (click)="deleteSeason()">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+        {{ 'NOT RECORD FOUND' | translate }}
+      </div>
+      <div [ngClass]="{ hide: noData | async }">
+        <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator?.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+

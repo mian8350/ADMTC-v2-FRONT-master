@@ -1,0 +1,2745 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type AcadDocument {
+    add_task_doc_upload: Boolean
+    created_at: Int
+    created_by: ID
+    document_type: String
+    file_name: String
+    file_path: String
+    is_internal_task: Boolean
+    moved_to_s3: Boolean
+    name: String
+    parent_rncp_Title: RncpTitle
+    published_for_student: Boolean
+    s3_file_name: String
+    school_id: School
+    school_short_name: String
+    status: EnumStatusForAcadDocument
+    stored_in_s3: String
+    type: String
+    uploaded_for_other_user: User
+    uploaded_for_student: User
+}
+
+type AcadEvent {
+    _id: ID
+    created_by: ID
+    event_type: EnumEventType
+    from_date: Int
+    is_all_school: Boolean
+    name: String
+    rncp: RncpTitle
+    schools: [School!]!
+    status: EnumStatusForAcadEvent
+    to_date: Int
+    user_types: [UserType]
+}
+
+type AcadKit {
+    _id: ID
+    class: Class
+    created_at: Int
+    description: String
+    documents: [AcadDocument]
+    parent_category: AcadKit
+    parent_rncp_title: RncpTitle
+    school: School
+    sort_order: Int
+    status: EnumAcadKitStatus
+    sub_categories: [AcadKit]
+    title: String
+}
+
+type AcadTask {
+    _id: ID
+    action_taken: String
+    class_id: Class
+    comments: String
+    created_by: User!
+    created_date: Int
+    cross_correction_for: ID
+    description: String
+    document_expected: DocumentExpectedSchema
+    due_date: Int
+    for_each_student: Boolean
+    is_final_retake_task: Boolean
+    is_parent_task: Boolean
+    is_retake_task: Boolean
+    notification_sent: Int
+    parent_task: AcadTask
+    priority: Int
+    rncp: RncpTitle!
+    school: School
+    status: enumStatusForAcadTask
+    student_id: Student
+    task_status: enumTaskStatus
+    task_summary: String
+    type: enumTaskType
+    unique_id: String
+    user_selection: UserSelection
+}
+
+type AcademicKit {
+    is_created: Boolean
+}
+
+type Address {
+    city: String
+    country: String
+    line1: String
+    line2: String
+    postal_code: String
+}
+
+type Alert {
+    _id: ID
+    message: String
+    publication_date: String
+    title: String
+    user_type: ID
+    will_user_answer: Boolean
+}
+
+type AlertFunctionality {
+    _id: ID
+    button1: String
+    button2: String
+    creator: User
+    is_deleted: Boolean
+    message: String
+    name: String
+    published: Boolean
+    recipients: [User!]!
+    required_response: Boolean
+    responses: [Response]
+}
+
+type Allowed {
+    download: Boolean
+    update: Boolean
+    view: Boolean
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}
+
+type BonusAndPenalty {
+    count: Int
+    title: String
+}
+
+type Calendar {
+    steps: [Steps]
+}
+
+type CalendarStep {
+    _id: ID
+    before_day: Boolean
+    number_of_day: Int
+    status: enumStatusForCalendarStep
+    title: String
+    user_type_id: UserType
+}
+
+type CertificateFileUpload {
+    file_name: String
+    file_path: String
+}
+
+type CertificateIssuedOn {
+    date: Int
+    month: Int
+    year: Int
+}
+
+type CertificateParameter {
+    _id: ID
+    certificate_background_image: CertificateFileUpload
+    certificate_issuance_date: String
+    certifier_admin_signature: CertificateFileUpload
+    certifier_logo: CertificateFileUpload
+    certifier_stamp: CertificateFileUpload
+    class_id: Class
+    font_size: Int
+    font_type: String
+    footer: String
+    header: String
+    rncp_id: RncpTitle
+    rncp_logo: CertificateFileUpload
+    status: enumStatusForCertificateParameter
+}
+
+type CertificationRule {
+    _id: ID
+    class_id: Class
+    documents: [CertificationRuleDocument]
+    message: String
+    rncp_id: RncpTitle
+    sent_count: Int
+    status: EnumStatus
+    title: String
+}
+
+type CertificationRuleDocument {
+    document_id: AcadDocument
+    file_name: String
+    file_path: String
+    s3_file_name: String
+    stored_in_s3: Boolean
+}
+
+type CertificationRuleDocumentDownloaded {
+    download_date: Int
+    student_id: ID
+}
+
+type CertificationRuleSent {
+    _id: ID
+    certification_rule_id: CertificationRule
+    class_id: ID
+    document_downloaded: [CertificationRuleDocumentDownloaded]
+    documents: [CertificationRuleDocument]
+    message: String
+    rncp_id: ID
+    status: EnumStatus
+    student_accepted: [CertificationRuleStudentAccepted]
+    title: String
+}
+
+type CertificationRuleStudentAccepted {
+    acceptance_date: Int
+    student_id: ID
+}
+
+type Class {
+    _id: ID
+    allow_job_description: Boolean
+    allow_mentor_evaluation: Boolean
+    allow_problematic: Boolean
+    description: String
+    expertise_mark_point_status: Boolean
+    expertise_max_point: Int
+    name: String
+    parent_rncp_title: RncpTitle
+    status: EnumClassStatus
+}
+
+type Company {
+    company: Company
+    end_date: Int
+    is_active: Boolean
+    mentor: User
+    start_date: Int
+}
+
+type CorrectedTest {
+    test: Test
+}
+
+type CorrectedTestForQualityControl {
+    test: Test
+}
+
+type Correction {
+    bonuses: BonusAndPenalty
+    bonuses_header: String
+    comment_area: Boolean
+    comments_header: String
+    directions_column_header: String
+    display_final_total: Boolean
+    final_comments_header: String
+    letter_marks_column_header: String
+    number_marks_column_header: String
+    penalties: BonusAndPenalty
+    penalties_header: String
+    sections: Section
+    show_as_list: Boolean
+    show_bonuse: Boolean
+    show_directions_column: Boolean
+    show_eliminations: Boolean
+    show_final_comments: Boolean
+    show_letter_marks_column: Boolean
+    show_notations_marks: Boolean
+    show_number_marks_column: Boolean
+    show_penaltie: Boolean
+    total_zone: TotalZone
+}
+
+type CorrectionGrid {
+    correction: Correction
+    footer: CorrectionGridFooter
+    group_detail: GroupDetailForTest
+    header: CorrectionGridHeader
+    orientation: String
+}
+
+type CorrectionGridField {
+    align: String
+    dataType: String
+    type: String
+    value: String
+}
+
+type CorrectionGridFooter {
+    fields: [CorrectionGridField]
+    text: String
+    text_below: String
+}
+
+type CorrectionGridHeader {
+    fields: [CorrectionGridField]
+    text: String
+}
+
+type CorrectionStatusForSchools {
+    correction_status: EnumCorrectionStatus
+    is_retake_going_on: Boolean
+    is_retake_v2_going_on: Boolean
+    modification_period_date: Int
+    school: School
+}
+
+type CorrectorAssigned {
+    corrector_id: User
+    no_of_students: Int
+    school_id: School
+    students: [Student]
+}
+
+type CrossCorrector {
+    _id: ID
+    class_id: Class
+    rncp_title_id: RncpTitle
+    scholar_season_id: ScholarSeason
+    school_correcting_corrector_id: User
+    school_correcting_id: School
+    school_origin_id: School
+    status: enumStatusForCrossCorrector
+    student_id: Student
+}
+
+type CurriculumnVitae {
+    file_path: String
+    is_in_s3: Boolean
+    name: String
+    s3_path: String
+}
+
+type DeadlineDate {
+    before: Boolean
+    day: Int
+    deadline: Int
+    type: EnumDeadLineDateType
+}
+
+type DecisionGeneratedOn {
+    date: Int
+    day: String
+    month: Int
+    year: Int
+}
+
+type DecisionParameter {
+    _id: ID
+    condition_name: String
+    condition_type: EnumConditionType
+    parameters: [Parameter]
+    status: EnumStatusForJuryDecisionParameter
+}
+
+type DocumentExpectedSchema {
+    name: String
+}
+
+type EmployabilitySurveySent {
+    questionnaire_template: ID!
+    sent_at: String
+}
+
+type Entity {
+    assigned_rncp_title: RncpTitle
+    class: Class
+    company: ID
+    created_at: String
+    entity_name: EnumEntityType
+    group_of_schools: [School]
+    school: School
+    school_type: EnumSchoolType
+    status: EnumStatus
+    type: UserType
+    updated_at: String
+}
+
+type ExpectedDocumentForTest {
+    deadline_date: DeadlineDate
+    doc_upload_date_retake_exam: Int
+    doc_upload_for_final_retake: Int
+    document_name: String
+    document_user_type: UserType
+    is_for_all_student: Boolean
+}
+
+type Expertise {
+    _id: ID
+    block_of_experise: String
+    class_id: Class
+    count_for_title_final_score: Boolean
+    description: String
+    expertise_credit: Int
+    field_index: Int
+    is_retake_by_block: Boolean
+    is_specialization: Boolean
+    max_point: Int
+    method_of_evaluation: String
+    min_score: Int
+    order: Int
+    page_break: Boolean
+    pass_case: Passcase
+    rncp_title: RncpTitle
+    selected_block_retake: Expertise
+    specialization: ExpertiseSpecialization
+    status: EnumExpertiseStatus
+    subjects: [Subject]
+    transversal_block: Boolean
+}
+
+type ExpertiseSpecialization {
+    _id: ID
+    name: String
+}
+
+type File {
+    encoding: String!
+    file_name: String!
+    file_url: String
+    mime_type: String!
+}
+
+type FileAttachment {
+    file_name: String
+    path: String
+}
+
+type FinalTranscript {
+    _id: ID
+    after_final_retake_decision: EnumAfterFinalRetakeDecision
+    after_final_retake_decision_generated_on: DecisionGeneratedOn
+    certification_status: EnumCertificationStatus
+    class_id: Class
+    final_transcript_generated_on: DecisionGeneratedOn
+    final_transcript_status: EnumSentStatus
+    has_jury_finally_decided: Boolean
+    input_final_decision_status: Boolean
+    is_validated: Boolean
+    jury_decision_for_final_transcript: EnumJuryDecisionForFinalTranscript
+    jury_decision_generated_on: DecisionGeneratedOn
+    retake_tests_for_students: RetakeTestForStudent
+    rncp_id: RncpTitle
+    scholar_season_id: ScholarSeason
+    school_id: School
+    status: EnumStatusForFinalTranscript
+    student_decision: EnumStudentDecision
+    student_decision_generated_on: DecisionGeneratedOn
+    student_id: Student
+}
+
+type FinalTranscriptParameter {
+    _id: ID
+    class_id: Class
+    final_n2_deadline: String
+    final_n3_deadline: String
+    final_n3_special_text: String
+    final_n7_extra_retake: String
+    final_n7_jury_decision: String
+    rncp_id: RncpTitle
+    status: EnumStatus
+}
+
+type FolderPermission {
+    admissions: Permission
+    annales_epreuves: Permission
+    archives: Permission
+    boitea_outils: Permission
+    communication: Permission
+    epreuves_certification: Permission
+    examens: Permission
+    organisation: Permission
+    programme: Permission
+}
+
+type GroupDetail {
+    rncp_titles: [RncpTitle]
+    user_types: [UserType]
+}
+
+type GroupDetailForTest {
+    groups_allocation: Boolean
+    header_text: String
+    min_no_of_students: Int
+    no_of_students: Int
+}
+
+type Jury {
+    PIC_logistics: [User]
+    _id: ID
+    certifier: School
+    current_status: EnumJuryCurrentStatus
+    is_published: Boolean
+    jury_created_by: User
+    jury_members: [JuryMember]
+    name: String
+    rncp_titles: [JuryRncpTitle]
+    status: EnumStatus
+    survival_kit: [AcadDocument]
+    type: EnumJuryType
+}
+
+type JuryDecisionParameter {
+    _id: ID
+    class_id: Class
+    decision_parameters: [DecisionParameter]
+    rncp_id: RncpTitle
+    status: EnumStatusForJuryDecisionParameter
+}
+
+type JuryMember {
+    _id: ID
+    academic_jury_member: User
+    break_duration: Int
+    break_time: String
+    class: Class
+    date_finish: String
+    date_start: String
+    end_time: String
+    is_student_assigned: Boolean
+    jury_organization_id: Jury
+    jury_serial_number: String
+    logistic_document: AcadDocument
+    mark_entry_assigned: JuryMemberMarkEntryAssigned
+    number_students: Int
+    president_of_jury: User
+    professional_jury_member: User
+    rncp_title: RncpTitle
+    school: School
+    start_time: String
+    students: [JuryMemberStudent]
+    substitution_jury_member: User
+}
+
+type JuryMemberMarkEntryAssigned {
+    assigned_at: String
+    assigned_to: User
+    task_id: AcadTask
+}
+
+type JuryMemberStudent {
+    date_test: String
+    student_id: Student
+    test_hours_finish: String
+    test_hours_start: String
+}
+
+type JuryParameter {
+    _id: ID
+    class_id: Class
+    default_student_per_day: Int
+    jury_n7_phrase_1: String
+    jury_n7_phrase_2: String
+    minimum_studentPer_day: Int
+    rncp_id: RncpTitle
+    standard_duration: Int
+    status: EnumStatus
+}
+
+type JuryRncpTitle {
+    class_id: Class
+    rncpI_id: RncpTitle
+    schools: [JurySchool]
+    testI_id: Test
+}
+
+type JurySchool {
+    _id: ID
+    date_finish: String
+    date_start: String
+    is_jury_assigned: Boolean
+    number_of_jury: Int
+    retake_center: School
+    school: School
+    students: [Student]
+}
+
+type LinkedTest {
+    coefficient: Int
+    test: Test
+}
+
+type Mail {
+    _id: ID
+    attachments: [String]
+    file_attachments: FileAttachment
+    group_detail: GroupDetail
+    is_group_child: Boolean
+    is_group_parent: Boolean
+    is_sent: Boolean
+    is_urgent_mail: Boolean
+    message: String
+    recipient_properties: [RecipientPropertySchema]
+    sender_property: SenderPropertySchema
+    status: EnumStatusForMail
+    subject: String
+    tags: [String]
+    user_type_selection: Boolean
+}
+
+type Mutation {
+    CreateAcadDoc(doc_input: AcadDocumentInput): AcadDocument!
+    CreateAcadKit(kit_input: AcadKitInput): AcadKit!
+    CreateAlert(alert_input: AlertInput): Alert!
+    CreateAlertFunctionality(alert_functionality_input: AlertFunctionalityInput): AlertFunctionality!
+    CreateCalendarStep(calendar_steps_input: CalendarStepInput): CalendarStep!
+    CreateCertificateParameter(certificate_parameter_input: CertificateParameterInput): CertificateParameter!
+    CreateCertificationRule(certification_rule_input: CertificationRuleInput): CertificationRule
+    CreateClass(class_input: ClassInput): Class!
+    CreateCrossCorrector(cross_corrector_input: CrossCorrectorInput): CrossCorrector!
+    CreateEvent(event_input: AcadEventInput): AcadEvent!
+    CreateFinalTranscript(final_transcript_input: FinalTranscriptInput): FinalTranscript!
+    CreateFinalTranscriptParameter(final_transcript_parameter_input: FinalTranscriptParameterInput): FinalTranscriptParameter!
+    CreateJuryDecisionParameter(jury_decision_parameter_input: JuryDecisionParameterInput): JuryDecisionParameter
+    CreateJuryOrganizationParameter(jury_input: JuryInput): Jury
+    CreateJuryParameter(jury_parameter_input: JuryParameterInput): JuryParameter
+    CreateMail(mail_input: MailInput): Mail!
+    CreateNotificationHistory(notification_history_input: NotificationHistoryInput): NotificationHistory!
+    CreateScholarSeason(scholar_season_input: ScholarSeasonInput): ScholarSeason!
+    CreateSchool(school_input: SchoolInput): School!
+    CreateStudent(student_input: StudentInput): Student!
+    CreateTask(task_input: AcadTaskInput): AcadTask!
+    CreateTest(test_input: TestInput): Test!
+    CreateTitle(title_input: RncpTitleInput): RncpTitle!
+    CreateUpdateExpertise(class_id: ID!, expertise_input: [ExpertiseInput], rncp_title_id: ID!): [Expertise]!
+    CreateUserType(user_type_input: UserTypeInput): UserType!
+    DeativateStudent(_id: ID!): Student!
+    DeleteAcadDoc(_id: ID!): AcadDocument!
+    DeleteAcadKit(_id: ID!): AcadKit!
+    DeleteAlert(_id: ID!): Alert!
+    DeleteAlertFunctionality(_id: ID!): AlertFunctionality!
+    DeleteCalendarStep(_id: ID!): CalendarStep!
+    DeleteCertificateParameter(_id: ID!): CertificateParameter!
+    DeleteCertificationRule(_id: ID!): CertificationRule!
+    DeleteClass(_id: ID!): Class!
+    DeleteCrossCorrector(_id: ID!): CrossCorrector!
+    DeleteEvent(_id: ID!): AcadEvent!
+    DeleteExpertise(_id: ID!): Expertise!
+    DeleteFinalTranscript(_id: ID!): FinalTranscript!
+    DeleteFinalTranscriptParameter(_id: ID!): FinalTranscriptParameter!
+    DeleteJuryDecisionParameter(_id: ID!): JuryDecisionParameter
+    DeleteJuryOrganizationParameter(_id: ID!): Jury
+    DeleteJuryParameter(_id: ID!): JuryParameter
+    DeleteMail(_id: ID!): Mail!
+    DeleteNotificationHistory(_id: ID!): NotificationHistory!
+    DeleteScholarSeason(_id: ID!): ScholarSeason!
+    DeleteSchool(_id: ID!): School!
+    DeleteStudent(_id: ID!): Student!
+    DeleteSubject(_id: ID!): Subject!
+    DeleteSubjectTest(_id: ID!): SubjectTest!
+    DeleteTask(_id: ID!): AcadTask!
+    DeleteTest(_id: ID!): Test!
+    DeleteTitle(_id: ID!): RncpTitle!
+    DeleteUser(_id: ID!): User!
+    DeleteUserType(_id: ID!): UserType!
+    DuplicateExpertise(class_id: ID!, class_id_destination: ID!, rncp_title_destination: ID!, rncp_title_id: ID!): [Expertise]
+    ImportStudent(file: Upload!, import_student_input: ImportStudent): Student
+    IncorrectEmail(lang: String, user_id: ID): User
+    Login(email: String, password: String): AuthPayload!
+    LoginAsUser(email: String): AuthPayload!
+    ReactivateStudent(_id: ID!): Student!
+    RegisterUser(lang: String!, user_input: UserInput): User
+    RequestForgotPassword(email: String, lang: String): User!
+    SendMailToStudent(mail_body: String!): String
+    SentCertificationRule(certification_rule_sent_input: CertificationRuleSentInput): CertificationRuleSent
+    SetPassword(password: String, token: String): User!
+    SingleUpload(file: Upload!): File!
+    UpdateAcadDoc(_id: ID!, doc_input: AcadDocumentInput): AcadDocument!
+    UpdateAcadKit(_id: ID!, kit_input: AcadKitInput): AcadKit!
+    UpdateAlert(_id: ID!, alert_input: AlertInput): Alert!
+    UpdateAlertFunctionality(_id: ID!, alert_functionality_input: AlertFunctionalityInput): AlertFunctionality!
+    UpdateCalendarStep(_id: ID!, calendar_steps_input: CalendarStepInput): CalendarStep!
+    UpdateCertificateParameter(_id: ID!, certificate_parameter_input: CertificateParameterInput): CertificateParameter!
+    UpdateCertificationRule(_id: ID!, certification_rule_input: CertificationRuleInput): CertificationRule
+    UpdateClass(_id: ID!, class_input: ClassInput): Class!
+    UpdateCrossCorrector(_id: ID!, cross_corrector_input: CrossCorrectorInput): CrossCorrector!
+    UpdateEvent(_id: ID!, event_input: AcadEventInput): AcadEvent!
+    UpdateFinalTranscript(_id: ID!, final_transcript_input: FinalTranscriptInput): FinalTranscript!
+    UpdateFinalTranscriptParameter(_id: ID!, final_transcript_parameter_input: FinalTranscriptParameterInput): FinalTranscriptParameter!
+    UpdateJuryDecisionParameter(_id: ID!, jury_decision_parameter_input: JuryDecisionParameterInput): JuryDecisionParameter
+    UpdateJuryOrganizationParameter(_id: ID!, jury_input: JuryInput): Jury
+    UpdateJuryParameter(_id: ID!, jury_parameter_input: JuryParameterInput): JuryParameter
+    UpdateMail(_id: ID!, mail_input: MailInput): Mail!
+    UpdateNotificationHistory(_id: ID!, notification_history_input: NotificationHistoryInput): NotificationHistory!
+    UpdateScholarSeason(_id: ID!, scholar_season_input: ScholarSeasonInput): ScholarSeason!
+    UpdateSchool(_id: ID!, school_input: SchoolUpdateInput): School!
+    UpdateStudent(_id: ID!, student_input: StudentInput): Student!
+    UpdateTask(_id: ID!, task_input: AcadTaskInput): AcadTask!
+    UpdateTest(_id: ID!, test_input: TestInput): Test!
+    UpdateTitle(_id: ID!, title_input: RncpTitleUpdateInput): RncpTitle!
+    UpdateUser(_id: ID!, lang: String!, user_input: UserInput!): User!
+    UpdateUserType(_id: ID!, user_type_input: UserTypeInput): UserType!
+}
+
+type NotificationHistory {
+    _id: ID
+    from: User
+    notification_message: String
+    notification_reference: String
+    notification_subject: String
+    rncp_titles: [RncpTitle]
+    schools: [School]
+    sent_date: String
+    status: EnumStatusForNotificationHistory
+    to: [User]
+}
+
+type Parameter {
+    _id: ID
+    block_parameters: [Expertise]
+    correlation: EnumCorrelation
+    score: Int
+    sign: String
+    subject_parameters: [Subject]
+    subject_test_parameters: [SubjectTest]
+    validation_type: EnumValidationType
+}
+
+type Parent {
+    address: Address
+    email: String
+    family_name: String
+    job: String
+    name: String
+    profession: String
+    professional_email: String
+    relation: String
+    sex: EnumStudentSex
+    tele_phone: String
+}
+
+type Passcase {
+    case1: Int
+    case2: Int
+    case3: Int
+}
+
+type PasscaseForSubject {
+    case1: Int
+    case2: Int
+    case3: Int
+    elimination_score: Int
+}
+
+type Permission {
+    permissions: Allowed
+    status: Boolean
+}
+
+type PresidentJuryAssigned {
+    corrector_id: User
+    due_date: Int
+    no_of_student: Int
+    students: [Student]
+}
+
+type PreviousCourse {
+    allow_final_transcript_gen: Boolean
+    certificate_issuance_status: EnumCertificateIssuanceStatus
+    certificate_issued_by: User
+    certificate_issued_on: CertificateIssuedOn
+    certificate_pdf_link: String
+    changed_on: Int
+    class_id: Class
+    companies: Company
+    final_transcript_id: FinalTranscript
+    final_transcript_pdf_link: String
+    parallel_intake: Boolean
+    rncp_id: RncpTitle
+    scholar_season_id: ScholarSeason
+    school_id: School
+    specializations: StudentSpecialization
+}
+
+type Query {
+    GetAllAlertFunctionalities: [AlertFunctionality]
+    GetAllAlerts: [Alert]
+    GetAllCalendarSteps: [CalendarStep]
+    GetAllCategories: [AcadKit!]
+    GetAllCertificateParameters: [CertificateParameter]
+    GetAllCertificationRules: [CertificationRule]
+    GetAllClasses(filter: ClassFilterInput, rncp_id: String, sorting: ClassSortingInput): [Class]
+    GetAllCrossCorrectors: [School]
+    GetAllDocs: [AcadDocument]
+    GetAllEvents: [School]
+    GetAllExpertises(class_id: ID!, rncp_title_id: ID!): [Expertise]
+    GetAllFinalTranscriptParameters: [FinalTranscriptParameter]
+    GetAllFinalTranscripts: [FinalTranscript]
+    GetAllJuryDecisionParameters: [JuryDecisionParameter]
+    GetAllJuryOrganizationParameters: [Jury]
+    GetAllJuryParameters: [JuryParameter]
+    GetAllMails: [Mail]
+    GetAllNotificationHistories: [School]
+    GetAllScholarSeasons: [ScholarSeason]
+    GetAllSchools(school_type: String): [School]
+    GetAllStudents(status: EnumFilterStatus): [Student]
+    GetAllSubjectTests: [SubjectTest]
+    GetAllSubjects: [Subject]
+    GetAllTasks: [AcadTask]
+    GetAllTests(keyword: String): [Test]
+    GetAllTitles(school_id: String, school_type: String, should_have_condition_of_award: Boolean): [RncpTitle]
+    GetAllUserTypes(entity: String, role: String): [UserType]
+    GetAllUsers(entity: [EnumEntityType!], school: [ID!], title: [ID!], user_type: [ID!]): [User]
+    GetAllZipCodes(zip_code: String): [ZipCode]
+    GetDeactivatedStudents: [Student]
+    GetOneCertificateParameter(class_id: ID!, rncp_id: ID!): CertificateParameter
+    GetOneCertificationRule(class_id: ID!, rncp_id: ID!): CertificationRule
+    GetOneClass(_id: ID!): Class
+    GetOneFinalTranscriptParameter(class_id: String!, rncp_id: String!): FinalTranscriptParameter
+    GetOneJuryDecisionParameter(class_id: ID!, rncp_id: ID!): JuryDecisionParameter
+    GetOneJuryOrganizationParameter(_id: ID!): Jury
+    GetOneJuryParameter(class_id: ID!, rncp_id: ID!): JuryParameter
+    GetOneSchool(_id: ID!): School
+    GetOneStudent(_id: ID!): Student
+    GetOneTest(_id: ID!): Test
+    GetOneTitle(_id: ID!): RncpTitle
+    GetOneUser(email: String!): User
+    GetOneUserType(_id: ID!): UserType
+    GetVersion: String!
+}
+
+type RecipientPropertySchema {
+    is_read: Boolean
+    mail_type: EnumMailType
+    module: EnumModule
+    rank: EnumRank
+    recipients: [String]
+}
+
+type Response {
+    response: String
+    responsed_at: String
+    user_id: User
+}
+
+type RetakeTestCorrection {
+    retake_test: Test
+    test: Test
+}
+
+type RetakeTestForStudent {
+    is_test_accepted_by_student: Boolean
+    name: String
+    position: String
+    test_id: ID
+}
+
+type RncpTitle {
+    _id: ID!
+    admtc_dir_responsible: User
+    certifier: School
+    classes: [Class]
+    is_published: Boolean
+    journal_date: String
+    journal_text: String
+    long_name: String
+    preparation_centers: [School]
+    rncp_code: String
+    rncp_level: String
+    short_name: String
+    specializations: [SpecializationForRNCP]
+    status: EnumStatusForRncpTitle
+}
+
+type ScholarSeason {
+    _id: ID!
+    created_by: User
+    created_date: Int
+    description: String
+    from: String
+    rncp_titles: [RncpTitle]
+    scholar_season: String!
+    status: enumStatusForScholarSeason
+    to: String
+}
+
+type School {
+    _id: ID
+    belong_to_group: Boolean
+    certifier_ats: [RncpTitle]
+    country: String
+    group_name: String
+    long_name: String
+    preparation_center_ats: [RncpTitle]
+    retake_center: School
+    school_address: SchoolAddress
+    school_siret: String
+    selected_specializations: [Specialization]
+    short_name: String
+    status: EnumStatusForSchool
+    users: [User]
+}
+
+type SchoolAddress {
+    address1: String
+    address2: String
+    city: String
+    postal_code: String
+    region: String
+}
+
+type Section {
+    maximum_rating: Int
+    page_break: Boolean
+    sub_section: SubSection
+    title: String
+}
+
+type SenderPropertySchema {
+    is_read: Boolean
+    mail_type: EnumMailType
+    module: EnumModule
+    sender: String
+}
+
+type SocialLogin {
+    linked_email: String
+    linked_in: Boolean
+}
+
+type Specialization {
+    _id: ID
+    is_specialization_assigned: Boolean
+    name: String
+}
+
+type SpecializationForRNCP {
+    is_specialization_assigned: Boolean
+    name: String
+}
+
+type Steps {
+    _id: ID
+    actor: UserType
+    created_from: EnumStepsCreatedFrom
+    date: StepsDate
+    sender: String
+    text: String
+}
+
+type StepsDate {
+    before: Boolean
+    day: Int
+    type: EnumDeadLineDateType
+    value: Int
+}
+
+type Student {
+    _id: ID!
+    address: Address
+    allow_final_transcript_gen: Boolean
+    certificate_issuance_status: EnumCertificateIssuanceStatus
+    certificate_issued_by: User
+    certificate_issued_on: CertificateIssuedOn
+    certificate_pdf_link: String
+    civility: String
+    company: Company
+    corrected_test_for_quality_controls: [CorrectedTestForQualityControl]
+    corrected_tests: [CorrectedTest]
+    current_class: Class
+    date_of_birth: Int
+    date_of_resignation: Int
+    diploma: String
+    diploma_s3_path: String
+    diploma_upload_date: String
+    email: String
+    final_transcript_id: FinalTranscript
+    final_transcript_pdf_link: String
+    first_name: String
+    incorrect_email: Boolean
+    is_diploma_in_s3: Boolean
+    is_photo_in_s3: Boolean
+    is_thumb_up_green: Boolean
+    jury_member_id: User
+    last_name: String
+    last_obtained_diploma: String
+    mentor_evaluation_id: ID
+    multi_employability_survey_ids: [ID]
+    nationality: String
+    parallel_intake: Boolean
+    parents: [Parent]
+    photo: String
+    photo_s3_path: String
+    place_of_birth: String
+    previous_courses: [PreviousCourse]
+    reason_for_resignation: String
+    retake_test_corrections: [RetakeTestCorrection]
+    retake_tests: [Test]
+    rncp_title: RncpTitle
+    scholar_season: ScholarSeason
+    school: School
+    sex: EnumStudentSex
+    specializations: StudentSpecialization
+    status: EnumStudentStatus
+    tele_phone: String
+    transcript: Transcript
+    user_id: User!
+}
+
+type StudentShouldRetake {
+    decision: Boolean
+    school: School
+    student: Student
+}
+
+type StudentSpecialization {
+    _id: ID
+    name: String
+}
+
+type SubSection {
+    direction: String
+    maximum_rating: Int
+    title: String
+}
+
+type Subject {
+    _id: ID
+    class_id: Class
+    coefficient: Int
+    count_for_title_final_score: Boolean
+    credit: Int
+    expertise: Expertise
+    is_pfe: Boolean
+    is_specialization: Boolean
+    is_subject_transversal_block: Boolean
+    max_point: Int
+    minimum_score_for_certification: Int
+    order: Int
+    page_break: Boolean
+    pass_case: PasscaseForSubject
+    rncp_title: RncpTitle
+    status: EnumSubjectStatus
+    subject_name: String
+    subject_tests: [SubjectTest]
+    subject_transversal_block_id: Subject
+}
+
+type SubjectTest {
+    _id: ID
+    auto_mark: Int
+    evaluation: String
+    initial_subject_id: SubjectTest
+    initial_subject_test: SubjectTest
+    is_different_condition: Boolean
+    is_retake_test: Boolean
+    is_specialization: Boolean
+    minimum_score: Int
+    never_visible_for_student: Boolean
+    order: Int
+    parallel_intake: Boolean
+    retake_subject_id: SubjectTest
+    retake_subject_test: SubjectTest
+    retake_when_absent_justified: Boolean
+    retake_when_absent_not_justified: Boolean
+    score_not_calculated_for_retake_block: Boolean
+    selected_test_retake_block: SubjectTest
+    status: EnumSubjectTestStatus
+    test_is_not_retake_able_in_retake_block: Boolean
+    type: String
+    use_best_mark: Boolean
+    visible_before_decision_jury: Boolean
+    weight: Int
+}
+
+type Test {
+    _id: ID
+    added_questionnaire: Boolean
+    allow_final_retake: Boolean
+    allow_retake_exam: Boolean
+    calendar: Calendar
+    class: Class
+    coefficient: Int
+    controlled_test: Boolean
+    correction_grid: CorrectionGrid
+    correction_status: EnumCorrectionStatus
+    correction_status_for_school_for_retake_v2: [CorrectionStatusForSchools]
+    correction_status_for_schools: [CorrectionStatusForSchools]
+    correction_type: EnumCorrectionType
+    corrector_assigned: [CorrectorAssigned]
+    corrector_assigned_for_final_retake: [CorrectorAssigned]
+    corrector_assigned_for_quality_control: [CorrectorAssigned]
+    corrector_assigned_for_retake_v2: [CorrectorAssigned]
+    date: Int
+    date_retake_exam: Int
+    date_type: EnumDateType
+    documents: [AcadDocument]
+    expected_documents: [ExpectedDocumentForTest]
+    final_retake_date: Int
+    group_test: Boolean
+    incomplete_creation: Boolean
+    initial_test: Test
+    is_already_published: Boolean
+    is_different_notation_grid: Boolean
+    is_initial_test: Boolean
+    is_pfe: Boolean
+    is_published: Boolean
+    is_quality_n3_sent: Boolean
+    is_retake_n1_sent: Boolean
+    is_retake_test: Boolean
+    jury_max: Int
+    jury_min: Int
+    linked_tests: [LinkedTest]
+    max_score: Int
+    name: String
+    number_of_times_published: Int
+    organiser: String
+    parent_category: AcadKit
+    parent_rncp_title: RncpTitle
+    president_jury_assigned: [PresidentJuryAssigned]
+    published_date: Int
+    quality_control: Boolean
+    quality_control_difference: Int
+    random_students_for_qc: [Student]
+    registered_student: Int
+    retake_test: Test
+    school_count_at_qc_creation: [School]
+    schools: [TestSchool]
+    status: EnumTestStatus
+    student_per_school_for_qc: Int
+    student_should_retake: [StudentShouldRetake]
+    subject_id: Subject
+    subject_test_id: SubjectTest
+    test_date_pc: [TestDatePC]
+    type: EnumTestType
+    weight: Int
+}
+
+type TestDatePC {
+    preparation_center_id: School
+    test_date: Int
+}
+
+type TestSchool {
+    school_details: String
+    test_date: Int
+}
+
+type TitleCreationDetail {
+    created_at: String
+    created_by: User
+    last_modified: String
+    published_at: String
+    published_by: User
+}
+
+type TotalZone {
+    additional_max_score: Int
+    decimal_place: Int
+    display_additional_total: Boolean
+}
+
+type TrackThumbUp {
+    allow_final_transcript_gen: Boolean
+}
+
+type Transcript {
+    allow_final_transcript_gen: Boolean
+    class_id: Class
+    scholar_season_id: ScholarSeason
+}
+
+type User {
+    _id: ID!
+    auth_token: String
+    civility: EnumCivility
+    created_by: User
+    curriculum_vitae: CurriculumnVitae
+    direct_line: String
+    email: String
+    entities: [Entity!]
+    first_name: String!
+    hashed_password: String
+    incorrect_email: Boolean
+    is_password_set: Boolean
+    is_registered: Boolean
+    is_social_login: Boolean
+    is_user_registration_email_sent: Boolean
+    is_user_student: Boolean
+    last_name: String!
+    office_phone: String
+    portable_phone: String
+    position: String
+    profile_picture: String
+    recovery_code: String
+    salt: String
+    secondary_emails: [String]
+    sex: EnumSex
+    social_login: SocialLogin
+    status: EnumStatus
+    user_status: EnumUserStatus
+}
+
+type UserSelection {
+    selection_type: enumSelectionType
+    user_id: User
+    user_type_id: UserType
+}
+
+type UserType {
+    _id: ID
+    acad_kit_permissions: [FolderPermission]
+    description: String
+    entity: EnumEntityForUserType
+    is_ceated_for_system: Boolean
+    is_created_by_user: Boolean
+    name: String
+    role: EnumRoleForUserType
+    status: EnumStatusForUserType
+}
+
+type ZipCode {
+    _id: ID
+    academy: String
+    city: String
+    city_and_zip_code: String
+    country: String
+    dpt_number: Int
+    dpt_text: String
+    province: String
+    zip_code: String
+}
+
+enum EnumAcadKitStatus {
+    active
+    deleted
+}
+
+enum EnumAfterFinalRetakeDecision {
+    ELIMINATED
+    FAILED
+    PASS1
+    PASS2
+    PASS3
+}
+
+enum EnumCertificateIssuanceStatus {
+    certificate_issued
+    details_confirmed
+    details_need_revision
+    details_revision_done
+    sent_to_student
+}
+
+enum EnumCertificationStatus {
+    eliminated
+    failed
+    initial
+    pass
+}
+
+enum EnumCivility {
+    MR
+    MRS
+}
+
+enum EnumClassStatus {
+    active
+    deleted
+}
+
+enum EnumConditionType {
+    eliminee
+    fail
+    pass
+    pass_with_jury_kindness
+    retake
+}
+
+enum EnumConsiderWhichSetForFinalTranscript {
+    one
+    three
+    two
+}
+
+enum EnumCorrectionStatus {
+    corrected
+    pending
+    validated_by_acad_dir
+    validated_by_certi_admin
+}
+
+enum EnumCorrectionType {
+    ADMTC
+    cp
+    free
+    pc
+}
+
+enum EnumCorrelation {
+    AND
+    OR
+}
+
+enum EnumDateType {
+    Different
+    Fixed
+    Marks
+    fixed
+}
+
+enum EnumDeadLineDateType {
+    fixed
+    relative
+}
+
+enum EnumEntityForUserType {
+    academic
+    admtc
+    company
+    group_of_schools
+}
+
+enum EnumEntityType {
+    academic
+    admtc
+    company
+    group_of_schools
+    service_provider
+}
+
+enum EnumEventType {
+    custom
+    test
+}
+
+enum EnumExpertiseStatus {
+    active
+    deleted
+}
+
+enum EnumFilterStatus {
+    active
+    deactivated
+}
+
+enum EnumJuryCurrentStatus {
+    assign_member_jury
+    assign_number_jury
+    assign_president_jury
+    assign_student_jury
+    done
+    initialize
+}
+
+enum EnumJuryDecisionForFinalTranscript {
+    eliminated
+    failed
+    initial
+    pass
+    retaking
+}
+
+enum EnumJuryType {
+    final_jury
+    retake_jury
+}
+
+enum EnumMailType {
+    any
+    draft
+    important
+    inbox
+    sent
+    trash
+}
+
+enum EnumModule {
+    admin
+    candidate
+    external
+    school
+    university
+}
+
+enum EnumRank {
+    a
+    c
+    cc
+}
+
+enum EnumRoleForUserType {
+    certifier
+    preparation_center
+}
+
+enum EnumSchoolType {
+    certifier
+    preparation_center
+}
+
+enum EnumSentStatus {
+    school_board_eliminated
+    school_board_fail
+    school_board_pass
+    school_board_retake
+    student_accept_retake
+    student_refuse_retake
+    student_retake_fail
+    student_retake_pass
+    transcript_not_send
+    transcript_sent
+}
+
+enum EnumSex {
+    F
+    M
+}
+
+enum EnumSorting {
+    asc
+    desc
+}
+
+enum EnumStatus {
+    active
+    deleted
+}
+
+enum EnumStatusFilter {
+    active
+    all
+    not_active
+}
+
+enum EnumStatusForAcadDocument {
+    active
+    deleted
+}
+
+enum EnumStatusForAcadEvent {
+    active
+    deleted
+}
+
+enum EnumStatusForFinalTranscript {
+    active
+    deleted
+}
+
+enum EnumStatusForJuryDecisionParameter {
+    active
+    deleted
+}
+
+enum EnumStatusForMail {
+    active
+    deleted
+}
+
+enum EnumStatusForNotificationHistory {
+    active
+    deleted
+}
+
+enum EnumStatusForRncpTitle {
+    active
+    archived
+}
+
+enum EnumStatusForSchool {
+    active
+    deleted
+}
+
+enum EnumStatusForUserType {
+    active
+    deleted
+}
+
+enum EnumStepsCreatedFrom {
+    correction_type
+    cross_correction
+    date_type
+    final_retake
+    group_test
+    manual
+    quality_control
+    retake
+    test_type
+}
+
+enum EnumStudentDecision {
+    failed
+    retaking
+}
+
+enum EnumStudentSex {
+    Female
+    Male
+}
+
+enum EnumStudentStatus {
+    active
+    deactivated
+    deleted
+    pending
+}
+
+enum EnumSubjectStatus {
+    active
+    deleted
+}
+
+enum EnumSubjectTestStatus {
+    active
+    deleted
+}
+
+enum EnumTestStatus {
+    active
+    deleted
+}
+
+enum EnumTestType {
+    Business_Game
+    Competition
+    External_Test
+    Jury
+    Memoire_ECRIT
+    Memoire_ORAL
+    Oral
+    PFE
+    PFE_ECRIT
+    PFE_ORAL
+    School_Mentor_Evaluation
+    SkillsAssessment
+    Written
+    business_game
+    free_continuous_control
+    mentor_evaluation
+}
+
+enum EnumType {
+    fixed
+    relative
+}
+
+enum EnumUserStatus {
+    active
+    incorrect_email
+    pending
+}
+
+enum EnumValidationType {
+    average_block
+    average_subject
+    average_test
+    block
+    overall_average
+    subject
+    test
+}
+
+enum enumSelectionType {
+    test_group
+    user
+    user_type
+}
+
+enum enumStatusForAcadTask {
+    active
+    deleted
+}
+
+enum enumStatusForCalendarStep {
+    active
+    deleted
+}
+
+enum enumStatusForCertificateParameter {
+    active
+    deleted
+}
+
+enum enumStatusForCrossCorrector {
+    active
+    deleted
+}
+
+enum enumStatusForScholarSeason {
+    active
+    deleted
+}
+
+enum enumTaskStatus {
+    done
+    in_progress
+    todo
+}
+
+enum enumTaskType {
+    add_task
+    admtc_correction
+    admtc_jury_decision
+    assign_corrector_for_cert_admin
+    assign_corrector_of_problematic
+    assign_corrector_problematic
+    assign_jury
+    assign_pic_for_jury_logistic
+    assign_president_jury
+    assign_quality_control_corrector
+    calendar_step
+    certifier_marks_entry
+    certifier_validation
+    create_members_of_final_jury
+    cross_correction
+    documents_expected
+    employability_survey_for_student
+    final_certificate_revision
+    final_retake_marks_entry
+    for_new_student
+    input_student_decision_for_retake_v2
+    internal_task
+    jury_organization_marks_entry
+    marks_entry_for_quality_control
+    parent_task
+    problematic_task
+    redo_marks_entry
+    retake_assign_corrector
+    reupload_expected_document
+    send_copies__cross_corrector
+    send_copies__validate
+    student_confirm_certificate
+    submit_students_for_retake_test
+    test
+    test_correction
+    upload_final_retake_document
+    validate_cross_correction
+    validate_jury_organization
+    validate_problematic_task
+    validate_test_correction_for_final_retake
+}
+
+input AcadDocumentInput {
+    add_task_doc_upload: Boolean
+    created_at: Int
+    created_by: ID
+    document_type: String
+    file_name: String
+    file_path: String
+    is_internal_task: Boolean
+    jury_organization_id: ID
+    moved_to_s3: Boolean
+    name: String
+    parent_category: ID
+    parent_rncp_title: ID
+    parent_test: ID
+    president_of_jury_id: ID
+    published_for_student: Boolean
+    s3_file_name: String
+    school_id: ID
+    school_short_name: String
+    status: EnumStatusForAcadDocument
+    stored_in_s3: String
+    task_id: ID
+    test_correction: ID
+    type: String
+    uploaded_for_group: ID
+    uploaded_for_other_user: ID
+    uploaded_for_student: ID
+}
+
+input AcadEventInput {
+    created_by: ID
+    event_type: EnumEventType
+    from_date: Int
+    is_all_school: Boolean
+    name: String
+    rncp: ID
+    schools: [ID!]!
+    status: EnumStatusForAcadEvent
+    test: ID
+    to_date: Int
+    user_types: [ID]
+}
+
+input AcadKitInput {
+    class: ID
+    created_at: Int
+    description: String
+    documents: [ID]
+    parent_category: Int
+    parent_rncp_title: ID
+    school: ID
+    sort_order: Int
+    status: EnumAcadKitStatus
+    sub_categories: [ID]
+    tests: [ID]
+    title: String
+}
+
+input AcadTaskInput {
+    action_taken: String
+    class_id: ID
+    comments: String
+    created_by: ID!
+    created_date: Int
+    cross_correction_for: ID
+    description: String
+    document_expected: DocumentExpectedSchemaInput
+    due_date: Int
+    employability_survey_id: ID
+    for_each_student: Boolean
+    is_final_retake_task: Boolean
+    is_parent_task: Boolean
+    is_retake_task: Boolean
+    jury_id: ID
+    jury_member_id: ID
+    notification_sent: Int
+    parent_task: ID
+    priority: Int
+    rncp: ID!
+    school: ID
+    status: enumStatusForAcadTask
+    student_id: ID
+    task_status: enumTaskStatus
+    task_summary: String
+    test: ID!
+    test_group_id: ID
+    type: enumTaskType
+    unique_id: String
+    user_selection: UserSelectionInput
+}
+
+input AcademicKitInput {
+    categories: [ID]
+    is_created: Boolean
+}
+
+input AddressInput {
+    city: String
+    country: String
+    line1: String
+    line2: String
+    postal_code: String
+}
+
+input AlertFunctionalityInput {
+    button1: String
+    button2: String
+    creator: ID
+    is_deleted: Boolean
+    message: String
+    name: String
+    published: Boolean
+    recipients: [ID!]!
+    required_response: Boolean
+    responses: [ResponseInput]
+}
+
+input AlertInput {
+    message: String
+    publication_date: String
+    title: String
+    user_type: ID
+    will_user_answer: Boolean
+}
+
+input AllowedInput {
+    download: Boolean
+    update: Boolean
+    view: Boolean
+}
+
+input BonusAndPenaltyInput {
+    count: Int
+    title: String
+}
+
+input CalendarInput {
+    steps: [StepsInput]
+}
+
+input CalendarStepInput {
+    before_day: Int
+    number_of_day: Int
+    status: ID
+    title: String
+    user_type_id: ID
+}
+
+input CertificateFileUploadInput {
+    file_name: String
+    file_path: String
+}
+
+input CertificateIssuedOnInput {
+    date: Int
+    month: Int
+    year: Int
+}
+
+input CertificateParameterInput {
+    certificate_background_image: CertificateFileUploadInput
+    certificate_issuance_date: String
+    certifier_admin_signature: CertificateFileUploadInput
+    certifier_logo: CertificateFileUploadInput
+    certifier_stamp: CertificateFileUploadInput
+    class_id: ID
+    font_size: Int
+    font_type: String
+    footer: String
+    header: String
+    rncp_id: ID
+    rncp_logo: CertificateFileUploadInput
+    status: enumStatusForCertificateParameter
+}
+
+input CertificationRuleDocumentDownloadedInput {
+    download_date: Int
+    student_id: ID
+}
+
+input CertificationRuleDocumentInput {
+    document_id: ID
+    file_name: String
+    file_path: String
+    s3_file_name: String
+    stored_in_s3: Boolean
+}
+
+input CertificationRuleInput {
+    class_id: ID
+    documents: [CertificationRuleDocumentInput]
+    message: String
+    rncp_id: ID
+    sent_count: Int
+    status: EnumStatus
+    title: String
+}
+
+input CertificationRuleSentInput {
+    certification_rule_id: ID
+    class_id: ID
+    document_downloaded: [CertificationRuleDocumentDownloadedInput]
+    documents: [CertificationRuleDocumentInput]
+    message: String
+    rncp_id: ID
+    status: EnumStatus
+    student_accepted: [CertificationRuleStudentAcceptedInput]
+    title: String
+}
+
+input CertificationRuleStudentAcceptedInput {
+    acceptance_date: Int
+    student_id: ID
+}
+
+input ClassFilterInput {
+    description: String
+    job_description: EnumStatusFilter
+    mentor_evaluation: EnumStatusFilter
+    name: String
+    problematic: EnumStatusFilter
+}
+
+input ClassInput {
+    allow_job_description: Boolean
+    allow_mentor_evaluation: Boolean
+    allow_problematic: Boolean
+    description: String
+    expertise_mark_point_status: Boolean
+    expertise_max_point: Int
+    name: String
+    parent_rncp_title: ID
+    status: EnumClassStatus
+}
+
+input ClassSortingInput {
+    description: EnumSorting
+    job_description: EnumSorting
+    mentor_evaluation: EnumSorting
+    name: EnumSorting
+    problematic: EnumSorting
+}
+
+input CompanyInput {
+    company: ID
+    end_date: Int
+    is_active: Boolean
+    mentor: ID
+    start_date: Int
+}
+
+input CorrectedTestForQualityControlInput {
+    correction: ID
+    test: ID
+}
+
+input CorrectedTestInput {
+    correction: ID
+    test: ID
+}
+
+input CorrectionGridFieldInput {
+    align: String
+    dataType: String
+    type: String
+    value: String
+}
+
+input CorrectionGridFooterInput {
+    fields: [CorrectionGridFieldInput]
+    text: String
+    text_below: String
+}
+
+input CorrectionGridHeaderInput {
+    fields: [CorrectionGridFieldInput]
+    text: String
+}
+
+input CorrectionGridInput {
+    correction: CorrectionInput
+    footer: CorrectionGridFooterInput
+    group_detail: GroupDetailForTestInput
+    header: CorrectionGridHeaderInput
+    orientation: String
+}
+
+input CorrectionInput {
+    bonuses: [BonusAndPenaltyInput]
+    bonuses_header: String
+    comment_area: Boolean
+    comments_header: String
+    directions_column_header: String
+    display_final_total: Boolean
+    final_comments_header: String
+    letter_marks_column_header: String
+    number_marks_column_header: String
+    penalties: [BonusAndPenaltyInput]
+    penalties_header: String
+    sections: [SectionInput]
+    show_as_list: Boolean
+    show_bonuse: Boolean
+    show_directions_column: Boolean
+    show_eliminations: Boolean
+    show_final_comments: Boolean
+    show_letter_marks_column: Boolean
+    show_notations_marks: Boolean
+    show_number_marks_column: Boolean
+    show_penaltie: Boolean
+    total_zone: TotalZoneInput
+}
+
+input CorrectionStatusForSchoolsInput {
+    correction_status: EnumCorrectionStatus
+    is_retake_going_on: Boolean
+    is_retake_v2_going_on: Boolean
+    modification_period_date: String
+    school: ID
+}
+
+input CorrectorAssignedInput {
+    corrector_id: ID
+    no_of_students: Int
+    school_id: ID
+    students: [ID]
+}
+
+input CrossCorrectorInput {
+    class_id: ID
+    rncp_title_id: ID
+    scholar_season_id: ID
+    school_correcting_corrector_id: ID
+    school_correcting_id: ID
+    school_origin_id: ID
+    status: enumStatusForCrossCorrector
+    student_id: ID
+    test_id: ID
+}
+
+input CurriculumnVitaeInput {
+    file_path: String
+    is_in_s3: Boolean
+    name: String
+    s3_path: String
+}
+
+input DeadlineDateInput {
+    before: Boolean
+    day: Int
+    deadline: Int
+    type: EnumDeadLineDateType
+}
+
+input DecisionGeneratedOnInput {
+    date: Int
+    day: String
+    month: Int
+    year: Int
+}
+
+input DecisionParameterInput {
+    condition_name: String
+    condition_type: EnumConditionType
+    parameters: [ParameterInput]
+    status: EnumStatusForJuryDecisionParameter
+}
+
+input DocumentExpectedSchemaInput {
+    document_id: ID
+    name: String
+}
+
+input EmployabilitySurveySentInput {
+    questionnaire_template: ID!
+    sent_at: String
+}
+
+input EntityInput {
+    assigned_rncp_title: ID
+    class: ID
+    company: ID
+    entity_name: EnumEntityType
+    group_of_schools: [ID]
+    school: ID
+    school_type: EnumSchoolType
+    status: EnumStatus
+    type: ID
+}
+
+input ExpectedDocumentForTestInput {
+    deadline_date: DeadlineDateInput
+    doc_upload_date_retake_exam: Int
+    doc_upload_for_final_retake: Int
+    document_name: String
+    document_user_type: ID
+    is_for_all_student: Boolean
+}
+
+input ExpertiseInput {
+    _id: ID
+    block_of_experise: String
+    class_id: ID
+    count_for_title_final_score: Boolean
+    description: String
+    expertise_credit: Int
+    field_index: Int
+    is_retake_by_block: Boolean
+    is_specialization: Boolean
+    max_point: Int
+    method_of_evaluation: String
+    min_score: Int
+    order: Int
+    page_break: Boolean
+    pass_case: PasscaseInput
+    rncp_title: ID
+    selected_block_retake: ID
+    specialization: ExpertiseSpecializationInput
+    status: EnumExpertiseStatus
+    subjects: [SubjectInput]
+    transversal_block: Boolean
+}
+
+input ExpertiseSpecializationInput {
+    _id: ID
+    name: String
+}
+
+input FileAttachmentInput {
+    file_name: String
+    path: String
+}
+
+input FinalTranscriptInput {
+    after_final_retake_decision: EnumAfterFinalRetakeDecision
+    after_final_retake_decision_generated_on: DecisionGeneratedOnInput
+    certification_status: EnumCertificationStatus
+    class_id: ID
+    final_transcript_generated_on: DecisionGeneratedOnInput
+    final_transcript_status: EnumSentStatus
+    has_jury_finally_decided: Boolean
+    input_final_decision_status: Boolean
+    is_validated: Boolean
+    jury_decision_for_final_transcript: EnumJuryDecisionForFinalTranscript
+    jury_decision_generated_on: DecisionGeneratedOnInput
+    retake_tests_for_students: RetakeTestForStudentInput
+    rncp_id: ID
+    scholar_season_id: ID
+    school_id: ID
+    status: EnumStatusForFinalTranscript
+    student_decision: EnumStudentDecision
+    student_decision_generated_on: DecisionGeneratedOnInput
+    student_id: ID
+}
+
+input FinalTranscriptParameterInput {
+    class_id: ID
+    final_n2_deadline: String
+    final_n3_deadline: String
+    final_n3_special_text: String
+    final_n7_extra_retake: String
+    final_n7_jury_decision: String
+    rncp_id: ID
+    status: EnumStatus
+}
+
+input FolderPermissionInput {
+    admissions: PermissionInput
+    annales_epreuves: PermissionInput
+    archives: PermissionInput
+    boitea_outils: PermissionInput
+    communication: PermissionInput
+    epreuves_certification: PermissionInput
+    examens: PermissionInput
+    organisation: PermissionInput
+    programme: PermissionInput
+}
+
+input GroupDetailForTestInput {
+    groups_allocation: Boolean
+    header_text: String
+    min_no_of_students: Int
+    no_of_students: Int
+}
+
+input GroupDetailInput {
+    rncp_titles: [ID]
+    user_types: [ID]
+}
+
+input ImportStudent {
+    current_class: ID
+    rncp_title: ID
+    scholar_season: ID
+    school: ID
+    sparator: String
+}
+
+input JuryDecisionParameterInput {
+    class_id: ID
+    decision_parameters: [DecisionParameterInput]
+    rncp_id: ID
+}
+
+input JuryInput {
+    PIC_logistics: [ID]
+    certifier: ID
+    current_status: EnumJuryCurrentStatus
+    is_published: Boolean
+    jury_created_by: ID
+    jury_members: [JuryMemberInput]
+    name: String
+    rncp_titles: [JuryRncpTitleInput]
+    status: EnumStatus
+    survival_kit: [ID]
+    type: EnumJuryType
+}
+
+input JuryMemberInput {
+    academic_jury_member: ID
+    break_duration: Int
+    break_time: String
+    class: ID
+    date_finish: String
+    date_start: String
+    end_time: String
+    is_student_assigned: Boolean
+    jury_logistic_id: ID
+    jury_organization_id: ID
+    jury_serial_number: String
+    logistic_document: ID
+    mark_entry_assigned: JuryMemberMarkEntryAssignedInput
+    number_students: Int
+    president_of_jury: ID
+    professional_jury_member: ID
+    rncp_title: ID
+    school: ID
+    start_time: String
+    students: [JuryMemberStudentInput]
+    substitution_jury_member: ID
+}
+
+input JuryMemberMarkEntryAssignedInput {
+    assigned_at: String
+    assigned_to: ID
+    task_id: ID
+}
+
+input JuryMemberStudentInput {
+    date_test: String
+    student_id: ID
+    test_correction_id: ID
+    test_hours_finish: String
+    test_hours_start: String
+}
+
+input JuryParameterInput {
+    class_id: ID
+    default_student_per_day: Int
+    jury_n7_phrase_1: String
+    jury_n7_phrase_2: String
+    minimum_studentPer_day: Int
+    rncp_id: ID
+    standard_duration: Int
+    status: EnumStatus
+}
+
+input JuryRncpTitleInput {
+    class_id: ID
+    rncp_id: ID
+    schools: [JurySchoolInput]
+    test_id: ID
+}
+
+input JurySchoolInput {
+    date_finish: String
+    date_start: String
+    is_jury_assigned: Boolean
+    number_of_jury: Int
+    retake_center: ID
+    school: ID
+    students: [ID]
+}
+
+input LinkedTestInput {
+    coefficient: Int
+    test: ID
+}
+
+input MailInput {
+    attachments: [String]
+    file_attachments: [FileAttachmentInput]
+    group_detail: GroupDetailInput
+    is_group_child: Boolean
+    is_group_parent: Boolean
+    is_sent: Boolean
+    is_urgent_mail: Boolean
+    message: String
+    recipient_properties: [RecipientPropertySchemaInput]
+    sender_property: SenderPropertySchemaInput
+    status: EnumStatusForMail
+    subject: String
+    tags: [String]
+    user_type_selection: Boolean
+}
+
+input NotificationHistoryInput {
+    from: ID
+    notification_message: String
+    notification_reference: String
+    notification_subject: String
+    rncp_titles: [ID]
+    schools: [ID]
+    sent_date: String
+    status: EnumStatusForNotificationHistory
+    subject: ID
+    test: ID
+    to: [ID]
+}
+
+input ParameterInput {
+    block_parameters: [ID]
+    correlation: EnumCorrelation
+    score: Int
+    sign: String
+    subject_parameters: [ID]
+    subject_test_parameters: [ID]
+    validation_type: EnumValidationType
+}
+
+input ParentInput {
+    address: AddressInput
+    email: String
+    family_name: String
+    job: String
+    name: String
+    profession: String
+    professional_email: String
+    relation: String
+    sex: EnumStudentSex
+    tele_phone: String
+}
+
+input PasscaseForSubjectInput {
+    case1: Int
+    case2: Int
+    case3: Int
+    elimination_score: Int
+}
+
+input PasscaseInput {
+    case1: Int
+    case2: Int
+    case3: Int
+}
+
+input PermissionInput {
+    permissions: AllowedInput
+    status: Boolean
+}
+
+input PresidentJuryAssignedInput {
+    corrector_id: ID
+    due_date: String
+    no_of_student: Int
+    students: [ID]
+}
+
+input PreviousCourseInput {
+    allow_final_transcript_gen: Boolean
+    certificate_issuance_status: EnumCertificateIssuanceStatus
+    certificate_issued_by: ID
+    certificate_issued_on: CertificateIssuedOnInput
+    certificate_pdf_link: String
+    changed_on: Int
+    class_id: ID
+    companies: CompanyInput
+    final_transcript_id: ID
+    final_transcript_pdf_link: String
+    parallel_intake: Boolean
+    rncp_id: ID
+    scholar_season_id: ID
+    school_id: ID
+    specialization: StudentSpecializationInput
+}
+
+input RecipientPropertySchemaInput {
+    is_read: Boolean
+    mail_type: EnumMailType
+    module: EnumModule
+    rank: EnumRank
+    recipients: [String]
+}
+
+input ResponseInput {
+    response: String
+    responsed_at: String
+    user_id: ID
+}
+
+input RetakeTestCorrectionInput {
+    correction: ID
+    retake_test: ID
+    test: ID
+}
+
+input RetakeTestForStudentInput {
+    is_test_accepted_by_student: Boolean
+    name: String
+    position: String
+    test_id: ID
+}
+
+input RncpTitleInput {
+    add_school: SchoolInput
+    admtc_dir_responsible: ID
+    certifier: ID
+    classes: [ID]
+    is_published: Boolean
+    journal_date: String
+    journal_text: String
+    long_name: String
+    preparation_centers: [ID]
+    rncp_code: String
+    rncp_level: String
+    short_name: String
+    specializations: [SpecializationForRNCPInput]
+    status: EnumStatusForRncpTitle
+    title_creation_detail: TitleCreationDetailInput
+}
+
+input RncpTitleUpdateInput {
+    admtc_dir_responsible: ID
+    is_published: Boolean
+    journal_date: String
+    journal_text: String
+    specializations: [SpecializationForRNCPInput]
+    title_creation_detail: TitleCreationDetailInput
+}
+
+input ScholarSeasonInput {
+    created_by: ID
+    created_date: Int
+    description: String
+    from: String
+    rncp_titles: [ID]
+    scholar_season: String!
+    status: enumStatusForScholarSeason
+    to: String
+}
+
+input SchoolAddressInput {
+    address1: String
+    address2: String
+    city: String
+    postal_code: String
+    region: String
+}
+
+input SchoolInput {
+    add_rncp_titles: [RncpTitleInput]
+    belong_to_group: Boolean
+    certifier_ats: [ID]
+    country: String
+    group_name: String
+    long_name: String
+    preparation_center_ats: [ID]
+    retake_center: ID
+    school_address: SchoolAddressInput
+    school_siret: String
+    selected_specializations: [SpecializationInput]
+    short_name: String
+    status: EnumStatusForSchool
+    users: [ID]
+}
+
+input SchoolUpdateInput {
+    add_rncp_titles: [RncpTitleInput]
+    belong_to_group: Boolean
+    country: String
+    group_name: String
+    long_name: String
+    preparation_center_ats: [ID]
+    retake_center: ID
+    school_address: SchoolAddressInput
+    school_siret: String
+    selected_specializations: [SpecializationInput]
+    short_name: String
+}
+
+input SectionInput {
+    maximum_rating: Int
+    page_break: Boolean
+    sub_sections: [SubSectionInput]
+    title: String
+}
+
+input SenderPropertySchemaInput {
+    is_read: Boolean
+    mail_type: EnumMailType
+    module: EnumModule
+    sender: String
+}
+
+input SocialLoginInput {
+    linked_email: String
+    linked_in: Boolean
+}
+
+input SpecializationForRNCPInput {
+    is_specialization_assigned: Boolean
+    name: String
+}
+
+input SpecializationInput {
+    _id: ID
+    is_specialization_assigned: Boolean
+    name: String
+}
+
+input StepsDateInput {
+    before: Boolean
+    day: Int
+    type: EnumDeadLineDateType
+    value: String
+}
+
+input StepsInput {
+    actor: ID
+    created_from: EnumStepsCreatedFrom
+    date: StepsDateInput
+    sender: String
+    text: String
+}
+
+input StudentInput {
+    address: AddressInput
+    allow_final_transcript_gen: Boolean
+    certificate_issuance_status: EnumCertificateIssuanceStatus
+    certificate_issued_by: ID
+    certificate_issued_on: CertificateIssuedOnInput
+    certificate_pdf_link: String
+    civility: String
+    company: CompanyInput
+    corrected_test_for_quality_controls: [CorrectedTestForQualityControlInput]
+    corrected_tests: [CorrectedTestInput]
+    current_class: ID
+    date_of_birth: Int
+    date_of_resignation: Int
+    diploma: String
+    diploma_s3_path: String
+    diploma_upload_date: String
+    email: String!
+    employability_survey_id: ID
+    final_transcript_id: ID
+    final_transcript_pdf_link: String
+    first_name: String
+    incorrect_email: Boolean
+    is_diploma_in_s3: Boolean
+    is_photo_in_s3: Boolean
+    is_thumb_up_green: Boolean
+    job_description_id: ID
+    jury_member_id: ID
+    last_name: String
+    last_obtained_diploma: String
+    mentor_evaluation_id: ID
+    multi_employability_survey_ids: [ID]
+    nationality: String
+    parallel_intake: Boolean
+    parents: [ParentInput]
+    photo: String
+    photo_s3_path: String
+    place_of_birth: String
+    previous_courses: [PreviousCourseInput]
+    reason_for_resignation: String
+    retake_test_corrections: [RetakeTestCorrectionInput]
+    retake_tests: [ID]
+    rncp_title: ID
+    scholar_season: ID
+    school: ID
+    sex: EnumStudentSex
+    specializations: StudentSpecializationInput
+    status: EnumStudentStatus
+    tele_phone: String
+    transcript: TranscriptInput
+    user_id: ID
+}
+
+input StudentShouldRetakeInput {
+    decision: Boolean
+    school: ID
+    student: ID
+}
+
+input StudentSpecializationInput {
+    name: String
+}
+
+input SubSectionInput {
+    direction: String
+    maximum_rating: Int
+    title: String
+}
+
+input SubjectInput {
+    _id: ID
+    class_id: ID
+    coefficient: Int
+    count_for_title_final_score: Boolean
+    credit: Int
+    expertise: ID
+    is_pfe: Boolean
+    is_specialization: Boolean
+    is_subject_transversal_block: Boolean
+    max_point: Int
+    minimum_score_for_certification: Int
+    order: Int
+    page_break: Boolean
+    pass_case: PasscaseForSubjectInput
+    rncp_title: ID
+    status: EnumSubjectStatus
+    subject_name: String
+    subject_tests: [SubjectTestInput]
+    subject_transversal_block_id: ID
+}
+
+input SubjectTestInput {
+    _id: ID
+    auto_mark: Int
+    evaluation: String
+    initial_subject_id: SubjectInput
+    initial_subject_test: SubjectTestInput
+    is_different_condition: Boolean
+    is_retake_test: Boolean
+    is_specialization: Boolean
+    minimum_score: Int
+    never_visible_for_student: Boolean
+    order: Int
+    parallel_intake: Boolean
+    retake_subject_id: SubjectInput
+    retake_subject_test: SubjectTestInput
+    retake_when_absent_justified: Boolean
+    retake_when_absent_not_justified: Boolean
+    score_not_calculated_for_retake_block: Boolean
+    selected_test_retake_block: ID
+    status: EnumSubjectTestStatus
+    test_is_not_retake_able_in_retake_block: Boolean
+    type: String
+    use_best_mark: Boolean
+    visible_before_decision_jury: Boolean
+    weight: Int
+}
+
+input TestDatePCInput {
+    preparation_center_id: ID
+    test_date: String
+}
+
+input TestInput {
+    added_questionnaire: Boolean
+    allow_final_retake: Boolean
+    allow_retake_exam: Boolean
+    calendar: CalendarInput
+    class: ID
+    coefficient: Int
+    controlled_test: Boolean
+    correction_grid: CorrectionGridInput
+    correction_status: EnumCorrectionStatus
+    correction_status_for_school_for_retake_v2: [CorrectionStatusForSchoolsInput]
+    correction_status_for_schools: [CorrectionStatusForSchoolsInput]
+    correction_type: EnumCorrectionType
+    corrector_assigned: [CorrectorAssignedInput]
+    corrector_assigned_for_final_retake: [CorrectorAssignedInput]
+    corrector_assigned_for_quality_control: [CorrectorAssignedInput]
+    corrector_assigned_for_retake_v2: [CorrectorAssignedInput]
+    date: String
+    date_retake_exam: String
+    date_type: EnumDateType
+    documents: [ID]
+    expected_document: [ExpectedDocumentForTestInput]
+    final_retake_date: String
+    group_test: Boolean
+    incomplete_creation: Boolean
+    initial_test: ID
+    is_already_published: Boolean
+    is_different_notation_grid: Boolean
+    is_initial_test: Boolean
+    is_pfe: Boolean
+    is_published: Boolean
+    is_quality_n3_sent: Boolean
+    is_retake_n1_sent: Boolean
+    is_retake_test: Boolean
+    jury_max: Int
+    jury_min: Int
+    linked_tests: [LinkedTestInput]
+    max_score: Int
+    name: String
+    number_of_times_published: Int
+    organiser: String
+    parent_category: ID
+    parent_rncp_title: ID
+    president_jury_assigned: [PresidentJuryAssignedInput]
+    published_date: String
+    quality_control: Boolean
+    quality_control_difference: Int
+    random_students_for_qc: [ID]
+    registered_student: Int
+    retake_test: ID
+    school_count_at_qc_creation: [ID]
+    schools: [TestSchoolInput]
+    status: EnumTestStatus
+    student_per_school_for_qc: Int
+    student_should_retake: [StudentShouldRetakeInput]
+    subject_id: ID
+    subject_test_id: ID
+    test_date_pc: [TestDatePCInput]
+    type: EnumTestType
+    weight: Int
+}
+
+input TestSchoolInput {
+    school_details: String
+    test_date: String
+}
+
+input TitleCreationDetailInput {
+    created_at: String
+    created_by: ID
+    last_modified: String
+    published_at: String
+    published_by: ID
+}
+
+input TotalZoneInput {
+    additional_max_score: Int
+    decimal_place: Int
+    display_additional_total: Boolean
+}
+
+input TrackThumbUpInput {
+    allow_final_transcript_gen: Boolean
+}
+
+input TranscriptInput {
+    allow_final_transcript_gen: Boolean
+    class_id: ID
+    scholar_season_id: ID
+}
+
+input UserInput {
+    auth_token: String
+    civility: EnumCivility
+    created_by: ID
+    curriculum_vitae: CurriculumnVitaeInput
+    direct_line: String
+    email: String
+    entities: [EntityInput]
+    first_name: String
+    hashed_password: String
+    incorrect_email: Boolean
+    is_password_set: Boolean
+    is_registered: Boolean
+    is_social_login: Boolean
+    is_user_registration_email_sent: Boolean
+    is_user_student: Boolean
+    last_name: String
+    office_phone: String
+    portable_phone: String
+    position: String
+    profile_picture: String
+    recovery_code: String
+    salt: String
+    secondary_emails: [String]
+    sex: EnumSex
+    social_login: SocialLoginInput
+    status: EnumStatus
+    user_status: EnumUserStatus
+}
+
+input UserSelectionInput {
+    selection_type: enumSelectionType
+    test_group_id: ID
+    user_id: ID
+    user_type_id: ID
+}
+
+input UserTypeInput {
+    acad_kit_permissions: [FolderPermissionInput]
+    description: String
+    entity: EnumEntityForUserType
+    is_ceated_for_system: Boolean
+    is_created_by_user: Boolean
+    name: String
+    role: EnumRoleForUserType
+    status: EnumStatusForUserType
+}
+
+input ZipCodeInput {
+    academy: String
+    city: String
+    city_and_zip_code: String
+    country: String
+    dpt_number: Int
+    dpt_text: String
+    province: String
+    zip_code: String
+}
+
+
+scalar Upload

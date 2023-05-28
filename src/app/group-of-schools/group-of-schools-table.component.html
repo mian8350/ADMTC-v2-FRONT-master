@@ -1,0 +1,228 @@
+<div class="top-space">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="7" class="action-header-column text-right">
+        <div class="p-grid">
+          <div class="p-col-12 text-right">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="isWaitingForResponse"
+              (click)="resetSelection()"
+              matTooltip="{{ 'RESET' | translate }}"
+            >
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              matTooltip="{{ 'GROUPOFSCHOOL.Add School Group' | translate }}"
+              color="accent"
+              *ngIf="showAddSchoolGroup()"
+              [disabled]="isWaitingForResponse"
+              (click)="onAddGroupSchool()"
+            >
+              <mat-icon class="mat-icon-default">account_balance</mat-icon> {{ 'GROUPOFSCHOOL.Add School Group' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <!-- filter section -->
+    <ng-container matColumnDef="groupNameFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="groupFilterAuto"
+            [formControl]="groupNameFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #groupFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setGroupFilter(null)">{{ 'All' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let group of filteredGroupName | async"
+              [value]="group.group_name"
+              (click)="setGroupFilter(group.group_name)"
+            >
+              {{ group.group_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="headQuarterFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="headQuearterAuto"
+            [formControl]="headQuarterFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #headQuearterAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setHQFilter(null)">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let HQ of filteredHeadQuearter | async" [value]="HQ.short_name" (click)="setHQFilter(HQ._id)">
+              {{ HQ.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolMemberFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="schoolMemberAuto"
+            [formControl]="schoolMemberFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #schoolMemberAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setMemberFilter(null)">{{ 'All' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let school of filteredSchoolMember | async"
+              [value]="school.short_name"
+              (click)="setMemberFilter(school._id)"
+            >
+              {{ school.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="rncpTitleFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="rncpTitleAuto"
+            [formControl]="rncpTitleFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #rncpTitleAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setTitleFilter(null)">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let title of filteredRncpTitle | async" [value]="title.short_name" (click)="setTitleFilter(title._id)">
+              {{ title.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- column header and value -->
+    <ng-container matColumnDef="groupName">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Group Name' | translate }}">
+        <h5 mat-sort-header="group_name">{{ 'GROUPOFSCHOOL.Group Name' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.group_name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="headQuarter">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'GROUPOFSCHOOL.Headquarter' | translate }}">
+        <h5 mat-sort-header="headquarter">{{ 'GROUPOFSCHOOL.Headquarter' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span class="tags" [matTooltip]="element?.headquarter?.short_name">
+          {{ element?.headquarter?.short_name }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolMember">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'GROUPOFSCHOOL.School Member' | translate }}">
+        <h5>{{ 'GROUPOFSCHOOL.School Member' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let school of element?.school_members; index as i">
+          <span class="tags" *ngIf="school?.short_name && i <= 1" [matTooltip]="school?.short_name">
+            {{ school?.short_name }}
+          </span>
+          <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipSchoolMember(element.school_members)"> ... </span>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rncpTitle">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'GROUPOFSCHOOL.RNCP Title' | translate }}">
+        <h5>{{ 'GROUPOFSCHOOL.RNCP Title' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngFor="let title of element?.rncp_titles; index as i">
+          <span class="tags" *ngIf="title?.short_name && i <= 1" [matTooltip]="title?.short_name">
+            {{ title?.short_name }}
+          </span>
+          <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipTitle(element.rncp_titles)"> ... </span>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+        <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Edit' | translate }}"
+          matTooltipPosition="above"
+          (click)="editGroupOfSchool(element)"
+          *ngIf="showEditSchoolGroup()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Delete' | translate }}"
+          matTooltipPosition="above"
+          (click)="deleteGroupOfSchool(element._id)"
+          *ngIf="showDeleteSchoolGroup()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': groupCount <= 10 }"
+      [length]="groupCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

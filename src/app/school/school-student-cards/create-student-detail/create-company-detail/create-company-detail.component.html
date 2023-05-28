@@ -1,0 +1,88 @@
+
+  <div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12" style=" text-align: center !important; display: contents;">
+    <div class="center-spinner spinner-wrapper">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </div>
+  <div class="p-grid" *ngIf="!isWaitingForResponse">
+  <div class="p-col-12">
+    <mat-card >
+      <form [formGroup]="companyForm">
+        <div class="p-grid">
+          <div class="p-col-6" style="padding-bottom: 0px;padding-top: 16px;">
+            <div class="p-grid baseline">
+                <!-- <mat-form-field floatLabel="never">
+                  <mat-label>{{'Select Company' | translate}}</mat-label>
+                  <mat-select formControlName="company">
+                    <mat-option *ngFor="let company of companys" [value]="company._id"> {{company.company_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <mat-form-field fxFlex>
+                  <input type="text" placeholder="{{'Select Company' | translate}}" matInput #myControl formControlName="company" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete"  [panelWidth]="'fit'">
+                    <mat-option [value]="" (click)="changeCompany('')">{{ 'None' | translate }}</mat-option>
+                    <mat-option *ngFor="let company of companys" [value]="company.company_name" (click)="changeCompany(company)">
+                      {{ company.company_name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="p-col-6" style="padding-bottom: 0px;padding-top: 16px;">
+            <div class="p-grid baseline">
+                <!-- <mat-form-field floatLabel="never">
+                  <mat-label>{{'SM_COMPANY.Select Mentor' | translate}}</mat-label>
+                  <mat-select formControlName="mentor">
+                    <mat-option *ngFor="let mentor of mentors" [value]="mentor._id"> {{mentor.full_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                
+                <mat-form-field fxFlex>
+                  <input type="text" placeholder="{{'SM_COMPANY.Select Mentor' | translate}}" matInput formControlName="mentor" [matAutocomplete]="autoMentor">
+                  <mat-autocomplete #autoMentor="matAutocomplete" [panelWidth]="'fit'">
+                    <mat-option *ngFor="let mentor of mentors" value="{{ mentor.last_name | uppercase }} {{ mentor.first_name }} {{ mentor.civility }}" (click)="changeMentor(mentor)">
+                      {{ mentor.last_name | uppercase }} {{ mentor.first_name }} {{ mentor.civility }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+    <div class="p-grid mrgn-top-05">
+      <div class="p-col-12 alignment-btn">
+        <button
+          mat-button
+          mat-raised-button
+          class="btn-student"
+          color="primary"
+          (click)="previousTab()"
+        >
+          {{ 'CARDDETAIL.Previous' | translate }}
+        </button>
+        <button mat-raised-button color="warn" (click)="onCancelAdd()">
+          {{ 'CANCEL' | translate }}
+        </button>
+        <!-- <button
+          mat-button
+          mat-raised-button
+          class="yellow-button btn-student"
+          style="color: black !important;"
+          (click)="nextTab()"
+        >
+          {{ 'CARDDETAIL.Continue' | translate }}
+        </button> -->
+        <button
+          mat-raised-button
+          class="margin-right-0"
+          color="accent"
+          [disabled]="isWaitingForResponse"
+          (click)="updateStudentParents()"
+        >
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

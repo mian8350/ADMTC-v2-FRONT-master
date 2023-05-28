@@ -1,0 +1,217 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.main-content {
+  .spinner {
+    margin: 0 auto;
+    vertical-align: middle;
+    align-self: center;
+    margin-top: 5rem;
+  }
+
+  .form-box {
+    border: 1px solid;
+    border-color: yellow;
+    padding: 1rem;
+
+    .mat-progress-spinner {
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-top: -2rem;
+      background-color: #363636;
+      width: fit-content;
+      padding: 5px;
+    }
+
+    #date-text {
+      padding: 0;
+      margin: 0;
+      vertical-align: bottom;
+      display: flex;
+      /* justify-content: center; */
+      align-items: center;
+    }
+
+    .form-content {
+      div {
+        margin: 1rem auto;
+  
+        .mat-checkbox {
+          margin: auto 1rem;
+        }
+      }
+    }
+  }
+
+  .form-box-2 {
+    border: 1px solid;
+    border-color: yellow;
+    padding: 1rem;
+    margin: 2rem auto;
+
+    .mat-progress-spinner {
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-top: -2rem;
+      background-color: #363636;
+      width: fit-content;
+      padding: 5px;
+    }
+
+    #date-text {
+      padding: 0;
+      margin: 0;
+      vertical-align: bottom;
+      display: flex;
+      /* justify-content: center; */
+      align-items: center;
+    }
+  }
+}
+.right-rl {
+  float: right;
+  text-align: end;
+}
+.left-rl {
+  float: left;
+}
+.inline-blk {
+  display: inline-block;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      max-width: 10rem !important;
+
+      .mat-form-field {
+        width: 100%;
+      }
+
+      border-right: 1px solid $grey;
+      padding-left: 0.5rem !important;
+      &:nth-child(1) {
+        width: auto;
+        padding-right: 10px !important;
+      }
+
+      &:nth-child(2) {
+        width: auto;
+        padding-right: 10px !important;
+      }
+
+      &:nth-child(3) {
+        width: auto;
+        padding-right: 10px !important;
+      }
+
+      td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 0;
+        white-space: nowrap;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+
+      th {
+        vertical-align: top;
+        text-align: center;
+
+        .mat-form-field-infix {
+          min-width: unset !important;
+          width: unset !important;
+        }
+      }
+      &:nth-child(2) {
+        th {
+          padding-top: 0.9em;
+        }
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+
+  tbody tr:nth-child(odd) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+  tbody tr:nth-child(even) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.top-container {
+  display: flex;
+  justify-content: space-between !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+.datePicker-container {
+  margin: auto 1rem;
+  padding: 0 !important;
+  max-width: 10rem;
+}
+
+.buttonReset {
+  margin: 0px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-table {
+  font-size: 15px;
+  margin: 0px !important;
+  padding-left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left !important;
+}
+.date-text {
+  margin: 0 !important;
+  padding-top: 5px !important;
+}

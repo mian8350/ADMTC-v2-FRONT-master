@@ -1,0 +1,36 @@
+.align-right {
+  text-align: right;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.position-card {
+  padding-bottom: 0px !important;
+  height: 80px;
+  margin-left: 13px !important;
+  margin-right: 7px !important;
+  margin-top:  1rem !important;
+}
+.mat-icon-svgIcon {
+  width: 14px !important;
+  height: 16px !important;
+  margin-top: -10px !important;
+  margin-right: 2px !important;
+}
+.mat-icon-default {
+    font-size: 14px !important;
+    margin-top: -2px !important;
+    width: auto !important;
+}
+.mrgn-top-7 {
+  margin-top: 7.7px !important;
+}
+.pad-top-7 {
+  padding-top: 7px !important;
+}
+
+::ng-deep.dropdownPanel {
+  margin-top: 25px;
+}

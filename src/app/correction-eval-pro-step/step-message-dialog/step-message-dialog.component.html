@@ -1,0 +1,102 @@
+<div class="background-dark" *ngIf="data.type !== 'confirmTiga'">
+  <form class="header-form">
+    <div>
+      <mat-dialog-content class="content-height">
+        <div>
+          <div class="p-grid">
+            <div class="p-col-12 text-center">
+              <b [innerHTML]="validationStepList?.first_title"></b>
+            </div>
+          </div>
+          <div class="p-grid" *ngIf="!isVideoLink">
+            <div class="p-col-12 text-center validation-img">
+              <img
+                class="step-validation"
+                [src]="validationStepList && validationStepList?.image_upload ? serverimgPath + validationStepList?.image_upload : ''"
+              />
+            </div>
+          </div>
+          <div class="p-grid" *ngIf="isVideoLink">
+            <div class="p-col-12 text-center validation-video">
+              <div>
+                <iframe
+                  width="320"
+                  height="240"
+                  [src]="sanitizeVideoUrl(validationStepList?.video_link) || sanitizeVideoUrl('https://www.youtube.com/embed/TyTjGZkhNQE')"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen
+                >
+                </iframe>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="data && data.type === 'stepValidation'">
+            <div class="p-grid">
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message.text one' | translate }} </b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message.text two' | translate }} </b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message.text three' | translate }} </b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message.text four' | translate }} </b>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="data && data.type === 'stepValidation 2'">
+            <div class="p-grid">
+              <div class="p-col-12 text-center">
+                <h3><b> Bravo! </b></h3>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'one more tip' | translate }} :</b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message Two.text one' | translate }} </b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message Two.text two' | translate }} </b>
+              </div>
+              <div class="p-col-12 text-center" style="padding: 0px">
+                <b> {{ 'Evaluation Step Message Two.text three' | translate }} </b>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="center">
+        <button
+          mat-raised-button
+          (click)="closeDialog()"
+          matTooltip="{{ 'Go back' | translate }}"
+          matTooltipPosition="above"
+          class="background-grey"
+        >
+          <mat-icon svgIcon="backup-restore"></mat-icon>
+          {{ 'Cancel' | translate }}
+        </button>
+        <button
+          *ngIf="data && data.step !== 4"
+          mat-raised-button
+          color="accent"
+          [ngClass]="{
+            disabledd: count !== 0
+          }"
+          [disabled]="count !== 0"
+          matTooltip="{{ 'Confirm' | translate }} "
+          class="btn-opssi"
+          (click)="confirmValidation(true)"
+        >
+          {{ 'OK' | translate }} {{ count ? '(' + count + 's)' : '' }}
+          <mat-icon class="mat-icon-default">touch_app</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+</div>

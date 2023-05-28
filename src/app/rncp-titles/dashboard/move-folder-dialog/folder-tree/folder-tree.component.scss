@@ -1,0 +1,94 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.document-list,
+.test-list,
+.sub-folder-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+li {
+  list-style: none;
+}
+
+li a {
+  font-size: 12px;
+  transition: color 0.02s, font-size 0.02s;
+}
+
+.hide {
+  display: none !important;
+}
+
+.text-yellow, .text-yellow .folder-title {
+  color: #ffd740 !important;
+}
+
+li a:hover, li a:hover .folder-title {
+  font-size: 12px;
+  color: #ffd740 !important;
+}
+
+li.root-folder {
+  list-style: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+li a.selected, li a.selected .folder-title {
+  font-size: 12px;
+  color: #ffd740 !important;
+}
+
+.test-incomplete {
+  color: red;
+}
+
+mat-icon svg {
+  fill: inherit;
+}
+
+.btnCalendar {
+  background-color: #ffd740 !important;
+  color: #000000 !important;
+}
+
+.acadkit-card {
+  margin: 6px 0 !important;
+  padding: 8px !important;
+  background-color: $medium-grey;
+}
+
+.eye-icon {
+  cursor: pointer;
+}
+
+// .folder-title:hover, .acadkit-icon:hover, .eye-icon:hover {
+//   color: #ffd740;
+// }
+
+.folder-title {
+  color: #000;
+  display: inline-block;
+  margin-right: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+.folder-item, .document-item {
+  cursor: pointer;
+}
+
+.acadkit-icon {
+  vertical-align: middle;
+  font-size: 21px !important;
+}
+
+.small-spinner {
+  display: inline-block;
+}

@@ -1,0 +1,804 @@
+<!-- loading spinner Load Field-->
+<div *ngIf="isWaitingForResponse || isRefreshMultipleDateNotationGrid || isWaitingPdf" class="inner-loading-indicator-transparent-bg">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>
+<div class="container body" *ngIf="isDataloaded">
+  <div class="p-grid head">
+    <div class="p-col-12 pad-t-none pad-b-xs">
+      <div class="p-grid background-black">
+        <div class="p-col-7">
+          <div>
+            <span class="test-data" *ngIf="titleData && testData && schoolData">
+              {{ titleData?.short_name | uppercase }} / {{ testData?.name | uppercase }} /
+              {{ getTranslatedDate(testData?.date) | uppercase }} /
+              {{ schoolData?.short_name | uppercase }}
+            </span>
+          </div>
+        </div>
+        <div class="p-col-5 p-nogutter">
+          <div class="justify-content-between float-right">
+            <!--  [ngClass]="{hide: testData?.correction_type === 'student'}" original condition div above 07/05/2021 11:31 -->
+            <button mat-raised-button (click)="openInformation()" color="primary">{{ 'INFORMATION' | translate }}</button>
+            <button
+              mat-raised-button
+              [ngClass]="{ hide: testData?.correction_type === 'student' }"
+              (click)="openTestDetail()"
+              color="primary"
+            >
+              {{ 'TESTCORRECTIONS.TESTDETAILS' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              [ngClass]="{ hide: testData?.correction_type === 'student' }"
+              (click)="downloadPDFSummary()"
+              color="primary"
+            > 
+              {{ 'TESTCORRECTIONS.Summary' | translate }}
+            </button>
+            <!-- button pdf result for student -->
+            <ms-pdf-detail
+              [ngClass]="{ hide: testData?.correction_type === 'student' }"
+              *ngIf="!testData?.group_test && filteredStudentList"
+              [testDataOriginal]="testData"
+              [schoolData]="schoolData"
+              [titleData]="titleData"
+              [filteredStudentList]="filteredStudentList"
+              [maximumFinalMark]="maximumFinalMark"
+              [studentList]="studentList"
+              (isWaitingDone)="isWaitingPDFDone($event)"
+            >
+            </ms-pdf-detail>
+            <!-- button pdf result for group test -->
+            <ms-pdf-group-detail
+              [ngClass]="{ hide: testData?.correction_type === 'student' }"
+              *ngIf="testData?.group_test && filteredGroupList"
+              [testDataOriginal]="testData"
+              [schoolData]="schoolData"
+              [titleData]="titleData"
+              [filteredGroupList]="filteredGroupList"
+              [maximumFinalMark]="maximumFinalMark"
+              (isWaitingDone)="isWaitingPDFDone($event)"
+            >
+            </ms-pdf-group-detail>
+            <!-- For  -->
+            <button
+              [ngClass]="{ hide: testData?.correction_type === 'student' }"
+              mat-raised-button
+              *ngIf="testData && (filteredStudentList || filteredGroupList)"
+              (click)="getPdfPersonalizedInZip()"
+              color="primary"
+            >
+              {{ 'TESTCORRECTIONS.PDF Personalized 1 Doc / Student or Group' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 pad-y-none pad-b-xs">
+      <fieldset class="fieldset-class" [disabled]="isValidateGroupTestGroup() || disabledCke">
+        <ms-header-section
+          *ngIf="testData?.correction_grid?.header?.fields?.length"
+          [testData]="testData"
+          [testCorrectionForm]="testCorrectionForm"
+          [selectedGroupData]="selectedGroupData"
+          [studentSelectDetail]="studentSelectDetail"
+          (updateFirstForm)="updateFirstForm($event)"
+        >
+        </ms-header-section>
+      </fieldset>
+    </div>
+  </div>
+
+  <div
+    class="p-grid"
+    [ngClass]="testData?.type === 'academic_recommendation' ? 'content-recom-acadir' : 'content'"
+    [style.height.px]="getAutomaticHeight()"
+  >
+    <div fxLayout="row" fxLayoutAlign="end stretch" class="full-width">
+      <div class="block-left" fxFlex="100" #notationGridContainer>
+        <fieldset class="fieldset-class" [disabled]="isValidateGroupTestGroup() || disabledCke">
+          <div class="background-primary">
+            <div class="p-grid background-medium-grey">
+              <!-- hide select student dropdown if correction type student and user is student -->
+              <div class="p-col-10 pad-t-none" [ngClass]="{ hide: testData?.correction_type === 'student' && isUserLoginStudent }">
+                <!-- select student for individual student test -->
+                <div *ngIf="!testData?.group_test" class="p-grid">
+                  <div class="p-col-fixed padding-none corrected-student-label vertical-center">
+                    <span class="remaining-text">{{ 'TESTCORRECTIONS.notcorrectedliststudnet' | translate }}</span>
+                  </div>
+                  <div class="p-col-3 pad-y-none">
+                    <mat-form-field color="accent" class="full-width">
+                      <input
+                        matInput
+                        [(ngModel)]="studentSelect"
+                        [matAutocomplete]="student"
+                        class="small-field-font"
+                        (keyup)="studentFilter()"
+                      />
+                      <mat-autocomplete #student="matAutocomplete" [displayWith]="displayStudentName.bind(this)" [panelWidth]="'fit'">
+                        <mat-option
+                          *ngFor="let student of studentData"
+                          [value]="student?._id"
+                          (click)="selectStudentFromDropdown(student)"
+                          matTooltip="{{ student?.last_name | uppercase }} {{ student?.first_name }}"
+                        >
+                          <span [ngClass]="student.testCorrectionId !== null ? 'iscorrection' : 'notcorrection'">
+                            {{ student?.last_name | uppercase }} {{ student?.first_name }}
+                          </span>
+                          <span *ngIf="student.testCorrectionId !== null" class="icon-true">&#10004;</span>
+                          <span *ngIf="student.testCorrectionId === null" class="icon-false">&#10799;</span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col pad-y-none" style="margin-top: 10px">
+                    <span *ngIf="testCorrectionForm?.get('student')?.value" class="tags">
+                      {{ displayStudentName(testCorrectionForm?.get('student')?.value) }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- select group for group test -->
+                <div *ngIf="isGroup && testData?.group_test" class="p-grid">
+                  <div class="p-col-fixed padding-none corrected-student-label vertical-center">
+                    <span class="remaining-text">{{ 'TESTCORRECTIONS.notcorrectedlistgroup' | translate }}</span>
+                  </div>
+                  <div class="p-col-3 pad-y-none">
+                    <mat-form-field color="accent" class="full-width">
+                      <input matInput [(ngModel)]="groupModel" [matAutocomplete]="group" class="small-field-font" (keyup)="groupFilter()" />
+                      <mat-autocomplete #group="matAutocomplete" [displayWith]="displayGroupName.bind(this)" [panelWidth]="'fit'">
+                        <mat-option
+                          *ngFor="let group of groupData"
+                          [value]="group?._id"
+                          (click)="selectGroupFromDropdown(group)"
+                          matTooltip="{{ group?.name }}"
+                        >
+                          {{ group?.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col pad-y-none" style="margin-top: 10px">
+                    <span *ngIf="groupSelect" class="tags">
+                      {{ groupSelect }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- select student of a group for group test -->
+                <div *ngIf="isStudent && testData?.group_test" class="p-grid">
+                  <div class="p-col-fixed padding-none corrected-student-label vertical-center">
+                    <span class="remaining-text">{{ 'TESTCORRECTIONS.notcorrectedliststudnet' | translate }}</span>
+                  </div>
+                  <div class="p-col-3 pad-y-none">
+                    <mat-form-field color="accent" class="full-width">
+                      <input
+                        matInput
+                        [(ngModel)]="studentSelect"
+                        [matAutocomplete]="student"
+                        class="small-field-font"
+                        (keyup)="studentFilter()"
+                      />
+                      <mat-autocomplete #student="matAutocomplete" [displayWith]="displayStudentName.bind(this)" [panelWidth]="'fit'">
+                        <mat-option
+                          *ngFor="let student of studentData"
+                          [value]="student?._id"
+                          (click)="selectStudentOfGroupFromDropdown(student)"
+                          matTooltip="{{ student?.last_name | uppercase }} {{ student?.first_name }}"
+                        >
+                          {{ student?.last_name | uppercase }} {{ student?.first_name }}<span class="icon-true">&#10004;</span
+                          ><span class="icon-false">&#10799;</span>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col pad-y-none" style="margin-top: 10px">
+                    <span *ngIf="testCorrectionForm?.get('student')?.value" class="tags">
+                      {{ displayStudentName(testCorrectionForm?.get('student')?.value) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-col-2 pad-r-10 pad-t-none text-right justify-content-end smaller-text" [formGroup]="testCorrectionForm">
+                <!-- 'Do Not Participate' Checkbox -->
+                <mat-checkbox
+                  [ngClass]="{
+                    hide:
+                      testData?.correction_type === 'student' ||
+                      testData?.type === 'memoire_oral_non_jury' ||
+                      testData?.type === 'memoire_oral' ||
+                      testData?.block_of_competence_condition_id?.count_for_title_final_score ||
+                      testCorrectionForm.get('missing_copy').value ||
+                      ( testData?.group_test && !isStudent && isGroup )
+                  }"
+                  color="accent"
+                  formControlName="is_do_not_participated"
+                  class="pad-top-10 pad-r-10"
+                  (change)="mutateDoNotParticipateValidation($event)"
+                >
+                  {{ 'TESTCORRECTIONS.Do Not Participate' | translate }}
+                </mat-checkbox>
+
+                <!-- hide missing copy checkbox if correction type student -->
+                <mat-checkbox
+                  [ngClass]="{
+                    hide:
+                      testData?.correction_type === 'student' ||
+                      testData?.type === 'memoire_oral_non_jury' ||
+                      testData?.type === 'memoire_oral' ||
+                      testCorrectionForm.get('is_do_not_participated').value
+                  }"
+                  color="accent"
+                  (change)="mutateMissingCopyValidation($event)"
+                  formControlName="missing_copy"
+                  class="pad-top-10"
+                >
+                  {{ 'TESTCORRECTIONS.MISSINGCOPY' | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <div
+              [ngClass]="{
+                hide: testCorrectionForm.get('missing_copy').value || (testCorrectionForm.get('is_do_not_participated').value && !isGroup && isStudent) 
+              }"
+            >
+              <!-- **************** if basic notation grid form -->
+              <ms-notation-grid-form
+                *ngIf="
+                  testData?.block_type !== 'competence' &&
+                  testData?.block_type !== 'soft_skill' &&
+                  testData?.type !== 'free_continuous_control' &&
+                  testData?.type !== 'memoire_oral_non_jury' &&
+                  testData?.type !== 'memoire_oral' &&
+                  testData?.type !== 'academic_recommendation'
+                "
+                [testCorrectionForm]="testCorrectionForm"
+                [testData]="testData"
+              >
+              </ms-notation-grid-form>
+              <!-- **************** if test is free continous control -->
+              <ms-free-control-form
+                *ngIf="testData?.type === 'free_continuous_control'"
+                [testCorrectionForm]="testCorrectionForm"
+                [testData]="testData"
+              >
+              </ms-free-control-form>
+              <!-- **************** if test is jury organization -->
+              <ms-jury-organization-form
+                *ngIf="(testData?.type === 'memoire_oral_non_jury' || testData?.type === 'memoire_oral') && !isRefreshJuryNotationGrid"
+                [testCorrectionForm]="testCorrectionForm"
+                [testData]="testData"
+                [loadReady]="loadReady"
+              >
+              </ms-jury-organization-form>
+              <!-- **************** if test is academic recommendation -->
+              <ms-academic-recommendation-form
+                *ngIf="testData?.type === 'academic_recommendation'"
+                [testData]="testData"
+                [testCorrectionForm]="testCorrectionForm"
+              >
+              </ms-academic-recommendation-form>
+              <!-- **************** if evaluation by competence -->
+              <div
+                [ngClass]="{
+                  hide:
+                    !(testData?.block_type === 'competence' || testData?.block_type === 'soft_skill') ||
+                    testData?.type === 'free_continuous_control' ||
+                    testData?.type === 'memoire_oral_non_jury' ||
+                    testData?.type === 'memoire_oral'
+                }"
+              >
+                <ms-eval-by-competence-form
+                  *ngIf="testData?.date_type !== 'multiple_date'"
+                  [testCorrectionForm]="testCorrectionForm"
+                  [testData]="testData"
+                  [studentJobDescriptions]="studentJobDescriptions"
+                >
+                </ms-eval-by-competence-form>
+                <!-- **************** if evaluation by competence and date type different date -->
+                <ms-multiple-date-form
+                  *ngIf="
+                    testData?.date_type === 'multiple_date' &&
+                    multipleDatesFormArray?.controls?.length &&
+                    !isRefreshMultipleDateNotationGrid
+                  "
+                  [testCorrectionForm]="testCorrectionForm"
+                  [testData]="testData"
+                  [multipleDatesFormArray]="multipleDatesFormArray"
+                  [taskData]="taskData"
+                  [containerWidth]="getContainerWidth()"
+                  [studentJobDescriptions]="studentJobDescriptions"
+                >
+                </ms-multiple-date-form>
+              </div>
+            </div>
+
+            <!-- Text that should display should a student is marked as Do Not Participate -->
+            <div *ngIf="testCorrectionForm.get('is_do_not_participated').value && isStudent" style="margin: 10px">
+              <p>
+                {{
+                  'TESTCORRECTIONS.is_do_not_participated_text'
+                    | translate: { civility: studentSelectDetail.civility, fullName: studentSelect }
+                }}
+              </p>
+            </div>
+
+            <!-- toggle switch to justify or not jutify missing copy -->
+            <div *ngIf="testCorrectionForm.get('missing_copy').value && isTaskValidateTest()">
+              <div class="p-grid">
+                <div class="p-col-12">{{ 'TESTCORRECTIONS.marked_as_missing_copy' | translate }}</div>
+                <div class="p-col-12">
+                  <mat-slide-toggle [checked]="testCorrectionForm.get('is_justified').value === 'yes'" (change)="setIsJustified($event)">
+                    <span *ngIf="testCorrectionForm.get('is_justified').value === 'yes'" style="color: #ffe77a">
+                      {{ 'TESTCORRECTIONS.Absence-justified' | translate }}
+                    </span>
+                    <span
+                      *ngIf="!testCorrectionForm.get('is_justified').value || testCorrectionForm.get('is_justified').value === 'no'"
+                      style="color: white"
+                    >
+                      {{ 'TESTCORRECTIONS.Absence-not-justified' | translate }}
+                    </span>
+                  </mat-slide-toggle>
+                </div>
+                <div class="p-col-12" *ngIf="testCorrectionForm.get('is_justified').value === 'yes'">
+                  <div class="p-grid mrgn-b-md">
+                    <div class="p-col-12 padding-none justify-content-between">
+                      <span>{{ 'TESTCORRECTIONS.reason_of_absence' | translate }}</span>
+                      <input #fileUpload type="file" class="hidden" (change)="addFile($event, 'missingCopy')" />
+                      <button *ngIf="!missingCopyDocument" mat-raised-button color="accent" (click)="openUploadWindow()">
+                        <mat-icon class="mat-icon-default">attachment</mat-icon> {{ 'MailBox.ATTACH_FILE' | translate }}
+                      </button>
+                      <div *ngIf="missingCopyDocument">
+                        <a [href]="serverimgPath + missingCopyDocument?.s3_file_name" target="_blank" class="missing-copy-doc">
+                          {{ missingCopyDocument.s3_file_name ? (missingCopyDocument.s3_file_name | truncate: [26]) : '' }}
+                        </a>
+                        <button mat-icon-button color="warn" (click)="deleteMissingCopyDoc()" matTooltip="{{ 'Delete' | translate }}">
+                          <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                        </button>
+                        <button mat-icon-button class="text-white" (click)="editMissingCopyDoc()" matTooltip="{{ 'Edit' | translate }}">
+                          <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid" [formGroup]="testCorrectionForm">
+                    <div class="p-col-12 padding-none ckeditor-small ckeditor-white-background yellow-border">
+                      <ckeditor
+                        [config]="{
+                          toolbar: [
+                            'bold',
+                            'italic',
+                            'underline',
+                            'strikethrough',
+                            'highlight',
+                            '|',
+                            'alignment',
+                            '|',
+                            'numberedList',
+                            'bulletedList'
+                          ],
+                          link: {
+                            addTargetToExternalLinks: true
+                          }
+                        }"
+                        [disabled]="disabledCke"
+                        [editor]="Editor"
+                        (ready)="onReady($event)"
+                        formControlName="reason_for_missing_copy"
+                      >
+                      </ckeditor>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- hide student or group list table in right side if correction type student and before validate test -->
+      <div
+        class="block-right width-static zindex-top"
+        fxFlex="30"
+        [ngClass]="{ hide: testData?.correction_type === 'student' && !isTaskValidateTest() && !isAcadir && !isADMTC }"
+      >
+        <!-- later add condition to show student list or group list -->
+        <ms-student-list
+          *ngIf="filteredStudentList && !testData?.group_test"
+          (studentSelected)="studentSelected($event)"
+          (dataUpdated)="dataUpdated($event)"
+          (updateJustification)="updateJustification($event)"
+          (updateMultipleDateFormArray)="updateMultipleDateFormArray($event)"
+          (refreshMultipleDateNotationGrid)="refreshMultipleDateNotationGrid($event)"
+          (refreshJuryNotationGrid)="refreshJuryNotationGrid($event)"
+          [testCorrectionForm]="testCorrectionForm"
+          [firstForm]="firstForm"
+          [testData]="testData"
+          [taskData]="taskData"
+          [titleData]="titleData"
+          [filteredStudentList]="filteredStudentList"
+          [isTaskValidateTest]="isTaskValidateTest()"
+          (missingCopyDocument)="setMissingCopyDocument($event)"
+          (elementOfProofDocument)="setElementOfProofDocument($event)"
+          [containerHeight]="getAutomaticHeight() + getFooterContainerHeight()"
+          [selectedStudenId]="testCorrectionForm?.get('student')?.value"
+        >
+        </ms-student-list>
+        <ms-group-list
+          *ngIf="filteredGroupList && testData?.group_test"
+          (dataUpdated)="dataUpdated($event)"
+          [testCorrectionForm]="testCorrectionForm"
+          [testData]="testData"
+          [taskData]="taskData"
+          [titleData]="titleData"
+          [groupSelect]="groupSelect"
+          [filteredGroupList]="filteredGroupList"
+          [filteredStudentList]="filteredStudentList"
+          [groupTestCorrectionId]="groupTestCorrectionId"
+          (studentSelected)="studentSelected($event)"
+          (groupSelected)="groupSelected($event)"
+          (updateJustification)="updateJustification($event)"
+          [groupList]="groupList"
+          [dataFilledStudentOfAllGroupList]="dataFilledStudentOfAllGroupList"
+          [isTaskValidateTest]="isTaskValidateTest()"
+          (missingCopyDocument)="setMissingCopyDocument($event)"
+          (elementOfProofDocument)="setElementOfProofDocument($event)"
+          [containerHeight]="getAutomaticHeight() + getFooterContainerHeight()"
+        ></ms-group-list>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end" class="full-width" #footerContainer>
+    <div class="blocks" fxFlex="100">
+      <fieldset class="fieldset-class" [disabled]="isValidateGroupTestGroup() || disabledCke">
+        <!-- *************** if not evaluation by competence or mark type number, show final mark -->
+        <div
+          class="p-grid"
+          *ngIf="
+            testData?.block_type !== 'competence' &&
+            testData?.block_type !== 'soft_skill' &&
+            testData?.correction_grid?.correction?.show_number_marks_column
+          "
+        >
+          <div class="p-col-12 pad-y-xs justify-content-between background-black smaller-text">
+            <span>{{ CurUser?.last_name | uppercase }} {{ CurUser?.first_name }} / {{ currentDate }}</span>
+            <div>
+              <strong *ngIf="testData?.type !== 'memoire_oral_non_jury' && testData?.type !== 'memoire_oral'">
+                {{ 'TESTCORRECTIONS.FinalMark' | translate }}:
+              </strong>
+              <strong *ngIf="testData?.type === 'memoire_oral_non_jury' || testData?.type === 'memoire_oral'">
+                {{ 'PARAMETERS-RNCP.TEST.SCORE_BY_JURY' | translate }}:
+              </strong>
+              <!-- if test is free control, dont show the final mark -->
+              <strong *ngIf="testData?.type !== 'free_continuous_control'">
+                {{ getCorrectionForm().get('total').value ? getCorrectionForm().get('total').value : 0 }} / {{ maximumFinalMark }} -
+              </strong>
+              <strong *ngIf="testData?.type !== 'memoire_oral_non_jury' && testData?.type !== 'memoire_oral'">
+                {{ getCorrectionForm().get('additional_total').value ? getCorrectionForm().get('additional_total').value : (0 | number) }}
+                / {{ testData?.correction_grid?.correction?.total_zone?.additional_max_score }}
+              </strong>
+              <strong *ngIf="testData?.type === 'memoire_oral_non_jury' || testData?.type === 'memoire_oral'">
+                {{
+                  getCorrectionForm().get('total_jury_avg_rating').value
+                    ? getCorrectionForm().get('total_jury_avg_rating').value
+                    : (0 | number)
+                }}
+                / {{ testData?.correction_grid?.correction?.total_zone?.additional_max_score }}
+              </strong>
+            </div>
+          </div>
+        </div>
+        <!-- **** "Element of proof" for Mark Entry of Auto Eval (https://zettabyte-goa.atlassian.net/browse/AV-3778) -->
+        <div
+          class="p-grid"
+          *ngIf="
+            (testData?.block_type === 'competence' && testData?.type === 'academic_auto_evaluation') ||
+            (testData?.block_type === 'soft_skill' && testData?.type === 'soft_skill_auto_evaluation')
+          "
+        >
+          <div class="p-col-12 pad-y-xs justify-content-between background-black smaller-text">
+            <span class="text-left">{{ 'element_of_proof_label' | translate }}</span>
+            <div class="text-right vertical-center">
+              <a
+                *ngIf="elementOfProofDocument"
+                [href]="serverimgPath + elementOfProofDocument?.s3_file_name"
+                target="_blank"
+                class="element-of-proof-doc-wrapper"
+              >
+                <mat-icon
+                  class="element-of-proof-icon clickable"
+                  matTooltip="{{ elementOfProofDocument?.s3_file_name }}"
+                  matTooltipPosition="above"
+                >
+                  insert_drive_file
+                </mat-icon>
+              </a>
+              <input #elementOfProofUpload type="file" class="hidden" (change)="addFile($event, 'elementOfProof')" />
+              <button mat-raised-button color="accent" (click)="openUploadElementOfProof()">
+                <mat-icon class="mat-icon-default">file_upload</mat-icon> {{ 'element_of_proof' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- final comment section -->
+        <ms-final-comment *ngIf="testData?.correction_grid?.correction?.show_final_comment" [testCorrectionForm]="testCorrectionForm">
+        </ms-final-comment>
+
+        <!-- footer section -->
+        <ms-footer-section
+          *ngIf="testData?.correction_grid?.footer?.fields?.length"
+          [testData]="testData"
+          [testCorrectionForm]="testCorrectionForm"
+          [loadReady]="loadReady"
+          [selectedGroupData]="selectedGroupData"
+          [studentSelectDetail]="studentSelectDetail"
+          (updateFirstForm)="updateFirstForm($event)"
+        >
+        </ms-footer-section>
+      </fieldset>
+    </div>
+
+    <!-- hide this right side placeholder if correction type student and before validate test -->
+    <div
+      class="blocks width-static"
+      fxFlex="30"
+      [ngClass]="{ hide: testData?.correction_type === 'student' && !isTaskValidateTest() }"
+    ></div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 pad-y-none">
+      <div class="p-grid background-black bottom-fixed">
+        <div class="p-col-6">
+          <button mat-raised-button color="warn" (click)="routeToDashBoard()">{{ 'Cancel' | translate }}</button>
+          <!-- save button for individual student mark entry -->
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="!testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="saveTestCorrection('save')"
+            [disabled]="!isSaveValidated() || (testCorrectionForm?.value?.is_saved && comparisonSaveThisScore()) || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVETHISSCORE' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="!testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="saveTestCorrection('draft')"
+            [disabled]="comparison() || testCorrectionForm?.value?.is_saved || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVEASDRAFT' | translate }}
+          </button>
+          <!-- save button for student in group test mark entry -->
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="isStudent && testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="saveTestCorrection('save')"
+            [disabled]="!isSaveValidated() || (testCorrectionForm?.value?.is_saved && comparisonSaveThisScore()) || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVETHISSCORE' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="isStudent && testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="saveTestCorrection('draft')"
+            [disabled]="testCorrectionForm?.value?.is_saved || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVEASDRAFT' | translate }}
+          </button>
+          <!-- save button for group in group test mark entry -->
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="isGroup && testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="validateBeforeSaveGroupTest('save')"
+            [disabled]="!isSaveValidated() || (testCorrectionForm?.value?.is_saved && comparisonSaveThisScore()) || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVETHISSCORE' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="isGroup && testData?.group_test && !isModificationPeriodMoreThan14Days"
+            (click)="saveGroupTestCorrection('draft')"
+            [disabled]="testCorrectionForm?.value?.is_saved || disabledCke"
+          >
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SAVEASDRAFT' | translate }}
+          </button>
+        </div>
+
+        <div class="p-col-6 text-right">
+          <!-- submit button for individual student mark entry -->
+          <ng-container *ngIf="testData?.type === 'academic_pro_evaluation' || testData?.type === 'soft_skill_pro_evaluation'">
+            <button mat-raised-button color="accent" (click)="submitTestCorrectionMentor()" [disabled]="!isSubmitMentorValidated()">
+              <mat-icon class="mat-icon-default">send</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SUBMITTESTRESULT' | translate }}
+            </button>
+          </ng-container>
+          <ng-container *ngIf="testData?.type !== 'academic_pro_evaluation' && testData?.type !== 'soft_skill_pro_evaluation'">
+            <button
+              mat-raised-button
+              *ngIf="isTaskMarkEntry() && !testData?.group_test && !isModificationPeriodMoreThan14Days"
+              color="accent"
+              (click)="submitTestCorrection()"
+              [disabled]="!isSubmitValidated()"
+            >
+              <mat-icon class="mat-icon-default">send</mat-icon>
+              {{ (testData?.type === 'preparation_center_eval_soft_skill' ? 'TESTCORRECTIONS.SUBMIT.VALIDATE' : 'TESTCORRECTIONS.SUBMIT.SUBMITTESTRESULT') | translate }}
+            </button>
+          </ng-container>
+          <!-- submit button for group test mark entry -->
+          <button
+            mat-raised-button
+            *ngIf="isTaskMarkEntry() && testData?.group_test && !isModificationPeriodMoreThan14Days"
+            color="accent"
+            (click)="submitTestCorrection()"
+            [disabled]="!isGroupSubmitValidated()"
+          >
+            <mat-icon class="mat-icon-default">send</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.SUBMITTESTRESULT' | translate }}
+          </button>
+          <!-- validate button -->
+          <!-- <button
+          mat-raised-button
+          color="accent"
+          (click)="showPerStudentPDFDialog()"
+        >
+          <mat-icon class="mat-icon-default">send</mat-icon> {{ 'Show PDF' | translate }}
+        </button> -->
+          <button
+            mat-raised-button
+            *ngIf="isTaskValidateTest() && !isModificationPeriodMoreThan14Days"
+            color="accent"
+            (click)="saveAndvalidateTestCorrection()"
+            [disabled]="!isValidateValidated()"
+          >
+            <mat-icon class="mat-icon-default">send</mat-icon> {{ 'TESTCORRECTIONS.SUBMIT.VALIDATE' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="pdfdoc" style="display: none" *ngIf="testData">
+  <div class="orientation-portrait" style="font-size: 11px !important">
+    <div class="pa-1" style="height: 400px">
+      <div class="doc-rncp-title" style="text-align: center; font-size: 16px; font-weight: bold">
+        {{ 'TEST.EVALUATIONGRID' | translate }}
+      </div>
+      <div class="doc-rncp-title" style="font-size: 14px; font-weight: bold; text-align: center; padding: 0px 15px 0px 15px">
+        {{ schoolData?.short_name }} - {{ titleData?.short_name }} - {{ testData?.name }}
+      </div>
+      <div style="font-size: 14px; font-weight: bold; text-align: center; padding: 0px 15px 3px 15px">
+        {{ 'TESTCORRECTIONS.Results' | translate }}
+      </div>
+      <div style="padding: 0px 30px 5px 30px; margin-left: 15%; height: 400px" *ngIf="!testData.group_test">
+        <ng-container *ngIf="testData?.block_type !== 'competence' && testData?.block_type !== 'soft_skill'">
+          <div class="p-grid" style="background-color: rgb(163, 163, 163)">
+            <div
+              class="p-col-7 font-weight-bold"
+              style="
+                border: 1px solid black;
+                display: inline-block;
+                width: 250px;
+                -webkit-print-color-adjust: exact;
+                background-color: rgb(163, 163, 163);
+                padding: 1px;
+              "
+            >
+              &nbsp;&nbsp;{{ 'STUDENT_RESULT_TABLE.STUD_NAME' | translate }}
+            </div>
+            <div
+              class="p-col-5 text-center font-weight-bold"
+              style="
+                border: 1px solid black;
+                display: inline-block;
+                width: 200px;
+                -webkit-print-color-adjust: exact;
+                background-color: rgb(163, 163, 163);
+                padding: 1px;
+              "
+            >
+              {{ 'STUDENT_RESULT_TABLE.SCORE' | translate }} / {{ getAdditionalScore() }}
+            </div>
+          </div>
+          <ng-container *ngFor="let element of filteredStudentList; index as i" class="trPrintEventODD">
+            <div class="p-grid">
+              <div class="p-col-7 no-padding" style="border: 1px solid black; display: inline-block; width: 250px; padding: 1px">
+                &nbsp;&nbsp; {{ element?.last_name | uppercase }} {{ element?.first_name }}
+              </div>
+              <div
+                class="p-col-5 text-center no-padding"
+                *ngIf="!element?.missing_copy"
+                style="border: 1px solid black; display: inline-block; width: 200px; padding: 1px"
+              >
+                &nbsp;&nbsp; {{ element?.score ? element?.score : 0 }}
+              </div>
+              <div
+                class="p-col-5 text-center no-padding"
+                *ngIf="element?.missing_copy"
+                style="border: 1px solid black; display: inline-block; width: 200px; padding: 1px"
+              >
+                &nbsp;&nbsp; {{ 'Missing Copy' | translate }}
+              </div>
+            </div>
+
+            <!-- <div *ngIf="i === 37" style="page-break-before: always; position: relative; float:none; display: inline-block"></div> -->
+            <!-- <div *ngIf="i === 20"style="page-break-after: always; position: relative"></div> -->
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="testData?.block_type === 'competence' || testData?.block_type === 'soft_skill'">
+          <div class="p-grid" style="background-color: rgb(163, 163, 163)">
+            <div
+              class="p-col-12 font-weight-bold"
+              style="
+                border: 1px solid black;
+                display: inline-block;
+                width: 450px;
+                padding: 1px;
+                -webkit-print-color-adjust: exact;
+                background-color: rgb(163, 163, 163);
+              "
+            >
+              &nbsp;&nbsp;{{ 'STUDENT_RESULT_TABLE.STUD_NAME' | translate }}
+            </div>
+          </div>
+          <ng-container *ngFor="let element of filteredStudentList; index as i" class="trPrintEventODD">
+            <div class="p-grid">
+              <div class="p-col-12 no-padding" style="border: 1px solid black; display: inline-block; width: 450px; padding: 1px">
+                &nbsp;&nbsp; {{ element?.last_name | uppercase }} {{ element?.first_name }}
+              </div>
+            </div>
+            <!-- <div *ngIf="i === 37" style="page-break-before: always; position: relative; float:none; display: inline-block"></div> -->
+            <!-- <div *ngIf="i === 20"style="page-break-after: always; position: relative"></div> -->
+          </ng-container>
+        </ng-container>
+        <!-- <div class="doc-footer" style="text-align: center; font-size: 12px; width: 450px;  position: fixed;
+        bottom: 0;"> -->
+        <!-- <div class="doc-footer-text"> {{'ADMTC – '}} {{{schoolData?.short_name}} {{ ' – ' }} {{titleData?.short_name}} {{' – '}} {{dt | date:'d MMM y'}} </div> -->
+        <!-- <div class="doc-footer-text">
+            {{ 'ADMTC – ' }} {{ 'TEST.EVALUATIONGRID' | translate }} {{ ' ' }} {{ testData?.name }} {{ ' – ' }} {{ titleData?.short_name }}
+          </div>
+        </div> -->
+      </div>
+      <div style="padding: 30px; margin-left: 15%; height: 100%">
+        <table width="80%" border="1" *ngIf="testData.group_test">
+          <tbody>
+            <ng-container *ngIf="testData?.block_type !== 'competence' && testData?.block_type !== 'soft_skill'">
+              <tr style="background-color: gray">
+                <td width="60%" class="font-weight-bold">&nbsp;&nbsp;{{ 'GROUP_RESULT_TABLE.GROUP_NAME' | translate }}</td>
+                <td width="40%" class="text-center font-weight-bold">{{ 'STUDENT_RESULT_TABLE.SCORE' | translate }}</td>
+              </tr>
+              <tr *ngFor="let element of filteredGroupList; index as i" class="trPrintEventODD">
+                <td width="60%" class="">&nbsp;&nbsp; {{ element?.name }}</td>
+                <td width="40%" class="text-center" *ngIf="!element?.missing_copy">
+                  &nbsp;&nbsp; {{ element?.score ? element?.score : 0 }}
+                </td>
+                <td width="40%" class="text-center" *ngIf="element?.missing_copy">&nbsp;&nbsp; {{ 'Missing Copy' | translate }}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="testData?.block_type === 'competence' || testData?.block_type === 'soft_skill'">
+              <tr style="background-color: gray">
+                <td width="100%" class="font-weight-bold">&nbsp;&nbsp;{{ 'GROUP_RESULT_TABLE.GROUP_NAME' | translate }}</td>
+              </tr>
+              <tr *ngFor="let element of filteredGroupList; index as i" class="trPrintEventODD">
+                <td width="100%" class="">&nbsp;&nbsp; {{ element?.name }}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="doc-footer" style="text-align: center; font-size: 12px; width: 100%; position: fixed; bottom: 0">
+      <!-- <div class="doc-footer-text"> {{'ADMTC – '}} {{{schoolData?.short_name}} {{ ' – ' }} {{titleData?.short_name}} {{' – '}} {{dt | date:'d MMM y'}} </div> -->
+      <div class="doc-footer-text">
+        {{ 'ADMTC – ' }} {{ 'TEST.EVALUATIONGRID' | translate }} {{ ' ' }} {{ testData?.name }} {{ ' – ' }} {{ titleData?.short_name }}
+      </div>
+    </div>
+  </div>
+</div>

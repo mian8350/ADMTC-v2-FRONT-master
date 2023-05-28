@@ -1,0 +1,30 @@
+<div mat-dialog-title class="dialog-title-wrapper" *ngIf="!isWaitingForResponse" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>event</mat-icon>
+  <h2 class="dialog-title">{{ 'Change Due Date of Task' | translate }}</h2>
+  <button mat-icon-button class="close-icon" tabindex="-1" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="p-grid p-align-baseline" *ngIf="!isWaitingForResponse" [formGroup]="taskDueDateForm">
+  <div class="p-col-12">
+    <mat-form-field color="accent">
+      <mat-label>{{ 'SELECTDATE' | translate }}</mat-label>
+      <input readonly matInput formControlName="due_date" [matDatepicker]="picker" (click)="picker.open()" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>
+<div class="p-grid p-justify-end p-align-center" *ngIf="!isWaitingForResponse">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="accent" (click)="onEnter()">
+    {{ 'ENTER' | translate }}
+  </button>
+</div>
+<ng-container *ngIf="isWaitingForResponse">
+  <div class="center-spinner">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</ng-container>

@@ -1,0 +1,16 @@
+.small-field-font {
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}
+
+:host ::ng-deep .mat-form-field-label {
+  font-size: 12px;
+}
+textarea.mat-input-element.cdk-textarea-autosize {
+  box-sizing: content-box;
+  overflow: hidden;
+  resize: none;
+}

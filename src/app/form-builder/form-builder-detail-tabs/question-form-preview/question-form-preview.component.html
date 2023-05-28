@@ -1,0 +1,580 @@
+<div class="p-grid yellow-border card-row" style="margin-top: 2rem !important; padding: 10px" [formGroup]="templateStepForm">
+  <div class="p-col-12 no-padding">
+    <div class="header" [innerHTML]="templateStepForm?.get('direction')?.value"></div>
+
+    <ng-container formArrayName="segments">
+      <div
+        class="p-col-12 no-padding"
+        *ngFor="let segment of getSegmentFormarray()?.controls; let segmentIndex = index"
+        [formGroupName]="segmentIndex"
+      >
+        <h3 class="segment-name">{{ segment.get('segment_title')?.value }}</h3>
+
+        <!-- For Question -->
+        <ng-container formArrayName="questions">
+          <div class="p-grid">
+            <div
+              #questionLoop
+              *ngFor="let quest of getQuestionFieldFormArray(segmentIndex)?.controls; let quesIndex = index"
+              [formGroupName]="quesIndex"
+              [ngClass]="[
+                quest?.get('answer_type')?.value === 'long_text'
+                  ? 'long-text'
+                  : (getNextQuestionField(segmentIndex, quesIndex)?.get('field_position').value === 'right' &&
+                      quest?.get('field_position').value !== 'right') ||
+                    (getPreviousQuestionField(segmentIndex, quesIndex).get('field_position').value === 'left' &&
+                      quest?.get('field_position').value === 'right')
+                  ? 'half-width'
+                  : 'full-width',
+                quest?.get('answer_type')?.value === 'long_text'
+                  ? ''
+                  : questionLoop.classList.contains('full-width') && quest?.get('field_position').value === 'right'
+                  ? 'right-end'
+                  : 'left-end'
+              ]"
+            >
+              <!-- IF FIELD IS ON -------------------------------------------->
+              <div *ngIf="quest?.get('is_field')?.value">
+                <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                  <div [ngClass]="{'p-col-4':quest?.get('answer_type')?.value !== 'long_text', 'p-col-2':quest?.get('answer_type')?.value === 'long_text'}">
+                    <label *ngIf="quest?.get('is_required')?.value && isStaticFieldType(quest?.get('field_type')?.value)"
+                      >{{ 'FORM_BUILDER_FIELD.' + quest?.get('field_type')?.value | translate }}*</label
+                    >
+                    <label *ngIf="!quest?.get('is_required')?.value && isStaticFieldType(quest?.get('field_type')?.value)">{{
+                      'FORM_BUILDER_FIELD.' + quest?.get('field_type')?.value | translate
+                    }}</label>
+
+                    <label *ngIf="quest?.get('is_required')?.value && !isStaticFieldType(quest?.get('field_type')?.value)"
+                      >{{ quest?.get('field_type')?.value}}*</label
+                    >
+                    <label *ngIf="!quest?.get('is_required')?.value && !isStaticFieldType(quest?.get('field_type')?.value)">{{
+                      quest?.get('field_type')?.value
+                    }}</label>
+                  </div>
+                  <div class="x-pad-none" [ngClass]="{'p-col-8':quest?.get('answer_type')?.value !== 'long_text', 'p-col-10':quest?.get('answer_type')?.value === 'long_text'}">
+                    <ng-container
+                      *ngIf="
+                        ['parent_civility', 'parent2_civility', 'student_civility', 'student_date_of_birth', 'parent_relation', 'parent2_relation', 'student_nationality', 'student_country', 'parent_country', 'parent2_country','certidegree_date_of_issuance','insertion_category_follow_up'].includes(
+                          quest?.get('field_type')?.value
+                        );
+                        else default
+                      "
+                    >
+                      <mat-radio-group *ngIf="['parent_civility', 'parent2_civility', 'student_civility'].includes(quest?.get('field_type')?.value)">
+                        <mat-radio-button value="MR" style="padding-right: 10px">{{ 'Mr' | translate }}</mat-radio-button>
+                        <mat-radio-button value="MRS" style="padding-right: 10px">{{ 'Mrs' | translate }}</mat-radio-button>
+                      </mat-radio-group>
+                      <div class="form-group" *ngIf="['certidegree_date_of_issuance','student_date_of_birth'].includes(quest?.get('field_type')?.value)">
+                        <input matInput readonly (click)="myDatepickers.open()" class="form-control" [matDatepicker]="myDatepickers" />
+                        <mat-datepicker-toggle matSuffix [for]="myDatepickers"></mat-datepicker-toggle>
+                        <mat-datepicker #myDatepickers></mat-datepicker>
+                      </div>
+                      <div class="form-group" *ngIf="(quest?.get('field_type')?.value === 'parent_relation') || (quest?.get('field_type')?.value === 'parent2_relation') ">
+                        <div class="p-grid">
+                          <select class="form-select">
+                            <option *ngFor="let relation of relationList" [value]="relation">
+                              {{ 'CARDDETAIL.RELATION.' + relation | translate }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group" *ngIf="(quest?.get('field_type')?.value === 'student_nationality')">
+                        <ng-select
+                          class="form-ng-select"
+                          [clearable]="false"
+                          [appendTo]="'body'"
+                        >
+                          <ng-option *ngFor="let nationality of nationalityList" [value]="nationality">
+                            {{ 'NATIONALITY.' + nationality.countryName | translate }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+
+                      <div class="form-group" *ngIf="(quest?.get('field_type')?.value === 'student_country') || (quest?.get('field_type')?.value === 'parent_country') || (quest?.get('field_type')?.value === 'parent2_country')">
+                        <ng-select
+                          class="form-ng-select"
+                          [clearable]="false"
+                          [appendTo]="'body'"
+                          notFoundText="{{ 'No items found' | translate }}"
+                        >
+                          <ng-option *ngFor="let country of countryList" [value]="country">
+                            {{ country.name }}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+
+                      <div class="form-group" *ngIf="(quest?.get('field_type')?.value === 'insertion_category_follow_up')">
+                        <ng-select
+                          class="form-ng-select"                          
+                          [clearable]="false"                          
+                          [appendTo]="'body'"
+                        >
+                          <ng-option *ngFor="let category of categoryInsertionFollowUpField" [value]="category.key">
+                            {{ category.value}}
+                          </ng-option>
+                        </ng-select>
+                      </div>
+                    </ng-container>
+
+                    <ng-template #default>
+                      <ng-container *ngIf="quest.get('answer_type')?.value !== 'multiple_option'">
+                        <div class="form-group">
+                          <input readOnly class="form-control" />
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="quest.get('answer_type')?.value === 'multiple_option'">
+                        <mat-checkbox
+                          *ngFor="let option of getOptionFieldFormArray(segmentIndex, quesIndex)?.controls"
+                          value="{{ option.get('option_name')?.value }}"
+                          style="padding-right: 10px"
+                          [checked]="quest?.get('answer_multiple')?.value?.includes(option.get('option_name')?.value)"
+                          (change)="setOptions(segmentIndex, quesIndex, option.get('option_name')?.value)"
+                      >
+                        {{ option.get('option_name')?.value }}
+                      </mat-checkbox>
+                      </ng-container>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+
+              <!-- IF FIELD IS OFF -------------------------------------------->
+
+              <!-- For question with slider is_field off -->
+              <div *ngIf="!quest?.get('is_field')?.value">
+                <!-- short text -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'short_text'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <div class="form-group">
+                        <input formControlName="answer" (keyup)="shortOrLongTextCustomValidators(quest)" class="form-control" />
+                      </div>
+                      <div
+                        class="custom-error"
+                        *ngIf="quest.get('answer').hasError('errors') && (quest.get('answer').dirty || quest.get('answer').touched)"
+                      >
+                        {{ quest.get('text_validation').get('custom_error_text').value }}
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- long text -->
+                <!-- NOTE : long text takes 2 field space because of that this have it's own div -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'long_text'">
+                  <div class="p-grid">
+                    <div class="p-col-2">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-10 x-pad-none">
+                      <div class="form-group">
+                        <input formControlName="answer" (keyup)="shortOrLongTextCustomValidators(quest)" class="form-control" />
+                      </div>
+                      <div
+                        class="custom-error"
+                        *ngIf="quest.get('answer').hasError('errors') && (quest.get('answer').dirty || quest.get('answer').touched)"
+                      >
+                        {{ quest.get('text_validation').get('custom_error_text').value }}
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- email -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'email'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4 self-center">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <!-- <mat-form-field class="width-ninety">
+                          <input appearance="fill" matInput type="email" />
+                        </mat-form-field> -->
+                      <div class="form-group">
+                        <input class="form-control" [formControl]="email"/>
+                      </div>
+                      <div class="custom-error">{{ email.hasError('email') ? ('Invalid email format' | translate) : '' }}</div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Date Type -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'date'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <!-- <mat-form-field class="width-ninety">
+                          <mat-label>{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                          <input appearance="fill" matInput readonly (click)="picker.open()" [matDatepicker]="picker" />
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field> -->
+                      <div class="form-group">
+                        <input
+                          (click)="myDatepickers.open()"
+                          class="form-control"
+                          formControlName="date_value"
+                          [matDatepicker]="myDatepickers"
+                          [datePickerFormat]="quest?.get('date_format').value"
+                          [required]="quest?.get('is_required')?.value"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="myDatepickers"></mat-datepicker-toggle>
+                        <mat-datepicker #myDatepickers
+                          panelClass="datepicker-disable-period"
+                          [startView]="getStartView(quest?.get('date_format')?.value)"
+                          (monthSelected)="closePicker($event, myDatepickers, quest, 'month')"
+                          (yearSelected)="closePicker($event, myDatepickers, quest, 'year')">
+                        </mat-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Time -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'time'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <div class="form-group">
+                        <input matInput readonly class="form-control" [ngxTimepicker]="timePicker" [format]="24" />
+                        <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="timePicker">
+                          <svg
+                            style="transform: scale(0.85)"
+                            viewBox="0 0 30 30"
+                            width="30px"
+                            height="30px"
+                            ngxMaterialTimepickerToggleIcon
+                          >
+                            <path
+                              fill="#000000"
+                              d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                            />
+                          </svg>
+                        </ngx-material-timepicker-toggle>
+                        <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Numeric -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'numeric'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <!-- <mat-form-field class="width-ninety">
+                          <input appearance="fill" matInput type="number" />
+                        </mat-form-field> -->
+                      <div class="form-group">
+                        <input formControlName="answer" (keyup)="numberCustomValidators(quest)" type="number" class="form-control" />
+                      </div>
+                      <div
+                        class="custom-error"
+                        *ngIf="quest.get('answer').hasError('errors') && (quest.get('answer').dirty || quest.get('answer').touched)"
+                      >
+                        {{ quest.get('numeric_validation').get('custom_error_text').value }}
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Single Option -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'single_option'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <mat-radio-group>
+                        <mat-radio-button
+                          [value]="option"
+                          *ngFor="let option of quest?.get('options')?.value"
+                          style="padding-right: 10px"
+                          >{{ option.option_name }}</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Multiple Option -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'multiple_option'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8">
+                      <mat-checkbox
+                        *ngFor="let option of getOptionFieldFormArray(segmentIndex, quesIndex)?.controls"
+                        value="{{ option.get('option_name')?.value }}"
+                        style="padding-right: 10px"
+                        [checked]="quest?.get('answer_multiple')?.value?.includes(option.get('option_name')?.value)"
+                        (change)="setOptions(segmentIndex, quesIndex, option.get('option_name')?.value)"
+                      >
+                        {{ option.get('option_name')?.value }}
+                      </mat-checkbox>
+                      <div
+                        class="custom-error"
+                        *ngIf="
+                          quest.get('answer_multiple').hasError('errors') &&
+                          (quest.get('answer_multiple').dirty || quest.get('answer_multiple').touched)
+                        "
+                      >
+                        {{ quest.get('multiple_option_validation').get('custom_error_text').value }}
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Duration -->
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'duration'">
+                  <div class="p-grid" [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'">
+                    <div class="p-col-4">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <div class="form-group">
+                        <input class="form-control" value="00:00:00" type="time" step="1"/>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="quest?.get('answer_type')?.value === 'parent_child_option'">
+                  <div
+                    class="p-grid"
+                    [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                    *ngIf="quest?.get('answer_type')?.value === 'parent_child_option'"
+                  >
+                    <div class="p-col-4 self-center">
+                      <label *ngIf="quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}*</label>
+                      <label *ngIf="!quest?.get('is_required')?.value">{{ quest?.get('question_label')?.value }}</label>
+                    </div>
+                    <div class="p-col-8 x-pad-none">
+                      <mat-radio-group [required]="quest?.get('is_answer_required')" formControlName="answer">
+                        <mat-radio-button
+                          [value]="option.option_text"
+                          *ngFor="let option of quest.get('parent_child_options').value; let prClIndx = index"
+                          (change)="
+                            onChangeParentChild($event, option, { segmentIndex: segmentIndex, questionIndex: quesIndex }, prClIndx, 0)
+                          "
+                          style="padding-right: 10px"
+                          >{{ option.option_text }}</mat-radio-button
+                        >
+                      </mat-radio-group>
+                    </div>
+                  </div>
+
+                  <!-- First Level Deep -->
+                  <ng-container *ngIf="getMainParentChildOption(segmentIndex, quesIndex)?.length" formArrayName="parent_child_options">
+                    <ng-container
+                      *ngFor="let option1 of quest?.get('parent_child_options')?.controls; let indexSatu = index"
+                      [formGroupName]="indexSatu"
+                    >
+                      <ng-container formArrayName="questions">
+                        <ng-container
+                          *ngFor="let optionQuestion1 of option1.get('questions').controls; let indexQuestionSatu = index"
+                          [formGroupName]="indexQuestionSatu"
+                        >
+                          <ng-container>
+                            <div
+                              *ngIf="quest?.get('answer')?.value === option1.get('option_text')?.value"
+                              class="field-item"
+                              style="padding-left: 2rem"
+                            >
+                              <div fxLayout="row" fxLayoutWrap="wrap">
+                                <div [ngSwitch]="optionQuestion1?.get('answer_type')?.value">
+                                  <div *ngSwitchCase="'single_option'">
+                                    <div fxLayout="row" fxLayoutWrap="wrap">
+                                      <label fxFlex="70" style="align-self: center">{{
+                                        optionQuestion1.get('question_name')?.value
+                                      }}</label>
+                                    </div>
+                                    <mat-radio-group formControlName="answer">
+                                      <mat-radio-button
+                                        [value]="option2.option_text"
+                                        *ngFor="let option2 of optionQuestion1.get('parent_child_options').value"
+                                        (change)="
+                                          onChangeParentChild2(
+                                            $event,
+                                            option2,
+                                            { segmentIndex: segmentIndex, questionIndex: quesIndex },
+                                            indexSatu,
+                                            indexQuestionSatu
+                                          )
+                                        "
+                                        style="padding-right: 10px"
+                                        >{{ option2.option_text }}</mat-radio-button
+                                      >
+                                    </mat-radio-group>
+                                  </div>
+                                  <div *ngSwitchDefault>
+                                    <div class="parent-child-input-group">
+                                      <label>{{ optionQuestion1?.get('question_name')?.value }}</label>
+                                      <div class="form-group">
+                                        <input formControlName="answer" class="form-control" />
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="custom-error"
+                                      *ngIf="
+                                        quest.get('answer').hasError('errors') && (quest.get('answer').dirty || quest.get('answer').touched)
+                                      "
+                                    >
+                                      {{ quest.get('text_validation').get('custom_error_text').value }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <!-- Second Level Deep -->
+                          <ng-container formArrayName="parent_child_options">
+                            <ng-container
+                              *ngFor="let option3 of optionQuestion1.get('parent_child_options').controls; let indexDua = index"
+                              [formGroupName]="indexDua"
+                            >
+                              <ng-container formArrayName="questions">
+                                <ng-container
+                                  *ngFor="let optionQuestion2 of option3.get('questions').controls; let indexQuestionDua = index"
+                                  [formGroupName]="indexQuestionDua"
+                                >
+                                  <div
+                                    *ngIf="optionQuestion1?.get('answer')?.value === option3?.get('option_text')?.value"
+                                    class="field-item"
+                                    style="padding-left: 4rem"
+                                  >
+                                    <div fxLayout="row" fxLayoutWrap="wrap">
+                                      <div [ngSwitch]="optionQuestion2?.get('answer_type')?.value">
+                                        <div *ngSwitchCase="'single_option'">
+                                          <div fxLayout="row" fxLayoutWrap="wrap">
+                                            <label fxFlex="70" style="align-self: center">{{
+                                              optionQuestion2.get('question_name').value
+                                            }}</label>
+                                          </div>
+                                          <mat-radio-group formControlName="answer">
+                                            <mat-radio-button
+                                              [value]="option4.option_text"
+                                              *ngFor="let option4 of optionQuestion2.get('parent_child_options').value"
+                                              style="padding-right: 10px"
+                                              >{{ option4.option_text }}</mat-radio-button
+                                            >
+                                          </mat-radio-group>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                          <div class="parent-child-input-group">
+                                            <label>{{ optionQuestion2?.get('question_name')?.value }}</label>
+                                            <div class="form-group">
+                                              <input formControlName="answer" class="form-control" />
+                                            </div>
+                                          </div>
+                                          <div
+                                            class="custom-error"
+                                            *ngIf="
+                                              quest.get('answer').hasError('errors') &&
+                                              (quest.get('answer').dirty || quest.get('answer').touched)
+                                            "
+                                          >
+                                            {{ quest.get('text_validation').get('custom_error_text').value }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Third Level Deep -->
+                                  <ng-container formArrayName="parent_child_options">
+                                    <ng-container
+                                      *ngFor="let option4 of optionQuestion2.get('parent_child_options').controls; let indexTiga = index"
+                                      [formGroupName]="indexTiga"
+                                    >
+                                      <ng-container formArrayName="questions">
+                                        <ng-container
+                                          *ngFor="let optionQuestion3 of option4.get('questions').controls; let indexQuestionTiga = index"
+                                          [formGroupName]="indexQuestionTiga"
+                                        >
+                                          <div
+                                            *ngIf="optionQuestion2?.get('answer')?.value === option4?.get('option_text')?.value"
+                                            class="field-item"
+                                            style="padding-left: 6rem"
+                                          >
+                                            <div fxLayout="row" fxLayoutWrap="wrap">
+                                              <div [ngSwitch]="optionQuestion3?.get('answer_type')?.value">
+                                                <div *ngSwitchCase="'single_option'">
+                                                  <div fxLayout="row" fxLayoutWrap="wrap">
+                                                    <label fxFlex="70" style="align-self: center">{{
+                                                      optionQuestion3.get('question_name').value
+                                                    }}</label>
+                                                  </div>
+                                                  <mat-radio-group formControlName="answer">
+                                                    <mat-radio-button
+                                                      [value]="option4.option_text"
+                                                      *ngFor="let option4 of optionQuestion3.get('parent_child_options').value"
+                                                      style="padding-right: 10px"
+                                                      >{{ option4.option_text }}</mat-radio-button
+                                                    >
+                                                  </mat-radio-group>
+                                                </div>
+                                                <div *ngSwitchDefault>
+                                                  <div class="parent-child-input-group">
+                                                    <label>{{ optionQuestion3?.get('question_name')?.value }}</label>
+                                                    <div class="form-group">
+                                                      <input formControlName="answer" class="form-control" />
+                                                    </div>
+                                                  </div>
+                                                  <div
+                                                    class="custom-error"
+                                                    *ngIf="
+                                                      quest.get('answer').hasError('errors') &&
+                                                      (quest.get('answer').dirty || quest.get('answer').touched)
+                                                    "
+                                                  >
+                                                    {{ quest.get('text_validation').get('custom_error_text').value }}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </div>
+
+              <!-- For question with slider is_field on -->
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+.title {
+    display: block;
+    background-color: #ffd740;
+    color: #000000;
+    padding: 10px;
+  }
+  
+  .header-title {
+    display: inline;
+  }
+  
+.urgentIcon {
+    font-size: 18px;
+    padding-top: 1px;
+    float: left;
+}
+  .header-icon {
+    margin: 5px 8px;
+  }
+  
+  .body-section { 
+    overflow-y: scroll;
+    max-height: 430px;
+    padding: 0px 2em;
+    min-height: 270px;
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  .top-text {
+    border-bottom: 3px solid #000000;
+    font-weight: 600;
+    margin-bottom: 1em;
+  }
+  
+  .center-title {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 24px;
+    font-weight: 800;
+    p {
+      font-size: 24px;
+      font-weight: 800;
+    }
+  }
+  
+  .title-text {
+    margin: 1px 0;
+    text-align: center;
+  }
+  
+  .action-section {
+    width: 100%;
+    color: #000000;
+    margin: 5px 0;
+  }
+  
+  .action-btn {
+    text-align: right;
+  }
+  
+  .action-title-long-name {
+    padding-left: 2em;
+  }
+  
+  .action-text {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  
+  .fileInfo{
+    width: fit-content !important;
+    margin: 5px !important;
+    display: inline-block !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07)
+  }
+  .alignment-bottom {
+    margin-top: 28px;
+    padding-left: 1rem;
+  }
+  .mrgn-top-18 {
+    margin-top: 18px;
+  }
+  :host::ng-deep.mat-form-field-underline {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.mic-style:hover {
+  color: red;
+}
+.btn-mic {
+  position: relative;
+  top: -115px;
+  float: right;
+}
+
+:host::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgb(2 2 2 / 69%);
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0px;
+  }
+  .ck-editor__editable_inline {
+    min-height: 120px !important;
+    border: 1px solid #b8b8b8;
+    color: black;
+  }
+}
+:host::ng-deep.ckeditor {
+  .ck-content {
+    min-height: 120px !important;
+  }
+}

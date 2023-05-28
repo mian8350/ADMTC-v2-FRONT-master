@@ -1,0 +1,77 @@
+.icon-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 20px;
+}
+
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+.no-padding {
+  padding: 0px;
+}
+
+.float-right {
+  float: right;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+.mr-0 {
+  margin-right: 0px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.header-dialog {
+  // margin-top: 15px;
+  // padding: 0 5px 0 15px;
+}
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+  padding: 0px !important;
+}
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 60px;
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+:host::ng-deep.ng-select.ng-select-multiple .ng-select-container .ng-value-container {
+  transform: translateY(0px);
+}
+:host::ng-deep.ng-select.ng-select-multiple .ng-select-container .ng-arrow-wrapper {
+  transform: translateY(5px);
+}
+.pad-right {
+  padding-right: 15px !important
+}
+
+:host::ng-deep.ng-select.mrgn-btn.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  color: black !important;
+}
+
+:host::ng-deep.ng-select .ng-arrow-wrapper {
+    position: relative !important;
+}
+
+:host::ng-deep.ng-select.mrgn-btn .ng-select-container.ng-has-value {
+  max-width: 100% !important;
+}

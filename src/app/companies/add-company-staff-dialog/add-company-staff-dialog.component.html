@@ -1,0 +1,322 @@
+<div class="logo-spinner-wrapper spinner-transparent" *ngIf="isLoading">
+  <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div mat-dialog-title class="dialogTitleWrapper" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>person_add </mat-icon>
+  <h2 *ngIf="operation !== 'edit'" class="dialogTitle">{{ 'COMPANY.Add Company Staff for' | translate }} {{ companyName }}</h2>
+  <h2 *ngIf="operation === 'edit'" class="dialogTitle">{{ 'COMPANY.Edit Company Staff for' | translate }} {{ companyName }}</h2>
+  <div class="icon-close">
+    <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div [formGroup]="userForm" mat-dialog-content>
+  <div class="p-grid">
+    <div class="p-col-3 text-left">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput formControlName="email" type="text" placeholder="{{ 'Mail' | translate }}"/>
+        <mat-error>
+          <p *ngIf="userForm.get('email').hasError('email') && (userForm.get('email').dirty || userForm.get('email').touched)">
+            {{ 'Invalid email format' | translate }}
+          </p>
+          <p *ngIf="userForm.get('email').hasError('required') && (userForm.get('email').dirty || userForm.get('email').touched)">
+            {{ 'This field is required' | translate }}
+          </p>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-3" [ngClass]="{
+      'width-220': translate.currentLang === 'en',
+      'width-280': translate.currentLang === 'fr'
+    }">
+      <button
+        mat-raised-button
+        color="accent"
+        [disabled]="isDisabled || userForm.get('email').invalid"
+        (click)="validateEmail()"
+        class="mt-4"
+        matTooltip="{{ 'COMPANY.Check Email Availability' | translate }}"
+        aria-hidden="true"
+      >
+        <mat-icon svgIcon="check-revise" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'COMPANY.Check Email Availability' | translate }}
+      </button>
+    </div>
+    <div class="p-col-4">
+      <div *ngIf="emailValidated" class="status-email">
+        <!-- Registered is for case 3 where user allowed to add an already registered user(but non-company) -->
+        <mat-icon *ngIf="emailValidated === 'yes' || emailValidated === 'registered'" class="green-success">check_circle</mat-icon>
+        <mat-icon *ngIf="emailValidated === 'no' || emailValidated === 'invalid' " class="red-icon">cancel</mat-icon>
+        <span class="status-text" *ngIf="emailValidated === 'yes'" >{{ 'Email is available' | translate }}</span>
+        <span class="status-text" *ngIf="emailValidated === 'no'" >{{ 'Email is not available' | translate }}</span>
+        <span class="status-text" *ngIf="emailValidated === 'registered'" >{{ 'User found' | translate }}</span>
+        <span class="status-text" *ngIf="emailValidated === 'invalid'" >{{ 'LOGIN.EMAIL_INVALID' | translate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-grid black-color">
+    <div class="p-col-3 pad-top-18">
+      <mat-radio-group formControlName="civility" class="black-color" required>
+        <span>{{ 'Civility' | translate }} *</span>
+        <mat-radio-button class="radio-marging-left" value="MR">{{ 'MR' | translate }}</mat-radio-button>
+        <mat-radio-button class="radio-marging-left" value="MRS">{{ 'MRS' | translate }}</mat-radio-button>
+      </mat-radio-group>
+      <mat-error
+        *ngIf="userForm.get('civility').hasError('required') && (userForm.get('civility').touched || userForm.get('civility').dirty)"
+        >{{ 'This field is required' | translate }}</mat-error
+      >
+    </div>
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input
+          matInput
+          formControlName="first_name"
+          placeholder="{{ 'First Name' | translate }}"
+          required
+        />
+        <mat-error
+          *ngIf="
+            userForm.get('first_name').hasError('required') && (userForm.get('first_name').touched || userForm.get('first_name').dirty)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput formControlName="last_name" type="text" placeholder="{{ 'Last Name' | translate }}" required/>
+        <mat-error
+          *ngIf="userForm.get('last_name').hasError('required') && (userForm.get('last_name').touched || userForm.get('last_name').dirty)"
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput formControlName="position" type="text" placeholder="{{ 'Position' | translate }}" />
+        <mat-error
+          *ngIf="userForm.get('position').hasError('required') && (userForm.get('position').touched || userForm.get('position').dirty)"
+          >{{ 'This field is required' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-grid black-color">
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input
+          matInput
+          formControlName="office_phone"
+          type="text"
+          maxlength="10"
+          placeholder="{{ 'Office Phone' | translate }}"
+          (keyup)="showErrors()"
+        />
+        <mat-error>
+          <p
+            *ngIf="
+              userForm.get('office_phone').hasError('number') &&
+              (userForm.get('office_phone').touched || userForm.get('office_phone').dirty)
+            "
+          >
+            {{ 'must contain number only' | translate }}
+          </p>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput formControlName="direct_line" type="text" maxlength="10" placeholder="{{ 'Direct Line' | translate }}" />
+        <mat-error>
+          <p
+            *ngIf="
+              userForm.get('direct_line').hasError('number') && (userForm.get('direct_line').touched || userForm.get('direct_line').dirty)
+            "
+          >
+            {{ 'must contain number only' | translate }}
+          </p>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-3">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput formControlName="portable_phone" type="text" maxlength="10" placeholder="{{ 'Mobile Phone' | translate }}" />
+        <mat-error>
+          <p
+            *ngIf="
+              userForm.get('portable_phone').hasError('number') &&
+              (userForm.get('portable_phone').touched || userForm.get('portable_phone').dirty)
+            "
+          >
+            {{ 'must contain number only' | translate }}
+          </p>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div formArrayName="entities" class="entities-content-container">
+    <div class="p-grid" *ngFor="let field of entities.controls; index as i" [formGroupName]="i">
+      <ng-container *ngIf="field.get('entity_name').value === 'company'">
+        <div class="p-col-3">
+          <mat-form-field class="full-wid">
+            <mat-select
+              formControlName="entity_name"
+              placeholder="{{ 'Select Entity' | translate }}"
+            >
+              <mat-option value="company">
+                {{ 'COMPANY.COMPANY' | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="field.get('entity_name').hasError('required') && (field.get('entity_name').touched || field.get('entity_name').dirty)"
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+  
+        <div class="p-col-3">
+          <mat-form-field class="full-wid">
+            <mat-select
+              formControlName="companies"
+              placeholder="{{ 'Select Company' | translate }} *"
+            >
+              <mat-option *ngIf="companies" [value]="companies._id">
+                {{ companies.company_name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        <div class="p-col-3">
+          <mat-form-field class="full-wid" *ngIf="i === 0">
+            <mat-select
+              (selectionChange)="userTypeValidate($event)"
+              formControlName="type"
+              placeholder="{{ 'Select User Type' | translate }}"
+            >
+              <mat-option *ngFor="let userType of userTypes" [value]="userType.value" [disabled]="selectedUsertype.includes(userType.value)">
+                {{ 'USER_TYPES.' + userType.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="field.get('type').hasError('required') && (field.get('type').touched || field.get('type').dirty)">{{
+              'This field is required' | translate
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-wid" *ngIf="i >= 1">
+            <mat-select
+              formControlName="type"
+              placeholder="{{ 'Select User Type' | translate }} *"
+            >
+              <mat-option *ngFor="let userType of userTypes" [value]="userType.value" [disabled]="selectedUsertype.includes(userType.value)">
+                {{ 'USER_TYPES.' + userType.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="field.get('type').hasError('required') && (field.get('type').touched || field.get('type').dirty)">{{
+              'This field is required' | translate
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <button *ngIf="entities.length > 1" class="negativ_button" mat-icon-button (click)="removeEntities(i)">
+          <mat-icon class="negativ" color="warn">remove_circle </mat-icon>
+        </button>
+  
+        <button
+          class="plus_button"
+          mat-icon-button
+          [disabled]="entities.length === 2 || isCase3"
+          (click)="addEntities()"
+          *ngIf="i === entities.length - 1"
+        >
+          <mat-icon class="plus">add_circle_outline </mat-icon>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- loading spinner -->
+  <!-- <div *ngIf="isLoading" class="inner-loading-indicator-transparent-bg">
+    <mat-spinner [diameter]="100"></mat-spinner>
+  </div> -->
+</div>
+
+<div mat-dialog-actions class="justify-content-center mt-1rem">
+  <button mat-button mat-raised-button (click)="closeDialog()" type="button" color="warn" class="white-color">
+    {{ 'Cancel' | translate }}
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    (click)="validateMentor()"
+    type="submit"
+    color="primary"
+    class="white-color"
+  >
+    {{ 'Submit' | translate }}
+  </button>
+</div>
+<swal #swalMentS4Ref type="question" title="{{ 'NEW_MENT_S4.TITLE' | translate }}" [showConfirmButton]="false" [allowOutsideClick]="false">
+  <div *swalPartial class="">
+    <p
+      class="text"
+      [translate]="'NEW_MENT_S4.TEXT'"
+      [translateParams]="{
+        nameMentor: this.nameMentor,
+        currentCompanyName: this.currentCompanyName,
+        newCompanyName: this.companyName
+      }"
+    ></p>
+    <div class="button-action">
+      <button
+        mat-raised-button
+        color="accent"
+        [disabled]="secondsToHms(time) !== ('NEW_MENT_S4.BUTTON1' | translate)"
+        class="button-swal"
+        (click)="swalMent4()"
+      >
+        {{ secondsToHms(time) }}
+      </button>
+      <button mat-raised-button color="accent" class="button-swal" (click)="openRevisionMentor()">
+        {{ 'NEW_MENT_S4.BUTTON2' | translate }}
+      </button>
+      <button mat-raised-button color="warn" class="button-swal" (click)="closeSwal()">
+        {{ 'NEW_MENT_S4.BUTTON3' | translate }}
+      </button>
+    </div>
+  </div>
+</swal>
+
+<swal #errorSwal type="warning" title="{{ 'USER_REGISTERED.TITLE' | translate }}" [showConfirmButton]="false" [allowOutsideClick]="false">
+  <div *swalPartial class="">
+    <p
+      class="text"
+      [translate]="'USER_REGISTERED.TEXT'"
+    ></p>
+    <p
+      class="text"
+      [translate]="'USER_REGISTERED.TEXT1'"
+    ></p>
+    <div class="button-action">
+      <button
+        mat-raised-button
+        color="accent"
+        [disabled]="secondsToHms(time) !== ('NEW_MENT_S4.BUTTON1' | translate)"
+        class="button-swal"
+        (click)="registerExistingUser()"
+      >
+        {{ secondsToHms(time) }}
+      </button>
+      <button mat-raised-button color="accent" class="button-swal" (click)="openUpdateUser()">
+        {{ 'USER_REGISTERED.BUTTON2' | translate }}
+      </button>
+      <button mat-raised-button color="warn" class="button-swal" (click)="closeSwal()">
+        {{ 'USER_REGISTERED.BUTTON3' | translate }}
+      </button>
+    </div>
+  </div>
+</swal>

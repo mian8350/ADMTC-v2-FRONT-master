@@ -1,0 +1,117 @@
+<div class="title" style="padding-left: 2em;height: 50px;vertical-align: middle;padding-top: 12px;">
+  <div class="no-padding urgentIcon">
+    <i class="fa fa-bolt"></i>
+  </div>
+  <h4 class="header-title" 
+    [translate]="'MailBox.URGENT_MESSAGE_DIALOG_TITLE'" >
+  </h4>
+</div>
+
+<div class="body-section">
+  <div class="compose-mail">
+    <div style="width: 100%; padding-top: 15px;">
+      <div class="emailsubject e-mailSubject" style="display: contents;" *ngIf="messageMail?.subject">
+        <b>{{ messageMail?.subject }}</b>
+      </div>
+      <span *ngIf="translate.currentLang === 'fr'" style="float: right; font-size: 12px;">{{
+        momentlang(messageMail?.created_at)
+      }}</span>
+      <span *ngIf="translate.currentLang === 'en'" style="float: right; font-size: 12px;">{{
+        messageMail?.created_at | date: 'EEEE dd MMMM yyyy'
+      }}</span>
+      <hr style="border:1px solid !important;">
+    </div>
+
+    <div class="sender-mail" style="padding: 10px 0px 5px 0px;">
+      <label style="font-weight: 800; font-size: 12px; padding-right: 5px;">{{ 'MailBox.from' | translate }} : </label>
+      <span style="font-size: 12px;" *ngIf="messageMail?.sender_property?.sender">
+        {{ messageMail?.sender_property?.sender?.last_name | uppercase }}
+        {{ messageMail?.sender_property?.sender?.first_name }} {{ messageMail?.sender_property?.sender?.civility | translate }}
+      </span>
+    </div>
+
+    <!-- <div class="recipient-mail" *ngIf="messageMail?.recipient_properties?.length > 0">
+      <label style="font-weight: 800; font-size: 12px; padding-right: 5px;">{{ 'MailBox.to' | translate }} : </label>
+      <span style="font-size: 12px;" *ngFor="let recipientList of messageMail?.recipient_properties; let i = index">
+        <span *ngIf="recipientList?.rank" title="{{ recipientList?.rank }}">
+          <span *ngIf="recipientList?.recipients" title="{{ recipientList?.recipients }}">
+            {{ (recipientList?.recipients)[0]?.last_name | uppercase }} {{ (recipientList?.recipients)[0]?.first_name }}
+            {{ (recipientList?.recipients)[0]?.civility }}
+          </span>
+          <span *ngIf="i < messageMail?.recipient_properties?.length - 1">,&nbsp;&nbsp;</span>
+        </span>
+      </span>
+    </div> -->
+
+    <div class="message_detail" style="padding-top: 15px;">
+      <div class="message_view break-word">
+        <p  style="font-size: 12px;" innerHTML="{{ getMessage(messageMail?.message) }}"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="margin-bottom: 1rem;">
+  <hr style="border-bottom:1px solid rgba(0,0,0,.12) !important; width: 760px;">
+</div>
+<div mat-dialog-actions [formGroup]="replyMessageForm" style="padding: 0px 26px;">
+  <div style="padding: 0px 7px 0px 7px; width: 100%;">
+    <div style="width: 100%;">
+      <ckeditor
+        [config]="{
+          toolbar: [
+            'heading',
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'highlight:redPen',
+            'highlight:greenPen',
+            'removeHighlight',
+            'numberedList',
+            'bulletedList',
+            'link',
+            'undo',
+            'redo'
+          ],
+          link: {
+            addTargetToExternalLinks: true
+          },
+          placeholder: 'MailBox.respond-here' | translate
+        }"
+        [editor]="Editor"
+        formControlName="message"
+        (ready)="onReady($event)"
+      >
+      </ckeditor>
+      <button mat-icon-button (click)="recordNote()" class="margin-right-button btn-mic">
+        <mat-icon class="mic-style">keyboard_voice</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="file-section p-col-12" style="padding: 0px">
+    <div *ngFor="let file of attachmnetsPaths" class="fileInfo" style="padding: 5px;">
+      <button mat-icon-button type="button">
+        <mat-icon>insert_drive_file</mat-icon>
+      </button>
+      <label>{{ file.name }}</label>
+      <button mat-icon-button type="button" (click)="removeAttachment(file)">
+        <mat-icon> close </mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="action-btn float-right" style="padding: 0px 28px 10px 0px;">
+
+<span>
+  <input #myInput type="file" accept="{{ allowedFileType }}" name="file" style="display: none;" multiple (change)="handleInputChange($event)">
+  <button mat-raised-button class="background-accent" (click)="openUploadWindow()">
+    <i class="fa fa-paperclip"></i>
+    {{'MailBox.composeMail.add_attachment' | translate}}
+  </button>
+</span>
+  <button mat-raised-button class="background-accent" [disabled]="!replyMessageForm.valid" (click)="sendMessage()"><i class="fa fa-reply"></i> {{'MailBox.emailDetails.reply' | translate}}</button>
+</div> 
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

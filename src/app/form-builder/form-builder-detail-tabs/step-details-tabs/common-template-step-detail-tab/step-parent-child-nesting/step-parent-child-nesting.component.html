@@ -1,0 +1,186 @@
+<div cdkDrag class="draggable-box">
+  <div [ngClass]="editMode && 'highlight__answer'" style="display: flex; place-items: center">
+    <ng-container *ngIf="!parentAnswerType || parentAnswerType === 'single_option'; else textIcon">
+      <mat-icon class="pdf-none" style="vertical-align: middle">spellcheck</mat-icon>
+    </ng-container>
+    <ng-template #textIcon>
+      <mat-icon class="pdf-none" style="vertical-align: middle">title</mat-icon>
+    </ng-template>
+
+    <img
+      width="17px"
+      height="16px"
+      *ngIf="isForPDF"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAAAAAAq3gkaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAADHSURBVCjPldKxDYMwEAXQWyADMAAFEyAxAK2r9FenyQIewSOwAlukokVKiWgo3LhA11kiGOOEAxxFucKFn8/68hle3wp+SZfnXVwqgCoqRmQpUkweF6WSJiJWpm2TSHuWLkciLPqzVFCH5SCES+Sl8ShNAr4+Gey4ipUQSk0e6C4GL30hzLKhy3JYAYT2Uoezk/IZAjghzNr1+jZzGd6wvfVTEruKyYhwIw5bj746YsAm5whxAz5TLYDBbtpaMNjJZMw/PyRSMx9RA6x8iPxwAAAAAElFTkSuQmCC"
+    />
+
+    <mat-form-field
+      *ngIf="!isViewOnly && editMode; else showValue"
+      dividerColor="accent"
+      style="padding-left: 10px"
+      [ngClass]="opt?.value ? 'mat-form-field' : 'mat-form-field ng-dirty ng-invalid mat-input-invalid ng-touched'"
+    >
+      <input
+        matInput
+        type="text"
+        #opt
+        required="true"
+        value="{{ parent_child_options?.option_text }}"
+        [formControl]="optionTextForm"
+        (mousedown)="$event.stopPropagation()"
+        (keydown.enter)="updateOptionName()"
+        [placeholder]="!parentAnswerType || parentAnswerType === 'single_option' ? 'Option' : ('Placeholder' | translate)"
+      />
+      <mat-error *ngIf="optionTextForm?.hasError('required') && (optionTextForm?.dirty || optionTextForm?.touched)">
+        {{ 'This field is required' | translate }}</mat-error
+      >
+    </mat-form-field>
+
+    <ng-template #showValue>
+      <span class="optionText">{{ parent_child_options?.option_text }}</span>
+    </ng-template>
+
+    <ng-template [ngIf]="!isViewOnly">
+      <button [disabled]="isPublished" *ngIf="!editMode && !existingChildOnEdit" type="button" mat-icon-button (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button [disabled]="isPublished" type="button" mat-icon-button (click)="onCancel()" *ngIf="editMode">
+        <mat-icon style="color: #ff4040">close</mat-icon>
+      </button>
+      <button [disabled]="isPublished" type="button" mat-icon-button (click)="updateOptionName()" *ngIf="editMode">
+        <mat-icon color="accent">done</mat-icon>
+      </button>
+      <button
+        [style.visibility]="
+          !existingChildOnEdit &&
+          (!parentAnswerType || parentAnswerType === 'single_option' || currentAnswerType[optionIndex] === 'single_option')
+            ? 'visible'
+            : 'hidden'
+        "
+        type="button"
+        mat-icon-button
+      >
+        <mat-icon (click)="addOption(false, false)" matTooltip="{{ 'Add more option' | translate }}">add</mat-icon>
+      </button>
+
+      <button type="button" mat-icon-button>
+        <mat-icon (click)="removeOption(optionIndex)" matTooltip="{{ 'Delete' | translate }}">delete</mat-icon>
+      </button>
+      <button
+        [style.visibility]="
+          !existingChildOnEdit &&
+          (!parentAnswerType || parentAnswerType === 'single_option' || currentAnswerType[optionIndex] === 'single_option')
+            ? 'visible'
+            : 'hidden'
+        "
+        type="button"
+        mat-icon-button
+        matTooltip="{{ 'Add child question' | translate }}"
+      >
+        <mat-icon (click)="addQuestion()">play_for_work</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+
+  <ul style="list-style: none">
+    <li *ngFor="let q of parent_child_options?.questions; let questionIndex = index">
+      <div style="display: flex; place-items: center">
+        <mat-icon class="pdf-none" style="vertical-align: middle">help</mat-icon>
+        <img
+          width="14px"
+          height="14px"
+          *ngIf="isForPDF"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAAAAACcZ7q1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAADDSURBVBgZBcChjcJQAAbgb4En0UgkkgVQOAboAs9hm2BqjgVugCYd42QNE7SGU+eaVDSp/i+SJJ/nCcfHlCSRZGsLoLRbEsnS4NC8mgOaJZG94jolma6oe2TA4Z35e877gCHWO5ptPjvPW4P7aiw4Xi+U915RRj2Auv9eoNcB1G2roNMBrn97BTo94JmfAvTGArTLF1BG6x0AcF9lAG6vGzBE9gq6dKDukSwN3F43aJZEkq0tgNJuSSRJpscRp+cnSfIPQt15tVumVUQAAAAASUVORK5CYII="
+        />
+
+        <div class="p-grid" style="flex: 1" *ngIf="!isViewOnly; else showValue">
+          <div class="p-col-6" style="margin-top: 20px">
+            <mat-form-field
+              dividerColor="accent"
+              [ngClass]="que.value ? 'mat-form-field' : 'mat-form-field ng-dirty ng-invalid mat-input-invalid ng-touched'"
+            >
+              <input
+                matInput
+                #que
+                required="true"
+                type="text"
+                value="{{ q?.question_name }}"
+                (change)="updatequestion_name(questionIndex, que)"
+                placeholder="{{ 'Question child' | translate }}"
+              />
+            </mat-form-field>
+          </div>
+          <div class="p-col-6" style="padding-right: 0px">
+            <label class="float-label">
+              {{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}
+            </label>
+            <ng-select
+              placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}"
+              [clearable]="false"
+              appendTo="body"
+              [(ngModel)]="currentAnswerType[questionIndex]"
+              aria-required="true"
+              (change)="updateQuestionType(questionIndex, $event)"
+            >
+              <ng-option *ngFor="let questionAnswerType of answerTypes" [value]="questionAnswerType.key">
+                {{ 'QUESTION_ANSWER_TYPE.' + questionAnswerType.name.toUpperCase() | translate }}
+              </ng-option>
+            </ng-select>
+          </div>
+        </div>
+
+        <ng-template #showValue>
+          {{ q?.question_name }}
+        </ng-template>
+
+        <ng-template [ngIf]="!isViewOnly">
+          <button
+            [style.visibility]="
+              !existingChildOnEdit && (currentAnswerType[questionIndex] === 'single_option' || parentAnswerType === 'single_option')
+                ? 'visible'
+                : 'hidden'
+            "
+            type="button"
+            mat-icon-button
+          >
+            <mat-icon (click)="addQuestion()">add</mat-icon>
+          </button>
+          <button type="button" mat-icon-button>
+            <mat-icon (click)="removeQuestion(questionIndex)">delete</mat-icon>
+          </button>
+          <button
+            [style.visibility]="
+              !existingChildOnEdit && (currentAnswerType[questionIndex] === 'single_option' || parentAnswerType === 'single_option')
+                ? 'visible'
+                : 'hidden'
+            "
+            type="button"
+            mat-icon-button
+          >
+            <mat-icon (click)="addOption(q, questionIndex)">play_for_work</mat-icon>
+          </button>
+        </ng-template>
+      </div>
+
+      <ul
+        style="list-style: none"
+        cdkDropList
+        [cdkDropListData]="q.parent_child_options"
+        (cdkDropListDropped)="dropPCOption($event, segmentIndex, questionIndex)"
+      >
+        <li *ngFor="let pco of q.parent_child_options; let parentChildOptionIndex = index">
+          <ms-step-parent-child-nesting
+            [parent_child_options]="pco"
+            [question]="q"
+            [optionIndex]="parentChildOptionIndex"
+            [formBuilderForm]="formBuilderForm"
+            [segmentIndex]="segmentIndex"
+            [questionIndex]="questionIndex"
+            [parentAnswerType]="currentAnswerType[questionIndex]"
+            [isViewOnly]="false"
+          ></ms-step-parent-child-nesting>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

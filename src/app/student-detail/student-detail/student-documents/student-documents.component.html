@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-content>
+        <div class="p-grid p-nogutter">
+            <div class="p-col">
+                <ul>
+                    <li *ngFor="let document of documentsList; index as i;">
+                        <a (click)="document.sub = !document.sub">
+                            <i class="fa" [ngClass]="document.sub ? 'fa-caret-down': 'fa-caret-right'"></i>
+                            <mat-icon style="vertical-align: middle;">folder</mat-icon>
+                            {{document.title}}
+                        </a>
+                        <ul class="document-list" *ngIf="document.sub">
+                            <li *ngFor="let document of document.documents; index as i;">
+                                <a>
+                                    <mat-icon style="vertical-align: middle;">insert_drive_file</mat-icon>
+                                    <span>{{document?.name}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

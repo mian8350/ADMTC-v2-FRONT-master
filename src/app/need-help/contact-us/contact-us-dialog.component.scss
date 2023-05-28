@@ -1,0 +1,162 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+:host ::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: #dc3545 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8 !important;
+}
+
+.icon-style {
+  vertical-align: middle;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+:host ::ng-deep {
+  .mat-dialog-content {
+    max-height: 520px;
+    height: auto;
+  }
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  height: auto;
+  color: black;
+}
+
+.recipient {
+  display: inline-block;
+  padding: 8px 12px 8px 12px;
+  border-radius: 24px;
+  font-size: 13px;
+  line-height: 16px;
+  background-color: #e0e0e0;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.pad-left-none {
+  padding-left: 0px !important;
+}
+
+.padding-none {
+  padding: 0px !important;
+}
+
+.mrgn-left-none {
+  margin-left: 0px !important;
+}
+
+.cursorStyle {
+  cursor: pointer;
+}
+
+.file-upload {
+  cursor: pointer;
+  min-width: initial;
+  padding: 10px;
+  font-size: 1.5rem;
+  line-height: 20px;
+  margin-right: 0.33333rem;
+}
+
+.file-upload input {
+  display: none;
+}
+
+// .file-section {
+//     margin-top: 20px;
+//     margin-left: 10px;
+// }
+
+/* File Uploader Styles  */
+
+.uploader input {
+  display: none;
+}
+
+.uploader {
+  -webkit-align-items: center;
+  align-items: center;
+  background-color: #efefef;
+  background-color: rgba(0, 0, 0, 0.02);
+  display: -webkit-flex;
+  display: flex;
+  height: 50px;
+  -webkit-justify-content: center;
+  justify-content: center;
+  outline: 3px dashed #ccc;
+  outline-offset: 5px;
+  position: relative;
+  width: 50px;
+}
+
+.uploader img,
+.uploader .icon {
+  pointer-events: none;
+}
+
+.uploader,
+.uploader .icon {
+  -webkit-transition: all 100ms ease-in;
+  -moz-transition: all 100ms ease-in;
+  -ms-transition: all 100ms ease-in;
+  -o-transition: all 100ms ease-in;
+  transition: all 100ms ease-in;
+}
+
+.uploader .icon {
+  color: #eee;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 5em;
+}
+
+.uploader img {
+  left: 50%;
+  opacity: 0;
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  -webkit-transition: all 300ms ease-in;
+  -moz-transition: all 300ms ease-in;
+  -ms-transition: all 300ms ease-in;
+  -o-transition: all 300ms ease-in;
+  transition: all 300ms ease-in;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.uploader img.loaded {
+  opacity: 1;
+}
+.fileInfo {
+  width: fit-content !important;
+  margin: 5px !important;
+  display: inline-block !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+}
+.chip-list {
+  width: 100%;
+}
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.float-left {
+  float: left;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+}

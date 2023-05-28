@@ -1,0 +1,152 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+// .document-list,
+.sub-folder-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+.document-list {
+  list-style: none;
+  padding-left: 1.4rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  margin: auto;
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+.document-sub-list {
+  // list-style: none;
+  padding-left: 1.4rem;
+  margin: auto;
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+li a {
+  font-size: 12px;
+  transition: color 0.02s, font-size 0.02s;
+}
+
+li a:hover {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+li.root-folder {
+  list-style: none;
+  // margin-top: 1rem;
+  // margin-bottom: 1rem;
+}
+
+li a.selected {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+mat-icon svg {
+  fill: inherit;
+}
+
+.folder-title {
+  display: inline-block;
+  margin-right: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-size: 14px;;
+}
+
+.folder-item, .document-item {
+  cursor: pointer;
+}
+
+.student-doc-icon {
+  vertical-align: middle;
+  font-size: 21px !important;
+}
+
+.student-folder-icon {
+  vertical-align: middle;
+  margin-top: -4px;
+  font-size: 21px !important;
+}
+
+.small-spinner {
+  display: inline-block;
+}
+.document-list,
+.test-list,
+.sub-folder-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+li a {
+  font-size: 12px;
+  transition: color 0.02s, font-size 0.02s;
+}
+
+li a:hover {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+li.root-folder {
+  list-style: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+li a.selected {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+.test-incomplete {
+  color: red;
+}
+
+mat-icon svg {
+  fill: inherit;
+}
+
+.default-card {
+  border-radius: 0px !important;
+}
+
+.acadkit-card {
+  margin: 6px 0 !important;
+  padding: 8px !important;
+  background-color: $medium-grey;
+}
+
+.folder-title {
+  display: inline;
+  margin-right: 8px;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+.folder-item, .document-item, .test-item{
+  cursor: pointer;
+}
+
+.acadkit-icon {
+  vertical-align: middle;
+  font-size: 21px !important;
+}
+
+.small-spinner {
+  display: inline-block;
+}

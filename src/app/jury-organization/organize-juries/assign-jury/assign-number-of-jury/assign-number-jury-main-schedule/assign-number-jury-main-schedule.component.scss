@@ -1,0 +1,178 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-startDate {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-startTime {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-breakTime {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-breakDuration {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-numberOfStudent {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-endTime {
+  text-align: center;
+  width: 15%;
+  .mat-form-field {
+    margin-top: 6px;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
+    width: 90%;
+  }
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  
+  tbody tr:nth-child(odd) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+  tbody tr:nth-child(even) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+:host ::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}
+
+.number-of-jury {
+  width: 60px;
+  margin-bottom: 0.5rem;
+}
+
+.left-side {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.left-side-text {
+  width: 100%;
+  font-size: 14px;
+}
+
+.header-text {
+  font-size: 16px;
+  margin: 3em 1em;
+  color: white;
+}
+.section {
+  display: block;
+}
+.header-text .left {
+  width: 9em;
+  line-height: 1.7;
+  display: inline-block;
+}
+.header-text .right {
+  display: inline-block;
+}
+
+.text-red {
+  color: red;
+}
+// input:invalid {
+//   border: 1px solid #FF0000;
+// }
+

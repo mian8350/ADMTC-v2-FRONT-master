@@ -1,0 +1,66 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="indeterminate_check_box" class="mt-5px"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ '013_STUDENT.Detail of Resignation' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body">
+  <div class="p-grid" [formGroup]="studentDeleteForm">
+    <div class="p-col-12 pad-y-none">
+      <mat-form-field class="full-wid">
+        <textarea
+          rows="2"
+          matInput
+          formControlName="reason_for_resignation"
+          placeholder="{{ 'DEACTIVATEDSUCCESS.REASON' | translate }}"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-grid" *ngIf="blockList?.length">
+    <div class="p-col-12 pad-y-none">
+      <span><b>{{ '013_STUDENT.What test student already participated (tick the box)' | translate }} : </b></span>
+    </div>
+    <div class="p-col-12 pad-y-none">
+      <ul class="pad-l-20px mt-5px">
+        <li *ngFor="let block of blockList">
+          <span> {{ utilService.cleanHTML(block?.name) }} </span>
+          <div class="pad-l-20px test-item" *ngFor="let test of block.tests">
+            <mat-checkbox (change)="onCheckTest($event, test)">{{ test?.name }}</mat-checkbox>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'DEACTIVATEDSUCCESS.CANCEL' | translate }}</button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    class="mr-0"
+    (click)="deleteStudent()"
+    [disabled]="!studentDeleteForm.valid || isWaitingForResponse"
+  >
+    {{ 'DEACTIVATEDSUCCESS.RSESIGNATIONSUBMIT' | translate }}
+  </button>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

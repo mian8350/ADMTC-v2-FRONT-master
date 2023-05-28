@@ -1,0 +1,27 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+label{
+    color: $dark-grey;
+}
+
+.m-1{
+    margin-top: 1.5rem;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+.red-color-btn {
+    background-color: #f44336;
+    cursor: default;
+
+    .mat-icon {
+        font-weight: 700;
+    }
+}
+
+.alignment{
+    text-align: right;
+}

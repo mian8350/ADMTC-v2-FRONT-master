@@ -1,0 +1,70 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>
+    <svg style="width:24px;height:24px ;margin-bottom: -0.3rem;" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z" />
+    </svg>
+  </mat-icon>
+  <h2 class="header-text">
+    {{ 'PROBLEMATIC_019.Problematic' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr/>
+
+<div class="header-form">
+  <div fxLayout="row">
+    <div fxFlex fxLayout="column" >
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'TASK.Due_Date' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ translateDate(data?.due_date) }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'Description' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ translateValidateProblematicDesc(data.description, data) }}
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>  
+</div>
+
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'ASSIGN_CORRECTOR_DIALOG.CANCEL' | translate }}
+    </button>
+  </div>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="goToValidateProblematic(data)"
+      type="button"
+    >
+      {{ 'PROBLEMATIC_019.Go To Problematic' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,58 @@
+[
+  {
+    "school": {
+      "shortName": "AFC LA ROCHELLE"
+    },
+    "due_date": "2019-10-24",
+    "assigned_to": {
+      "name": "Academic-Director",
+      "entity": "academic",
+      "_id": "5a2e1ecd53b95d22c82f9554"
+    },
+    "priority": 1,
+    "description": "Assign Corrector",
+    "type": "calendarStep"
+  },
+  {
+    "school": {
+      "shortName": "AFC LA ROCHELLE"
+    },
+    "due_date": "2019-03-21",
+    "assigned_to": {
+      "name": "Corrector",
+      "entity": "academic",
+      "_id": "5a2e1ecd53b95d22c82f9559"
+    },
+    "priority": 1,
+    "description": "Marks Entry",
+    "type": "calendarStep"
+  },
+  {
+    "school": {
+      "shortName": "AFC LA ROCHELLE"
+    },
+    "due_date": "2019-10-24",
+    "assigned_to": {
+      "name": "student",
+      "entity": "academic",
+      "_id": "5a067bba1c0217218c75f8ab"
+    },
+    "priority": 1,
+    "description": "Etude de marché",
+    "type": "documentsExpected"
+  },
+  {
+    "school": {
+      "shortName": "ALTEA"
+    },
+    "due_date": "2019-10-24",
+    "assigned_to": {
+      "name": "Academic-Director",
+      "entity": "academic",
+      "_id": "5a2e1ecd53b95d22c82f9554"
+    },
+    "priority": 1,
+    "description": "Assign Corrector",
+    "type": "calendarStep"
+  }
+]

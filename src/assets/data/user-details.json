@@ -1,0 +1,15 @@
+[
+  {"description": "Director","entity": "admtc","title": "S-RMO", "type": "ADMTC","name": "Director", "status": "Active"},
+  {"description": "","entity": "admtc","title": "S-RMO", "type": "ADMTC","name": "Sales", "status": "Active"},
+  {"description": "Visitor","entity": "admtc","title": "S-RMO 2019", "type": "ADMTC","name": "Visitor", "status": "Need Action"},
+  {"description": "Admin","entity": "admtc","title": "S-CPC 2019", "type": "ADMTC","name": "Admin", "status": "Not Active"},
+  {"description": "Director","entity": "certifier","title": "S-RDC 2019", "type": "CR","name": "Director", "status": "Not Active"},
+  {"description": "Admin","entity": "certifier","title": "S-RDC 2019", "type": "CR","name": "Admin", "status": "Not Active"},
+  {"description": "Corrector of Problematic","entity": "certifier","title": "S-RMO", "type": "CR","name": "Corrector-of-Problematic", "status": "Not Need Action"},
+  {"description": "Corrector Quality","entity": "certifier","title": "S-RMO 2019", "type": "CR","name": "Corrector-Quality", "status": "Not Active"},
+  {"description": "Director","entity": "academic","title": "S-HERALD", "type": "PR","name": "Director", "status": "Active"},
+  {"description": "academic DIRECTOR","entity": "academic","title": "S-RMO", "type": "PR","name": "Academic-Director", "status": "Active"},
+  {"description": "Collaborateur direct de la Direction Pédagogique Etablissement","entity": "academic","title": "S-RMO 2019", "type": "PR","name": "Academic-Admin", "status": "Need Action"},
+  {"description": "Intervenant sur au moins une matière du programme","entity": "academic","title": "", "type": "PR","name": "Teacher", "status": "Active"},
+  {"description": "Enseignant ou désigné par la Direction Pédagogique Etablissement","entity": "academic","title": "", "type": "PR","name": "Corrector", "status": "Need Action"}
+]

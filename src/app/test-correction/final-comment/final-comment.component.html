@@ -1,0 +1,12 @@
+<div class="p-grid background-primary mrgn-y-xs" [formGroup]="testCorrectionForm">
+  <div class="p-col-12" formGroupName="correction_grid">
+    <mat-form-field color="accent" class="full-width" formGroupName="correction">
+      <textarea matInput
+        rows="1"
+        placeholder="{{'TEST.FINALCOMMENTS' | translate}}"
+        (keyup)="removeSpaces()"
+        formControlName="final_comment">
+      </textarea>
+    </mat-form-field>
+  </div>
+</div>

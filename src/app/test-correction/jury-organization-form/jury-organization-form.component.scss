@@ -1,0 +1,184 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-section {
+  width: 25%;
+  padding: 5px;
+  color: white;
+}
+.mat-column-directives {
+  width: 30%;
+  padding: 5px;
+  color: white;
+}
+.mat-column-isEvaluated {
+  // width: 5%;
+  text-align: center !important;
+  color: white;
+}
+.mat-column-markNumber {
+  width: 10%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
+}
+.mat-column-markLetter {
+  width: 10%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-markPhrase {
+  width: 15%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-comment {
+  width: 30%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep table.studentForm {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+      padding-right: 0.3rem !important;
+    }
+    td {
+      color: white;
+    }
+
+    th {
+      vertical-align: middle;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+  }
+
+  thead tr {
+    height: 30px !important;
+    background: $light-black !important;
+    &:nth-child(2),
+    &:nth-child(3) {
+      th {
+        box-shadow: 1px 1px 0px 1px #545454;
+        color: $white;
+      }
+    }
+    border: none !important;
+  }
+}
+
+.footer-row {
+  color: white;
+  padding-top: 0px !important;
+}
+
+.footer-height {
+  height: 28px;
+}
+
+.mat-icon-style {
+  color: rgb(20, 117, 11);
+  width: 24px;
+  height: 24px;
+}
+
+.m-tb-10 {
+  margin: 10px 0px 0px 0px;
+}
+
+.no-pad {
+  padding: 0px;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+
+.only-pad-top-10 {
+  padding: 10px 0px 0px 0px;
+}
+
+::ng-deep svg.ck.ck-icon.ck-button__icon {
+  width: 14px;
+}
+
+:host ::ng-deep .ck.ck-toolbar {
+  zoom: 0.8;
+}
+
+.underline {
+  text-decoration: underline;
+}
+.pad-rile-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+textarea.mat-input-element.cdk-textarea-autosize {
+  box-sizing: content-box;
+  overflow: hidden;
+  resize: none;
+}
+
+// ::-webkit-scrollbar-track {
+//   background-color: #607d8b;
+//   border: 2px solid #555555;
+// }
+p {
+  margin-bottom: 0 !important;
+  margin-top: 0;
+}
+:host ::ng-deep .mat-form-field-infix {
+  padding: 0.5em 0 !important;
+  border-top: 0.84375em solid transparent;
+  width: 52px !important;
+}
+
+// .score-text {
+//   text-align: right;
+//   padding-right: 2px;
+// }
+.section-height {
+  min-height: 0px; 
+  height: calc(66vh - 127px); 
+  overflow: auto;
+}
+
+.height-non-elimination {
+  min-height: 0px; 
+  height: calc(75vh - 127px);
+  overflow: auto;
+}
+
+.comment-for-each-section {
+  padding-top: 1rem;
+  font-size: 14px;
+}

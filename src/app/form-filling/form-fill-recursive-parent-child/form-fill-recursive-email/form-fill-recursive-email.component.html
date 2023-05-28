@@ -1,0 +1,25 @@
+<div class="p-grid" [formGroup]="inputQuestion">
+    <div class="p-col-12 p-md-4">
+      <label class="questionLabel">{{ inputQuestion?.get('question_name')?.value }}<span *ngIf="isFieldRequired">*</span></label>
+    </div>
+    <div class="p-col-12 p-md-8 x-pad-none">
+      <div class="form-group">
+        <input
+          type="email"
+          class="form-control"
+          [placeholder]="inputQuestion?.get('parent_child_options')?.value[0]?.option_text"
+          formControlName="answer"
+          [disabled]="isFormDisabled"
+          [readOnly]="isFormDisabled"
+        />
+      </div>
+      <mat-error
+      *ngIf="inputQuestion?.get('answer').dirty && inputQuestion?.get('answer').touched && inputQuestion?.get('answer').hasError('email')"
+    >
+      {{ 'Invalid email format' | translate }}
+    </mat-error>
+    </div>
+    <div class="invalid-feedback" *ngIf="isFieldRequired && !inputQuestion?.get('answer')?.value && inputQuestion?.get('answer')?.touched">
+      {{ 'This field is required' | translate }}
+    </div>
+</div>

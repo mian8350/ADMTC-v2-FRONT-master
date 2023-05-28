@@ -1,0 +1,346 @@
+<div class="top-space">
+  <div class="horizontal">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset" *ngIf="isUserCrdir || isUserCrAdmin">
+        <th mat-header-cell *matHeaderCellDef colspan="4" class="action-header-column" style="text-align: right !important">
+          <button
+            *ngIf="isTutorialAdded"
+            mat-button
+            style="
+              margin-left: 10px !important;
+              line-height: 16px;
+              margin: 0px 10px;
+              padding: 0px !important;
+              width: 16px !important;
+              min-width: 16px;
+            "
+            matTooltip="{{ 'Tutorial for this module' | translate }}"
+            (click)="toggleTutorial(tutorialData)"
+          >
+            <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative">help</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="resetSelection()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            [disabled]="isWaitingForResponse"
+            (click)="addUser()"
+            matTooltip="{{ 'User' | translate }}"
+            aria-hidden="true"
+            *ngIf="permissionService.addStaffSchoolStaffPerm()"
+          >
+            <mat-icon svgIcon="account-plus" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'User' | translate }}
+          </button>
+          <!-- <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="exportName = 'Export'; exportSwal.show()" *ngIf="permissionService.exportStaffSchoolStaffPerm()">
+            <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Export' | translate }}
+          </button> -->
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="reset" *ngIf="!isUserCrdir && !isUserCrAdmin">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="action-header-column" style="text-align: right !important">
+          <button
+            *ngIf="isTutorialAdded"
+            mat-button
+            style="
+              margin-left: 10px !important;
+              line-height: 16px;
+              margin: 0px 10px;
+              padding: 0px !important;
+              width: 16px !important;
+              min-width: 16px;
+            "
+            matTooltip="{{ 'Tutorial for this module' | translate }}"
+            (click)="toggleTutorial(tutorialData)"
+          >
+            <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative">help</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="resetSelection()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            [disabled]="isWaitingForResponse"
+            (click)="addUser()"
+            matTooltip="{{ 'User' | translate }}"
+            aria-hidden="true"
+            *ngIf="permissionService.addStaffSchoolStaffPerm()"
+          >
+            <mat-icon svgIcon="account-plus" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'User' | translate }}
+          </button>
+          <!-- <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="exportName = 'Export'; exportSwal.show()" *ngIf="permissionService.exportStaffSchoolStaffPerm()">
+            <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Export' | translate }}
+          </button> -->
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="titleFilter"
+              [matAutocomplete]="titleAuto"
+              placeholder="{{ 'List of RNCP Title' | translate }}"
+            />
+            <mat-autocomplete #titleAuto="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option [value]="All" matTooltip="All" (click)="setTitle('0')"> All </mat-option>
+              <mat-option
+                *ngFor="let option of filteredTitleNames | async"
+                [value]="option.short_name"
+                matTooltip="{{ option.short_name }}"
+                (click)="setTitle(option._id)"
+              >
+                {{ option.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="userTypeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="userTypeAuto"
+              [formControl]="userTypeFilter"
+              placeholder="{{ 'List of User Type' | translate }}"
+              #triggerSchool="matAutocompleteTrigger"
+            />
+            <mat-autocomplete #userTypeAuto="matAutocomplete">
+              <mat-option [value]="" matTooltip="All" (click)="setUserType('0')">{{ 'All' | translate }} </mat-option>
+              <mat-option [value]="type.name" *ngFor="let type of filteredUserTypes | async" (click)="setUserType(type._id)">
+                {{type.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef style="padding-top: 10px !important">
+          <mat-form-field>
+            <mat-select [formControl]="statusFilter">
+              <mat-option *ngFor="let record of statusFilterList" [value]="record.value" (click)="setStatus(record.value)">{{
+                (record.key | translate) === 'AllM' ? 'Tous' : (record.key | translate)
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter" *ngIf="!isUserCrdir && !isUserCrAdmin">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="last_name">
+          <h5>{{ 'Name' | translate }}</h5>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}"
+        >
+          {{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <h5>{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of element.entities" style="display:inline;">
+            <span class="tags" *ngIf="entity?.school" [matTooltip]="renderTooltipSchool(element.entities)">
+              {{ entity?.school?.short_name }}
+            </span>
+          </p>
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <h5>{{ 'Title' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of getUniqueTitle(element.entities)" style="display: inline">
+            <span class="tags" *ngIf="entity?.assigned_rncp_title" [matTooltip]="renderTooltipTitle(element.entities)">
+              {{ entity?.assigned_rncp_title?.short_name }}
+            </span>
+          </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userType">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <h5>{{ 'UserType' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of getUniqueUserType(element.entities)" style="display: inline">
+            <span class="tags" *ngIf="entity?.type" [matTooltip]="renderTooltipType(element.entities)">{{
+              'USER_TYPES.' + entity?.type?.name | translate
+            }}</span>
+          </p>
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="entity">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <h5>{{ 'Entity' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <p *ngFor="let entity of element.entities" style="display:inline;">
+            <span class="tags" *ngIf="entity?.entity_name" [matTooltip]="renderTooltipEntity(element.entities)">
+              {{ entity?.entity_name | translate }}
+            </span>
+          </p>
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="status">
+          <h5>{{ 'Status' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            matTooltip="{{ element.user_status | translate }}"
+            matTooltipPosition="right"
+            [ngClass]="{
+              'greenyellow-icon': element.user_status === 'active',
+              'black-icon': element.user_status === 'pending',
+              'red-icon': element.user_status === 'incorrect_email'
+            }"
+          >
+            check_circle
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action" *ngIf="!isUserCrdir && !isUserCrAdmin">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <div *ngIf="!isUserAcadir || (isUserAcadir && element._id !== this.currentUser._id)">
+            <button
+              *ngIf="permissionService.incignitoActionSchoolStaffPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Connect as the User' | translate }}"
+              (click)="connectAsUser(element)"
+            >
+              <mat-icon svgIcon="incognito"></mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.errorMailActionSchoolStaffPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Inform the Acad.D about error on email address' | translate }}"
+              (click)="incorrectPassword(element._id, element.civility, element.first_name, element.last_name)"
+            >
+              <mat-icon>block</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.deleteActionSchoolStaffPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'deactivate user' | translate }}"
+              (click)="confirmDeactivation(element)"
+            >
+              <mat-icon svgIcon="close">clear</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.editActionSchoolStaffPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'View - EditUser' | translate }}"
+              (click)="editUser(element)"
+            >
+            <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.sendMailActionSchoolStaffPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              (click)="sendMail(element)"
+              matTooltip="{{ 'Send an EmailUser' | translate }}"
+            >
+              <mat-icon svgIcon="email-outline"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- loading spinner -->
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+        (page)="changePage($event)"
+        [hidePageSize]="true"
+        [pageSizeOptions]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>

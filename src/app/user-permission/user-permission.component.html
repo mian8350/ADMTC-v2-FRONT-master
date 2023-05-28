@@ -1,0 +1,221 @@
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div class="p-grid">
+  <div class="p-col-12" style="padding: 0px">
+    <span class="label" style="width: 250px">{{ 'User Permission' | translate }}</span>
+    <span class="view-perm" style="width: 100px !important; display: inline-block">{{ 'V = View' | translate }}</span>
+    <span class="edit-perm" style="width: 100px !important; display: inline-block">{{ 'E = Edit' | translate }}</span>
+    <span class="edit-perm">{{ 'HP = Home Page' | translate }}</span>
+  </div>
+</div>
+<div *ngIf="!isWaitingForResponse" class="detail-school">
+  <div class="table-school" *ngIf="dataUserTypes && dataUserTypes.length">
+    <div class="detail-table">
+      <div class="list-headers">
+        <div
+          class="label-array"
+          style="
+            padding: 0px !important;
+            min-width: 195px;
+            width: 195px !important;
+            background: #607d8b;
+            text-align: center;
+            vertical-align: middle;
+          "
+        >
+          <div class="label-school-first">{{ 'Menu' | translate }}</div>
+        </div>
+        <div
+          class="label-array"
+          style="
+            padding: 0px !important;
+            border: none !important;
+            background: #607d8b;
+            text-align: center;
+            vertical-align: middle;
+            border-right: 1px solid black !important;
+          "
+        >
+          <div class="label-school-first">{{ 'Submenu' | translate }}</div>
+        </div>
+        <div
+          class="label-array"
+          style="
+            padding: 0px !important;
+            border: none !important;
+            background: #607d8b;
+            text-align: center;
+            vertical-align: middle;
+            border-right: 1px solid black !important;
+            width: 260px;
+            min-width: 260px;
+          "
+        >
+          <div class="label-school-first">{{ 'Action' | translate }}</div>
+        </div>
+      </div>
+      <div class="list-body">
+        <div class="list-level fixed-header">
+          <div class="label-array" style="width: 195px !important; height: 30px; min-width: 195px"></div>
+          <div class="label-array" style="height: 30px"></div>
+          <div class="label-array" style="width: 260px; min-width: 260px; height: 30px"></div>
+          <ng-container *ngFor="let types of dataUserTypes; let typeIndex = index">
+            <div
+              class="array-data"
+              style="padding: 0px !important; background: #607d8b; height: 30px"
+              *ngIf="
+                startAdmtc === typeIndex ||
+                startAcademicCR === typeIndex ||
+                startAcademicPC === typeIndex ||
+                startCompany === typeIndex ||
+                startGroup === typeIndex
+              "
+              [style.width]="calculateWidth(types?.total)"
+              [style.min-width]="calculateWidth(types?.total)"
+            >
+              <div class="label-list-schools top">
+                {{ types?.entity | translate }}
+                <span *ngIf="types?.entity === 'academic'">{{ types?.role === 'certifier' ? ' - CR' : ' - PC' }}</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="list-level fixed-header" style="top: 32px !important">
+          <div class="label-array" style="width: 195px !important; height: 30px; min-width: 195px"></div>
+          <div class="label-array" style="height: 30px"></div>
+          <div class="label-array" style="width: 260px; min-width: 260px; height: 30px"></div>
+          <ng-container *ngFor="let types of dataUserTypes; let typeIndex = index">
+            <div class="array-data" style="padding: 0px !important; background: #607d8b; height: 30px">
+              <div class="label-list-schools bottom">{{ 'USER_TYPES.' + types?.name | translate }}</div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="list-level" *ngFor="let menu of leftLabel; let nex = index">
+          <div class="label-array" style="height: 45px !important; padding: 0px 5px !important; min-width: 195px; width: 195px">
+            <div class="label-level">
+              {{ menu?.isFirst ? ('menu.' + menu?.menu | translate) : '' }}
+            </div>
+          </div>
+          <div class="label-array" style="height: 45px !important; padding: 0px 5px !important; left: 195px !important">
+            <div class="label-level">
+              <ng-container *ngIf="menu?.isShowSubMenu">
+                {{ menu?.sub_menu ? ('sub_menu.' + menu?.sub_menu | translate) : '' }}
+              </ng-container>
+            </div>
+          </div>
+          <div
+            class="label-array"
+            style="height: 45px !important; padding: 0px 5px !important; left: 435px !important; width: 260px; min-width: 260px"
+          >
+            <div class="label-level">
+              <!-- Handle school - list of school add data, edit data -->
+              <ng-container *ngIf="menu?.sub_menu === 'list_of_schools' && (menu?.actions === 'add_perm' || menu?.actions === 'edit_perm')">
+                {{ menu?.actions ? ('list_of_schools.' + menu?.actions | translate) : '' }}
+              </ng-container>
+
+              <!-- Handle group_of_schools add data and edit data -->
+              <ng-container
+                *ngIf="
+                  menu?.sub_menu === 'group_of_schools' &&
+                  (menu?.actions === 'add_perm' || menu?.actions === 'edit_perm' || menu?.actions === 'delete_perm')
+                "
+              >
+                {{ menu?.actions ? ('group_of_schoolss.' + menu?.actions | translate) : '' }}
+              </ng-container>
+
+              <!-- Handle students export and edit data -->
+              <ng-container
+                *ngIf="
+                  menu?.menu === 'students' &&
+                  (menu?.actions === 'edit_perm' ||
+                    menu?.actions === 'export' ||
+                    menu?.actions === 'send_email_acadir' ||
+                    menu?.actions === 'send_email')
+                "
+              >
+                <ng-container *ngIf="menu?.actions === 'send_email_acadir' || menu?.actions === 'send_email'">
+                  {{ menu?.actions ? ('students.active_students.' + menu?.actions | translate) : '' }}
+                </ng-container>
+                <ng-container *ngIf="menu?.actions !== 'send_email_acadir' && menu?.actions !== 'send_email'">
+                  {{ menu?.actions ? ('students.' + menu?.actions | translate) : '' }}
+                </ng-container>
+              </ng-container>
+
+              <!-- Handle users transfer and add user -->
+              <ng-container *ngIf="menu?.menu === 'users' && (menu?.actions === 'transfer_responsibility' || menu?.actions === 'add_perm')">
+                {{ menu?.actions ? ('users.' + menu?.actions | translate) : '' }}
+              </ng-container>
+
+              <ng-container
+                *ngIf="
+                  !(menu?.sub_menu === 'list_of_schools' && (menu?.actions === 'add_perm' || menu?.actions === 'edit_perm')) &&
+                  !(
+                    menu?.sub_menu === 'group_of_schools' &&
+                    (menu?.actions === 'add_perm' || menu?.actions === 'edit_perm' || menu?.actions === 'delete_perm')
+                  ) &&
+                  !(
+                    menu?.menu === 'students' &&
+                    (menu?.actions === 'edit_perm' ||
+                      menu?.actions === 'export' ||
+                      menu?.actions === 'send_email_acadir' ||
+                      menu?.actions === 'send_email')
+                  ) &&
+                  !(menu?.menu === 'users' && (menu?.actions === 'transfer_responsibility' || menu?.actions === 'add_perm'))
+                "
+              >
+                {{ menu?.actions ? ('action.' + menu?.actions | translate) : '' }}
+              </ng-container>
+            </div>
+          </div>
+          <div *ngIf="leftLabel && leftLabel?.length && leftLabel[nex] && leftLabel[nex]?.permissions.length">
+            <div class="array-data" *ngFor="let typ of dataUserTypes; let n = index" style="vertical-align: middle">
+              <ng-container *ngIf="menu?.actions">
+                <div *ngFor="let data of leftLabel[nex]?.permissions_action">
+                  <div *ngIf="data?.user_type_id?._id === typ?._id">
+                    <div class="list-data">
+                      <div class="registereds">
+                        {{ data?.show_perm ? 'V' : '' }}
+                        {{ data?.edit_perm && data?.show_perm ? ('/ E' | translate) : data?.edit_perm ? ('E' | translate) : '' }}
+                        {{
+                          (data?.edit_perm || data?.show_perm) && data?.home_page
+                            ? (' + HP' | translate)
+                            : data?.home_page
+                            ? ('HP' | translate)
+                            : ''
+                        }}
+  
+                        {{ !data?.show_perm && !data?.edit_perm && !data?.home_page ? 'X' : '' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="menu?.actions === ''">
+                <div *ngFor="let data of leftLabel[nex]?.permissions">
+                  <div *ngIf="data?.user_type_id?._id === typ?._id">
+                    <div class="list-data">
+                      <div class="registereds">
+                        {{ data?.show_perm ? 'V' : '' }}
+                        {{ data?.edit_perm && data?.show_perm ? ('/ E' | translate) : data?.edit_perm ? ('E' | translate) : '' }}
+                        {{
+                          (data?.edit_perm || data?.show_perm) && data?.home_page
+                            ? (' + HP' | translate)
+                            : data?.home_page
+                            ? ('HP' | translate)
+                            : ''
+                        }}
+  
+                        {{ !data?.show_perm && !data?.edit_perm && !data?.home_page ? 'X' : '' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

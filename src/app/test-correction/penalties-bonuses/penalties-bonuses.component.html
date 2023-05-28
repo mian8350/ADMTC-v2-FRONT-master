@@ -1,0 +1,32 @@
+<div class="p-grid mar-y-md background-primary" [formGroup]="testCorrectionForm">
+  <div class="p-col-12 no-pad" formGroupName="correction_grid">
+    <div class="float-right yellow-border" formGroupName="correction">
+      <table formArrayName="penalties">
+        <tr *ngFor="let penalty of getPenaltiesFieldForm()?.controls; let penaltyIndex = index" [formGroupName]="penaltyIndex">
+          <td class="box-b border-right-td align-box">
+            {{ 'TEST_CORRECTION.Penalties' | translate }} - {{ penalty.get('title').value }}
+          </td>
+          <td class="td-right">
+            <mat-form-field color="accent" class="full-width">
+              <input type="number" min="0" max="{{ correctionData?.penalties[penaltyIndex]?.count }}" class="font-13" (keyup)="validateNumericBonusPenalty(penalty, penaltyIndex, 'penalties')" formControlName="rating" matInput/>
+              <span matSuffix class="font-13">/{{ correctionData?.penalties[penaltyIndex]?.count }}</span>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <table formArrayName="bonuses">
+        <tr *ngFor="let bonus of getBonusesFieldForm()?.controls; let bonusIndex = index" [formGroupName]="bonusIndex">
+          <td class="box-b border-right-td align-box">
+            {{ 'TEST_CORRECTION.Bonuses' | translate }} - {{ bonus.get('title').value }}
+          </td>
+          <td class="td-right">
+            <mat-form-field color="accent" class="full-width">
+              <input type="number" min="0" max="{{ correctionData?.bonuses[bonusIndex]?.count }}" class="font-13" (keyup)="validateNumericBonusPenalty(bonus, bonusIndex, 'bonuses')" formControlName="rating" matInput/>
+              <span matSuffix class="font-13">/{{ correctionData?.bonuses[bonusIndex]?.count }}</span>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

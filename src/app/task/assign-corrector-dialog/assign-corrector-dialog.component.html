@@ -1,0 +1,256 @@
+<div class="header-div">
+  <mat-icon svgIcon="account-question"></mat-icon>
+  <h2 class="header-text">
+    {{ 'ASSIGN_CORRECTOR_DIALOG.TITLE_DIALOG' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr/>
+
+<form [formGroup]="assignCorrrectorForm" class="header-form">
+  <div fxLayout="row">
+    <div fxFlex fxLayout="column" >
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.TITLE_RNCP' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ testData?.parent_rncp_title?.long_name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.CLASS' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ testData?.class_id?.name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.SUBJECT_NAME' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ testData?.subject_id?.subject_name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.TEST_NAME' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ testData?.evaluation_id?.evaluation }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.DATE' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ getTranslatedDate(testData?.date) }}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isGroupTest && !isRetakeTest" fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.TOTAL_STUDENT' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ studentCount }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isGroupTest && !isRetakeTest" fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.TOTAL_GROUP' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ studentCount }}
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex class="pad-t-md">
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="100">
+            <b>{{'ASSIGN_CORRECTOR_DIALOG.TEXT_1' | translate}} </b>
+          </div>
+        </div>
+      </div>
+
+      
+      <ng-container *ngIf="!isWaitingForUserList">
+        <!-- if user to select exist -->
+        <div *ngIf="userCorrectorList?.length" fxFlex class="pad-t-md">
+          <div fxLayout="row wrap" fxLayoutAlign="center start" >
+            <div fxFlex="100">
+              <div class="px-1 select-input-container">
+                <mat-form-field>
+                  <mat-select
+                    #corrector
+                    color="accent"
+                    [placeholder]="'ASSIGN_CORRECTOR_DIALOG.ASSIGN_CORRECTOR' | translate"
+                    formControlName="correctors_id"
+                    style="margin-bottom: -1.4em;"
+                    multiple
+                    (selectionChange)="selectCorrectors($event)"
+                    panelClass="filterPanel"
+                  >
+                    <div class="custom-option">
+                      <mat-checkbox color="primary" #noneSelOption (change)="unSelectedAllItems()">{{ 'NONE' | translate }}</mat-checkbox>
+                    </div>
+                    <div class="custom-option">
+                      <mat-checkbox color="primary" #allSelOption (change)="toggleAllSelection()">{{ 'AllM' | translate }}</mat-checkbox>
+                    </div>
+                    <mat-option *ngFor="let user of userCorrectorList" [value]="user._id">
+                      {{ user.civility | translate }} {{ user.first_name }} {{user.last_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="assignCorrrectorForm.get('correctors_id').errors">{{'This field is required'|translate}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- if user doesn't exist -->
+        <div *ngIf="!userCorrectorList?.length" fxFlex class="pad-t-md">
+          <div fxLayout="row wrap" fxLayoutAlign="start start" >
+            <div fxFlex="100">
+              {{'ASSIGN_CORRECTOR_DIALOG.SCHOOL_0_CORRECTOR' | translate}}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Inly display and validate corrector more than student if its not retake test. Retake test does not need to select student -->
+      <ng-container *ngIf="!isRetakeTest">
+        <!-- Text after selecting the user and valid -->
+        <ng-container *ngIf="!isCorrectorMoreThanStudent()">
+          <!-- if only select 1 user -->
+          <ng-container *ngIf="assignCorrrectorForm.get('correctors_id').value && (assignCorrrectorForm.get('correctors_id').value).length === 1">
+            <div fxFlex>
+              <div fxLayout="row wrap" fxLayoutAlign="start start" >
+                <div fxFlex="100">
+                  <b><span [innerHTML]="getTranslatedTextOneCorrector()"></span></b>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="assignCorrrectorForm.get('correctors_id').value && (assignCorrrectorForm.get('correctors_id').value).length > 1 && !isCorrectorMoreThanStudent()">
+            <div fxFlex>
+              <div fxLayout="row" fxLayoutAlign="start start" >
+                <div fxFlex="100">
+                  <span class="mrgn-b-xs"><b>{{'ASSIGN_CORRECTOR_DIALOG.SCHOOL_MANY_CORRECTOR_HEAD' | translate}}</b></span>
+                  <ng-container *ngFor="let corrector of correctorAssigned">
+                    <div fxLayout="row wrap" fxLayoutAlign="start start">
+                      <div fxFlex="35">
+                        <b> {{ corrector?.corrector?.civility | translate }} {{ corrector?.corrector?.first_name }} {{ corrector?.corrector?.last_name }} </b>
+                      </div>
+                      <div fxFlex="5">
+                        :
+                      </div>
+                      <div *ngIf="!isGroupTest" fxFlex="20">
+                        {{ corrector?.student ? corrector?.student : 0  }} {{(corrector?.student > 1 ? ('ASSIGN_CORRECTOR_DIALOG.Students') : ('ASSIGN_CORRECTOR_DIALOG.Student')) | translate }}
+                      </div>
+                      <div *ngIf="isGroupTest" fxFlex="20">
+                        {{ corrector?.student ? corrector?.student : 0  }} {{(corrector?.student > 1 ? ('ASSIGN_CORRECTOR_DIALOG.Groups') : ('ASSIGN_CORRECTOR_DIALOG.Group')) | translate }}
+                      </div>
+                    </div>
+                  </ng-container>
+                  <span class="mrgn-t-xs"><b>{{'ASSIGN_CORRECTOR_DIALOG.SCHOOL_MANY_CORRECTOR_FOOT' | translate}}</b></span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          
+        </ng-container>
+
+        <!-- If assigned corrector number more than student number -->
+        <div *ngIf="isCorrectorMoreThanStudent()" fxFlex>
+          <div fxLayout="row wrap" fxLayoutAlign="start start" >
+            <div *ngIf="!isGroupTest" fxFlex="100">
+              <b>{{'ASSIGN_CORRECTOR_DIALOG.CORRECTOR_MORE_THAN_STUDENT' | translate}} </b>
+            </div>
+            <div *ngIf="isGroupTest" fxFlex="100">
+              <b>{{'ASSIGN_CORRECTOR_DIALOG.CORRECTOR_MORE_THAN_GROUP' | translate}} </b>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      
+
+    </div>  
+  </div>  
+</form>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'ASSIGN_CORRECTOR_DIALOG.CANCEL' | translate }}
+    </button>
+  </div>
+  <div>
+    <button
+      *ngIf="!isRetakeTest"
+      [disabled]="!assignCorrrectorForm.valid || isCorrectorMoreThanStudent()"
+      mat-raised-button
+      color="primary"
+      (click)="submitAssignCorrector()"
+      type="button"
+    >
+      {{ 'ASSIGN_CORRECTOR_DIALOG.SUBMIT' | translate }}
+    </button>
+    <button
+      *ngIf="isRetakeTest"
+      [disabled]="!assignCorrrectorForm.valid"
+      mat-raised-button
+      color="primary"
+      (click)="submitAssignCorrector()"
+      type="button"
+    >
+      {{ 'ASSIGN_CORRECTOR_DIALOG.SUBMIT' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

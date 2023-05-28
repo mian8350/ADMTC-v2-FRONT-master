@@ -1,0 +1,52 @@
+<mat-card class="position-card pad-top-7">
+  <div class="p-grid">
+    <div class="p-col-3" style="padding-top: 10px; width: 20% !important">
+      <mat-form-field color="accent">
+        <mat-label>{{ 'Select RNCP Title' | translate }}</mat-label>
+        <input matInput type="text" [placeholder]="'search' | translate" [formControl]="rncpTitleInput" [matAutocomplete]="titleAuto" />
+        <mat-autocomplete #titleAuto="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option [value]="''" (click)="onSelectTitle(null)">
+            {{ 'None' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let title of filteredRncpTitles" [value]="title.short_name" (click)="onSelectTitle(title)">
+            {{ title.short_name }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select [(ngModel)]="selectedRncpTitleId" (selectionChange)="onSelectedTitleChanged()">
+            <mat-option [value]="'0'">
+              {{ 'None' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let title of initialRncpTitles" [value]="title._id">
+              {{ title.short_name }}
+            </mat-option>
+          </mat-select> -->
+      </mat-form-field>
+    </div>
+    <div class="p-col-3" style="padding-top: 10px; width: 20% !important">
+      <mat-form-field color="accent">
+        <mat-label>{{ 'Select Class' | translate }}</mat-label>
+        <input matInput type="text" [placeholder]="'search' | translate" [formControl]="classInput" [matAutocomplete]="classAuto" />
+        <mat-autocomplete #classAuto="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option [value]="''" (click)="onSelectClass(null)">
+            {{ 'None' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let class of filteredClasses" [value]="class.name" (click)="onSelectClass(class)">
+            {{ class.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select [(ngModel)]="selectedClassId" [disabled]="!selectedRncpTitleId" (selectionChange)="onSelectedClassChanged()">
+            <mat-option [value]="'0'">
+              {{ 'None' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let class of classes" [value]="class._id">
+              {{ class.name }}
+            </mat-option>
+          </mat-select> -->
+      </mat-form-field>
+    </div>
+  </div>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

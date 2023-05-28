@@ -1,0 +1,60 @@
+<a class="back-button" routerLink="jury-organization">
+  <i class="fa fa-chevron-left" aria-hidden="true"></i>
+  <span class="jury-name">{{ juryData?.name }}</span>
+</a>
+
+<nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let link of navLinks"
+     [routerLink]="link.path"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+     {{ link.label | translate }}
+  </a>
+</nav>
+
+<router-outlet></router-outlet>
+
+<!-- <mat-tab-group class="mrgn-t-md">
+  <mat-tab value="organizeJuries">
+    <ng-template mat-tab-label>
+      <h5>{{ 'JURY_ORGANIZATION.ORGANIZEJURIES' | translate }}</h5>
+    </ng-template>
+    <mat-tab-group>
+      <mat-tab value="assignJury">
+        <ng-template mat-tab-label>
+          <h5>{{ 'JURY_ORGANIZATION.ASSIGNJURY' | translate }}</h5>
+        </ng-template>
+        <ms-assign-jury></ms-assign-jury>
+      </mat-tab>
+
+      <mat-tab value="assignPresidentJury">
+        <ng-template mat-tab-label>
+          <h5>{{ 'JURY_ORGANIZATION.ASSIGNPRESIDENTJURY' | translate }}</h5>
+        </ng-template>
+        <ms-assign-president-jury></ms-assign-president-jury>
+      </mat-tab>
+
+      <mat-tab value="assignMemberJury">
+        <ng-template mat-tab-label>
+          <h5>{{ 'JURY_ORGANIZATION.ASSIGNMEMBERJURY' | translate }}</h5>
+        </ng-template>
+        <ms-assign-member-jury></ms-assign-member-jury>
+      </mat-tab>
+
+      <mat-tab value="assignStudent">
+        <ng-template mat-tab-label>
+          <h5>{{ 'JURY_ORGANIZATION.ASSIGNSTUDENT' | translate }}</h5>
+        </ng-template>
+        <ms-assign-student></ms-assign-student>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-tab>
+
+  <mat-tab value="scheduleOfJuries">
+    <ng-template mat-tab-label>
+      <h5>{{ 'JURY_ORGANIZATION.SCHEDULEJURIES' | translate }}</h5>
+    </ng-template>
+    <ms-schedule-juries></ms-schedule-juries>
+  </mat-tab>
+</mat-tab-group> -->

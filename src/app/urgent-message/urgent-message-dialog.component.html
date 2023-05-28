@@ -1,0 +1,143 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid no-padding">      
+      <div class="w-30 no-padding urgentIcon">
+        <i class="fa fa-bolt"></i>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span>{{ 'NAV.MESSAGES.SENDURGENTMESSAGE' | translate }}</span>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+  <form [formGroup]="urgentMessageForm">    
+    <div class="fontColor">      
+        <div class="p-grid padding-none">
+          <div class="p-col-4 pad-l-none">
+            <ng-select
+              bindLabel="short_name"
+              [items]="rncpTitlesList"
+              [hideSelected]="true"
+              [placeholder]="'TASK.RNCP_Title' | translate"
+              [clearAllText]="'Clear' | translate"
+              [formControl]="titleSelection"
+              (change)="selectedTitle()"
+            >
+            </ng-select>
+          </div>
+          <div class="p-col">
+            <ng-select
+              bindLabel="name"
+              [multiple]="true"
+              [hideSelected]="true"
+              [items]="titleClasses"
+              [placeholder]="'CLASS' | translate"
+              [clearAllText]="'Clear' | translate"
+              [formControl]="classSelection"
+            ></ng-select>
+          </div>
+          <div class="p-col-fixed pad-r-none">
+            <button mat-icon-button type="button" color="primary" [disabled]="!classSelection.value" (click)="addSelection()">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-grid padding-none mrgn-b-md">
+          <div class="p-col-12 p-grid pad-x-none" *ngFor="let text of selectionTextList; let idx = index">
+            <div class="p-col padding-none">{{ text }}</div>
+            <div class="p-col-fixed padding-none">
+              <button mat-icon-button type="button" color="warn" (click)="removeSelectionAt(idx)">
+                <mat-icon>do_not_disturb_on</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <mat-form-field>
+          <input matInput placeholder="{{ 'Subject' | translate }}*" formControlName="subject" />
+          <!-- <mat-error
+              *ngIf="
+                urgentMessageForm.get('subject').hasError('required') &&
+                (urgentMessageForm.get('subject').dirty || urgentMessageForm.get('subject').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            > -->
+        </mat-form-field>
+
+        <label class="mrgn-r-md">{{ 'User' | translate }} </label>
+        <mat-slide-toggle [checked]="checked" (change)="categoryChange($event)" formControlName="categoryChecked">
+          {{ 'TUTORIAL_MENU.CATEGORY' | translate }}
+        </mat-slide-toggle>
+
+        <mat-form-field appearance="outline" *ngIf="!urgentMessageForm.get('categoryChecked').value">
+          <input
+            type="text"
+            placeholder="{{ 'User' | translate }}*"
+            (keyup)="keyupUser('type')"
+            matInput
+            formControlName="users"
+            [matAutocomplete]="autoUsers"
+          />
+          <mat-autocomplete autoActiveFirstOption #autoUsers="matAutocomplete" (optionSelected)="valueChange('user')" [panelWidth]="'fit'">
+            <mat-option *ngFor="let user of userList" (click)="selectedUser(user)" [value]="user.first_name + ' ' + user.last_name">
+              {{ user.first_name }} {{ user.last_name | uppercase }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="urgentMessageForm.get('categoryChecked').value">
+          <input
+            type="text"
+            placeholder="{{ 'TUTORIAL_MENU.CATEGORY' | translate }}*"
+            matInput
+            formControlName="userTypes"
+            [matAutocomplete]="autoUserTypes"
+            (keyup)="keyupUserType('type')"
+          />
+          <mat-autocomplete autoActiveFirstOption #autoUserTypes="matAutocomplete" (optionSelected)="valueChange('type')" [panelWidth]="'fit'">
+            <mat-option
+              *ngFor="let userType of userTypesList"
+              (click)="selectedUserType(userType._id)"
+              value="{{ 'USER_TYPES.' + userType.name | translate }}"
+            >
+              {{ 'USER_TYPES.' + userType.name | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+          <textarea matInput placeholder="{{ 'MailBox.MESSAGE' | translate }}" formControlName="message"></textarea>
+          <!-- <mat-error
+            *ngIf="
+              urgentMessageForm.get('message').hasError('required') &&
+              (urgentMessageForm.get('message').dirty || urgentMessageForm.get('message').touched)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          > -->
+        </mat-form-field>      
+      
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-raised-button mat-dialog-close type="button" color="warn">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-raised-button [disabled]="isWaitingForResponse || !urgentMessageForm.valid" (click)="sendMessage()" color="primary">
+    {{ 'SUBMIT' | translate }}
+  </button>
+</div>  
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

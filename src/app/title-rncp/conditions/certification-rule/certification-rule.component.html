@@ -1,0 +1,169 @@
+<div class="p-grid">
+  <div class="p-col-12 certification-heading">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" style="float: left; margin-right: 5px; margin-top: 4px;" svgIcon="text-box-check-outline"></mat-icon>
+    <h3>{{ 'CERTIFICATION_RULE.TITLE' | translate }}</h3>
+  </div>
+</div>
+
+<div class="p-grid p-col-8 yellow-border certification-container">
+  <div class="section-header">
+    <h3>{{ 'CERTIFICATION_RULE.TITLE_STUDENT' | translate }}</h3>
+  </div>
+
+  <div class="p-col-12 certification-button">
+    <button mat-raised-button color="accent" (click)="showPopUp()" [disabled]="isPreviewDisabled">
+      <mat-icon svgIcon="text-box-search-outline"></mat-icon> {{ 'Preview' | translate }}
+    </button>
+    <button mat-raised-button color="accent" (click)="sendToSchool()" [disabled]="isPublishedDocument()">
+      <i class="fa fa-paper-plane"></i> {{ 'Send to School(s)' | translate }}
+    </button>
+    <button mat-raised-button color="accent" (click)="addCertification()">
+      {{ 'Add Certification Rules for Students' | translate }}
+    </button>
+    <button mat-raised-button color="accent" [disabled]="!certificationsArrayForm.length || isFormChanged()" (click)="saveCertificationRules()">
+      <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+    </button>
+  </div>
+
+  <ng-container [formGroup]="certificationRuleForm">
+    <ng-container formArrayName="certifications">
+      <div class="p-col-12" *ngFor="let certification of certificationsArrayForm.controls; let certificationIndex = index">
+        <div class="certification-box yellow-border" [formGroupName]="certificationIndex" #certificationPanel>
+          <div class="remove-button" *ngIf="!certificationsArrayForm.at(certificationIndex).get('is_published').value">
+            <button mat-icon-button class="red-icon" matTooltip="{{ 'Delete' | translate }}" (click)="deleteCertification(certificationIndex)">
+              <mat-icon>do_not_disturb_on</mat-icon>
+            </button>
+          </div>
+          <div class="toggle-publish" >
+            <mat-slide-toggle color="accent" formControlName="is_published" (change)="publishCertification($event, certificationIndex)" *ngIf="isPublishedDocument(certificationIndex)">
+              <span [ngClass]="{  'text-slider-color' : certificationsArrayForm.at(certificationIndex).get('is_published').value }">
+                {{ (certificationsArrayForm.at(certificationIndex).get('is_published').value ? 'Published' : 'Not Published') | translate }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+          <div class="p-grid" [ngClass]="{'certif-container-sidenavopen': coreService.isSidenavOpen()}">
+            <div class="p-col-11 certification-content">
+              <mat-form-field>
+                <input 
+                  matInput type="text" 
+                  placeholder="{{ 'Name' | translate }}" 
+                  formControlName="name"
+                  required
+                  [readonly]="certificationsArrayForm.at(certificationIndex).get('is_published').value"
+                >
+                <mat-error 
+                  *ngIf="
+                    certificationsArrayForm.at(certificationIndex).get('name').hasError('required') && 
+                    (certificationsArrayForm.at(certificationIndex).get('name').touched || 
+                    certificationsArrayForm.at(certificationIndex).get('name').dirty)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+        
+              <label 
+                class="label-header" 
+                [ngClass]="
+                  certificationsArrayForm.at(certificationIndex).get('header').hasError('required') && 
+                  (certificationsArrayForm.at(certificationIndex).get('header').touched ||
+                  certificationsArrayForm.at(certificationIndex).get('header').dirty) ? 'text-required' : ''
+                "
+              >
+                {{ 'Header' | translate }} *
+              </label>
+              <ckeditor
+                #editor
+                [editor]="Editor"
+                formControlName="header"
+                (ready)="onReady($event)"
+                [config]="editorConfig"
+                [disabled]="certificationsArrayForm.at(certificationIndex).get('is_published').value"
+              >
+              </ckeditor>
+              <mat-error class="error-text"
+                *ngIf="
+                  certificationsArrayForm.at(certificationIndex).get('header').hasError('required') && 
+                  (certificationsArrayForm.at(certificationIndex).get('header').touched ||
+                  certificationsArrayForm.at(certificationIndex).get('header').dirty)
+                ">
+                {{ 'This field is required' | translate }}
+              </mat-error>
+        
+              <div class="action-button-container">
+                <input 
+                  type="file" 
+                  accept="application/pdf" 
+                  style="display: none" 
+                  #fileInputRef
+                  (click)="fileInputRef.value = ''"
+                  (change)="onAddDocument($event, certificationIndex)"
+                />
+                <button 
+                  (click)="fileInputRef.click()" 
+                  mat-raised-button color="accent"
+                  *ngIf="!certificationsArrayForm.at(certificationIndex).get('document').get('document_name').value"
+                >
+                  <mat-icon>cloud_upload</mat-icon> {{ 'Add Document' | translate }}
+                </button>
+  
+                <mat-error class="error-text"
+                  *ngIf="
+                    certificationsArrayForm.at(certificationIndex).get('document').get('document_name').hasError('required') &&
+                    (certificationsArrayForm.at(certificationIndex).get('document').get('document_name').touched ||
+                    certificationsArrayForm.at(certificationIndex).get('document').get('document_name').dirty)
+                  "
+                >
+                {{ 'Please add a document' | translate }}
+                </mat-error>
+  
+                <button 
+                  mat-icon-button 
+                  color="accent" 
+                  matTooltip="{{ 'View' | translate }}"
+                  (click)="viewDocument(certificationIndex)" 
+                  *ngIf="certificationsArrayForm.at(certificationIndex).get('document').get('document_name').value"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+  
+                <button 
+                  mat-icon-button color="accent"
+                  (click)="fileInputRef.click()" 
+                  matTooltip="{{ 'Edit' | translate }}" 
+                  *ngIf="
+                    certificationsArrayForm.at(certificationIndex).get('document').get('document_name').value && 
+                    !certificationsArrayForm.at(certificationIndex).get('is_published').value
+                  "
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+  
+                <button 
+                  mat-icon-button 
+                  class="red-icon" 
+                  matTooltip="{{ 'Delete' | translate }}" 
+                  (click)="deleteDocument(certificationIndex)"
+                  *ngIf="
+                    certificationsArrayForm.at(certificationIndex).get('document').get('document_name').value && 
+                    !certificationsArrayForm.at(certificationIndex).get('is_published').value
+                  "
+                >
+                  <mat-icon class="material-symbols-outlined">delete</mat-icon>
+                </button>
+                
+                <p class="document-name">
+                  {{ certificationsArrayForm.at(certificationIndex).get('document').get('document_name').value }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<div class="loading-indicator" *ngIf="isUploadingFile || isWaitingForResponse">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

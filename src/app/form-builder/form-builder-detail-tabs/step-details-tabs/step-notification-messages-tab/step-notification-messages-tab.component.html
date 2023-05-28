@@ -1,0 +1,106 @@
+<div>
+  <div class="p-grid">
+    <div class="p-col-2">
+      <button matTooltip="{{ 'LEAVE' | translate }}" mat-raised-button color="warn" style="padding-left: 10px" (click)="leave()">
+        <mat-icon class="mat-icon-default">keyboard_arrow_left</mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+    </div>
+    <div class="p-col-6 text-end-no-pad-r">
+      <ng-container>
+        <button
+          matTooltip="{{ 'Preview' | translate }}"
+          mat-raised-button
+          color="accent"
+          [disabled]="!showDetailsNotif && !showDetailsMessage"
+          (click)="onPreview()"
+        >
+          <mat-icon class="mat-icon-default">visibility</mat-icon>
+          {{ 'Preview' | translate }}
+        </button>
+        <button
+          matTooltip="{{ 'Save' | translate }}"
+          mat-raised-button
+          color="accent"
+          (click)="onSave()"
+          [disabled]="(isPublished && templateType !== 'employability_survey') || (!showDetailsNotif && !showDetailsMessage)"
+        >
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'Save' | translate }}
+        </button>
+      </ng-container>
+    </div>
+    <div style="text-align: end; padding-right: 15px" class="p-col-4">
+      <ng-container>
+        <button
+          matTooltip="{{ 'Add Notification' | translate }}"
+          mat-raised-button
+          color="accent"
+          (click)="addNotification()"
+          [disabled]="isPublished && templateType !== 'employability_survey'"
+        >
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'Add Notification' | translate }}
+        </button>
+        <button
+          matTooltip="{{ 'Add Step Message' | translate }}"
+          mat-raised-button
+          color="accent"
+          (click)="addMessage()"
+          [disabled]="isPublished"
+        >
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'Add Step Message' | translate }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-2">
+      <ms-notification-message-table
+        #notifTable
+        [templateId]="templateId"
+        [templateType]="templateType"
+        [isPublished]="isPublished"
+        [stepId]="stepId"
+        (showDetailsNotifOrMessage)="getShowDetailNotifOrMessage($event)"
+      ></ms-notification-message-table>
+    </div>
+    <div class="p-col-6">
+      <ng-container *ngIf="showDetailsNotif">
+        <ms-notification-details
+          #notifDetail
+          [stepType]="stepType"
+          [refSelected]="refDataSelected"
+          (updateTabs)="onUpdateTab($event)"
+          [isPublished]="isPublished"
+          [templateType]="templateType"
+          [stepData]="stepData"
+        ></ms-notification-details>
+      </ng-container>
+      <ng-container *ngIf="showDetailsMessage">
+        <ms-messages-details
+          #messageDetail
+          [refSelected]="refDataSelected"
+          (updateTabs)="onUpdateTab($event)"
+          [isPublished]="isPublished"
+          [stepType]="stepType"
+          [stepData]="stepData"
+        ></ms-messages-details>
+      </ng-container>
+    </div>
+    <div class="p-col-4">
+      <ng-container *ngIf="showDetailsNotif || showDetailsMessage">
+        <ms-notification-messages-keys-table
+          [templateId]="templateId"
+          [stepId]="stepId"
+          [templateType]="templateType"
+        ></ms-notification-messages-keys-table>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>

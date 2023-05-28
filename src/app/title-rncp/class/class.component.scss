@@ -1,0 +1,135 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      &:nth-child(1) {
+        width: 20%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 30%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 10%;
+        padding-top: 7px;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 10%;
+        padding-top: 7px;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 10%;
+        padding-top: 7px;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: 10%;
+        padding-top: 7px;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(7) {
+        width: 20%;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        text-align: center !important;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-size: 12px !important;
+    }
+
+    th {
+      vertical-align: top;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    .reset-header-column {
+      vertical-align: middle !important;
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(1) {
+      height: 46px;
+    }
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: rgba(0, 0, 0, 0.5);
+      th {
+        color: #ffffff;
+      }
+    }
+  }
+  
+  tr.mat-footer-row, tr.mat-row {
+    height: 42px;
+  }
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.title-head {
+  margin-top: 10px;
+}
+.icon-title {
+  width: 24px;
+  height: 24px;
+  padding-top: 3px;
+}
+.icon-left {
+  float:left;
+  margin-right: 5px
+}
+
+::ng-deep.filterPanel{
+  margin-top: 25px;
+}

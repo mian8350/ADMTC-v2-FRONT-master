@@ -1,0 +1,35 @@
+.header-div {
+    .dialog-header-icon {
+        font-size: 35px;
+    }
+  }
+  
+  .mat-dialog-content {
+    margin: 0 !important;
+    padding: 1rem !important;
+    overflow: hidden;
+    max-width: 940px;
+  }
+
+  .microphone {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  :host ::ng-deep .ck.ck-editor__editable_inline {
+    border: 1px solid grey !important;
+    height: 15rem;
+}
+
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 6em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}

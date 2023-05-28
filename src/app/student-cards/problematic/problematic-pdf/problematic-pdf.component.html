@@ -1,0 +1,1097 @@
+<!-- ************** Problematic Data Import -->
+<div id="pdf-old" style="display: none">
+  <div class="p-grid" *ngIf="problematicType === 'import'">
+    <div class="mrgn-right-15">
+      <!-- For Status Cards -->
+      <div class="p-col-12" style="text-align: center">
+        <div class="p-grid justify-around">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+                    {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_acadDpt, 'icon-false': !statusCard.sent_to_acadDpt }">
+                    {{ statusCard.sent_to_acadDpt ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If havent rejected or validated by acad dept, show reviewed by acad dept X -->
+          <div
+            class="p-col no-padding"
+            style="text-align: center"
+            *ngIf="!statusCard.rejected_by_acadDpt && !statusCard.validated_by_acadDpt"
+          >
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}"
+                >
+                  <span class="icon-false"> {{ '&#10799;' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If already rejected or validated by acad dept, show rejected/validated -->
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_acadDpt">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_ACAD_DPT' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_acadDpt">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_acadDpt, 'icon-false': !statusCard.validated_by_acadDpt }">
+                    {{ statusCard.validated_by_acadDpt ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_certifier, 'icon-false': !statusCard.sent_to_certifier }">
+                    {{ statusCard.sent_to_certifier ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If havent rejected or validated by certifier, show reviewed by certifier X -->
+          <div
+            class="p-col no-padding"
+            style="text-align: center"
+            *ngIf="!statusCard.rejected_by_certifier && !statusCard.validated_by_certifier"
+          >
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}"
+                >
+                  <span class="icon-false"> {{ '&#10799;' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If already rejected or validated by certifier, show rejected/validated -->
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_certifier">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_certifier">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_certifier, 'icon-false': !statusCard.validated_by_certifier }">
+                    {{ statusCard.validated_by_certifier ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Buttons -->
+      <div class="p-grid p-justify-around">
+        <div class="p-col-12 title-header no-padding" style="margin-top: 0px; margin-bottom: 0px">
+          <div class="text-center">
+            <h4 class="title-job">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.TITLE' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Student Data -->
+      <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+        <div class="yellow-border card-row p-col-12">
+          <div class="p-grid" style="float: left">
+            <!-- Student Name -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Student' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }}
+              </span>
+            </div>
+            <!-- Student Company -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.company?.company_name }}
+              </span>
+            </div>
+            <!-- Student School -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'School' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.school?.short_name }}
+              </span>
+            </div>
+            <!-- Student Mentor -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+                {{ studentData?.companies[0]?.mentor?.last_name }}
+              </span>
+            </div>
+            <!-- Student RNCP Title -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.rncp_title?.short_name }}
+              </span>
+            </div>
+            <!-- Student Class -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Class' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.current_class?.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- for The Form -->
+      <ng-container *ngIf="problematicForm">
+        <!-- For Question 1 -->
+        <div class="p-grid">
+          <div class="yellow-border card-row p-col-12 margin-bot-10px">
+            <div class="p-grid">
+              <div class="p-col-12 self-center">
+                {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_1' | translate }}
+              </div>
+              <ng-container>
+                <div class="p-col-3">
+                  <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+                </div>
+                <div class="p-col-8">
+                  <div>
+                    <span class="font-bolds">
+                      {{ utilService.cleanHTML(problematicForm.question_1.answer) }}
+                    </span>
+                  </div>
+                </div>
+
+                <ng-container>
+                  <div class="p-col-12" *ngFor="let comment of problematicForm.question_1.comments; let commentIndex = index">
+                    <div class="p-grid">
+                      <div class="p-col-3 no-padding">
+                        <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                        <div>{{ comment.date.date_utc }}</div>
+                      </div>
+                      <div class="p-col-8 no-padding">
+                        <div>
+                          <span class="font-bolds">
+                            {{ utilService.cleanHTML(comment.comment) }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- For Question 2 -->
+        <div class="p-grid">
+          <div class="yellow-border card-row p-col-12 margin-bot-10px">
+            <div class="p-grid">
+              <div class="p-col-12 self-center">
+                {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_2' | translate }}
+              </div>
+              <ng-container>
+                <div class="p-col-3">
+                  <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+                </div>
+                <div class="p-col-8">
+                  <div>
+                    <span class="font-bolds">
+                      {{ utilService.cleanHTML(problematicForm.question_2.answer) }}
+                    </span>
+                  </div>
+                </div>
+
+                <ng-container>
+                  <div class="p-col-12" *ngFor="let comment of problematicForm.question_2.comments; let commentIndex = index">
+                    <div class="p-grid">
+                      <div class="p-col-3 no-padding">
+                        <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                        <div>{{ comment.date.date_utc }}</div>
+                        <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                      </div>
+                      <div class="p-col-8 no-padding">
+                        <div>
+                          <span class="font-bolds">
+                            {{ utilService.cleanHTML(comment.comment) }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- For Question 3 -->
+        <div class="p-grid">
+          <div class="yellow-border card-row p-col-12 margin-bot-10px">
+            <div class="p-grid">
+              <div class="p-col-12 self-center">
+                {{ 'PROBLEMATIC_019.PROBLEMATIC.QUESTION_3' | translate }}
+              </div>
+              <ng-container>
+                <div class="p-col-3">
+                  <div class="form-title">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</div>
+                </div>
+                <div class="p-col-8">
+                  <div>
+                    <span class="font-bolds">
+                      {{ utilService.cleanHTML(problematicForm.question_3.answer) }}
+                    </span>
+                  </div>
+                </div>
+
+                <ng-container>
+                  <div class="p-col-12" *ngFor="let comment of problematicForm.question_3.comments; let commentIndex = index">
+                    <div class="p-grid">
+                      <div class="p-col-3 no-padding">
+                        <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                        <div>{{ comment.date.date_utc }}</div>
+                        <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                      </div>
+                      <div class="p-col-8 no-padding">
+                        <div>
+                          <span class="font-bolds">
+                            {{ utilService.cleanHTML(comment.comment) }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- For General Comments -->
+        <div class="p-grid">
+          <div class="yellow-border card-row p-col-12 margin-bot-10px">
+            <ng-container>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <label>{{ 'PROBLEMATIC_019.PROBLEMATICFORM.COMMENT' | translate }}</label>
+                </div>
+              </div>
+              <div class="p-grid" *ngFor="let gen_comment of problematicForm.general_comments; let genIndex = index">
+                <ng-container>
+                  <div class="p-col-3">
+                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                    <div>{{ gen_comment.date.date_utc }}</div>
+                    <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                  </div>
+                  <div class="p-col-8">
+                    <div>
+                      <span class="font-bolds">
+                        {{ utilService.cleanHTML(gen_comment.comment) }}
+                      </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- ************** View For Signature -->
+        <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div class="p-col-3" style="float: left">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_student }">
+                    {{ problematicForm?.signature_of_the_student ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYSTUDENT' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(problematicForm?.signature_of_the_acad_dir)">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_acad_dir }">
+                    {{ problematicForm?.signature_of_the_acad_dir ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYACAD' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(problematicForm?.signature_of_the_certifier)">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_certifier }">
+                    {{ problematicForm?.signature_of_the_certifier ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYCERTI' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- ************** Problematic Data With Template -->
+<div id="pdf-new" style="display: none">
+  <div class="p-grid" *ngIf="problematicType === 'new'">
+    <div class="mrgn-right-15">
+      <!-- For Status Cards -->
+      <div class="p-col-12" style="text-align: center">
+        <div class="p-grid justify-around">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_STUDENT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+                    {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_ACADDPT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_acadDpt, 'icon-false': !statusCard.sent_to_acadDpt }">
+                    {{ statusCard.sent_to_acadDpt ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If havent rejected or validated by acad dept, show reviewed by acad dept X -->
+          <div
+            class="p-col no-padding"
+            style="text-align: center"
+            *ngIf="!statusCard.rejected_by_acadDpt && !statusCard.validated_by_acadDpt"
+          >
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_ACAD_DPT' | translate }}"
+                >
+                  <span class="icon-false"> {{ '&#10799;' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If already rejected or validated by acad dept, show rejected/validated -->
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_acadDpt">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_ACAD_DPT' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_acadDpt">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_ACADDPT' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_acadDpt, 'icon-false': !statusCard.validated_by_acadDpt }">
+                    {{ statusCard.validated_by_acadDpt ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.SENT_TO_CERTIFIER' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_certifier, 'icon-false': !statusCard.sent_to_certifier }">
+                    {{ statusCard.sent_to_certifier ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If havent rejected or validated by certifier, show reviewed by certifier X -->
+          <div
+            class="p-col no-padding"
+            style="text-align: center"
+            *ngIf="!statusCard.rejected_by_certifier && !statusCard.validated_by_certifier"
+          >
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REVIEWED_BY_CERTIFIER' | translate }}"
+                >
+                  <span class="icon-false"> {{ '&#10799;' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- If already rejected or validated by certifier, show rejected/validated -->
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.rejected_by_certifier">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="background-rejected label-status card-status">
+                <div class="font-status">
+                  <p class="text-status label-reject">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.REJECTED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col no-padding" style="text-align: center" *ngIf="statusCard.validated_by_certifier">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status" style="width: 100%">
+                  <p class="text-status">
+                    {{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}
+                  </p>
+                </div>
+                <div
+                  class="p-grid"
+                  style="width: 100%; justify-content: center; text-align: center"
+                  title="{{ 'PROBLEMATIC_019.PROBLEMATIC.SENDNOTIFICATION.VALIDATED_BY_CERTIFIER' | translate }}"
+                >
+                  <span [ngClass]="{ 'icon-true': statusCard.validated_by_certifier, 'icon-false': !statusCard.validated_by_certifier }">
+                    {{ statusCard.validated_by_certifier ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Title -->
+      <div class="p-grid p-justify-around">
+        <div class="p-col-12 title-header no-padding" style="margin-top: 1px; margin-bottom: 1px">
+          <div class="text-center">
+            <h4 class="title-job">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.TITLE' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- For Student Data -->
+      <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+        <div class="yellow-border card-row p-col-12">
+          <div class="p-grid" style="float: left">
+            <!-- Student Name -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Student' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }}
+              </span>
+            </div>
+            <!-- Student Company -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.company?.company_name }}
+              </span>
+            </div>
+            <!-- Student School -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'School' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.school?.short_name }}
+              </span>
+            </div>
+            <!-- Student Mentor -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+                {{ studentData?.companies[0]?.mentor?.last_name }}
+              </span>
+            </div>
+            <!-- Student RNCP Title -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.rncp_title?.short_name }}
+              </span>
+            </div>
+            <!-- Student Class -->
+            <div class="p-col-5" style="float: left">
+              <span class="grey-text"> {{ 'Class' | translate }} : </span>
+              <span class="font-bolds">
+                {{ studentData?.current_class?.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- for The Form -->
+      <ng-container *ngIf="problematicForm">
+        <form *ngIf="questionResponseForm">
+          <!-- For Header -->
+          <div
+            class="p-grid"
+            *ngIf="
+              questionResponseForm.questionnaire_grid.header.title ||
+              questionResponseForm.questionnaire_grid.header.text ||
+              questionResponseForm.questionnaire_grid.header.direction
+            "
+          >
+            <div class="yellow-border card-row p-col-12 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-12" style="text-align: center">
+                  <div [innerHTML]="questionResponseForm.questionnaire_grid.header.title"></div>
+                  <div [innerHTML]="questionResponseForm.questionnaire_grid.header.text"></div>
+                  <div [innerHTML]="questionResponseForm.questionnaire_grid.header.direction"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- For Competence -->
+          <ng-container>
+            <ng-container *ngFor="let comp of questionResponseForm.competence; let compIndex = index">
+              <div class="p-grid" style="margin-bottom: 10px" *ngIf="renderBlockHideAndShow(comp, compIndex)">
+                <div class="yellow-border card-row p-col-12 x-pad-none">
+                  <div class="p-grid">
+                    <div class="p-col-12">
+                      <h3 style="text-align: center">{{ comp.competence_name }}</h3>
+                    </div>
+
+                    <!-- For Segment -->
+                    <ng-container>
+                      <div
+                        class="p-col-12 yellow-border mrgn-bottom-10"
+                        style="width: 98% !important"
+                        *ngFor="let segment of questionResponseForm.competence[compIndex].segment; let segmentIndex = index"
+                      >
+                        <h4>{{ segment.segment_name }}</h4>
+
+                        <!-- For Question -->
+                        <ng-container>
+                          <div
+                            class="p-grid"
+                            style="margin-bottom: 10px"
+                            *ngFor="
+                              let quest of questionResponseForm.competence[compIndex].segment[segmentIndex].question;
+                              let quesIndex = index
+                            "
+                          >
+                            <!-- For question with slider is_field on -->
+                            <div *ngIf="quest.is_field" class="p-col-12">
+                              <div class="p-grid">
+                                <div class="p-col-3 self-center">
+                                  <label style="align-self: center" *ngIf="quest.is_answer_required">
+                                    {{ 'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate }}*
+                                  </label>
+                                  <label style="align-self: center" *ngIf="!quest.is_answer_required">
+                                    {{ 'QUESTIONNAIRE_FIELDS.' + quest.questionnaire_field_key | translate }}
+                                  </label>
+                                </div>
+                                <div class="p-col-8 x-pad-none">
+                                  <div>
+                                    <span class="font-bolds">
+                                      {{ utilService.cleanHTML(quest.answer) }}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- For question with slider is_field off -->
+                            <div *ngIf="!quest.is_field" class="p-col-12">
+                              <ng-container *ngIf="quest.question_type === 'free_text'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center" *ngIf="quest.is_answer_required">{{ quest.question_name }}*</label>
+                                    <label style="align-self: center" *ngIf="!quest.is_answer_required">{{ quest.question_name }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ utilService.cleanHTML(quest.answer) }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'email'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div class="width-ninety">
+                                      <span class="font-bolds">
+                                        {{ utilService.cleanHTML(quest.answer) }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'date'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div class="width-ninety">
+                                      <mat-label class="grey-text">{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                                      <div class="font-bolds">
+                                        {{ quest.answer_date.date ? translateDate(quest.answer_date.date) : '' }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'numeric'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div class="width-ninety">
+                                      <span class="font-bolds">
+                                        {{ quest.answer_number }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'single_option'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ quest.answer }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'multiple_option'">
+                                <div class="p-grid">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ quest.answer_multiple }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'mission_activity'">
+                                <div class="p-grid">
+                                  <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                                    <ng-container
+                                      *ngFor="
+                                        let missionActivity of questionResponseForm.competence[compIndex].segment[segmentIndex].question[
+                                          quesIndex
+                                        ].missions_activities_autonomy;
+                                        let missionIndex = index
+                                      "
+                                    >
+                                      <div class="p-grid">
+                                        <div class="p-col-3 pad-btn-none">
+                                          <div>
+                                            <mat-label class="grey-text">{{ 'mission' | translate }}</mat-label>
+                                            <div>
+                                              <span class="font-bolds">
+                                                {{ missionActivity?.mission | translate }}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="p-col-4 pad-btn-none">
+                                          <div>
+                                            <mat-label class="grey-text">{{ 'activity' | translate }}</mat-label>
+                                            <div>
+                                              <span class="font-bolds">
+                                                {{ missionActivity?.activity | translate }}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="p-col-4 pad-btn-none">
+                                          <div class="autonomy">
+                                            <div>
+                                              <mat-label class="grey-text">{{ 'autonomy level' | translate }}</mat-label>
+                                              <div>
+                                                <span class="font-bolds">
+                                                  {{ missionActivity?.autonomy_level | translate }}
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'multiple_textbox'">
+                                <div class="p-grid">
+                                  <div class="p-col-12 yellow-border mission-activity">
+                                    <ng-container
+                                      *ngFor="
+                                        let textbox of questionResponseForm.competence[compIndex].segment[segmentIndex].question[quesIndex]
+                                          .multiple_textbox;
+                                        let textboxIndex = index
+                                      "
+                                    >
+                                      <div class="p-grid">
+                                        <div class="p-col-12 pad-btn-none">
+                                          <div class="multiple-textbox">
+                                            <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                            <div>
+                                              <span class="font-bolds">
+                                                {{ textbox.textboxIndex.text }}
+                                              </span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </ng-container>
+
+                              <ng-container *ngIf="quest.question_type === 'parent_child'">
+                                <div class="p-grid" *ngIf="quest.question_type === 'parent_child'">
+                                  <div class="p-col-3 self-center">
+                                    <label style="align-self: center">{{ 'ADMTCSTAFFKEY.STUDENT' | translate | titlecase }}</label>
+                                  </div>
+                                  <div class="p-col-8 x-pad-none">
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ quest.answer }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <ng-container>
+                                  <ng-container *ngFor="let option1 of quest.parent_child_options; let indexSatu = index">
+                                    <ng-container>
+                                      <ng-container *ngFor="let optionQuestion1 of option1.questions; let indexQuestionSatu = index">
+                                        <ng-container>
+                                          <div *ngIf="quest.answer === option1.option_text" class="field-item" style="padding-left: 2rem">
+                                            <div fxLayout="row" fxLayoutWrap="wrap">
+                                              <label fxFlex="70" style="align-self: center">{{ optionQuestion1.question_name }}</label>
+                                            </div>
+                                            <div fxLayout="row" fxLayoutWrap="wrap">
+                                              <div>
+                                                <span class="font-bolds">
+                                                  {{ quest.answer }}
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+
+                                        <ng-container>
+                                          <ng-container *ngFor="let option3 of optionQuestion1.parent_child_options; let indexDua = index">
+                                            <ng-container>
+                                              <ng-container *ngFor="let optionQuestion2 of option3.questions; let indexQuestionDua = index">
+                                                <div
+                                                  *ngIf="optionQuestion1.answer === option3.option_text"
+                                                  class="field-item"
+                                                  style="padding-left: 4rem"
+                                                >
+                                                  <div fxLayout="row" fxLayoutWrap="wrap">
+                                                    <label fxFlex="70" style="align-self: center">{{
+                                                      optionQuestion2.question_name
+                                                    }}</label>
+                                                  </div>
+                                                  <div fxLayout="row" fxLayoutWrap="wrap">
+                                                    <div>
+                                                      <span class="font-bolds">
+                                                        {{ quest.answer }}
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </ng-container>
+                                            </ng-container>
+                                          </ng-container>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+
+                            <ng-container>
+                              <div
+                                class="p-col-12"
+                                *ngFor="
+                                  let comment of questionResponseForm.competence[compIndex].segment[segmentIndex].question[quesIndex]
+                                    .comments;
+                                  let commentIndex = index;
+                                  let last = last
+                                "
+                              >
+                                <div class="p-grid">
+                                  <div class="p-col-3">
+                                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                                    <div>{{ comment.date.date_utc }}</div>
+                                  </div>
+                                  <div class="p-col-8">
+                                    <div>
+                                      <span class="font-bolds">
+                                        {{ comment.comment }}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <!-- For Footer -->
+          <div class="p-grid" *ngIf="questionResponseForm.questionnaire_grid.footer.text">
+            <div class="yellow-border card-row p-col-12 x-pad-none">
+              <div class="p-grid">
+                <div class="p-col-12" style="text-align: center">
+                  <div [innerHTML]="questionResponseForm.questionnaire_grid.footer.text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- For General Comments -->
+        <div class="p-grid">
+          <div class="yellow-border card-row p-col-12 margin-bot-10px">
+            <ng-container>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <label>{{ 'PROBLEMATIC_019.PROBLEMATICFORM.COMMENT' | translate }}</label>
+                </div>
+              </div>
+              <div class="p-grid" *ngFor="let gen_comment of problematicForm.general_comments; let genIndex = index">
+                <ng-container>
+                  <div class="p-col-3">
+                    <div class="form-title">{{ 'PROBLEMATIC_019.PROBLEMATICFORM.CERTIFIER' | translate }}</div>
+                    <div>{{ gen_comment.date.date_utc }}</div>
+                    <!-- <div class="generalComments-date" style="margin-bottom: -45px;">{{ getTranslatedDate(ProblematicForm.value.generalComments[i].date) }}</div> -->
+                  </div>
+                  <div class="p-col-8">
+                    <div>
+                      <span class="font-bolds">
+                        {{ utilService.cleanHTML(gen_comment.comment) }}
+                      </span>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- ************** View For Signature -->
+        <div class="p-grid" style="margin-bottom: 1px; margin-top: 1px">
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div class="p-col-3" style="float: left">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_student }">
+                    {{ problematicForm?.signature_of_the_student ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYSTUDENT' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(problematicForm?.signature_of_the_acad_dir)">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_acad_dir }">
+                    {{ problematicForm?.signature_of_the_acad_dir ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYACAD' | translate }}
+                  </span>
+                </div>
+                <div class="p-col-3" style="float: left" *ngIf="showSignature(problematicForm?.signature_of_the_certifier)">
+                  <span [ngClass]="{ 'text-slider-color': problematicForm.signature_of_the_certifier }">
+                    {{ problematicForm?.signature_of_the_certifier ? '&#10004;' : '&#10799;' }}
+                    {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SIGNBYCERTI' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

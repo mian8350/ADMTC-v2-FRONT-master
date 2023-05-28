@@ -1,0 +1,201 @@
+<div class="mrgn-t-md">
+  <div class="p-grid mrgn-b-sm">
+    <div class="p-col-6 text-left pad-t-none">
+      <button mat-raised-button color="warn" (click)="leave()">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+    </div>
+    <div class="p-col-6 text-right pad-t-none">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="saveFirstStepTranscript()"
+        *ngIf="parameterForm?.get('transcript_process_status')?.value === 'initial_setup'"
+        [disabled]="comparison() || parameterForm.invalid"
+      >
+        {{ 'Save' | translate }}
+      </button>
+      <!-- <button
+        mat-raised-button
+        color="accent"
+        class="margin-none"
+        *ngIf="parameterForm?.get('transcript_process_status')?.value === 'initial_setup'"
+        [disabled]="!allowStartInputDecision()"
+        (click)="startInputDecision()"
+      >
+        {{ 'FINAL_TRANSCRIPT.start_input_decision' | translate }}
+      </button> -->
+    </div>
+  </div>
+  <div class="p-grid" [formGroup]="parameterForm">
+    <!-- 1.Section for Sliders and school -->
+    <div class="p-col-6">
+      <!-- 1.1. Sub Section For Sliders -->
+      <div class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ 'TRANSCRIPT_PROCESS.Parameters of Transcript Process' | translate }}</h3>
+        </div>
+        <div class="p-col-12">
+          <mat-slide-toggle formControlName="jury_decision" [disabled]="parameterForm?.get('transcript_process_status')?.value !== 'initial_setup'">
+            <span [ngStyle]="{ color: parameterForm.get('jury_decision').value ? '#ffe77a' : 'white' }" class="fix-font-size">
+              {{
+                (parameterForm.get('jury_decision').value
+                  ? 'TRANSCRIPT_PROCESS.SLIDERS.jury_enter_decision_on'
+                  : 'TRANSCRIPT_PROCESS.SLIDERS.jury_enter_decision_off'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+        <div class="p-col-12">
+          <mat-slide-toggle formControlName="is_final_transcript" [disabled]="parameterForm?.get('transcript_process_status')?.value !== 'initial_setup'" (change)="changeTranscriptToggle($event)">
+            <span [ngStyle]="{ color: parameterForm.get('is_final_transcript').value ? '#ffe77a' : 'white' }" class="fix-font-size">
+              {{
+                (parameterForm.get('is_final_transcript').value
+                  ? 'TRANSCRIPT_PROCESS.SLIDERS.final_transcript_on'
+                  : 'TRANSCRIPT_PROCESS.SLIDERS.final_transcript_off'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+        <div class="p-col-12" style="padding-top: 0px !important" *ngIf="parameterForm.get('is_final_transcript').value">
+          <p>{{ 'TRANSCRIPT_PROCESS.PARAMETERS_TEXT' | translate }}</p>
+        </div>
+      </div>
+
+      <!-- 1.2 Sub Section For School Table -->
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="reset">
+          <th mat-header-cell *matHeaderCellDef colspan="1">
+            <div class="p-grid">
+              <div class="p-col-9 padding-none">
+                <h5 class="text-left mrgn-all-xs">{{ 'TRANSCRIPT_PROCESS.school_involved' | translate }}</h5>
+              </div>
+              <div class="p-col-3 padding-none justify-content-end">
+                <button mat-raised-button color="primary" class="margin-right-0" (click)="reset()">
+                  <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                  {{ 'RESET' | translate }}
+                </button>
+              </div>
+            </div>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="schoolFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" />
+            </mat-form-field>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="school">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'TRANSCRIPT_PROCESS.School' | translate }}" matTooltipPosition="above">
+            <div mat-sort-header="school">
+              <h5>{{ 'TRANSCRIPT_PROCESS.School' | translate }}</h5>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element" class="icon-hand" matTooltip="{{ element?.short_name }}" matTooltipPosition="above">
+            <a> {{ element?.short_name }} </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="loading">
+          <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+            <!-- <div class="center-spinner">
+              <mat-spinner color="accent"></mat-spinner>
+            </div> -->
+          </th>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+      </table>
+      <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+        {{ 'NOT RECORD FOUND' | translate }}
+      </div>
+      <div [ngClass]="{ hide: noData | async }">
+        <mat-paginator
+          [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+          [hidePageSize]="true"
+          [pageSize]="[10]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+
+    <!-- 2.Section for Block -->
+    <div class="p-col-6">
+      <div class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ 'TRANSCRIPT_PROCESS.Select Block for Transcript Process' | translate }}</h3>
+        </div>
+        <div class="p-col-12" *ngIf="blocks?.length && getBlockConditionDetails()?.length">
+          <mat-list>
+            <div *ngFor="let block of blocks; let blockIndex = index" style="padding: 0 0 20px 0">
+              <mat-checkbox
+                [disabled]="
+                  parameterForm?.get('transcript_process_status')?.value !== 'initial_setup' ||
+                  parameterForm?.get('is_final_transcript')?.value ||
+                  getBlockConditionDetails()?.at(blockIndex)?.get('is_block_coming_from_previous_process')?.value
+                "
+                [formControl]="getBlockConditionDetails().at(blockIndex).get('is_block_selected')"
+                >
+                <span class="span-checkbox-text">
+                  {{ utilService.cleanHTML(block.block_of_competence_condition) }}
+                </span>
+              </mat-checkbox>
+              <mat-list style="padding: 0px">
+                <div *ngFor="let subject of block.subjects; let subjectIndex = index">
+                  <mat-list-item
+                    (click)="openToggle(blockIndex, subjectIndex)"
+                    style="cursor: pointer"
+                    [ngClass]="{
+                      'disabled-color':
+                        parameterForm?.get('transcript_process_status')?.value !== 'initial_setup' ||
+                        parameterForm?.get('is_final_transcript')?.value ||
+                        getBlockConditionDetails()?.at(blockIndex)?.get('is_block_coming_from_previous_process')?.value
+                    }"
+                  >
+                    <i class="fa" [ngClass]="expandedToggle[blockIndex][subjectIndex] ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                    <mat-icon class="acadkit-icon">folder</mat-icon>
+                    <span class="span-text">
+                      {{ subject.subject_name }}
+                    </span>
+                  </mat-list-item>
+                  <mat-list style="margin-left: 30px; padding-top: 0px" *ngIf="expandedToggle[blockIndex][subjectIndex]">
+                    <div *ngFor="let test of subject.evaluations">
+                      <mat-list-item
+                        style="padding-left: 0"
+                        [ngClass]="{
+                          'disabled-color':
+                            parameterForm?.get('transcript_process_status')?.value !== 'initial_setup' ||
+                            parameterForm?.get('is_final_transcript')?.value ||
+                            getBlockConditionDetails()?.at(blockIndex)?.get('is_block_coming_from_previous_process')?.value
+                        }"
+                      >
+                        <mat-icon class="icon">insert_drive_file</mat-icon>
+                        <span class="span-text">
+                          {{ test.evaluation }}
+                        </span>
+                      </mat-list-item>
+                    </div>
+                  </mat-list>
+                </div>
+              </mat-list>
+            </div>
+          </mat-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

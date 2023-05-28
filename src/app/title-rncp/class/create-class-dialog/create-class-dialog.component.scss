@@ -1,0 +1,28 @@
+mat-slide-toggle {
+  color: black;
+}
+::ng-deep .mat-dialog-container{
+ overflow: hidden !important;
+}
+input {
+  color: black;
+}
+
+textarea {
+  color: black;
+}
+
+.footer-form {
+  padding: 0px 18px 18px 18px;
+}
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+.text-title {
+  font-size: 20px;
+  padding-top: 5px;
+}

@@ -1,0 +1,88 @@
+<div class="p-grid background-primary">
+  <ng-container [formGroup]="testCorrectionForm">
+    <div class="p-col-12 pad-b-none" formGroupName="correction_grid">
+      <div class="footer-section"  formGroupName="footer">
+        <ng-container formArrayName="fields">
+          <ng-container *ngFor="let field of getFooterFieldsFromTest(); let fieldIndex = index" [formGroupName]="fieldIndex">
+            <div *ngIf="field.data_type !== 'checkbox' && field.data_type !== 'date'">
+              <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+                <input class="small-field-font" formControlName="value" matInput [type]="field.data_type" [placeholder]="field.value" />
+              </mat-form-field>
+            </div>
+            <div *ngIf="field.data_type === 'checkbox'" color="accent" class="box mrgn-r-sm">
+              <mat-checkbox formControlName="value">{{field.value}}</mat-checkbox>
+            </div>
+            <div *ngIf="field.data_type === 'date'">
+              <mat-form-field color="accent" class="footer-field-date mrgn-r-sm">
+                <input 
+                  class="small-field-font" 
+                  matInput 
+                  formControlName="value" 
+                  [matDatepicker]="picker" 
+                  [placeholder]="field.value" 
+                  (click)="picker.open()"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- <div class="p-grid background-primary">
+  <div class="p-col-12 pad-t-xs">
+    <div class="footer-section">
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" matInput placeholder="Corrector Name" />
+        </mat-form-field>
+      </div>
+      <div class="box mrgn-r-sm">
+        <mat-checkbox class="small-field-font" color="accent">Signtature</mat-checkbox>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-date mrgn-r-sm">
+          <input class="small-field-font" matInput [matDatepicker]="picker" placeholder="Footer - date" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" matInput type="text" placeholder="Footer - text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-number mrgn-r-sm">
+          <input class="small-field-font" type="number" matInput placeholder="Footer - number" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" type="text" matInput placeholder="Footer - PFE Referal" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" type="text"matInput placeholder="Footer -  Jury Member" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" type="text" matInput placeholder="Footer -  Long Text" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="accent" class="footer-field-text mrgn-r-sm">
+          <input class="small-field-font" type="text" matInput placeholder="Footer - Mentor Name" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div> -->
+

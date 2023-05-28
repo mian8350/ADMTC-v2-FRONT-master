@@ -1,0 +1,54 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+
+.icon-style{
+    vertical-align: middle;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+:host ::ng-deep{
+  .mat-dialog-content{
+    max-height: 520px;
+    height: auto;
+  }
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  height: auto;
+  color: black;
+}
+
+
+.cursorStyle{
+  cursor: pointer;
+}
+
+.fileInfo{
+  width: fit-content !important;
+  margin: 5px !important;
+  display: inline-block !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07)
+}
+.chip-list {
+  width: 100%;
+}
+
+.color-gray {
+  color: rgb(170, 168, 168);
+}
+.float-right {
+  float: right;
+}
+.hidden-input {
+  display: none;
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}

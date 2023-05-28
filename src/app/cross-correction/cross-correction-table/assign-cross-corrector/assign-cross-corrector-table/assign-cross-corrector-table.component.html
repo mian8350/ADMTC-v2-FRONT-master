@@ -1,0 +1,314 @@
+<div class="top-space">
+  <div class="title">{{ 'CrossCorrection.List of ALL Students preparing' | translate }} {{ title }}</div>
+  <div class="p-grid">
+    <div class="p-col-12 padding-none">
+      <div class="horizontal mat-elevation-z8 scrollable">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="reset">
+            <th mat-header-cell colspan="4" *matHeaderCellDef class="action-header-column">
+              <div class="display-flex j-c-flex-end">
+                <!-- <div class="search-field">
+                  <mat-form-field class="full-width">
+                    <mat-select [formControl]="exportFilter">
+                      <mat-option [value]="export.value" *ngFor="let export of exportList">{{ export.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+                <!-- <button
+                mat-raised-button
+                color="primary"
+                matTooltip="{{ 'JURY_ORGANIZATION.EXPORT_CSV' | translate }}"
+                (click)="getCorrectorCsv()"
+              >
+                <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            
+              </button>
+              <angular2csv [data]="schools" [filename]="fileName" [options]="options"
+                ><button mat-raised-button color="primary" matTooltip="{{ 'JURY_ORGANIZATION.EXPORT_CSV' | translate }}">
+                  <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+                  {{ 'JURY_ORGANIZATION.EXPORT_CSV' | translate }}
+                </button></angular2csv
+              > -->
+                <!-- <app-angular2csv [data]="schools" [filename]="fileName" [options]="options" style="margin: auto 0">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    matTooltip="{{ 'JURY_ORGANIZATION.EXPORT_CSV' | translate }}"
+                    (click)="getCorrectorCsv()"
+                  >
+                    <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+                    {{ 'JURY_ORGANIZATION.EXPORT_CSV' | translate }}
+                  </button>
+                </app-angular2csv> -->
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="resetFilter()"
+                  matTooltip="{{ 'RESET' | translate }}"
+                >
+                  <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                  {{ 'RESET' | translate }}
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="exportName = 'Export'; exportSwal.show()"
+                  matTooltip="{{ 'Export' | translate }}"
+                >
+                  <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+                  {{ 'Export' | translate }}
+                </button>
+              </div>
+            </th>
+          </ng-container>
+
+          <!-- filter row -->
+          <ng-container matColumnDef="studentsFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="lastNameFilter" placeholder="{{ 'search' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="schoolOriginFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="schoolFilterAuto"
+                  [formControl]="schoolOriginFilter"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-autocomplete #schoolFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option (click)="setSchoolOrigin(null)" value="">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let school of filteredSchoolOrigin | async"
+                    (click)="setSchoolOrigin(school)"
+                    [value]="school?.school_origin_id?.short_name"
+                  >
+                    {{ school?.school_origin_id?.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="schoolCorrectingFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="schoolCorrectingFilterAuto"
+                  [formControl]="schoolCorrectorFilter"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-autocomplete #schoolCorrectingFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option (click)="setSchoolCorrecting(null)" value="">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let school of filteredSchoolCorrector | async"
+                    (click)="setSchoolCorrecting(school)"
+                    [value]="school?.school_correcting_id?.short_name"
+                  >
+                    {{ school?.school_correcting_id?.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="crossCorrectorFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="crossFilterAuto"
+                  [formControl]="crossCorrectorFilter"
+                  placeholder="{{ 'search' | translate }}"
+                />
+                <mat-autocomplete #crossFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option (click)="setCrossCorrector(null)" value="">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let corrector of filteredcrossCorrector | async"
+                    (click)="setCrossCorrector(corrector)"
+                    [value]="
+                      corrector?.school_correcting_corrector_id?.last_name +
+                      ' ' +
+                      corrector?.school_correcting_corrector_id?.first_name +
+                      ' ' +
+                      (corrector?.school_correcting_corrector_id?.civility | translate)
+                    "
+                  >
+                    {{ corrector?.school_correcting_corrector_id?.last_name }} {{ corrector?.school_correcting_corrector_id?.first_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <!-- data row -->
+          <ng-container matColumnDef="students">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="students" class="text-center">
+              <h5>{{ 'Students' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.student_id?.last_name | uppercase }} {{ element.student_id?.first_name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="schoolOrigin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="schoolOrigin" class="text-center">
+              <h5>{{ 'School Origin' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.school_origin_id?.short_name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="schoolCorrecting">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <h5>{{ 'School Correcting' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element; let rowIndex = index">
+              <!-- *********** mat-select solution *********** -->
+              <!-- <mat-form-field>
+                <mat-select [(ngModel)]="element.school_correcting_id">
+                  <mat-option [value]="">
+                    {{ 'NONE' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let school of schoolCorrectingList" [value]="school?._id">
+                    {{ school?.short_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <!-- *********** ng-select solution *********** -->
+              <ng-select
+                class="ng-select-input custom"
+                appendTo="body"
+                [items]="element?.school_correcting_dropdown"
+                bindValue="_id"
+                bindLabel="short_name"
+                [(ngModel)]="element.school_correcting_id"
+                (change)="setCrossCorrectorDropdown(element)"
+              ></ng-select>
+              <!-- *********** mat autocomplete solution *********** -->
+              <!-- <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="schoolCorrectingFilterAuto"
+                  [formControl]="schoolCorrectingFilter"
+                  #triggerSchool="matAutocompleteTrigger"
+                />
+                <mat-autocomplete #schoolCorrectingFilterAuto="matAutocomplete" [panelWidth]="'fit'" [displayWith]="displayFn.bind(this)">
+                  <mat-option [value]="schools.school._id" *ngFor="let schools of filteredSchoolCorrecting | async">{{
+                    schools.school.short_name
+                  }}</mat-option>
+                </mat-autocomplete>
+              </mat-form-field> -->
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="crossCorrector">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <h5>{{ 'Cross Corrector' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element; let rowIndex = index">
+              <!-- *********** ng-select solution *********** -->
+              <ng-select
+                class="ng-select-input custom"
+                appendTo="body"
+                [items]="element?.cross_corrector_dropdown"
+                bindValue="_id"
+                bindLabel="full_name"
+                [(ngModel)]="element.school_correcting_corrector_id"
+                #select
+                (change)="refreshCorrector()"
+              >
+                <!-- // use ng-header-tmp or ng-footer-tmp as custom dropdown option  -->
+                <ng-template ng-header-tmp>
+                  <div class="ng-select-custom-header" (click)="addCorrector(element, select)">
+                    {{ 'CrossCorrection.add_new' | translate }}
+                  </div>
+                </ng-template>
+              </ng-select>
+              <!-- *********** mat autocomplete solution *********** -->
+              <!-- <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="crossCorrectorFilterAuto"
+                  [formControl]="crossCorrectorFilter"
+                  #triggerSchool="matAutocompleteTrigger"
+                />
+                <mat-autocomplete #crossCorrectorFilterAuto="matAutocomplete">
+                  <mat-option [value]="" (click)="addCorrector('')"
+                    ><mat-icon class="icon-add mat-icon-default">add</mat-icon>{{ 'Add New Cross Corrector' | translate }}</mat-option
+                  >
+                  <mat-option [value]="corrector.value" *ngFor="let corrector of crossCorrectorList">{{ corrector.name }}</mat-option>
+                </mat-autocomplete>
+              </mat-form-field> -->
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+              <div class="center-spinner spinner-wrapper">
+                <mat-spinner color="accent"></mat-spinner>
+              </div>
+            </th>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+        </table>
+      </div>
+      <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+        {{ 'NOT RECORD FOUND' | translate }}
+      </div>
+      <div fxLayout="row" fxLayoutWrap="wrap" class="footer" [ngClass]="{ hide: noData | async }">
+        <div fxFlex="40" class="footer-title">
+          {{ total }} {{ 'total' | translate }} / {{ assigned }} {{ 'CrossCorrection.remain to be assigned' | translate }}
+        </div>
+        <div fxFlex="60">
+          <mat-paginator
+            [ngClass]="{ 'hide-pagination-buttons': total <= 10 }"
+            [length]="total"
+            [hidePageSize]="true"
+            [pageSizeOptions]="[10]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>

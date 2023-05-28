@@ -1,0 +1,57 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon style="vertical-align: middle; font-size: xx-large; place-self: center">add</mat-icon>
+  <h2 class="header-text">
+    {{ 'ERP_009_TEACHER_CONTRACT.Add Validator' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md">
+  <div fxLayout="row" fxLayoutGap="20px" class="baseline-align">
+    <div class="p-col-12 pad-y-none">
+      <ng-select
+        [appendTo]="'body'"
+        class="mrgn-btn"
+        [multiple]="true"
+        placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Select User Type' | translate }}"
+        [formControl]="userTypeCtrl"
+      >
+        <ng-option *ngFor="let userType of userTypeList" [value]="userType._id">
+          {{ userType.name | translate }}
+        </ng-option>
+      </ng-select>
+      <!-- <mat-form-field class="full-wid">
+        <input
+          matInput
+          placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Select User Type' | translate }}"
+          [formControl]="userTypeCtrl"
+          [matAutocomplete]="autoUserType"
+          required
+        />
+        <mat-autocomplete #autoUserType="matAutocomplete">
+          <mat-option *ngFor="let option of filtereduserType | async" [value]="option?.name" (click)="selectUserType(option)">
+            {{ 'USER_TYPES.' + option?.name | translate }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+    </div>
+  </div>
+</div>
+
+<br />
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="submit()" [disabled]="!userTypeCtrl.valid">
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+</div>

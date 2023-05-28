@@ -1,0 +1,273 @@
+{
+  "title": "Responsable de Développement Commercial (RDC)",
+  "title_short": "Dossier Bilan",
+  "title_long": "Dossier Bilan de compétences ",
+  "certifier": "IMCP",
+  "title_preparation": "ALTEA",
+  "year_promotion": "2021",
+  "student": {
+    "civility": "MRS",
+    "first_name": "Simone",
+    "last_name": "Dupont"
+  },
+  "date_birth": "18/06/2000 á Nancy",
+  "block": [
+    {
+      "block": "BLOC 1",
+      "ref_id": "B1",
+      "name": "Mettre en place la politique commerciale définie par la direction",
+      "description": "<p>C1.1 Réaliser les principales activités de gestion administrative et de gestion de l'information relevant de la fonction RH</p>",
+      "score_conversion": [],
+      "evaluation_pedagogique": {
+        "name": "Evaluation Pédagogique"
+      },
+      "auto_evaluation": {
+        "name": "Auto Evaluation"
+      },
+      "evaluation_professionnelle": {
+        "name": "Evaluation Professionnelle"
+      },
+      "radar_competences": {
+        "name": "Radar des compétences"
+      },
+      "suggestion": {
+        "name": "Suggestions de questions à poser"
+      },
+      "competence_templates_id": [
+        {
+          "ref_id": "C1.1",
+          "name": "<p>Réaliser les principales activités de gestion administrative et de gestion de l'information relevant de la fonction RH</p>",
+          "criteria_of_evaluation_templates_id": [
+            {
+              "description": null,
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "name": "<p>Le candidat est capable d'identifier et réaliser les opérations de gestion administrative du personnel</p>",
+              "ref_id": "CR1.1.1"
+            },
+            {
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "2",
+                "level": "N",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "3",
+                "level": "N",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "description": null,
+              "name": "<p>Le candidat est capable de réaliser et analyser les processus de recrutement et d'intégration</p>",
+              "ref_id": "CR1.1.2"
+            },
+            {
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "1",
+                "level": "N",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "2.5",
+                "level": "N",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "description": null,
+              "name": "<p>Le candidat est capable de réaliser une veille réglementaire et législative</p>",
+              "ref_id": "CR1.1.3"
+            },
+            {
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "4.5",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "3.5",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "description": null,
+              "name": "<p>Le candidat est capable de produire les informations nécessaires aux IRP</p>",
+              "ref_id": "CR1.1.4"
+            },
+            {
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "3.5",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "3.75",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "description": null,
+              "name": "<p>Le candidat est capable d'analyser les fonctionnalités et performances des outils SIRH</p>",
+              "ref_id": "CR1.1.5"
+            },
+            {
+              "question": "Quels types de tableaux de bord avez-vous alimenté ? (CA, encours client, efficacité du recouvrement , etc)",
+              "ecrit": {
+                "resultat": "4",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "oral": {
+                "resultat": "3.5",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "bilan": {
+                "resultat": "3.75",
+                "level": "D",
+                "justification": "Le lorem ipsum (également appelé faux-texte, lipsum, ou bolo"
+              },
+              "description": null,
+              "name": "<p>Le candidat est capable d'identifier des améliorations dans les processus de l’outil SIRH</p>",
+              "ref_id": "CR1.1.6"
+            }
+          ],
+          "phrase_names": [
+            {
+              "name": "Non acquise",
+              "phrase_parameters": [
+                {
+                  "correlation": null,
+                  "pass_mark": "Démontré",
+                  "validation_parameter": {
+                    "criteria_of_evaluation_template_id": null,
+                    "parameter_type": "percentage",
+                    "percentage_value": 0,
+                    "sign": "equal"
+                  },
+                  "validation_type": "all_criteria"
+                }
+              ]
+            },
+            {
+              "name": "En cours d'acquisition",
+              "phrase_parameters": [
+                {
+                  "correlation": null,
+                  "pass_mark": "Démontré",
+                  "validation_parameter": {
+                    "criteria_of_evaluation_template_id": null,
+                    "parameter_type": "percentage",
+                    "percentage_value": 50,
+                    "sign": "less_than_or_equal"
+                  },
+                  "validation_type": "all_criteria"
+                }
+              ]
+            },
+            {
+              "name": "Acquise",
+              "phrase_parameters": [
+                {
+                  "correlation": null,
+                  "pass_mark": "Démontré",
+                  "validation_parameter": {
+                    "criteria_of_evaluation_template_id": null,
+                    "parameter_type": "percentage",
+                    "percentage_value": 50,
+                    "sign": "more_than"
+                  },
+                  "validation_type": "all_criteria"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "phrase_names": [
+        {
+          "name": "Non validé",
+          "phrase_parameters": [
+            {
+              "correlation": null,
+              "pass_mark": "Acquise",
+              "validation_parameter": {
+                "criteria_of_evaluation_template_id": null,
+                "parameter_type": "percentage",
+                "percentage_value": 100,
+                "sign": "less_than"
+              },
+              "validation_type": "all_criteria"
+            }
+          ]
+        },
+        {
+          "name": "Validé",
+          "phrase_parameters": [
+            {
+              "correlation": null,
+              "pass_mark": "Acquise",
+              "validation_parameter": {
+                "criteria_of_evaluation_template_id": null,
+                "parameter_type": "percentage",
+                "percentage_value": 100,
+                "sign": "equal"
+              },
+              "validation_type": "all_criteria"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "cc": [
+    {
+      "ref": "CC",
+      "competence": "CC UE 1 – Fonction RH et recrutement",
+      "score": "15 / 20"
+    },
+    {
+      "ref": "CC",
+      "competence": "CC UE 1 – Droit social",
+      "score": "13 / 20"
+    },
+    {
+      "ref": "CC",
+      "competence": "CC UE 1 – Paie et SIRH",
+      "score": "11 / 20"
+    }
+  ]
+}

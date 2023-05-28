@@ -1,0 +1,138 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.engagement-side-icon {
+  border-radius: 50%;
+  position: relative;
+  img {
+    border-radius: 50%;
+    width: 70% !important;
+    background: white;
+    padding: 4px;
+  }
+}
+
+#style-4::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar {
+  width: 10px;
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar-thumb {
+  background-color: #909090;
+  border: 2px solid #555555;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.green-icon {
+  color: #9acd32 !important;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+  background-color: green;
+}
+.candidate-select {
+  background-color: #fdd835 !important;
+}
+
+.candidate-text {
+  color: black !important;
+}
+
+.spinner-wrapper {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
+
+.left-side {
+  padding-left: 0px;
+  width: 420px;
+}
+
+.right-side {
+  width: auto;
+  position: absolute;
+  right: 0px;
+  left: 425px;
+}
+
+.text-empty {
+  height: auto;
+  margin: 3% auto;
+  font-size: 20px;
+  display: block;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  color: #e4e7ef;
+}
+
+.yellow {
+  color: #ffd740;
+}
+.orange {
+  color: #f49f36;
+}
+.blue {
+  color: #36ebf4;
+}
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+.purple {
+  color: #ff46f9;
+}
+.magenta {
+  color: magenta;
+}
+.black {
+  color: #000000;
+}
+.cyan {
+  color: cyan;
+}
+.photo {
+  height: 35px;
+  vertical-align: middle;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.email-icon {
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &:hover {
+    color: grey !important;
+  }
+}

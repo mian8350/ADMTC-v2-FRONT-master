@@ -1,0 +1,112 @@
+<!-- header part -->
+<div class="p-grid">
+  <div class="p-col-12 justify-content-start">
+    {{ 'decision_student' | translate }}
+  </div>
+</div>
+<form [formGroup]="retakeForm">
+<div class="p-grid">
+  <div class="p-col-6 justify-content-start">
+    {{ '056_ES.Date' | translate }}:
+    {{ getDateDecisionStudent(studentTranscrip) | date: 'dd/MM/yyyy' }}
+  </div>
+  <div class="p-col-6 justify-content-end orange" *ngIf="studentTranscrip.cancel_retake">
+    {{ 'retake_canceled' | translate }}
+  </div>
+  <div class="p-col-6 justify-content-end orange" *ngIf="isDecisionInputted && !studentTranscrip.cancel_retake">
+    <span *ngIf="studentTranscrip.student_accept_retake === 'accept'">
+      {{ 'retake_accepted' | translate }}
+    </span>
+    <span *ngIf="studentTranscrip.student_accept_retake === 'refuse'">
+      {{ 'retake_rejected' | translate }}
+    </span>
+  </div>
+  <div class="p-col-6 justify-content-end" *ngIf="!isDecisionInputted && !studentTranscrip.cancel_retake">
+    <mat-form-field class="select-decision">
+      <mat-label>{{ 'FINAL_TRANSCRIPT.select_decision' | translate }}</mat-label>
+      <mat-select formControlName="student_accept_retake">
+        <mat-option *ngFor="let condition of studentDecisions" [value]="condition?.value">
+          {{ condition?.label | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      (click)="submitDecision()"
+      [disabled]="!isDecisionSelected()"
+      color="accent"
+      class="margin-none pad-x-none"
+    >
+      {{ 'SUBMIT' | translate }}
+    </button>
+  </div>
+</div>
+<!-- block, subject, and evaluation tree -->
+<fieldset class="grey-border" *ngIf="retakeBlocks?.length && retakeForm.get('student_accept_retake').value === 'accept' && !studentTranscrip.cancel_retake">
+  <div class="p-grid">
+    <mat-list>
+      <div *ngFor="let block of retakeBlocks; let blockIndex = index" style="padding-bottom: 20px;">
+        <mat-list-item class="clickable" (click)="toggleBlock(block)">
+          <i class="fa" [ngClass]="block.isDisplayed ? 'fa-caret-down' : 'fa-caret-right'"></i>
+          <span class="span-text">
+            {{ block.block_of_competence_condition }}
+          </span>
+        </mat-list-item>
+        <mat-list
+          *ngIf="block.isDisplayed"
+          style="margin-left: 30px; padding-top: 0px"
+        >
+          <div *ngFor="let subject of block.subjects; let subjectIndex = index">
+            <mat-list-item class="clickable" (click)="toggleSubject(subject)">
+              <i class="fa" [ngClass]="subject.isDisplayed ? 'fa-caret-down' : 'fa-caret-right'"></i>
+              <span class="span-text">
+                {{ subject.subject_name }}
+              </span>
+            </mat-list-item>
+            <mat-list
+              *ngIf="subject.isDisplayed"
+              style="margin-left: 30px; padding-top: 0px"
+            >
+              <div *ngFor="let evaluation of subject?.evaluations; let evalIndex = index">
+                <mat-list-item>
+                  <mat-checkbox
+                    [disabled]="isDecisionInputted"
+                    [checked]="isChecked(evaluation?._id)"
+                    (change)="toggleSelectedRetakeTest($event, evaluation, block._id, block.selected_block_retake?._id)"
+                  >
+                    <span class="span-checkbox-text">
+                      {{ evaluation?.evaluation }}
+                    </span>
+                  </mat-checkbox>
+                </mat-list-item>
+              </div>
+            </mat-list>
+          </div>
+        </mat-list>
+      </div>
+    </mat-list>
+  </div>
+</fieldset>
+<div
+  class="p-grid text-right"
+  *ngIf="
+    studentTranscrip.is_latest &&
+    isUserAdmtc &&
+    !studentTranscrip.cancel_retake &&
+    studentTranscrip.student_accept_retake !== 'refuse'
+  ">
+  <div class="p-col-12 justify-content-end">
+    <button
+      mat-raised-button
+      (click)="cancelRetake()"
+      color="warn"
+      class="margin-none"
+    >
+      {{ 'cancel_retake' | translate }}
+    </button>
+  </div>
+</div>
+</form>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

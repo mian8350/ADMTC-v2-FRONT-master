@@ -1,0 +1,161 @@
+<mat-card class="position-card pad-top-7">
+  <div class="p-grid">
+    <div class="p-col-2" style="padding-top: 10px; width: 10% !important">
+      <mat-form-field>
+        <mat-label>{{ 'Select RNCP Title' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedRncpTitleId" (selectionChange)="onSelectedTitleChanged()" [disableOptionCentering]="true" panelClass="dropdownPanel">
+          <mat-option [value]="'0'">
+            {{ 'None' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let title of rncpTitles" [value]="title._id">
+            {{ title.short_name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="p-col-2" style="padding-top: 10px; width: 10% !important">
+      <mat-form-field>
+        <mat-label>{{ 'Select Class' | translate }}</mat-label>
+        <mat-select [(ngModel)]="selectedClassId" [disabled]="!selectedRncpTitleId" (selectionChange)="onSelectedClassChanged()" [disableOptionCentering]="true" panelClass="dropdownPanel">
+          <mat-option [value]="'0'">
+            {{ 'None' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let class of classes" [value]="class._id">
+            {{ class.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <ng-container *ngIf="showFilterStudentStatus">
+      <div class="p-col-2" style="padding-top: 10px; width: 10% !important">
+        <mat-form-field>
+          <mat-label>{{ 'CERTIFICATE_ISSUANCE.SELECT_STATUS' | translate }}</mat-label>
+          <mat-select [(ngModel)]="selectedStatusId" [disabled]="!selectedClassId" (selectionChange)="onSelectedStatusChanged()" [disableOptionCentering]="true" panelClass="dropdownPanel">
+            <mat-option *ngFor="let status of statusList" [value]="status.value">
+              {{ status.key | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <div class="p-col-2" style="padding-top: 10px; width: 10% !important">
+      <mat-form-field style="width: 110px">
+        <input matInput [formControl]="studentFilter" placeholder="{{ 'CARDLIST.Search Student' | translate }}" />
+      </mat-form-field>
+    </div>
+
+    <div
+      *ngIf="isStudentCardTab"
+      style="padding-bottom: 0px; padding-top: 10px; position: absolute; right: 7px; padding-right: 0.5em; padding-left: 0.5em"
+    >
+      <div class="p-grid" style="margin-top: 0px">
+        <div class="p-col-9" style="padding: 0px; text-align: right; width: 60% !important">
+          <div class="inline-flex">
+            <button
+              *ngIf="isTutorialAdded"
+              mat-button
+              style="
+                line-height: 16px;
+                margin: 10px !important;
+                padding: 0px !important;
+                width: 16px !important;
+                min-width: 16px;
+                background: #424242 !important;
+              "
+              matTooltip="{{ 'Tutorial for this module' | translate }}"
+              (click)="toggleTutorial(tutorialData)"
+            >
+              <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="resetFilter()"
+              matTooltip="{{ 'CARDLIST.Reset' | translate }}"
+              class="mrgn-top-7"
+            >
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'CARDLIST.Reset' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              *ngIf="permissionService.importStudentInStudentCardPerm()"
+              (click)="sendRegistrationEmail()"
+              [disabled]="!selectedRncpTitleId || !selectedClassId"
+            >
+              <mat-icon class="mat-icon-default">send</mat-icon>
+              {{ 'CARDLIST.Registration Email' | translate }}
+            </button>
+            <button
+              *ngIf="permissionService.importCompanyInStudentCardPerm()"
+              [disabled]="!schoolId || !selectedRncpTitleId || !selectedClassId"
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              (click)="svTypeSelectionDownload()"
+            >
+              <mat-icon class="mat-icon-default">file_download</mat-icon> {{ 'CARDLIST.Template Companies' | translate }}
+            </button>
+            <button
+              *ngIf="permissionService.importCompanyInStudentCardPerm()"
+              [disabled]="!schoolId || !selectedRncpTitleId || !selectedClassId"
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              (click)="csvTypeSelectionUpload()"
+            >
+              <mat-icon class="mat-icon-default">file_upload</mat-icon> {{ 'CARDLIST.Import Companies' | translate }}
+            </button>
+            <button
+              *ngIf="permissionService.addStudentInStudentCardPerm()"
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              (click)="createStudent()"
+            >
+              <mat-icon class="mat-icon-default">school</mat-icon> {{ 'CARDLIST.Add Student' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="isStudentTable"
+      style="padding-bottom: 0px; padding-top: 10px; position: absolute; right: 7px; padding-right: 0.5em; padding-left: 0.5em"
+    >
+      <div class="p-grid" style="margin-top: 0px">
+        <div class="p-col-9" style="padding: 0px; text-align: right; width: 60% !important">
+          <div class="inline-flex">
+            <button
+              *ngIf="permissionService.importStudentInStudentTableInSchoolPerm()"
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              (click)="importStudent()"
+              [disabled]="!selectedRncpTitleId && !selectedClassId"
+            >
+              <mat-icon class="mat-icon-default">file_upload</mat-icon>
+              {{ 'IMPORT_STUDENTS_BTN' | translate }}
+            </button>
+            <button
+              *ngIf="permissionService.addStudentInStudentTableInSchoolPerm()"
+              mat-raised-button
+              color="accent"
+              class="mrgn-top-7"
+              (click)="createStudent()"
+            >
+              <mat-icon class="mat-icon-default">school</mat-icon> {{ 'CARDLIST.Add Student' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,19 @@
+<div [formGroup]="inputQuestion">
+  <div>
+    <label class="questionLabel">{{ inputQuestion?.get('question_name')?.value }}<span *ngIf="isFieldRequired">*</span></label>
+  </div>
+  <div>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="answer"
+        [placeholder]="inputQuestion?.get('parent_child_options')?.value[0]?.option_text"
+        [readOnly]="isFormDisabled"
+      />
+    </div>
+    <div class="invalid-feedback" *ngIf="isFieldRequired && !inputQuestion?.get('answer')?.value && inputQuestion?.get('answer')?.touched">
+      {{ 'This field is required' | translate }}
+    </div>
+  </div>
+</div>

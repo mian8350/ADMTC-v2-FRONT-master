@@ -1,0 +1,158 @@
+<div class="p-grid">
+    <div class="p-col pad-l-none">
+      <label>{{ 'QUALITYCONTROL.QUALITYTEXT' | translate }}</label>
+    </div>
+  </div>
+  <br />
+<div class="p-grid">
+  <div class="p-col-3 pad-l-none">
+    <mat-form-field style="padding-left: 0">
+      <input matInput [matAutocomplete]="autoRncpTitle" placeholder="{{ 'Select RNCP Title' | translate }}" [formControl]="rncpTitle" />
+      <mat-autocomplete #autoRncpTitle="matAutocomplete" [panelWidth]="'fit'">
+        <mat-option *ngFor="let option of filteredRncpTitle | async" [value]="option" (click)="OnSelectRNCPTitle(option)">
+          {{ option | translate }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="rncpTitle.invalid">{{ 'PLSSELECTRNCPTITLE' | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="p-col-3">
+    <mat-form-field>
+      <input
+        matInput
+        class="form-control"
+        placeholder="{{ 'Select Class' | translate }}"
+        [matAutocomplete]="autoClass"
+        [formControl]="classe"
+      />
+      <mat-autocomplete #autoClass="matAutocomplete" [panelWidth]="'fit'">
+        <mat-option *ngFor="let option of filteredClass | async" [value]="option" (click)="OnSelectClass(option)">
+          {{ option | translate }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="classe.invalid"> {{ 'PLSSELECTCLASS' | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="p-col-3">
+    <mat-form-field>
+      <input
+        matInput
+        class="form-control"
+        placeholder="{{ 'Select Test' | translate }}"
+        [matAutocomplete]="autoTest"
+        [formControl]="test"
+      />
+      <mat-autocomplete #autoTest="matAutocomplete" [panelWidth]="'fit'">
+        <mat-option *ngFor="let option of filteredTest | async" [value]="option" (click)="onSelectTest(option)">
+          {{ option | translate }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="test.invalid"> {{ 'PLSSELECTTEST' | translate }}</mat-error>
+    </mat-form-field>
+  </div>
+</div>
+
+<div *ngIf="dataSource.data.length > 0">
+  <div class="top-space">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="studentLastName"
+      matSortDirection="asc"
+      matSortDisableClear
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="5" class="action-header-column" style=" text-align: right !important;">
+          <div class="p-col text-right">
+            <button mat-raised-button color="primary" (click)="resetSelection()">
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+            <button mat-raised-button color="primary">
+              <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'Export' | translate }}
+            </button>
+          </div>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="testCorrectionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="qualityControlFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="differentFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="studentLastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Name' | translate }}">
+          <h5>{{ 'Name' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.studentLastName | uppercase }} {{ element.studentFirstName }} {{ element.civility | translate }}">
+          {{ element.studentLastName | uppercase }} {{ element.studentFirstName }} {{ element.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'School' | translate }}">
+          <h5>{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.school }}">{{ element.school }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="testMarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'QUALITYCONTROL.TESTCORRECTIONMARK' | translate }}">
+          <h5>{{ 'QUALITYCONTROL.TESTCORRECTIONMARK' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.testMarks }}">{{ element.testMarks }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="QCMarks">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'QUALITYCONTROL.QUALITYCONTROLMARK' | translate }}">
+          <h5>{{ 'QUALITYCONTROL.QUALITYCONTROLMARK' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.QCMarks }}">{{ element.QCMarks }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="difference">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'QUALITYCONTROL.DIFFERENT' | translate }}">
+          <h5>{{ 'QUALITYCONTROL.DIFFERENT' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.difference }}">{{ element.difference }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator ? paginator.length <= 10 : true) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

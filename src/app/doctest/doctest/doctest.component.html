@@ -1,0 +1,300 @@
+<div class="top-space">
+  <div class="horizontal">
+    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="12" class="action-header-column">
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button *ngIf="this.permissionService.historyTestsActionsForward()" mat-raised-button color="primary">
+            <mat-icon class="mat-icon-default">send</mat-icon>
+            {{ 'Forward' | translate }}
+          </button>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="selectFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAtFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="example-full-width" style="margin-top:5px">
+            <input
+              matInput
+              [matDatepickerFilter]="myFilter"
+              [matDatepicker]="picker"
+              placeholder="{{ 'MailBox.DATE' | translate }}"
+              [formControl]="createdAtFilter"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker" style="margin-right:5px"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="titleFilter"
+              [matAutocomplete]="autoTitle"
+              placeholder="{{ 'search' | translate }}"
+            />
+
+            <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let title of filteredTitles | async" [value]="title">{{ title }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              class="form-field"
+              [formControl]="schoolFilter"
+              [matAutocomplete]="autoSchool"
+              placeholder="{{ 'search' | translate }}"
+            />
+
+            <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let school of filteredSchools | async" [value]="school">{{ school }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="classFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" placeholder="{{ 'search' | translate }}" [formControl]="classFilter" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="studentFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="studentFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="expertiseFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="expertiseFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="subjectFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="subjectFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="testFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="testFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="documentTypeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="documentTypeFilter">
+              <mat-option *ngFor="let docType of documentType" [value]="docType.id">{{ docType.name | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef style="padding-left: 0;">
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" style="padding-left: 0;">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Date' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Date' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.createdAt | date: 'dd/MM/yyyy' }}">
+          {{ element.createdAt | date: 'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'TITLE_TEST' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'TITLE_TEST' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.uploadedForStudent.rncpTitle.shortName }}">
+          {{ element.uploadedForStudent.rncpTitle.shortName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.uploadedForStudent.school.shortName }}">
+          {{ element.uploadedForStudent.school.shortName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Class' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Class' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.uploadedForStudent.currentClass.name }}">
+          {{ element.uploadedForStudent.currentClass.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'STUDENT_TEST' | translate }}" matTooltipPosition="above">
+          <h5>
+            {{ ('STUDENT_TEST' | translate).length > 4 ? ('STUDENT_TEST' | translate | slice: 0:4) + '...' : ('STUDENT_TEST' | translate) }}
+          </h5>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="
+          {{ element.uploadedForStudent.lastName }}
+          {{ element.uploadedForStudent.firstName }}
+          {{ (element.uploadedForStudent.sex === 'Male' ? 'MR' : 'MRS') | translate }}
+        "
+        >
+          {{ element.uploadedForStudent.lastName }}
+          {{ element.uploadedForStudent.firstName }}
+          {{ (element.uploadedForStudent.sex === 'Male' ? 'MR' : 'MRS') | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expertise">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'EXPERTISE_TEST' | translate }}" matTooltipPosition="above">
+          <h5>
+            {{
+              ('EXPERTISE_TEST' | translate).length > 4
+                ? ('EXPERTISE_TEST' | translate | slice: 0:4) + '...'
+                : ('EXPERTISE_TEST' | translate)
+            }}
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.parentTest.subjectId.expertise.blockOfExperise }}">
+          {{ element.parentTest.subjectId.expertise.blockOfExperise }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subject">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'SUBJECT_TEST' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'SUBJECT_TEST' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.parentTest.subjectId.subjectName }}">
+          {{ element.parentTest.subjectId.subjectName }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="test">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Test' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Test' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.parentTest.name }}">
+          {{ element.parentTest.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="documentType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'TYPE_OF_DOC_TEST' | translate }}" matTooltipPosition="above">
+          <h5>
+            {{
+              ('TYPE_OF_DOC_TEST' | translate).length > 4
+                ? ('TYPE_OF_DOC_TEST' | translate | slice: 0:4) + '...'
+                : ('TYPE_OF_DOC_TEST' | translate)
+            }}
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ 'DOCTESTTABLE.' + element.documentType | translate }}">
+          {{ 'DOCTESTTABLE.' + element.documentType | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'DOC_NAME_TEST' | translate }}" matTooltipPosition="above">
+          <h5>
+            {{ 'DOC_NAME_TEST' | translate }}
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.name }}">
+          {{ element.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          matTooltip="{{ 'Action' | translate }}"
+          matTooltipPosition="above"
+          style="padding-right: 0"
+        >
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button *ngIf="this.permissionService.historyTestsActionsViewPerm()" mat-icon-button class="margin-right-button" matTooltip="{{ 'View' | translate }}" matTooltipPosition="above">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button  *ngIf="this.permissionService.historyTestsActionsForward()" mat-icon-button class="margin-right-button" matTooltip="{{ 'Forward' | translate }}" matTooltipPosition="above">
+            <mat-icon>send</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

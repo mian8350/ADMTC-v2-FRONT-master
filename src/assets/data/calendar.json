@@ -1,0 +1,367 @@
+{
+  "data": [
+    {
+      "name": "Compléter la liste des inscrits à la préparation du Titre sur la plateforme et déclencher l’envoi du mail d’enregistrement aux apprenants",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c654081935943d24d49ed",
+      "fromDate": "2018-09-09",
+      "toDate": "2019-01-31",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:01:04.710Z",
+      "updatedAt": "2018-08-09T16:01:04.710Z",
+      "__v": 0,
+      "id": "5b6c654081935943d24d49ed"
+    },
+    {
+      "name": "Dépôt du planning de formation annuel avec la répartition des heures de cours",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": false,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c658c81935943d24d49ee",
+      "fromDate": "2018-09-09",
+      "toDate": "2018-10-31",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:02:20.161Z",
+      "updatedAt": "2018-08-09T16:02:20.161Z",
+      "__v": 0,
+      "id": "5b6c658c81935943d24d49ee"
+    },
+    {
+      "name": "Planification des dates de soutenances des Projets (entre le 23 septembre et le 11 octobre 2019) avec chaque centre de préparation.",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": false,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c65f481935943d24d49ef",
+      "fromDate": "2019-01-02",
+      "toDate": "2019-01-31",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:04:04.360Z",
+      "updatedAt": "2018-08-09T16:04:04.360Z",
+      "__v": 0,
+      "id": "5b6c65f481935943d24d49ef"
+    },
+    {
+      "name": "Validation de la liste définitive des inscrits",
+      "schools": [
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c662a81935943d24d49f0",
+      "fromDate": "2019-01-31",
+      "toDate": "2019-01-31",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:04:58.176Z",
+      "updatedAt": "2018-08-09T16:04:58.176Z",
+      "__v": 0,
+      "id": "5b6c662a81935943d24d49f0"
+    },
+    {
+      "name": "Compléter les grilles d’évaluation (Ecrit + oral) des « Projets de fin d’Etudes » (Certificateur)",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6d31f2aa497175b6e4de",
+      "fromDate": "2019-10-18",
+      "toDate": "2019-10-18",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:34:57.421Z",
+      "updatedAt": "2018-08-09T16:34:57.421Z",
+      "__v": 0,
+      "id": "5b6c6d31f2aa497175b6e4de"
+    },
+    {
+      "name": "Dépôt des sujets et copies des épreuves majeures du Contrôle Continu du 1er semestre ",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6c4df2aa497175b6e4d9",
+      "fromDate": "2019-03-29",
+      "toDate": "2019-03-29",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:31:09.952Z",
+      "updatedAt": "2018-08-09T16:31:09.952Z",
+      "__v": 0,
+      "id": "5b6c6c4df2aa497175b6e4d9"
+    },
+    {
+      "name": "Dépôt des sujets et copies des épreuves majeures du Contrôle Continu du 2ème semestre ",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6caff2aa497175b6e4db",
+      "fromDate": "2019-05-14",
+      "toDate": "2019-06-14",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:32:47.118Z",
+      "updatedAt": "2018-08-09T16:32:47.118Z",
+      "__v": 0,
+      "id": "5b6c6caff2aa497175b6e4db"
+    },
+    {
+      "name": "Envoi, via la plateforme, de la grille d’évaluation « Evaluation par le Tuteur Entreprise » au Tuteur",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b801e03c9797239bd706288",
+      "fromDate": "2019-06-14",
+      "toDate": "2019-06-14",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-24T15:02:27.278Z",
+      "updatedAt": "2018-08-24T15:02:27.278Z",
+      "__v": 0,
+      "id": "5b801e03c9797239bd706288"
+    },
+    {
+      "name": "Validation de la grille d’évaluation « Evaluation par le Tuteur Entreprise » complétée par le Tuteur",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b801e3bc9797239bd70628f",
+      "fromDate": "2019-06-28",
+      "toDate": "2019-06-28",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-24T15:03:23.656Z",
+      "updatedAt": "2018-08-24T15:03:23.656Z",
+      "__v": 0,
+      "id": "5b801e3bc9797239bd70628f"
+    },
+    {
+      "name": "Compléter la grille d’évaluation « Attitude professionnelle en centre de formation » par le service pédagogique",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b801e56c9797239bd706296",
+      "fromDate": "2019-06-28",
+      "toDate": "2019-06-28",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-24T15:03:50.010Z",
+      "updatedAt": "2018-08-24T15:03:50.010Z",
+      "__v": 0,
+      "id": "5b801e56c9797239bd706296"
+    },
+    {
+      "name": "Compléter les grilles d’évaluation « Contrôle continu »",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6ce0f2aa497175b6e4dc",
+      "fromDate": "2019-06-03",
+      "toDate": "2019-06-28",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:33:36.956Z",
+      "updatedAt": "2018-08-09T16:33:36.956Z",
+      "__v": 0,
+      "id": "5b6c6ce0f2aa497175b6e4dc"
+    },
+    {
+      "name": "Dépôt sur la plateforme de la version numérique du « Projet de fin d’Etudes » + envoi de la version « papier » au Certificateur pour correction",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6c6ef2aa497175b6e4da",
+      "fromDate": "2019-09-02",
+      "toDate": "2019-09-02",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:31:42.901Z",
+      "updatedAt": "2018-08-09T16:31:42.901Z",
+      "__v": 0,
+      "id": "5b6c6c6ef2aa497175b6e4da"
+    },
+    {
+      "name": "Soutenances des « Projets de fin d’Etudes  », présidés par le certificateur, chez le centre de préparation.",
+      "schools": [
+        {
+          "shortName": "INSTA",
+          "_id": "5b3cdb6476a39548534c757a"
+        },
+        {
+          "shortName": "ECOLE TESTDOM",
+          "_id": "5b3dd945dfe9476d658ef783"
+        }
+      ],
+      "status": "active",
+      "isAllSchools": true,
+      "userTypes": [
+        "5a2e1ecd53b95d22c82f9554"
+      ],
+      "eventType": "custom",
+      "_id": "5b6c6d01f2aa497175b6e4dd",
+      "fromDate": "2019-09-23",
+      "toDate": "2019-10-11",
+      "rncp": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2018-08-09T16:34:09.261Z",
+      "updatedAt": "2018-08-09T16:34:09.261Z",
+      "__v": 0,
+      "id": "5b6c6d01f2aa497175b6e4dd"
+    }
+  ],
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 0,
+  "status": "OK",
+  "code": 200
+}

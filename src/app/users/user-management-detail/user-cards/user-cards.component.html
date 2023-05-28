@@ -1,0 +1,64 @@
+<ng-container>
+  <div class="p-grid" *ngIf="userList.length === 0 && !this.isWaitingForResponse && !this.load">
+    <h4 class="text-empty">{{ 'User not Found' | translate }}</h4>
+  </div>
+  <div class="p-grid" style="padding-top: 10px" [style.height.px]="getAutomaticHeight()" [style.max-height.px]="getAutomaticHeight()">
+    <div *ngIf="userList && userList.length" style="width: 100%">
+      <div class="scrollbar" id="style-4" style="overflow-x: hidden; overflow-y: auto; height: 64vh">
+        <mat-card
+          *ngFor="let user of userList"
+          (click)="selectUser(user._id)"
+          [ngClass]="selectedUserId === user._id ? 'candidate-select mrgn-all-md' : 'mrgn-all-md'"
+          style="cursor: pointer; padding: 4px !important; margin-right: 10 px !important; margin-top: 0px !important"
+        >
+          <mat-card-subtitle [ngClass]="selectedUserId === user._id ? 'candidate-text' : 'test'">
+            <div class="p-grid">
+              <div class="p-col-2" style="align-self: center">
+                <span>
+                  <img
+                    [src]="
+                      user.profile_picture
+                        ? serverimgPath + user.profile_picture
+                        : user.civility === 'MR'
+                        ? maleCandidateIcon
+                        : user?.civility === 'neutral'
+                        ? neutralStudentIcon
+                        : femaleCandidateIcon
+                    "
+                    class="no-margin photo"
+                    style="object-fit: cover"
+                  />
+                </span>
+              </div>
+              <div class="p-col-8 no-padding" style="text-align: center; place-self: center; padding:0">
+                <div class="p-grid no-padding">
+                  <div class="p-col-12 no-padding ">
+                    <h5 class="no-margin" style="padding-top: 0.5rem; font-size: 1em">
+                      {{ user?.civility && user?.civility === 'neutral' ? '' : (user?.civility | translate) }}
+                      {{ user?.first_name }} {{ user?.last_name | uppercase }}
+                    </h5>
+                    <p>{{ user?.position |translate }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-2">
+                <mat-icon
+                  matTooltip="{{ user?.user_status | translate }}"
+                  matTooltipPosition="above"
+                  [ngClass]="{
+                    'green-icon': user?.user_status === 'active',
+                    'black-icon': user?.user_status === 'pending',
+                    'red-icon': user?.user_status === 'incorrect_email'
+                  }"
+                >
+                  check_circle
+                </mat-icon>
+                <mat-icon class="black-icon email-icon"  matTooltip="{{ 'Email' | translate }}" (click)="sendMail(user)">email</mat-icon>
+              </div>
+            </div>
+          </mat-card-subtitle>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</ng-container>

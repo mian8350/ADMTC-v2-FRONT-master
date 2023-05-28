@@ -1,0 +1,21 @@
+<div class="p-grid p-justify-center" *ngIf="selectedQuestionnaire">
+  <div class="p-col-10" *ngIf="selectedQuestionnaire?.questionnaire_type === 'job_description'">
+    <mat-card>
+      <ms-questionnaire-simulation-job-description [selectedQuestionnaire]="selectedQuestionnaire">
+      </ms-questionnaire-simulation-job-description>
+    </mat-card>
+  </div>
+  <div class="p-col-10" *ngIf="selectedQuestionnaire?.questionnaire_type === 'employability_survey'">
+    <mat-card>
+      <ms-questionnaire-simulation-employability-survey [selectedQuestionnaire]="selectedQuestionnaire">
+      </ms-questionnaire-simulation-employability-survey>
+    </mat-card>
+  </div>
+  <div class="p-col-10" *ngIf="selectedQuestionnaire?.questionnaire_type === 'problematic'">
+    <mat-card>
+      <ms-questionnaire-simulation-problematic [selectedQuestionnaire]="selectedQuestionnaire">
+      </ms-questionnaire-simulation-problematic>
+    </mat-card>
+  </div>
+</div>
+

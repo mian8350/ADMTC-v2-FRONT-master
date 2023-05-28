@@ -1,0 +1,200 @@
+<ng-container *ngIf="isWaitingForResponse">
+  <fieldset style="width: 100%; border: none">
+    <div class="p-grid">
+      <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+        <div style="text-align: center !important; display: contents">
+          <div class="center-spinner spinner-wrapper">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</ng-container>
+<ng-container *ngIf="!isWaitingForResponse">
+  <ng-container *ngFor="let decision of listOfDecision; let firsIndex = first">
+    <ng-container *ngIf="firsIndex">
+      <!-- student input retake decision -->
+      <fieldset
+        class="orange-border"
+        *ngIf="
+          (!decision?.is_latest && decision.student_accept_retake === 'accept') ||
+          (decision.decision_school_board === 'retake' && decision?.is_latest && decision.is_published && checkSchoolBoardIsDone(decision))
+        "
+        [formGroup]="retakeForm"
+      >
+        <div class="p-grid">
+          <div class="p-col-3 justify-content-start">
+            {{ '056_ES.Date' | translate }}:
+            {{ getDateDecisionStudent(decision) | date: 'EEE, MMM d y':undefined:translate.currentLang }}
+          </div>
+          <div class="p-col-6 justify-content-center">
+            {{ 'FINAL_TRANSCRIPT.DECISION_OF_STUDENT' | translate }}
+          </div>
+          <!-- when decision not inputted yet, show dropdown to accept/refuse retake and button submit -->
+          <div class="p-col-3 justify-content-end" *ngIf="!isDecisionInputted && !decision?.cancel_retake">
+            <mat-form-field class="select-decision">
+              <mat-label>{{ 'FINAL_TRANSCRIPT.select_decision' | translate }}</mat-label>
+              <mat-select formControlName="student_accept_retake">
+                <mat-option *ngFor="let condition of studentDecisions" [value]="condition?.value">
+                  {{ condition?.label | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button
+              mat-raised-button
+              (click)="submitDecision()"
+              [disabled]="!isDecisionSelected()"
+              color="accent"
+              class="margin-none pad-x-none"
+            >
+              {{ 'SUBMIT' | translate }}
+            </button>
+          </div>
+          <!-- when decision has inputted, show text retake accepted or rejected -->
+          <div class="p-col-3 justify-content-end orange" *ngIf="isDecisionInputted && !decision?.cancel_retake">
+            <span *ngIf="retakeForm.get('student_accept_retake').value === 'accept'">
+              {{ 'retake_accepted' | translate }}
+            </span>
+            <span *ngIf="retakeForm.get('student_accept_retake').value === 'refuse'">
+              {{ 'retake_rejected' | translate }}
+            </span>
+          </div>
+          <!-- when retake canceled -->
+          <div class="p-col-3 justify-content-end orange" *ngIf="decision?.cancel_retake">
+            <span>
+              {{ 'retake_canceled' | translate }}
+            </span>
+          </div>
+        </div>
+        <!-- block, subject, and evaluation tree -->
+        <fieldset
+          class="grey-border"
+          *ngIf="retakeBlocks?.length && !decision?.cancel_retake && retakeForm.get('student_accept_retake').value === 'accept'"
+        >
+          <div class="p-grid">
+            <mat-list>
+              <div *ngFor="let block of retakeBlocks; let blockIndex = index" style="padding-bottom: 20px">
+                <mat-list-item class="clickable" (click)="toggleBlock(block)">
+                  <i class="fa" [ngClass]="block.isDisplayed ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                  <span class="span-text">
+                    {{ block.block_of_competence_condition }}
+                  </span>
+                </mat-list-item>
+                <mat-list *ngIf="block.isDisplayed" style="margin-left: 30px; padding-top: 0px">
+                  <div *ngFor="let subject of block.subjects; let subjectIndex = index">
+                    <mat-list-item class="clickable" (click)="toggleSubject(subject)">
+                      <i class="fa" [ngClass]="subject.isDisplayed ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                      <span class="span-text">
+                        {{ subject.subject_name }}
+                      </span>
+                    </mat-list-item>
+                    <mat-list *ngIf="subject.isDisplayed" style="margin-left: 30px; padding-top: 0px">
+                      <div *ngFor="let evaluation of subject?.evaluations; let evalIndex = index">
+                        <mat-list-item>
+                          <mat-checkbox
+                            [disabled]="isDecisionInputted"
+                            [checked]="isChecked(evaluation?._id)"
+                            (change)="toggleSelectedRetakeTest($event, evaluation, block._id, block.selected_block_retake?._id)"
+                          >
+                            <span class="span-checkbox-text">
+                              {{ evaluation?.evaluation }}
+                            </span>
+                          </mat-checkbox>
+                        </mat-list-item>
+                      </div>
+                    </mat-list>
+                  </div>
+                </mat-list>
+              </div>
+            </mat-list>
+          </div>
+        </fieldset>
+      </fieldset>
+      <fieldset
+        *ngIf="
+          (transcriptDetail && !transcriptDetail.jury_decision) ||
+          !decision?.is_latest ||
+          (decision?.is_latest && checkSchoolBoardIsDone(decision))
+        "
+        class="orange-border"
+      >
+        <!-- ************* Commented out based on request on 19/02/2021 -->
+        <!-- <div class="p-grid">
+          <div class="p-col-3 text-left">
+            {{ '056_ES.Date' | translate }}:
+            {{
+              (decision?.date_decision_school_board
+                ? translateDate(decision?.date_decision_school_board.date, decision?.date_decision_school_board.time)
+                : today
+              ) | date: 'EEE, MMM d y' : undefined : translate.currentLang
+            }}
+          </div>
+          <div class="p-col-6 text-center">
+            {{ 'decision_school_board' | translate }}
+          </div>
+          <div
+            class="p-col-3 text-right"
+            [ngClass]="{
+              red: decision?.decision_school_board === 'fail',
+              'green-yellow': decision?.decision_school_board === 'pass',
+              orange: decision?.decision_school_board === 'retake'
+            }"
+          >
+            {{ decision?.decision_school_board | translate }}
+          </div>
+        </div> -->
+
+        <div class="p-grid">
+          <fieldset class="grey-border" *ngFor="let block of decision?.block_competence_condition_details">
+            <div class="p-grid">
+              <div class="p-col-10 padding-none text-left">
+                {{ block?.block_id?.ref_id ? block?.block_id?.ref_id + ' - ' : '' }}
+                {{ utilService.cleanHTML(block?.block_id?.block_of_competence_condition) }}
+              </div>
+              <div
+                *ngIf="decision?.class_id?.type_evaluation !== 'expertise'"
+                class="p-col-2 padding-none text-right"
+                [ngClass]="{
+                  red: block?.decision_school_board_id?.condition_type === 'fail',
+                  'green-yellow': block?.decision_school_board_id?.condition_type === 'pass',
+                  orange: block?.decision_school_board_id?.condition_type === 'retake'
+                }"
+              >
+                {{ block?.decision_school_board_id?.condition_name | translate }}
+              </div>
+              <div
+                *ngIf="decision?.class_id?.type_evaluation === 'expertise'"
+                class="p-col-2 padding-none text-right"
+                [ngClass]="{
+                  red: block?.decision_school_board_id?.phrase_type === 'fail',
+                  'green-yellow': block?.decision_school_board_id?.phrase_type === 'pass',
+                  orange: block?.decision_school_board_id?.phrase_type === 'retake'
+                }"
+              >
+                {{ block?.decision_school_board_id?.name | translate }}
+              </div>
+            </div>
+            <div class="p-grid"></div>
+          </fieldset>
+        </div>
+      </fieldset>
+      <fieldset class="orange-border" *ngIf="decision.decision_school_board !== 'retake' && decision.student_accept_retake === 'refuse'">
+        <div class="p-grid">
+          <div class="p-col-12 justify-content-start">
+            {{ 'decision_student' | translate }}
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-6 justify-content-start">
+            {{ '056_ES.Date' | translate }}:
+            {{ getDateDecisionStudent(decision) | date: 'dd/MM/yyyy' }}
+          </div>
+          <div class="p-col-6 justify-content-end orange" *ngIf="decision.student_accept_retake === 'refuse' && !decision.cancel_retake">
+            {{ 'retake_rejected' | translate }}
+          </div>
+        </div>
+      </fieldset>
+    </ng-container>
+  </ng-container>
+</ng-container>

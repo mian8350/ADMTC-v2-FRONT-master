@@ -1,0 +1,52 @@
+.task-builder-preview {
+  padding: 20px;
+}
+.border-wrap {
+  border: 1px solid black;
+}
+mat-card {
+  background-color: white !important;
+  color: black !important;
+}
+.attach-circle {
+  margin-right: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ck.ck-editor__editable_inline {
+  overflow: auto;
+  padding: 0 var(--ck-spacing-standard);
+  border: 1px solid lightgrey;
+}
+div:nth-child(odd) .file {
+  background-color: lightgrey;
+}
+.icon-title-svg {
+  margin-top: -10px !important;
+  margin-right: 2px !important;
+}
+body .app-dark .mat-divider {
+  border-color: black !important;
+}
+.pad-left {
+  padding-left: 0 !important;
+}
+.file {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+// :host::ng-deep.mat-raised-button {
+//   color: black!important;
+//   background-color: transparent!Important;
+//   box-shadow: none!Important;
+//   border: 1px solid black;
+//   border-radius: 5px;
+// }
+.submit-button {
+  background-color: #3f51b5 !important;
+}
+
+.button-preview { 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

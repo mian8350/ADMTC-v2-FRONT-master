@@ -1,0 +1,91 @@
+.pdf-card {
+  margin: 1rem;
+  border-radius: 2px;
+  padding: 8px;
+}
+
+.pdf-container {
+  font-size: 12px;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px;
+}
+
+.doc-rncp-title {
+  text-align: center;
+  font-weight: 700;
+  display: block;
+}
+
+.doc-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 30px auto;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+.table-row-border {
+  border: 2px solid #000;
+}
+
+.table-row-side-border {
+  border-right: 2px solid #000;
+  border-left: 2px solid #000;
+  border-bottom: 1px dotted #000;
+}
+
+.gray-bg {
+  background-color: #d6d6d6;
+  padding: 3px 5px;
+}
+
+.blue-bg {
+  background-color: #ecf3ff;
+  padding: 3px 5px;
+}
+
+.white-bg {
+  background-color: #ffffff;
+  padding: 3px 5px;
+}
+
+.placeholder-text {
+  color: transparent;
+}
+
+.outline-border-grey {
+  border: 1px black solid;
+  background: #d6d6d6;
+  color: black;
+}
+
+.outline-border-white {
+  border: 1px black solid;
+  background: white;
+  color: black;
+}
+
+.outline-border-dot {
+  border-style: dotted solid dotted solid;
+  border-width: 1px;
+  border-color: black;
+  background: white;
+  color: black;
+}
+
+@page Section1 {
+  size: 8.27in 11.69in;
+  margin: .5in .5in .5in .5in;
+  mso-header-margin: .5in;
+  mso-footer-margin: .5in;
+  mso-paper-source: 0;
+}
+
+div.Section1 {
+  page: Section1;
+}

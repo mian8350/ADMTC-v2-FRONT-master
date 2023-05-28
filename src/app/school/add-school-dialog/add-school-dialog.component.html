@@ -1,0 +1,249 @@
+<form [formGroup]="form">
+  <div class="fontColor">
+    <h1 mat-dialog-title>
+      <mat-icon class="align">account_balance</mat-icon>
+      <span class="align" *ngIf="!editSchool">{{ 'Add School' | translate }}</span>
+      <span class="align" *ngIf="editSchool">{{ 'Edit School' | translate }}</span>
+    </h1>
+    <mat-dialog-content>
+      <mat-radio-group aria-label="Select an option" formControlName="schoolType" *ngIf="!editSchool" (change)="optionSelected($event)">
+        <mat-radio-button value="prepCenter" id="prepCenter">{{ 'Preparation Center' | translate }}</mat-radio-button>
+        <mat-radio-button value="cert" id="cert">{{ 'Certifier' | translate }}</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'SCHOOL.SCHOOLSHORTNAME' | translate }}" formControlName="short_name" />
+        <mat-error *ngIf="form.get('short_name').hasError('required')
+                                                     && (form.get('short_name').dirty
+                                                     || form.get('short_name').touched)">
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="{{ 'SCHOOL.SCHOOLLONGNAME' | translate }}" formControlName="long_name" />
+        <mat-error *ngIf="form.get('long_name').hasError('required')
+                                                     && (form.get('long_name').dirty
+                                                     || form.get('long_name').touched)">
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <div formGroupName="school_address">
+        <mat-form-field>
+          <input matInput placeholder="{{ 'SCHOOL.ADDRESS1' | translate }}" formControlName="address1" />
+          <mat-error *ngIf="form.get('address1').hasError('required')
+                                                     && (form.get('address1').dirty
+                                                     || form.get('address1').touched)">
+            {{'This field is required'|translate}}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="{{ 'SCHOOL.ADDRESS2' | translate }}" formControlName="address2" />
+        </mat-form-field>
+        <div class="p-grid">
+          <div class="p-col-6 pad-l-none">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="{{ 'SCHOOL.ZIPCODE' | translate }}"
+                formControlName="postal_code"
+                type="tel"
+                [maxlength]="5"
+                min="0"
+                [minlength]="5"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+              />
+            </mat-form-field>
+          </div>
+          <div class="p-col-6 pad-r-none">
+            <mat-form-field>
+              <input matInput placeholder="{{ 'City' | translate }}" formControlName="city" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6 pad-l-none" formGroupName="school_address">
+          <mat-form-field>
+            <mat-select placeholder="{{ 'SCHOOL.REGION' | translate }}" formControlName="region">
+              <mat-option value="all">All</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-6 pad-r-none">
+          <mat-form-field class="p-1 m-1">
+            <input
+              matInput
+              placeholder="{{ 'SCHOOL.RETAKECENTER' | translate }}"
+              [matAutocomplete]="autoSchool"
+              formControlName="retake_center"
+            />
+            <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let school of filteredSchools | async" [value]="school">{{ school }}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6 pad-l-none">
+          <mat-form-field class="pad-b-none">
+            <mat-select placeholder="{{ 'SCHOOL.COUNTRY' | translate }}" formControlName="country">
+              <mat-option *ngFor="let country of countryList" [value]="country.id">{{ country.countryName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="p-col-6 pad-r-none">
+          <mat-form-field class="p-1 m-1">
+            <input matInput placeholder="{{ 'School Siret' | translate }}" formControlName="school_siret" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="editSchool">
+        <div class="p-grid">
+          <div class="p-col-8 pad-l-none">
+            <label>{{ 'SCHOOL.TITLECERTIFIER' | translate }}</label>
+            <mat-form-field appearance="outline">
+              <mat-select
+                placeholder="{{ 'Select RNCP Title' | translate }}"
+                formControlName="titleCertifier"
+                [(value)]="cerifierList"
+                multiple
+                disabled
+              >
+                <mat-option *ngFor="let certifier of titleCertifier" [value]="certifier">{{ certifier.short_name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="p-col-4 pad-r-none" *ngIf="!addTitle">
+            <button mat-button mat-raised-button color="primary" type="button" class="spacing" (click)="addSchool(true)">
+              {{ 'Add RNCP Title' | translate }}
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div class="p-col-1 p-offset-3 pad-r-none" *ngIf="addTitle">
+            <button mat-button mat-raised-button type="button" color="warn" class="spacing" (click)="addSchool(false)">
+              {{ 'CANCEL' | translate }}
+            </button>
+          </div>
+        </div>
+        <div *ngIf="addTitle">
+          <div formGroupName="add_rncp_titles">
+            <div class="p-grid">
+              <div class="p-col-6 pad-l-none">
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="tel"
+                    placeholder="{{ 'RNCP.CODERNCP' | translate }}*"
+                    formControlName="rncp_code"
+                    [maxlength]="5"
+                    [minlength]="5"
+                    onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="p-col-6 pad-r-none">
+                <mat-form-field>
+                  <input matInput placeholder="{{ 'RNCP.TITLESHORT' | translate }}*" formControlName="short_name" />
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field>
+              <input matInput placeholder="{{ 'RNCP.TITLELONG' | translate }}*" formControlName="long_name" />
+            </mat-form-field>
+            <div class="p-grid">
+              <div class="p-col-6 pad-l-none">
+                <mat-select placeholder="{{ 'RNCP.RNCPLEVEL' | translate }}" formControlName="rncp_level" [(ngModel)]="rncp_level" required>
+                  <mat-option *ngFor="let level of rncpLevel" [value]="level.value">{{ level.viewValue }}</mat-option>
+                </mat-select>
+              </div>
+              <div class="p-col-2 p-offset-4 pad-r-none">
+                <button mat-button mat-raised-button color="primary" type="button" class="spacing" (click)="addTitleCertifier()">
+                  {{ 'SUBMIT' | translate }}
+                </button>
+              </div>
+            </div>
+            <mat-select placeholder="{{ 'RNCP.DIRINCHARGE' | translate }}" formControlName="admtc_dir_responsible">
+              <mat-option *ngFor="let dir of dirInCharge" [value]="dir">{{ dir.name }}</mat-option>
+            </mat-select>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid" *ngIf="!isCertifier">
+        <div class="p-col-6 pad-l-none">
+          <div>
+            <label>{{ 'SCHOOL.TITLEASPREPCENTER' | translate }}</label>
+            <ng-select
+              [items]="rncpTitles"
+              bindLabel="shortName"
+              bindValue="_id"
+              [multiple]="true"
+              [hideSelected]="true"
+              placeholder="{{ 'Select RNCP Title' | translate }}"
+              clearAllText="Clear"
+              formControlName="prepTitles"
+              required
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="p-col-6 pad-r-none">
+          <mat-form-field class="pad-t-xs p-2">
+            <mat-select placeholder="{{ 'SCHOOL.SPECIALIZATION' | translate }}" formControlName="selected_specializations" multiple>
+              <mat-option *ngFor="let item of specializations" [value]="item">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isCertifier">
+        <div formGroupName="add_rncp_titles">
+          <div class="p-grid">
+            <div class="p-col-6 pad-l-none">
+              <mat-form-field>
+                <input
+                  matInput
+                  type="tel"
+                  placeholder="{{ 'RNCP.CODERNCP' | translate }}*"
+                  formControlName="rncp_code"
+                  [maxlength]="5"
+                  [minlength]="5"
+                  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                />
+              </mat-form-field>
+            </div>
+            <div class="p-col-6 pad-r-none">
+              <mat-form-field>
+                <input matInput placeholder="{{ 'RNCP.TITLESHORT' | translate }}*" formControlName="short_name" />
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field>
+            <input matInput placeholder="{{ 'RNCP.TITLELONG' | translate }}*" formControlName="long_name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="{{ 'RNCP.RNCPLEVEL' | translate }}" formControlName="rncp_level" [(ngModel)]="levelRNCP" required>
+              <mat-option *ngFor="let level of rncpLevel" [value]="level.value">{{ level.viewValue }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select placeholder="{{ 'RNCP.DIRINCHARGE' | translate }}" formControlName="admtc_dir_responsible">
+              <mat-option *ngFor="let dir of dirInCharge" [value]="dir">{{ dir.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <div *ngIf="!addTitle">
+        <button mat-button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+        <button mat-button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="onSubmit()">
+          {{ 'SUBMIT' | translate }}
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </div>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

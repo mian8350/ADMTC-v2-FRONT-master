@@ -1,0 +1,31 @@
+<div class="p-grid">
+    <div class="p-col">
+        <mat-card>
+            <mat-card-content>
+                <div ngClass="p-col-12">
+                    <b>My highest level of studies or my last obtained diploma</b>
+                </div>
+                <div ngClass="p-col-12 text-style">
+                    Post here a PDF or Image of your Diploma obtained
+                </div>
+                <div class="p-grid">
+                    <div ngClass="p-col-10" ngClass.lt-sm="p-col-12">
+                        <mat-form-field>
+                            <input matInput placeholder="Name of Diploma">
+                        </mat-form-field>
+                    </div>
+                    <div ngClass="p-col-2" ngClass.lt-sm="p-col-12">
+                        <button mat-button mat-raised-button ngClass.lt-sm="alignment">
+                            <mat-icon>add</mat-icon> {{'File' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <div class="p-grid p-justify-end p-1">
+            <button mat-button mat-raised-button style="background: #ffd740; color: #000 !important">View
+                Diploma</button>
+            <button mat-button mat-raised-button style="background: #9e9e9e; color: #000 !important">Submit</button>
+        </div>
+    </div>
+</div>

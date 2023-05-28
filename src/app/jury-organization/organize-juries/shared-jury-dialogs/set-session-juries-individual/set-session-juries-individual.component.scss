@@ -1,0 +1,106 @@
+.dialog-border {
+  border-bottom: 1px solid black;
+  padding: 0px;
+}
+.dialog-header {
+  display: flex;
+  align-self: center;
+
+  .icon-alignment {
+    vertical-align: baseline;
+    margin-bottom: 0.7rem;
+  }
+}
+.dialogTitleWrapper {
+  color: black;
+}
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+.no-padding {
+  padding: 0px;
+}
+.dialogTitle {
+  display: inline-block;
+}
+.w-26 {
+  width: 26px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+
+.mat-dialog-actions{
+  margin-right: 5px;
+}
+.dialog-border-light {
+  border-bottom: 1px solid #c9c0c0;
+}
+.title {
+  margin-right: 50px;
+}
+
+.dialog-info-key {
+  min-width: 140px;
+}
+
+.block-grid {
+  display: grid;
+  grid-template-columns: 140px 5px auto;
+}
+
+.dialog-info-value {
+  margin-left: 0.5rem;
+}
+
+.dialog-info {
+  margin-bottom: 1rem;
+}
+.tags {
+  padding: 0.2rem;
+}
+
+.color {
+  background-color: #fdd835;
+}
+
+.mat-chip.mat-standard-chip {
+  background-color: #fdd835;
+}
+
+.field-wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -10px;
+}
+
+.block-chip {
+  max-width: 500px;
+
+  .truncate {
+    margin: 0 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.reason-textarea {
+  padding-right: 7px;
+  padding-left: 7px;
+  margin-top: 5px;
+}
+
+:host ::ng-deep .reason-textarea .mat-form-field-flex {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}

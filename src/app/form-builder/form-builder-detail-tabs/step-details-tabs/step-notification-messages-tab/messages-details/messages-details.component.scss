@@ -1,0 +1,31 @@
+:host::ng-deep {
+  .ckeditor {
+    label {
+      font-size: 14px;
+    }
+    .ck-content {
+      min-height: 10rem !important;
+      background: white !important;
+      color: #000 !important;
+    }
+  }
+
+  .mat-expansion-panel-body {
+    padding-top: 1.5rem;
+    background-color: #607d8b;
+    color: white;
+  }
+
+  .mat-expansion-panel-header {
+    border-bottom: 1px solid white;
+  }
+}
+
+.help-button {
+  height: fit-content;
+  align-self: center;
+}
+
+section {
+  margin-top: 40px;
+}

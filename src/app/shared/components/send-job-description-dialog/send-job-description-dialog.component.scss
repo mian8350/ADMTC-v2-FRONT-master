@@ -1,0 +1,87 @@
+.dialogTitle {
+  display: inline-block;
+  margin-bottom: 0 !important;
+}
+.dialogTitleWrapper {
+  color: black;
+}
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+.no-padding {
+  padding: 0px;
+}
+.float-right {
+  float: right;
+  margin-bottom: 10px !important;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+.mr-0 {
+  margin-right: 0px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+}
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 65px;
+}
+.mt-5px {
+  margin-top: 5px;
+}
+
+.field-set {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  div:nth-child(1) {
+      font-size: 14px;
+  }
+}
+
+:host::ng-deep.ng-select .ng-select-container {
+    background-color: transparent !important;
+    color: #fff;
+    border: none;
+    border-radius: 0px !important;
+    border-bottom: 1px solid lightgrey !important;
+    min-height: 36px;
+    min-width: 12.6rem;
+
+    -webkit-box-align: center;
+    align-items: center;
+  }
+  :host::ng-deep.mat-select-arrow-wrapper {
+    padding-right: 5px;
+  }
+  :host::ng-deep.mat-select-value-text {
+    font-size: 14px;
+  }
+  :host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+    color: white;
+    box-sizing: content-box;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    cursor: default;
+    width: 100%;
+  }
+  
+  .ng-select-custom-header {
+    cursor: pointer;
+  }

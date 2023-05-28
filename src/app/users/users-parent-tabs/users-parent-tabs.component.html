@@ -1,0 +1,23 @@
+<div>
+  <mat-tab-group #studentMatGroup>
+    <!-- Active Users tab -->
+    <mat-tab label="activeUsers" class="tab-label" *ngIf="permisionService.showUsersTablePerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ "USERTAB.ACTIVE" | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-users> </ms-users>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Deactivated Users tab -->
+    <mat-tab label="deactivatedUsers" *ngIf="permisionService.showUsersDeactivedTablePerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ "USERTAB.DEACTIVE" | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-deactivated-users> </ms-deactivated-users>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

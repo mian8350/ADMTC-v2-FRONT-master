@@ -1,0 +1,381 @@
+<div class="p-grid">
+  <div style="text-align: start" class="p-col-1">
+    <button matTooltip="{{ 'LEAVE' | translate }}" mat-raised-button color="warn" style="padding-left: 10px" (click)="leave()">
+      <mat-icon class="mat-icon-default">keyboard_arrow_left</mat-icon>
+      {{ 'LEAVE' | translate }}
+    </button>
+  </div>
+  <div class="p-col-5 text-end-no-pad-r" [formGroup]="templateDetailForm">
+    <mat-slide-toggle
+      style="margin-right: 1rem"
+      [disabled]="!templateId || (templateDetailForm?.get('is_final_validator_active')?.value && !getTemplateValidator()?.length)"
+      color="accent"
+      formControlName="is_published"
+      (change)="publishFormBuilderTemplate($event)"
+    >
+      <span [ngClass]="{ 'text-slider-color': templateDetailForm.get('is_published').value }">
+        {{
+          (templateDetailForm.get('is_published').value ? 'ERP_009_TEACHER_CONTRACT.Published' : 'ERP_009_TEACHER_CONTRACT.Not Published')
+            | translate
+        }}
+      </span>
+    </mat-slide-toggle>
+    <button
+      matTooltip="{{ 'Save' | translate }}"
+      mat-raised-button
+      color="accent"
+      [disabled]="!templateDetailForm.valid || isFormUnchanged() || templateData?.is_published"
+      (click)="saveTemplateDetail()"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+  <div class="p-col-1 preview-button">
+    <button matTooltip="{{ 'Preview' | translate }}" mat-raised-button color="accent" (click)="onPreview()">
+      <mat-icon class="mat-icon-default">visibility</mat-icon>
+      {{ 'Preview' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="p-grid" [formGroup]="templateDetailForm">
+  <div class="p-col-6 table-side" style="margin-top: 2rem">
+    <fieldset [disabled]="templateData?.is_published" style="padding: 0; border: none">
+      <div class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ 'ERP_009_TEACHER_CONTRACT.Form Template Detail' | translate }}</h3>
+        </div>
+
+        <div class="p-col-12">
+          <div class="p-grid">
+            <div class="p-col-8">
+              <mat-form-field class="full-width">
+                <input
+                  (click)="isFormUnchanged('touched')"
+                  type="text"
+                  formControlName="form_builder_name"
+                  matInput
+                  required
+                  placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Form Template Name' | translate }}"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-8">
+              <!-- <mat-form-field class="full-width">
+                <input
+                  required
+                  matInput
+                  class="form-field"
+                  formControlName="template_type"
+                  [matAutocomplete]="templateType"
+                  placeholder="{{ 'Form Template Type' | translate }}"
+                />
+                <mat-autocomplete #templateType="matAutocomplete" [displayWith]="displayFn.bind(this)">
+                  <mat-option *ngFor="let template of templateTypeFiltered | async" [value]="template.value">
+                    {{ template.name | translate }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field> -->
+
+              <ng-select placeholder="{{ 'Form Template Type' | translate }}*" formControlName="template_type" appendTo="body">
+                <ng-option (click)="isFormUnchanged('touched')" *ngFor="let template of templateTypeFiltered | async" [value]="template.value">{{
+                  template.name | translate
+                }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            cdkDropList
+            [cdkDropListData]="dataSource"
+            (cdkDropListDropped)="onMoveItem($event)"
+            matSort
+            class="mat-elevation-z8"
+          >
+            <ng-container matColumnDef="reset">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+                <div class="p-grid">
+                  <div class="p-col-12 no-padding text-right">
+                    <button
+                      matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Add Steps' | translate }}"
+                      mat-raised-button
+                      color="accent"
+                      [disabled]="!templateDetailForm.valid || templateData?.is_published"
+                      (click)="addTemplateStep()"
+                    >
+                      <mat-icon class="mat-icon-default">add</mat-icon>
+                      {{ 'ERP_009_TEACHER_CONTRACT.Add Steps' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </th>
+            </ng-container>
+
+            <!-- column header and value -->
+            <ng-container matColumnDef="number">
+              <th mat-header-cell *matHeaderCellDef matTooltip="{{ '#' | translate }}">
+                <h5>{{ '#' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element; let rowIndex = index" style="cursor: pointer" matTooltip="{{ rowIndex + 1 }}">
+                {{ rowIndex + 1 }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stepName">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                style="text-align: center"
+                matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Step Title' | translate }}"
+              >
+                <h5>{{ 'ERP_009_TEACHER_CONTRACT.Step Title' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element" style="cursor: pointer">
+                {{ element?.step_title }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+                <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element; let rowIndex = index">
+                <button
+                  mat-icon-button
+                  class="margin-right-button"
+                  matTooltip="{{ 'Edit' | translate }}"
+                  matTooltipPosition="above"
+                  (click)="editStep(element)"
+                  [disabled]="templateData?.is_published"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="margin-right-button"
+                  matTooltip="{{ 'Delete' | translate }}"
+                  matTooltipPosition="above"
+                  [disabled]="templateData?.is_published"
+                  (click)="deleteStep(element?._id, rowIndex, element?.step_title)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loading">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+                <div class="center-spinner">
+                  <mat-spinner color="accent"></mat-spinner>
+                </div>
+              </th>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <!-- <tr mat-header-row *matHeaderRowDef="filterColumns"></tr> -->
+            <!-- <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag [cdkDragData]="row"></tr>
+          </table>
+          <div *ngIf="noData | async" class="no-records">
+            {{ 'NOT RECORD FOUND' | translate }}
+          </div>
+          <div [ngClass]="{ hide: noData | async }">
+            <mat-paginator
+              [ngClass]="{ 'hide-pagination-buttons': stepCount <= 10 }"
+              [length]="stepCount"
+              [hidePageSize]="true"
+              [pageSize]="[10]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="p-grid yellow-border card-row" style="margin-top: 2rem !important">
+        <div class="section-header">
+          <h3>{{ 'ERP_009_TEACHER_CONTRACT.Form Final Validator' | translate }}</h3>
+        </div>
+
+        <div class="p-col-12">
+          <mat-slide-toggle
+            (change)="handleFinalValidator($event)"
+            style="margin-right: 1rem"
+            color="accent"
+            formControlName="is_final_validator_active"
+            [disabled]="templateData?.is_published"
+          >
+            <span [ngClass]="{ 'text-slider-color': templateDetailForm.get('is_final_validator_active').value }">
+              {{
+                (templateDetailForm.get('is_final_validator_active').value
+                  ? 'Final validator is active for this form template'
+                  : 'Final validator is inactive for this form template'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+
+        <ng-container *ngIf="templateDetailForm.get('is_final_validator_active').value">
+          <div class="p-col-12">
+            <mat-slide-toggle
+              [disabled]="templateData?.is_published"
+              style="margin-right: 1rem"
+              color="accent"
+              formControlName="is_contract_signatory_in_order"
+            >
+              <span [ngClass]="{ 'text-slider-color': templateDetailForm.get('is_contract_signatory_in_order').value }">
+                {{
+                  (templateDetailForm.get('is_contract_signatory_in_order').value
+                    ? 'ERP_009_TEACHER_CONTRACT.Validation is in order'
+                    : 'ERP_009_TEACHER_CONTRACT.Validation is not in order'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+
+          <div class="p-col-12">
+            <table
+              mat-table
+              [dataSource]="dataSourceValidator"
+              cdkDropList
+              [cdkDropListData]="dataSourceValidator"
+              (cdkDropListDropped)="onMoveItemValidator($event)"
+              matSort
+              class="mat-elevation-z8"
+            >
+              <ng-container matColumnDef="reset">
+                <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding text-right">
+                      <button
+                        matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Add Validator' | translate }}"
+                        mat-raised-button
+                        color="accent"
+                        [disabled]="!templateDetailForm.valid || templateData?.is_published"
+                        (click)="addTemplateValidator()"
+                      >
+                        <mat-icon class="mat-icon-default">add</mat-icon>
+                        {{ 'ERP_009_TEACHER_CONTRACT.Add Validator' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </th>
+              </ng-container> -->
+      <!-- column header and value -->
+      <!-- <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef matTooltip="{{ '#' | translate }}">
+                  <h5>{{ '#' | translate }}</h5>
+                </th>
+                <td mat-cell *matCellDef="let element; let rowIndex = index" style="cursor: pointer" matTooltip="{{ rowIndex + 1 }}">
+                  {{ rowIndex + 1 }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="userType">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  style="text-align: center"
+                  matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.User Type' | translate }}"
+                >
+                  <h5>{{ 'ERP_009_TEACHER_CONTRACT.User Type' | translate }}</h5>
+                </th>
+                <td mat-cell *matCellDef="let element" style="cursor: pointer">
+                  {{ 'USER_TYPES.' + element?.name | translate }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+                  <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+                </th>
+                <td mat-cell *matCellDef="let element; let rowIndex = index">
+                  <button
+                    mat-icon-button
+                    class="margin-right-button"
+                    matTooltip="{{ 'Delete' | translate }}"
+                    matTooltipPosition="above"
+                    (click)="deleteValidator(rowIndex, element)"
+                    [disabled]="templateData?.is_published"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="loading">
+                <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+                  <div class="center-spinner">
+                    <mat-spinner color="accent"></mat-spinner>
+                  </div>
+                </th>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsValidator"></tr> -->
+      <!-- <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr> -->
+      <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsValidator" cdkDrag [cdkDragData]="row"></tr>
+            </table>
+            <div [ngClass]="{ hide: noData | async }">
+              <mat-paginator
+                [ngClass]="{ 'hide-pagination-buttons': validatorCount <= 10 }"
+                [length]="validatorCount"
+                [hidePageSize]="true"
+                [pageSize]="[10]"
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+          </div>
+        </ng-container>
+      </div> -->
+    </fieldset>
+  </div>
+
+  <div class="p-col-6 preview-side" style="padding-left: 1rem">
+    <div class="nav-button" *ngIf="templateData?.steps?.length && isStepOverflowing">
+      <button class="back-button" (click)="scrollLeft()" type="button"><mat-icon>navigate_before</mat-icon></button>
+      <button class="next-button" (click)="scrollRight()" type="button"><mat-icon>navigate_next</mat-icon></button>
+    </div>
+    <mat-stepper
+      *ngIf="templateData?.steps?.length"
+      (selectionChange)="onStepChange($event)"
+      #stepperForm
+      [selectedIndex]="selectedStepIndex"
+      [ngStyle]="{ width: isStepOverflowing ? '91%' : '100%' }"
+    >
+      <ng-template matStepperIcon="edit" let-index="index">
+        {{ index + 1 }}
+      </ng-template>
+
+      <ng-template matStepperIcon="number" let-index="index">
+        {{ index + 1 }}
+      </ng-template>
+
+      <mat-step disableRipple="true" label="{{ step?.step_title }}" *ngFor="let step of templateData?.steps; let idx = index">
+        <div [ngSwitch]="step?.step_type">
+          <ms-question-form-preview *ngSwitchCase="'question_and_field'" [stepId]="step?._id" [templateType]="templateType"></ms-question-form-preview>
+          <ms-question-form-preview *ngSwitchCase="'academic_journey'" [stepId]="step?._id" [templateType]="templateType"></ms-question-form-preview>
+          <ms-document-form-preview *ngSwitchCase="'document_expected'" [stepId]="step?._id"></ms-document-form-preview>
+          <ms-condition-acceptance-form-preview
+            *ngSwitchCase="'condition_acceptance'"
+            [stepId]="step?._id"
+          ></ms-condition-acceptance-form-preview>
+          <ms-final-messages-preview *ngSwitchCase="'final_message'" [stepId]="step?._id"></ms-final-messages-preview>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

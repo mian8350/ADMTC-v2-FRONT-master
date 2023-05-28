@@ -1,0 +1,190 @@
+{
+  "data": [
+    {
+      "schoolAddress": {
+        "address1": "7, rue Maurice Grandcoing",
+        "address2": "",
+        "postalCode": "94200",
+        "city": "Ivry-sur-Seine",
+        "region": ""
+      },
+      "socialAddresses": {
+        "webUrl": "",
+        "email": "",
+        "facebookUrl": "",
+        "googleUrl": "",
+        "instagramUrl": "",
+        "vimeoUrl": "",
+        "viadeoUrl": "",
+        "linkedinUrl": "",
+        "twitterUrl": "",
+        "youtubeUrl": ""
+      },
+      "legalDetails": {
+        "companyName": "",
+        "legalType": "sas",
+        "capitalAmmount": 0,
+        "capitalCurrency": "EUR",
+        "siretNumber": "",
+        "certifications": [],
+        "professionalRegistrationNumber": "",
+        "tradeName": "",
+        "activityDeclarationNumber": ""
+      },
+      "taxStatus": {
+        "apprenticeTax": false,
+        "vatTaxable": false,
+        "salaryTax": false
+      },
+      "shortName": "ETNA",
+      "longName": "ETNA",
+      "belongToGroup": false,
+      "groupName": "",
+      "rncpTitles": [
+        "5b3cf54a76a39548534c8132",
+        "5b69d1c481935943d24d25e8"
+      ],
+      "companies": [],
+      "users": [
+        "5b967d07f69d200b4390dbeb",
+        "5bd06f89b018f31c3764aacc",
+        "5bd6e5d710440c7ce9e22874"
+      ],
+      "schoolRefId": "",
+      "status": "active",
+      "certifier_at": [],
+      "preparation_center_at": [],
+      "_id": "5b9636f75e248507a26f8c4d",
+      "country": "1",
+      "specializations": [],
+      "addresses": [],
+      "createdAt": "2018-09-10T09:18:47.751Z",
+      "updatedAt": "2018-10-29T10:49:59.848Z",
+      "__v": 0
+    },
+    {
+      "schoolAddress": {
+        "address1": "84 Bd St Michel",
+        "address2": "",
+        "postalCode": "75006",
+        "city": "Paris",
+        "region": ""
+      },
+      "socialAddresses": {
+        "webUrl": "",
+        "email": "",
+        "facebookUrl": "",
+        "googleUrl": "",
+        "instagramUrl": "",
+        "vimeoUrl": "",
+        "viadeoUrl": "",
+        "linkedinUrl": "",
+        "twitterUrl": "",
+        "youtubeUrl": ""
+      },
+      "legalDetails": {
+        "companyName": "",
+        "legalType": "sas",
+        "capitalAmmount": 0,
+        "capitalCurrency": "EUR",
+        "siretNumber": "",
+        "certifications": [],
+        "professionalRegistrationNumber": "",
+        "tradeName": "",
+        "activityDeclarationNumber": "",
+        "legalRepresentative": null
+      },
+      "taxStatus": {
+        "apprenticeTax": false,
+        "vatTaxable": false,
+        "salaryTax": false,
+        "salaryTaxAmmount": null
+      },
+      "shortName": "ECOLE TESTDOM",
+      "longName": "ECOLE TESTDOM",
+      "belongToGroup": false,
+      "groupName": "",
+      "rncpTitles": [
+        "5b3cf54a76a39548534c8132",
+        "5b3e06e827a41d7a83376067",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b69c87581935943d24d25c7",
+        "5b69d1c481935943d24d25e8",
+        "5b69dc6f81935943d24d2696",
+        "5b69e61e81935943d24d26bb",
+        "5b69eeba81935943d24d26e9",
+        "5baa3316293eb71d0162c69e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5cac98dc87a139742e25f676",
+        "5cd05e3a78434b65df418794",
+        "5d67c89d124f9915d4afa186"
+      ],
+      "companies": [
+        "5ca76c680bdbe242526055fa",
+        "5cec5a45e106c4282f1ca291"
+      ],
+      "users": [
+        "5b83ff6dc9797239bd70b25b",
+        "5b9125c0c0d38572970c2178",
+        "5ba9f3c71f3b2e3b681216bf",
+        "5ba9f6da1f3b2e3b681216fa",
+        "5bd03be0b018f31c37648aff",
+        "5bd03f30b018f31c37648ee1",
+        "5c3338273689485f65a88e7f",
+        "5c3c9d69f9a4502ef8112273",
+        "5c3d884a2a13f240b46e11ca",
+        "5c409a9723a5526862fb67cb",
+        "5c5abc3b6569e3115e8e879e",
+        "5c6198a57f4d89740071aef5",
+        "5c643a9b6df34f18eb3a927c",
+        "5c7e413f03eff177b468ecec",
+        "5c7fc85e03eff177b469b4bc",
+        "5ca76cbb0bdbe242526055fe",
+        "5d5aa3ff406c855a675b6861",
+        "5da4267dc9bee053c4d22dab",
+        "5b3dd9d8dfe9476d658efaa2"
+      ],
+      "schoolRefId": "",
+      "status": "active",
+      "certifier_at": [],
+      "preparation_center_at": [],
+      "_id": "5b3dd945dfe9476d658ef783",
+      "addresses": [],
+      "createdAt": "2018-07-05T08:39:33.712Z",
+      "updatedAt": "2019-10-21T14:53:10.009Z",
+      "__v": 26,
+      "country": "1",
+      "specializations": [
+        {
+          "isSpecializationAssigned": false,
+          "_id": "5c4085fc23a5526862fb5ab1",
+          "name": "APPLI"
+        },
+        {
+          "isSpecializationAssigned": false,
+          "_id": "5c4085fc23a5526862fb5ab0",
+          "name": "WEB"
+        },
+        {
+          "isSpecializationAssigned": false,
+          "_id": "5c4085fc23a5526862fb5aaf",
+          "name": "RES-SYS"
+        }
+      ],
+      "certifierAt": [],
+      "preparationCenterAt": []
+    }
+  ],
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 2,
+  "status": "OK",
+  "code": 200
+}

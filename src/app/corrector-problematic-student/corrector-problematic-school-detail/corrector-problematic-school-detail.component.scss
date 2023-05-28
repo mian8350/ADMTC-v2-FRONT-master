@@ -1,0 +1,117 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+#style-4::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #555555;
+}
+
+#style-4::-webkit-scrollbar-thumb
+{
+  background-color: #909090;
+  border: 2px solid #555555;
+}
+.form-field {
+  margin-top: 6px;
+}
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 6em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+.message-empty {
+  margin: auto;
+  padding-top: 5%;
+  font-size: 26px;
+}
+
+.green-icon{
+  color: #9acd32  !important;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+/* Styles for the ink bar */
+.mat-ink-bar {
+  background-color: green;
+}
+.student-select {
+  background-color: #fdd835 !important;
+}
+
+.student-text {
+  color: black !important;
+}
+
+.spinner-wrapper {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
+
+.left-side {
+  padding-left: 0px;
+  width: 410px;
+}
+
+.right-side {
+  width: auto;
+  position: absolute;
+  right: 0px;
+  left: 410px;
+}
+.pad-top-22 {
+  padding-top: 15px;
+}
+.pad-top-none {
+  padding-top: 0px;
+}
+.pad-bottom-none {
+  padding-bottom: 0px;
+}
+.padx-none {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}

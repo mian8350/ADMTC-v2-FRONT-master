@@ -1,0 +1,132 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid p-justify-between">
+      <div class="no-padding">
+        <h1 mat-dialog-title>{{ 'ACAD_KIT.DOC.Add Document' | translate }}</h1>
+      </div>
+      <div class="no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-content class="mat-dialog-content dialog-body gene-relative" [formGroup]="documentForm">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <mat-form-field class="doctype-input">
+        <mat-label> {{ 'ACAD_KIT.DOC.Type of Document' | translate }}</mat-label>
+        <mat-select formControlName="type_of_document" required>
+          <mat-option *ngFor="let docType of types" [value]="docType.value">
+            {{ 'ACAD_KIT.DOC.' + docType.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-8">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'ACAD_KIT.DOC.Name of File' | translate }}</mat-label>
+        <input matInput formControlName="document_name" style="font-size: 14px !important" />
+        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 no-padding">
+      <mat-checkbox formControlName="published_for_student" (click)="cleanMe()" style="margin-left: 6px">
+        <strong>{{ 'ACAD_KIT.Publish for students' | translate }}</strong>
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <ng-container class="p-grid" *ngIf="documentForm?.get('published_for_student')?.value">
+    <div class="p-col-12">
+      <div>
+        <ng-select
+          [items]="classes"
+          bindValue="_id"
+          bindLabel="name"
+          [multiple]="true"
+          placeholder="{{ 'Select Class' | translate }}"
+          formControlName="parent_class_id"
+          [required]="documentForm.get('published_for_student').value"
+          #theNg
+        >
+          <ng-template ng-header-tmp ng-optgroup-tmp>
+            <div>
+              <button mat-stroked-button color="primary" (click)="onSelectAll(); theNg.close()" style="margin-right: 5px">
+                Select All
+              </button>
+              <button mat-stroked-button color="warn" (click)="onClearAll()">Clear All</button>
+            </div>
+          </ng-template>
+        </ng-select>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="p-gird" *ngIf="documentForm?.get('s3_file_name')?.value">
+    <div class="p-col-12">
+      <mat-card>
+        <div class="uploaded-file-wrapper">
+          <mat-icon class="icon">insert_drive_file</mat-icon>
+          {{ documentForm?.get('s3_file_name')?.value }}
+        </div>
+        <!-- add and remove file button -->
+        <div class="uploaded-file-wrapper mt-1rem" *ngIf="selectedFile">
+          <button (click)="uploadFile()" mat-button mat-raised-button color="primary">
+            <mat-icon>file_upload</mat-icon>{{ 'ACAD_KIT.DOC.Add this File' | translate }}
+          </button>
+          <button (click)="removeFile()" mat-button mat-raised-button color="warn">
+            <mat-icon>delete</mat-icon>{{ 'ACAD_KIT.DOC.Remove' | translate }}
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- transparent loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    *ngIf="data.isUpdate"
+    (click)="submitUpdateDocument()"
+    [disabled]="
+      (!documentForm.valid || !isUploadedFileExist() || isWaitingForResponse) &&
+      documentForm.get('document_name').value &&
+      documentForm.get('document_generation_type').value &&
+      documentForm.get('published_for_student').value
+    "
+  >
+    {{ 'ACAD_KIT.DOC.Submit' | translate }}
+  </button>
+  <button
+    mat-button
+    mat-raised-button
+    color="primary"
+    (click)="openUploadWindow()"
+    *ngIf="!selectedFile"
+    [disabled]="
+      !documentForm.valid &&
+      documentForm.get('document_name').value &&
+      documentForm.get('document_generation_type').value &&
+      documentForm.get('published_for_student').value
+    "
+  >
+    <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+  </button>
+  <input #fileUpload type="file" class="hidden" (change)="addFile($event)" />
+</div>

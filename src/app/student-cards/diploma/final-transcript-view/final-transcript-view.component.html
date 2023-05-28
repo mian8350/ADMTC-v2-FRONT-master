@@ -1,0 +1,41 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <div class="p-grid yellow-border card-row">
+      <div class="section-header">
+        <mat-icon svgIcon="certsvg" class="mat-icon-section-svgIcon"></mat-icon>
+        <h3>{{ 'JOB_DESC.SUMMARY.Final Transcript' | translate }}</h3>
+      </div>
+      <ng-container *ngIf="studentTranscripts.length">
+        <div class="p-col-12" *ngFor="let transcript of studentTranscripts; let transcriptIndex = index">
+          <div class="border-white card-row">
+            <div class="p-grid">
+              <div class="p-col-fixed x-pad-none">
+                <div class="imgContainer">
+                  <div class="p-grid">
+                    <div class="logo-img-wrapper">
+                      <img class="center-image" src="/assets/img/pdf.png" (click)="openFinalTranscriptPdf(transcript)" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col">
+                <div class="p-grid">
+                  <div class="p-col-12 no-padding">
+                    <div class="p-col float-left">
+                      <h3 class="final-transcript-title">{{ transcript.transcript_process_id.name }}</h3>
+                    </div>
+                  </div>
+                  <div class="p-col-12 no-padding">
+                    <h5 class="final-transcript-date">
+                      {{ transcript.date_decision_school_board.date }}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

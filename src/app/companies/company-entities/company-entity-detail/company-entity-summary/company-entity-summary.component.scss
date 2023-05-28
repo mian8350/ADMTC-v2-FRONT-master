@@ -1,0 +1,43 @@
+.green-btn {
+  background-color: green !important;
+  cursor: default;
+  height: 22px !important;
+  padding: 0px !important;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.status {
+  margin-right: 10px;
+}
+.summary {
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 15px 10px;
+    height: 130px;
+  }
+}
+.detail {
+  margin-top: 15px !important;
+}
+
+.mr-left {
+  margin-left: 10px;
+}
+.mr-right {
+  margin-right: 7px !important;
+}
+
+.panel-header {
+  color: #ffffff;
+  font-size: 16px;
+  height: 30px !important;
+}
+.arrow {
+  position: absolute;
+  top: 96px;
+}
+.map {
+  position: absolute;
+  top: 127px;
+}

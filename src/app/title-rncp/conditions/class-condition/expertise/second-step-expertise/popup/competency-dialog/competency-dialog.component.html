@@ -1,0 +1,90 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid p-justify-between">
+      <div class="no-padding">
+        <h2 style="color: black" mat-dialog-title>
+          {{
+            (data && data.type && data.type === 'add' ? 'EVAL_BY_EXPERTISE.Add Competency' : 'EVAL_BY_EXPERTISE.Edit Competency')
+              | translate
+          }}
+        </h2>
+      </div>
+      <div class="no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-content>
+  <div class="p-grid" style="color: black" [formGroup]="competencyForm">
+    <div class="p-col-12">
+      <mat-label class="color-mat">{{ 'EVAL_BY_EXPERTISE.Please enter Competency Name' | translate }}*</mat-label>
+      <div style="padding: 0; border: 1px solid gray">
+        <ckeditor
+          [config]="{
+            toolbar: ['bold', 'italic', 'underline', 'strikethrough', 'numberedList', 'bulletedList'],
+            link: {
+              addTargetToExternalLinks: true
+            }
+          }"
+          [editor]="Editor"
+          formControlName="name"
+          (ready)="onReady($event)"
+        >
+        </ckeditor>
+      </div>
+      <!-- <mat-form-field class="full-wid">
+        <input matInput required formControlName="name" type="text" placeholder="{{ 'EVAL_BY_EXPERTISE.Please enter Competency Name' | translate }}"/>
+        <mat-error>
+          <p *ngIf="competencyForm.get('name').hasError('required')">
+            {{ 'EVAL_BY_EXPERTISE.This field is required' | translate }}
+          </p>
+        </mat-error>
+      </mat-form-field> -->
+    </div>
+    <div class="p-col-12">
+      <mat-label class="color-mat">{{ 'EVAL_BY_EXPERTISE.Competency Short Name' | translate }}</mat-label>
+      <div style="padding: 0; border: 1px solid gray">
+        <ckeditor
+          [config]="{
+            toolbar: ['bold', 'italic', 'underline', 'strikethrough', 'numberedList', 'bulletedList'],
+            link: {
+              addTargetToExternalLinks: true
+            }
+          }"
+          [editor]="Editor"
+          formControlName="short_name"
+          (ready)="onReady($event)"
+        >
+        </ckeditor>
+      </div>
+    </div>
+    <div class="p-col-12">
+      <mat-label class="color-mat">{{ 'EVAL_BY_EXPERTISE.Competency Description' | translate }}</mat-label>
+      <div style="padding: 0; border: 1px solid gray">
+        <ckeditor
+          [config]="{
+            toolbar: ['bold', 'italic', 'underline', 'strikethrough', 'numberedList', 'bulletedList'],
+            link: {
+              addTargetToExternalLinks: true
+            }
+          }"
+          [editor]="Editor"
+          formControlName="description"
+          (ready)="onReady($event)"
+        >
+        </ckeditor>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div style="text-align: right">
+    <button mat-button mat-raised-button (click)="save()" color="primary" [disabled]="competencyForm.invalid">
+      {{ (data && data.type && data.type === 'add' ? 'Add' : 'Edit') | translate }}
+    </button>
+    <button mat-button mat-raised-button mat-dialog-close color="warn">{{ 'Cancel' | translate }}</button>
+  </div>
+</mat-dialog-actions>

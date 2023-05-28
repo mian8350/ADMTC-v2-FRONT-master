@@ -1,0 +1,3253 @@
+{
+  "data": [
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "company": null,
+        "school": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Admin",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954e",
+          "updatedAt": "2017-12-13T11:01:53.185Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a3108a1ecf43e1f445b7a5e"
+            }
+          ]
+        }
+      ],
+      "lastName": "ADMTC",
+      "firstName": "Admin",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "Direction ADMTC",
+      "email": "admin.admtc@admtc.pro",
+      "officePhone": "22222222222",
+      "directLine": "22222222222",
+      "portablePhone": null,
+      "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluLmFkbXRjQGFkbXRjLnBybyIsInVzZXIiOiJ0b2tlbiIsInRpbWUiOjE1NzA0Njc5MDIwNDMsImlhdCI6MTU3MDQ2NzkwMiwiZXhwIjoxNTcxNjc3NTAyLCJhdWQiOiIxIiwiaXNzIjoiMSJ9.7kSRtU3PEPSuJxzxCJDylZ-puUID8ccwr3zZJUGI8gs",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5982b82f528f24319d462541",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "594cb162f706e87bafc7462b",
+        "594cb244f706e87bafc74632",
+        "5a7a5660c80a556c76cfde17",
+        "59c4d738da51647ea5ea2fa6",
+        "5a82a614fb17b461f02838a7",
+        "5a7d5e75b462af50901a578b",
+        "5a5c1f3804a3c538cb9f595e",
+        "5a8e13360b7489472a5e9148",
+        "5a8e14400b7489472a5e914b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b336e0867912a6bae918a66",
+        "5b37845fa8ac2c0f97824f32",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3b7be2e9a880184ecc5c73",
+        "5b3cf54a76a39548534c8132",
+        "5b3dfce527a41d7a83375b65",
+        "5b3e06e827a41d7a83376067",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b69c87581935943d24d25c7",
+        "5b69d1c481935943d24d25e8",
+        "5b69dc6f81935943d24d2696",
+        "5b69e61e81935943d24d26bb",
+        "5b69eeba81935943d24d26e9",
+        "5b7657400006052c18abbb11",
+        "5b791476d9dfe135d5461145",
+        "5b825d5dc9797239bd708249",
+        "5b88075120cb206385942d6d",
+        "5b8fb77bb9b61844f93ead94",
+        "5baa3316293eb71d0162c69e",
+        "5c359ae97481e90ab279b96a",
+        "5c372e7a7f2fad35e41a398e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c45e102b7926045d1c4811b",
+        "5c45e203b7926045d1c48158",
+        "5c47126ee174b27384b062ad",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": false,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": false,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5a253110cea695495fb77257",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "createdAt": "2017-12-04T11:27:12.974Z",
+      "createdBy": "5a253110cea695495fb77257",
+      "reportTo": null,
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "HUNIN",
+      "firstName": "Dominique",
+      "civility": "MR",
+      "sex": "M",
+      "position": "Direction",
+      "email": "dominique.hunin@admtc.pro",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5b69dc6f81935943d24d2696",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5b88075120cb206385942d6d",
+        "5b69c87581935943d24d25c7",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5b7657400006052c18abbb11",
+        "5baa3316293eb71d0162c69e",
+        "5c359ae97481e90ab279b96a",
+        "5c372e7a7f2fad35e41a398e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c45e102b7926045d1c4811b",
+        "5c45e203b7926045d1c48158",
+        "5c47126ee174b27384b062ad",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5a3bf526e04708414763c73c",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "createdAt": "2017-12-21T17:53:42.210Z",
+      "createdBy": "5a253110cea695495fb77257",
+      "reportTo": null,
+      "__v": 1,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "CRESPIN",
+      "firstName": "Corinne",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "Direction",
+      "email": "corinne.crespin@admtc.pro",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5b69dc6f81935943d24d2696",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5b88075120cb206385942d6d",
+        "5b69c87581935943d24d25c7",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5b7657400006052c18abbb11",
+        "5baa3316293eb71d0162c69e",
+        "5c359ae97481e90ab279b96a",
+        "5c372e7a7f2fad35e41a398e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c45e102b7926045d1c4811b",
+        "5c45e203b7926045d1c48158",
+        "5c47126ee174b27384b062ad",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": false,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5a3bf69fe04708414763c743",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "createdAt": "2017-12-21T17:59:59.500Z",
+      "createdBy": "5a253110cea695495fb77257",
+      "reportTo": null,
+      "__v": 1,
+      "operationRoleType": "",
+      "avatar": null
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "FORESTIER",
+      "firstName": "Sandrine",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "Direction",
+      "email": "sandrine.forestier@admtc.pro",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5b69dc6f81935943d24d2696",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5b88075120cb206385942d6d",
+        "5b69c87581935943d24d25c7",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5b7657400006052c18abbb11",
+        "5baa3316293eb71d0162c69e",
+        "5c359ae97481e90ab279b96a",
+        "5c372e7a7f2fad35e41a398e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c45e102b7926045d1c4811b",
+        "5c45e203b7926045d1c48158",
+        "5c47126ee174b27384b062ad",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5a3bf6ece04708414763c74a",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "createdAt": "2017-12-21T18:01:16.403Z",
+      "createdBy": "5a253110cea695495fb77257",
+      "reportTo": null,
+      "__v": 1,
+      "operationRoleType": "",
+      "avatar": null
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "GIORGI",
+      "firstName": "Jean Michel",
+      "civility": "MR",
+      "sex": "M",
+      "position": "DIRECTION",
+      "email": "jean.michel.giorgi@yopmail.com",
+      "officePhone": "",
+      "directLine": "0605200300",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c372e7a7f2fad35e41a398e",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5c4085fc23a5526862fb5aae",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5b88075120cb206385942d6d",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5c47126ee174b27384b062ad",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5c359ae97481e90ab279b96a",
+        "5b7657400006052c18abbb11",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": null,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5b0826092972f8738be91e9e",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "createdAt": "2018-05-25T15:04:41.845Z",
+      "createdBy": "5a3bf6ece04708414763c74a",
+      "reportTo": null,
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "MAURIER",
+      "firstName": "Marc",
+      "civility": "MR",
+      "sex": "M",
+      "position": null,
+      "email": "admin_1@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5b69dc6f81935943d24d2696",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5b88075120cb206385942d6d",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5b3e174527a41d7a83376782",
+        "5b3e3c5a27a41d7a83379181",
+        "5b3e4b5727a41d7a8337937c",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5b7657400006052c18abbb11",
+        "5c359ae97481e90ab279b96a",
+        "5c372e7a7f2fad35e41a398e",
+        "5c4085fc23a5526862fb5aae",
+        "5c41e03229bb76319a7711b8",
+        "5c41f98529bb76319a7723c1",
+        "5c45e102b7926045d1c4811b",
+        "5c45e203b7926045d1c48158",
+        "5c47126ee174b27384b062ad",
+        "5c503955eb9f9272f18c64bf",
+        "5c6533c86df34f18eb3ab99b",
+        "5c7e8e7803eff177b469409f",
+        "5c98fd155c92023e22f07948",
+        "5cac98dc87a139742e25f676",
+        "5cd05bc678434b65df41870f",
+        "5cd05e3a78434b65df418794",
+        "5cde777c5bdb94110a93e681",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": null,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5b8d04fb1f150c699ba8f407",
+      "createdBy": "5a253110cea695495fb77257",
+      "createdAt": "2018-09-03T09:55:07.801Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 1,
+      "operationRoleType": "",
+      "avatar": null
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Collaborateur Ext. ADMTC",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": false,
+          "_id": "5bc066042a35327127ad9dfa",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "_id": "5bc066042a35327127ad9dfb"
+            }
+          ],
+          "createdAt": "2018-10-12T09:14:44.041Z",
+          "updatedAt": "2018-10-12T09:14:44.041Z",
+          "__v": 0
+        }
+      ],
+      "lastName": "ZAAZOUI",
+      "firstName": "Nadia",
+      "civility": "MRS",
+      "sex": "F",
+      "position": null,
+      "email": "nzaazoui.cide@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": "",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5c7e9af203eff177b46953ff",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2019-03-05T15:51:14.480Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Admin",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954e",
+          "updatedAt": "2017-12-13T11:01:53.185Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a3108a1ecf43e1f445b7a5e"
+            }
+          ]
+        },
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "BARBIER",
+      "firstName": "Caroline",
+      "civility": "MRS",
+      "sex": "F",
+      "position": null,
+      "email": "caroline.barbier@yopmail.com",
+      "officePhone": "0621346146",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcm9saW5lLmJhcmJpZXJAYWRtdGMuZnIiLCJ1c2VyIjoidG9rZW4iLCJ0aW1lIjoxNTY5NDMyMzYxOTExLCJpYXQiOjE1Njk0MzIzNjEsImV4cCI6MTU3MDY0MTk2MSwiYXVkIjoiMSIsImlzcyI6IjEifQ.AzikVeX0fUEBypVgVEGC9gtj9DWFudcFR9ZbYlPgwuM",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5c503955eb9f9272f18c64bf",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5cac98dc87a139742e25f676",
+        "5d66629077ef432f084f4dc2",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5d67c89d124f9915d4afa186",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c98fd155c92023e22f07948",
+        "5c372e7a7f2fad35e41a398e",
+        "5cf3fcd559b76650ecf88865",
+        "5c6533c86df34f18eb3ab99b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5d5bfc74406c855a675b8f59",
+        "5c4085fc23a5526862fb5aae",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5cd05bc678434b65df41870f",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5cd05e3a78434b65df418794",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5d0b63460b24e17f3bb73fe5",
+        "5c47126ee174b27384b062ad",
+        "5cee35ded07b8124e4878554",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5d03a940bc8cf462569c85cf",
+        "5b37845fa8ac2c0f97824f32",
+        "5cde777c5bdb94110a93e681",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5d1dfaa62cf1f335ce12de34",
+        "5c359ae97481e90ab279b96a",
+        "5d43d937ee55d64517f63535",
+        "5b7657400006052c18abbb11",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": false,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": false,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5caf353987a139742e26a4d7",
+      "createdBy": "5a3bf6ece04708414763c74a",
+      "createdAt": "2019-04-11T12:38:17.766Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Admin",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954e",
+          "updatedAt": "2017-12-13T11:01:53.185Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a3108a1ecf43e1f445b7a5e"
+            }
+          ]
+        }
+      ],
+      "lastName": "FERRER",
+      "firstName": "Medina",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "Chef de projet Digital",
+      "email": "medinaferrer.cide@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "0609374785",
+      "authToken": "",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5c503955eb9f9272f18c64bf",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5cac98dc87a139742e25f676",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c98fd155c92023e22f07948",
+        "5c372e7a7f2fad35e41a398e",
+        "5c6533c86df34f18eb3ab99b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5c4085fc23a5526862fb5aae",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5cd05bc678434b65df41870f",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5cd05e3a78434b65df418794",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5c47126ee174b27384b062ad",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5b37845fa8ac2c0f97824f32",
+        "5cde777c5bdb94110a93e681",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5c359ae97481e90ab279b96a",
+        "5b7657400006052c18abbb11",
+        "5cee35ded07b8124e4878554",
+        "5cf3fcd559b76650ecf88865",
+        "5d03a940bc8cf462569c85cf",
+        "5d0b63460b24e17f3bb73fe5",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5ce41ea2be06c425e2771d92",
+      "createdBy": "5a3bf6ece04708414763c74a",
+      "createdAt": "2019-05-21T15:52:02.815Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Visitor",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954d",
+          "updatedAt": "2019-05-03T08:11:50.766Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "organisation": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "archives": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "_id": "5ccbf7c69af89c1575b70084"
+            }
+          ]
+        }
+      ],
+      "lastName": "DAPIEDADE",
+      "firstName": "Isabelle",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "collaborateur",
+      "email": "boudapie@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5cde777c5bdb94110a93e681",
+        "5b3dfce527a41d7a83375b65",
+        "5c503955eb9f9272f18c64bf",
+        "5c41f98529bb76319a7723c1",
+        "5b3b7be2e9a880184ecc5c73",
+        "5d0b63460b24e17f3bb73fe5"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": null,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5d073fb12bb867480f8b1e3c",
+      "createdBy": "5a3bf6ece04708414763c74a",
+      "createdAt": "2019-06-17T07:22:25.648Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "MARAJO",
+      "firstName": "Livia",
+      "civility": "MRS",
+      "sex": "F",
+      "position": "Direction",
+      "email": "liv.marajo@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": "",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5c503955eb9f9272f18c64bf",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5cac98dc87a139742e25f676",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c98fd155c92023e22f07948",
+        "5c372e7a7f2fad35e41a398e",
+        "5cf3fcd559b76650ecf88865",
+        "5c6533c86df34f18eb3ab99b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5c4085fc23a5526862fb5aae",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5cd05bc678434b65df41870f",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5cd05e3a78434b65df418794",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5d0b63460b24e17f3bb73fe5",
+        "5c47126ee174b27384b062ad",
+        "5cee35ded07b8124e4878554",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5d03a940bc8cf462569c85cf",
+        "5b37845fa8ac2c0f97824f32",
+        "5cde777c5bdb94110a93e681",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5c359ae97481e90ab279b96a",
+        "5b7657400006052c18abbb11",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5d122ec3373aa97696224b59",
+      "createdBy": "5a3bf6ece04708414763c74a",
+      "createdAt": "2019-06-25T14:25:07.264Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Director",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954b",
+          "updatedAt": "2017-12-12T06:18:56.658Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a2f74d0b24cb13e20c6f974"
+            }
+          ]
+        }
+      ],
+      "lastName": "HUNIN FR",
+      "firstName": "Dominique",
+      "civility": "MR",
+      "sex": "M",
+      "position": null,
+      "email": "dominique.hunin_1@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": null,
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5b3cf54a76a39548534c8132",
+        "5c503955eb9f9272f18c64bf",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5cac98dc87a139742e25f676",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c98fd155c92023e22f07948",
+        "5c372e7a7f2fad35e41a398e",
+        "5cf3fcd559b76650ecf88865",
+        "5c6533c86df34f18eb3ab99b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5c4085fc23a5526862fb5aae",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5cd05bc678434b65df41870f",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5cd05e3a78434b65df418794",
+        "5b791476d9dfe135d5461145",
+        "5b3b7be2e9a880184ecc5c73",
+        "5d0b63460b24e17f3bb73fe5",
+        "5c47126ee174b27384b062ad",
+        "5cee35ded07b8124e4878554",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5d03a940bc8cf462569c85cf",
+        "5b37845fa8ac2c0f97824f32",
+        "5cde777c5bdb94110a93e681",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5c359ae97481e90ab279b96a",
+        "5b7657400006052c18abbb11",
+        "5d1dfaa62cf1f335ce12de34",
+        "5d43d937ee55d64517f63535",
+        "5d5bfc74406c855a675b8f59",
+        "5d66629077ef432f084f4dc2",
+        "5d67c89d124f9915d4afa186",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d767ae995ce55273222221f",
+        "5d76db8095ce5527322227da",
+        "5d76de2395ce55273222281a",
+        "5d78c6a069142954780096bb",
+        "5d7a209c3690f75c78fa7869",
+        "5d80a58f76c89e774ac531d9",
+        "5d87d0e5e840c2245768452f",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": null,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5d15390fc4638d7ed8de3a4c",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "createdAt": "2019-06-27T21:45:51.495Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Visitor",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954d",
+          "updatedAt": "2019-05-03T08:11:50.766Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "organisation": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "view": true,
+                  "update": false,
+                  "download": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "archives": {
+                "permissions": {
+                  "view": false,
+                  "update": false,
+                  "download": false
+                },
+                "status": false
+              },
+              "_id": "5ccbf7c69af89c1575b70084"
+            }
+          ]
+        }
+      ],
+      "lastName": "TESTOR",
+      "firstName": "Christest",
+      "civility": "MR",
+      "sex": "M",
+      "position": "visiteur",
+      "email": "chrisvisit_1@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": "",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b38a755a8ac2c0f9782891d",
+        "5b336e0867912a6bae918a66"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": true,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": true,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5d7f22e5fd09f02fae483ec8",
+      "createdBy": "5a253110cea695495fb77257",
+      "createdAt": "2019-09-16T05:51:33.059Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0
+    },
+    {
+      "entity": {
+        "type": "admtc",
+        "groupOfSchools": null,
+        "school": null,
+        "company": null
+      },
+      "permissions": {
+        "academicKit": {
+          "test": {
+            "documents": {
+              "create": false,
+              "read": false,
+              "update": false,
+              "delete": false
+            },
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "documents": {
+            "create": false,
+            "read": false,
+            "update": false,
+            "delete": false
+          },
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "users": {
+          "create": false,
+          "read": false,
+          "update": false,
+          "delete": false
+        },
+        "rncpTitles": {
+          "create": false,
+          "read": true,
+          "update": false,
+          "delete": false
+        },
+        "sales": true
+      },
+      "socialLogins": {
+        "linkedIn": false,
+        "linkedEmail": ""
+      },
+      "curriculumVitae": {
+        "filePath": "",
+        "name": "",
+        "isInS3": false,
+        "S3Path": ""
+      },
+      "types": [
+        {
+          "name": "Admin",
+          "isUserCollection": true,
+          "entity": "admtc",
+          "isSystemType": true,
+          "_id": "5a2e1ecd53b95d22c82f954e",
+          "updatedAt": "2017-12-13T11:01:53.185Z",
+          "FolderPermission": [
+            {
+              "admissions": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "annalesEpreuves": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "boiteaOutils": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "communication": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "examens": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "organisation": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "programme": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "epreuvesCertification": {
+                "permissions": {
+                  "download": true,
+                  "update": true,
+                  "view": true
+                },
+                "status": true
+              },
+              "archives": {
+                "permissions": {
+                  "download": false,
+                  "update": false,
+                  "view": false
+                },
+                "status": false
+              },
+              "_id": "5a3108a1ecf43e1f445b7a5e"
+            }
+          ]
+        }
+      ],
+      "lastName": "LECOQ",
+      "firstName": "Laetitia",
+      "civility": "MRS",
+      "sex": "F",
+      "position": null,
+      "email": "laetitia.lecoq.testyop_1@yopmail.com",
+      "officePhone": "",
+      "directLine": "",
+      "portablePhone": "",
+      "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhZXRpdGlhLmxlY29xLnRlc3R5b3BAeW9wbWFpbC5jb20iLCJ1c2VyIjoidG9rZW4iLCJ0aW1lIjoxNTcwMTk1MTkwMTI5LCJpYXQiOjE1NzAxOTUxOTAsImV4cCI6MTU3MTQwNDc5MCwiYXVkIjoiMSIsImlzcyI6IjEifQ.no4kOYXjjD0bkoCZlLzSi-MNmpcefWcmD-zPtzHIa_E",
+      "emailVerificationCode": "",
+      "emailVerified": false,
+      "phoneVerified": false,
+      "mailserverPassword": "password",
+      "assignedRncpTitles": [
+        "5b69d1c481935943d24d25e8",
+        "5d76db8095ce5527322227da",
+        "5b3cf54a76a39548534c8132",
+        "5d76de2395ce55273222281a",
+        "5c503955eb9f9272f18c64bf",
+        "5d712ba3d6f9a1159ae4119d",
+        "5d78c6a069142954780096bb",
+        "5b38a755a8ac2c0f9782891d",
+        "5b3e06e827a41d7a83376067",
+        "5cac98dc87a139742e25f676",
+        "5d87d0e5e840c2245768452f",
+        "5d66629077ef432f084f4dc2",
+        "5b69dc6f81935943d24d2696",
+        "5c41e03229bb76319a7711b8",
+        "5d67c89d124f9915d4afa186",
+        "5b69eeba81935943d24d26e9",
+        "5b3dfce527a41d7a83375b65",
+        "5c98fd155c92023e22f07948",
+        "5c372e7a7f2fad35e41a398e",
+        "5cf3fcd559b76650ecf88865",
+        "5c6533c86df34f18eb3ab99b",
+        "5a9814ad624c036414e1e704",
+        "5aa90e32155c845d8f80d90e",
+        "5a44b48e87c22c6b63007207",
+        "594caedef706e87bafc7455d",
+        "5b8fb77bb9b61844f93ead94",
+        "5b825d5dc9797239bd708249",
+        "5d5bfc74406c855a675b8f59",
+        "5c4085fc23a5526862fb5aae",
+        "5d767ae995ce55273222221f",
+        "5c45e203b7926045d1c48158",
+        "5c45e102b7926045d1c4811b",
+        "5baa3316293eb71d0162c69e",
+        "5b69c87581935943d24d25c7",
+        "5c41f98529bb76319a7723c1",
+        "5c7e8e7803eff177b469409f",
+        "5b3e174527a41d7a83376782",
+        "5b3e4b5727a41d7a8337937c",
+        "5cd05bc678434b65df41870f",
+        "5b4ddad0eaf3af61dae1aca3",
+        "5cd05e3a78434b65df418794",
+        "5b791476d9dfe135d5461145",
+        "5d7a209c3690f75c78fa7869",
+        "5b3b7be2e9a880184ecc5c73",
+        "5d0b63460b24e17f3bb73fe5",
+        "5c47126ee174b27384b062ad",
+        "5cee35ded07b8124e4878554",
+        "5b3f7e311bd78c73bf2f11b3",
+        "5d03a940bc8cf462569c85cf",
+        "5b37845fa8ac2c0f97824f32",
+        "5cde777c5bdb94110a93e681",
+        "594cb244f706e87bafc74632",
+        "5b336e0867912a6bae918a66",
+        "5acc8d0bb29c6b42cdbcb0c3",
+        "5b69e61e81935943d24d26bb",
+        "5d1dfaa62cf1f335ce12de34",
+        "5c359ae97481e90ab279b96a",
+        "5d43d937ee55d64517f63535",
+        "5d80a58f76c89e774ac531d9",
+        "5b7657400006052c18abbb11",
+        "5da7d39c25a0ba09f97aba5b",
+        "5da8900225a0ba09f97b16d9"
+      ],
+      "status": "active",
+      "isUserStudent": false,
+      "isPasswordSet": false,
+      "isUserRegistrationEmailSent": false,
+      "isRegistered": false,
+      "incorrectEmail": false,
+      "isSocialLogin": false,
+      "secondaryEmail": [],
+      "_id": "5d94ba3858c41268ae193d14",
+      "createdBy": "5d15390fc4638d7ed8de3a4c",
+      "createdAt": "2019-10-02T14:54:48.682Z",
+      "updatedAt": "2019-10-23T02:06:35.744Z",
+      "__v": 0,
+      "avatar": null,
+      "operationRoleType": ""
+    }
+  ],
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 14,
+  "status": "OK",
+  "code": 200
+}

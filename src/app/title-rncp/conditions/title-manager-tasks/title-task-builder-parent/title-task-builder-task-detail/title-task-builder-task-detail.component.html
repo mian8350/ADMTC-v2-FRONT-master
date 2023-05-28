@@ -1,0 +1,208 @@
+<div class="p-grid">
+  <div class="p-col-6 pad-l-none">
+    <div class="p-grid p-justify-between p-align-center">
+      <div class="pad-l-none">
+        <button mat-button mat-raised-button color="warn" (click)="onLeave()">
+          <mat-icon class="mat-icon-svgIcon" svgIcon="loop"></mat-icon>
+          {{ 'LEAVE' | translate }}
+        </button>
+      </div>
+      <div class="p-grid p-col p-justify-end pad-r-none">
+        <button mat-button mat-raised-button color="primary" (click)="onPreview()">
+          <mat-icon class="mat-icon-default">visibility</mat-icon>
+          {{ 'Preview2' | translate }}
+        </button>
+        <button mat-button mat-raised-button color="accent" (click)="onSave()" [disabled]="isSaving" *ngIf="!isViewTask">
+          <mat-icon class="mat-icon-default" *ngIf="isSaving">
+            <mat-spinner [diameter]="24"></mat-spinner>
+          </mat-icon>
+          <mat-icon class="mat-icon-default" *ngIf="!isSaving">save</mat-icon>
+          {{ 'SAVE' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="p-grid" [formGroup]="taskForm">
+      <div class="p-col-12 pad-x-none">
+        <div class="p-grid yellow-border">
+          <div class="p-col-4">
+            <mat-form-field color="accent">
+              <mat-label>
+                <strong>{{ 'Task Ref' | translate }}*</strong>
+              </mat-label>
+              <input matInput type="text" [disabled]="true" formControlName="ref_id" />
+            </mat-form-field>
+          </div>
+          <div class="p-col-8">
+            <mat-form-field color="accent">
+              <mat-label>
+                <strong>{{ 'Task Title' | translate }}*</strong>
+              </mat-label>
+              <input matInput type="text" formControlName="task_title" [readonly]="isViewTask"/>
+            </mat-form-field>
+          </div>
+          <div class="p-col-12 p-grid p-justify-between p-align-center">
+            <mat-label>
+              <strong
+                [ngClass]="
+                  taskForm.get('description').hasError('required') &&
+                  (taskForm.get('description').dirty || taskForm.get('description').touched)
+                    ? 'cr-red'
+                    : ''
+                "
+              >
+                {{ 'Task Description' | translate }}</strong
+              >
+            </mat-label>
+            <button mat-button mat-raised-button color="accent" (click)="openTableKey()">
+              <mat-icon class="mat-icon-default">key</mat-icon>
+              {{ 'List of Keys' | translate }}
+            </button>
+          </div>
+          <div class="p-col-12">
+            <ckeditor [config]="editorConfig" [editor]="Editor" (ready)="onEditorReady($event)" formControlName="description" [disabled]="isViewTask"> </ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 pad-x-none">
+        <div class="yellow-border">
+          <ng-container>
+            <div class="p-col-12 p-grid p-justify-between p-align-center">
+              <mat-label>
+                <strong>{{ 'Task Attachment' | translate }}</strong>
+              </mat-label>
+              <button mat-button mat-raised-button color="accent" (click)="openAttachmentDialog()" [disabled]="isViewTask">
+                <mat-icon class="mat-icon-default">file_upload</mat-icon>
+                {{ 'Add Attachment' | translate }}
+              </button>
+            </div>
+            <div class="p-col-12 p-grid p-align-center" *ngFor="let document of taskForm.get('attachments').value; let idx = index">
+              <div class="p-col-fixed">
+                <mat-icon>circle</mat-icon>
+              </div>
+              <div class="p-col truncate-text" matTooltipPosition="above" [matTooltip]="document?.file_name">
+                {{ document?.file_name }}
+              </div>
+              <div class="p-col-fixed">
+                <button
+                  mat-icon-button
+                  matTooltipPosition="above"
+                  matTooltip="{{ 'View' | translate }}"
+                  (click)="onViewAttachedDoc(document?.s3_file_name)"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  matTooltipPosition="above"
+                  matTooltip="{{ 'Delete' | translate }}"
+                  (click)="onDeleteAttachedDocAt(idx)"
+                  [disabled]="isViewTask"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container formArrayName="expected_documents">
+            <div class="p-col-12 p-grid p-justify-between p-align-center">
+              <mat-label>
+                <strong>{{ 'Expected Document' | translate }}</strong>
+              </mat-label>
+              <button mat-button mat-raised-button color="accent" (click)="addExpectedDoc()" [disabled]="isViewTask">
+                <mat-icon class="mat-icon-default">file_upload</mat-icon>
+                {{ 'Add expected doc' | translate }}
+              </button>
+            </div>
+            <div class="p-col-12 p-grid p-align-center" *ngFor="let document of getDocumentExpectedFormarray()?.value; let idx = index">
+              <div class="p-col truncate-text" matTooltipPosition="above" [matTooltip]="document?.expected_document_name">
+                {{ document?.expected_document_name }}
+              </div>
+              <div class="p-col-fixed">
+                <button
+                  class="cr-red"
+                  mat-icon-button
+                  matTooltipPosition="above"
+                  matTooltip="{{ 'Required' | translate }}"
+                  *ngIf="document?.is_required"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  matTooltipPosition="above"
+                  matTooltip="{{ 'Delete' | translate }}"
+                  (click)="onDeleteDocumentExpected(idx)"
+                  [disabled]="isViewTask"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="p-col-12 pad-x-none">
+        <div class="yellow-border">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <mat-label>
+                <strong>{{ 'Button Label' | translate }}</strong>
+              </mat-label>
+            </div>
+          </div>
+          <!-- btn_submit -->
+          <div class="p-grid p-align-baseline">
+            <div class="p-col-3">
+              <mat-label>{{ 'Button_Submit' | translate }} : </mat-label>
+            </div>
+            <div class="p-col">
+              <mat-form-field class="btn_submit">
+                <mat-label>{{ 'Label' | translate }}*</mat-label>
+                <input matInput formControlName="label_submit" [readonly]="isViewTask"/>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- btn_cancel -->
+          <div class="p-grid p-align-baseline">
+            <div class="p-col-3">
+              <mat-label>{{ 'Button_Cancel' | translate }} : </mat-label>
+            </div>
+            <div class="p-col">
+              <mat-form-field class="btn_cancel">
+                <mat-label>{{ 'Label' | translate }}*</mat-label>
+                <input matInput formControlName="label_cancel" [readonly]="isViewTask"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="p-grid p-align-baseline">
+            <div class="p-col-3">
+              <mat-label>{{ 'Button_Reject' | translate }} : </mat-label>
+            </div>
+            <div class="p-col">
+              <mat-form-field class="btn_reject">
+                <mat-label>{{ 'Label' | translate }}*</mat-label>
+                <input matInput formControlName="label_reject"[readonly]="isViewTask"/>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="p-grid p-align-baseline">
+            <div class="p-col-3">
+              <mat-label>{{ 'Button_Validate' | translate }} :</mat-label>
+            </div>
+            <div class="p-col">
+              <mat-form-field class="btn_validate">
+                <mat-label>{{ 'Label' | translate }}*</mat-label>
+                <input matInput formControlName="label_validate" [readonly]="isViewTask"/>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-6 pad-r-none preview-position">
+    <ms-title-task-builder-task-preview [taskFormValue]="taskForm.value"></ms-title-task-builder-task-preview>
+  </div>
+</div>

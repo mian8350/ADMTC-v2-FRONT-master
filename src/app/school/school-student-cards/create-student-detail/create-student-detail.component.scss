@@ -1,0 +1,7 @@
+.green-button {
+  background: #81B441;
+}
+
+:host ::ng-deep.mat-tab-label.mat-tab-disabled {
+  cursor: default !important;
+}

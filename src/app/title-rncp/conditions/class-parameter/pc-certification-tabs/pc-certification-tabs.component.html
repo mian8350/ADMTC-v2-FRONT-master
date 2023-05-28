@@ -1,0 +1,25 @@
+<div class="p-grid yellow-border certification-container">
+  <div class="section-header">
+    <h3>{{ 'Certification Rules for Preparation Centres' | translate }}</h3>
+  </div>
+  <div class="certification-tabs">
+    <mat-tab-group>
+      <mat-tab label="Parameter">
+        <ng-template mat-tab-label>
+          <h5>{{ 'PC_Certification.Parameter' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-pc-certification-parameter [rncpId]="rncpId" [classId]="classId"></ms-pc-certification-parameter>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Result">
+        <ng-template mat-tab-label>
+          <h5>{{ 'PC_Certification.Result' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-pc-certification-result [rncpId]="rncpId" [classId]="classId"></ms-pc-certification-result>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<!-- <div class="logo-spinner-wrapper spinner-transparent"  *ngIf="isWaitingForResponse">
+    <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+</div> -->
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div [formGroup]="connectSchoolForm">
+  <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-grid">
+      <div class="p-col-12 no-padding-bottom no-pad-top">
+        <div class="p-grid">
+          <div class="p-col-11 title-content no-pad-top">
+            <h2 class="dialog-title-text">
+              {{ 'COMPANY.CONNECT_SCHOOL_TO' | translate }}
+            </h2>
+          </div>
+          <div class="p-col-1 no-padding-bottom">
+            <button mat-icon-button class="close-icon pad-top-10" (click)="onClose()" tabindex="-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div formArrayName="connectSchools">
+    <div class="p-grid dialog-fields-container text-black" *ngFor="let field of connectSchools.controls; index as i" [formGroupName]="i">
+      <div class="p-col-9">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="school_name"
+            [matAutocomplete]="school"
+            placeholder="{{ 'Select School' | translate }} *"
+            (keyup)="filterSchool(i)"
+          />
+          <mat-autocomplete #school="matAutocomplete" [panelWidth]="'fit'" (optionSelected)="setSelectedSchool($event, i)">
+            <mat-option
+              *ngFor="let list of schoolList"
+              [value]="list?.label"
+              matTooltip="{{ list?.label }}"
+              (click)="getRncpTitles(list?._id, i)"
+            >
+              {{ list?.label | translate }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error
+            *ngIf="field.get('school_name').hasError('required') && (field.get('school_name').dirty || field.get('school_name').touched)"
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <button *ngIf="connectSchools.length > 1" class="negativ_button" mat-icon-button (click)="removeEntities(i)">
+        <mat-icon class="negativ">
+          <svg class="icon-size" viewBox="0 0 34 34">
+            <path fill="red" d="M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+          </svg>
+        </mat-icon>
+      </button>
+
+      <button class="plus_button" mat-icon-button (click)="addEntities()" *ngIf="i === connectSchools.length - 1">
+        <mat-icon class="plus">
+          <svg class="icon-size" viewBox="0 0 34 34">
+            <path
+              fill="grey"
+              d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M13,7H11V11H7V13H11V17H13V13H17V11H13V7Z"
+            />
+          </svg>
+        </mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="p-grid mrgn-bottom-10">
+    <div class="p-col-12">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="submitData()"
+        class="float-right btn-standard"
+      >
+        {{ 'Submit' | translate }}
+      </button>
+      <button mat-raised-button color="red" (click)="onClose()" class="float-right btn-standard">{{ 'COMPANY.CANCEL' | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,357 @@
+<!-- loading spinner Load Field-->
+<div *ngIf="!fieldReady && operation === 'edit'" class="inner-loading-indicator-transparent-bg">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>
+<div class="pad-24" [ngClass]="{ 'hide-field': !fieldReady && operation === 'edit' }">
+  <div mat-dialog-title class="dialogTitleWrapper">
+    <mat-icon>
+      <svg
+        style="vertical-align: sub"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        width="35"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z"
+        />
+      </svg>
+    </mat-icon>
+    <h1 class="dialogTitle">{{ 'Add New Staff' | translate }}</h1>
+  </div>
+
+  <div [formGroup]="userForm" mat-dialog-content>
+    <div class="p-grid">
+      <div class="p-col text-left">
+        <mat-radio-group formControlName="civility" style="color: black" required>
+          <span>{{ 'Civility' | translate }} *</span>
+          <mat-radio-button style="margin-left: 2em" value="MR">{{ 'MR' | translate }}</mat-radio-button>
+          <mat-radio-button style="margin-left: 2em" value="MRS">{{ 'MRS' | translate }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <div class="p-grid" style="color: black">
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="first_name" type="text" placeholder="{{ 'First Name' | translate }}" required />
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="last_name" type="text" placeholder="{{ 'Last Name' | translate }} *" />
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="email" type="text" placeholder="{{ 'Mail' | translate }} *" />
+          <mat-error>
+            <p *ngIf="userForm.get('email').hasError('email') && (userForm.get('email').dirty || userForm.get('email').touched)">
+              {{ 'Invalid email format' | translate }}
+            </p>
+            <p *ngIf="userForm.get('email').hasError('required') && (userForm.get('email').dirty || userForm.get('email').touched)">
+              {{ 'This field is required' | translate }}
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="position" type="text" placeholder="{{ 'Position' | translate }}" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="p-grid" style="color: black">
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="office_phone" type="text" maxlength="10" placeholder="{{ 'Office Phone' | translate }}" />
+          <mat-error>
+            <p *ngIf="userForm.get('office_phone').hasError('number') && userForm.get('office_phone').touched">
+              {{ 'must contain number only' | translate }}
+            </p>
+            <p *ngIf="userForm.get('office_phone').hasError('minlength') && !userForm.get('office_phone').hasError('number')">
+              {{ 'This field need to have 10 digits' | translate }}
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="direct_line" type="text" maxlength="10" placeholder="{{ 'Direct Line' | translate }}" />
+          <mat-error>
+            <p *ngIf="userForm.get('direct_line').hasError('number') && userForm.get('direct_line').touched">
+              {{ 'must contain number only' | translate }}
+            </p>
+            <p *ngIf="userForm.get('direct_line').hasError('minlength') && !userForm.get('direct_line').hasError('number')">
+              {{ 'This field need to have 10 digits' | translate }}
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="p-col-2">
+        <mat-form-field color="accent" class="full-wid">
+          <input matInput formControlName="portable_phone" type="text" maxlength="10" placeholder="{{ 'Mobile Phone' | translate }}" />
+          <mat-error>
+            <p *ngIf="userForm.get('portable_phone').hasError('number') && userForm.get('portable_phone').touched">
+              {{ 'must contain number only' | translate }}
+            </p>
+            <p *ngIf="userForm.get('portable_phone').hasError('minlength') && !userForm.get('portable_phone').hasError('number')">
+              {{ 'This field need to have 10 digits' | translate }}
+            </p>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <ng-container formGroupName="curriculum_vitae">
+        <div class="p-col-2" [ngClass]="{ 'display-none': userForm.get('curriculum_vitae').get('s3_path').value }">
+          <mat-form-field color="accent" class="full-wid">
+            <input matInput formControlName="name" type="text" placeholder="{{ 'Curriculum Vitae' | translate }}" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-2" [ngClass]="{ 'display-none': userForm.get('curriculum_vitae').get('s3_path').value }">
+          <button
+            [disabled]="!userForm.get('curriculum_vitae').get('name').value"
+            mat-raised-button
+            color="accent"
+            (click)="openUploadWindow()"
+            style="margin-right: 10px"
+          >
+            <mat-icon class="baseline-middle">add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+          </button>
+          <input
+            #fileUploadDoc
+            type="file"
+            accept=".pdf, .doc, .docx, .ppt, .pptx, .xls"
+            class="hidden"
+            (click)="fileUploadDoc.value = null"
+            (change)="chooseFile($event)"
+          />
+        </div>
+        <div class="p-col-4" [ngClass]="{ 'display-none': !userForm.get('curriculum_vitae').get('s3_path').value }">
+          <div class="p-grid">
+            <div class="p-col-6 no-padding">
+              <span>{{ userForm.get('curriculum_vitae').get('name').value }}</span>
+            </div>
+            <div class="p-col-6 no-padding">
+              <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="downloadCV()">
+                <mat-icon>file_download</mat-icon>
+              </button>
+              <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="editCV()">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="deleteCV()">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div [formGroup]="userEntityForm">
+      <div class="p-grid">
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="entity_name" placeholder="{{ 'Select Entity' | translate }} *">
+              <mat-option *ngFor="let entity of entitiesNameList" [value]="entity">
+                {{ entity | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error>{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="school_type" placeholder="{{ 'Select School Type' | translate }}">
+              <mat-option *ngFor="let schoolType of schoolTypesList" [value]="schoolType">
+                {{ schoolType | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="school" placeholder="{{ 'Select School' | translate }}">
+              <mat-option *ngFor="let school of schoolsList" [value]="school.value">
+                {{ school.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select
+              formControlName="assigned_rncp_title"
+              placeholder="{{ 'Select RNCP Title' | translate }}"
+              (selectionChange)="getClasse($event.value)"
+            >
+              <mat-option *ngFor="let rncpTitle of rncpTitlesList" [value]="rncpTitle.value">
+                {{ rncpTitle.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-1">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="class" placeholder="{{ 'Select Class' | translate }}">
+              <mat-option *ngFor="let class of classesList" [value]="class.value">
+                {{ class.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2">
+          <mat-form-field class="full-wid">
+            <mat-select formControlName="type" placeholder="{{ 'Select User Type' | translate }} *">
+              <mat-option *ngFor="let userType of userTypesList" [value]="userType.value">
+                {{ 'USER_TYPES.' + userType.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error>{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button [disabled]="userEntityForm.invalid" class="plus_button" mat-icon-button color="primary" (click)="pushToEntities()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="entities.length && isDisplayedEntityExist()" class="yellow-border card-row">
+      <div formArrayName="entities" class="overlow-scroll">
+        <div class="p-grid" *ngFor="let field of entities.controls; index as i" [formGroupName]="i">
+          <ng-container
+            *ngIf="
+              field.get('entity_name').value === 'academic' &&
+              field.get('school_type').value === 'preparation_center' &&
+              field.get('school').value === this.parentData.school._id &&
+              field.get('assigned_rncp_title').value &&
+              checkIfTitleAvailable(field.get('assigned_rncp_title').value)
+            "
+          >
+            <div class="p-col-2">
+              <mat-form-field class="full-wid">
+                <mat-select formControlName="entity_name" placeholder="{{ 'Select Entity' | translate }} *">
+                  <mat-option *ngFor="let entity of entitiesName" [value]="entity">
+                    {{ entity | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-2">
+              <mat-form-field class="full-wid">
+                <mat-select formControlName="school_type" placeholder="{{ 'Select School Type' | translate }}">
+                  <mat-option *ngFor="let schoolType of schoolTypes" [value]="schoolType">
+                    {{ schoolType | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-2">
+              <mat-form-field class="full-wid">
+                <mat-select formControlName="school" placeholder="{{ 'Select School' | translate }}">
+                  <mat-option *ngFor="let school of schools" [value]="school.value">
+                    {{ school.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-2">
+              <mat-form-field class="full-wid">
+                <mat-select
+                  formControlName="assigned_rncp_title"
+                  placeholder="{{ 'Select RNCP Title' | translate }}"
+                  (selectionChange)="getClasses($event.value, i.toString())"
+                >
+                  <mat-option *ngFor="let rncpTitle of rncpTitles" [value]="rncpTitle.value">
+                    {{ rncpTitle.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-1">
+              <mat-form-field class="full-wid">
+                <mat-select formControlName="class" placeholder="{{ 'Select Class' | translate }}">
+                  <mat-option *ngFor="let class of classes[i]" [value]="class?.value">
+                    {{ class?.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-2">
+              <mat-form-field class="full-wid">
+                <mat-select formControlName="type" placeholder="{{ 'Select User Type' | translate }} *">
+                  <mat-option *ngFor="let userType of userTypes" [value]="userType?.value">
+                    {{ 'USER_TYPES.' + userType?.label | translate }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <button class="negativ_button" color="warn" mat-icon-button (click)="removeEntities(i)">
+              <mat-icon>remove_circle</mat-icon>
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- loading spinner -->
+    <div *ngIf="isWaitingForResponse" class="inner-loading-indicator-transparent-bg">
+      <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="justify-content-center mt-1rem">
+    <button mat-raised-button (click)="closeDialog()" type="button" color="warn">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      (click)="submit()"
+      type="submit"
+      color="primary"
+      [disabled]="userForm.invalid || isWaitingForResponse || this.userEntityForm.invalid"
+    >
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+</div>
+
+<swal #errorSwal type="warning" title="{{ 'USER_REGISTERED.TITLE' | translate }}" [showConfirmButton]="false" [allowOutsideClick]="false">
+  <div *swalPartial class="">
+    <p class="text" [translate]="'USER_REGISTERED.TEXT'"></p>
+    <p class="text" [translate]="'USER_REGISTERED.TEXT1'"></p>
+    <div class="button-action">
+      <button
+        mat-raised-button
+        color="accent"
+        [disabled]="secondsToHms(time) !== ('USER_REGISTERED.BUTTON1' | translate)"
+        class="button-swal"
+        (click)="registerExistingUser()"
+      >
+        {{ secondsToHms(time) }}
+      </button>
+      <button mat-raised-button color="accent" class="button-swal" (click)="openUpdateUser()">
+        {{ 'USER_REGISTERED.BUTTON2' | translate }}
+      </button>
+      <button mat-raised-button color="warn" class="button-swal" (click)="closeSwal()">
+        {{ 'USER_REGISTERED.BUTTON3' | translate }}
+      </button>
+    </div>
+  </div>
+</swal>

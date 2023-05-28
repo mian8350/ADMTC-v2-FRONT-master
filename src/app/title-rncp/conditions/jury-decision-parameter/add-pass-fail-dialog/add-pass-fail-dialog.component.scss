@@ -1,0 +1,46 @@
+.full-width {
+  width: 100%;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.dialog-title {
+  color: #000000;
+}
+
+.pass-fail-dialog {
+  color: #000000;
+}
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 53px;
+}
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 0px;
+}
+.float-right {
+  float: right;
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}

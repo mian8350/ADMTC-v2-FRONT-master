@@ -1,0 +1,75 @@
+.margin-top-spacing {
+  margin-top: 0rem;
+}
+
+.selection-text {
+  text-align: center;
+  font-weight: 500;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.create-or-select-pill {
+  background-color: #fdd835;
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 10px;
+}
+
+.align-right-button {
+  margin-right: 0px;
+  text-align: right;
+  padding-right: 0px;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.mrgn-btn-none {
+  margin-bottom: 0px !important;
+}
+
+.pad-top-17 {
+  padding-top: 17px;
+}
+
+.vertical-distance{
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.targetScroll {
+  margin-top: 80px; 
+  color: #363636;
+}
+
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+
+.disabled-text {
+  color: rgba(255, 255, 255, 0.5) !important;
+}

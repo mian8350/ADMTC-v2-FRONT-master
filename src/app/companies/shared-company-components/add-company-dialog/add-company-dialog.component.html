@@ -1,0 +1,188 @@
+<div>
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+  <div class="p-grid border-bottom" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-col-12 no-padding-bottom">
+      <div class="p-grid">
+        <div class="p-col-9 no-padding-bottom title">
+          <mat-icon class="dialog-icon">business</mat-icon>
+          <h2 class="dialog-title-text">{{ 'COMPANY.ADD_NEW_COMPANY' | translate }}</h2>
+        </div>
+        <hr />
+        <div class="p-col-3 no-padding-bottom pad-top-15">
+          <button mat-icon-button mat-dialog-close class="close-icon" tabindex="-1"><mat-icon>close</mat-icon></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [formGroup]="addCompanyFrance" mat-dialog-content *ngIf="selectedCountry === 'France'">
+    <div class="p-grid form" [ngClass]="{ add: !companyClicked }">
+      <div class="p-col-4">
+        <mat-form-field>
+          <mat-label>{{ 'COMPANY.COUNTRY' | translate }}</mat-label>
+          <mat-select formControlName="country" (selectionChange)="countrySelected($event)">
+            <mat-option *ngFor="let country of countries" [value]="country.name">
+              {{ country.name | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="p-col-4">
+        <mat-form-field>
+          <input
+            matInput
+            required
+            pattern="^[0-9]*$"
+            placeholder="{{ 'COMPANY.SIRET_NUMBER' | translate }}"
+            formControlName="no_RC"
+            #siretNumber
+          />
+        </mat-form-field>
+      </div>
+      <div class="p-col-4">
+        <button mat-raised-button color="accent" style="width: 100%" (click)="getCompany()" class="mr-top">
+          <mat-icon>check_box</mat-icon>{{ 'COMPANY.GET_THE_COMPANY' | translate }}
+        </button>
+      </div>
+      <div class="p-grid" [hidden]="!companyClicked">
+        <div class="p-col-12">
+          <mat-form-field>
+            <input matInput readonly placeholder="{{ 'COMPANY.NAME' | translate }}" formControlName="company_name" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-6">
+          <mat-form-field>
+            <input matInput readonly placeholder="{{ 'EMPLOYABILITY_SURVEY.FORM.ZIPCODE' | translate }}" formControlName="postal_code" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-6">
+          <mat-form-field>
+            <input matInput readonly placeholder="{{ 'COMPANY.MAIN_ACTIVITY' | translate }}" formControlName="activity" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-12">
+          <mat-form-field>
+            <input matInput readonly placeholder="{{ 'Address' | translate }}" formControlName="address" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-6"></div>
+        <div class="p-col-12 text-center">
+          <b> {{ caseMessage | translate }} </b>
+        </div>
+        <div class="p-col-12 text-center">
+          <div>
+            <button mat-raised-button color="accent" class="float-center" (click)="addCompany()">{{ 'COMPANY.YES' | translate }}</button>
+            <button mat-raised-button color="warn" (click)="onCancelAdd()">{{ 'COMPANY.NO' | translate }}</button>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 text-center" *ngIf="caseMessage === 'case 5'">
+        <b>{{ 'Sorry, the SIRET number you entered does not match with any company registered in France' | translate }}</b>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedCountry !== 'France'" [formGroup]="addCompanyNotFrance">
+    <div class="p-grid form">
+      <div class="p-col-6">
+        <mat-form-field>
+          <mat-label>{{ 'COMPANY.COUNTRY' | translate }}</mat-label>
+          <mat-select formControlName="country" (selectionChange)="countrySelected($event)">
+            <mat-option *ngFor="let country of countries" [value]="country.name">
+              {{ country.name | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field>
+          <input matInput required placeholder="{{ 'COMPANY.RC' | translate }}" formControlName="no_RC" />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('no_RC').hasError('required') &&
+              (addCompanyNotFrance.get('no_RC').touched || addCompanyNotFrance.get('no_RC').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-col-12">
+        <mat-form-field>
+          <input matInput required placeholder="{{ 'COMPANY.NAME' | translate }}" formControlName="company_name" />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('company_name').hasError('required') &&
+              (addCompanyNotFrance.get('company_name').touched || addCompanyNotFrance.get('company_name').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field>
+          <input matInput required placeholder="{{ 'COMPANY.ZIPCODE' | translate }}" formControlName="zip_code" />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('zip_code').hasError('required') &&
+              (addCompanyNotFrance.get('zip_code').touched || addCompanyNotFrance.get('zip_code').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field>
+          <input matInput required placeholder="{{ 'COMPANY.COMPANY_TYPE' | translate }}" formControlName="type_of_company" />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('type_of_company').hasError('required') &&
+              (addCompanyNotFrance.get('type_of_company').touched || addCompanyNotFrance.get('type_of_company').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field>
+          <input matInput required placeholder="{{ 'COMPANY.MAIN_ACTIVITY' | translate }}" formControlName="activity" />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('activity').hasError('required') &&
+              (addCompanyNotFrance.get('activity').touched || addCompanyNotFrance.get('activity').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-col-6">
+        <mat-form-field>
+          <input
+            matInput
+            required
+            placeholder="{{ 'COMPANY.NO_EMPLOYEE_IN_FRANCE' | translate }}"
+            formControlName="no_of_employee_in_france"
+            type="text"
+          />
+          <mat-error
+            *ngIf="
+              addCompanyNotFrance.get('no_of_employee_in_france').hasError('required') &&
+              (addCompanyNotFrance.get('no_of_employee_in_france').touched || addCompanyNotFrance.get('no_of_employee_in_france').dirty)
+            "
+            >{{ 'This field is required' | translate }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <div class="container-btn">
+            <div class="btn-right">
+              <button mat-raised-button color="warn" (click)="closeDialog()">{{ 'COMPANY.CANCEL' | translate }}</button>
+              <button mat-raised-button color="accent" (click)="validateCompany()">{{ 'COMPANY.ENTER' | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

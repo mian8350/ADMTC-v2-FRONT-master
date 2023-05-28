@@ -1,0 +1,645 @@
+<mat-accordion class="example-headers-align" #accordion>
+  <mat-expansion-panel [expanded]="studentId" class="panel-spacing">
+    <mat-expansion-panel-header class="background-primary panel-header">
+      <mat-panel-title style="display: flex; justify-content: space-between" *ngIf="!isWaitingForResponseReset && !isWaitingForResponse">
+        <h4 *ngIf="statusStudent !== 'active'" style="color: white; align-self: center; margin: 0px">
+          {{ student?.civility | translate }} {{ student?.first_name }} {{ student?.last_name | uppercase }}
+        </h4>
+        <h4 *ngIf="statusStudent === 'active'" style="color: white; align-self: center; margin: 0px">
+          {{ 'Student Summary' | translate }}
+        </h4>
+
+        <div>
+          <ng-container *ngIf="statusStudent === 'deactivated' || statusStudent === 'suspended'">
+            <button
+              *ngIf="permissionService.resignationActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              (click)="$event.stopPropagation(); reactiveStudent(student)"
+              class="margin-right-button"
+              matTooltip="{{ 'Reactivate  Student' | translate }}"
+            >
+              <mat-icon svgIcon="backup-restore" style="margin: 0"></mat-icon>
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="statusStudent !== 'deactivated' && statusStudent !== 'suspended'">
+            <button 
+              *ngIf="permissionService.renewPassActionInStudentCardHeaderPerm()"
+              mat-icon-button 
+              class="margin-right-button" 
+              matTooltip="{{ 'Renew Password' | translate }}" 
+              (click)="$event.stopPropagation(); resetPassword()"
+            >
+              <mat-icon class="mg-0" svgIcon="lock-reset"></mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.thumbsupActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Status toward administration' | translate }}"
+              (click)="$event.stopPropagation(); thumbsToggle(student.is_thumbups_green, student)"
+            >
+              <mat-icon
+                class="mg-0"
+                *ngIf="!student?.is_thumbups_green"
+                style="color: #ff4040"
+                svgIcon="thumb-up-outline"
+                aria-hidden="true"
+                >lens
+              </mat-icon>
+              <mat-icon class="mg-0" *ngIf="student?.is_thumbups_green" style="color: #adff2f" svgIcon="thumb-up-outline" aria-hidden="true"
+                >lens
+              </mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.incignitoActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Connect as this User' | translate }}"
+              (click)="$event.stopPropagation(); connectAsUser(student)"
+            >
+              <mat-icon class="mg-0" svgIcon="incognito"></mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.errorMailActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              (click)="$event.stopPropagation(); requestStudEmailCorrection(student)"
+              matTooltip="{{ 'Inform the Acad.Dir about error on email address' | translate }}"
+            >
+              <mat-icon class="mat-icon-default mg-0">block</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.resignationActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Resignation of this student' | translate }}"
+              (click)="$event.stopPropagation(); onResignationStudend(student)"
+            >
+              <mat-icon class="mg-0" svgIcon="close">clear</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.sendMailToStudentActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Send an Email to this student' | translate }}"
+              (click)="$event.stopPropagation(); sendMail(student)"
+            >
+              <mat-icon class="mg-0" svgIcon="email-outline"></mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              *ngIf="isStudentContractActive && permissionService.sendMailToMentorActionInStudentCardHeaderPerm()"
+              class="margin-right-button"
+              matTooltip="{{ 'Send an Email to Mentor' | translate }}"
+              (click)="$event.stopPropagation(); sendMailToMentor(student)"
+            >
+              <mat-icon svgIcon="account-tie">account-tie</mat-icon>
+            </button>
+            <button
+              *ngIf="permissionService.sendMailToAcadirActionInStudentCardHeaderPerm()"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Send an Email to Academic Director' | translate }}"
+              (click)="$event.stopPropagation(); sendMailToAcadir(student)"
+            >
+              <mat-icon class="mg-0" svgIcon="card-account-mail-outline"></mat-icon>
+            </button>
+            <button
+              *ngIf="student?.status === 'pending'"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'Send Registration Email' | translate }}"
+              (click)="$event.stopPropagation(); sendMailN1(student)"
+            >
+              <mat-icon class="mg-0" svgIcon="email-send-outline"></mat-icon>
+            </button>
+          </ng-container>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="pane-divider">
+      <div *ngIf="isWaitingForResponseReset || isWaitingForResponse" class="inner-loading-indicator">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+
+      <div class="student-summary p-grid" *ngIf="!isWaitingForResponse">
+        <ng-container *ngIf="statusStudent === 'deactivated' || statusStudent === 'suspended'">
+          <div class="field p-col-6 no-padding">
+            <div class="p-grid" style="align-items: center">
+              <div class="student-photo p-col-fixed">
+                <img
+                  [src]="
+                    student?.is_photo_in_s3
+                      ? serverimgPath + student.photo_s3_path
+                      : student?.photo
+                      ? serverimgPath + student.photo
+                      : student?.civility === 'MR'
+                      ? maleStudentIcon
+                      : femaleStudentIcon
+                  "
+                  style="object-fit: cover"
+                />
+              </div>
+              <div class="p-col no-pt" style="padding-left: 0px">
+                <div class="p-col-12 no-pt" >
+                  <div style="font-size: 18px">
+                    <span>{{ student?.civility | translate }} {{ student?.first_name + ' ' + student?.last_name }}</span>
+                  </div>
+                  <div>
+                    <span> {{ student?.rncp_title?.short_name }} - {{ student?.current_class?.name }}</span>
+                  </div>
+                  <div class="display-flex">
+                    <span class="padding-icon-info"><mat-icon class="mat-icon-default padding-icon-right">email </mat-icon> <b>:</b> </span>
+                    <span>{{ student?.email }}</span>
+                  </div>
+                  <div class="display-flex">
+                    <span class="padding-icon-info"> <mat-icon class="mat-icon-default padding-icon-right">phone </mat-icon> <b>:</b></span>
+                    <span>{{ student?.tele_phone }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col">
+                <div>
+                  <span class="status-desc">
+                    <mat-icon class="icon-status" class="red" aria-hidden="true" style="margin-top: 0px">lens </mat-icon>
+                  </span>
+                  <span> {{ 'deactivated' | translate }} - {{ 'No Access to Platform' | translate }} </span>
+                </div>
+                <div>
+                  <span class="status-desc">
+                    <mat-icon class="icon-status" class="red" aria-hidden="true" style="margin-top: 0px">lens </mat-icon>
+                  </span>
+                  <span>
+                    <span>
+                      {{ 'deactivated' | translate }} - {{ 'Student deactivated from' | translate }} {{ student?.rncp_title?.short_name }} -
+                      {{ student?.current_class?.name }} {{ 'at' | translate }} {{ dateDisplay(student?.date_of_resignation) }}
+                      {{ student?.resignation_by ? ('by' | translate) + ' ' + (student?.resignation_by?.civility | translate) + ' ' +  student?.resignation_by?.first_name + ' ' + (student?.resignation_by?.last_name | uppercase) : '' }}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-4 no-padding field">
+            <div class="p-grid ml-12" *ngIf="isPartial">
+              <p class="exemped p-col-12 no-padding">{{ 'Exempted block' | translate }}</p>
+              <div class="p-col-12 no-padding scrollable">
+                <div class="exempted-block" *ngFor="let block of exemptedBlocks">
+                  <mat-checkbox (click)="$event.preventDefault()" [indeterminate]="true" [value]="true" color="warn">{{
+                    cleanIfHaveTag(block?.block_of_competence_condition)
+                  }}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="p-grid ml-12" *ngIf="!isPartial">
+              <h5 class="p-col-12 no-paddingtop">{{ 'Reason of Deactivation' | translate }}</h5>
+              <p style="padding-left: 0.5rem">
+                {{ student?.reason_for_resignation }}
+              </p>
+            </div>
+          </div>
+          <div class="p-col-2 no-padding"></div>
+        </ng-container>
+        <ng-container *ngIf="statusStudent !== 'deactivated' && statusStudent !== 'suspended'">
+          <div class="field p-col-6 no-padding">
+            <div class="p-grid" style="align-items: center">
+              <div class="student-photo p-col-fixed">
+                <img
+                  [src]="
+                    student?.is_photo_in_s3
+                      ? serverimgPath + student.photo_s3_path
+                      : student?.photo
+                      ? serverimgPath + student.photo
+                      : student?.civility === 'MR'
+                      ? maleStudentIcon
+                      : femaleStudentIcon
+                  "
+                  style="object-fit: cover"
+                />
+              </div>
+              <div class="p-col no-pt" style="padding-left: 0px">
+                <div class="p-col-12 no-pt">
+                  <span>{{ student?.civility | translate }} {{ student?.first_name + ' ' + student?.last_name }}</span>
+                </div>
+                <div class="p-col-12" style="padding-bottom: 0px">
+                  <span> {{ student?.rncp_title?.short_name }} - {{ student?.current_class?.name }}</span>
+                </div>
+                <div class="p-col no-padding">
+                  <ul class="text-user" style="padding-top: 0px; margin-top: 0px">
+                    <li>
+                      <span class="title">{{ 'Registration Status' | translate }} </span>:
+                      <span class="status-desc">
+                        <ng-container *ngIf="!student?.incorrect_email">
+                          <mat-icon
+                            class="dot-icon"
+                            matTooltip="{{ student?.status | translate }}"
+                            matTooltipPosition="above"
+                            [ngClass]="{
+                              'green-icon': student?.status === 'active',
+                              'black-icon': student?.status === 'pending'
+                            }"
+                          >
+                            lens
+                          </mat-icon>
+                          <span> {{ student?.status | translate }} </span>
+                        </ng-container>
+                        <ng-container *ngIf="student && student?.incorrect_email">
+                          <mat-icon matTooltip="{{ 'incorrect_email' | translate }}" matTooltipPosition="above" class="red-icon">
+                            lens
+                          </mat-icon>
+                          <span> {{ 'incorrect email' | translate }}</span>
+                        </ng-container>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="title">{{ 'Title status' | translate }}</span> :
+                      <span class="status-desc">
+                        <mat-icon
+                          class="dot-icon"
+                          [matTooltip]="student?.student_title_status | translate"
+                          matTooltipPosition="above"
+                          [ngClass]="{
+                            'green-icon': student?.student_title_status === 'current_active',
+                            'black-icon': student?.student_title_status === 'deactivated',
+                            'red-icon':
+                              student?.student_title_status === 'suspended' ||
+                              student?.student_title_status === 'admission_ask_for_revision' ||
+                              student?.student_title_status === 'admission',
+                            'yellow-icon': student?.student_title_status === 'admission_need_validation',
+                            'orange-icon': student?.student_title_status === 'retaking',
+                            'purple-icon': student?.student_title_status === 'completed'
+                          }"
+                          aria-hidden="true"
+                          >lens
+                        </mat-icon>
+                        <span> {{ student?.student_title_status | translate }}</span>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="icon-msg"
+                        ><mat-icon [matTooltip]="student?.email" [matTooltipPosition]="'above'" class="mat-icon-default student-contact"
+                          >email</mat-icon
+                        >
+                        <mat-icon [matTooltip]="student?.tele_phone" [matTooltipPosition]="'above'" class="mat-icon-default student-contact"
+                          >phone</mat-icon
+                        ></span
+                      >
+                    </li>
+                    <li>
+                      <div class="last-login-container">
+                        <mat-icon class="login-icon"> login </mat-icon>
+                        <div class="last-login">
+                          <span>
+                            {{ formatDate(student?.user_id?.last_login) }}
+                          </span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-4 no-padding field">
+            <div class="p-grid ml-12" *ngIf="isPartial">
+              <p class="exemped p-col-12 no-padding">{{ 'Exempted block' | translate }}</p>
+              <div class="p-col-12 no-padding scrollable">
+                <div class="exempted-block" *ngFor="let block of exemptedBlocks">
+                  <mat-checkbox (click)="$event.preventDefault()" [indeterminate]="true" [value]="true" color="warn">{{
+                    cleanIfHaveTag(block?.block_of_competence_condition)
+                  }}</mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="p-grid ml-12" *ngIf="!isPartial">
+              <p class="exemped p-col-12 no-padding">
+                {{ 'Student take full title' | translate }}
+              </p>
+            </div>
+          </div>
+          <div class="p-col-2 no-padding">
+            <div class="status-icons">
+              <div class="status-icon">
+                <div class="icon-label">
+                  <mat-icon
+                    class="icon-verification status"
+                    matTooltip="{{ 'identity_verification.identity_verification' | translate }} "
+                    matTooltipPosition="above"
+                    >how_to_reg</mat-icon
+                  >
+                </div>
+                <div>
+                  <mat-icon
+                    class="icon-status"
+                    [matTooltip]="student?.identity_verification_status | translate"
+                    matTooltipPosition="above"
+                    *ngIf="student?.identity_verification_status"
+                    [ngClass]="{
+                      red: student?.identity_verification_status === 'not_sent',
+                      orange: student?.identity_verification_status === 'sent_to_student',
+                      green: student?.identity_verification_status === 'details_confirmed'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                  <mat-icon
+                    class="icon-status"
+                    [matTooltip]="'Not Send' | translate"
+                    matTooltipPosition="above"
+                    *ngIf="!student?.identity_verification_status"
+                    class="red"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+              <div class="status-icon">
+                <div style="margin-right: 3px" matTooltip="{{ 'certifier' | translate }}">
+                  <mat-icon class="icon-thumbsup" svgIcon="gavel"></mat-icon>
+                </div>
+                <div>
+                  <span
+                    style="cursor: pointer"
+                    style="text-align: center; font-size: 25px"
+                    *ngIf="student?.final_transcript_id?.jury_decision_for_final_transcript"
+                    [ngSwitch]="student?.final_transcript_id?.jury_decision_for_final_transcript"
+                  >
+                    <i
+                      *ngSwitchCase="'failed'"
+                      class="fa fa-circle statusIcon red icon-status certifier-icon"
+                      aria-hidden="true"
+                      matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                      matTooltipPosition="right"
+                    ></i>
+                    <i
+                      *ngSwitchCase="'eliminated'"
+                      class="fa fa-circle statusIcon red icon-status certifier-icon"
+                      aria-hidden="true"
+                      matTooltip="{{ 'FINAL_TRANSCRIPT.ELIMINATED' | translate }}"
+                      matTooltipPosition="right"
+                    ></i>
+                    <span *ngSwitchCase="'retaking'">
+                      <ng-template [ngIf]="!student?.final_transcript_id?.after_final_retake_decision">
+                        <i
+                          *ngIf="
+                            student?.final_transcript_id?.student_decision === 'retaking' ||
+                            student?.final_transcript_id?.student_decision === ''
+                          "
+                          class="fa fa-circle statusIcon orange icon-status certifier-icon"
+                          style="padding-left: 7px"
+                          aria-hidden="true"
+                          matTooltip="{{ 'FINAL_TRANSCRIPT.RETAKE' | translate }}"
+                          matTooltipPosition="right"
+                        ></i>
+                        <i
+                          *ngIf="student?.final_transcript_id?.student_decision === 'failed'"
+                          class="fa fa-circle statusIcon red icon-status certifier-icon"
+                          aria-hidden="true"
+                          matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                          matTooltipPosition="right"
+                        ></i>
+                      </ng-template>
+
+                      <ng-template [ngIf]="student?.final_transcript_id?.after_final_retake_decision">
+                        <span *ngIf="!student?.final_transcript_id?.has_jury_finally_decided; else decisonDone">
+                          <i
+                            *ngIf="
+                              student?.final_transcript_id?.student_decision === 'retaking' ||
+                              student?.final_transcript_id?.student_decision === ''
+                            "
+                            class="fa fa-circle statusIcon orange icon-status certifier-icon"
+                            style="padding-left: 7px"
+                            aria-hidden="true"
+                            matTooltip="{{ 'FINAL_TRANSCRIPT.RETAKE' | translate }}"
+                            matTooltipPosition="right"
+                          ></i>
+                          <i
+                            *ngIf="student?.final_transcript_id?.student_decision === 'failed'"
+                            class="fa fa-circle statusIcon red icon-status certifier-icon"
+                            aria-hidden="true"
+                            matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                            matTooltipPosition="right"
+                          ></i>
+                        </span>
+
+                        <ng-template #decisonDone>
+                          <i
+                            *ngIf="getFinalResultAfterReTake(student?.final_transcript_id?.after_final_retake_decision) === 'FAILED'"
+                            class="fa fa-circle statusIcon red icon-status certifier-icon"
+                            aria-hidden="true"
+                            matTooltip="{{ 'FINAL_TRANSCRIPT.FINAL_RESULT_FAIL' | translate }}"
+                            matTooltipPosition="right"
+                          ></i>
+                          <i
+                            *ngIf="getFinalResultAfterReTake(student?.final_transcript_id?.after_final_retake_decision) === 'PASS'"
+                            class="fa fa-circle statusIcon greenyellow-icon status icon-status certifier-icon"
+                            aria-hidden="true"
+                            matTooltip="{{ 'FINAL_TRANSCRIPT.PASS' | translate }}"
+                            matTooltipPosition="right"
+                          ></i>
+                        </ng-template>
+                      </ng-template>
+                    </span>
+                    <i
+                      *ngSwitchCase="'pass'"
+                      class="fa fa-circle statusIcon greenyellow-icon status icon-status certifier-icon"
+                      aria-hidden="true"
+                      matTooltip="{{ 'FINAL_TRANSCRIPT.PASS' | translate }}"
+                      matTooltipPosition="right"
+                    ></i>
+                    <i *ngSwitchDefaul aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="status-icons">
+              <div class="status-icon">
+                <div matTooltip="{{ 'Status toward administration' | translate }}" class="icon-label" matTooltipPosition="above">
+                  <mat-icon class="icon-thumbsup mat-icon-svgIcon" svgIcon="thumb-up-outline"></mat-icon>
+                </div>
+                <div>
+                  <mat-icon
+                    class="icon-status"
+                    [matTooltip]="student?.is_thumbups_green ? ('THUMBSUP.OK' | translate) : ('THUMBSUP.NOT_OK' | translate)"
+                    matTooltipPosition="above"
+                    [ngClass]="{
+                      'green-icon': student?.is_thumbups_green,
+                      'red-icon': !student?.is_thumbups_green
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+
+              <div class="status-icon">
+                <div class="icon-label" matTooltip="{{ 'evaluation company' | translate }}">
+                  <mat-icon svgIcon="account-search"></mat-icon>
+                </div>
+                <div class="margin-top">
+                  <mat-icon
+                    class="academic icon-status default-icon-size"
+                    style="cursor: pointer"
+                    [matTooltip]="
+                      ('Evaluation professionnelle pédagogique' | translate) +
+                      ' - ' +
+                      (student?.academic_pro_evaluation?.status | translate)
+                    "
+                    matTooltipPosition="above"
+                    *ngIf="student?.academic_pro_evaluation?.status"
+                    [ngClass]="{
+                      red: student?.academic_pro_evaluation?.status === 'sent',
+                      green: student?.academic_pro_evaluation?.status === 'submitted',
+                      orange: student?.academic_pro_evaluation?.status === 'opened'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                  <mat-icon
+                    class="icon-status default-icon-size"
+                    style="cursor: pointer"
+                    [matTooltip]="
+                      ('Soft Skill Evaluation Professionnelle' | translate) +
+                      ' - ' +
+                      (student?.soft_skill_pro_evaluation?.status | translate)
+                    "
+                    matTooltipPosition="above"
+                    *ngIf="student?.soft_skill_pro_evaluation?.status"
+                    [ngClass]="{
+                      red: student?.soft_skill_pro_evaluation?.status === 'sent',
+                      green: student?.soft_skill_pro_evaluation?.status === 'submitted',
+                      orange: student?.soft_skill_pro_evaluation?.status === 'opened'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="status-icons">
+              <div class="status-icon">
+                <div class="icon-label" matTooltip="{{ 'PROBLEMATIC' | translate }}" matTooltipPosition="above"><p>P</p></div>
+                <div style="margin-left: 9px">
+                  <mat-icon
+                    class="icon-status"
+                    style="cursor: pointer"
+                    [matTooltip]="student?.problematic_id?.problematic_status | translate"
+                    *ngIf="student?.problematic_id && student?.problematic_id?.problematic_status"
+                    [ngClass]="{
+                      red:
+                        student?.problematic_id?.problematic_status === 'initial' ||
+                        student?.problematic_id?.problematic_status === 'rejected_by_acadDpt' ||
+                        student?.problematic_id?.problematic_status === 'sent_to_student' ||
+                        student?.problematic_id?.problematic_status === 'rejected_by_certifier',
+                      yellow:
+                        student?.problematic_id?.problematic_status === 'sent_to_acadDpt' ||
+                        student?.problematic_id?.problematic_status === 'resubmitted_to_acadDpt',
+                      purple: student?.problematic_id?.problematic_status === 'validated_by_acadDpt',
+                      green: student?.problematic_id?.problematic_status === 'validated_by_certifier',
+                      blue: student?.problematic_id?.problematic_status === 'sent_to_certifier'
+                    }"
+                    aria-hidden="true"
+                    >lens</mat-icon
+                  >
+                </div>
+              </div>
+
+              <div class="status-icon">
+                <div class="icon-label" matTooltip="{{ 'Job Description' | translate }}" matTooltipPosition="above"><p>J</p></div>
+                <div style="margin-left: 10px">
+                  <mat-icon
+                    class="icon-status"
+                    style="cursor: pointer"
+                    [matTooltip]="student?.job_description_id?.job_description_status | translate"
+                    matTooltipPosition="above"
+                    *ngIf="student?.job_description_id && student?.job_description_id?.job_description_status"
+                    [ngClass]="{
+                      red:
+                        student?.job_description_id?.job_description_status === 'initial' ||
+                        student?.job_description_id?.job_description_status === 'rejected_by_acad_dir',
+                      yellow: student?.job_description_id?.job_description_status === 'sent_to_student',
+                      green:
+                        student?.job_description_id?.job_description_status === 'validated_by_acad_staff' ||
+                        student?.job_description_id?.job_description_status === 'expedite_by_acad_staff' ||
+                        student?.job_description_id?.job_description_status === 'expedite_by_acad_staff_student',
+                      orange:
+                        student?.job_description_id?.job_description_status === 'sent_to_mentor' ||
+                        student?.job_description_id?.job_description_status === 'sent_to_school',
+                      blue: student?.job_description_id?.job_description_status === 'validated_by_mentor'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-icons">
+              <div class="status-icon">
+                <div class="icon-label" matTooltip="{{ 'Mentor' | translate }}" matTooltipPosition="above"><p>M</p></div>
+                <div style="margin-left: 6px">
+                  <mat-icon
+                    class="icon-status"
+                    [matTooltip]="student?.mentor_evaluation_id?.mentor_evaluation_status | translate"
+                    *ngIf="student?.mentor_evaluation_id && student?.mentor_evaluation_id?.mentor_evaluation_status"
+                    [ngClass]="{
+                      'yellow-icon':
+                        student?.mentor_evaluation_id?.mentor_evaluation_status === 'initial' ||
+                        student?.mentor_evaluation_id?.mentor_evaluation_status === 'sent_to_mentor',
+                      'purple-icon': student?.mentor_evaluation_id?.mentor_evaluation_status === 'filled_by_mentor',
+                      'greenyellow-icon status':
+                        student?.mentor_evaluation_id?.mentor_evaluation_status === 'validated_by_acad_staff' ||
+                        student?.mentor_evaluation_id?.mentor_evaluation_status === 'expedited_by_acad_staff'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+
+              <div class="status-icon">
+                <div class="icon-label" matTooltip="{{ 'Employability Survey' | translate }}" matTooltipPosition="above"><p>E</p></div>
+                <div style="margin-left: 9px">
+                  <mat-icon
+                    class="icon-status"
+                    *ngIf="student?.employability_survey_ids?.length"
+                    matTooltip="{{
+                      student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status | translate
+                    }}"
+                    matTooltipPosition="above"
+                    [ngClass]="{
+                      'black-icon':
+                        student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status === 'not_sent',
+                      'yellow-icon':
+                        student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status ===
+                        'sent_to_student',
+                      'red-icon':
+                        student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status ===
+                        'rejected_by_validator',
+                      'orange-icon':
+                        student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status ===
+                        'completed_by_student',
+                      'green-icon':
+                        student?.employability_survey_ids[student?.employability_survey_ids?.length - 1]?.survey_status ===
+                        'validated_by_validator'
+                    }"
+                    aria-hidden="true"
+                    >lens
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<div style="display: none">
+  <iframe [src]="studentDomain | safeResourceUrl" id="ifr"></iframe>
+  <!-- <iframe src="http://localhost:4200/session/login" id="ifr"></iframe> -->
+</div>

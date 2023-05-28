@@ -1,0 +1,35 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon style="vertical-align: middle; font-size: xx-large; place-self: center">add</mat-icon>
+  <h2 class="header-text">
+    {{ 'ERP_009_TEACHER_CONTRACT.Add Segment' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md" [formGroup]="addSegmentForm">
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width">
+          <input matInput required placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Segment Title' | translate }}" formControlName="addSegment" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form action-panel" fxLayout="row" fxLayoutAlign="end center">
+  <div class="mb-3 mr-4">
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div class="mb-3 mr-4">
+    <button mat-raised-button color="primary" type="button" class="mb-5" (click)="submit()">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>

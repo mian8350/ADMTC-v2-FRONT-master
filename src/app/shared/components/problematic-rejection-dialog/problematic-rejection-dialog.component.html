@@ -1,0 +1,78 @@
+<form [formGroup]="form">
+  <div style="color: black">
+    <h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+      <mat-icon svgIcon="tick-checkbox" style="margin-bottom: 5px; vertical-align: sub;"></mat-icon>
+      {{ 'Add_Task' | translate }}
+    </h1>
+    <mat-dialog-content>
+      <mat-form-field>
+        <input
+          type="text"
+          placeholder="{{ 'TASK.RNCP_Title' | translate }}*"
+          matInput
+          disabled
+          readonly
+          [formControl]="titleName"
+        />
+      </mat-form-field>
+
+      <div class="p-grid mrg-bot-10">
+        <div class="p-col-12 no-padding">
+          <label style="color: #9e9e9e; margin-right: 12px;">{{ 'User' | translate }} </label>
+          <mat-slide-toggle [checked]="false" disabled>
+            {{'TUTORIAL_MENU.CATEGORY' | translate }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <mat-form-field>
+        <input
+          type="text"
+          placeholder="{{ 'User' | translate }}*"
+          matInput
+          disabled
+          readonly
+          [formControl]="studentName"
+        />
+      </mat-form-field>
+
+
+      <div class="p-grid">
+        <div class="p-col-6 pad-t-md pad-l-none">
+          <label>{{ 'DASHBOARD.PRIORITY' | translate }}:</label>
+          <mat-radio-group formControlName="priority">
+            <mat-radio-button [value]="1" id="one" class="mrg-right-10">1</mat-radio-button>
+            <mat-radio-button disabled [value]="2" id="two" class="mrg-right-10">2</mat-radio-button>
+            <mat-radio-button disabled [value]="3" id="three" class="mrg-right-10">3</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="p-col-6" formGroupName="due_date">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" (click)="picker.open()" readonly placeholder="{{ 'DASHBOARD.DUEDATE' | translate }}*" formControlName="date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field>
+        <textarea matInput placeholder="{{ 'Description' | translate }}*" rows="2" formControlName="description" #descriptionInput></textarea>
+        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+      </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="center">
+      <button mat-raised-button type="button" color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+      <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="submit()">
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </mat-dialog-actions>
+
+  </div>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,118 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.document-list,
+.test-list,
+.sub-folder-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+li a {
+  font-size: 12px;
+  transition: color 0.02s, font-size 0.02s;
+}
+
+li a:hover {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+li.root-folder {
+  list-style: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+li a.selected {
+  font-size: 12px;
+  color: #ffd740;
+}
+
+.test-incomplete {
+  color: red;
+}
+
+mat-icon svg {
+  fill: inherit;
+}
+
+.default-card {
+  border-radius: 0px !important;
+}
+
+.acadkit-card {
+  margin: 6px 0 !important;
+  padding: 8px !important;
+  font-size: 16px;
+  background-color: $medium-grey;
+}
+
+.folder-title {
+  display: inline;
+  margin-right: 8px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif !important;
+}
+
+.folder-item,
+.document-item,
+.test-item {
+  cursor: pointer;
+}
+
+.acadkit-icon {
+  vertical-align: middle;
+  font-size: 21px !important;
+}
+
+.small-spinner {
+  display: inline-block;
+}
+
+.acad-kit-font-size {
+  font-size: 14px;
+}
+
+.gray-count-badge {
+  width: 45px;
+  height: 25px;
+  background-color: #607d8b;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.red-count-badge {
+  width: 45px;
+  height: 25px;
+  background-color: #f44336;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.container-download-documents {
+  position: relative;
+  display: block;
+}
+
+.btn-download-documents {
+  font-size: 12px !important;
+  margin-left: 8px;
+  position: absolute;
+  padding-left: 3px;
+  padding-right: 3px;
+  right: 10px;
+  bottom: 30px;
+}
+.refresh {
+  position: relative;
+  top: 5px;
+  font-size: 18px;
+  transform: rotate(130deg);
+  color: #ffd740;
+  cursor: pointer;
+}

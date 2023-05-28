@@ -1,0 +1,108 @@
+<fieldset
+  [ngClass]="{ 'hide-element': !classForm.allow_problematic }"
+  class="fieldset-class"
+>
+  <div class="yellow-border card-row" [formGroup]="problematicForm">
+    <div class="align-right-button">
+      <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()" [disabled]="problematicForm.invalid">
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+    <fieldset class="fieldset-class" [disabled]="classData && classData.is_problematic_active">
+      <div class="p-grid">
+        <div class="p-col-12 mb-1rem border-white">
+          <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-job' : 'fr-job'">
+            <h5>{{ 'PROBLEMATIC_019.Problematic Form' | translate }}*</h5>
+          </div>
+          <div class="p-col-8 pad-none mrgn-left15">
+            <mat-form-field>
+              <mat-select
+                [required]="classForm.allow_problematic"
+                [disabled]="classData && classData.is_problematic_active"
+                formControlName="problematic_questionnaire_template_id"
+                style="width: 100%"
+                color="accent"
+                [placeholder]="'PROBLEMATIC_019.Select Form Template for Problematic' | translate"
+              >
+                <mat-option *ngFor="let quest of problematicQuetionaireList" [value]="quest._id">
+                  {{ quest.questionnaire_name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid" formGroupName="problematic_activation_date">
+        <div class="p-col-12 mb-1rem border-white">
+          <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-activation' : 'fr-activation'">
+            <h5>{{ 'Activation Date' | translate }}</h5>
+          </div>
+          <div class="p-0-6 mrgn-left15">
+            <div [fxFlex]="30">
+              <mat-form-field style="margin-top: 5px; margin-bottom: -1.4em">
+                <input
+                  [required]="classForm.allow_problematic"
+                  matInput
+                  readonly
+                  [placeholder]="'Date of Activation' | translate"
+                  formControlName="date"
+                  (click)="picker3.open()"
+                  [matDatepicker]="picker3"
+                />
+                <!-- Previously there is min validator blocking save [min]="today" -->
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="5">
+              <mat-form-field style="width: 75px; margin-top: -2px">
+                <input
+                  [required]="classForm.allow_problematic"
+                  matInput
+                  [ngxTimepicker]="time_utc_prob"
+                  readonly
+                  [format]="24"
+                  formControlName="time"
+                />
+                <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc_prob">
+                  <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                    <path
+                      fill="#ffffff"
+                      d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                    />
+                  </svg>
+                </ngx-material-timepicker-toggle>
+              </mat-form-field>
+              <ngx-material-timepicker #time_utc_prob></ngx-material-timepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    
+    <div class="p-grid">
+      <div class="p-col-12 mb-1rem border-white">
+        <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-sent' : 'fr-sent'">
+          <h5>{{ 'PROBLEMATIC_019.send_to_certifier' | translate }}</h5>
+        </div>
+        <div class="pad-none mrgn-left15">
+          <mat-form-field>
+            <mat-select
+              formControlName="problematic_send_to_certifier_time"
+              style="width: 100%"
+              color="accent"
+              [placeholder]="'PROBLEMATIC_019.when_problematic_sent' | translate"
+            >
+              <mat-option class="small-txt" [value]="'after_all_student_in_one_school'">
+                {{ 'PROBLEMATIC_019.send_after_complete' | translate }}
+              </mat-option>
+              <mat-option class="small-txt" [value]="'weekly'">
+                {{ 'PROBLEMATIC_019.send_weekly' | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>

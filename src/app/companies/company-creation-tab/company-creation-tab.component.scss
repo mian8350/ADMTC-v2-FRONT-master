@@ -1,0 +1,239 @@
+.overlay {
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 10px;
+  height: 135px;
+  width: 135px;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+}
+
+.buttons-container {
+  margin-top: 12px !important;
+}
+
+.buttons-placement {
+  float: right;
+  margin-right: 14px !important;
+}
+
+.icon-standard-size {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.logo-content {
+  float: left;
+  width: 170px;
+  display: flex;
+}
+
+.spinner-margin {
+  margin: 0 auto;
+}
+
+.some-padding-top {
+  padding-top: 10px;
+}
+
+.formArray-content {
+  padding-bottom: 0px;
+  margin-left: 7px;
+  margin-right: 7px !important;
+  width: 98%;
+}
+
+.fix-font-size {
+  font-size: 12px;
+}
+
+.text-align-font {
+  text-align: right;
+  font-size: 12px;
+}
+
+.add-address-btn-style {
+  background: #81b441;
+  color: white;
+}
+
+.force-no-padding-right {
+  padding-right: 0px !important;
+}
+
+.float-right {
+  float: right;
+}
+
+.mat-card-creation-adjust {
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+}
+
+.bottom-buttons {
+  margin-bottom: 14px !important;
+}
+
+.logoContainer {
+  margin-top: 15px;
+  position: relative;
+  height: 135px;
+  width: 135px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.text {
+  color: white;
+  font-size: 16px;
+  margin: auto;
+  text-align: center;
+}
+
+.logoContainer:hover .overlay {
+  opacity: 1;
+}
+
+.border-white {
+  border: 1px solid white;
+}
+
+.school-fieldset {
+  margin-bottom: 14px !important;
+  margin-right: 14px !important;
+  margin-left: 14px !important;
+  margin-top: 2rem !important;
+}
+
+.btn-standard {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.card-row {
+  padding: 8px;
+}
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.no-image {
+  margin-top: 10px;
+  width: 135px;
+  height: 135px;
+  background-color: #6f6f6f;
+  line-height: 125px;
+  color: white;
+  text-align: center;
+}
+
+.text-logo {
+  width: 135px;
+  text-align: center;
+  font-size: larger;
+  font-weight: 700;
+  margin-top: -2.3rem;
+}
+
+.logo-spinner-wrapper {
+  margin-top: 10px;
+  height: 135px;
+  width: 135px;
+  background-color: #6f6f6f;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img-wrapper {
+  margin-top: 10px;
+  width: 135px;
+  height: 135px;
+  background-color: #6f6f6f;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.center-image {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 3px;
+}
+.pdr-0 {
+  padding-right: 0px;
+}
+
+.mr-0 {
+  margin-right: 0px !important;
+}
+
+.pdv-0px {
+  padding: 0.5em 0px;
+}
+.marv-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 6em;
+  overflow: show;
+  margin: 25% auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.logo-spinner-wrapper {
+  height: 350px;
+  width: 100%;
+  background-color: #6f6f6f00;
+  display: flex;
+  align-items: center;
+}
+.spinner-margin {
+  margin: 0 auto;
+}
+
+// ::ng-deep circle {
+//   stroke: #1565c0 !important;
+// }
+.height-60x {
+  height: 160px;
+}

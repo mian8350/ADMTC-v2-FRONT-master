@@ -1,0 +1,29 @@
+<div class="p-grid">
+  <p class="class-text">{{ 'Select list of school to be Connected to this class from Exiting class' | translate }}</p>
+  <div class="p-grid">
+    <div class="p-col-8">
+      <mat-form-field *ngIf="!classData?.origin_class || classData?.origin_class === 'not_started'">
+        <input matInput type="text" placeholder="{{ 'Class Name' | translate }}" [matAutocomplete]="autoClass" [formControl]="searchForm" />
+        <mat-autocomplete #autoClass="matAutocomplete" [displayWith]="displayClass.bind(this)" [panelWidth]="'fit'">
+          <mat-option *ngFor="let class of classes" [value]="class._id">
+            {{ class.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field *ngIf="classData?.origin_class && classData?.origin_class !== 'not_started'">
+        <input
+          matInput
+          type="text"
+          placeholder="{{ 'Class Name' | translate }}"
+          [value]="displayClassDisabled(searchForm.value)"
+          [disabled]="true"
+        />
+      </mat-form-field>
+    </div>
+    <div class="p-col-2" *ngIf="!classData?.origin_class || classData?.origin_class === 'not_started'">
+      <button mat-raised-button color="accent" (click)="onSelect()">
+        {{ 'Select This Class' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

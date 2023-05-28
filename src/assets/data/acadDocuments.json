@@ -1,0 +1,4149 @@
+{
+  "data": [
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": true,
+      "_id": "5c06ab8ac2526f5e1efacb77",
+      "name": "Présentation Titre Informatique Niveau II - AGIIR-INSTA",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543941000878_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+      "fileName": "Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd304a9c94f60bb6a60c5b",
+            "name": "Fiche RNCP Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543319623653_Fiche RNCP Titre AGIR.pdf",
+            "fileName": "Fiche RNCP Titre AGIR.pdf",
+            "parentCategory": "5b69d71881935943d24d268d",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:35.630Z",
+            "__v": 0,
+            "S3FileName": "1543475974475_Fiche RNCP Titre AGIR.pdf",
+            "movedToS3": true,
+            "id": "5bfd304a9c94f60bb6a60c5b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5c06ab8ac2526f5e1efacb77",
+            "name": "Présentation Titre Informatique Niveau II - AGIIR-INSTA",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543941000878_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "fileName": "Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "parentCategory": "5b69d71881935943d24d268d",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a3bf526e04708414763c73c",
+            "S3FileName": "1543940999701_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-12-4",
+            "updatedAt": "2018-12-04T00:00:00.000Z",
+            "__v": 0,
+            "id": "5c06ab8ac2526f5e1efacb77"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d268d",
+        "class":"5DNI 2017",
+        "title": "COMMUNICATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a3bf526e04708414763c73c",
+      "S3FileName": "1543940999701_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-12-4",
+      "updatedAt": "2018-12-04T00:00:00.000Z",
+      "__v": 0,
+      "id": "5c06ab8ac2526f5e1efacb77"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd304a9c94f60bb6a60c5b",
+      "name": "Fiche RNCP Titre AGIR",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543319623653_Fiche RNCP Titre AGIR.pdf",
+      "fileName": "Fiche RNCP Titre AGIR.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd304a9c94f60bb6a60c5b",
+            "name": "Fiche RNCP Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543319623653_Fiche RNCP Titre AGIR.pdf",
+            "fileName": "Fiche RNCP Titre AGIR.pdf",
+            "parentCategory": "5b69d71881935943d24d268d",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:35.630Z",
+            "__v": 0,
+            "S3FileName": "1543475974475_Fiche RNCP Titre AGIR.pdf",
+            "movedToS3": true,
+            "id": "5bfd304a9c94f60bb6a60c5b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5c06ab8ac2526f5e1efacb77",
+            "name": "Présentation Titre Informatique Niveau II - AGIIR-INSTA",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543941000878_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "fileName": "Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "parentCategory": "5b69d71881935943d24d268d",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a3bf526e04708414763c73c",
+            "S3FileName": "1543940999701_Présentation Titre Informatique Niveau II - AGIIR-INSTA.pptx",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-12-4",
+            "updatedAt": "2018-12-04T00:00:00.000Z",
+            "__v": 0,
+            "id": "5c06ab8ac2526f5e1efacb77"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d268d",
+        "class":"5DNI 2018",
+        "title": "COMMUNICATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:35.630Z",
+      "__v": 0,
+      "S3FileName": "1543475974475_Fiche RNCP Titre AGIR.pdf",
+      "movedToS3": true,
+      "id": "5bfd304a9c94f60bb6a60c5b"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd31dd9c94f60bb6a61deb",
+      "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+      "type": "Test",
+      "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+      "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd31dd9c94f60bb6a61deb",
+            "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+            "type": "Test",
+            "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:36.727Z",
+            "__v": 0,
+            "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "movedToS3": true,
+            "id": "5bfd31dd9c94f60bb6a61deb"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32179c94f60bb6a61ded",
+            "name": "AGIR-GL-2019_Soutenance du Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:37.766Z",
+            "__v": 0,
+            "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32179c94f60bb6a61ded"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32b99c94f60bb6a61df7",
+            "name": "AGIR-GL-2019_Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:38.789Z",
+            "__v": 0,
+            "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32b99c94f60bb6a61df7"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32dd9c94f60bb6a61df9",
+            "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+            "type": "Test",
+            "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:39.791Z",
+            "__v": 0,
+            "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "movedToS3": true,
+            "id": "5bfd32dd9c94f60bb6a61df9"
+          }
+        ],
+        "tests": [
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b841a49c9797239bd70b8da",
+                        "title": "<p>Qualité du travail effectué</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d9",
+                        "title": "<p>Implication dans la mission, Capacité de travail en équipe, Sens des responsabilités, Curiosité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d8",
+                        "title": "<p>Assiduité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d7",
+                        "title": "<p>Attitude professionnelle</p>",
+                        "maximumRating": 2,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b841a49c9797239bd70b8d6",
+                    "title": "<p>Critères</p>",
+                    "maximumRating": 20
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "landscape"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-5-29"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb8",
+                  "id": 0,
+                  "text": "Send the Evaluation to Company's Mentor",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb7",
+                  "id": 0,
+                  "text": "Validation of Mentor Evaluation",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": null,
+            "documents": [],
+            "incompleteCreation": null,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": true,
+            "correctionStatus": "pending",
+            "allowReTakeExam": null,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894c5220cb206385943f00",
+            "name": "Evaluation du Tuteur Entreprise",
+            "type": "mentor-evaluation",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-27",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b850990c9797239bd7563ce",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2683",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 20,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:10:26.428Z",
+            "updatedAt": "2018-08-31T15:10:55.887Z",
+            "__v": 0,
+            "dateReTakeExam": null,
+            "questionnaire": null,
+            "numberOfTimesPublished": 0,
+            "id": "5b894c5220cb206385943f00"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critère d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b842818c9797239bd70c1ee",
+                        "title": "<p>Aptitude à communiquer</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Respect des règles de style et de l'orthographe</p><p>Clarté de la pensée</p><p>Respect du plan</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ed",
+                        "title": "<p>Capacité à analyser une situation</p>",
+                        "maximumRating": 8,
+                        "direction": "<p><span style=\"color: black;\">Présentation de l’entreprise et de la problématique</span></p><p><span style=\"color: black;\">Argumentation sur la problématique</span></p><p>  </p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ec",
+                        "title": "<p>Capacité à gérer un projet&nbsp;</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation de la méthodologie choisie</p><p>&nbsp;</p><p>Présentation des différentes étapes du projet&nbsp;:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyse des besoins aux spécifications fonctionnelles,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conception,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réalisation,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tests.</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1eb",
+                        "title": "<p>Capacité à proposer les meilleures solutions technologiques</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation des technologies proposées</p><p>Maîtrise des technologies</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ea",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul&nbsp;</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Difficultés rencontrées&nbsp;</span></p><p><span style=\"color: black;\">Apports personnels et professionnels</span></p><p>  </p>"
+                      }
+                    ],
+                    "_id": "5b842818c9797239bd70c1e9",
+                    "title": "<p>Aptitudes / Capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f28",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f27",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894d2b20cb206385943f20",
+            "name": "Rapport",
+            "type": "Memoire-ECRIT",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2684",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [
+              {
+                "deadlineDate": {
+                  "before": false,
+                  "type": "fixed",
+                  "deadline": "2019-9-1"
+                },
+                "isForAllStudents": false,
+                "_id": "5b894d2b20cb206385943f29",
+                "documentName": "Projet de fin d'études",
+                "documentUserType": {
+                  "name": "student",
+                  "entity": "academic",
+                  "_id": "5a067bba1c0217218c75f8ab"
+                },
+                "docUploadDateRetakeExam": null,
+                "id": "5b894d2b20cb206385943f29"
+              }
+            ],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:14:03.586Z",
+            "updatedAt": "2018-08-31T14:14:03.586Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894d2b20cb206385943f20"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critères d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b850c7ec9797239bd7564d3",
+                        "title": "<p><span style=\"color: black;\">Aptitude à communiquer</span></p>",
+                        "maximumRating": 20,
+                        "direction": "<p><span style=\"color: black;\">Présentation personnelle (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Capacité à convaincre</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Respect du temps imparti</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des supports de présentation </span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d2",
+                        "title": "<p><span style=\"color: black;\">Capacité à exposer clairement une problématique</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Clarté de la problématique </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Positionnement de la problématique par rapport à son contexte</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Savoir-faire professionnel démontré</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d1",
+                        "title": "<p><span style=\"color: black;\">Capacité à réaliser une veille, à synthétiser des informations</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Pertinence, structuration, cohérence des données sélectionnées et présentées, </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des sources</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse et solidité du raisonnement</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d0",
+                        "title": "<p><span style=\"color: black;\">Capacité à défendre ses choix technologiques</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Qualité des solutions technologiques proposées</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse de l’impact du projet, mesures de pilotage proposées</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564cf",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Bilan personnel, capacité à défendre son point de vue, remise en cause personnelle, analyse du vécu</span></p>"
+                      }
+                    ],
+                    "_id": "5b850c7ec9797239bd7564ce",
+                    "title": "<p>Aptitudes / capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3b",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3a",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 20,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894da520cb206385943f33",
+            "name": "Soutenance du Rapport",
+            "type": "Memoire-ORAL",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2685",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:16:05.865Z",
+            "updatedAt": "2018-08-31T14:16:05.865Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894da520cb206385943f33"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": true,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b86b086c9797239bd87a97b",
+                        "title": "<p>Assiduité / Ponctualité</p>",
+                        "maximumRating": 20,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a97a",
+                        "title": "<p>Participation</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a979",
+                        "title": "<p>Contribution à la vie du centre</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b86b086c9797239bd87a978",
+                    "title": "<p>Capacités / Compétences évaluées</p>",
+                    "maximumRating": 40
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f90",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f8f",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 30,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894ed120cb206385943f8a",
+            "name": "Attitude professionnelle en centre de formation",
+            "type": "Written",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-28",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b8948c620cb206385943ec1",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 4,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:21:05.370Z",
+            "updatedAt": "2018-08-31T14:21:05.370Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894ed120cb206385943f8a"
+          }
+        ],
+        "subCategories": [],
+        "_id": "5b89477520cb206385943ead",
+        "class":"5DNI 2021",
+        "title": "Projet de Fin d'Etudes"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:36.727Z",
+      "__v": 0,
+      "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+      "movedToS3": true,
+      "id": "5bfd31dd9c94f60bb6a61deb"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd32179c94f60bb6a61ded",
+      "name": "AGIR-GL-2019_Soutenance du Rapport",
+      "type": "Test",
+      "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+      "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd31dd9c94f60bb6a61deb",
+            "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+            "type": "Test",
+            "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:36.727Z",
+            "__v": 0,
+            "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "movedToS3": true,
+            "id": "5bfd31dd9c94f60bb6a61deb"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32179c94f60bb6a61ded",
+            "name": "AGIR-GL-2019_Soutenance du Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:37.766Z",
+            "__v": 0,
+            "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32179c94f60bb6a61ded"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32b99c94f60bb6a61df7",
+            "name": "AGIR-GL-2019_Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:38.789Z",
+            "__v": 0,
+            "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32b99c94f60bb6a61df7"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32dd9c94f60bb6a61df9",
+            "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+            "type": "Test",
+            "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:39.791Z",
+            "__v": 0,
+            "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "movedToS3": true,
+            "id": "5bfd32dd9c94f60bb6a61df9"
+          }
+        ],
+        "tests": [
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b841a49c9797239bd70b8da",
+                        "title": "<p>Qualité du travail effectué</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d9",
+                        "title": "<p>Implication dans la mission, Capacité de travail en équipe, Sens des responsabilités, Curiosité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d8",
+                        "title": "<p>Assiduité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d7",
+                        "title": "<p>Attitude professionnelle</p>",
+                        "maximumRating": 2,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b841a49c9797239bd70b8d6",
+                    "title": "<p>Critères</p>",
+                    "maximumRating": 20
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "landscape"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-5-29"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb8",
+                  "id": 0,
+                  "text": "Send the Evaluation to Company's Mentor",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb7",
+                  "id": 0,
+                  "text": "Validation of Mentor Evaluation",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": null,
+            "documents": [],
+            "incompleteCreation": null,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": true,
+            "correctionStatus": "pending",
+            "allowReTakeExam": null,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894c5220cb206385943f00",
+            "name": "Evaluation du Tuteur Entreprise",
+            "type": "mentor-evaluation",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-27",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b850990c9797239bd7563ce",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2683",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 20,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:10:26.428Z",
+            "updatedAt": "2018-08-31T15:10:55.887Z",
+            "__v": 0,
+            "dateReTakeExam": null,
+            "questionnaire": null,
+            "numberOfTimesPublished": 0,
+            "id": "5b894c5220cb206385943f00"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critère d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b842818c9797239bd70c1ee",
+                        "title": "<p>Aptitude à communiquer</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Respect des règles de style et de l'orthographe</p><p>Clarté de la pensée</p><p>Respect du plan</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ed",
+                        "title": "<p>Capacité à analyser une situation</p>",
+                        "maximumRating": 8,
+                        "direction": "<p><span style=\"color: black;\">Présentation de l’entreprise et de la problématique</span></p><p><span style=\"color: black;\">Argumentation sur la problématique</span></p><p>  </p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ec",
+                        "title": "<p>Capacité à gérer un projet&nbsp;</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation de la méthodologie choisie</p><p>&nbsp;</p><p>Présentation des différentes étapes du projet&nbsp;:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyse des besoins aux spécifications fonctionnelles,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conception,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réalisation,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tests.</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1eb",
+                        "title": "<p>Capacité à proposer les meilleures solutions technologiques</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation des technologies proposées</p><p>Maîtrise des technologies</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ea",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul&nbsp;</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Difficultés rencontrées&nbsp;</span></p><p><span style=\"color: black;\">Apports personnels et professionnels</span></p><p>  </p>"
+                      }
+                    ],
+                    "_id": "5b842818c9797239bd70c1e9",
+                    "title": "<p>Aptitudes / Capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f28",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f27",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894d2b20cb206385943f20",
+            "name": "Rapport",
+            "type": "Memoire-ECRIT",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2684",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [
+              {
+                "deadlineDate": {
+                  "before": false,
+                  "type": "fixed",
+                  "deadline": "2019-9-1"
+                },
+                "isForAllStudents": false,
+                "_id": "5b894d2b20cb206385943f29",
+                "documentName": "Projet de fin d'études",
+                "documentUserType": {
+                  "name": "student",
+                  "entity": "academic",
+                  "_id": "5a067bba1c0217218c75f8ab"
+                },
+                "docUploadDateRetakeExam": null,
+                "id": "5b894d2b20cb206385943f29"
+              }
+            ],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:14:03.586Z",
+            "updatedAt": "2018-08-31T14:14:03.586Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894d2b20cb206385943f20"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critères d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b850c7ec9797239bd7564d3",
+                        "title": "<p><span style=\"color: black;\">Aptitude à communiquer</span></p>",
+                        "maximumRating": 20,
+                        "direction": "<p><span style=\"color: black;\">Présentation personnelle (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Capacité à convaincre</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Respect du temps imparti</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des supports de présentation </span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d2",
+                        "title": "<p><span style=\"color: black;\">Capacité à exposer clairement une problématique</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Clarté de la problématique </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Positionnement de la problématique par rapport à son contexte</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Savoir-faire professionnel démontré</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d1",
+                        "title": "<p><span style=\"color: black;\">Capacité à réaliser une veille, à synthétiser des informations</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Pertinence, structuration, cohérence des données sélectionnées et présentées, </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des sources</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse et solidité du raisonnement</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d0",
+                        "title": "<p><span style=\"color: black;\">Capacité à défendre ses choix technologiques</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Qualité des solutions technologiques proposées</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse de l’impact du projet, mesures de pilotage proposées</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564cf",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Bilan personnel, capacité à défendre son point de vue, remise en cause personnelle, analyse du vécu</span></p>"
+                      }
+                    ],
+                    "_id": "5b850c7ec9797239bd7564ce",
+                    "title": "<p>Aptitudes / capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3b",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3a",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 20,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894da520cb206385943f33",
+            "name": "Soutenance du Rapport",
+            "type": "Memoire-ORAL",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2685",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:16:05.865Z",
+            "updatedAt": "2018-08-31T14:16:05.865Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894da520cb206385943f33"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": true,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b86b086c9797239bd87a97b",
+                        "title": "<p>Assiduité / Ponctualité</p>",
+                        "maximumRating": 20,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a97a",
+                        "title": "<p>Participation</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a979",
+                        "title": "<p>Contribution à la vie du centre</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b86b086c9797239bd87a978",
+                    "title": "<p>Capacités / Compétences évaluées</p>",
+                    "maximumRating": 40
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f90",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f8f",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 30,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894ed120cb206385943f8a",
+            "name": "Attitude professionnelle en centre de formation",
+            "type": "Written",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-28",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b8948c620cb206385943ec1",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 4,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:21:05.370Z",
+            "updatedAt": "2018-08-31T14:21:05.370Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894ed120cb206385943f8a"
+          }
+        ],
+        "subCategories": [],
+        "_id": "5b89477520cb206385943ead",
+        "class":"5DNI 2021",
+        "title": "Projet de Fin d'Etudes"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:37.766Z",
+      "__v": 0,
+      "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+      "movedToS3": true,
+      "id": "5bfd32179c94f60bb6a61ded"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd32b99c94f60bb6a61df7",
+      "name": "AGIR-GL-2019_Rapport",
+      "type": "Test",
+      "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+      "fileName": "AGIR-GL-2019_Rapport.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd31dd9c94f60bb6a61deb",
+            "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+            "type": "Test",
+            "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:36.727Z",
+            "__v": 0,
+            "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "movedToS3": true,
+            "id": "5bfd31dd9c94f60bb6a61deb"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32179c94f60bb6a61ded",
+            "name": "AGIR-GL-2019_Soutenance du Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:37.766Z",
+            "__v": 0,
+            "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32179c94f60bb6a61ded"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32b99c94f60bb6a61df7",
+            "name": "AGIR-GL-2019_Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:38.789Z",
+            "__v": 0,
+            "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32b99c94f60bb6a61df7"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32dd9c94f60bb6a61df9",
+            "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+            "type": "Test",
+            "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:39.791Z",
+            "__v": 0,
+            "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "movedToS3": true,
+            "id": "5bfd32dd9c94f60bb6a61df9"
+          }
+        ],
+        "tests": [
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b841a49c9797239bd70b8da",
+                        "title": "<p>Qualité du travail effectué</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d9",
+                        "title": "<p>Implication dans la mission, Capacité de travail en équipe, Sens des responsabilités, Curiosité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d8",
+                        "title": "<p>Assiduité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d7",
+                        "title": "<p>Attitude professionnelle</p>",
+                        "maximumRating": 2,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b841a49c9797239bd70b8d6",
+                    "title": "<p>Critères</p>",
+                    "maximumRating": 20
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "landscape"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-5-29"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb8",
+                  "id": 0,
+                  "text": "Send the Evaluation to Company's Mentor",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb7",
+                  "id": 0,
+                  "text": "Validation of Mentor Evaluation",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": null,
+            "documents": [],
+            "incompleteCreation": null,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": true,
+            "correctionStatus": "pending",
+            "allowReTakeExam": null,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894c5220cb206385943f00",
+            "name": "Evaluation du Tuteur Entreprise",
+            "type": "mentor-evaluation",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-27",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b850990c9797239bd7563ce",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2683",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 20,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:10:26.428Z",
+            "updatedAt": "2018-08-31T15:10:55.887Z",
+            "__v": 0,
+            "dateReTakeExam": null,
+            "questionnaire": null,
+            "numberOfTimesPublished": 0,
+            "id": "5b894c5220cb206385943f00"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critère d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b842818c9797239bd70c1ee",
+                        "title": "<p>Aptitude à communiquer</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Respect des règles de style et de l'orthographe</p><p>Clarté de la pensée</p><p>Respect du plan</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ed",
+                        "title": "<p>Capacité à analyser une situation</p>",
+                        "maximumRating": 8,
+                        "direction": "<p><span style=\"color: black;\">Présentation de l’entreprise et de la problématique</span></p><p><span style=\"color: black;\">Argumentation sur la problématique</span></p><p>  </p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ec",
+                        "title": "<p>Capacité à gérer un projet&nbsp;</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation de la méthodologie choisie</p><p>&nbsp;</p><p>Présentation des différentes étapes du projet&nbsp;:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyse des besoins aux spécifications fonctionnelles,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conception,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réalisation,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tests.</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1eb",
+                        "title": "<p>Capacité à proposer les meilleures solutions technologiques</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation des technologies proposées</p><p>Maîtrise des technologies</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ea",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul&nbsp;</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Difficultés rencontrées&nbsp;</span></p><p><span style=\"color: black;\">Apports personnels et professionnels</span></p><p>  </p>"
+                      }
+                    ],
+                    "_id": "5b842818c9797239bd70c1e9",
+                    "title": "<p>Aptitudes / Capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f28",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f27",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894d2b20cb206385943f20",
+            "name": "Rapport",
+            "type": "Memoire-ECRIT",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2684",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [
+              {
+                "deadlineDate": {
+                  "before": false,
+                  "type": "fixed",
+                  "deadline": "2019-9-1"
+                },
+                "isForAllStudents": false,
+                "_id": "5b894d2b20cb206385943f29",
+                "documentName": "Projet de fin d'études",
+                "documentUserType": {
+                  "name": "student",
+                  "entity": "academic",
+                  "_id": "5a067bba1c0217218c75f8ab"
+                },
+                "docUploadDateRetakeExam": null,
+                "id": "5b894d2b20cb206385943f29"
+              }
+            ],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:14:03.586Z",
+            "updatedAt": "2018-08-31T14:14:03.586Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894d2b20cb206385943f20"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critères d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b850c7ec9797239bd7564d3",
+                        "title": "<p><span style=\"color: black;\">Aptitude à communiquer</span></p>",
+                        "maximumRating": 20,
+                        "direction": "<p><span style=\"color: black;\">Présentation personnelle (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Capacité à convaincre</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Respect du temps imparti</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des supports de présentation </span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d2",
+                        "title": "<p><span style=\"color: black;\">Capacité à exposer clairement une problématique</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Clarté de la problématique </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Positionnement de la problématique par rapport à son contexte</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Savoir-faire professionnel démontré</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d1",
+                        "title": "<p><span style=\"color: black;\">Capacité à réaliser une veille, à synthétiser des informations</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Pertinence, structuration, cohérence des données sélectionnées et présentées, </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des sources</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse et solidité du raisonnement</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d0",
+                        "title": "<p><span style=\"color: black;\">Capacité à défendre ses choix technologiques</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Qualité des solutions technologiques proposées</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse de l’impact du projet, mesures de pilotage proposées</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564cf",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Bilan personnel, capacité à défendre son point de vue, remise en cause personnelle, analyse du vécu</span></p>"
+                      }
+                    ],
+                    "_id": "5b850c7ec9797239bd7564ce",
+                    "title": "<p>Aptitudes / capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3b",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3a",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 20,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894da520cb206385943f33",
+            "name": "Soutenance du Rapport",
+            "type": "Memoire-ORAL",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2685",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:16:05.865Z",
+            "updatedAt": "2018-08-31T14:16:05.865Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894da520cb206385943f33"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": true,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b86b086c9797239bd87a97b",
+                        "title": "<p>Assiduité / Ponctualité</p>",
+                        "maximumRating": 20,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a97a",
+                        "title": "<p>Participation</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a979",
+                        "title": "<p>Contribution à la vie du centre</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b86b086c9797239bd87a978",
+                    "title": "<p>Capacités / Compétences évaluées</p>",
+                    "maximumRating": 40
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f90",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f8f",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 30,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894ed120cb206385943f8a",
+            "name": "Attitude professionnelle en centre de formation",
+            "type": "Written",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-28",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b8948c620cb206385943ec1",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 4,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:21:05.370Z",
+            "updatedAt": "2018-08-31T14:21:05.370Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894ed120cb206385943f8a"
+          }
+        ],
+        "subCategories": [],
+        "_id": "5b89477520cb206385943ead",
+        "class":"5DNI 2021",
+        "title": "Projet de Fin d'Etudes"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:38.789Z",
+      "__v": 0,
+      "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+      "movedToS3": true,
+      "id": "5bfd32b99c94f60bb6a61df7"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd32dd9c94f60bb6a61df9",
+      "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+      "type": "Test",
+      "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+      "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd31dd9c94f60bb6a61deb",
+            "name": "AGIR-GL-2019_Attitude professionnelle en centre de formation",
+            "type": "Test",
+            "filePath": "uploads/test/1543320027938_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "fileName": "AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:36.727Z",
+            "__v": 0,
+            "S3FileName": "1543475975632_AGIR-GL-2019_Attitude professionnelle en centre de formation.pdf",
+            "movedToS3": true,
+            "id": "5bfd31dd9c94f60bb6a61deb"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32179c94f60bb6a61ded",
+            "name": "AGIR-GL-2019_Soutenance du Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320085653_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:37.766Z",
+            "__v": 0,
+            "S3FileName": "1543475976728_AGIR-GL-2019_Soutenance du Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32179c94f60bb6a61ded"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32b99c94f60bb6a61df7",
+            "name": "AGIR-GL-2019_Rapport",
+            "type": "Test",
+            "filePath": "uploads/test/1543320247730_AGIR-GL-2019_Rapport.pdf",
+            "fileName": "AGIR-GL-2019_Rapport.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:38.789Z",
+            "__v": 0,
+            "S3FileName": "1543475977768_AGIR-GL-2019_Rapport.pdf",
+            "movedToS3": true,
+            "id": "5bfd32b99c94f60bb6a61df7"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd32dd9c94f60bb6a61df9",
+            "name": "AGIR-GL-2019_Evaluation du Tuteur Entreprise",
+            "type": "Test",
+            "filePath": "uploads/test/1543320283886_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "fileName": "AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "parentCategory": "5b89477520cb206385943ead",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:39.791Z",
+            "__v": 0,
+            "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+            "movedToS3": true,
+            "id": "5bfd32dd9c94f60bb6a61df9"
+          }
+        ],
+        "tests": [
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b841a49c9797239bd70b8da",
+                        "title": "<p>Qualité du travail effectué</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d9",
+                        "title": "<p>Implication dans la mission, Capacité de travail en équipe, Sens des responsabilités, Curiosité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d8",
+                        "title": "<p>Assiduité</p>",
+                        "maximumRating": 4,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b841a49c9797239bd70b8d7",
+                        "title": "<p>Attitude professionnelle</p>",
+                        "maximumRating": 2,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b841a49c9797239bd70b8d6",
+                    "title": "<p>Critères</p>",
+                    "maximumRating": 20
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "landscape"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-5-29"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb8",
+                  "id": 0,
+                  "text": "Send the Evaluation to Company's Mentor",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b895a7f20cb206385943fb7",
+                  "id": 0,
+                  "text": "Validation of Mentor Evaluation",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": null,
+            "documents": [],
+            "incompleteCreation": null,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": true,
+            "correctionStatus": "pending",
+            "allowReTakeExam": null,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894c5220cb206385943f00",
+            "name": "Evaluation du Tuteur Entreprise",
+            "type": "mentor-evaluation",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-27",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b850990c9797239bd7563ce",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2683",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 20,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:10:26.428Z",
+            "updatedAt": "2018-08-31T15:10:55.887Z",
+            "__v": 0,
+            "dateReTakeExam": null,
+            "questionnaire": null,
+            "numberOfTimesPublished": 0,
+            "id": "5b894c5220cb206385943f00"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critère d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b842818c9797239bd70c1ee",
+                        "title": "<p>Aptitude à communiquer</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Respect des règles de style et de l'orthographe</p><p>Clarté de la pensée</p><p>Respect du plan</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ed",
+                        "title": "<p>Capacité à analyser une situation</p>",
+                        "maximumRating": 8,
+                        "direction": "<p><span style=\"color: black;\">Présentation de l’entreprise et de la problématique</span></p><p><span style=\"color: black;\">Argumentation sur la problématique</span></p><p>  </p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ec",
+                        "title": "<p>Capacité à gérer un projet&nbsp;</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation de la méthodologie choisie</p><p>&nbsp;</p><p>Présentation des différentes étapes du projet&nbsp;:</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Analyse des besoins aux spécifications fonctionnelles,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conception,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réalisation,</p><p>·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tests.</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1eb",
+                        "title": "<p>Capacité à proposer les meilleures solutions technologiques</p>",
+                        "maximumRating": 8,
+                        "direction": "<p>Argumentation des technologies proposées</p><p>Maîtrise des technologies</p>"
+                      },
+                      {
+                        "_id": "5b842818c9797239bd70c1ea",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul&nbsp;</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Difficultés rencontrées&nbsp;</span></p><p><span style=\"color: black;\">Apports personnels et professionnels</span></p><p>  </p>"
+                      }
+                    ],
+                    "_id": "5b842818c9797239bd70c1e9",
+                    "title": "<p>Aptitudes / Capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f28",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894d2b20cb206385943f27",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894d2b20cb206385943f20",
+            "name": "Rapport",
+            "type": "Memoire-ECRIT",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2684",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [
+              {
+                "deadlineDate": {
+                  "before": false,
+                  "type": "fixed",
+                  "deadline": "2019-9-1"
+                },
+                "isForAllStudents": false,
+                "_id": "5b894d2b20cb206385943f29",
+                "documentName": "Projet de fin d'études",
+                "documentUserType": {
+                  "name": "student",
+                  "entity": "academic",
+                  "_id": "5a067bba1c0217218c75f8ab"
+                },
+                "docUploadDateRetakeExam": null,
+                "id": "5b894d2b20cb206385943f29"
+              }
+            ],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:14:03.586Z",
+            "updatedAt": "2018-08-31T14:14:03.586Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894d2b20cb206385943f20"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": false,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": true,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Critères d'évaluation",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b850c7ec9797239bd7564d3",
+                        "title": "<p><span style=\"color: black;\">Aptitude à communiquer</span></p>",
+                        "maximumRating": 20,
+                        "direction": "<p><span style=\"color: black;\">Présentation personnelle (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Capacité à convaincre</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Respect du temps imparti</span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des supports de présentation </span><span style=\"color: rgb(0, 0, 0);\"> (sur 5)</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d2",
+                        "title": "<p><span style=\"color: black;\">Capacité à exposer clairement une problématique</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Clarté de la problématique </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Positionnement de la problématique par rapport à son contexte</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Savoir-faire professionnel démontré</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d1",
+                        "title": "<p><span style=\"color: black;\">Capacité à réaliser une veille, à synthétiser des informations</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Pertinence, structuration, cohérence des données sélectionnées et présentées, </span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Qualité des sources</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse et solidité du raisonnement</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564d0",
+                        "title": "<p><span style=\"color: black;\">Capacité à défendre ses choix technologiques</span></p>",
+                        "maximumRating": 4,
+                        "direction": "<p><span style=\"color: black;\">Qualité des solutions technologiques proposées</span></p><p><span style=\"color: black;\">&nbsp;</span></p><p><span style=\"color: black;\">Analyse de l’impact du projet, mesures de pilotage proposées</span></p>"
+                      },
+                      {
+                        "_id": "5b850c7ec9797239bd7564cf",
+                        "title": "<p><span style=\"color: black;\">Capacité à prendre du recul</span></p>",
+                        "maximumRating": 6,
+                        "direction": "<p><span style=\"color: black;\">Bilan personnel, capacité à défendre son point de vue, remise en cause personnelle, analyse du vécu</span></p>"
+                      }
+                    ],
+                    "_id": "5b850c7ec9797239bd7564ce",
+                    "title": "<p>Aptitudes / capacités</p>",
+                    "maximumRating": 38
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3b",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9550"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-10-17"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894da520cb206385943f3a",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 0,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 20,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894da520cb206385943f33",
+            "name": "Soutenance du Rapport",
+            "type": "Memoire-ORAL",
+            "correctionType": "cp",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-10-18",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b69d69581935943d24d2685",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 38,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:16:05.865Z",
+            "updatedAt": "2018-08-31T14:16:05.865Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894da520cb206385943f33"
+          },
+          {
+            "correctionGrid": {
+              "header": {
+                "text": "",
+                "fields": []
+              },
+              "groupDetails": {
+                "groupsAllocation": true,
+                "noOfStudents": 3,
+                "minNoOfStudents": 1,
+                "headerText": "Liste des élèves"
+              },
+              "correction": {
+                "totalZone": {
+                  "displayAdditionalTotal": true,
+                  "additionalMaxScore": 20,
+                  "decimalPlaces": 0
+                },
+                "displayFinalTotal": true,
+                "showAsList": false,
+                "showFinalComments": false,
+                "showNotationsMarks": true,
+                "commentArea": true,
+                "showDirectionsColumn": false,
+                "showNumberMarksColumn": true,
+                "showLetterMarksColumn": false,
+                "showPenalties": false,
+                "showBonuses": false,
+                "showEliminations": false,
+                "finalCommentsHeader": "Observations",
+                "commentsHeader": "Observations",
+                "directionsColumnHeader": "Directives",
+                "numberMarksColumnHeader": "Note",
+                "letterMarksColumnHeader": "Note",
+                "sections": [
+                  {
+                    "pageBreak": false,
+                    "subSections": [
+                      {
+                        "_id": "5b86b086c9797239bd87a97b",
+                        "title": "<p>Assiduité / Ponctualité</p>",
+                        "maximumRating": 20,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a97a",
+                        "title": "<p>Participation</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      },
+                      {
+                        "_id": "5b86b086c9797239bd87a979",
+                        "title": "<p>Contribution à la vie du centre</p>",
+                        "maximumRating": 10,
+                        "direction": ""
+                      }
+                    ],
+                    "_id": "5b86b086c9797239bd87a978",
+                    "title": "<p>Capacités / Compétences évaluées</p>",
+                    "maximumRating": 40
+                  }
+                ],
+                "penaltiesHeader": "Pénalités",
+                "penalties": [],
+                "bonusesHeader": "Bonus",
+                "bonuses": []
+              },
+              "footer": {
+                "text": "",
+                "textBelow": "false",
+                "fields": []
+              },
+              "orientation": "portrait"
+            },
+            "calendar": {
+              "steps": [
+                {
+                  "date": {
+                    "before": true,
+                    "type": "relative",
+                    "days": 30
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f90",
+                  "id": 0,
+                  "text": "Assign Corrector",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9554"
+                },
+                {
+                  "date": {
+                    "before": false,
+                    "type": "fixed",
+                    "value": "2019-6-27"
+                  },
+                  "createdFrom": "testType",
+                  "_id": "5b894ed120cb206385943f8f",
+                  "id": 0,
+                  "text": "Marks Entry",
+                  "sender": "5a3bf69fe04708414763c743",
+                  "actor": "5a2e1ecd53b95d22c82f9559"
+                }
+              ]
+            },
+            "maxScore": 30,
+            "coefficient": 14,
+            "groupTest": false,
+            "controlledTest": false,
+            "documents": [],
+            "incompleteCreation": false,
+            "status": "active",
+            "juryMin": 0,
+            "juryMax": 0,
+            "addedQuestionnaire": false,
+            "correctionStatus": "pending",
+            "allowReTakeExam": false,
+            "isPublished": false,
+            "registeredStudents": 0,
+            "allowFinalRetake": false,
+            "isPFE": false,
+            "qualityControl": false,
+            "isQualityN3Sent": false,
+            "schoolCountAtQCCreation": [],
+            "randomStudentsForQC": [],
+            "isAlreadyPublished": false,
+            "isInitialTest": false,
+            "isRetakeTest": false,
+            "isDifferentNotationGrid": false,
+            "isRetakeN1Sent": false,
+            "correctorAssignedForRetakeV2": [],
+            "correctorAssignedForQualityControl": [],
+            "presidentJuryAssigned": [],
+            "correctionStatusForSchoolsForReTakeV2": [],
+            "studentShouldRetake": [],
+            "_id": "5b894ed120cb206385943f8a",
+            "name": "Attitude professionnelle en centre de formation",
+            "type": "Written",
+            "correctionType": "free",
+            "organiser": "PREPARATIONCENTER",
+            "dateType": "Marks",
+            "date": "2019-6-28",
+            "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+            "parentCategory": "5b89477520cb206385943ead",
+            "linkedTests": [],
+            "class": "5b69d22581935943d24d25e9",
+            "subjectId": "5b69d69581935943d24d2682",
+            "subjectTestId": "5b8948c620cb206385943ec1",
+            "testDatePC": [],
+            "schools": [],
+            "weight": 4,
+            "correctorAssigned": [],
+            "expectedDocuments": [],
+            "correctorAssignedForFinalRetake": [],
+            "correctionStatusForSchools": [],
+            "createdAt": "2018-08-31T14:21:05.370Z",
+            "updatedAt": "2018-08-31T14:21:05.370Z",
+            "__v": 0,
+            "numberOfTimesPublished": 0,
+            "id": "5b894ed120cb206385943f8a"
+          }
+        ],
+        "subCategories": [],
+        "_id": "5b89477520cb206385943ead",
+        "class":"5DNI 2021",
+        "title": "Projet de Fin d'Etudes"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:39.791Z",
+      "__v": 0,
+      "S3FileName": "1543475978792_AGIR-GL-2019_Evaluation du Tuteur Entreprise.pdf",
+      "movedToS3": true,
+      "id": "5bfd32dd9c94f60bb6a61df9"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd34459c94f60bb6a61e0b",
+      "name": "Guide des épreuves Titre AGIR",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+      "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd34459c94f60bb6a61e0b",
+            "name": "Guide des épreuves Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:42.574Z",
+            "__v": 0,
+            "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd34459c94f60bb6a61e0b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd524c8e8fdf60c34162e5",
+            "name": "Guide Méthodologique Projet de Fin d'Etudes",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:45.058Z",
+            "__v": 0,
+            "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd524c8e8fdf60c34162e5"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5286fb6a7b60ea130af9",
+            "name": "Calendrier AGIR 2018-2019",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:46.558Z",
+            "__v": 0,
+            "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "movedToS3": true,
+            "id": "5bfd5286fb6a7b60ea130af9"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5522fb6a7b60ea130cb3",
+            "name": "Guide du Lieu de Préparation",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:53.353Z",
+            "__v": 0,
+            "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd5522fb6a7b60ea130cb3"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d2689",
+        "class":"5DNI 2020",
+        "title": "04. ORGANISATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:42.574Z",
+      "__v": 0,
+      "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+      "movedToS3": true,
+      "id": "5bfd34459c94f60bb6a61e0b"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd524c8e8fdf60c34162e5",
+      "name": "Guide Méthodologique Projet de Fin d'Etudes",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+      "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd34459c94f60bb6a61e0b",
+            "name": "Guide des épreuves Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:42.574Z",
+            "__v": 0,
+            "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd34459c94f60bb6a61e0b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd524c8e8fdf60c34162e5",
+            "name": "Guide Méthodologique Projet de Fin d'Etudes",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:45.058Z",
+            "__v": 0,
+            "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd524c8e8fdf60c34162e5"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5286fb6a7b60ea130af9",
+            "name": "Calendrier AGIR 2018-2019",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:46.558Z",
+            "__v": 0,
+            "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "movedToS3": true,
+            "id": "5bfd5286fb6a7b60ea130af9"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5522fb6a7b60ea130cb3",
+            "name": "Guide du Lieu de Préparation",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:53.353Z",
+            "__v": 0,
+            "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd5522fb6a7b60ea130cb3"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d2689",
+        "class":"5DNI 2020",
+        "title": "04. ORGANISATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:45.058Z",
+      "__v": 0,
+      "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+      "movedToS3": true,
+      "id": "5bfd524c8e8fdf60c34162e5"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd5286fb6a7b60ea130af9",
+      "name": "Calendrier AGIR 2018-2019",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+      "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd34459c94f60bb6a61e0b",
+            "name": "Guide des épreuves Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:42.574Z",
+            "__v": 0,
+            "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd34459c94f60bb6a61e0b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd524c8e8fdf60c34162e5",
+            "name": "Guide Méthodologique Projet de Fin d'Etudes",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:45.058Z",
+            "__v": 0,
+            "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd524c8e8fdf60c34162e5"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5286fb6a7b60ea130af9",
+            "name": "Calendrier AGIR 2018-2019",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:46.558Z",
+            "__v": 0,
+            "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "movedToS3": true,
+            "id": "5bfd5286fb6a7b60ea130af9"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5522fb6a7b60ea130cb3",
+            "name": "Guide du Lieu de Préparation",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:53.353Z",
+            "__v": 0,
+            "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd5522fb6a7b60ea130cb3"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d2689",
+        "class":"5DNI 2020",
+        "title": "04. ORGANISATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:46.558Z",
+      "__v": 0,
+      "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+      "movedToS3": true,
+      "id": "5bfd5286fb6a7b60ea130af9"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd53bdfb6a7b60ea130b18",
+      "name": "Programme Titre AGIR - Option Génie Logiciel",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543328698933_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+      "fileName": "PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd53bdfb6a7b60ea130b18",
+            "name": "Programme Titre AGIR - Option Génie Logiciel",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328698933_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+            "fileName": "PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d268a",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:47.936Z",
+            "__v": 0,
+            "S3FileName": "1543475986559_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd53bdfb6a7b60ea130b18"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d268a",
+        "class":"5DNI 2019",
+        "title": "05. PROGRAMME"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:47.936Z",
+      "__v": 0,
+      "S3FileName": "1543475986559_PROGRAMME_TITRE_AGIR-NIVEAU-II_GENIE-LOGICIEL_2018-2019.docx",
+      "movedToS3": true,
+      "id": "5bfd53bdfb6a7b60ea130b18"
+    },
+    {
+      "storedInS3": true,
+      "status": "active",
+      "documentType": "uploadedFromAcadKit",
+      "isInternalTask": false,
+      "addTaskDocUpload": false,
+      "publishedForStudent": false,
+      "_id": "5bfd5522fb6a7b60ea130cb3",
+      "name": "Guide du Lieu de Préparation",
+      "type": "Guidelines",
+      "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+      "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+      "parentCategory": {
+        "documents": [
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd34459c94f60bb6a61e0b",
+            "name": "Guide des épreuves Titre AGIR",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543320643320_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:42.574Z",
+            "__v": 0,
+            "S3FileName": "1543475981248_GUIDE DES EPREUVES_TITRE- AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd34459c94f60bb6a61e0b"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd524c8e8fdf60c34162e5",
+            "name": "Guide Méthodologique Projet de Fin d'Etudes",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328329577_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:45.058Z",
+            "__v": 0,
+            "S3FileName": "1543475983598_GUIDE METHODOLOGIQUE PROJET DE FIN D'ETUDES - AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd524c8e8fdf60c34162e5"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5286fb6a7b60ea130af9",
+            "name": "Calendrier AGIR 2018-2019",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543328388103_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "fileName": "CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:46.558Z",
+            "__v": 0,
+            "S3FileName": "1543475985061_CALENDRIER 2018-2019 -AGIR-BAC+3 - MAJ-240818.pdf",
+            "movedToS3": true,
+            "id": "5bfd5286fb6a7b60ea130af9"
+          },
+          {
+            "storedInS3": true,
+            "status": "active",
+            "documentType": "uploadedFromAcadKit",
+            "isInternalTask": false,
+            "addTaskDocUpload": false,
+            "publishedForStudent": false,
+            "_id": "5bfd5522fb6a7b60ea130cb3",
+            "name": "Guide du Lieu de Préparation",
+            "type": "Guidelines",
+            "filePath": "uploads/test/1543329056248_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "fileName": "GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "parentCategory": "5b69d71881935943d24d2689",
+            "parentRNCPTitle": {
+              "shortName": "S-AGIR-GL-2019",
+              "longName": "Analyste en Génie Informatique et Réseaux - Option Génie Logiciel",
+              "_id": "5b69d1c481935943d24d25e8",
+              "id": "5b69d1c481935943d24d25e8"
+            },
+            "createdBy": "5a253110cea695495fb77257",
+            "publicationDateForSchools": [],
+            "createdAt": "2018-11-27",
+            "updatedAt": "2018-11-29T07:19:53.353Z",
+            "__v": 0,
+            "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+            "movedToS3": true,
+            "id": "5bfd5522fb6a7b60ea130cb3"
+          }
+        ],
+        "tests": [],
+        "subCategories": [],
+        "_id": "5b69d71881935943d24d2689",
+        "class":"5DNI 2020",
+        "title": "04. ORGANISATION"
+      },
+      "parentRNCPTitle": "5b69d1c481935943d24d25e8",
+      "createdBy": "5a253110cea695495fb77257",
+      "publicationDateForSchools": [],
+      "createdAt": "2018-11-27",
+      "updatedAt": "2018-11-29T07:19:53.353Z",
+      "__v": 0,
+      "S3FileName": "1543475991959_GUIDE DU LIEU DE PREPARATION AGIR-NIVEAU II 2018-2019.docx",
+      "movedToS3": true,
+      "id": "5bfd5522fb6a7b60ea130cb3"
+    }
+  ],
+  "paginate": {
+    "limit": 0,
+    "page": 1
+  },
+  "total": 11,
+  "status": "OK",
+  "code": 200
+}

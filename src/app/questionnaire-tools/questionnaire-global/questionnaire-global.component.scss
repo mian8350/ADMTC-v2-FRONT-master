@@ -1,0 +1,31 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.align-right {
+  text-align: right;
+  padding: 6px 0;
+}
+
+.questionnaire_button {
+  padding: 0 6px;
+  min-width: 185px;
+  height: 38px;
+  font-size: 14px;
+  text-align: center;
+  color: black;
+}
+
+.questionnaire_button-blue {
+  padding: 0 6px;
+  min-width: 170px;
+  height: 38px;
+  font-size: 14px;
+  text-align: center;
+  background-color: #607d8b;
+  color: #ffffff;
+}
+
+.black-icon {
+  color: black;
+  margin-bottom: 2px;
+}

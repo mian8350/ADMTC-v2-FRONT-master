@@ -1,0 +1,844 @@
+<!-- For Status Card -->
+<div class="p-grid p-justify-around" style="margin-bottom: 10px">
+  <div class="p-col no-padding" style="text-align: center">
+    <div class="p-grid" style="padding-top: 4px; display: block">
+      <div class="yellow-button background-status label-status card-status">
+        <div class="font-status">
+          <p class="text-status">
+            {{ '056_ES.status_card.sent_to_student' | translate }}
+          </p>
+        </div>
+        <span>
+          <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+            {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col no-padding" style="text-align: center">
+    <div class="p-grid" style="padding-top: 4px; display: block">
+      <div class="yellow-button background-status label-status card-status">
+        <div class="font-status">
+          <p class="text-status">
+            {{ '056_ES.status_card.completed_by_student' | translate }}
+          </p>
+        </div>
+        <span>
+          <span [ngClass]="{ 'icon-true': statusCard.completed_by_student, 'icon-false': !statusCard.completed_by_student }">
+            {{ statusCard.completed_by_student ? '&#10004;' : '&#10799;' }}</span
+          >
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- If Rejected by Acad Dep -->
+  <ng-container *ngIf="statusCard.rejected_by_validator">
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="background-status label-status card-status">
+          <div class="font-status">
+            <p class="text-status">
+              <span *ngIf="validator === 'operator'">
+                {{ '056_ES.status_card.rejected_by_operator' | translate }}
+              </span>
+              <span *ngIf="validator === 'certifier'">
+                {{ '056_ES.status_card.rejected_by_certifier' | translate }}
+              </span>
+              <span *ngIf="validator === 'academic_director'">
+                {{ '056_ES.status_card.rejected_by_acad_dir' | translate }}
+              </span>
+              <span *ngIf="validator === null">
+                {{ 'Rejected By Validator' | translate }}
+              </span>
+            </p>
+          </div>
+          <span class="icon-false">
+            {{ '&#10799;' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- If not rejected by acad dep -->
+  <ng-container *ngIf="!statusCard.rejected_by_validator">
+    <div class="p-col no-padding" style="text-align: center">
+      <div class="p-grid" style="padding-top: 4px; display: block">
+        <div class="yellow-button background-status label-status card-status">
+          <div
+            [ngClass]="{
+              'font-status': translate.currentLang === 'en',
+              'font-status-validate': translate.currentLang === 'fr'
+            }"
+            class=""
+          >
+            <p
+              [ngClass]="{
+                'text-status': translate.currentLang === 'en',
+                'text-status-validate': translate.currentLang === 'fr'
+              }"
+            >
+              <span *ngIf="validator === 'operator'">
+                {{ '056_ES.status_card.validated_by_operator' | translate }}
+              </span>
+              <span *ngIf="validator === 'certifier'">
+                {{ '056_ES.status_card.validated_by_certifier' | translate }}
+              </span>
+              <span *ngIf="validator === 'academic_director'">
+                {{ '056_ES.status_card.validated_by_acad_dir' | translate }}
+              </span>
+              <span *ngIf="validator === 'no_validator'">
+                {{ '056_ES.status_card.sent_to_acad_dpt' | translate }}
+              </span>
+              <span *ngIf="validator === null"> 
+                {{'Validated By Validator' | translate }}
+              </span>
+            </p>
+          </div>
+          <span>
+            <span [ngClass]="{ 'icon-true': statusCard.validated_by_validator, 'icon-false': !statusCard.validated_by_validator }">
+              {{ statusCard.validated_by_validator ? '&#10004;' : '&#10799;' }}</span
+            >
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Will be shown in my file and student card  -->
+<div class="p-grid p-justify-around" *ngIf="!inFullScreen">
+  <div class="p-col-12 title-header no-padding">
+    <div class="text-center">
+      <div *ngIf="questionResponseForm">
+        <div style="text-align: right" >
+          <button mat-raised-button color="warn" (click)="goBackToParent()">
+            {{ 'Cancel' | translate }}
+          </button>
+          <button mat-raised-button color="primary" *ngIf="is_es_new_flow_form_builder && esData?.survey_status !== 'not_sent'" (click)="goToFormFilling()">
+            {{ 'Go to form' | translate }}
+          </button>
+          <button mat-raised-button color="primary" *ngIf="!is_es_new_flow_form_builder" (click)="goToFullScreen()">
+            {{ 'Expand' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Will be shown only in full screen and coming from student card or my file. source is either myfile or studentcard -->
+<div class="p-grid p-justify-around" *ngIf="inFullScreen && source">
+  <div class="p-col-12 title-header no-padding">
+    <div class="text-center">
+      <div *ngIf="questionResponseForm">
+        <div style="text-align: right">
+          <button mat-raised-button color="warn" (click)="goBackToOriginalRoute()">
+            {{ 'Cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Student Identity Data Title -->
+<div class="p-grid" style="margin-bottom: 10px">
+  <div class="yellow-border card-row p-col-12">
+    <div class="p-grid">
+      <!-- Student Name -->
+      <div class="p-col-6">
+        <span class="grey-text"> {{ 'Student' | translate }} : </span>
+        <span> {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }} </span>
+      </div>
+      <!-- Student School -->
+      <div class="p-col-6">
+        <span class="grey-text"> {{ 'School' | translate }} : </span>
+        <span>
+          {{ studentData?.school?.short_name }}
+        </span>
+      </div>
+      <!-- Student RNCP Title -->
+      <div class="p-col-6">
+        <span class="grey-text"> {{ 'RNCP Title' | translate }} : </span>
+        <span>
+          {{ esData?.rncp_id?.short_name }}
+        </span>
+      </div>
+      <!-- Student Class -->
+      <div class="p-col-6">
+        <span class="grey-text"> {{ 'Class' | translate }} : </span>
+        <span>
+          {{ esData?.class_id?.name }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form for Questionnaire Response -->
+<div *ngIf="questionResponseForm && !is_es_new_flow_form_builder" [formGroup]="questionResponseForm">
+  <!-- For Header -->
+  <div
+    class="p-grid"
+    style="margin-bottom: 10px"
+    *ngIf="
+      questionResponseForm.get('questionnaire_grid').get('header').get('title').value ||
+      questionResponseForm.get('questionnaire_grid').get('header').get('text').value ||
+      questionResponseForm.get('questionnaire_grid').get('header').get('direction').value
+    "
+  >
+    <div class="yellow-border card-row p-col-12 x-pad-none">
+      <div class="p-grid">
+        <div class="p-col-12" style="text-align: center">
+          <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('title').value"></div>
+          <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('text').value"></div>
+          <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('header').get('direction').value"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- For Competence -->
+  <ng-container formArrayName="competence">
+    <ng-container *ngFor="let comp of getCompetenceForm().controls; let compIndex = index" [formGroupName]="compIndex">
+      <div
+        class="p-grid"
+        style="margin-bottom: 10px"
+        [ngClass]="{
+          'show-option': renderBlockHideAndShow(comp.value, compIndex),
+          'hide-option': !renderBlockHideAndShow(comp.value, compIndex)
+        }"
+      >
+        <div class="yellow-border card-row p-col-12 x-pad-none">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <h3 style="text-align: center">{{ comp.get('competence_name').value }}</h3>
+            </div>
+
+            <!-- For Segment -->
+            <ng-container formArrayName="segment">
+              <div
+                class="p-col-12"
+                *ngFor="let segment of getSegmentArray(compIndex).controls; let segmentIndex = index"
+                [formGroupName]="segmentIndex"
+              >
+                <h4>{{ segment.get('segment_name').value }}</h4>
+
+                <!-- For Question -->
+                <ng-container formArrayName="question">
+                  <div
+                    class="p-grid"
+                    *ngFor="let quest of getQuestionArray(compIndex, segmentIndex).controls; let quesIndex = index"
+                    [formGroupName]="quesIndex"
+                  >
+                    <!-- For question with slider is_field on -->
+                    <div *ngIf="quest.get('is_field').value" class="p-col-12">
+                      <div class="p-grid">
+                        <div class="p-col-3 self-center">
+                          <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                            >{{ 'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate }}*</label
+                          >
+                          <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                            'QUESTIONNAIRE_FIELDS.' + quest.get('questionnaire_field_key').value | translate
+                          }}</label>
+                        </div>
+                        <div class="p-col-9 x-pad-none">
+                          <mat-form-field>
+                            <input
+                              matInput
+                              [required]="quest.get('is_answer_required').value && isFieldMandatory(comp.value, compIndex)"
+                              formControlName="answer"
+                              [readonly]="!allowEditForm || is_expired"
+                            />
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- For question with slider is_field off -->
+                    <div *ngIf="!quest.get('is_field').value" class="p-col-12">
+                      <ng-container *ngIf="quest.get('question_type').value === 'free_text'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <ckeditor
+                              [config]="{
+                                toolbar: [
+                                  'bold',
+                                  'italic',
+                                  'underline',
+                                  'strikethrough',
+                                  'highlight:redPen',
+                                  'highlight:greenPen',
+                                  'removeHighlight',
+                                  'numberedList',
+                                  'bulletedList',
+                                  'link',
+                                  'undo',
+                                  'redo'
+                                ],
+                                link: {
+                                  addTargetToExternalLinks: true
+                                }
+                              }"
+                              [editor]="Editor"
+                              formControlName="answer"
+                              (ready)="onReady($event)"
+                              [disabled]="!allowEditForm || is_expired"
+                              [required]="quest.get('is_answer_required').value && isFieldMandatory(comp.value, compIndex)"
+                            >
+                            </ckeditor>
+                            <!-- <mat-form-field class="width-ninety">
+                              <input
+                                matInput
+                                [required]="quest.get('is_answer_required').value"
+                                formControlName="answer"
+                                [readonly]="!allowEditForm"
+                              />
+                            </mat-form-field> -->
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'email'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-form-field class="width-ninety">
+                              <input
+                                matInput
+                                type="email"
+                                [required]="quest.get('is_answer_required').value && isFieldMandatory(comp.value, compIndex)"
+                                formControlName="answer"
+                                [readonly]="!allowEditForm || is_expired"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'date'" formGroupName="answer_date">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-form-field class="width-ninety">
+                              <mat-label>{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                              <input
+                                matInput
+                                readonly
+                                (click)="picker.open()"
+                                [matDatepicker]="picker"
+                                formControlName="date"
+                                [disabled]="!allowEditForm || is_expired"
+                              />
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'numeric'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-form-field class="width-ninety">
+                              <input
+                                matInput
+                                [maxlength]="10"
+                                type="number"
+                                [required]="quest.get('is_answer_required').value && isFieldMandatory(comp.value, compIndex)"
+                                formControlName="answer_number"
+                                [readonly]="!allowEditForm || is_expired"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'single_option'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-radio-group
+                              [required]="quest.is_answer_required && isFieldMandatory(comp.value, compIndex)"
+                              formControlName="answer"
+                              [disabled]="!allowEditForm || is_expired"
+                              (change)="onChangeSingleOption(comp.value)"
+                            >
+                              <mat-radio-button
+                                [value]="option.option_text"
+                                *ngFor="let option of quest.get('options').value"
+                                style="padding-right: 10px"
+                                >{{ option.option_text }}</mat-radio-button
+                              >
+                            </mat-radio-group>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'multiple_option'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-checkbox
+                              *ngFor="let option of quest.get('options').value"
+                              value="{{ option.option_text }}"
+                              [required]="quest.is_answer_required && isFieldMandatory(comp.value, compIndex)"
+                              style="padding-right: 10px"
+                              [checked]="isCheckboxMultipleOn(option.option_text, compIndex, segmentIndex, quesIndex)"
+                              (change)="selectionForMultiple($event, option.option_text, compIndex, segmentIndex, quesIndex)"
+                              [disabled]="!allowEditForm || is_expired"
+                            >
+                              {{ option.option_text }}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'mission_activity'">
+                        <div class="p-grid">
+                          <div class="p-col-12 pad-btn-none yellow-border mission-activity" formArrayName="missions_activities_autonomy">
+                            <ng-container
+                              *ngFor="
+                                let missionActivity of getMissionActivityArray(compIndex, segmentIndex, quesIndex).controls;
+                                let missionIndex = index
+                              "
+                            >
+                              <div class="p-grid" [formGroupName]="missionIndex">
+                                <div class="p-col-4 pad-btn-none">
+                                  <mat-form-field>
+                                    <mat-label>{{ 'mission' | translate }}</mat-label>
+                                    <textarea
+                                      matInput
+                                      formControlName="mission"
+                                      cdkTextareaAutosize
+                                      cdkAutosizeMinRows="1"
+                                      #autosize="cdkTextareaAutosize"
+                                      [readonly]="!allowEditForm || is_expired"
+                                    ></textarea>
+                                  </mat-form-field>
+                                </div>
+                                <div class="p-col-4 pad-btn-none">
+                                  <mat-form-field>
+                                    <mat-label>{{ 'activity' | translate }}</mat-label>
+                                    <textarea
+                                      matInput
+                                      formControlName="activity"
+                                      cdkTextareaAutosize
+                                      cdkAutosizeMinRows="1"
+                                      #autosize="cdkTextareaAutosize"
+                                      [readonly]="!allowEditForm || is_expired"
+                                    ></textarea>
+                                  </mat-form-field>
+                                </div>
+                                <div class="p-col-4 pad-btn-none">
+                                  <div class="autonomy">
+                                    <mat-form-field>
+                                      <mat-label>{{ 'autonomy level' | translate }}</mat-label>
+                                      <mat-select required formControlName="autonomy_level" [disabled]="!allowEditForm || is_expired">
+                                        <mat-option *ngFor="let autonomy of autonomyLevel" [value]="autonomy">
+                                          {{ 'MISSIONSACTIVITIESANDAUTONOMY.AUTONOMYLEVEL.' + autonomy | translate }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="btn-dynamic">
+                                    <button
+                                      class="pad-top10"
+                                      mat-icon-button
+                                      color="warn"
+                                      (click)="removeMissionActivityFromForm(compIndex, segmentIndex, quesIndex, missionIndex)"
+                                      *ngIf="missionIndex > 0"
+                                      [disabled]="!allowEditForm || is_expired"
+                                    >
+                                      <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                    <button
+                                      class="pad-top10"
+                                      mat-icon-button
+                                      color="primary"
+                                      (click)="addMissionActivityToForm(compIndex, segmentIndex, quesIndex)"
+                                      [disabled]="!allowEditForm || is_expired"
+                                    >
+                                      <mat-icon>add_circle_outline</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'multiple_textbox'">
+                        <div class="p-grid">
+                          <div class="p-col-12 yellow-border mission-activity" formArrayName="multiple_textbox">
+                            <ng-container
+                              *ngFor="
+                                let textbox of getMultipleTextboxArray(compIndex, segmentIndex, quesIndex).controls;
+                                let textboxIndex = index
+                              "
+                            >
+                              <div class="p-grid" [formGroupName]="textboxIndex">
+                                <div class="p-col-12 pad-btn-none">
+                                  <div class="multiple-textbox">
+                                    <mat-label class="color-mat" *ngIf="quest.get('is_answer_required').value"
+                                      >{{ quest.get('question_name').value }}*</mat-label
+                                    >
+                                    <mat-label class="color-mat" *ngIf="!quest.get('is_answer_required').value">{{
+                                      quest.get('question_name').value
+                                    }}</mat-label>
+                                    <ckeditor
+                                      [config]="{
+                                        toolbar: [
+                                          'bold',
+                                          'italic',
+                                          'underline',
+                                          'strikethrough',
+                                          'highlight:redPen',
+                                          'highlight:greenPen',
+                                          'removeHighlight',
+                                          'numberedList',
+                                          'bulletedList',
+                                          'link',
+                                          'undo',
+                                          'redo'
+                                        ],
+                                        link: {
+                                          addTargetToExternalLinks: true
+                                        }
+                                      }"
+                                      [editor]="Editor"
+                                      formControlName="text"
+                                      (ready)="onReady($event)"
+                                      [disabled]="!allowEditForm || is_expired"
+                                      [required]="quest.get('is_answer_required').value && isFieldMandatory(comp.value, compIndex)"
+                                    >
+                                    </ckeditor>
+                                  </div>
+                                  <div class="btn-dynamic">
+                                    <button
+                                      mat-icon-button
+                                      color="warn"
+                                      (click)="removeMultipleTextboxFromForm(compIndex, segmentIndex, quesIndex, textboxIndex)"
+                                      *ngIf="textboxIndex > 0"
+                                      [disabled]="!allowEditForm || is_expired"
+                                    >
+                                      <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                    <button
+                                      class="pad-top10"
+                                      mat-icon-button
+                                      color="primary"
+                                      (click)="addMultipleTextboxToForm(compIndex, segmentIndex, quesIndex)"
+                                      [disabled]="!allowEditForm || is_expired"
+                                    >
+                                      <mat-icon>add_circle_outline</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'continues_student'">
+                        <div class="p-grid">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center">{{ quest.get('question_name').value }}*</label>
+                          </div>
+                          <ng-container *ngIf="quest?.get('options')?.value && quest?.get('options')?.value?.length; else alwaysVisible">
+                            <div class="p-col-9 x-pad-none">
+                              <mat-radio-group
+                                required
+                                formControlName="answer"
+                                (change)="onChangeSingleOption(comp.value)"
+                                [disabled]="!allowEditForm || is_expired"
+                              >
+                                <mat-radio-button
+                                  [value]="option.option_text"
+                                  *ngFor="let option of quest.get('options').value"
+                                  style="padding-right: 10px"
+                                  >{{ option.option_text | translate }}</mat-radio-button
+                                >
+                                <!-- <mat-radio-button value="yes" style="padding-right: 10px">{{ 'Yes' | translate }}</mat-radio-button>
+                                <mat-radio-button value="no" style="padding-right: 10px">{{ 'No' | translate }}</mat-radio-button> -->
+                              </mat-radio-group>
+                            </div>
+                          </ng-container>
+                          <ng-template #alwaysVisible>
+                            <div class="p-col-9 x-pad-none">
+                              <mat-radio-group required formControlName="answer" [disabled]="!allowEditForm || is_expired">
+                                <mat-radio-button value="yes" style="padding-right: 10px">{{ 'Yes' | translate }}</mat-radio-button>
+                                <mat-radio-button value="no" style="padding-right: 10px">{{ 'No' | translate }}</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </ng-container>
+
+                      <ng-container *ngIf="quest.get('question_type').value === 'parent_child'">
+                        <div class="p-grid" *ngIf="quest.get('question_type').value === 'parent_child'">
+                          <div class="p-col-3 self-center">
+                            <label style="align-self: center" *ngIf="quest.get('is_answer_required').value"
+                              >{{ quest.get('question_name').value }}*</label
+                            >
+                            <label style="align-self: center" *ngIf="!quest.get('is_answer_required').value">{{
+                              quest.get('question_name').value
+                            }}</label>
+                          </div>
+                          <div class="p-col-9 x-pad-none">
+                            <mat-radio-group
+                              [required]="quest.is_answer_required && isFieldMandatory(comp.value, compIndex)"
+                              formControlName="answer"
+                              [disabled]="!allowEditForm || is_expired"
+                            >
+                              <mat-radio-button
+                                [value]="option.option_text"
+                                *ngFor="let option of quest.get('parent_child_options').value; let prClIndx = index"
+                                (change)="
+                                  onChangeParentChild(
+                                    $event,
+                                    option,
+                                    { competenceIndex: compIndex, segmentIndex: segmentIndex, questionIndex: quesIndex },
+                                    prClIndx,
+                                    0
+                                  )
+                                "
+                                style="padding-right: 10px"
+                                >{{ option.option_text }}</mat-radio-button
+                              >
+                            </mat-radio-group>
+                          </div>
+                        </div>
+
+                        <!-- *************** This is failed attemp on using recursive parent child -->
+                        <!-- <ng-container *ngIf="quest.get('parent_child_options').controls" formArrayName="parent_child_options">
+                          <ms-parent-child-recursive
+                            [parentChildOptions]="quest.get('parent_child_options').controls"
+                            [questionResponseForm]="questionResponseForm"
+                          >
+                          </ms-parent-child-recursive>
+                        </ng-container> -->
+
+                        <ng-container formArrayName="parent_child_options">
+                          <ng-container
+                            *ngFor="let option1 of quest.get('parent_child_options').controls; let indexSatu = index"
+                            [formGroupName]="indexSatu"
+                          >
+                            <ng-container formArrayName="questions">
+                              <ng-container
+                                *ngFor="let optionQuestion1 of option1.get('questions').controls; let indexQuestionSatu = index"
+                                [formGroupName]="indexQuestionSatu"
+                              >
+                                <ng-container>
+                                  <div
+                                    *ngIf="quest.get('answer').value === option1.get('option_text').value"
+                                    class="field-item"
+                                    style="padding-left: 2rem"
+                                  >
+                                    <div fxLayout="row" fxLayoutWrap="wrap">
+                                      <label fxFlex="70" style="align-self: center">{{ optionQuestion1.get('question_name').value }}</label>
+                                    </div>
+                                    <div fxLayout="row" fxLayoutWrap="wrap">
+                                      <mat-radio-group formControlName="answer" [disabled]="!allowEditForm || is_expired">
+                                        <mat-radio-button
+                                          [value]="option2.option_text"
+                                          *ngFor="let option2 of optionQuestion1.get('parent_child_options').value"
+                                          (change)="
+                                            onChangeParentChild2(
+                                              $event,
+                                              option2,
+                                              { competenceIndex: compIndex, segmentIndex: segmentIndex, questionIndex: quesIndex },
+                                              indexSatu,
+                                              indexQuestionSatu
+                                            )
+                                          "
+                                          style="padding-right: 10px"
+                                          >{{ option2.option_text }}</mat-radio-button
+                                        >
+                                      </mat-radio-group>
+                                    </div>
+                                  </div>
+                                </ng-container>
+
+                                <ng-container formArrayName="parent_child_options">
+                                  <ng-container
+                                    *ngFor="let option3 of optionQuestion1.get('parent_child_options').controls; let indexDua = index"
+                                    [formGroupName]="indexDua"
+                                  >
+                                    <ng-container formArrayName="questions">
+                                      <ng-container
+                                        *ngFor="let optionQuestion2 of option3.get('questions').controls; let indexQuestionDua = index"
+                                        [formGroupName]="indexQuestionDua"
+                                      >
+                                        <div
+                                          *ngIf="optionQuestion1.get('answer').value === option3.get('option_text').value"
+                                          class="field-item"
+                                          style="padding-left: 4rem"
+                                        >
+                                          <div fxLayout="row" fxLayoutWrap="wrap">
+                                            <label fxFlex="70" style="align-self: center">{{
+                                              optionQuestion2.get('question_name').value
+                                            }}</label>
+                                          </div>
+                                          <div fxLayout="row" fxLayoutWrap="wrap">
+                                            <mat-radio-group formControlName="answer" [disabled]="!allowEditForm || is_expired">
+                                              <mat-radio-button
+                                                [value]="option4.option_text"
+                                                *ngFor="let option4 of optionQuestion2.get('parent_child_options').value"
+                                                style="padding-right: 10px"
+                                                >{{ option4.option_text }}</mat-radio-button
+                                              >
+                                            </mat-radio-group>
+                                          </div>
+                                        </div>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- For Footer -->
+  <div class="p-grid" style="margin-bottom: 10px" *ngIf="questionResponseForm.get('questionnaire_grid').get('footer').get('text').value">
+    <div class="yellow-border card-row p-col-12 x-pad-none">
+      <div class="p-grid">
+        <div class="p-col-12" style="text-align: center">
+          <div [innerHTML]="questionResponseForm.get('questionnaire_grid').get('footer').get('text').value"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rejection List -->
+<div class="p-grid" *ngIf="rejectionList && rejectionList.length">
+  <div class="red-border card-row p-col-12" *ngFor="let rejection of rejectionList" style="margin-bottom: 10px">
+    <div class="p-grid">
+      <div class="p-col-12">
+        <span *ngIf="validator === 'academic_director'">
+          {{ '056_ES.FAILURE_TITLE.by_acad_dir' | translate }} {{ '056_ES.FAILURE_TITLE.AT' | translate }}
+          {{ translateDateRejection(rejection?.date?.date) }} {{ '056_ES.FAILURE_TITLE.PART2' | translate }}
+        </span>
+        <span *ngIf="validator === 'certifier'">
+          {{ '056_ES.FAILURE_TITLE.by_certifier' | translate }} {{ '056_ES.FAILURE_TITLE.AT' | translate }}
+          {{ translateDateRejection(rejection?.date?.date) }} {{ '056_ES.FAILURE_TITLE.PART2' | translate }}
+        </span>
+        <span *ngIf="validator === 'operator'">
+          {{ '056_ES.FAILURE_TITLE.by_operator' | translate }} {{ '056_ES.FAILURE_TITLE.AT' | translate }}
+          {{ translateDateRejection(rejection?.date?.date) }} {{ '056_ES.FAILURE_TITLE.PART2' | translate }}
+        </span>
+      </div>
+      <div class="p-col-12">
+        {{ rejection?.reason }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-grid p-justify-around">
+  <div class="p-col-12 title-bottom no-padding">
+    <div class="text-center">
+      <div *ngIf="questionResponseForm">
+        <div
+          *ngIf="(esData?.survey_status === 'sent_to_student' || esData?.survey_status === 'rejected_by_validator') && allowEditForm && !is_es_new_flow_form_builder"
+          style="text-align: right"
+        >
+          <button mat-raised-button color="accent" [disabled]="questionResponseForm.invalid || is_expired" (click)="saveForm()">
+            <mat-icon class="mat-icon-default">save</mat-icon>
+            {{ 'PROBLEMATIC_019.PROBLEMATICFORM.SAVEBTN' | translate }}
+          </button>
+          <button mat-raised-button color="accent" [disabled]="questionResponseForm.invalid || is_expired" (click)="submitForm('student')">
+            <mat-icon class="mat-icon-default">send</mat-icon>
+            {{ 'job_desc.submit' | translate }}
+          </button>
+        </div>
+        <div *ngIf="esData?.survey_status === 'completed_by_student' && allowEditForm" style="text-align: right">
+          <button
+            *ngIf="(!rejectionList || (rejectionList && rejectionList.length < 3)) && esData?.with_rejection_flow"
+            mat-raised-button
+            color="warn"
+            [disabled]="questionResponseForm.invalid || is_expired"
+            (click)="rejectForm()"
+          >
+            {{ 'PROBLEMATIC_019.PROBLEMATICFORM.REJECT' | translate }} <span class="fail">&#10799;</span>
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            [disabled]="questionResponseForm.invalid || is_expired"
+            (click)="submitForm('validator')"
+          >
+            {{ 'PROBLEMATIC_019.PROBLEMATICFORM.VALID' | translate }} <span class="check">&#10004;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

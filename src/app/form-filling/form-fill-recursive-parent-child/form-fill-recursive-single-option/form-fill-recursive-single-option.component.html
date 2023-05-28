@@ -1,0 +1,35 @@
+<ng-container [formGroup]="inputQuestion">
+  <div [ngClass]="{ 'single-option-question-container': inputQuestion?.get('question_name')?.value }">
+    <label *ngIf="inputQuestion?.get('question_name')?.value" class="questionLabel">{{ inputQuestion?.get('question_name')?.value }}<span *ngIf="isFieldRequired">*</span></label>
+
+    <div style="display: flex; flex-direction: column">
+      <mat-radio-group [required]="inputQuestion?.get('is_answer_required')?.value" formControlName="answer">
+        <mat-radio-button
+          [value]="option?.option_text"
+          *ngFor="let option of inputQuestion?.get('parent_child_options')?.value; let prClIndx = index"
+          style="padding-right: 10px; padding-left: 0px !important"
+          (change)="updateQuestionAnswer($event)"
+          [disabled]="isFormDisabled"
+          >{{ option?.option_text }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="invalid-feedback" *ngIf="isFieldRequired && !inputQuestion?.get('answer')?.value && inputQuestion?.get('answer')?.touched">
+      {{ 'This field is required' | translate }}
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="selectedOption?.get('questions')?.value?.length">
+  <ms-form-fill-recursive-parent-child
+    [stepForm]="stepForm"
+    [segmentIndex]="segmentIndex"
+    [questionIndex]="questionIndex"
+    [inputOption]="selectedOption"
+    [pcoOptionIndex]="selectedOptionIndex"
+    [isFormDisabled]="isFormDisabled"
+    [parentSelectedOption]="selectedOption?.get('option_text').value"
+    [isFieldRequired]="isFieldRequired"
+  >
+  </ms-form-fill-recursive-parent-child>
+</ng-container>

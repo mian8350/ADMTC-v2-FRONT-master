@@ -1,0 +1,53 @@
+<!-- loading spinner Load Field-->
+<div *ngIf="isWaitingForResponse || isLoading" class="inner-loading-indicator-transparent-bg">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>
+<div *ngIf="isDataloaded && isGroupsLoaded" class="p-grid">
+  <div class="p-col-fixed" style="width: 450px">
+    <h4>{{ titleData?.short_name }} / {{ testData?.name }} / {{ getTranslatedDate(testData?.date) | uppercase }}</h4>
+    <ms-student-group-table [testProgressData]="testProgressData"></ms-student-group-table>
+  </div>
+  <div class="p-col">
+    <div class="progress-text" style="min-height: 26.25px">
+      <h4 [ngStyle]="{ visibility: utilService.isUserEntityADMTC() ? 'visible' : 'hidden' }">{{ getTaskProgressText() }}</h4>
+    </div>
+    <ms-group-cards
+      [titleData]="titleData"
+      [totalStudent]="totalStudent"
+      [totalCompleteAdmission]="totalCompleteAdmission"
+      [testData]="testData"
+      [taskData]="taskData"
+      [testProgressData]="testProgressData"
+    ></ms-group-cards>
+  </div>
+
+  <div class="p-col-12" style="margin-bottom: 45px"></div>
+
+  <div class="p-col-12 padding-none sticky-footer">
+    <div class="p-grid background-black">
+      <div class="p-col">
+        <div class="justify-content-between float-right">
+          <button mat-raised-button (click)="cancel()" color="warn">
+            <mat-icon svgIcon="reply" class="mat-icon-svgIcon"></mat-icon>{{ 'GROUP_CREATION.Cancel' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            (click)="saveAsDraft()"
+            color="accent"
+            [disabled]="!checkSaveButtonEnabled() || !isAllGroupFilled || testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="content-save" class="mat-icon-svgIcon"></mat-icon>{{ 'GROUP_CREATION.Save' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            (click)="saveAndSubmit()"
+            color="accent"
+            [disabled]="!checkStudentAssigned() || !isAllGroupFilled || testProgressData?.already_filled_mark_entry"
+          >
+            <mat-icon svgIcon="account-group" class="mat-icon-svgIcon"></mat-icon>{{ 'GROUP_CREATION.Publish Group' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

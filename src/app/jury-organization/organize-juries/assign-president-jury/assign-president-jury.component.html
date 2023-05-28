@@ -1,0 +1,244 @@
+<table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="mat-elevation-z8 mrgn-t-md">
+  <ng-container matColumnDef="reset">
+    <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column">
+      <div class="p-col">
+        <!-- <div class="text-left">
+          
+        </div> -->
+        <div class="actions" style="margin-bottom: 10px">
+          <mat-form-field class="top-date-picker">
+            <input
+              matInput
+              [matDatepicker]="fromPicker"
+              placeholder="{{ 'FROM_HISTORY' | translate }}"
+              [formControl]="dateFromFilter"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="top-date-picker">
+            <input matInput [matDatepicker]="toPicker" placeholder="{{ 'TO_HISTORY' | translate }}" [formControl]="dateToFilter" readonly />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="toPicker"
+              style="margin-right: 5px"
+              [disabled]="!dateFromFilter?.value"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button color="primary" style="margin-right: 5px" (click)="searchTodayResult()">
+            <mat-icon svgIcon="magnify" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Today' | translate }}
+          </button>
+          <button mat-raised-button color="primary" style="margin-right: 5px" (click)="searchYesterdayResult()">
+            <mat-icon svgIcon="magnify" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Yesterday' | translate }}
+          </button>
+          <button mat-raised-button color="primary" style="margin-right: 5px" (click)="searchWeekResult()">
+            <mat-icon svgIcon="magnify" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Last 7 days' | translate }}
+          </button>
+          <button mat-raised-button color="primary" style="margin-right: 5px" (click)="searchMonthResult()">
+            <mat-icon svgIcon="magnify" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Last 30 days' | translate }}
+          </button>
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button mat-raised-button color="warn" (click)="cancelAssignPresidentJury()">
+            <mat-icon class="mat-icon-default align">reply</mat-icon>
+            <span>{{ 'CANCEL' | translate }}</span>
+          </button>
+          <!--  [disabled]="juryOrgData?.current_status !== 'assign_president_jury'" -->
+          <button mat-raised-button color="accent" (click)="saveAssignPresidentJury()" [disabled]="checkComparasion()">
+            {{ 'Save' | translate }}
+          </button>
+          <button mat-raised-button color="accent" (click)="submitAssignPresidentJury()" [disabled]="!isSubmit">
+            {{ 'Submit' | translate }}
+          </button>
+        </div>
+      </div>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="selectFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="jurySerialNumberFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="dateStartFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matDatepicker]="picker"
+          [formControl]="dateStartFilter"
+          placeholder="{{ 'SELECTDATE' | translate }}"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="schoolFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="cityFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="cityFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitlesFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="rncpTitlesFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="studentsFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="presidentJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="presidentJuryFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(element) : null"
+        [checked]="selection.isSelected(element)"
+        [aria-label]="checkboxLabel(element)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="jury_serial_number">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.JURYNUMBER' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.jury_serial_number }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date_start">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'MailBox.DATE' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.date_start | date: 'dd/MM/yyyy' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="school">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'Location' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.school?.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'City' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.school?.school_address[0]?.city }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitles">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'TASK.RNCP_Title' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.rncp_title.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="students">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'Students' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.students?.length }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="president_of_jury">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.PRESIDENT' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element; let rowIndex = index">
+      <div style="padding-left: 10px">
+        <ng-select
+          class="custom"
+          appendTo="body"
+          clearAllText="Clear"
+          [(ngModel)]="element.president_of_jury"
+          name="president_of_jury{{ rowIndex }}"
+        >
+          <ng-option
+            *ngFor="let president of presidentOfJuries"
+            [value]="president._id"
+          >
+            <span> {{ president?.last_name | uppercase }} {{ president?.first_name }} </span>
+          </ng-option>
+        </ng-select>
+      </div>
+
+      <!-- <mat-form-field>
+        <mat-select [(ngModel)]="element.president_of_jury">
+          <mat-option [value]="">
+            {{ 'NONE' | translate }}
+          </mat-option>
+          <mat-option *ngFor="let president of presidentOfJuries" [value]="president?._id">
+            {{ president?.last_name | uppercase }} {{ president?.first_name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="loading">
+    <th mat-header-cell *matHeaderCellDef colspan="8" class="text-center">
+      <div class="center-spinner">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+    </th>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+</table>
+
+<mat-paginator
+  [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+  [hidePageSize]="true"
+  [pageSizeOptions]="[10]"
+  showFirstLastButtons
+></mat-paginator>

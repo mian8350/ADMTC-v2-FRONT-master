@@ -1,0 +1,98 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #tab>
+    <!-- First tab always shown -->
+
+    <mat-tab label="user_type">
+        <ng-template mat-tab-label>
+          <h5>{{ 'COMPANY.USER_TYPE' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-user-details-usertype-tab [userId]="userId" [status]="status"></ms-user-details-usertype-tab>
+        </ng-template>
+      </mat-tab> 
+
+    <mat-tab label="indentity">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Identity' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-user-details-identity-tab [userId]="userId" [status]="status"></ms-user-details-identity-tab>
+      </ng-template>
+    </mat-tab> 
+
+    <mat-tab label="Mailbox">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Mailbox' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <mat-tab-group class="mailbox">
+          <mat-tab label="Inbox">
+            <ng-template mat-tab-label>
+              <div class="inbox-tab">
+                <i class="fa fa-inbox"></i>
+                <h4>{{ 'MailBox.INBOX' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-mailbox [isStudentUserCard]="true" [userId]="userId"></ms-mailbox>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Cc">
+            <ng-template mat-tab-label>
+              <div class="cc-tab">
+                <i class="fa fa-inbox"></i>
+                <h4>{{ 'MailBox.CC' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-cc [isStudentUserCard]="true" [userId]="userId"></ms-cc>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Sent">
+            <ng-template mat-tab-label>
+              <div class="sent-tab">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h4>{{ 'MailBox.SENT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-sent [isStudentUserCard]="true" [userId]="userId"></ms-sent>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Important">
+            <ng-template mat-tab-label>
+              <div class="important-tab">
+                <i class="fa fa-hand-paper-o"></i>
+                <h4>{{ 'MailBox.IMPORTANT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-important [isStudentUserCard]="true" [userId]="userId"></ms-important>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Draft" >
+            <ng-template mat-tab-label>
+              <div class="draft-tab">
+                <i class="fa fa-archive"></i>
+                <h4>{{ 'MailBox.DRAFT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-draft [isStudentUserCard]="true" [userId]="userId"></ms-draft>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Trash" >
+            <ng-template mat-tab-label>
+              <div class="trash-tab">
+                <i class="fa-solid fa-trash-can"></i>
+                <h4>{{ 'MailBox.TRASH' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-trash [isStudentUserCard]="true" [userId]="userId"></ms-trash>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </ng-template>
+    </mat-tab>
+</mat-tab-group>
+

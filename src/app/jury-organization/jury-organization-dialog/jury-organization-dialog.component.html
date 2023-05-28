@@ -1,0 +1,233 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon class="icon-alignment" mat-icon-button>
+          <svg style="width: 24px; height: 36px" viewBox="0 0 24 24">
+            <path
+              fill="#000000"
+              d="M2.3,20.28L11.9,10.68L10.5,9.26L9.78,9.97C9.39,10.36 8.76,10.36 8.37,9.97L7.66,9.26C7.27,8.87 7.27,8.24 7.66,7.85L13.32,2.19C13.71,1.8 14.34,1.8 14.73,2.19L15.44,2.9C15.83,3.29 15.83,3.92 15.44,4.31L14.73,5L16.15,6.43C16.54,6.04 17.17,6.04 17.56,6.43C17.95,6.82 17.95,7.46 17.56,7.85L18.97,9.26L19.68,8.55C20.07,8.16 20.71,8.16 21.1,8.55L21.8,9.26C22.19,9.65 22.19,10.29 21.8,10.68L16.15,16.33C15.76,16.72 15.12,16.72 14.73,16.33L14.03,15.63C13.63,15.24 13.63,14.6 14.03,14.21L14.73,13.5L13.32,12.09L3.71,21.7C3.32,22.09 2.69,22.09 2.3,21.7C1.91,21.31 1.91,20.67 2.3,20.28M20,19A2,2 0 0,1 22,21V22H12V21A2,2 0 0,1 14,19H20Z"
+            />
+          </svg>
+        </mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span>{{ 'JURY_ORGANIZATION.CSV_SCHEDULE.CSV_NAME' | translate }}</span>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light" [formGroup]="juryForm">
+  <div class="p-grid">
+    <div class="p-col-12 px-25 py-10">
+      <mat-form-field>
+        <input
+          [disabled]="isEditing && parentData?.data?.current_status !== 'assign_number_jury'"
+          required
+          matInput
+          placeholder="{{ 'JURY_ORGANIZATION.NAME' | translate }}"
+          formControlName="name"
+        />
+        <mat-error *ngIf="juryForm.get('name').hasError('required') 
+          && (juryForm.get('name').dirty || juryForm.get('name').touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6 px-25 py-10">
+      <mat-form-field>
+        <mat-select
+          required
+          [disabled]="isEditing"
+          placeholder="{{ 'JURY_ORGANIZATION.JURY_TYPE' | translate }}"
+          formControlName="type"
+          (valueChange)="updateTestData($event)"
+          [disableOptionCentering]="true"
+          panelClass="filterPanel"
+        >
+          <!-- We Put ngif editing here is because when use open from already created jury, the field will not be empty -->
+          <!-- <mat-option value="retake_jury">{{ '055_JURY.RETAKE_JURY' | translate }}</mat-option>
+          <mat-option value="final_jury">{{ '055_JURY.FINAL_JURY' | translate }}</mat-option>
+          <mat-option value="grand_oral">{{ '055_JURY.GRAND_ORAL' | translate }}</mat-option>
+          <mat-option value="retake_grand_oral">{{ '055_JURY.RETAKE_GRAND_ORAL' | translate }}</mat-option> -->
+          <mat-option [value]="null" (click)="clearJuryType()">{{ 'None' | translate }}</mat-option>
+          <ng-container *ngIf="!isEditing">
+            <ng-container *ngFor="let option of juryType">
+              <mat-option *ngIf="option.value !== 'retake_jury' && option.value !== 'final_jury' " [value]="option.value">{{ option?.key }}</mat-option>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="isEditing">
+            <mat-option *ngFor="let option of juryType" [value]="option.value">{{ option?.key }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="juryForm.get('type').hasError('required') 
+          && (juryForm.get('type').dirty || juryForm.get('type').touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-6 px-25 py-10">
+      <mat-form-field [hideRequiredMarker]="true">
+        <mat-select
+          [disabled]="isEditing || !juryForm.get('type').value"
+          placeholder="{{ '136_GO.Jury characteristic' | translate }} *"
+          formControlName="jury_activity"
+          (valueChange)="updateSafetyRoomData($event)"
+          [disableOptionCentering]="true"
+          panelClass="filterPanel"
+        >
+          <!-- We Put ngif editing here is because when use open from already created jury, the field will not be empty -->
+          <!-- <mat-option value="visio_jury">{{ '136_GO.visio_jury' | translate }}</mat-option>
+          <mat-option value="offline_jury">{{ '136_GO.offline_jury' | translate }}</mat-option>
+          <mat-option value="off_platform_jury">{{ '136_GO.off_platform_jury' | translate }}</mat-option> -->
+          <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+          <mat-option *ngFor="let option of juryActivity" [value]="option.value">{{ option?.key }}</mat-option>
+          <!-- <mat-option *ngIf="juryForm.get('type').value === 'grand_oral' || isEditing" value="off_platform_jury">{{ '136_GO.off_platform_jury' | translate }}</mat-option> -->
+        </mat-select>
+        <mat-error *ngIf="juryForm.get('jury_activity').hasError('required') 
+          && (juryForm.get('jury_activity').dirty || juryForm.get('jury_activity').touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-6 px-25 py-10">
+      <mat-form-field>
+        <input
+          required
+          matInput
+          [formControl]="selectCertifierForm"
+          [matAutocomplete]="certifierForm"
+          placeholder="{{ 'Select Certifier' | translate }}"
+          (keyup)="filterCertifier()"
+        />
+        <mat-autocomplete #certifierForm="matAutocomplete" [displayWith]="displayFnCertifier.bind(this)" (optionSelected)="getTitleList($event.option.value)" [panelWidth]="'fit'">
+          <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+          <mat-option
+            [value]="certifier?._id"
+            *ngFor="let certifier of certifierList"
+            >{{ certifier?.short_name }}</mat-option
+          >
+        </mat-autocomplete>
+        <mat-error *ngIf="juryForm.get('certifier').hasError('required') 
+          && (selectCertifierForm.dirty || selectCertifierForm.touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="p-col-6 px-25 py-10">
+      <mat-form-field>
+        <input
+          matInput
+          required
+          [formControl]="selectRncpTitleForm"
+          [matAutocomplete]="rncpTitleForm"
+          placeholder="{{ 'Select RNCP Title' | translate }}"
+          (keyup)="filterRncpTitle()"
+        />
+        <mat-autocomplete #rncpTitleForm="matAutocomplete" [displayWith]="displayFnTitle.bind(this)" (optionSelected)="getClassList($event.option.value)" [panelWidth]="'fit'">
+          <mat-option [value]="null"> {{ 'None' | translate }} </mat-option>
+          <mat-option
+            [value]="rncpTitle?._id"
+            *ngFor="let rncpTitle of rncpTitleList"
+            >{{ rncpTitle?.short_name }}</mat-option
+          >
+        </mat-autocomplete>
+        <mat-error *ngIf="getRncpTitlesFormArray().at(0).get('rncp_id').hasError('required') 
+          && (selectRncpTitleForm.dirty || selectRncpTitleForm.touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6 px-25 py-10">
+      <mat-form-field>
+        <input
+          matInput
+          required
+          [formControl]="selectClassForm"
+          [matAutocomplete]="classForm"
+          placeholder="{{ 'Export_S1.SELECTCLASS' | translate }}"
+          (keyup)="filterClass()"
+        />
+        <mat-autocomplete #classForm="matAutocomplete" [displayWith]="displayFnClass.bind(this)" (optionSelected)="getTestList($event.option.value)" [panelWidth]="'fit'">
+          <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+          <mat-option [value]="class?._id" *ngFor="let class of classList">{{
+            class?.name
+          }}</mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="getRncpTitlesFormArray().at(0).get('class_id').hasError('required') 
+          && (selectClassForm.dirty || selectClassForm.touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div
+      class="p-col-6 px-25 py-10"
+      *ngIf="juryForm.get('type').value == 'retake_jury' || juryForm.get('type').value == 'final_jury'"
+      [ngClass]="{ 'display-none': juryForm.get('type')?.value === 'grand_oral' }"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          required
+          [formControl]="selectTestForm"
+          [matAutocomplete]="testForm"
+          placeholder="{{ 'Export_S1.SELECTTEST' | translate }}"
+          (keyup)="filterTest()"
+        />
+        <mat-autocomplete #testForm="matAutocomplete" [displayWith]="displayFnTest.bind(this)" (optionSelected)="selectedTest($event.option.value)" [panelWidth]="'fit'">
+          <mat-option [value]="">{{ 'None' | translate }}</mat-option>
+          <mat-option [value]="test?._id" *ngFor="let test of testList">{{ test.name }}</mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="getRncpTitlesFormArray().at(0).get('test_id').hasError('required') 
+          && (selectTestForm.dirty || selectTestForm.touched)"
+        >
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-6 px-25 py-10">
+      <mat-slide-toggle formControlName="safety_room" *ngIf="juryForm.get('jury_activity').value == 'visio_jury'" [disabled]="isToggleDisable">
+        <span [ngClass]="{ 'text-slider-color': juryForm.get('safety_room').value }">
+          {{
+            (juryForm.get('safety_room').value ? 'JURY_ORGANIZATION.SAFETYROOMACTIVE' : 'JURY_ORGANIZATION.SAFETYROOMINACTIVE') | translate
+          }}</span
+        >
+      </mat-slide-toggle>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-raised-button mat-dialog-close (click)="closeDialog()" color="warn">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-raised-button color="primary" (click)="SubmitWithSwalConfirmation()">
+    {{ 'SUBMIT' | translate }}
+  </button>
+</div>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

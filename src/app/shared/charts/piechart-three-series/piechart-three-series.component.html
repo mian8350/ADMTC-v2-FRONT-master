@@ -1,0 +1,19 @@
+<ng-container [ngSwitch]="chartType">
+  <ng-container *ngSwitchCase="'school'">
+    <div [ngStyle]="{ display: dataMapping && dataMapping?.length ? '' : 'none' }">
+        <div class="chart" id="chartDivSchool"></div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'task'">
+    <div [ngStyle]="{ display: dataMapping && dataMapping?.length ? '' : 'none' }">
+        <div class="chart" id="chartDivTask"></div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'company'">
+    <div [ngStyle]="{ display: dataMapping && dataMapping?.length ? '' : 'none' }">
+        <div class="chart" id="chartDivCompany"></div>
+    </div>
+  </ng-container>
+</ng-container>

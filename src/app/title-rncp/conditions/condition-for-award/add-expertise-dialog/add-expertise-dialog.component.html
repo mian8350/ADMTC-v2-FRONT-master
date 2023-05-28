@@ -1,0 +1,84 @@
+<h1 mat-card-title class="dialog-title">{{'EXPERTISE.ADDEXPERTISE' | translate}}</h1>
+<div mat-dialog-content class="condition-dialog" [formGroup]="form">
+    <div class="p-grid">
+        <div class="p-col-4">
+            <mat-slide-toggle #spec formControlName="is_specialization">{{'PARAMETERS-RNCP.EXPERTISE.BLOCK_OF_SPECIAL' | translate}}</mat-slide-toggle>
+        </div>
+        <div class="p-col-4">
+            <mat-slide-toggle #retakeByBlock formControlName="is_retake_by_block">{{'PARAMETERS-RNCP.TEST.RETAKE_BY_BLOCK' | translate}}</mat-slide-toggle>
+        </div>
+        <div class="p-col-4">
+            <mat-slide-toggle formControlName="transversal_block">{{'PARAMETERS-RNCP.TEST.TRANSVERSAL_BLOCK' | translate}}</mat-slide-toggle>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12" *ngIf="spec.checked === false">
+            <mat-form-field>
+                <input matInput placeholder="{{'PARAMETERS-RNCP.EXPERTISE.BLOCK_OF_EXPERTISE' | translate}}" formControlName="block_of_experise">
+                <mat-error *ngIf="form.get('block_of_experise').hasError('required')&&
+                                            (form.get('block_of_experise').dirty ||
+                                             form.get('block_of_experise').touched)">
+                    {{'This field is required'|translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="p-col-12">
+            <mat-select *ngIf="spec.checked === true" formControlName="block_of_experise" placeholder="{{'PARAMETERS-RNCP.EXPERTISE.SELECT_SPECIAL' | translate}}">
+                <mat-option value="spec1">Spec 1</mat-option>
+                <mat-option value="spec2">Spec 2</mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="p-grid" *ngIf="retakeByBlock.checked === true">
+        <div class="p-col-12">
+            <mat-select placeholder="{{'PARAMETERS-RNCP.EXPERTISE.SELECT_BLOCK' | translate}}" formControlName="selected_block_retake">
+                <mat-option [value]="exp.id" *ngFor="let exp of expertiseList">{{exp.name}}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12">
+            <mat-slide-toggle formControlName="count_for_title_final_score">{{'EXPERTISE.FINALSCORE.title' | translate}}</mat-slide-toggle>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12">
+            <mat-form-field>
+                <input formControlName="max_point" matInput placeholder="{{'EXPERTISE.MAXPOINT.title' | translate}}" type="number" min="0">
+<!--                <mat-error *ngIf="form.get('max_point').hasError('required')&&-->
+<!--                                            (form.get('max_point').dirty ||-->
+<!--                                             form.get('max_point').touched)">-->
+<!--                    {{'This field is required'|translate}}-->
+<!--                </mat-error>-->
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12">
+            <mat-form-field>
+                <input matInput placeholder="{{'PARAMETERS-RNCP.TEST.MIN_SCORE'| translate}}" type="number" min="0" formControlName="min_score">
+<!--                <mat-error *ngIf="form.get('min_score').hasError('required')&&-->
+<!--                                            (form.get('min_score').dirty ||-->
+<!--                                             form.get('min_score').touched)">-->
+<!--                    {{'This field is required'|translate}}-->
+<!--                </mat-error>-->
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12">
+            <mat-form-field>
+                <textarea matInput placeholder="{{'Description' | translate}}" formControlName="description"></textarea>
+                <mat-error *ngIf="form.get('description').hasError('required')&&
+                                            (form.get('description').dirty ||
+                                             form.get('description').touched)">
+                    {{'This field is required'|translate}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="onCancel()">{{'Cancel' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="onSubmitExpertise()">{{'Submit' | translate}}</button>
+</div>

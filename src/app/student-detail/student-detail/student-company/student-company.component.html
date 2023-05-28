@@ -1,0 +1,42 @@
+<mat-card>
+    <mat-card-content>
+        <div class="p-grid">
+            <div ngClass="p-col-2" ngClass.lt-md="p-col-6">
+                <div class="padding">
+                    <label>Company Name</label>
+                </div>
+            </div>
+            <div ngClass="p-col-3" ngClass.lt-md="p-col-6">
+                <mat-form-field>
+                    <input matInput placeholder="Company">
+                </mat-form-field>
+            </div>
+            <div ngClass="p-col-1" ngClass.lt-md="p-col-6">
+                <div class="padding">
+                    <label>Mentor</label>
+                </div>
+            </div>
+            <div ngClass="p-col-3" ngClass.lt-md="p-col-6">
+                <mat-form-field>
+                    <mat-select matNativeControl value="Francis Deferaudy">
+                        <mat-option value="Francis Deferaudy">Francis Deferaudy</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="p-grid">
+                <div ngClass="p-col-2" ngClass.lt-md="p-col-6" ngClass.lt-sm="p-col-10">
+                <div class="padding">
+                    <label>{{'InActive' | translate}}</label>
+                    <mat-slide-toggle><label>{{'Active' | translate}}</label>
+                    </mat-slide-toggle>
+                </div>
+            </div>
+            <div ngClass="p-col-3" ngClass.lt-md="p-col-6" ngClass.lt-sm="p-col-7">
+                <mat-form-field>
+                    <input matInput placeholder="From">
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

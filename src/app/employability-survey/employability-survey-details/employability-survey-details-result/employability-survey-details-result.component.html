@@ -1,0 +1,14 @@
+<ms-employability-survey-details-result-continuous
+  *ngIf="esType === 'continuous'"
+  [esType]="esType"
+  [esProcessId]="esProcessId"
+  [selectedRncpTitleId]="selectedRncpTitleId"
+  [selectedClassId]="selectedClassId">
+></ms-employability-survey-details-result-continuous>
+<ms-employability-survey-details-result-one-time
+  *ngIf="esType === 'one_time'"
+  [esType]="esType"
+  [esProcessId]="esProcessId"
+  [selectedRncpTitleId]="selectedRncpTitleId"
+  [selectedClassId]="selectedClassId">
+></ms-employability-survey-details-result-one-time>

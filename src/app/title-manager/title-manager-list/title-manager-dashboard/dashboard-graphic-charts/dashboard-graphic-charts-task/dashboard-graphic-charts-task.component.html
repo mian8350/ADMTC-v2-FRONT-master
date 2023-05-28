@@ -1,0 +1,7 @@
+<ng-container *ngIf="dataChart && dataChart.length">
+    <ms-piechart-three-series [dataMapping]="dataChart" [rncpId]="rncpId" [classId]="classId" [isDonut]="isDonut" [chartType]="'task'"></ms-piechart-three-series>
+</ng-container>
+<div *ngIf="dataChart && !dataChart.length && !isWaitingResponse" class="no-data">
+    <span>{{ 'NOT RECORD FOUND' | translate }}</span>
+</div>
+<mat-spinner class="center" *ngIf="isWaitingResponse" color="accent"></mat-spinner>

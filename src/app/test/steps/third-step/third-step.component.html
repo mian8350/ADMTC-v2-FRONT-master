@@ -1,0 +1,429 @@
+<mat-card style="margin-top: 10px; margin-right: 10px; margin-left: 0px; padding-right: 0px; padding-left: 0px; box-shadow: none;">
+  <div class="p-grid create-test-header-button">
+    <button mat-raised-button color="accent" *ngIf="!formData?.is_published" [disabled]="testProgress?.is_assign_corrector_done" (click)="openDuplicateDialog()">
+      <mat-icon class="mat-icon-default">content_copy</mat-icon>
+      {{ 'TEST.DUPLICATETEST' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="saveTest()"
+      [disabled]="testProgress?.is_mark_entry_done || isWaitingForResponse"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'TEST.SAVE' | translate }}
+    </button>
+  </div>
+
+  <form [formGroup]="form">
+    <mat-card class="background-primary mrgn-b-md" style="overflow: visible;">
+      <mat-card-header class="justify-content-between">
+        <mat-card-title>
+          <h3>{{ 'TEST.DOCUMENTSADDED' | translate }}</h3>
+        </mat-card-title>
+        <div>
+          <button
+            mat-raised-button
+            color="accent"
+            fxFlexAlign="end"
+            type="button"
+            (click)="addNewDoc()"
+            [disabled]="newDoc || testProgress?.is_mark_entry_done"
+          >
+            {{ 'TEST.ADDDOCUMENT' | translate }}
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+
+      <mat-card-content class="no-bottom-margin mrgn-t-md">
+        <mat-card *ngFor="let document of addedDocuments; let i = index" class="overflow mrgn-b-md" style="padding-right: 0px;">
+          <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+              <div fxFlex="85">
+                <div fxLayout="column">
+                  <div fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'DOCUMENT.NAME' | translate }} </b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ document?.document_name }}"> {{ document?.document_name }} </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'DOCUMENT.TYPE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ 'DOCUMENTTYPES.' + document?.type_of_document?.toUpperCase() | translate }}">{{
+                          'DOCUMENTTYPES.' + document?.type_of_document?.toUpperCase() | translate
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'DOCUMENT.FILE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65"  >
+                        <span class="span-block" matTooltip="{{ document?.s3_file_name }}">{{ document?.s3_file_name }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'DOCUMENT.USERTYPE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65" >
+                        <span class="span-block" matTooltip="{{ getUserTypeToolTip(document) }}">
+                          <ng-container *ngFor="let userType of document.published_for_user_types_id; let last = last">
+                            {{ 'USER_TYPES.' + userType?.name | translate }}<span *ngIf="!last">{{ ', ' }}</span>
+                          </ng-container>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxFlex *ngIf="document?.publication_date?.type === 'fixed'">
+                    <div fxLayout="row" fxLayoutAlign="start start" >
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DATEOFPUBICATION' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ getTranslatedDate(document?.publication_date.publication_date) }}">{{
+                          getTranslatedDate(document?.publication_date.publication_date)
+                        }}</span>
+                      </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start start" >
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.Time' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ getTranslatedTime(document?.publication_date?.publication_date?.time) }}">{{
+                          getTranslatedTime(document?.publication_date?.publication_date?.time)
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start start" *ngIf="document?.publication_date?.type === 'relative'">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DATEOFPUBICATION' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div
+                        *ngIf="testCreationData && testCreationData.schools && testCreationData.schools.length"
+                        class="ellipsis-one-line"
+                        fxFlex="65"
+                      >
+                        <span class="span-block"
+                          matTooltip="{{ document.publication_date.day }} {{
+                            document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                          }} {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                            'Mark Entry' | translate
+                          }}"
+                        >
+                          {{ document.publication_date.day }}
+                          {{ document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                          {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                          {{ 'Mark Entry' | translate }}
+                        </span>
+                      </div>
+                      <div
+                        *ngIf="testCreationData && testCreationData.schools && !testCreationData.schools.length"
+                        class="ellipsis-one-line"
+                        fxFlex="65"
+                      >
+                        <span class="span-block"
+                          matTooltip="{{ document.publication_date.day }} {{
+                            document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                          }} {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                            getTranslateTestDate(testCreationData.date)
+                          }}"
+                          >{{ document.publication_date.day }}
+                          {{ document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                          {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                          {{ getTranslateTestDate(testCreationData.date) }}
+                          {{ getTranslatedTime(document.publication_date.relative_time) }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="15">
+                <div fxLayout="row wrap" fxLayoutAlign="end start">
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="editAddedDocument(i, document)"
+                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="removeAddDocument(i, document)"
+                    [disabled]="testProgress && testProgress.is_mark_entry_done"
+                  >
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="pa-1" style="text-align: center;" *ngIf="addedDocuments?.length < 1">
+          {{ 'DOCUMENT.NODOCUMENTS' | translate }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+  <form [formGroup]="expectedForm">
+    <mat-card class="background-primary mrgn-b-md">
+      <mat-card-header class="justify-content-between">
+        <mat-card-title>
+          <h3>{{ 'EXPECTEDDOCUMENT.DOCUMENTSEXPECTED' | translate }}</h3>
+        </mat-card-title>
+        <div>
+          <button
+            mat-raised-button
+            color="accent"
+            fxFlexAlign="end"
+            type="button"
+            (click)="addNewExpectedDoc()"
+            [disabled]="newExpectedDoc || (testProgress && testProgress.is_mark_entry_done)"
+          >
+            {{ 'TEST.ADDDOCUMENT' | translate }}
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content class="no-bottom-margin mrgn-t-md">
+        <mat-card *ngFor="let expectedDocument of testCreationData.expected_documents; let in = index" class="overflow mrgn-b-md">
+          <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+              <div fxFlex="85">
+                <div fxLayout="column">
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.NAME' | translate }} </b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ expectedDocument.document_name }}">
+                          {{ expectedDocument.document_name }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.USERTYPE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ getUserTypeName(expectedDocument?.document_user_type) }}">
+                          {{ getUserTypeName(expectedDocument?.document_user_type) }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="expectedDocument?.deadline_date?.type === 'fixed'">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DEADLINE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ getTranslatedDate(expectedDocument.deadline_date.deadline) }}">
+                          {{ getTranslatedDate(expectedDocument.deadline_date.deadline) }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="expectedDocument?.deadline_date?.type === 'relative'">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DEADLINE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div
+                        *ngIf="testCreationData && testCreationData.schools && testCreationData.schools.length"
+                        class="ellipsis-one-line"
+                        fxFlex="65"
+                      >
+                        <span class="span-block"
+                          matTooltip="{{ expectedDocument.deadline_date.day }} {{
+                            expectedDocument.deadline_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                          }} {{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                            'Mark Entry' | translate
+                          }}"
+                        >
+                          {{ expectedDocument.deadline_date.day }}
+                          {{ expectedDocument.deadline_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                          {{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                          {{ 'Mark Entry' | translate }}
+                        </span>
+                      </div>
+                      <div
+                        *ngIf="testCreationData && testCreationData.schools && !testCreationData.schools.length"
+                        class="ellipsis-one-line"
+                        fxFlex="65"
+                      >
+                        <span class="span-block"
+                          matTooltip="{{ expectedDocument.deadline_date.day }} {{
+                            expectedDocument.deadline_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                          }} {{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                            getTranslateTestDate(testCreationData?.date_type === 'multiple_date' ? testCreationData?.multiple_dates[0] : testCreationData.date)
+                          }}"
+                        >
+                          {{ expectedDocument.deadline_date.day }}
+                          {{ expectedDocument.deadline_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                          {{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                          {{ getTranslateTestDate(testCreationData?.date_type === 'multiple_date' ? testCreationData?.multiple_dates[0] : testCreationData.date) }}
+                        </span>
+                      </div>
+                      <!-- <div fxFlex="65">
+                        {{expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER'
+                        | translate)}} {{expectedDocument.deadline_date.day}} {{'DAYS' | translate}}
+                      </div> -->
+                    </div>
+                  </div>
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="expectedDocument.file_type">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DOCUMENTTYPE' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" *ngIf="expectedDocument.file_type === 'docper'" matTooltip="{{ 'ACAD_KIT.DOC.Document/Presentation' | translate }}">
+                          {{ 'ACAD_KIT.DOC.Document/Presentation' | translate }}
+                        </span>
+                        <span class="span-block" *ngIf="expectedDocument.file_type === 'image'" matTooltip="{{ 'ACAD_KIT.DOC.Image' | translate }}">
+                          {{ 'ACAD_KIT.DOC.Image' | translate }}
+                        </span>
+                        <span class="span-block" *ngIf="expectedDocument.file_type === 'video'" matTooltip="{{ 'ACAD_KIT.DOC.Video' | translate }}">
+                          {{ 'ACAD_KIT.DOC.Video' | translate }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div fxFlex>
+                    <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="(expectedDocument.is_for_all_student && !testCreationData.group_test) || (expectedDocument.is_for_all_group && testCreationData.group_test)">
+                      <div fxFlex="30">
+                        <b>{{ 'EXPECTEDDOCUMENT.DOCUMENTSEXPECTED' | translate }}</b>
+                      </div>
+                      <div fxFlex="5">
+                        <b>:</b>
+                      </div>
+                      <div *ngIf="expectedDocument.is_for_all_student && !testCreationData.group_test" class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ 'EXPECTEDDOCUMENT.FOREACHSTUDENT' | translate }}">
+                          {{ 'EXPECTEDDOCUMENT.FOREACHSTUDENT' | translate }}
+                        </span>
+                      </div>
+                      <div *ngIf="expectedDocument.is_for_all_group && testCreationData.group_test" class="ellipsis-one-line" fxFlex="65">
+                        <span class="span-block" matTooltip="{{ 'EXPECTEDDOCUMENT.FOREACHSTUDENT' | translate }}">
+                          {{ 'EXPECTEDDOCUMENT.FOREACHGROUP' | translate }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+
+                <!-- <div>{{'EXPECTEDDOCUMENT.NAME' | translate}} : {{ ed.document_name }}</div>
+                <div>{{'EXPECTEDDOCUMENT.USERTYPE' | translate}} : {{getUserTypeName(ed?.document_user_type)}}</div>
+                <ng-template [ngIf]="ed.deadline_date.type === 'fixed'">
+                  <div>{{'EXPECTEDDOCUMENT.DEADLINE' | translate}} : {{getTranslatedDate(ed?.deadline_date?.deadline)}}</div>
+                </ng-template>
+                <ng-template [ngIf]="ed.deadline_date.type === 'relative'">
+                  <div>{{'EXPECTEDDOCUMENT.DEADLINE' | translate}} : {{ed.deadline_date.before ? ('BEFORE' | translate) : ('AFTER'
+                    | translate)}} {{ed.deadline_date.day}} {{'DAYS' | translate}}
+                  </div>
+                </ng-template>
+                <ng-template [ngIf]="ed.is_for_all_student">
+                  <div>{{'EXPECTEDDOCUMENT.FOREACH' | translate}}</div>
+                </ng-template> -->
+              </div>
+
+              <div fxFlex="15">
+                <div fxLayout="row wrap" fxLayoutAlign="end start">
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="editExpectedDocument(in, expectedDocument)"
+                    [disabled]="(testProgress && testProgress.is_mark_entry_done) || isExpectedDocumentDone[in]"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="removeExpectedDocument(expectedDocument, in)"
+                    [disabled]="(testProgress && testProgress.is_mark_entry_done) || isExpectedDocumentDone[in]"
+                  >
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="pa-1" style="text-align: center;" *ngIf="testCreationData.expected_documents.length === 0">
+          {{ 'EXPECTEDDOCUMENT.NODOCUMENTS' | translate }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

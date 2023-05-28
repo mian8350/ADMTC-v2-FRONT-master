@@ -1,0 +1,28 @@
+<ng-container *ngFor="let option1 of parentChildOptions; let indexSatu = index" [formGroup]="indexSatu">
+  <ng-container formArrayName="questions">
+    <ng-container *ngFor="let optionQuestion1 of option1.get('questions').controls; let indexQuestionSatu = index" [formGroupName]="indexQuestionSatu">
+      <ng-container>
+        <div *ngIf="quest.get('answer').value === option1.get('option_text').value" class="field-item" style="padding-left: 2rem;">
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <label fxFlex="70" style="align-self: center">{{optionQuestion1.get('question_name').value}}</label>
+          </div>
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <mat-radio-group formControlName="answer">
+              <mat-radio-button [value]="option2.option_text" *ngFor="let option2 of optionQuestion1.get('parent_child_options').value"
+                                (change)="onChangeParentChild2($event, option2, {competenceIndex: compIndex, segmentIndex: segmentIndex, questionIndex: quesIndex}, indexSatu, indexQuestionSatu)" style="padding-right: 10px;">{{option2.option_text}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="optionQuestion1.get('parent_child_options').controls" formArrayName="parent_child_options">
+        <ms-parent-child-recursive
+          [parentChildOptions]="optionQuestion1.get('parent_child_options').controls"
+          [questionResponseForm]="questionResponseForm"
+        >
+        </ms-parent-child-recursive>
+      </ng-container>
+
+    </ng-container>
+  </ng-container>
+</ng-container>

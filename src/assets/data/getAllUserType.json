@@ -1,0 +1,2086 @@
+{
+  "data": [
+    {
+      "name": "Collaborateur Ext. ADMTC",
+      "description": "Collaborateur Exterieur ADMTC",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "admtc",
+      "status": "active",
+      "isSystemType": false,
+      "_id": "5bc066042a35327127ad9dfa",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "_id": "5bc066042a35327127ad9dfb"
+        }
+      ],
+      "createdAt": "2018-10-12T09:14:44.041Z",
+      "updatedAt": "2018-10-12T09:14:44.041Z",
+      "__v": 0
+    },
+    {
+      "name": "Animateur BG DMOE 2019",
+      "description": "Animateur Business Game DMOE 2019 ",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": null,
+      "isSystemType": null,
+      "_id": "5bbcc95a9241912fe42d63d8",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5cdd19872e57ec591bb034cc"
+        }
+      ],
+      "createdAt": "2018-10-09T15:29:30.793Z",
+      "updatedAt": "2019-05-16T08:04:23.583Z",
+      "__v": 0
+    },
+    {
+      "name": "Animateur BG RMO 2019",
+      "description": "Animateur  Business Game  RMO 2019",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": null,
+      "isSystemType": null,
+      "_id": "5bbcc8f69241912fe42d63d5",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5cdd199a2e57ec591bb034e0"
+        }
+      ],
+      "createdAt": "2018-10-09T15:27:50.366Z",
+      "updatedAt": "2019-05-16T08:04:42.618Z",
+      "__v": 0
+    },
+    {
+      "name": "TOTOCHRIS",
+      "description": "Test TOTO CHRIS",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": false,
+      "_id": "5bab8a04293eb71d0164d7e8",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "organisation": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "programme": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5bab8a04293eb71d0164d7e9"
+        }
+      ],
+      "createdAt": "2018-09-26T13:30:44.176Z",
+      "updatedAt": "2018-09-26T13:30:44.176Z",
+      "__v": 0
+    },
+    {
+      "name": "Correcteur PFE Oral",
+      "description": "Le Correcteur PFE Oral sera affecter à la saisie des notes du PFE Oral \nCe Correcteur fait partie du Certificateur",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": "active",
+      "isSystemType": false,
+      "_id": "5b1ffb5c9e25da6d30bde480",
+      "updatedAt": "2018-06-12T16:57:00.582Z",
+      "createdAt": "2018-06-12T16:57:00.582Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "_id": "5b1ffb5c9e25da6d30bde481"
+        }
+      ],
+      "__v": 0
+    },
+    {
+      "name": "student",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": false,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5a067bba1c0217218c75f8ab"
+    },
+    {
+      "name": "Director",
+      "description": "Director",
+      "studentManagement": true,
+      "isUserCollection": true,
+      "entity": "admtc",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f954b",
+      "entityCodeName": "ADMTC",
+      "entityTitleEN": "Director",
+      "entityTitleFR": "Direction",
+      "updatedAt": "2017-12-12T06:18:56.658Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a2f74d0b24cb13e20c6f974"
+        }
+      ]
+    },
+    {
+      "name": "Sales",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "admtc",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5a2e1ecd53b95d22c82f954c",
+      "entityCodeName": "ADMTC",
+      "entityTitleEN": "Sales",
+      "entityTitleFR": "Commercial"
+    },
+    {
+      "name": "Visitor",
+      "description": "Visitor",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "admtc",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f954d",
+      "entityCodeName": "ADMTC",
+      "entityTitleEN": "Visitor",
+      "entityTitleFR": "Visiteur",
+      "updatedAt": "2019-05-03T08:11:50.766Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5ccbf7c69af89c1575b70084"
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Admin",
+      "studentManagement": true,
+      "isUserCollection": true,
+      "entity": "admtc",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f954e",
+      "entityCodeName": "ADMTC",
+      "entityTitleEN": "Admin",
+      "entityTitleFR": "Admin",
+      "updatedAt": "2017-12-13T11:01:53.185Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": true,
+              "update": true,
+              "view": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a3108a1ecf43e1f445b7a5e"
+        }
+      ]
+    },
+    {
+      "name": "Director",
+      "description": "Director",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f954f",
+      "entityCodeName": "CR",
+      "entityTitleEN": "Director",
+      "entityTitleFR": "Direction",
+      "updatedAt": "2019-09-23T16:12:44.334Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "_id": "5d88eefc951e3901c79cf20a"
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Admin",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9550",
+      "entityCodeName": "CR",
+      "entityTitleEN": "Admin",
+      "entityTitleFR": "Admin",
+      "updatedAt": "2019-09-23T16:11:12.707Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "_id": "5d88eea0951e3901c79cf209"
+        }
+      ]
+    },
+    {
+      "name": "Corrector-of-Problematic",
+      "description": "Corrector of Problematic",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9551",
+      "entityCodeName": "CR",
+      "entityTitleEN": "Corrector of Problematic",
+      "entityTitleFR": "Correcteur de Problematique",
+      "updatedAt": "2017-12-11T12:09:29.728Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a2e7579021afe309895e814"
+        }
+      ]
+    },
+    {
+      "name": "Corrector-Quality",
+      "description": "Corrector Quality",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9552",
+      "entityCodeName": "CR",
+      "entityTitleEN": "Corrector Quality",
+      "entityTitleFR": "Correcteur Contrôle Qualité",
+      "updatedAt": "2017-12-11T11:39:15.905Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a2e6e63021afe309895e813"
+        }
+      ]
+    },
+    {
+      "name": "Director",
+      "description": "Director",
+      "studentManagement": true,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9553",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Director",
+      "entityTitleFR": "Direction",
+      "updatedAt": "2018-01-07T10:49:37.077Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fb41b5918452b587126b"
+        }
+      ]
+    },
+    {
+      "name": "Academic-Director",
+      "description": "academic DIRECTOR",
+      "studentManagement": true,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9554",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Acadmic-Director",
+      "entityTitleFR": "Direction Pedagogique",
+      "updatedAt": "2018-01-07T10:48:30.700Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fafeb5918452b5871268"
+        }
+      ]
+    },
+    {
+      "name": "Academic-Admin",
+      "description": "Collaborateur direct de la Direction Pédagogique Etablissement, il accède à l'ensemble des dossiers de la Plateforme et bénéficie de droits étendus à l'exception de :\n\nL’affectation de tâches\nL’affectation de correcteur(s) à une épreuve\nLa gestion des utilisateurs\nLa validation des épreuves\n",
+      "studentManagement": true,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9555",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Academic Admin",
+      "entityTitleFR": "Assist. Pedagogique",
+      "updatedAt": "2018-01-07T10:48:49.419Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fb11b5918452b5871269"
+        }
+      ]
+    },
+    {
+      "name": "Teacher",
+      "description": "Intervenant sur au moins une matière du programme, il peut consulter la liste des évènements du Titre et accéder aux ressources pédagogiques à l’exception des éléments liés à l’admission et à la communication. \n\nAttention, Il ne peut \n\nTélé-déposer les travaux des apprenants\nTélécharger des épreuves à corriger\nCompléter les grilles d’évaluation\n\nQue si on lui attribue également le statut de « Correcteur ».\n",
+      "studentManagement": null,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9558",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Teacher",
+      "entityTitleFR": "Prof",
+      "updatedAt": "2018-09-25T08:48:14.072Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5ba9f64e1f3b2e3b681216f2"
+        }
+      ]
+    },
+    {
+      "name": "Corrector",
+      "description": "Enseignant ou désigné par la Direction Pédagogique Etablissement, il peut consulter la liste des événements du Titre et accéder aux ressources pédagogiques à l’exception des éléments liés à l’admission et à la communication. \n\nIl peut également : \n\nTélé-déposer les travaux des apprenants\nTélécharger des épreuves à corriger\nCompléter les grilles d’évaluation\n",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a2e1ecd53b95d22c82f9559",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Corrector",
+      "entityTitleFR": "Correcteur",
+      "updatedAt": "2018-01-07T10:49:11.389Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "communication": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fb27b5918452b587126a"
+        }
+      ]
+    },
+    {
+      "name": "hr",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "company",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5a2e603c53b95d22c82f958f",
+      "entityCodeName": "COMPANY",
+      "entityTitleEN": "hr",
+      "entityTitleFR": "hr"
+    },
+    {
+      "name": "mentor",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "company",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5a2e603f53b95d22c82f9590",
+      "entityCodeName": "COMPANY",
+      "entityTitleEN": "mentor",
+      "entityTitleFR": "mentor"
+    },
+    {
+      "name": "President-of-Jury",
+      "description": "Président de Jury",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5a3cd5e7e6fae44c7c11561e",
+      "entityCodeName": "CR",
+      "entityTitleEN": "President of Jury",
+      "entityTitleFR": "Président de Jury",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5cfbd52a423187045ae34dab"
+        }
+      ],
+      "updatedAt": "2019-06-08T15:32:58.313Z"
+    },
+    {
+      "name": "Chief-Group-Academic",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "group-of-schools",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5a66cd0813f5aa05902fac1e",
+      "entityCodeName": "ADMTC",
+      "entityTitleEN": "Chief Group Academic",
+      "entityTitleFR": "Chef De Groupe Pedagogique"
+    },
+    {
+      "name": "Cross-Corrector",
+      "description": "Enseignant ou désigné par la Direction Pédagogique Etablissement, il peut consulter la liste des événements du Titre et accéder aux ressources pédagogiques à l’exception des éléments liés à l’admission et à la communication. \n\nIl peut également : \n\nTélé-déposer les travaux des apprenants\nTélécharger des épreuves à corriger\nCompléter les grilles d’évaluation\n",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5a9e7ddf8228f45eb2e9bc77",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Cross Corrector",
+      "entityTitleFR": "Cross Correcteur",
+      "updatedAt": "2018-03-05T10:49:11.389Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "communication": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fb27b5918452b587126a"
+        }
+      ]
+    },
+    {
+      "name": "Animator-Business-Game",
+      "description": "",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5aab65efe6fae44214bebdba",
+      "entityCodeName": "PR",
+      "entityTitleEN": "Animator Business Game",
+      "entityTitleFR": "Animateur Business Game",
+      "updatedAt": "2018-03-05T10:49:11.389Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "communication": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "download": true,
+              "update": false,
+              "view": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "download": false,
+              "update": false,
+              "view": false
+            },
+            "status": false
+          },
+          "_id": "5a51fb27b5918452b587126a"
+        }
+      ]
+    },
+    {
+      "name": "Corrector-Certifier",
+      "description": "Corrector Certifier",
+      "studentManagement": false,
+      "isUserCollection": true,
+      "entity": "certifier",
+      "status": null,
+      "isSystemType": true,
+      "_id": "5b210d24090336708818ded1",
+      "entityCodeName": "CR",
+      "entityTitleEN": "Corrector Certifier",
+      "entityTitleFR": "Correcteur du Certificateur",
+      "updatedAt": "2019-06-06T15:02:28.832Z",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "archives": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": false
+            },
+            "status": true
+          },
+          "_id": "5cf92b04d6d88a066a89e285"
+        }
+      ]
+    },
+    {
+      "name": "Professional-Jury-Member",
+      "description": "",
+      "studentManagement": null,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "FolderPermission": [],
+      "_id": "5cdbde9b4b1f6a1b5a0b3fb5",
+      "entityTitleEN": "Professional Final Jury Member",
+      "entityTitleFR": "Membre du jury Soutenance Professionnel"
+    },
+    {
+      "name": "Academic-Final-Jury-Member",
+      "description": "",
+      "studentManagement": null,
+      "isUserCollection": true,
+      "entity": "academic",
+      "status": "active",
+      "isSystemType": true,
+      "_id": "5cdbdeaf4b1f6a1b5a0b3fb6",
+      "entityTitleEN": "Academic Final Jury Member",
+      "entityTitleFR": "Membre du jury Soutenance Finale formateur",
+      "FolderPermission": [
+        {
+          "admissions": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": false
+          },
+          "annalesEpreuves": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "boiteaOutils": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "communication": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": false
+          },
+          "examens": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "organisation": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "programme": {
+            "permissions": {
+              "view": true,
+              "update": false,
+              "download": true
+            },
+            "status": true
+          },
+          "epreuvesCertification": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "archives": {
+            "permissions": {
+              "view": false,
+              "update": false,
+              "download": false
+            },
+            "status": false
+          },
+          "_id": "5ba9f64e1f3b2e3b681216f2"
+        }
+      ]
+    }
+  ],
+  "paginate": {
+    "limit": 200,
+    "page": 1
+  },
+  "total": 28,
+  "status": "OK",
+  "code": 200
+}

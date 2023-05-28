@@ -1,0 +1,118 @@
+<div>
+  <mat-card>
+    <div class="title">
+      <h5>{{ 'JURY_ORGANIZATION.List of President of Jury' | translate }}</h5>
+    </div>
+    <div class="p-grid" style="padding-top: 30px">
+      <div class="p-col-12 padding-none">
+        <div class="horizontal mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="reset">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column">
+                <div class="p-grid">
+                  <div class="p-col-12 text-right">
+                    <button mat-raised-button color="primary" matTooltip="{{ 'RESET' | translate }}" matTooltipPosition="above" (click)="resetSelection()">
+                      <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                      {{ 'RESET' | translate }}
+                    </button>
+                  </div>
+                </div>
+              </th>
+            </ng-container>
+
+            <!-- filter row -->
+            <ng-container matColumnDef="presidentFilter">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                  <input matInput placeholder="{{ 'search' | translate }}" class="form-field" [formControl]="presidentFilter" />
+                </mat-form-field>
+              </th>
+            </ng-container>
+
+            <ng-container matColumnDef="statusFilter">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                  <mat-select [formControl]="statusFilter" [matTooltip]="statusFilter.value | translate">
+                    <mat-option [value]="record.name" *ngFor="let record of statusList">{{
+                      (record.key | translate) === 'AllM' ? 'Toutes' : (record.key | translate)
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </th>
+            </ng-container>
+
+            <ng-container matColumnDef="actionFilter">
+              <th mat-header-cell *matHeaderCellDef></th>
+            </ng-container>
+
+            <!-- data row -->
+            <ng-container matColumnDef="president_of_jury">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                <h5>{{ 'JURY_ORGANIZATION.PRESIDENT_JURY' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.president_of_jury_id?.civility | translate }} {{ element?.president_of_jury_id?.last_name }} {{ element?.president_of_jury_id?.first_name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                <h5>{{ 'JURY_ORGANIZATION.Status' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <mat-icon
+                  matTooltipPosition="above"
+                  [matTooltip]="element?.dates?.length ? ('Has Backup' | translate) : ('Has no Backup' | translate)"
+                  [ngClass]="{
+                    red: !element?.dates?.length,
+                    green: element?.dates?.length
+                  }"
+                  aria-hidden="true"
+                  >lens
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                <h5>{{ 'Action' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button class="text-center" mat-icon-button matTooltip="{{ 'Edit' | translate }}" (click)="openPresidentJury(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loading">
+              <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+                <div class="center-spinner spinner-wrapper">
+                  <mat-spinner color="accent"></mat-spinner>
+                </div>
+              </th>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+          </table>
+        </div>
+        <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+          {{ 'NOT RECORD FOUND' | translate }}
+        </div>
+        <div [ngClass]="{ hide: noData | async }">
+          <mat-paginator
+            [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+            [length]="dataCount"
+            [hidePageSize]="true"
+            [pageSizeOptions]="[10]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

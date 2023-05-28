@@ -1,0 +1,114 @@
+.mat-radio-button~.mat-radio-button {
+    margin-left: 16px;
+}
+
+:host ::ng-deep table {
+    tr {
+
+        td,
+        th {
+            &:nth-child(1) {
+                width: 4%;
+                text-align: center !important;
+                padding-left: 0 !important;
+            }
+
+            &:nth-child(2) {
+                width: 15%;
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(3) {
+                width: 10%;
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(4) {
+                width: 10%;
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(5) {
+                width: 10%;
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(6) {
+                width: 25%;
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(7) {
+                width: 10%;
+                text-align: center !important;
+
+                .mat-sort-header-container {
+                    justify-content: center;
+                }
+
+                .mat-form-field {
+                    width: 60%;
+                }
+            }
+
+            &:nth-child(8) {
+                width: 16%;
+                text-align: center !important;
+            }
+        }
+
+        td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 0;
+            white-space: nowrap;
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
+        }
+
+        th {
+            vertical-align: top;
+
+            .mat-form-field-infix {
+                width: unset !important;
+            }
+        }
+
+        &:nth-child(2) {
+            th {
+                padding-top: 0.5em;
+            }
+        }
+    }
+
+    thead tr {
+
+        &:nth-child(2) th {
+            border-bottom: 0;
+        }
+    }
+}
+
+:host ::ng-deep .mat-select-trigger {
+    font-size: 0.875rem !important;
+    height: unset !important;
+}
+
+.reset-header-column {
+    vertical-align: middle !important;
+}

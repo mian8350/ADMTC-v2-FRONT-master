@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "name": "CLASSE CPC 2019",
+      "description": "CLASSE CPC 2019",
+      "status": "active",
+      "_id": "5b3e079527a41d7a83376243"
+    },
+    {
+      "name": "CLASSE RMO 2019",
+      "description": "CLASSE RMO 2019",
+      "status": "active",
+      "_id": "5b3e079527a41d7b83376243"
+    }
+  ],
+  "paginate": {
+    "limit": 100,
+    "page": 1
+  },
+  "total": 1,
+  "status": "OK",
+  "code": 200
+}

@@ -1,0 +1,19 @@
+<section class="yellow-border">
+  <div class="header" [innerHTML]="stepData?.direction"></div>
+  <h3 class="segment-name">{{ stepData?.segments[0]?.segment_title }}</h3>
+  <div *ngIf="documentOnPreviewUrl" class="ql-editor document-parent">
+    <ng-container>
+      <div *ngIf="documentOnPreviewUrl" class="img-preview container-view-lanscape">
+        <iframe [src]="documentOnPreviewUrl" frameBorder="0"></iframe>
+      </div>
+    </ng-container>
+  </div>
+  <div class="p-grid p-justify-end p-align-center">
+    <button mat-button mat-raised-button color="warn" *ngIf="stepData?.segments[0]?.reject_button">
+      {{ stepData?.segments[0]?.reject_button }}
+    </button>
+    <button mat-button mat-raised-button color="accent" *ngIf="stepData?.segments[0]?.accept_button">
+      {{ stepData?.segments[0]?.accept_button }}
+    </button>
+  </div>
+</section>

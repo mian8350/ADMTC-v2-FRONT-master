@@ -1,0 +1,158 @@
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="row wrap">
+            <div fxFlex="47"  fxFlex.lt-md="100">
+                <div fxLayout="row wrap">
+                    <div fxFlex="30" fxLayoutAlign.lt-md="center center">
+                        <div class="imgContainer m-1">
+                            <img mat-card-image src="assets/img/student_icon.png">
+                        </div>
+                    </div>
+                    <div fxFlex="70" fxFlex.lt-md="100">
+                        <div fxLayout="row" style="margin-top: 1.4rem;"> 
+                            <div fxFlex="20">
+                                <label>{{'Civility' | translate}}*</label>
+                            </div>
+                            <div fxFlex="65">
+                                <mat-radio-group value="Mr">
+                                    <mat-radio-button value="Mr" style="padding-right: 1rem">Mr</mat-radio-button>
+                                    <mat-radio-button value="Mrs">Mrs</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" style="margin-top: 0.5rem">
+                            <div fxFlex="20" class="m-1">
+                                <label>{{'Last Name' | translate}}*</label>
+                            </div>
+                            <div fxFlex="65">
+                                <mat-form-field>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap">
+                            <div fxFlex="20" class="m-1">
+                                <label>{{'First  Name' | translate}}*</label>
+                            </div>
+                            <div fxFlex="65">
+                                <mat-form-field>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row wrap">
+                        <div fxFlex="20" class="m-1">
+                            <label>{{'Address1' | translate}}*</label>
+                        </div>
+                        <div fxFlex="70">
+                            <mat-form-field>
+                                <input matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row wrap">
+                            <div fxFlex="20" class="m-1">
+                                <label>{{'Address2' | translate}}</label>
+                            </div>
+                            <div fxFlex="70">
+                                <mat-form-field>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+        
+                        <div fxLayout="row wrap">
+                            <div fxFlex="50" fxFlex.lt-md="100">
+                                <div fxFlex="40" class="m-1">
+                                    <label>{{'Zip Code' | translate}}*</label>
+                                </div>
+                                <div fxFlex="50" fxFlex.lt-md="70">
+                                    <mat-form-field>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="50" fxFlex.lt-md="100">
+                                <div fxFlex="20" class="m-1">
+                                    <label>{{'City' | translate}}*</label>
+                                </div>
+                                <div fxFlex="60" fxFlex.lt-md="70">
+                                    <mat-form-field>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div fxLayout="row wrap">
+                            <div fxFlex="20" class="m-1">
+                                <label>{{'Country' | translate}}</label>
+                            </div>
+                            <div fxFlex="70">
+                                <mat-select matNativeControl value="France">
+                                    <mat-option value="France">France</mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+            </div>
+            <div fxFlex="6"></div>
+            <div fxFlex="47"  fxFlex.lt-md="100">
+                    <div fxLayout="row wrap">
+                            <div fxFlex="20" class="m-1">
+                                <label>{{'Phone' | translate}}*</label>
+                            </div>
+                            <div fxFlex="70">
+                                <mat-form-field>
+                                    <input matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row wrap">
+                                <div fxFlex="20" class="m-1">
+                                    <label>{{'Email' | translate}}*</label>
+                                </div>
+                                <div fxFlex="70">
+                                    <mat-form-field>
+                                        <input matInput>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxLayout="row wrap">
+                                    <div fxFlex="20" class="m-1">
+                                        <label>{{'Date Of Birth' | translate}}*</label>
+                                    </div>
+                                    <div fxFlex="70">
+                                        <mat-form-field>
+                                            <input matInput>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxLayout="row wrap">
+                                        <div fxFlex="20" class="m-1">
+                                            <label>{{'Place Of Birth' | translate}}*</label>
+                                        </div>
+                                        <div fxFlex="70">
+                                            <mat-form-field>
+                                                <input matInput>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row wrap">
+                                            <div fxFlex="20" class="m-1">
+                                                <label>{{'Nationality' | translate}}*</label>
+                                            </div>
+                                            <div fxFlex="70">
+                                                    <mat-select matNativeControl value="France">
+                                                            <mat-option value="France">France</mat-option>
+                                                    </mat-select>
+                                            </div>
+                                        </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

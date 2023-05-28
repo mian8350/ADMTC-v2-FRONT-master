@@ -1,0 +1,98 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon svgIcon="school"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span *ngIf="parentData?.isMultiple">{{ 'Select Block to be included in Jury' | translate }}</span>
+          <span *ngIf="!parentData?.isMultiple"
+            >{{ 'Select Block to be included in Jury' | translate }} {{ 'for ' + studentNames[0] }}</span
+          >
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light" [formGroup]="exemptionForm">
+  <div class="p-grid">
+    <div class="p-col-12 px-25 py-10">
+      <div class="flex">
+        <span class="setup-info-key">{{ 'Student' | translate }}</span
+        ><span class="mx-05">:</span>
+        <div class="d-flex flex-wrap" *ngIf="!parentData?.isAllSelected">
+          <ng-container *ngFor="let name of studentNames; let i = index">
+            <span>{{ name }}</span>
+            <span *ngIf="i + 1 !== studentNames.length && parentData.isMultiple">,&nbsp;</span>
+          </ng-container>
+        </div>
+        <div class="d-flex flex-wrap" *ngIf="parentData?.isAllSelected">
+          <span>{{ 'ALLS' | translate }}</span>
+        </div>
+      </div>
+      <div class="flex" *ngIf="!parentData?.isMultiple">
+        <span class="setup-info-key">{{ 'School' | translate }}</span
+        ><span class="mx-05">:</span>
+        <div class="d-flex flex-wrap">
+          <span>{{ schoolName }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12 px-25 py-10">
+      <span>{{ 'Grand_Oral_Improvement.Please select at least one block to be included in this Grand Oral by ticking the box' | translate : {
+        processName: parentData?.juryData?.class_id?.jury_process_name ? parentData?.juryData?.class_id?.jury_process_name : 'Grand Oral'
+      }
+    }}</span>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12 px-25 py-10">
+      <mat-slide-toggle color="accent" [formControl]="is_student_exempted_from_grand_oral">
+        <span>
+          {{ (is_student_exempted_from_grand_oral.value ? 'Grand_Oral_Improvement.Student is Exempted from Grand Oral' : 'Grand_Oral_Improvement.Student is Participating in Grand Oral') | translate : {
+            processName: parentData?.juryData?.class_id?.jury_process_name ? parentData?.juryData?.class_id?.jury_process_name : 'Grand Oral'
+          }
+        }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <div class="p-grid" formArrayName="block_for_grand_oral" *ngIf="!is_student_exempted_from_grand_oral.value">
+    <div
+      class="p-col-12 px-25 py-10"
+      *ngFor="let block of blockConditionDetails.controls; let indexBlock = index"
+      [formGroupName]="indexBlock"
+    >
+      <mat-checkbox
+        color="accent"
+        class="mrgn-r-15"
+        formControlName="is_exempted"
+        [disabled]="blockData[indexBlock]?.block_id?.is_specialization"
+        [class.mat-checkbox-disabled]="!blockData[indexBlock]?.block_id?.is_specialization"
+        #checkedBox>
+        <span class="blockSelected" [ngClass]="checkedBox.checked ? 'blockSelected' : 'blockNotSelected'">
+          {{ utilService.cleanHTML(blockData[indexBlock].block_id.block_of_competence_condition) }}
+        </span>
+      </mat-checkbox>
+    </div>
+  </div>
+</div>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-raised-button mat-dialog-close (click)="closeDialog()" color="warn">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-raised-button color="primary" [disabled]="!is_student_exempted_from_grand_oral.value && isAtleastOneChecklist()" (click)="submit()">
+    {{ 'SUBMIT' | translate }}
+  </button>
+</div>

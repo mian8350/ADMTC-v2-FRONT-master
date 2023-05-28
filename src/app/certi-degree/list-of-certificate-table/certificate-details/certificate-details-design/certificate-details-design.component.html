@@ -1,0 +1,187 @@
+<div class="p grid">
+  <div class="p-col-12 inline-blk">
+    <div class="p-col-3 left-rl">
+      <button mat-raised-button color="warn" (click)="leaveDetails()" [disabled]="isWaitingForResponse">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        {{ 'Back' | translate }}
+      </button>
+    </div>
+    <div class="p-col-9 right-rl">
+      <button mat-raised-button color="accent" *ngIf="isShowUploadField" [disabled]="!checkComparison() || !alreadyUploadAllImage" (click)="saveStep()">
+        <mat-icon>save</mat-icon>
+        {{ 'Save' | translate }}
+      </button>
+      <button [disabled]="!isAllowContinue()" mat-raised-button color="accent" (click)="nextStep()">
+        {{ 'CONTINUE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<section class="p-grid" [formGroup]="certificateForm">
+  <div class="p-col certificate-parameter">
+    <p class="header">{{ 'Certificate Template' | translate }}</p>
+    <div>
+      <mat-form-field appearance="legacy" id="template-select">
+        <mat-label>{{ 'Select a Template' | translate }}</mat-label>
+        <mat-select formControlName="certificate_template_selected_id" [disabled]="true">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let template of templateData" [value]="template._id" (click)="selectTemplate(template)"
+            >{{ template.pdf_name | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-card class="doc-view" *ngIf="certificateForm?.get('certificate_template_selected_id').value && !isWaitingForResponse">
+      <mat-card-content>
+        <div class="background-primary pa-1" style="border-bottom: 2px solid #424242">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <h4 class="title-center">{{ 'Preview of Template' | translate }} {{ formatTemplateName() }}</h4>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 bg-white">
+              <div style="min-height: 242px">
+                <ng-container *ngIf="parcheminUrl && !isWaitingForResponse">
+                  <div class="img-preview container-view">
+                    <iframe [src]="parcheminUrl" frameBorder="0" width="100%" style="height: 860px"></iframe>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!parcheminUrl && !isWaitingForResponse">
+                  <mat-icon class="content-empty">article</mat-icon>
+                  <span class="text-empty">{{ 'No Template Selected for This Certificate' | translate }}</span>
+                </ng-container>
+              </div>
+              <!-- <div class="img-preview container-view"> -->
+              <!-- <embed
+                  *ngIf="certificateForm?.get('certificate_preview').value"
+                  [src]="imgURLBG(certificateForm?.get('certificate_preview').value)"
+                  width="100%"
+                  height="1550px"
+                /> -->
+              <!-- <iframe [src]="parcheminUrl" frameBorder="0" width="100%" style="height: 565px"></iframe> -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="p-col-fixed certificate-parameter" *ngIf="isShowUploadField" style="width: 590px; margin-left: 15px">
+    <p class="header">{{ 'Certificate Parameter' | translate }}</p>
+    <div *ngIf="certificateForm?.get('certificate_template_selected_id').value && !isWaitingForResponse">
+      <p>{{ 'Please upload an image with a transparent background for the Signature and Stamp' | translate }}</p>
+      <div class="p-grid p-justify-start">
+        <div class="img-container">
+          <div (click)="fileUpload1.click()" *ngIf="!signaturUrl && !imageLoading.signature; else showSignature" class="no-image">
+            792 x 474 px
+          </div>
+          <input
+            hidden
+            type="file"
+            (change)="onPictureSelect($event, 'signature')"
+            id="fileUpload"
+            name="fileUpload"
+            #fileUpload1
+            accept="image/png,image/jpeg"
+          />
+          <div class="overlay" (click)="fileUpload1.click()">
+            <div class="text">
+              {{ 'Click Here to Upload Signature' | translate }}
+            </div>
+          </div>
+          <ng-template #showSignature class="p-grid p-justify-center">
+            <div
+              class="logo-img-wrapper"
+              *ngIf="!imageLoading.signature"
+              (click)="fileUpload1.click()"
+              [style.background]="imgURL(signaturUrl)"
+            >
+              <!-- <img class="center-image" (click)="fileUpload1.click()" [src]="imgURL( certificateForm.get('signature_image').value)"> -->
+            </div>
+          </ng-template>
+          <div class="logo-spinner-wrapper" *ngIf="imageLoading.signature">
+            <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div>
+          <p class="description-text">{{ 'Certifier Signature' | translate }}</p>
+        </div>
+
+        <div class="img-container">
+          <div (click)="fileUpload2.click()" *ngIf="!stampUrl && !imageLoading.stamp; else showStamp" class="no-image">589 x 343 px</div>
+          <input
+            hidden
+            type="file"
+            (change)="onPictureSelect($event, 'stamp')"
+            id="fileUpload"
+            name="fileUpload"
+            #fileUpload2
+            accept="image/png,image/jpeg"
+          />
+          <div class="overlay" (click)="fileUpload2.click()">
+            <div class="text">
+              {{ 'Click Here to Upload Stamp' | translate }}
+            </div>
+          </div>
+          <ng-template #showStamp class="p-grid p-justify-center">
+            <div class="logo-img-wrapper" *ngIf="!imageLoading.stamp" (click)="fileUpload2.click()" [style.background]="imgURL(stampUrl)">
+              <!-- <img class="center-image" (click)="fileUpload2.click()" [src]="imgURL( certificateForm.get('stamp_image').value)"> -->
+            </div>
+          </ng-template>
+          <div class="logo-spinner-wrapper" *ngIf="imageLoading.stamp">
+            <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div>
+          <p class="description-text">{{ 'Certifier Stamp' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="certificateForm?.get('certificate_template_selected_id').value && !isWaitingForResponse">
+      <p>{{ 'Please upload a background image for the certificate' | translate }}</p>
+      <div class="img-container">
+        <div
+          (click)="fileUpload3.click()"
+          *ngIf="!backgroundUrl && !imageLoading.background; else showBackground"
+          class="no-image-background"
+        >
+          1754 x 1241 px
+        </div>
+        <input
+          hidden
+          type="file"
+          (change)="onPictureSelect($event, 'background')"
+          id="fileUpload"
+          name="fileUpload"
+          #fileUpload3
+          accept="image/png,image/jpeg"
+        />
+        <div class="overlay-background" (click)="fileUpload3.click()">
+          <div class="text">
+            {{ 'Click Here to Upload background' | translate }}
+          </div>
+        </div>
+        <ng-template #showBackground class="p-grid p-justify-center">
+          <div
+            class="logo-img-wrapper-background"
+            *ngIf="!imageLoading.background"
+            (click)="fileUpload3.click()"
+            [style.background]="imgURL(backgroundUrl)"
+          >
+            <!-- <img class="center-image" (click)="fileUpload3.click()" [src]="imgURL( certificateForm.get('certificate_background').value)"> -->
+          </div>
+        </ng-template>
+        <div class="logo-spinner-wrapper-background" *ngIf="imageLoading.background">
+          <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" color="accent"></mat-progress-spinner>
+        </div>
+        <p class="description-text">{{ 'Certificate Background' | translate }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container-spinner" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner color="accent" class="spin" mode="indeterminate"> </mat-progress-spinner>
+</div>

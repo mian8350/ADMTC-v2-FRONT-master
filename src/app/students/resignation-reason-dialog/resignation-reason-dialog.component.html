@@ -1,0 +1,25 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <h3 mat-dialog-title>
+          <mat-icon svgIcon="indeterminate_check_box"></mat-icon>
+          <span class="suggestion-title">{{ 'DEACTIVATEDSUCCESS.REASON' | translate }}</span>
+          <span class="close_icon">
+            <i class="material-icons icon-styling" (click)="closeDialog()">close</i>
+          </span>
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-dialog-content>
+  <div class="p-grid">
+    <strong>{{ 'DEACTIVATEDSUCCESS.RSESIGNATIONDATE' | translate }}</strong>
+    <div class="p-col-12 padding-none mrgn-b-md">{{ parentData?.date }}</div>
+  </div>
+  <div class="p-grid">
+    <strong>{{ 'DEACTIVATEDSUCCESS.REASON' | translate }}</strong>
+    <div class="p-col-12 padding-none">{{ parentData?.reason }}</div>
+  </div>
+</mat-dialog-content>

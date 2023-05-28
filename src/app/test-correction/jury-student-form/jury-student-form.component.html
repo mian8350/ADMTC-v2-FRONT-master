@@ -1,0 +1,114 @@
+<div class="p-grid background-primary m-tb-10">
+  <div class="p-col-12 yellow-border" [formGroup]="testCorrectionForm">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 studentForm">
+      <!-- table header and content -->
+      <ng-container matColumnDef="section">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'section' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Section' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.subSection }}" matTooltipPosition="above">
+          {{ element?.subSection }}
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="directives">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Directives' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Directives' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.directivesText }}" matTooltipPosition="above">
+          {{ element?.directivesText }}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="jury1">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'mark' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Jury-1' | translate }}</h5>
+          
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.mark }}" matTooltipPosition="above">
+          <mat-form-field color="accent" class="full-width">
+            <input formControlName="mark_entry" type="number" matInput value="0" />
+            <span matSuffix>/ {{ element?.jury1 }}</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="jury2">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'mark' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Jury-2' | translate }}</h5>
+          <mat-slide-toggle [checked]="dummyJury2" (change)="setDummyJury($event, 2)"></mat-slide-toggle>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.mark }}" matTooltipPosition="above">
+          <mat-form-field color="accent" class="full-width">
+            <input formControlName="mark_entry" type="number" matInput value="0" />
+            <span matSuffix>/ {{ element?.jury2 }}</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="jury3">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'mark' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Jury-3' | translate }}</h5>
+          <mat-slide-toggle [checked]="dummyJury3" (change)="setDummyJury($event, 3)"></mat-slide-toggle>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.mark }}" matTooltipPosition="above">
+          <mat-form-field color="accent" class="full-width">
+            <input formControlName="mark_entry" type="number" matInput value="0" />
+            <span matSuffix>/ {{ element?.jury3 }}</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mark">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'mark' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'mark' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.mark }}" matTooltipPosition="above">
+          <mat-form-field color="accent" class="full-width">
+            <input formControlName="mark_entry" type="number" matInput value="0" />
+            <span matSuffix>/ {{ element?.markData }}</span>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="markLetter">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Mark Letter' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Mark Letter' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.markLetter }}" matTooltipPosition="above">
+          <mat-form-field color="accent" class="full-width">
+            <textarea formControlName="mark_letter" matInput></textarea>
+          </mat-form-field>
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="comment">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Comments' | translate }}" matTooltipPosition="above" class="text-center">
+          <h5 class="mb-0">{{ 'Comments' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.commentText }}" matTooltipPosition="above">
+            <ckeditor [editor]="Editor" (ready)="onReady($event)" [config]="config" formControlName="comment"> </ckeditor>
+        </td>
+      </ng-container>
+
+      <!-- loading spinner -->
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="3" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- This line is set to hold the style -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+  </div>
+  <div class="p-col-12 only-pad-top-10">
+    <ms-penalties-bonuses [testCorrectionForm]="testCorrectionForm"></ms-penalties-bonuses>
+    <ms-elimination [testCorrectionForm]="testCorrectionForm"></ms-elimination>
+  </div>
+</div>

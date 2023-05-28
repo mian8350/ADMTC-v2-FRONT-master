@@ -1,0 +1,317 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <!-- <mat-icon svgIcon="bank"></mat-icon> -->
+  <h2 class="header-text">
+    {{ 'Quick Search List' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<hr />
+
+<div class="pad-x-md pad-y-md dialog-content">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8"
+    [ngClass]="{
+    'mentor-list': data?.type === 'mentor',
+    'user-list': data?.type === 'user' || data?.type === 'email',
+    'jury-list': data?.type === 'jury',
+    'student-list': data?.type === 'student',
+    'title-list': data?.type === 'title'
+  }">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- filter section -->
+    <ng-container matColumnDef="lastNameFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="firstNameFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="userTypeFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="positionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="companyFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="titleFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="titleStatusFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    
+    <ng-container matColumnDef="titleShortNameFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    
+    <ng-container matColumnDef="titleLongNameFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- column header and value -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Last Name' | translate }}">
+        <h5>{{ 'Last Name' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.last_name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'First Name' | translate }}">
+        <h5>{{ 'First Name' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.first_name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'UserType' | translate }}">
+        <h5>{{ 'UserType' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="data?.type === 'user' || data?.type === 'email'" class="display-inline">
+          <span class="tags">
+            {{ getUserType(element?.entities,element) }}
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Position' | translate }}">
+        <h5>{{ 'Position' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="data?.type === 'jury'" class="display-inline">
+          <span class="tags">
+            {{ 'Positions.' + element?.position | translate }}
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="school">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'School' | translate }}">
+        <h5>{{ 'School' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{ 'text-align-center': data?.type === 'school' }">
+        <span *ngIf="data?.type === 'student' || (data?.type==='email' && element?.isStudent)">
+          <span class="display-inline">
+            <span class="tags">
+              {{ element?.school?.short_name }}
+            </span>
+          </span>
+        </span>
+        <span *ngIf="data?.type === 'school'">
+          <span class="display-inline">
+            <span class="tags">
+              {{ element?.short_name }}
+            </span>
+          </span>
+        </span>
+        <span *ngIf="data?.type === 'user' || data?.type === 'jury' || (data?.type==='email' && !element?.isStudent)">
+          <span *ngFor="let entity of getUniqueSchools(element.entities); index as i" class="display-inline">
+            <span *ngIf="entity?.school">
+              <span class="tags" *ngIf="entity?.school && i === 0" [matTooltip]="renderTooltipSchool(element.entities)">
+                {{ entity?.school?.short_name }}
+              </span>
+              <span class="tags" *ngIf="entity?.school && i === 1" [matTooltip]="renderTooltipSchool(element.entities)"> ... </span>
+            </span>
+          </span>
+        </span>
+        <span *ngIf="data?.type === 'mentor'">
+          <span *ngFor="let entity of element.entities; index as i">
+            <span *ngIf="entity?.companies?.length">
+              <span *ngFor="let company of entity?.companies; index as j">
+                <span *ngIf="company?.school_ids?.length">
+                  <span *ngFor="let school of getUniqueSchoolsCompany(company?.school_ids); index as k" class="display-inline">
+                    <span class="tags" *ngIf="school && i === 0" [matTooltip]="renderTooltipSchoolCompany(company?.school_ids)">
+                      {{ school?.short_name }}
+                    </span>
+                    <span class="tags" *ngIf="school && i === 1" [matTooltip]="renderTooltipSchoolCompany(company?.school_ids)"> ... </span>
+                  </span>
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'COMPANY.COMPANY' | translate }}">
+        <h5>{{ 'COMPANY.COMPANY' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngFor="let entity of element?.entities; index as i" class="display-inline">
+          <span *ngIf="entity?.companies?.length">
+            <span *ngFor="let company of entity?.companies; index as companyIndex">
+              <span class="tags" *ngIf="company && companyIndex === 0" [matTooltip]="renderTooltipCompany(entity?.companies)">
+                {{ company?.company_name }}
+              </span>
+              <span class="tags" *ngIf="company && companyIndex === 1" [matTooltip]="renderTooltipCompany(entity?.companies)"> ... </span>
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Title' | translate }}">
+        <h5>{{ 'Title' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="data?.type === 'student' || (data?.type==='email' && element?.isStudent)">
+          <span class="display-inline">
+            <span class="tags">
+              {{ element?.rncp_title?.short_name }}
+            </span>
+          </span>
+        </span>
+        <span *ngIf="data?.type === 'user' || data?.type === 'mentor' || data?.type === 'jury'|| (data?.type==='email' && !element?.isStudent)">
+          <ng-container *ngFor="let entity of getUniqueRncpTitles(element.entities); index as i">
+            <!-- For non group of school -->
+            <span *ngIf="entity?.entity_name !== 'group_of_schools'" class="display-inline">
+              <span class="tags" *ngIf="entity?.assigned_rncp_title && i === 0" [matTooltip]="renderTooltipTitle(element.entities)">
+                {{ entity?.assigned_rncp_title?.short_name }}
+              </span>
+              <span class="tags" *ngIf="i === 1" [matTooltip]="renderTooltipTitle(element.entities)"> ... </span>
+            </span>
+          </ng-container>
+        </span>        
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="titleStatus">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Title status' | translate }}">
+        <h5>{{ 'Title status' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="data?.type === 'student' || (data?.type==='email' && element?.isStudent)">
+          <span class="display-inline">
+            <span class="tags">
+              {{ element?.student_title_status | translate }}
+            </span>
+          </span>
+        </span>        
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="titleShortName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Title Short Name' | translate }}">
+        <h5>{{ 'Title Short Name' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>
+          <span class="display-inline">
+            <span class="tags" [matTooltip]="element?.short_name">
+              {{ element?.short_name }}
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="titleLongName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'Title Long Name' | translate }}">
+        <h5>{{ 'Title Long Name' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span>
+          <span class="display-inline">
+            <span class="tags" [matTooltip]="element?.long_name">
+              {{ element?.long_name }}
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+        <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [ngClass]="{ 'text-align-center': data?.type === 'school' || data?.type === 'title' }">
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Edit' | translate }}"
+          matTooltipPosition="above"
+          (click)="editSelection(element)"
+        >
+          <mat-icon svgIcon="eye"></mat-icon>
+        </button>
+        <!-- Incignito for User -->
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltipPosition="above"
+          matTooltip="{{ 'Connect as this User' | translate }}"
+          *ngIf="data?.type !== 'jury' && data?.type !== 'school' && data?.type !== 'title' && element?.student_title_status !== 'deactivated'"
+          (click)="connectAsUser(element, data.type)"
+        >
+          <mat-icon svgIcon="incognito"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <!-- <tr mat-header-row *matHeaderRowDef="['reset']"></tr> -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- <tr mat-header-row *matHeaderRowDef="filterColumns"></tr> -->
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': groupCount <= 10 }"
+      [length]="groupCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>
+<div style="display: none">
+  <iframe *ngIf="studentSafeUrl" [src]="studentSafeUrl" id="ifr"></iframe>
+  <!-- <iframe src="http://localhost:4200/session/login" id="ifrQuick"></iframe> -->
+</div>
+
+<div *ngIf="isLoading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

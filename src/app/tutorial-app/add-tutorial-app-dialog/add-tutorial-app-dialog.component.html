@@ -1,0 +1,87 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon svgIcon="key" style="vertical-align: middle"></mat-icon>
+      </div>
+      <div class="p-col-10 acad-title">
+        <h3 class="dialogTitle">
+          <div *ngIf="!modifyTutorial">
+            {{ 'TUTORIAL.ADD_TUTORIAL' | translate }}
+          </div>
+          <div *ngIf="modifyTutorial">
+            {{ 'TUTORIAL.MODIFYTUTORIAL' | translate }}
+          </div>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" mat-dialog-close tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form">
+  <div class="fontColor">
+    <mat-dialog-content>
+      <ng-select
+        class="mrgn-btn"
+        [items]="displayInOption"
+        [multiple]="false"
+        placeholder="{{ 'Module' | translate }}"
+        formControlName="module"
+      >
+      </ng-select>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Sub Module' | translate }}" formControlName="sub_module" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Video Link' | translate }}" formControlName="video_url" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Presentation Link' | translate }}" formControlName="video_presentation" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Checklist QA Link' | translate }}" formControlName="qa_checklist_url" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Checklist Scenario Link' | translate }}" formControlName="scenario_checklist_url" />
+      </mat-form-field>
+
+      <ng-container formArrayName="items">
+        <ng-container *ngFor="let data of item.controls; let in = index" [formGroupName]="in">
+          <div class="p-col-12 item-list">
+            <mat-form-field>
+              <input matInput placeholder="{{ 'Item' | translate }}" formControlName="title" />
+            </mat-form-field>
+
+            <div class="ckeditor">
+              <ckeditor #editor [editor]="Editor" formControlName="description" (ready)="onReady($event)" [config]="config"></ckeditor>
+              <button mat-icon-button (click)="recordNote(in)" class="margin-right-button btn-mic">
+                <mat-icon class="mic-style">keyboard_voice</mat-icon>
+              </button>
+            </div>
+            <div class="p-grid no-margin" style="text-align: right; font-size: 12px">
+              <button mat-icon-button class="plus_button" color="primary" (click)="addItem()">
+                <mat-icon>add_circle_outline</mat-icon>
+              </button>
+              <button *ngIf="in !== 0" mat-icon-button class="negativ_button" color="warn" (click)="removeItem(in)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="submitTutorial()">{{ 'SUBMIT' | translate }}</button>
+    </mat-dialog-actions>
+  </div>
+</form>

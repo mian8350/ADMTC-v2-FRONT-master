@@ -1,0 +1,60 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+#cert{
+    margin-left:20px;
+}
+
+label{
+    font-size: 0.87rem;
+    color: rgba($color: $black, $alpha: 0.87);
+    font-weight: 700;
+}
+
+.spacing{
+    margin-top: 1.5rem;
+    margin-right: 0;
+    float: right;
+}
+
+.align{
+    vertical-align: middle;
+}
+
+:host ::ng-deep{
+.mat-select-trigger, .mat-option{
+        font-size: 0.875rem !important;
+    }
+
+.mat-dialog-content {
+    max-height: inherit !important;
+}
+
+.mat-dialog-actions {
+    display: block !important;
+    flex-grow: inherit;
+    flex-shrink: inherit;
+    padding: 12px 0 0 !important;
+
+    &:last-child {
+        margin-bottom: 0 !important;
+    }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 0.85rem !important;
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+.p-2 .mat-form-field-wrapper{
+    padding-top: 0.85rem !important;
+}
+
+}
+
+.m-1{
+    margin-top: 6px;
+}

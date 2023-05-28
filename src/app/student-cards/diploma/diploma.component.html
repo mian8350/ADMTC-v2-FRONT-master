@@ -1,0 +1,28 @@
+<div class="p-grid">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <mat-card *ngIf="studentId && acadJourneyId">
+      <ng-container *ngIf="statusViewEdit === 'view'">
+        <ms-my-file-diploma-view [studentId]="studentId" [schoolId]="schoolId" (updateStatusViewEdit)="updateViewEdit($event)">
+        </ms-my-file-diploma-view>
+      </ng-container>
+      <ng-container *ngIf="statusViewEdit === 'edit'">
+        <ms-my-file-diploma-edit
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [selectedDiplomaIndex]="diplomaIndexOnEdit"
+          (updateStatusViewEdit)="updateViewEdit($event)"
+        >
+        </ms-my-file-diploma-edit>
+      </ng-container>
+
+      <!-- Addition for Derogation -->
+      <ms-derogation-diploma-view [studentId]="studentId" [schoolId]="schoolId"></ms-derogation-diploma-view>
+
+      <!-- Addition For Exemption Justification View -->
+      <ms-exemption-justification-diploma-view [studentId]="studentId" [schoolId]="schoolId"></ms-exemption-justification-diploma-view>
+
+      <!-- Addition for Final Transcript View -->
+      <ms-final-transcript-view [studentId]="studentId" [schoolId]="schoolId"></ms-final-transcript-view>
+    </mat-card>
+  </div>
+</div>

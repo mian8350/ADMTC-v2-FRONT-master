@@ -1,0 +1,20 @@
+<!-- <div fxLayout="row" fxLayoutWrap="wrap">
+  <div fxFlex="50" fxFlex.lt-md="50" class="align-right">
+    <button mat-raised-button color="primary" (click)="resetAllFilter()">
+        <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+      {{ 'RESET' | translate }}
+    </button>
+    <button (click)="addQuestionaireTemplate()" mat-raised-button color="accent">
+      <mat-icon svgIcon="checkbox-marked-outline" class="mat-icon-svgIcon"></mat-icon>
+      {{ 'Add Questionnaire' | translate }}
+    </button>
+  </div>
+</div> -->
+<div class="p-grid">
+  <div class="p-col-6">
+    <ms-questionnaire-tools [events]="eventsSubject.asObservable()"></ms-questionnaire-tools>
+  </div>
+  <div class="p-col-6">
+    <ms-questionnaire-document></ms-questionnaire-document>
+  </div>
+</div>

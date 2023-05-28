@@ -1,0 +1,48 @@
+<div class="p-grid p-justify-end search-title-row">
+  <div class="p-col content-end">
+    <div class="search-field">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{ 'search' | translate }}" [formControl]="searchForm" />
+      </mat-form-field>
+    </div>
+    <div class="search-btn">
+      <button mat-raised-button color="primary" (click)="resetSearch()">{{ 'All Titles' | translate }}</button>
+    </div>
+    <div class="inline-button">
+      <button mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="createNewTitle()" *ngIf="permissionService.addTitleManagementPerm()">
+        <mat-icon class="mat-icon-default">import_contacts</mat-icon> {{ 'Add RNCP Title' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <div style="width: 100%;">
+      <mat-tab-group
+        animationDuration="500ms"
+        [selectedIndex]="tabIndex"
+        (selectedTabChange)="filterTitleByCertifier($event.tab.textLabel, $event.index)"
+      >
+        <mat-tab label="{{ 'All' | translate }}">
+          <ng-template matTabContent>
+            <ms-title-card [filteredTitles]="filteredTitles"></ms-title-card>
+          </ng-template>
+        </mat-tab>
+        <ng-container *ngIf="listOfCertifier && listOfCertifier.length">
+          <ng-container *ngFor="let certifier of listOfCertifier">
+            <mat-tab label="{{ certifier }}">
+              <ng-template matTabContent>
+                <ms-title-card [filteredTitles]="filteredTitles"></ms-title-card>
+              </ng-template>
+            </mat-tab>
+          </ng-container>
+        </ng-container>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

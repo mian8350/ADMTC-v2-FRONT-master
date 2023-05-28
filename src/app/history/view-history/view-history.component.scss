@@ -1,0 +1,23 @@
+.history-dialog-title {
+  max-width: 80%;
+}
+.history-dialog-icon {
+  display: flex;
+  align-self: flex-start;
+  padding-top: 3px;
+}
+.history-dialog-action-btn {
+  display: flex;
+  align-self: flex-start;
+}
+.history-dialog-date {
+  text-align: right;
+}
+
+.body-section { 
+  overflow-y: scroll;
+  max-height: 450px;
+  padding: 18px;
+  background-color: #ffffff;
+  color: #000000;
+}

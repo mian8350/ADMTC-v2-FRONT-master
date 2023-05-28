@@ -1,0 +1,84 @@
+<div>
+  <div class="dialog-title-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-grid">
+      <div class="icon">
+        <mat-icon svgIcon="alarm-light" class="mat-icon-section-svgIcon"></mat-icon>
+      </div>
+      <div class="p-col no-padding title-left">
+        <h3 class="title">
+          {{ type === 'create' ? ('Add an alert for a new functionality' | translate) : ('Edit New Alert' | translate) }}
+        </h3>
+      </div>
+      <div class="close-dialog no-padding">
+        <button mat-icon-button class="close-icon" (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-content class="mat-dialog-content dialog-body" *ngIf="alertForm">
+    <div [formGroup]="alertForm">
+      <div class="p-col-12">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="name" placeholder="{{ ('Name of the alert' | translate) + '*' }}" />
+        </mat-form-field>
+      </div>
+      <div class="p-col-12">
+        <ng-select
+          placeholder="{{ ('Category of users' | translate) + '*' }}"
+          formControlName="recipients"
+          [multiple]="true"
+          [ngClass]="{
+            'red-border-invalid':
+              alertForm.get('recipients').hasError('required') && (alertForm.get('recipients').dirty || alertForm.get('recipients').touched)
+          }"
+        >
+          <ng-option *ngFor="let user of userTypeDropdown" [value]="user?._id">{{ user?.name }}</ng-option>
+        </ng-select>
+      </div>
+      <div class="p-col-12">
+        <label>{{ 'Do you want answer from users ?' | translate }} </label>
+        <mat-slide-toggle formControlName="required_response" (change)="setRequired()">{{
+          alertForm.get('required_response').value ? ('ALERT_FUNCTIONALITY.YES' | translate) : ('ALERT_FUNCTIONALITY.NO' | translate)
+        }}</mat-slide-toggle>
+      </div>
+      <div class="p-col-12">
+        <label>{{ 'MailBox.MESSAGE' | translate }}</label>
+        <ckeditor
+          [editor]="Editor"
+          formControlName="message"
+          (ready)="onReady($event)"
+          [config]="config"
+          [ngClass]="{
+            'red-border-invalid':
+              alertForm.get('message').hasError('required') && (alertForm.get('message').dirty || alertForm.get('message').touched)
+          }"
+        ></ckeditor>
+      </div>
+      <div class="p-col-6" *ngIf="!alertForm.get('required_response')?.value">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="button1" placeholder="{{ ('Text for button 1 displays to users' | translate) + '*' }}" />
+        </mat-form-field>
+      </div>
+      <div class="p-col-6" *ngIf="!alertForm.get('required_response')?.value">
+        <mat-form-field appearance="outline">
+          <input matInput formControlName="button2" placeholder="{{ ('Text for button 2 displays to users' | translate) + '*' }}" />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions class="justify-content-end action-button">
+    <button mat-raised-button color="warn" (click)="close()">
+      <span>{{ 'Cancel' | translate }}</span>
+    </button>
+    <button mat-raised-button color="primary" (click)="save()">
+      <span>{{ 'CrossCorrection.Save&Leave' | translate }}</span>
+    </button>
+    <button mat-raised-button color="primary" (click)="publish()">
+      <span>{{ 'PUBLISH' | translate }}</span>
+    </button>
+  </div>
+</div>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

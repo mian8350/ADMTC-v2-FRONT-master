@@ -1,0 +1,152 @@
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.form-side {
+  max-height: calc(100vh - 170px);
+  overflow: auto;
+  padding-top: 1rem;
+}
+
+.preview-side {
+  max-height: calc(100vh - 145px);
+  overflow: auto;
+  padding-top: 1rem;
+}
+
+
+.card-row {
+  padding: 8px
+}
+
+.form-field {
+  margin-top: 6px;
+}
+
+.text-end-no-pad-r {
+  text-align: end;
+  padding-right: 0px;
+}
+
+:host::ng-deep.ckeditor {
+  label {
+    font-size: 14px;
+  }
+  .ck-content {
+    min-height: 10rem !important;
+    background: white !important;
+    color: #000 !important;
+  }
+}
+
+:host ::ng-deep .mat-slide-toggle-content {
+  white-space: break-spaces !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+
+// ***************** ng-select styling *****************
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select {
+  margin-bottom: 16px;
+  padding-top: 3px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  padding-left: 0px !important;
+  width: 100%;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  font-size: 14px !important;
+}
+.ng-select-custom-header {
+  cursor: pointer;
+}
+:host::ng-deep.ng-select .ng-dropdown-panel {
+  text-align: left !important;
+  font-size: 15px !important;
+}
+
+// ***************** drag drop styling *****************
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.panel-divider {
+  // border-top: 1px solid #ffffff94;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+:host::ng-deep.mat-expansion-panel-header {
+  height: 45px !important;
+  border-bottom: 1px solid white;
+  border-radius: unset !important;
+}
+:host::ng-deep.mat-expansion-panel-body {
+  padding: 0 12px 16px !important;
+}
+
+// ******************* Style for mat stepper below 
+
+:host ::ng-deep .mat-step-header {
+  background: #14B5C8 !important;
+  max-width: 7rem;
+}
+
+:host ::ng-deep .mat-step-icon-selected {
+  background-color: #14B5C8 !important;
+  color: white;
+  font-size: 56px;
+}
+
+:host ::ng-deep .mat-stepper-horizontal, :host ::ng-deep .mat-stepper-vertical {
+  background-color: #363636;
+  margin-top: 2rem;
+}
+
+:host ::ng-deep .mat-horizontal-content-container {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .mat-step-label {
+  display: inline-block;
+  white-space: break-spaces;
+  overflow: unset !important;
+  text-overflow: unset !important;
+  vertical-align: middle;
+}

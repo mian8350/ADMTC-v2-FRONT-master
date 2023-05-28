@@ -1,0 +1,60 @@
+<div class="title">
+  <mat-icon class="header-icon">insert_drive_file</mat-icon>
+  <h4 class="header-title" [translate]="'CERTIFICATION_RULE.RULE_DIALOG_TITLE'" [translateParams]="{ rncpTitle: titleName }"></h4>
+
+  <button
+    *ngIf="data.callFrom === 'certification-rule'"
+    mat-icon-button
+    class="close-icon float-right"
+    (click)="closeDialog()"
+    tabindex="-1"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="body-section">
+  <h4 class="top-text" [translate]="'CERTIFICATION_RULE.RULE_HEADER_TEXT'" [translateParams]="{ rncpTitle: titleName }"></h4>
+  <div class="center-title" [innerHTML]="headerText"></div>
+  <div style="text-align: center">
+    <ng-container *ngIf="pdfFile">
+      <embed [src]="getSafeUrl(pdfFile)" width="100%" height="550px" />
+    </ng-container>
+  </div>
+
+  <!-- <div class="center-title" [innerHTML]="titleLongName"></div>
+    <div class="body-text" [innerHTML]="messageText"></div> -->
+</div>
+
+<div mat-dialog-actions class="alignment-bottom">
+  <div class="p-grid action-section">
+    <div class="p-col-8">
+      <div class="p-grid">
+        <div class="p-col-12 action-text">
+          <mat-checkbox [disabled]="!docDownloaded" [(ngModel)]="checked">{{
+            'CERTIFICATION_RULE.RULE_TERMS_AND_CONDITION_CHECK' | translate
+          }}</mat-checkbox>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12 action-title-long-name action-text" [ngClass]="{ 'disabled-text-color': !docDownloaded }">
+          {{ titleLongName }}
+        </div>
+      </div>
+    </div>
+    <div class="p-col-4 action-btn">
+      <button *ngIf="uploadedDoc.length > 0" mat-raised-button color="primary" (click)="downloadDoc()">
+        {{ 'Cert_Rule.Download' | translate }}
+      </button>
+      <button mat-raised-button class="background-accent" [disabled]="!checked">
+        <span matTooltip="{{ 'CERTIFICATION_RULE.TOOLTIP_ACCEPTANCE' | translate }}" [matTooltipDisabled]="checked">
+          {{ 'Cert_Rule.Submit' | translate }}
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

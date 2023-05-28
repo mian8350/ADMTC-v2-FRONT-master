@@ -1,0 +1,75 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="bank"></mat-icon>
+  <h2 class="header-text" *ngIf="!isEdit">
+    {{ 'GROUPOFSCHOOL.Add School Group' | translate }}
+  </h2>
+  <h2 class="header-text" *ngIf="isEdit">
+    {{ 'GROUPOFSCHOOL.Edit School Group' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-y-md" [formGroup]="addGroupofSchoolForm">
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width">
+          <input matInput required placeholder="{{ 'GROUPOFSCHOOL.Group School Name' | translate }}" formControlName="group_name" />
+          <mat-error *ngIf="addGroupofSchoolForm.get('group_name').hasError('required')">{{
+            'GROUPOFSCHOOL.Group name is required' | translate
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 selectDrop select-input-container">
+        <ng-select
+          class="max-width"
+          formControlName="headquarter"
+          placeholder="{{ 'GROUPOFSCHOOL.Select Headquarter' | translate }}*"
+          (change)="filterOutHQ()"
+          [hideSelected]="true"
+        >
+          <ng-option *ngFor="let PC of filteredHQList" [value]="PC._id">{{ PC.short_name }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 selectDrop select-input-container">
+        <ng-select
+          class="max-width"
+          formControlName="school_members"
+          [multiple]="true"
+          placeholder="{{ 'GROUPOFSCHOOL.Select Group of school member' | translate }}*"
+          (change)="filterOutSchoolMember()"
+          [disabled]="!HQSelected"
+          [hideSelected]="true"
+        >
+          <ng-option *ngFor="let PC of filteredPCList" [value]="PC._id">{{ PC.short_name }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button *ngIf="showButtonCancel()" mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button *ngIf="showButtonSubmit()" mat-raised-button color="primary" type="button" (click)="submit()" [disabled]="!addGroupofSchoolForm.valid">
+      {{ 'SUBMIT' | translate }}
+    </button>
+  </div>
+</div>

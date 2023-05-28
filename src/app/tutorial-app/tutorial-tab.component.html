@@ -1,0 +1,22 @@
+<div>
+  <mat-tab-group [selectedIndex]="selected" (click)="checkValidation($event)">
+    <mat-tab value="tutorial-app" label="tutorial-app">
+      <ng-template mat-tab-label>
+        <h5>{{ 'InApp Tutorials' | translate }} </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-tutorial-app> </ms-tutorial-app>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab *ngIf="selected == 1" value="add-tutorial-tab" label="add-tutorial-tab">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Add an InApp Tutorial' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-add-tutorial-tab> </ms-add-tutorial-tab>
+      </ng-template>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

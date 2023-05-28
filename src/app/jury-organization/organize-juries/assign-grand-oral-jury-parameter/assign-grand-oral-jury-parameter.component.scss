@@ -1,0 +1,12 @@
+.font-tab-set {
+  opacity: 0.6;
+  font-size: 12px;
+}
+:host ::ng-deep .mat-tab-label.mat-tab-label-active {
+  color: white !important;
+  opacity: 0.6;
+}
+
+.text-align-right {
+  text-align: right;
+}

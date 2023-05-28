@@ -1,0 +1,75 @@
+<!-- <div class="logo-spinner-wrapper" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+</div> -->
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div *ngIf="!isWaitingForResponse" [formGroup]="askReviewForm">
+  <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-grid">
+      <div class="p-col-12 adjust-dialog-header">
+        <div class="p-grid">
+          <div class="p-col-10 adjust-dialog-title">
+            <mat-icon svgIcon="check-revise" class="mat-icon-svgIcon dialog-icon"> </mat-icon>
+            <h2 class="dialog-title-text">
+              {{ 'COMPANY.REQUEST' + whoIsIt | translate }}
+            </h2>
+          </div>
+          <div class="p-col-2 no-padding-bottom">
+            <button mat-icon-button class="close-icon" (click)="onClose()" tabindex="-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid p-justify-center">
+    <div class="p-col-11 specialeTextArea">
+      <p class="request_description">{{ 'COMPANY.REQUEST_INFO' + whoIsIt | translate }}</p>
+      <mat-form-field>
+        <div class="text-area-border">
+          <textarea
+            matInput
+            required
+            class="black-color"
+            formControlName="description"
+            placeholder="{{ 'COMPANY.REQ_DESCRIPTION' | translate }}"
+            cols="50"
+            rows="4"
+            tabindex="-1"
+          ></textarea>
+        </div>
+        <span
+          style="color: #dc3545;"
+          *ngIf="
+            askReviewForm.get('description').hasError('required') &&
+            (askReviewForm.get('description').dirty || askReviewForm.get('description').touched)
+          "
+          >{{ 'This field is required' | translate }}</span
+        >
+        <!-- <mat-error
+          *ngIf="
+            askReviewForm.get('description').hasError('required') &&
+            (askReviewForm.get('description').dirty || askReviewForm.get('description').touched)
+          "
+          >{{ 'This field is required' | translate }}</mat-error
+        > -->
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!askReviewForm.valid || isWaitingForResponse"
+        (click)="submitData()"
+        class="btn-standard float-right"
+      >
+        {{ 'COMPANY.SUBMIT' | translate }}
+      </button>
+      <button mat-raised-button color="red" (click)="onClose()" class="btn-standard float-right">{{ 'COMPANY.CANCEL' | translate }}</button>
+    </div>
+  </div>
+</div>

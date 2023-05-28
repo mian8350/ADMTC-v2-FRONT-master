@@ -1,0 +1,357 @@
+<fieldset class="fieldset-class" [formGroup]="employabilitySurveyForm">
+  <div class="yellow-border card-row">
+    <div class="align-right-button">
+      <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()" [disabled]="employabilitySurveyForm.invalid">
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+    <ng-container formArrayName="employability_surveys">
+      <ng-container *ngFor="let esForm of getESFormArray().controls; let esIndex = index; let lastIndex = last">
+        <div class="p-grid" style="margin-bottom: 10px" [formGroupName]="esIndex">
+          <div class="silver-border p-col" style="margin-bottom: 10px; float: left">
+            <fieldset class="fieldset-class" [disabled]="esForm.get('employability_survey_sent').value">
+              <div class="p-col-12 no-padding">
+                <div class="absolute left-15">{{ '056_ES.Date' | translate }} {{ esIndex + 1 }}</div>
+                <div class="p-grid">
+                  <div class="p-col-4 pad-10">
+                    <div class="top-xvi">
+                      <div [fxFlex]="50">
+                        <mat-form-field style="margin-bottom: -1.4em">
+                          <input
+                            required
+                            matInput
+                            readonly
+                            [placeholder]="'056_ES.Date of send' | translate"
+                            formControlName="send_date"
+                            (click)="pickerStart.open()"
+                            [matDatepicker]="pickerStart"
+                            (dateInput)="dateSendUpdate(esIndex)"
+                            [min]="
+                              esIndex
+                                ? getESFormArray()
+                                    .at(esIndex - 1)
+                                    .get('expiration_date').value
+                                : false
+                            "
+                            [disabled]="esForm.get('employability_survey_sent').value"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerStart></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div #testTimeDiv [fxFlex]="50" [fxFlexOffset]="5">
+                        <mat-form-field style="width: 75px; margin-top: -2px">
+                          <input
+                            [disabled]="esForm.get('employability_survey_sent').value"
+                            required
+                            matInput
+                            [ngxTimepicker]="time_utc_start"
+                            readonly
+                            [format]="24"
+                            formControlName="send_time"
+                          />
+                          <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc_start">
+                            <svg
+                              style="transform: scale(0.85)"
+                              viewBox="0 0 30 30"
+                              width="30px"
+                              height="30px"
+                              ngxMaterialTimepickerToggleIcon
+                            >
+                              <path
+                                fill="#ffffff"
+                                d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                              />
+                            </svg>
+                          </ngx-material-timepicker-toggle>
+                        </mat-form-field>
+                        <ngx-material-timepicker #time_utc_start></ngx-material-timepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-4 no-padding mrgn-l-10">
+                    <div>
+                      {{ '056_ES.Expiration' | translate }}
+                    </div>
+                    <div>
+                      <div [fxFlex]="50">
+                        <mat-form-field style="margin-top: 2px; margin-bottom: -1.4em">
+                          <input
+                            required
+                            matInput
+                            readonly
+                            [placeholder]="'056_ES.Date of expiration' | translate"
+                            formControlName="expiration_date"
+                            (click)="pickerExp.open()"
+                            [matDatepicker]="pickerExp"
+                            (dateInput)="dateExpUpdate(esIndex)"
+                            [min]="esForm.get('send_date').value"
+                            [disabled]="esForm.get('employability_survey_sent').value"
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="pickerExp"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerExp></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div #testTimeDiv [fxFlex]="50" [fxFlexOffset]="5">
+                        <mat-form-field style="width: 75px; margin-top: -2px">
+                          <input
+                            required
+                            matInput
+                            [ngxTimepicker]="time_utc_expire"
+                            readonly
+                            [format]="24"
+                            formControlName="expiration_time"
+                            [disabled]="esForm.get('employability_survey_sent').value"
+                          />
+                          <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc_expire">
+                            <svg
+                              style="transform: scale(0.85)"
+                              viewBox="0 0 30 30"
+                              width="30px"
+                              height="30px"
+                              ngxMaterialTimepickerToggleIcon
+                            >
+                              <path
+                                fill="#ffffff"
+                                d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                              />
+                            </svg>
+                          </ngx-material-timepicker-toggle>
+                        </mat-form-field>
+                        <ngx-material-timepicker #time_utc_expire></ngx-material-timepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-4 no-padding mrgn-l-10">
+                    <mat-form-field class="top-x">
+                      <input
+                        matInput
+                        type="text"
+                        [disabled]="esForm.get('employability_survey_sent').value"
+                        formControlName="questionnaire_template_id"
+                        style="width: 100%"
+                        color="accent"
+                        [placeholder]="'056_ES.Select Form Template for Employability Survey' | translate"
+                        [matAutocomplete]="listESQuestionaire"
+                        matAutocompletePosition="below"
+                        (keyup)="filterES(esIndex)"
+                      />
+                      <mat-autocomplete #listESQuestionaire="matAutocomplete" [panelWidth]="'fit'" [displayWith]="displayFn.bind(this)">
+                        <mat-option
+                          (click)="saveQuestionnaireID(esIndex, quest)"
+                          *ngFor="let quest of ESQuestionaireListFiltered[esIndex]"
+                          [value]="quest._id"
+                        >
+                          {{ quest.questionnaire_name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <!-- <div class="p-col-1 no-padding"></div> -->
+                  <div class="p-col-4 no-padding pad-10">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        [disabled]="esForm.get('employability_survey_sent').value"
+                        [placeholder]="'056_ES.Select Validator' | translate"
+                        formControlName="validator"
+                        style="width: 100%"
+                        color="accent"
+                        [matAutocomplete]="validator"
+                        (keyup)="filterValidator(esIndex)"
+                      />
+                      <mat-autocomplete #validator="matAutocomplete" [panelWidth]="'fit'" [displayWith]="displayValidator.bind(this)">
+                        <mat-option
+                          (click)="saveValidator(esIndex, validator)"
+                          *ngFor="let validator of validatorFiltered[esIndex]"
+                          [value]="validator"
+                        >
+                          {{ '056_ES.validator_dropdown.' + validator | translate }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-7 no-padding">
+                    <mat-slide-toggle
+                      color="accent"
+                      class="flow"
+                      formControlName="with_rejection_flow"
+                      [disabled]="esForm.get('employability_survey_sent').value"
+                    >
+                      <span
+                        #tooltip="matTooltip"
+                        matTooltip="{{
+                          (esForm.get('with_rejection_flow').value ? '056_ES.With Rejection Flow' : '056_ES.No Rejection Flow') | translate
+                        }}"
+                        matTooltipPosition="above"
+                        [ngStyle]="{ color: esForm.get('with_rejection_flow').value ? '#fdd835' : 'white' }"
+                      >
+                        {{
+                          (esForm.get('with_rejection_flow').value
+                            ? '056_ES.With Rejection Flow'
+                            : '056_ES.No Rejection
+                        Flow'
+                          ) | translate
+                        }}
+                      </span>
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <!-- <div class="p-col-1 no-padding"></div> -->
+                  <div class="p-col-11 no-padding pad-10">
+                    <mat-slide-toggle
+                      color="accent"
+                      formControlName="is_required_for_certificate"
+                      [disabled]="esForm.get('employability_survey_sent').value"
+                    >
+                      <span
+                        #tooltip="matTooltip"
+                        matTooltip="{{
+                          (esForm.get('is_required_for_certificate').value
+                            ? '056_ES.ES is required for generating the certificate'
+                            : '056_ES.ES is not required for generating the certificate'
+                          ) | translate
+                        }}"
+                        matTooltipPosition="above"
+                        [ngStyle]="{ color: esForm.get('is_required_for_certificate').value ? '#fdd835' : 'white' }"
+                      >
+                        {{
+                          (esForm.get('is_required_for_certificate').value
+                            ? '056_ES.ES is required for generating the certificate'
+                            : '056_ES.ES is not required for generating the certificate'
+                          ) | translate
+                        }}
+                      </span>
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <!-- <div class="p-col-1 no-padding"></div> -->
+                  <div class="p-col-11 no-padding pad-10" *ngIf="esIndex === 0">
+                    <mat-slide-toggle
+                      color="accent"
+                      formControlName="send_only_to_pass_latest_retake_student"
+                      [disabled]="esForm.get('employability_survey_sent').value"
+                    >
+                      <span
+                        #tooltip="matTooltip"
+                        matTooltip="{{
+                          (esForm.get('send_only_to_pass_latest_retake_student').value
+                            ? '056_ES.ES is required for generating the certificate'
+                            : '056_ES.ES is not required for generating the certificate'
+                          ) | translate
+                        }}"
+                        matTooltipPosition="above"
+                        [ngStyle]="{ color: esForm.get('send_only_to_pass_latest_retake_student').value ? '#fdd835' : 'white' }"
+                      >
+                        {{
+                          (esForm.get('send_only_to_pass_latest_retake_student').value
+                            ? '056_ES.Only select Student that pass lattest retake'
+                            : '056_ES.Send to ALL Students'
+                          ) | translate
+                        }}
+                      </span>
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <div class="p-grid">
+                  <!-- <div class="p-col-1 no-padding"></div> -->
+                  <div class="p-col-11 no-padding pad-10" *ngIf="esIndex > 0">
+                    <mat-slide-toggle
+                      color="accent"
+                      formControlName="send_only_to_pass_student"
+                      [disabled]="esForm.get('employability_survey_sent').value"
+                    >
+                      <span
+                        #tooltip="matTooltip"
+                        matTooltip="{{
+                          (esForm.get('send_only_to_pass_student').value
+                            ? '056_ES.Only send to Pass Students'
+                            : '056_ES.Send to ALL Students(Admin ou non)'
+                          ) | translate
+                        }}"
+                        matTooltipPosition="above"
+                        [ngStyle]="{ color: esForm.get('send_only_to_pass_student').value ? '#fdd835' : 'white' }"
+                      >
+                        {{
+                          (esForm.get('send_only_to_pass_student').value
+                            ? '056_ES.Only send to Pass Students'
+                            : '056_ES.Send to ALL Students(Admin ou non)'
+                          ) | translate
+                        }}
+                      </span>
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <!-- Comment out slider for continous study. request on 06/07/2021 -->
+                <!-- <div class="p-grid">
+                  <div class="p-col-11 no-padding pad-10" *ngIf="esIndex > 0">
+                    <mat-slide-toggle
+                      color="accent"
+                      formControlName="send_only_to_not_mention_continue_study"
+                      [disabled]="esForm.get('employability_survey_sent').value"
+                    >
+                      <span
+                        #tooltip="matTooltip"
+                        matTooltip="{{
+                          (esForm.get('send_only_to_not_mention_continue_study').value
+                            ? '056_ES.Send only to Students who did NOT mention Continue Studies in the Previous Survey'
+                            : '056_ES.Send to ALL Students Situation(even if Continue Studies in Previous Survey)'
+                          ) | translate
+                        }}"
+                        matTooltipPosition="above"
+                        [ngStyle]="{ color: esForm.get('send_only_to_not_mention_continue_study').value ? '#fdd835' : 'white' }"
+                      >
+                        {{
+                          (esForm.get('send_only_to_not_mention_continue_study').value
+                            ? '056_ES.Send only to Students who did NOT mention Continue Studies in the Previous Survey'
+                            : '056_ES.Send to ALL Students Situation(even if Continue Studies in Previous Survey)'
+                          ) | translate
+                        }}
+                      </span>
+                    </mat-slide-toggle>
+                  </div>
+                </div> -->
+              </div>
+            </fieldset>
+          </div>
+          <!-- Button here -->
+          <div class="p-col-fixed no-padding btn-es" style="float: left">
+            <div class="btn-dynamic">
+              <button
+                type="button"
+                mat-icon-button
+                color="warn"
+                *ngIf="!esForm.get('employability_survey_sent').value"
+                (click)="removeESFormGroup(esIndex)"
+              >
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                color="primary"
+                [disabled]="!lastIndex"
+                (click)="addESFormGroup()"
+              >
+                <mat-icon>add_circle_outline</mat-icon>
+              </button>
+              <!-- this dummy button to make styling looks good -->
+              <button type="button" *ngIf="esForm.get('employability_survey_sent').value" mat-icon-button class="invisible">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+              <!-- end of dummy button -->
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</fieldset>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

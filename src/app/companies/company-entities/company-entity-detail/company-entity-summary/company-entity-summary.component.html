@@ -1,0 +1,40 @@
+<mat-accordion class="example-headers-align summary" #accordion>
+  <mat-expansion-panel [expanded]="companyId" class="panel-spacing">
+    <mat-expansion-panel-header class="background-primary panel-header">
+      <mat-panel-title>
+        <h4 style="color: white; align-self: center; margin: 0px">
+          {{ 'COMPANY.Entity Summary' | translate }}
+        </h4>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="pane-divider">
+      <div *ngIf="isWaitingForResponse" class="loading-indicator">
+        <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+      </div>
+      <div class="detail p-grid" *ngIf="!isWaitingForResponse">
+        <div class="p-col no-padding">
+          <div class="p-grid">
+            <div class="p-col-12 p-grid">
+              <h4 style="text-decoration: underline; margin-bottom: 0px">{{ company?.company_name }}</h4>
+            </div>
+            <div class="p-col-12 p-grid">
+              {{ 'COMPANY.SIREN' | translate }}
+              <span><mat-icon>arrow_right</mat-icon></span>
+              <span>{{ company?.no_RC }}</span>
+              <button mat-raised-button class="green-btn mr-left" *ngIf="company?.company_status">
+                {{ company?.company_status | translate }}
+              </button>
+            </div>
+            <div class="p-col-12" style="padding-top: 0px">
+              <div class="p-grid" *ngIf="company?.company_addresses.length">
+                <mat-icon class="map" svgIcon="map-legend"></mat-icon>
+                <span style="margin-left: 30px;">
+                  {{company?.company_addresses[0]?.country && company?.company_addresses[0]?.country?.toLowerCase()!=='france'? company?.company_addresses[0]?.postal_code + " "+ company?.company_addresses[0]?.country : company?.company_addresses[0]?.address}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

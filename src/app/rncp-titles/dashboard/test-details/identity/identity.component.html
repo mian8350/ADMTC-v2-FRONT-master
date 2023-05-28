@@ -1,0 +1,101 @@
+<div class="p-grid" style="color: black; background-color: #fafafa">
+  <div class="p-col-12" style="padding-left: 30px; padding-top: 15px">
+    <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+      <div class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Name of Test' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14 overflow-ellipsis" matTooltip=" {{ testData.name ? testData.name : '' }}">
+          {{ testData.name ? testData.name : '' }}
+          <!-- Test Creation -->
+        </div>
+      </div>
+      <div class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Maximum Score' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.max_score }}
+          <!-- 100 -->
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+      <div class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Test Type' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.type ? ('PARAMETERS-RNCP.TEST.TYPE.' + testData.type | translate) : '' }}
+          <!-- Written -->
+        </div>
+      </div>
+      <div *ngIf="testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Coefficient' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.coefficient ? testData.coefficient : 0 }}
+          <!-- 1 -->
+        </div>
+      </div>
+      <div *ngIf="!testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Date of Test' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.date && testData.date !== 'Invalid date' ? this.getTranslatedDate(testData.date) : '' }}
+          <!-- May 08, 2020 -->
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+      <div class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Date of Test' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.date && testData.date !== 'Invalid date' ? this.getTranslatedDate(testData.date) : '' }}
+          <!-- May 08, 2020 -->
+        </div>
+      </div>
+      <div *ngIf="testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Correction Type' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.correction_type ? ('TEST.CORRECTIONTYPES.' + testData.correction_type | translate) : '' }}
+        </div>
+      </div>
+      <div *ngIf="!testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Type of Date' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          <!-- {{ testData.date_type }} -->
+          {{ 'TEST.DATETYPES.' + testData.date_type.toUpperCase() | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+      <div *ngIf="testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Type of Date' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ 'TEST.DATETYPES.' + testData.date_type.toUpperCase() | translate }}
+          <!-- Marks Entry -->
+        </div>
+      </div>
+      <div *ngIf="testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Test Organiser' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ testData.organiser ? ('TEST.CORRECTIONTYPES.' + testData.organiser | translate) : '' }}
+          <!-- Preparation Center -->
+        </div>
+      </div>
+      <div *ngIf="!testData.coefficient" class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Status of Test' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ (testData?.is_published ? 'Published' : 'Not Published') | translate }}
+          <!-- Pending -->
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="testData.coefficient" class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+      <div class="p-grid" fxFlex="50">
+        <div class="p-col-12 no-pad-bot fn-10">{{ 'Status of Test' | translate }} :</div>
+        <div class="p-col-12 no-pad-top fn-14">
+          {{ (testData?.is_published ? 'Published' : 'Not Published') | translate }}
+          <!-- Pending -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

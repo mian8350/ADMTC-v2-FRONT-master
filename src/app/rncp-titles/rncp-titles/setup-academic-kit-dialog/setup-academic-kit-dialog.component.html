@@ -1,0 +1,97 @@
+
+  <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="dialogTitleWrapper">
+      <div class="p-grid">
+        <div class="w-30 no-padding">
+          <mat-icon class="icon-alignment" mat-icon-button svgIcon="receipt"></mat-icon>
+        </div>
+        <div class="p-col-10 acad-title">
+          <h3 class="dialogTitle">
+            <span>{{ 'DASHBOARD.ACADKIT' | translate }} : {{ 'Set up a new basic one' | translate }}</span>
+          </h3>
+        </div>
+        <div class="w-65 no-padding">
+          <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div mat-dialog-content class="mat-dialog-content dialog-body">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p>{{ 'ACAD_KIT.SETUP.TITLE' | translate }} <br>{{ 'ACAD_KIT.SETUP.SUB_TITLE' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p>{{ 'ACAD_KIT.SETUP.NOTE' | translate }}</p>
+      <ol>
+        <li>{{ 'ACAD_KIT.SETUP.NOTE1' | translate }}</li>
+        <li>{{ 'ACAD_KIT.SETUP.NOTE2' | translate }}</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 justify-content-center">
+      <button mat-button mat-raised-button (click)="showDuplicateField()" class="mr-1rem background-success">
+        {{ 'ACAD_KIT.SETUP.DUPLICATE' | translate }}
+      </button>
+      <button mat-button mat-raised-button color="accent" (click)="setupNewAcadKit()">
+        {{ 'ACAD_KIT.SETUP.NEW' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="p-grid" class="duplicate-form-container" *ngIf="showSelectTitle && titleList?.length" style="margin-top: 4rem;">
+    <div class="p-grid p-col-12">
+      <div class="p-col-2 pad-x-none text-label">
+        <p class="aligned-paragraph">{{ 'RNCP_Title' | translate }}</p>
+      </div>
+      <div class="p-col-6 no-padding-y">
+        <mat-form-field class="full-width">
+          <input type="text"
+            matInput
+            (keyup)="resetSelected()"
+            [formControl]="titleControl"
+            [matAutocomplete]="autoTitle">
+          <mat-autocomplete #autoTitle="matAutocomplete">
+            <mat-option *ngFor="let title of filteredTitle | async" (click)="setSelectedTitle(title)" [value]="title?.short_name">
+              {{title?.short_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="p-grid p-col-12" style="margin-top: 1rem;" *ngIf="selectedTitle && classList?.length">
+      <div class="p-col-2 pad-x-none text-label">
+        <p class="aligned-paragraph">{{ 'COMPANY.CLASS' | translate }}</p>
+      </div>
+      <div class="p-col-6 no-padding-y">
+        <mat-form-field class="full-width">
+          <input type="text"
+            matInput
+            (keyup)="resetSelected()"
+            [formControl]="classControl"
+            [matAutocomplete]="autoClass">
+          <mat-autocomplete #autoClass="matAutocomplete">
+            <mat-option *ngFor="let class of filteredClass | async" (click)="setSelectedClass(class)" [value]="class?.name">
+              {{class?.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="selectedTitle && selectedClass">
+      <button mat-button mat-raised-button [disabled]="!selectedTitle?._id || !titleControl.value" (click)="duplicateAcadKit()" class="mr-1rem background-success">
+        {{ 'Duplicate now' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="justify-content-end mt-1rem">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+</div>

@@ -1,0 +1,51 @@
+<!-- <div *ngIf="isWaitingForResponse" class="logo-spinner-wrapper spinner-transparent">
+  <mat-progress-spinner class="spinner-margin" mode="indeterminate" color="accent"></mat-progress-spinner>
+</div> -->
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div [formGroup]="connectSchoolForm">
+  <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="p-grid">
+      <div class="p-col-12 no-padding-bottom m-top-10 no-pad-top">
+        <div class="p-grid">
+          <div class="p-col-11 no-pad-top">
+            <div class="dialogTitleWrapper">
+              <mat-icon>person_add </mat-icon>
+              <h2 class="dialogTitle">{{ 'COMPANY.Connect Mentor to School' | translate }}</h2>
+            </div>
+          </div>
+          <div class="p-col-1 no-padding-bottom">
+            <button mat-icon-button class="close-icon" (click)="onClose()" tabindex="-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-12 select-mentor">
+    <ng-select
+      [items]="mentorData"
+      bindLabel="label"
+      bindValue="value"
+      [multiple]="true"
+      [hideSelected]="true"
+      placeholder="{{ 'SM_COMPANY.Select Mentor' | translate }}"
+      formControlName="mentor_ids"
+      appendTo="body"
+      (remove)="removeMentor($event)"
+    >
+    </ng-select>
+  </div>
+
+  <div mat-dialog-actions class="justify-content-center mt-1rem mrgn-bottom-10">
+    <button mat-button mat-raised-button type="button" (click)="onClose()" color="warn" class="white-color">
+      {{ 'Cancel' | translate }}
+    </button>
+    <button mat-button mat-raised-button type="submit" [disabled]="isWaitingForResponse" (click)="submitData()" color="accent" class="white-color">
+      {{ 'Submit' | translate }}
+    </button>
+  </div>
+</div>

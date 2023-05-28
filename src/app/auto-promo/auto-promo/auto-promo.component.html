@@ -1,0 +1,203 @@
+<div class="p-grid">
+  <div class="horizontal p-col">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"  class="mat-elevation-z8" *ngIf="permissionService.showPromosTable()">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column">
+          <button mat-raised-button color="primary" (click)="resetAllFilter()" matTooltip="{{ 'RESET' | translate }}">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button mat-raised-button color="accent" *ngIf="permissionService.addPromoPerm()" (click)="promoDialog('')" matTooltip="{{ 'promosi.ADD ITEM' | translate }}">
+            <mat-icon svgIcon="plus" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'promosi.ADD ITEM' | translate }}
+          </button>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="refFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="refFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="titleFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="sub_titleFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+      <ng-container matColumnDef="descriptionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+      <ng-container matColumnDef="for_login_pageFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="for_login_pageFilter">
+              <mat-option *ngFor="let option of for_login_pageFilterList" (click)="setLogin(option.id)">{{ option.name | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="for_first_timeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="for_first_timeFilter">
+              <mat-option *ngFor="let option of for_first_timeFilterList" (click)="setPass(option.id)">{{ option.name | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="for_ecole_pageFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <mat-select [formControl]="for_ecole_pageFilter">
+              <mat-option *ngFor="let option of for_ecole_pageFilterList" (click)="setForgotPass(option.id)">{{ option.name | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- Ref Column -->
+      <ng-container matColumnDef="ref">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="ref">
+            <h5>{{ 'Ref' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.ref }}</td>
+      </ng-container>
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="title">
+            <h5>{{ 'Title' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ utilService.cleanHTML(element.title) }}</td>
+      </ng-container>
+      <!-- SubTitle Column -->
+      <ng-container matColumnDef="sub_title">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="sub_title">
+            <h5>{{ 'promosi.Sub-Title' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ utilService.cleanHTML(element.sub_title) }}</td>
+      </ng-container>
+      <!-- SubTitle Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="description">
+            <h5>{{ 'promosi.description' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ utilService.cleanHTML(element.description) }}</td>
+      </ng-container>
+
+      <!-- Login Column -->
+      <ng-container matColumnDef="for_login_page">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="for_login_page">
+            <h5>{{ 'promosi.Login' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.for_login_page">
+            <button mat-icon-button class="green-btn">
+              <mat-icon>check</mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- for_set_password_page Column -->
+      <ng-container matColumnDef="for_set_password_page">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="for_set_password_page">
+            <h5>{{ 'promosi.Set Password' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.for_set_password_page">
+            <button  mat-icon-button class="green-btn">
+              <mat-icon>check</mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- for_forgot_password_page Column -->
+      <ng-container matColumnDef="for_forgot_password_page">
+        <th mat-header-cell *matHeaderCellDef>
+          <div mat-sort-header="for_forgot_password_page">
+            <h5>{{ 'promosi.Forgot Password' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.for_forgot_password_page">
+            <button mat-icon-button class="green-btn">
+              <mat-icon>check</mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Actoin Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5>Action</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Delete' | translate }}"
+            (click)="removePromo(element)"
+            *ngIf="permissionService.deletePromoPerm()"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Edit' | translate }}"
+            (click)="promoDialog(element)"
+            *ngIf="permissionService.editPromoPerm()"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="12" style="text-align: center !important">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div>
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

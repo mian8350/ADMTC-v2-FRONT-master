@@ -1,0 +1,341 @@
+<div class="p-col-12">
+  <p class="mrgn-b-none mrgn-t-sm">{{ 'List of tasks that will be published' | translate }}</p>
+</div>
+<div class="p-col-12">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <!-- button on top of table -->
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="9" class="text-right reset-header-column">
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="!selection.selected.length"
+          (click)="openChangeDueDateDialog()"
+          matTooltip="{{ 'Change Due Date' | translate }}"
+          matTooltipPosition="above"
+        >
+          <mat-icon class="mat-icon-svgIcon" svgIcon="calendar"></mat-icon>
+          {{ 'Change Due Date' | translate }}
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="!selection.selected.length"
+          (click)="onPublishAll()"
+          matTooltip="{{ 'Publish Task' | translate }}"
+          matTooltipPosition="above"
+        >
+          <mat-icon class="mat-icon-svgIcon" svgIcon="cube-send"></mat-icon>
+          {{ 'Publish Task' | translate }}
+        </button>
+        <button (click)="reset()" mat-raised-button color="primary" matTooltip="{{ 'RESET' | translate }}" matTooltipPosition="above">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+      </th>
+    </ng-container>
+
+    <!-- FILTER -->
+    <ng-container matColumnDef="selectFilter" sticky>
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+    <ng-container matColumnDef="taskRefFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="taskRefFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- <mat-form-field>
+          <mat-select [formControl]="schoolFilter">
+            <mat-option value="" selected disabled>{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let school of schoolDropdown" [value]="school?._id">
+              {{ school?.short_name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="schoolFilterAuto"
+            [formControl]="schoolFilter"
+            placeholder="{{ 'search' | translate }}"
+            type="text"
+          />
+          <mat-autocomplete #schoolFilterAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="onSchoolSelect(null)">{{ 'All' | translate }}</mat-option>
+            <mat-option value="{{'No school' | translate}}" (click)="onSchoolSelect('noschool')">{{'No school' | translate}}</mat-option>
+            <mat-option
+              *ngFor="let school of filteredSchoolDropdown | async"
+              [value]="school?.short_name"
+              (click)="onSchoolSelect(school)"
+            >
+              {{ school?.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="dueDateFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            [formControl]="dueDateFilter"
+            placeholder="{{ 'search' | translate }}"
+            [matDatepicker]="dueDate"
+            readonly
+            (click)="dueDate.open()"
+          />
+          <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
+          <mat-datepicker #dueDate></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="taskFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="taskFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="assignerFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="assignerFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="assignToFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="assignToFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="statusFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <!-- <mat-form-field>
+          <mat-select [formControl]="statusFilter">
+            <mat-option *ngFor="let status of statusDropdown" [value]="status?.value">
+              {{ status?.name | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <mat-form-field>
+          <mat-label>{{ 'search' | translate }}</mat-label>
+          <input matInput [formControl]="statusFilter" [matAutocomplete]="statusAuto" (keyup)="onStatusFilterType()" />
+          <mat-autocomplete #statusAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option (click)="onStatusSelect('All')" [value]="'All'">
+              {{ 'AllM' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let status of filteredStatusDropdown" (click)="onStatusSelect(status)" [value]="status?.name | translate">
+              {{ status?.name | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- CONTENT -->
+    <ng-container matColumnDef="select" sticky>
+      <th mat-header-cell *matHeaderCellDef class="text-center">
+        <mat-checkbox
+          (change)="$event && onMasterToggle($event)"
+          [checked]="isAllChecked && selection.hasValue()"
+          [indeterminate]="!isAllChecked && selection.hasValue()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        <mat-checkbox
+          [checked]="isAllChecked || selection.isSelected(element?._id)"
+          (click)="$event.stopPropagation()"
+          (change)="$event && onIndividualToggle($event, element)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="ref_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="ref_id" matTooltip="{{ 'TaskRef' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'TaskRef' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltipPosition="above">{{ element?.task_builder_id?.ref_id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="school">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="school" matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'School' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element?.school?.short_name || '-'" matTooltipPosition="above">
+        {{ element?.school?.short_name || '-' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="dueDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="due_date" matTooltip="{{ 'Due Date' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Due Date' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="" matTooltipPosition="above">
+        {{ localizeDate(element?.due_date) }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="task">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="task"
+        matTooltip="{{ 'PREVIEWGENERATEDTASK.Task' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'PREVIEWGENERATEDTASK.Task' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element?.description }}"
+        matTooltipPosition="above"
+        style="cursor: pointer"
+        (click)="openTask(element)"
+      >
+        {{ element?.description }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="assigner">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="created_by"
+        matTooltip="{{ 'Assigner' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'Assigner' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element?.created_by?.last_name }} {{ element?.created_by?.first_name }} {{
+          element?.created_by?.civility | translate
+        }}"
+        matTooltipPosition="above"
+      >
+        {{ element?.created_by?.last_name }} {{ element?.created_by?.first_name }} {{ element?.created_by?.civility | translate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="assignTo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="user_id" matTooltip="{{ 'Assign to' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Assign to' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element?.user_selection?.user_id?.last_name }} {{ element?.user_selection?.user_id?.first_name }}
+      {{ element?.user_selection?.user_id?.civility | translate }}"
+        matTooltipPosition="above"
+      >
+        {{ element?.user_selection?.user_id?.last_name }} {{ element?.user_selection?.user_id?.first_name }}
+        {{ element?.user_selection?.user_id?.civility | translate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="status" matTooltip="{{ 'Status' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Status' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ 'TASK.' + getStatus(element) | translate }}" matTooltipPosition="above">
+        <mat-icon [ngClass]="getStatusColor(element)">lens</mat-icon>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" class="text-center action-button-task">
+        <mat-icon
+          *ngIf="element?.task_status !== 'done' && element?.status !== 'deleted'"
+          class="margin-right-button action-button-task publish-action"
+          [ngClass]="element?.is_task_published ? 'green' : 'red'"
+          matTooltip="{{ element?.is_task_published ? ('Published' | translate) : ('Unpublished' | translate) }}"
+          matTooltipPosition="above"          
+          (click)="element?.is_task_published ? unpublishGeneratedTask(element) : publishGeneratedTask(element)"
+        >
+          check_box
+        </mat-icon>
+
+        <button
+          mat-icon-button
+          disabled
+          *ngIf="element?.is_task_published && 
+          element?.previous_tasks?.length && element?.previous_tasks[0]?.task_status !== 'done' 
+          && element?.status !== 'deleted'"
+        >
+          <mat-icon
+            matTooltip="{{
+              'This task is linked to another task:' | translate: { task_ref: element?.previous_tasks[0]?.task_builder_id?.ref_id }
+            }}"
+            matTooltipPosition="above"
+          >
+            link
+          </mat-icon>
+        </button>
+
+        <button
+          *ngIf="element?.task_status !== 'done' && element?.status !== 'deleted'"
+          mat-icon-button
+          class="margin-right-button action-button-task"
+          matTooltip="{{ 'Change Due Date' | translate }}"
+          matTooltipPosition="above"
+          (click)="onChangeIndividualDueDate(element)"
+        >
+          <mat-icon svgIcon="calendar"></mat-icon>
+        </button>
+
+        <!-- if task_status is pending, that means the status is not published. SO show only if the status are unpublished -->
+
+        <ng-container
+          *ngIf="!['validated','done','deleted'].includes(getStatus(element))"
+        >
+          <button
+            mat-icon-button
+            class="margin-right-button action-button-task"
+            matTooltip="{{ 'Delete Task' | translate }}"
+            matTooltipPosition="above"
+            (click)="onDeleteTask(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <!-- loading spinner -->
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="9" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="!dataSource.data.length && !isWaitingForResponse" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: !dataCount }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      [length]="dataCount"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

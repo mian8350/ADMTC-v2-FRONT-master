@@ -1,0 +1,164 @@
+//for the PDF preview
+.mat-card:hover {
+  box-shadow: none !important;
+}
+.pdf-card {
+  margin: 1rem;
+  border-radius: 2px;
+  padding: 8px;
+  background-color: #607d8b !important;
+}
+
+.pdf-container {
+  font-size: 12px;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px;
+}
+
+.doc-title {
+  text-align: center;
+  font-weight: 700;
+  display: block;
+}
+
+.doc-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 30px auto;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+.table-row-border {
+  border: 2px solid #000;
+}
+
+.table-row-side-border {
+  border-right: 2px solid #000;
+  border-left: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.gray-bg {
+  background-color: #d6d6d6;
+  padding: 3px 5px;
+}
+
+.blue-bg {
+  background-color: #ecf3ff;
+  padding: 3px 5px;
+}
+
+.white-bg {
+  background-color: #ffffff;
+  padding: 3px 5px;
+}
+
+.placeholder-text {
+  color: transparent;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  font-weight: 700;
+  margin-top: 450px;
+  text-align: center;
+}
+
+.block-fieldset-spacing {
+  margin-bottom: 0.5rem;
+}
+
+.page-break-title {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.placeholder-text {
+  color: transparent;
+}
+
+.outline-border-grey {
+  border: 1px black solid;
+  background: #d6d6d6;
+  color: black;
+}
+
+.outline-border-white {
+  border: 1px black solid;
+  background: white;
+  color: black;
+}
+
+.outline-border-dot {
+  border-style: dotted solid dotted solid;
+  border-width: 1px;
+  border-color: black;
+  background: white;
+  color: black;
+}
+
+@page Section1 {
+  size: 8.27in 11.69in;
+  margin: .5in .5in .5in .5in;
+  mso-header-margin: .5in;
+  mso-footer-margin: .5in;
+  mso-paper-source: 0;
+}
+
+div.Section1 {
+  page: Section1;
+}
+
+.title-section {
+  margin-bottom: 30px;
+}
+.border-outline-bottom {
+  border-bottom: 2px solid black;
+  background: #ffffff;
+  color: black;
+  width: 100%;
+}
+.margin-y-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 7px;
+  margin-right: 7px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.margin-bottom-none {
+  margin-bottom: 0px;
+}
+.p-subject {
+  margin-bottom: 0px;
+  padding-left: 15px;
+}
+.p-eval {
+  margin-bottom: 0px;
+  padding-left: 35px;
+}
+.full-wide {
+  width: 100%;
+}
+.pad-y-none {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+.border-header {
+  border: 1px solid black;
+  width: 100%;
+}
+
+.scrollable {
+  max-height: 90vh !important;
+  overflow: auto;
+}

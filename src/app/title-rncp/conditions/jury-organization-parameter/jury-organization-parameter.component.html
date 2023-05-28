@@ -1,0 +1,168 @@
+<div class="p-grid">
+  <div class="p-col-12 classHeading">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" style="float:left; margin-right: 5px">
+      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M10.63,14.1C12.23,10.58 16.38,9.03 19.9,10.63C23.42,12.23 24.97,16.38 23.37,19.9C22.24,22.4 19.75,24 17,24C14.3,24 11.83,22.44 10.67,20H1V18C1.06,16.86 1.84,15.93 3.34,15.18C4.84,14.43 6.72,14.04 9,14C9.57,14 10.11,14.05 10.63,14.1V14.1M9,4C10.12,4.03 11.06,4.42 11.81,5.17C12.56,5.92 12.93,6.86 12.93,8C12.93,9.14 12.56,10.08 11.81,10.83C11.06,11.58 10.12,11.95 9,11.95C7.88,11.95 6.94,11.58 6.19,10.83C5.44,10.08 5.07,9.14 5.07,8C5.07,6.86 5.44,5.92 6.19,5.17C6.94,4.42 7.88,4.03 9,4M17,22A5,5 0 0,0 22,17A5,5 0 0,0 17,12A5,5 0 0,0 12,17A5,5 0 0,0 17,22M16,14H17.5V16.82L19.94,18.23L19.19,19.53L16,17.69V14Z" />
+      </svg>
+    </mat-icon>
+    <h3>{{ 'Jury Organization Parameter' | translate }}</h3>
+  </div>
+  <div class="p-col-6 align-right-button">
+    <button mat-button mat-raised-button class="no-margin" [disabled]="comparison()" color="accent" (click)="save()">
+      <mat-icon>save</mat-icon> {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="p-grid" style="margin-top: 0.1rem;">
+  <div class="p-col-6 no-right-padding">
+    <form [formGroup]="juryOrgParamForm">
+        <div class="p-grid yellow-border card-row">
+          <div class="section-header">
+            <h3>{{ 'Jury Name Parameters' | translate }}</h3>
+          </div>
+          <div class="p-col-12">
+            <div class="p-grid align-item-center">
+              <div  class="col-3" >
+                <span>{{ 'Jury Process Name' | translate }} : </span>
+              </div>
+              <div class="p-col">
+                <mat-form-field class="full-width">
+                  <input type="text" matInput formControlName="jury_process_name"/>
+                  <!-- <mat-error *ngIf="juryOrgParamForm.get('jury_process_name').hasError('required')&&
+                                            (juryOrgParamForm.get('jury_process_name').dirty ||
+                                             juryOrgParamForm.get('jury_process_name').touched)">
+                    {{'This field is required'|translate}}
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div><br>
+        <div class="p-grid yellow-border card-row">
+          <div class="section-header">
+            <h3>{{ 'JURY_ORGANIZATION.JURY_PARAMETER' | translate }}</h3>
+          </div>
+          <!-- <div class="p-grid align-item-center"> -->
+          <div class="p-col-12">
+            <div class="p-grid align-item-center">
+              <div  class="col-5" >
+                <span>{{ 'JURY_ORGANIZATION.STANDARD_DURATION' | translate }}</span>
+              </div>
+              <div class="p-col-1">
+                <mat-form-field class="full-width">
+                  <input type="number" matInput formControlName="standard_duration" />
+                </mat-form-field>
+              </div>
+              <div class="col-2">minutes</div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="p-grid yellow-border card-row" style="margin-top: 2rem !important;">
+          <div class="section-header">
+            <h3>{{ 'Jury_N7 Parameters' | translate }}</h3>
+          </div>
+            <!-- change the signature of method  changePublished in Component -->
+          <mat-slide-toggle class="p-col-12"
+          style="margin-bottom: 1rem !important;"
+                  color="accent"
+                  (change)="changePublished($event)"
+                  formControlName="allow_use_text_jury_n7_phrase">
+            {{ 'Use text on Phrase 1 and Phrase 2 in Jury_N7 Notification' | translate }}
+          </mat-slide-toggle>
+          <div *ngIf="sliderSelected" class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-12" style="padding-bottom: 0;">
+                {{ 'Phrase 1' | translate }} :
+              </div>
+              <div class="p-col-12 yellow-border" style="padding: 0px;">
+                <ckeditor 
+                [config]="{
+                  toolbar : [
+                  'heading', 'bold', 'italic', 'underline', 'strikethrough',
+                  'highlight:redPen', 'highlight:greenPen', 'removeHighlight',
+                  'numberedList', 'bulletedList', 'link', 'undo', 'redo'
+                  ],
+                  link : {
+                    addTargetToExternalLinks: true
+                  }
+                }" 
+                [editor]="Editor" 
+                formControlName="jury_n7_phrase_1" 
+                (ready)="onReady($event)">
+              </ckeditor>
+                <!-- <mat-form-field class="full-width">
+                  <textarea matInput formControlName="jury_n7_phrase_1" placeholder="{{ 'Pharase 1' | translate }}"></textarea>
+                </mat-form-field> -->
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-12" style="padding-bottom: 0; margin-top: 1rem;">
+                {{ 'Phrase 2' | translate }} :
+              </div>
+              <div class="p-col-12 yellow-border" style="padding: 0px;">
+                <ckeditor 
+                [config]="{
+                  toolbar : [
+                  'heading', 'bold', 'italic', 'underline', 'strikethrough',
+                  'highlight:redPen', 'highlight:greenPen', 'removeHighlight',
+                  'numberedList', 'bulletedList', 'link', 'undo', 'redo'
+                  ],
+                  link : {
+                    addTargetToExternalLinks: true
+                  }
+                }" 
+                [editor]="Editor" 
+                formControlName="jury_n7_phrase_2" 
+                (ready)="onReady($event)">
+                </ckeditor>
+                <!-- <mat-form-field class="full-width">
+                  <textarea matInput formControlName="jury_n7_phrase_2" placeholder="{{ 'Pharase 2' | translate }}"></textarea>
+                </mat-form-field> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid yellow-border card-row" style="margin-top: 2rem !important;">
+          <div class="section-header">
+            <h3>{{ 'JURY_ORGANIZATION.REPLAY_VISIBILITY' | translate }}</h3>
+          </div>
+          <div class="p-col-12">
+            <mat-slide-toggle formControlName="replay_visible_for_student">
+              <span [ngClass]="{'text-slider-color': juryOrgParamForm.get('replay_visible_for_student').value}">
+                {{ (juryOrgParamForm.get('replay_visible_for_student').value ? 'JURY_ORGANIZATION.Visible for' : 'JURY_ORGANIZATION.Not Visible for' ) | translate }} {{'JURY_ORGANIZATION.Student' | translate}}
+              </span> 
+            </mat-slide-toggle>
+          </div>
+          <div class="p-col-12">
+            <mat-slide-toggle formControlName="replay_visible_for_academic_director">
+              <span [ngClass]="{'text-slider-color': juryOrgParamForm.get('replay_visible_for_academic_director').value}">
+                {{ (juryOrgParamForm.get('replay_visible_for_academic_director').value ? 'JURY_ORGANIZATION.Visible for' : 'JURY_ORGANIZATION.Not Visible for' ) | translate }} {{'JURY_ORGANIZATION.Référent Titre' | translate}}
+              </span> 
+            </mat-slide-toggle>
+          </div>
+          <div class="p-col-12">
+            <mat-slide-toggle formControlName="replay_visible_for_certifier">
+              <span [ngClass]="{'text-slider-color': juryOrgParamForm.get('replay_visible_for_certifier').value}">
+                {{ (juryOrgParamForm.get('replay_visible_for_certifier').value ? 'JURY_ORGANIZATION.Visible for' : 'JURY_ORGANIZATION.Not Visible for' ) | translate }} {{'JURY_ORGANIZATION.Certificateurs/Président de Jury' | translate}}
+              </span> 
+            </mat-slide-toggle>
+          </div>
+          <div class="p-col-12">
+            <mat-slide-toggle formControlName="replay_visible_for_jury_member">
+              <span [ngClass]="{'text-slider-color': juryOrgParamForm.get('replay_visible_for_jury_member').value}">
+                {{ (juryOrgParamForm.get('replay_visible_for_jury_member').value ? 'JURY_ORGANIZATION.Visible for' : 'JURY_ORGANIZATION.Not Visible for' ) | translate }} {{'JURY_ORGANIZATION.Jury members' | translate}}
+              </span> 
+            </mat-slide-toggle>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

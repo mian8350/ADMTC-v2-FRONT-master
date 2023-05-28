@@ -1,0 +1,67 @@
+.emp-button {
+  margin: 0px 30px;
+  width: 170px;
+  display: initial;
+}
+
+.icons {
+  font-size: 36px;
+  float: right;
+  margin-right: 10px;
+}
+
+.para {
+  max-width: 90px;
+  margin: 2px 10px 0px 0px;
+  color: black;
+  font-weight: 700;
+}
+
+.empButton {
+  width: 180px;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: #ffd740;
+  border-color: #353535;
+  cursor: default;
+}
+
+.empButton-reject {
+  width: 180px;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: red;
+  color: #fff;
+  border-color: #353535;
+  cursor: default;
+}
+
+.emp-survey-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center; 
+  /* //margin: 12px 0; */
+}
+
+.border-red {
+  border: 2px solid red;
+}
+
+.mt-5px {
+  margin-top: 5px !important;
+}
+
+.field-item {
+  margin-bottom: 15px;
+}
+
+// .footer-form {
+//   padding: 0px 18px 18px 18px;
+// }
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}

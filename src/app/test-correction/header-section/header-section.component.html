@@ -1,0 +1,35 @@
+<div class="p-grid background-black">
+  <ng-container [formGroup]="testCorrectionForm">
+    <div class="p-col-12 pad-b-none" formGroupName="correction_grid">
+      <div class="header-section"  formGroupName="header">
+        <ng-container formArrayName="fields">
+          <ng-container *ngFor="let field of getHeaderFieldsFromTest(); let fieldIndex = index" [formGroupName]="fieldIndex">
+            <div *ngIf="field.data_type !== 'checkbox' && field.data_type !== 'date'">
+              <mat-form-field color="accent" class="header-field-text mrgn-r-sm">
+                <input class="small-field-font" formControlName="value" matInput [type]="field.data_type" [placeholder]="field.value" />
+              </mat-form-field>
+            </div>
+            <div *ngIf="field.data_type === 'checkbox'" color="accent" class="box mrgn-r-sm">
+              <mat-checkbox formControlName="value">{{field.value}}</mat-checkbox>
+            </div>
+            <div *ngIf="field.data_type === 'date'">
+              <mat-form-field color="accent" class="header-field-date mrgn-r-sm">
+                <input 
+                  class="small-field-font" 
+                  matInput 
+                  formControlName="value" 
+                  [matDatepicker]="picker" 
+                  [placeholder]="field.value" 
+                  (click)="picker.open()"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,34 @@
+<div class="p-grid" style="color:black; background-color: #fafafa;">
+  <div class="p-col-12 scrollable-over">
+    <div *ngIf="testData && testData.documents && testData.documents.length; else noDocument">
+      <div *ngFor="let document of testData.documents" class="p-col-12" fxLayout="row" fxLayoutAlign="start center" style="border-bottom: dimgray 1px solid;">
+        <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center" (click)="downloadDocumentAdded(document)" style="cursor: pointer;">
+          <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="50" >
+              <i class="fa fa-file" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div fxFlex="90" class="font-style" fxLayout="column" fxLayoutAlign="start start">
+            <div>
+              {{ document.document_name }}
+            </div>
+            <div *ngIf="document.publication_date?.type === 'fixed'">
+              <span style="font-size: 0.7rem;">
+                {{ getTranslatedDateDocument(document?.publication_date?.publication_date) }}
+              </span>
+            </div>
+            <div *ngIf="document.publication_date?.type === 'relative'">
+              <span style="font-size: 0.7rem;">{{ document.publication_date?.before ? ('BEFORE' | translate) : ('AFTER'
+                | translate)}} {{document.publication_date?.day}} {{'DAYS' | translate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noDocument>
+      <div class="p-col-12 font-style" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 8px;">
+        {{ 'There is no document uploaded for this test' | translate }}
+      </div>
+    </ng-template>
+  </div>
+</div>

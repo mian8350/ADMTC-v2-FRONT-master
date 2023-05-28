@@ -1,0 +1,144 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mrgn-btn {
+  margin-bottom: 15px;
+}
+
+.icon-style {
+  vertical-align: middle;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+  margin-bottom: 15px;
+}
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+.card-image {
+  width: calc(100% + 32px);
+  margin: 0 -16px 16px -16px;
+}
+.card-image:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.acad-title {
+  padding: 0px;
+  margin-right: 25px;
+}
+.w-30 {
+  padding-top: 4px !important;
+  margin-right: 7px !important;
+}
+.w-65 {
+  float: right;
+  position: relative;
+  right: -20px;
+}
+.mrgn-r-15 {
+  margin-right: 15px;
+}
+.imgContainer {
+  position: relative;
+  height: 10rem;
+  width: auto;
+  cursor: pointer;
+  overflow: hidden;
+}
+.imgContainer:hover .overlay {
+  opacity: 1;
+}
+
+.no-image {
+  width: 150px;
+  height: 150px;
+  background-color: #6f6f6f;
+  line-height: 150px;
+  margin: auto;
+  color: white;
+  text-align: center;
+}
+
+.img-container {
+  width: auto;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  background-color: transparent;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin: auto;
+  width: 180px;
+}
+.contaOver {
+  position: absolute;
+  left: 12px;
+  top: 138px;
+  width: 25%;
+  margin-left: 0px;
+}
+.overlay {  
+  position: absolute;  
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0px;
+  right: 0;
+  margin-top: 0px;
+  height: 150px;
+  width: 150px;
+  opacity: 0;
+  -webkit-transition: 0.5s ease;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+  margin: auto;
+  cursor: pointer;
+}
+.mrgn-top {
+  margin-top: 10px !important;
+}
+
+.mat-dialog-content {   
+  margin: 0 !important;
+  padding: 0 11px !important;
+}
+
+.mat-dialog-actions {
+  margin: 0 7px 0px 0;
+}

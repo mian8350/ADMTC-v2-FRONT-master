@@ -1,0 +1,117 @@
+[
+  {
+    "description": "comment changer le Tuteur d'une Entreprise d'Accueil  en quelques étapes.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment changer le Tuteur d'une Entreprise d'Accueil ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "comment remplacer l’entreprise d’accueil.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment remplacer l’entreprise d’accueil ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "comment Envoyer et suivre l'évaluation du tuteur Entreprise.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment Envoyer et suivre l'évaluation du tuteur Entreprise ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment Envoyer l’évaluation au format PDF au tuteur Entreprise.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment Envoyer l’évaluation au format PDF au tuteur Entreprise ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;où trouver la grille d’évaluation d’une épreuve.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel</p>",
+    "title": "Où trouver la grille d’évaluation d’une épreuve ?",
+    "userType": [
+      { "name": "Corrector", "entity": "academic", "_id": "5d7227d6d977974d01f8d0c4" },
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" },
+      { "name": "Cross Corrector", "entity": "academic", "_id": "5d7227ded977974d01f8d0c5" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment changer l’adresse mél d’un utilisateur : correcteur, tuteur etc.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment changer l’adresse mél d’un utilisateur : correcteur, tuteur etc ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment télé déposer un document.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "HOW TO UPLOAD A DOCUMENT?",
+    "userType": [{ "name": "student", "entity": "academic", "_id": "5a067bba1c0217218c75f8ab" }]
+  },
+  {
+    "description": "&nbsp;comment se connecter la première fois en tant que tuteur.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment se connecter la première fois en tant que tuteur?",
+    "userType": [{ "name": "mentor", "entity": "company", "_id": "5a2e603f53b95d22c82f9590" }]
+  },
+  {
+    "description": "&nbsp;comment se connecter la première fois.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment se connecter la première fois ?",
+    "userType": [
+      { "name": "student", "entity": "academic", "_id": "5a067bba1c0217218c75f8ab" },
+      { "name": "Director", "entity": "academic", "_id": "5a2e1ecd53b95d22c82f9553" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment affecter un ou plusieurs correcteurs.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment affecter un ou plusieurs correcteurs ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment vérifier le dépôt du diplôme de l’apprenant.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment vérifier le dépôt du diplôme de l’apprenant ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment changer un correcteur.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "Comment changer un correcteur ?",
+    "userType": [
+      { "name": "Academic Admin", "entity": "academic", "_id": "5d721142758ca74db0046a8f" },
+      { "name": "Academic Director", "entity": "academic", "_id": "5d721138758ca74db0046a8e" }
+    ]
+  },
+  {
+    "description": "&nbsp;comment saisir les bonus / penalités.</p>",
+    "message": "Veuillez trouver ci dessous le tutoriel",
+    "title": "HOW TO ENTER BONUS/PENALITIES",
+    "userType": [
+      { "name": "Corrector", "entity": "academic", "_id": "5d7227d6d977974d01f8d0c4" },
+      { "name": "Corrector Quality", "entity": "certifier", "_id": "5d72282cd977974d01f8d0cd" },
+      { "name": "Corrector Certifier", "entity": "certifier", "_id": "5d722822d977974d01f8d0cc" },
+      { "name": "Cross Corrector", "entity": "academic", "_id": "5d7227ded977974d01f8d0c5" }
+    ]
+  }
+]

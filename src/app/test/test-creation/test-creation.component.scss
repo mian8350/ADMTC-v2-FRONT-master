@@ -1,0 +1,154 @@
+:host ::ng-deep mat-hint {
+  line-height: 1.8em;
+  //font-size: 80%;
+}
+
+:host ::ng-deep .mat-input-subscript-wrapper {
+  font-size: 80%;
+}
+
+:host ::ng-deep form *[fxFlex] {
+  margin-bottom: 1.5em;
+}
+.tab-button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin: 0 !important;
+  height: auto !important;
+}
+.active-tab {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+.green-button {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+
+.red-button {
+  background-color: red !important;
+  color: #fff !important;
+}
+
+.completed-tab {
+  color: black !important;
+}
+.tab-span {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: inline-block;
+  line-height: 30px;
+  margin-right: 10px;
+  font-weight: bold;
+  background-color: #ffd740;
+  color: black;
+}
+
+.tab-disable {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: inline-block;
+  line-height: 30px;
+  margin-right: 10px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: black;
+}
+
+.active-tab {
+  .tab-span {
+    background-color: #607d8b;
+  }
+}
+
+.pa-1 {
+  padding: 1rem !important;
+}
+.pr-1 {
+  padding-right: 1rem !important;
+}
+.pl-1 {
+  padding-left: 1rem !important;
+}
+.pt-1 {
+  padding-top: 1rem !important;
+}
+.pb-1 {
+  padding-bottom: 1rem !important;
+}
+.px-1 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.px-3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+.py-1 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.ma-1 {
+  margin: 1rem !important;
+}
+.mr-1 {
+  margin-right: 1rem !important;
+}
+.ml-1 {
+  margin-left: 1rem !important;
+}
+.mt-1 {
+  margin-top: 1rem !important;
+}
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+.mx-1 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+.my-1 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+:host ::ng-deep .mat-progress-bar-fill::after {
+  background-color: #ffd740 !important;
+}
+
+:host ::ng-deep .mat-progress-bar-buffer {
+  background: #8e845b !important;
+}
+
+.svg-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  display: inline-flex;
+  margin-bottom: 3px;
+}
+
+.padding-left-4px{
+  padding-left: 4px;
+}
+
+.btn-test {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.greyed-out {
+  background-color: #424242 !important;
+  color: white !important;
+}
+.button-right-side {
+  margin-left: 3px;
+  padding: 0px 8px 0px 8px !important;
+}

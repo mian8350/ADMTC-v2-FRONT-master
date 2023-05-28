@@ -1,0 +1,147 @@
+<div class="p-grid" style="margin-top: 18px !important; flex-wrap: nowrap">
+  <div class="p-col-fixed no-padding" style="width: 150px; float: left; padding-right: 15px !important">
+    <mat-form-field>
+      <input matInput class="form-field" [formControl]="commentFilter" placeholder="{{ 'search' | translate }}" />
+    </mat-form-field>
+  </div>
+  <div class="p-col-fixed no-padding" style="width: 150px; float: left; padding-right: 15px !important">
+    <ng-select
+      class="pad-top"
+      [items]="userFilterList"
+      bindLabel="name"
+      bindValue="name"
+      [formControl]="userFilter"
+      placeholder="{{ 'User' | translate }}"
+    >
+    </ng-select>
+  </div>
+  <div class="p-col-fixed no-padding" style="width: 150px; float: left; padding-right: 15px !important">
+    <ng-select
+      class="pad-top"
+      [items]="dateFilterList"
+      bindLabel="date"
+      bindValue="date"
+      [formControl]="dateFilter"
+      placeholder="{{ 'MailBox.DATE' | translate }}"
+    >
+    </ng-select>
+  </div>
+  <div class="p-col-fixed no-padding" style="width: 150px; float: left; padding-right: 12px !important">
+    <ng-select class="pad-top" [items]="categoryFilterList" [formControl]="categoryFilter" placeholder="{{ 'Category' | translate }}">
+    </ng-select>
+  </div>
+  <div class="p-col" style="text-align: right; white-space: nowrap">
+    <button mat-raised-button color="accent" matTooltip="{{ 'COMPANY.Add Note' | translate }}" (click)="addComment()">
+      <mat-icon class="mat-icon-default">add</mat-icon>
+      {{ 'COMPANY.Add Note' | translate }}
+    </button>
+    <button
+      style="padding: 0px 7px !important"
+      color="primary"
+      (click)="reset()"
+      mat-raised-button
+      matTooltip="{{ 'Reset' | translate }} "
+    >
+      <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+      {{ 'Reset' | translate }}
+    </button>
+  </div>
+</div>
+
+<mat-card class="commentaries-card">
+  <ng-container *ngIf="companyComments && companyComments.length; else noData">
+    <div class="p-grid" *ngFor="let commentList of companyComments">
+      <ng-container *ngIf="!commentList?.is_reply">
+        <div class="p-col-fixed avatar" style="width: 60px">
+          <img
+            [src]="
+              commentList?.created_by?.profile_picture
+                ? serverimgPath + commentList?.created_by?.profile_picture
+                : commentList?.created_by?.civility === 'MR'
+                ? maleStudentIcon
+                : commentList?.created_by?.civility === 'neutral'
+                ? neutralStudentIcon
+                : femaleStudentIcon
+            "
+            class="student-details-img"
+          />
+        </div>
+        <div class="p-col">
+          <div class="p-grid">
+            <div class="p-col-12 comment-section">
+              <div class="p-grid comment-header">
+                <div class="p-col-5 comment-name">
+                  <span>
+                    {{
+                      commentList?.created_by?.civility && commentList?.created_by?.civility === 'neutral'
+                        ? ''
+                        : (commentList?.created_by?.civility | translate)
+                    }}
+                    {{ commentList?.created_by?.first_name }}
+                    {{ commentList?.created_by?.last_name }} - {{ transformDate(commentList?.date_created) }} -
+                    {{ transformTime(commentList?.date_created) }}
+                  </span>
+                </div>
+                <div class="p-col-3 comment-subject" style="padding-left: 0px; padding-right: 0px">
+                  <span>{{ 'Subject' | translate }} : {{ commentList?.subject }}</span>
+                </div>
+                <div class="p-col-2 comment-subject" style="padding-left: 0px; padding-right: 0px">
+                  <span>{{ 'Category' | translate }} : {{ commentList?.category }}</span>
+                </div>
+                <div class="p-col-2" style="text-align: right; padding: 3px 0 5px 5px">
+                  <button mat-icon-button class="margin-right-button" (click)="edit(commentList)" matTooltip="{{ 'Edit' | translate }}">
+                    <mat-icon class="mat-icon-status">edit</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    class="margin-right-button"
+                    (click)="delete(commentList._id)"
+                    matTooltip="{{ 'Delete' | translate }}"
+                  >
+                    <mat-icon class="mat-icon-status">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="p-grid comment-message">
+                <div class="p-col-12 message-body" [innerHTML]="commentList?.note"></div>
+                <span class="reply" *ngIf="commentList?.note" (click)="reply(commentList)"
+                  >{{ commentList?.reply_note_ids?.length }} {{ 'replies' | translate }}</span
+                >
+              </div>
+            </div>
+            <div class="p-col-12 answer-section no-padding">
+              <div class="answer-section" style="display: block; position: relative">
+                <div class="ckeditor">
+                  <ckeditor #editor [editor]="Editor" [formControl]="commentForm" (ready)="onReady($event)" [config]="config"></ckeditor>
+                </div>
+                <!-- <mat-form-field appearance="outline" class="comment">
+                  <input matInput [formControl]="commentForm" class="comment-text" placeholder="{{ 'Answer' | translate }}" />
+                </mat-form-field> -->
+                <button
+                  matSuffix
+                  mat-icon-button
+                  [disabled]="!commentForm.value"
+                  (click)="addReply(commentList)"
+                  style="position: absolute; right: 12px; top: 10px; transform: rotate(337deg)"
+                >
+                  <mat-icon class="mat-icon-status">send</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #noData>
+    <div class="p-grid no-comment">
+      <div class="p-col-12">
+        <h3 style="text-align: center">{{ 'No Data' | translate }}</h3>
+      </div>
+    </div>
+  </ng-template>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>

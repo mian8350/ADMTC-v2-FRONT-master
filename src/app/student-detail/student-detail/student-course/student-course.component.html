@@ -1,0 +1,54 @@
+<mat-card>
+        <mat-card-content>
+            <div fxLayout="row wrap">
+                <div fxFlex="17" fxFlex.lt-sm="25" class="padding">
+                    <label >{{'Scholer Season' | translate}}</label>
+                </div>
+                <div fxFlex="40" fxFlex.lt-sm="60">
+                        <mat-form-field>
+                      <mat-select matNativeControl value="2017-2019">
+                        <mat-option value="2017-2019">2017-2019</mat-option>
+                        <mat-option value="2018-2020">2018-2020</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="5" fxFlex.lt-md="10">
+                </div>
+                <div fxFlex="20" fxFlex.lt-md="60">
+                        <div style="padding-top: 15px;">
+                            <!-- formControlName="parallelIntake" -->
+                            <mat-slide-toggle ><label style="color: #fff">{{'Parallel Intake' | translate}}</label></mat-slide-toggle>
+                        </div>
+                </div>
+            </div>
+
+            <!-- Select RNCP Title -->
+            <div fxLayout="row wrap">
+                    <div fxFlex="17" fxFlex.lt-sm="25" class="padding">
+                        <label >{{'RNCP Title' | translate}}</label>
+                    </div>
+                    <div fxFlex="40" fxFlex.lt-sm="60">
+                            <mat-form-field>
+                          <mat-select matNativeControl value="S-RMO">
+                            <mat-option value="S-RMO">S-RMO</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                </div>
+                </div>
+
+            <!-- Select Class -->
+                <div fxLayout>
+                        <div fxFlex="17" fxFlex.lt-sm="25" class="padding">
+                            <label >{{'Class' | translate}}</label>
+                        </div>
+                        <div fxFlex="40" fxFlex.lt-sm="60">
+                                <mat-form-field>
+                              <mat-select matNativeControl value="Class RMO">
+                                <mat-option value="Class RMO">Class RMO</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                    </div>
+                    </div>
+
+        </mat-card-content>
+    </mat-card>

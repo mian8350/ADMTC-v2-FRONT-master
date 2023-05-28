@@ -1,0 +1,371 @@
+<!-- ----------------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- INFORMATION SECTION (FAISAL) -->
+
+<div class="wraper">
+  <div class="p-grid">
+    <button mat-raised-button color="accent" (click)="goToScheduleJuries()">{{ 'Go to Jury Mark Entry Table' | translate }}</button><br />
+    <div class="p-col-12">
+      <div class="p-grid">
+        <div class="p-col-4">
+          <div class="flex">
+            <span class="setup-info-key">{{ 'RNCP Titles' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value">{{ setupScheduleInfo?.rncp_id?.short_name }}</div>
+          </div>
+          <div class="flex">
+            <span class="setup-info-key">{{ 'Class' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value">{{ setupScheduleInfo?.class_id?.name }}</div>
+          </div>
+          <div class="flex" style="height: 30px"></div>
+        </div>
+        <div class="p-col border-left">
+          <div class="flex">
+            <span class="setup-info-key" style="padding-top: 5px">{{ 'School' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value width-10rem" style="margin-bottom: -10px;">
+              <ng-select
+                placeholder="{{ 'School' | translate }}"
+                [clearable]="false"
+                [formControl]="schoolSuperFilter"
+                (change)="selectSuperFilterSchool()"
+              >
+                <ng-option value="">{{ 'AllM' | translate }}</ng-option>
+                <ng-option *ngFor="let school of schoolSuperList" [value]="school?._id">{{ school?.short_name }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="flex">
+            <span class="setup-info-key" style="padding-top: 5px">{{ 'Status' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value width-10rem">
+              <ng-select
+                placeholder="{{ 'Status' | translate }}"
+                [clearable]="false"
+                [formControl]="statusSuperFilter"
+                (change)="selectSuperFilterStatus()"
+              >
+                <ng-option value="">{{ 'AllM' | translate }}</ng-option>
+                <ng-option *ngFor="let status of statusSuperList" [value]="status?.value">{{ 'student_status.' + status?.name | translate }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+          <div class="flex last-info">
+            <span class="setup-info-key" style="padding-top: 3px">{{ 'SETUPSCHEDULE.Number of Student' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value">{{ dataCount }}</div>
+          </div>
+          <div class="flex" *ngIf="!schoolAddressHide">
+            <span class="setup-info-key">{{ 'School Address' | translate }}</span
+            ><span>:</span>
+            <div class="setup-info-value">
+              {{ schoolAddress?.school_address[0]?.address1 }} {{ schoolAddress?.school_address[0]?.postal_code }}
+              {{ schoolAddress?.school_address[0]?.city }} {{ schoolAddress?.school_address[0]?.region }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+
+<!-- SCHEDULE TABLE (FIRGHI)  -->
+
+<!-- ============================================================================================================================== -->
+
+<section>
+  <div style="overflow: hidden">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+      <ng-container matColumnDef="reset" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+          <div class="buttons-wraper">
+            <div>
+              <button (click)="goPreviousStep()" mat-raised-button color="warn">
+                <mat-icon class="mat-icon-default">arrow_back</mat-icon>
+                {{ 'SETUPSCHEDULE.Previous Step' | translate }}
+              </button>
+              <button (click)="allJuryOrganization()" mat-raised-button color="warn">
+                <mat-icon class="icon-display mat-icon-default">logout</mat-icon>
+                {{ 'SETUPSCHEDULE.Leave' | translate }}
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button color="accent" (click)="openJuryKit()">
+                <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'JURY_ORGANIZATION.JURY_KIT' | translate }}
+              </button>
+              <button
+                mat-raised-button
+                color="accent"
+                [disabled]="!schoolSuperFilter.value || !selection.selected.length"
+                (click)="openBlockNotEvaluated()"
+              >
+                <mat-icon class="mat-icon-default">school</mat-icon>
+                {{ 'SETUPSCHEDULE.Bloc not evaluated' | translate }}
+              </button>
+
+              <!-- Hide button for publish multiple -->
+              <button mat-raised-button color="accent" [disabled]="selection.selected.length === 0" (click)="multiplePublish()">
+                <mat-icon class="mat-icon-svgIcon" svgIcon="cube-send"></mat-icon>
+                {{ 'SETUPSCHEDULE.Publish' | translate }}
+              </button>
+              <button (click)="resetSelection()" mat-raised-button color="primary">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+            </div>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- FILTER STARTS ---------------------------------------------------------------------->
+      <ng-container matColumnDef="selectFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="studentFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input matInput class="form-field" [formControl]="studentFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+          <ng-select
+            placeholder="{{ 'School' | translate }}"
+            [clearable]="false"
+            [formControl]="schoolFilter"
+            [appendTo]="'body'"
+            (change)="selectSchoolType()"
+            class="select-school"
+          >
+            <ng-option value="">{{ 'AllM' | translate }}</ng-option>
+            <ng-option *ngFor="let school of schoolList" [value]="school?._id">{{ school?.short_name }}</ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+
+      <ng-container *ngFor="let block of juryBlocks; let i = index" matColumnDef="B{{ i + 1 }}_filter">
+        <th mat-header-cell *matHeaderCellDef class="col-block">
+          <mat-form-field>
+            <mat-select style="margin-top: 6px" [(ngModel)]="blockForms['B' + i]" (selectionChange)="updateFilterBlockValue(block, $event)" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option value="">{{ 'AllM' | translate }}</mat-option>
+              <mat-option *ngFor="let status of blockFilterDropdown" [value]="status?.value">
+                {{ status?.viewValue | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container *ngFor="let block of specializationBlock; let i = index" matColumnDef="S{{ i + 1 }}_filter">
+        <th mat-header-cell *matHeaderCellDef class="col-block">
+          <mat-form-field>
+            <mat-select style="margin-top: 6px" [(ngModel)]="blockSpecializationForms['S' + i]" (selectionChange)="updateFilterBlockValue(block, $event)" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option value="">{{ 'AllM' | translate }}</mat-option>
+              <mat-option *ngFor="let status of blockFilterDropdown" [value]="status?.value">
+                {{ status?.viewValue | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field style="margin-top: 6px">
+            <mat-select [formControl]="statusFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option *ngFor="let status of statusFilterDropdown" [value]="status?.value">
+                {{ status?.viewValue | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- DATA STARTS ------------------------------------------------------------------------->
+
+      <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection?.hasValue() && (isAllSelected() || allSelected)"
+            [indeterminate]="selection?.hasValue() && (!isAllSelected() || !allSelected)"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event && element?._id ? selection?.toggle(element?._id) : null"
+            [checked]="selection?.isSelected(element?._id) || allSelected"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="student" sticky>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'SETUPSCHEDULE.Student' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="student_name">
+            <h5>{{ 'SETUPSCHEDULE.Student' | translate }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [matTooltip]="
+            element?.student_id?.last_name.toUpperCase() +
+            ' ' +
+            element?.student_id?.first_name +
+            ' ' +
+            (element?.student_id?.civility | translate)
+          "
+          matTooltipPosition="above"
+        >
+          {{ element?.student_id?.last_name.toUpperCase() }} {{ element?.student_id?.first_name }}
+          {{ element?.student_id?.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school" sticky>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'SETUPSCHEDULE.School' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="school">
+            <h5>{{ 'SETUPSCHEDULE.School' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="element?.school?.short_name" matTooltipPosition="above">
+          {{ element?.school?.short_name }}
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let block of juryBlocks; let i = index" matColumnDef="B{{ i + 1 }}">
+        <th mat-header-cell *matHeaderCellDef matTooltipPosition="above">
+          <div [mat-sort-header]="'block-status-' + block">
+            <h5 class="text-center">B{{ i + 1 }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element; let rowIndex = index"
+          [ngClass]="blockMatrix[rowIndex][i] === 'selected' ? 'green' : 'red'"
+          class="text-center position-relative pl-0 col-block"
+        >
+          <mat-icon *ngIf="blockMatrix[rowIndex][i] === 'selected'"> check_circle </mat-icon>
+          <mat-icon *ngIf="blockMatrix[rowIndex][i] === 'not_selected'"> minimize </mat-icon>
+          <mat-icon *ngIf="blockMatrix[rowIndex][i] === 'exempted'"> do_not_disturb_alt </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let block of specializationBlock; let i = index" matColumnDef="S{{ i + 1 }}">
+        <th mat-header-cell *matHeaderCellDef matTooltipPosition="above">
+          <div [mat-sort-header]="'block-status-' + block">
+            <h5 class="text-center">S{{ i + 1 }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element; let rowIndex = index"
+          class="text-center position-relative pl-0 col-block"
+        >
+        <div [ngClass]="blockMatrix[rowIndex][juryBlocks.length + i] === 'selected' ? 'green' : 'red'" *ngIf="element?.blocks_for_grand_oral[juryBlocks.length + i]?.is_selected && element?.student_id?.specialization">
+          <mat-icon *ngIf="blockMatrix[rowIndex][juryBlocks.length + i] === 'selected'"> check_circle </mat-icon>
+          <mat-icon *ngIf="blockMatrix[rowIndex][juryBlocks.length + i] === 'not_selected'"> minimize </mat-icon>
+          <mat-icon *ngIf="blockMatrix[rowIndex][juryBlocks.length + i] === 'exempted'"> do_not_disturb_alt </mat-icon>
+        </div>
+        <p *ngIf="(!element?.blocks_for_grand_oral[juryBlocks.length + i]?.is_selected && !element?.student_id?.specialization) || (element?.blocks_for_grand_oral[juryBlocks.length + i]?.is_selected && !element?.student_id?.specialization) || (!element?.blocks_for_grand_oral[juryBlocks.length + i]?.is_selected && element?.student_id?.specialization)"> - </p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'SETUPSCHEDULE.Status' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="is_publish">
+            <h5>
+              <mat-icon class="mat-icon-svgIcon" svgIcon="cube-send"></mat-icon>
+            </h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element?.is_published ? ('SETUPSCHEDULE.Published' | translate) : ('SETUPSCHEDULE.Not Published' | translate) }}"
+          matTooltipPosition="above"
+        >
+          <mat-icon [ngClass]="element?.is_published ? 'green' : 'red'" aria-hidden="true">
+            {{ element?.is_published ? 'check_circle' : 'cancel' }}
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'SETUPSCHEDULE.Action' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'SETUPSCHEDULE.Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            *ngIf="!element?.is_published"
+            (click)="openBlockNotEvaluated(element)"
+            matTooltip="{{ 'SETUPSCHEDULE.Exemption' | translate }}"
+          >
+            <mat-icon>do_not_disturb_alt</mat-icon>
+          </button>
+          <!-- <button
+              (click)="setSessionAsignJury(element)"
+              *ngIf="!element?.is_published"
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'SETUPSCHEDULE.Set up session' | translate }}"
+            >
+              <mat-icon>edit</mat-icon>
+            </button> -->
+          <!-- Hide button individual publish for hotfix -->
+          <span>
+            <mat-icon
+              [matTooltip]="element?.is_published ? ('Published' | translate) : ('Not Published' | translate)"
+              (click)="individualPublish(element)"
+              class="publish-icon"
+              [ngClass]="element?.is_published ? 'green' : 'red'"
+              >check_box</mat-icon
+            >
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']; sticky: true"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+  </div>
+  <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+    {{ 'SETUPSCHEDULE.NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+      class="mat-paginator-sticky"
+      [length]="dataCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</section>

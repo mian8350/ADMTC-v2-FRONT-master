@@ -1,0 +1,31 @@
+// .mat-tab-label {
+@use '@angular/material' as mat;
+// 	color: rgba(0,0,0,1);
+// 	align-items: center;
+// 	display: flex;
+// 	opacity: 1;
+// 	justify-content: center;
+// }
+
+.app-dark .mat-tab-label {
+	color: mat.get-color-from-palette($dark-foreground, base);
+}
+
+.mat-tab-label {
+	min-width: 25px !important;
+	padding: 0.7rem !important;
+	opacity: 1 !important;
+}
+
+.mat-tab-label.mat-tab-label-active {
+	background-color: transparent;
+	color: #ffd740 !important;
+	font-weight: 900;
+	box-shadow: -0.8px 0px 0px 0px #607d8b, 0.8px 0px 0px 0px #607d8b;
+	border-right: 2.5px solid #607d8b;
+	border-left: 2.5px solid #607d8b;
+}
+
+.app-dark .mat-tab-group.mat-primary .mat-ink-bar, .app-dark .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+	background-color: #506169;
+}

@@ -1,0 +1,110 @@
+{
+  "assignJury": [
+    {
+      "classId": "5b76599f1055982f94f5051d",
+      "dateStart": "2019-05-27T16:00:00.000Z",
+      "dateFinish": "2019-07-27T16:00:00.000Z",
+      "isJuryAssigned": true,
+      "numberOfJury": 2,
+      "rncpId": { "_id": "5b7657400006052c18abbb11", "shortName": "S-Z-MO-08" },
+      "school": {
+        "longName": "Z-CertiTest08",
+        "schoolAddress": { "address1": "214 MONTEE DU ROCHER ", "address2": "", "postalCode": "86195", "city": "ANNOISIN" },
+        "shortName": "Z-CertiTest08",
+        "_id": "5b7657400006052c18abbb10"
+      },
+      "retakeCenter": "Center1",
+      "statusActive": true,
+      "students": [
+        "5bc9934066dcb81b731dbea2",
+        "5bcee07e48fb2941b49baede",
+        "5bbca09dea51f4114458f8f0",
+        "5bbca10cea51f4114458f900",
+        "5bfce6f5ae773b019b1483e6",
+        "5c74bb3c4142292ca5cf28b0",
+        "5ce219c889b79c4bc8436904",
+        "5ce21b9489b79c4bc84369d9"
+      ],
+      "testId": "5bebe65c5c87d94a910f9cd9",
+      "_id": "5bfe03c98cb2b36187722bc3"
+    },
+    {
+      "classId": "5b76599f1055982f94f5051d",
+      "dateStart": "2019-08-08T16:00:00.000Z",
+      "dateFinish": "2019-09-08T16:00:00.000Z",
+      "isJuryAssigned": false,
+      "numberOfJury": 2,
+      "rncpId": { "_id": "5b7657400006052c18abbb11", "shortName": "S-Z-MO-08" },
+      "school": {
+        "longName": "Z-EcoleTest08",
+        "schoolAddress": { "address1": "33 BD DE PARIS", "address2": "", "postalCode": "13002", "city": "MARSEILLE" },
+        "shortName": "Z-EcoleTest08",
+        "_id": "5b7657910006052c18abbb17"
+      },
+      "retakeCenter": "Center2",
+      "statusActive": true,
+      "students": [
+        "5bd6c91a10440c7ce9ddc5cd",
+        "5bae507e835abd37d66dc1d0",
+        "5bbca3ebea51f4114458fb1c",
+        "5bbcb44c9241912fe42d5579",
+        "5bbcb4999241912fe42d558c",
+        "5bbcb4d59241912fe42d559c",
+        "5bbcb5159241912fe42d55ce",
+        "5bbcb54d9241912fe42d55dc",
+        "5bbda1f322c03f6f3a06faa1",
+        "5bdfef24c2d43d027e4c955d",
+        "5be110c52467ac3e6b8eed97",
+        "5bebc90163e679716dbbdd5b",
+        "5bebc93e63e679716dbbdd64",
+        "5cda4fe24c08807ffd823733"
+      ],
+      "testId": "5bebe65c5c87d94a910f9cd9",
+      "_id": "5cbe73bd5ae970104463526c"
+    },
+    {
+      "classId": "5b76599f1055982f94f5051d",
+      "dateStart": "2019-05-29T16:00:00.000Z",
+      "dateFinish": "2019-06-29T16:00:00.000Z",
+      "isJuryAssigned": false,
+      "numberOfJury": 1,
+      "rncpId": { "_id": "5b7657400006052c18abbb11", "shortName": "S-Z-MO-08" },
+      "school": {
+        "longName": "Z-Prepare-08",
+        "schoolAddress": { "address1": "Paris", "address2": "", "postalCode": "67889", "city": "Paris" },
+        "shortName": "Z-Prepare-08",
+        "_id": "5bfe03c98cb2b36187722bc3"
+      },
+      "retakeCenter": "Center4",
+      "statusActive": true,
+      "students": ["5bfe051e8cb2b36187722bd4", "5bfe055b8cb2b36187722bdd", "5cc11e38a15d1b6226e9fd80"],
+      "testId": "5bebe65c5c87d94a910f9cd9",
+      "_id": "5ce90266657bd17y7dea01f9"
+    },
+    {
+      "classId": "5b76599f1055982f94f5051d",
+      "dateStart": "2019-06-12T16:00:00.000Z",
+      "dateFinish": "2019-07-12T16:00:00.000Z",
+      "isJuryAssigned": true,
+      "numberOfJury": 1,
+      "rncpId": { "_id": "5b7657400006052c18abbb11", "shortName": "S-Z-MO-08" },
+      "school": {
+        "longName": "SFT 5",
+        "schoolAddress": { "address1": "France", "address2": "", "city": "Paris", "postalCode": "75000" },
+        "shortName": "SFT 5",
+        "_id": "5cbe73bd5ae970104463526c"
+      },
+      "retakeCenter": "Center1",
+      "statusActive": true,
+      "students": ["5be110c52467ac3e6b8eed92"],
+      "testId": "5bebe65c5c87d94a910f9cd9",
+      "_id": "5ce90266657bd17y7dea01hg"
+    }
+  ],
+  "retakeCenters": [
+    { "name": "Center1", "value": "1" },
+    { "name": "Center2", "value": "2" },
+    { "name": "Center3", "value": "3" },
+    { "name": "Center4", "value": "4" }
+  ]
+}

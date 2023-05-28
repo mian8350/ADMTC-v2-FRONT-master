@@ -1,0 +1,108 @@
+.row-margin {
+  margin: 0.5em 0;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.yellow-border {
+  border-color: #ffd740;
+  border-style: solid;
+  margin-bottom: 1em;
+}
+
+.font-size-12 {
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .mat-form-field-infix, .mat-input-element {
+  font-size: 12px !important;
+}
+
+.label-text-wrapper {
+  padding: 1rem;
+}
+
+.label-text {
+  display: block;
+  color: #c1cdd1;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.mat-radio-button {
+  padding-right: 1em;
+}
+
+.active-tab {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+.green-button {
+  background-color: #4caf50!important;
+    color: #fff!important;
+}
+
+.red-button {
+  background-color: red !important;
+    color: #fff!important;
+}
+
+.create-test-header-button {
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.mat-time-picker-class {
+  position: relative;
+  max-width: 300px;
+  width: 100%;
+  height: 36px;
+  border-bottom: 1px solid rgba(0,0,0,.09);
+}
+
+.timepicker-button-icon {
+  border-radius: 0px;
+  border-bottom: 1px solid #c7c7c7;
+  padding-bottom: 0.6px;
+}
+
+:host ::ng-deep button.ngx-material-timepicker-toggle {
+  border-radius: 0px !important;
+  // border-bottom: 1px solid #c7c7c7 !important;
+  padding-bottom: 0.6px !important;
+  padding-right: 0px !important;
+}
+
+// :host ::ng-deep .mat-form-field-appearance-legacy {
+// 	.mat-form-field-prefix,
+// 	.mat-form-field-suffix {
+// 		align-self: flex-end;
+// 	}
+// }
+
+.align-self-end {
+  align-self: flex-end !important;
+}
+
+.multiple-date-btn {
+  margin: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.multiple-date-icon {
+  font-size: 14px;
+}
+
+::ng-deep.custom-matselect-dropdown.mat-select-panel{
+  max-width: fit-content !important;
+}
+::ng-deep.filterPanel {
+  margin-top: 25px !important;
+}

@@ -1,0 +1,231 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+:host::ng-deep.mat-card {
+  border: 1px solid#607C8A;
+}
+:host::ng-deep.mat-tab-group {
+  margin-top: 1rem;
+  .mat-tab-header {
+    font-size: 0.9em;
+  }
+  .mat-tab-label {
+    h4 {
+      font-size: 13px;
+    }
+  }
+  .mat-tab-label-active {
+    box-shadow: unset;
+    border: unset;
+  }
+  .mat-card {
+    margin-top: 5%;
+  }
+}
+img {
+  height: 130px;
+}
+.user-summary{
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 0 5px 10px;
+  }
+}
+.student-detail {
+  font-size: 0.8rem;
+  margin-top: 7px !important;
+
+  div {
+    padding-left: 0.5em;
+  }
+
+  .student-photo {
+    width: 130px !important;
+    vertical-align: middle;
+  }
+  .right-border {
+    border-right: solid;
+    margin-top: 5px;
+  }
+  .identity {
+    font-size: 15px;
+  }
+  .contact-information {
+    // padding-top: 5px;
+    padding-left: 1em !important;
+    height: 95px;
+  }
+  span {
+    vertical-align: top;
+    margin-left: 1em;
+  }
+}
+.download-cv {
+  cursor: pointer;
+  margin-top: 23px;
+
+  .label{
+    padding: 0px;
+  }
+
+  mat-icon,
+  .label {
+    transition: all 0.5s;
+  }
+
+  &:hover mat-icon,
+  &:hover .label {
+    color: grey;
+  }
+}
+.yellow {
+  color: #ffd740;
+}
+.orange {
+  color: #f49f36;
+}
+.blue {
+  color: #36ebf4;
+}
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+.purple {
+  color: #ff46f9;
+}
+.magenta {
+  color: magenta;
+}
+.black {
+  color: #000000;
+}
+.cyan {
+  color: cyan;
+}
+.green-ic {
+  font-size: 17px;
+  width: 17px;
+  margin-top: 0px !important;
+  color: #adff2f;
+}
+.red-ic {
+  color: #ff4040;
+  font-size: 17px;
+  width: 17px;
+  margin-top: 0px !important;
+}
+.black-ic {
+  color: #000;
+  font-size: 17px;
+  width: 17px;
+  margin-top: 0px !important;
+}
+.candidate-photo {
+  // border-radius: 50%;
+  width: 100%;
+}
+.mat-icon-status {
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  padding-right: 0px;
+  width: 14px;
+}
+.status {
+  font-size: 12px;
+  color: #26abeb;
+  font-weight: 900;
+  cursor: pointer;
+}
+.status:hover {
+  text-decoration: underline;
+}
+.status-disabled {
+  font-size: 12px;
+  color: #26abeb;
+  font-weight: 900;
+}
+.actions {
+  padding-left: 14px !important;
+  display: flex;
+  position: relative;
+  top: 30px;
+  button {
+    margin-right: 1em;
+  }
+}
+.mr-left{
+  margin-left: 40px !important;
+}
+.mr-right{
+  margin-right: 7px !important;
+}
+.panel-divider {
+  border-top: 1px solid white;
+  padding-top: 0;
+  padding-bottom: 4px;
+}
+.panel-header{
+  color: #ffffff;
+  font-size: 18px;
+  height: 40px!important; 
+}
+.text-user{
+  padding-left: 13px !important;
+}
+.text-user ul {
+  list-style: none;
+  display: table;
+}
+.text-user li {
+  display: table-row;
+}
+.text-user span {
+  display: table-cell;
+  padding-right: 15px;
+}
+.text-user li> span:last-of-type {
+  display: table-cell;
+  padding-left: 15px;
+}
+display-none{
+  display: none;
+}
+// .phone{
+//   padding: 0px 0px 5px;
+// }
+:host::ng-deep.mat-expansion-panel-body {
+  height: 170px;
+}
+:host ::ng-deep .action-button .mat-icon-button .mat-button-wrapper {
+  border: 1px solid #424242;
+  border-radius: 50%;
+  background-color: #424242;
+  padding: 6px !important;
+  cursor: pointer;
+}
+:host ::ng-deep .action-button .mat-icon {
+  width: 18px;
+  vertical-align: middle;
+}
+.dot-status{
+  display: inherit;
+}
+
+.login-icon.mat-icon{
+  margin-top: 0;
+  transform: scale(0.9);
+}
+
+.last-login-container {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding-left: 0px !important;  
+}
+
+.last-login{
+  width: 130px;
+  padding-left: 0px !important;
+}

@@ -1,0 +1,6 @@
+<ng-container *ngIf="juryData?.jury_activity === 'visio_jury' || juryData?.jury_activity === 'offline_jury'">
+  <ms-setup-schedule-retake-go-visio-offline-jury></ms-setup-schedule-retake-go-visio-offline-jury>
+</ng-container>
+<ng-container *ngIf="juryData?.jury_activity === 'off_platform_jury'">
+  <ms-setup-schedule-retake-go-off-platform-jury></ms-setup-schedule-retake-go-off-platform-jury>
+</ng-container>

@@ -1,0 +1,188 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandles>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button class="mt-5px"> person_add_alt_1 </mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'Add New User' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body" style="overflow: hidden !important">
+  <ng-container *ngIf="isWaitingForResponse">
+    <div class="center-spinner">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isWaitingForResponse">
+    <div [formGroup]="addNewUserForm">
+      <div class="p-grid" style="margin-bottom: 0.5em">
+        <div class="p-col-4 pad-y-none" style="align-self: center">
+          <mat-form-field color="accent" class="full-wid">
+            <input matInput formControlName="email" type="email" placeholder="{{ 'Mail' | translate }}" required />
+            <mat-error *ngIf="addNewUserForm.get('email').hasError('required')">{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <ng-container *ngIf="isAlreadyRegistered">
+          <div class="p-col-4 pad-y-none" style="align-self: center">
+            <button [disabled]="addNewUserForm.get('email').invalid" mat-raised-button color="accent" (click)="verifyEmail()">
+              {{ 'COMPANY.Check Email Availability' | translate }}
+            </button>
+          </div>
+          <div class="p-col-3" style="margin-top: 0.5em">
+            <mat-progress-spinner *ngIf="isVerifyingEmail" [diameter]="25" mode="indeterminate" color="accent"></mat-progress-spinner>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="emailStatus">
+          <ng-container *ngIf="emailStatus === 'valid'">
+            <div class="p-col-4 pad-y-none" style="align-self: center; display: flex;">
+              <mat-icon style="color: green;">
+                check_circle
+              </mat-icon>
+              <p>{{ 'EMAIL_VALID' | translate }}</p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="emailStatus === 'not_valid'">
+            <div class="p-col-4 pad-y-none" style="align-self: center; display: flex;">
+              <mat-icon style="color: red;">
+                check_circle
+              </mat-icon>
+              <p style="padding-left: 10px">{{ 'LOGIN.EMAIL_INVALID' | translate }}</p>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <ng-container *ngIf="!isAlreadyRegistered">
+        <div class="p-grid">
+          <div class="p-col-12 pad-y-none">
+            <mat-radio-group formControlName="civility" style="color: black" required>
+              <span>{{ 'Civility' | translate }} *</span>
+              <mat-radio-button style="margin-left: 8px" value="MR">{{ 'MR' | translate }}</mat-radio-button>
+              <mat-radio-button style="margin-left: 8px" value="MRS">{{ 'MRS' | translate }}</mat-radio-button>
+              <!-- <ng-container *ngIf="coreService?.neutralCivility">
+                <mat-radio-button style="margin-left: 8px" value="neutral">{{ 'Neutral' | translate }}</mat-radio-button>
+              </ng-container> -->
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-6 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input matInput formControlName="first_name" type="text" placeholder="{{ 'First Name' | translate }}" required />
+              <mat-error *ngIf="addNewUserForm.get('first_name').hasError('required')">{{
+                'This field is required' | translate
+              }}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="p-col-6 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input matInput formControlName="last_name" type="text" placeholder="{{ 'Last Name' | translate }}" required />
+              <mat-error *ngIf="addNewUserForm.get('last_name').hasError('required')">{{ 'This field is required' | translate }}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-4 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input matInput formControlName="office_phone" type="tel" maxlength="11" placeholder="{{ 'Office Phone' | translate }}" />
+            </mat-form-field>
+          </div>
+
+          <div class="p-col-4 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input
+                #mobileNumber
+                matInput
+                formControlName="portable_phone"
+                type="tel"
+                maxlength="11"
+                placeholder="{{ 'Mobile Phone' | translate }}"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="p-col-4 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input matInput formControlName="position" type="text" placeholder="{{ 'Position' | translate }}" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-4 pad-y-none">
+            <mat-form-field color="accent" class="full-wid">
+              <input matInput formControlName="direct_line" type="text" placeholder="{{ 'Direct Line' | translate }}" />
+            </mat-form-field>
+          </div>
+
+          <ng-container formGroupName="curriculum_vitae">
+            <div class="p-col-4 pad-y-none" [ngClass]="{ 'display-none': addNewUserForm.get('curriculum_vitae').get('s3_path').value }">
+              <mat-form-field color="accent" class="full-wid">
+                <input matInput formControlName="name" type="text" placeholder="{{ 'Curriculum Vitae' | translate }}" />
+              </mat-form-field>
+            </div>
+
+            <div class="p-col-4 pad-y-none" [ngClass]="{ 'display-none': addNewUserForm.get('curriculum_vitae').get('s3_path').value }">
+              <button
+                [disabled]="!addNewUserForm.get('curriculum_vitae').get('name').value"
+                mat-raised-button
+                color="accent"
+                style="margin-right: 10px"
+                (click)="openUploadWindow()"
+              >
+                <mat-icon class="baseline-middle">add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+              </button>
+              <input
+                #fileUploadDoc
+                type="file"
+                accept=".pdf"
+                class="hidden"
+                (click)="fileUploadDoc.value = null"
+                (change)="chooseFile($event)"
+              />
+            </div>
+
+            <div class="p-col-4 pad-y-none" [ngClass]="{ 'display-none': !addNewUserForm.get('curriculum_vitae').get('s3_path').value }">
+              <div class="p-grid">
+                <div class="p-col-6 no-padding">
+                  <span>{{ addNewUserForm.get('curriculum_vitae').get('name').value }}</span>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="downloadCV()">
+                    <mat-icon>file_download</mat-icon>
+                  </button>
+                  <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="editCV()">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button type="button" mat-icon-button mat-button-sm class="cv-file-action" (click)="deleteCV()">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<div *ngIf="!isAlreadyRegistered" mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button mat-button mat-raised-button color="primary" class="mr-0" (click)="submit()">
+    {{ 'Submit' | translate }}
+  </button>
+</div>

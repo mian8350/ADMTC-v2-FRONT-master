@@ -1,0 +1,22 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex">
+    <mat-tab label="{{'Step 1: Set the Parameters' | translate }}">
+        <ng-template matTabContent>
+            <ms-certificate-details-parameters></ms-certificate-details-parameters>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="{{'Step 2: Choose Certificate Design' | translate }}" *ngIf="statusCertiDegree !== 'first'">
+        <ng-template matTabContent>
+            <ms-certificate-details-design></ms-certificate-details-design>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="{{'Step 3: Preview of Certificate' | translate }}" *ngIf="!statusPreviewList.includes(statusCertiDegree)">
+        <ng-template matTabContent>
+            <ms-certificate-details-preview></ms-certificate-details-preview>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="{{'Step 4: Issuing Certification' | translate }}" *ngIf="statusCertiDegree === 'fourth'">
+        <ng-template matTabContent>
+            <ms-certificate-details-issuance></ms-certificate-details-issuance>
+        </ng-template>
+    </mat-tab>
+  </mat-tab-group>

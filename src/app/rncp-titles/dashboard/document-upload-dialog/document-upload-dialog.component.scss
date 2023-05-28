@@ -1,0 +1,37 @@
+:host::ng-deep .mat-dialog-content {
+  overflow: unset !important;
+}
+
+.doctype-input {
+  width: 90%;
+}
+
+.uploaded-file-wrapper {
+  display: block;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.no-padding {
+  padding-top: 0 !important;
+}
+
+h1{
+  color: black;
+  margin-left: 6px;
+  margin-bottom: 10px !important;
+}
+
+.dialog-body {
+  font-size: 14px !important;
+}
+
+.mat-select{
+  margin-bottom: -7px;
+}
+.disabled-text {
+  color: #9e9e9ecf;
+  font-weight: 100;
+}

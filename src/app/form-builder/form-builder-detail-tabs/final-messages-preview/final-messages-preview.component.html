@@ -1,0 +1,16 @@
+<div class="p-grid">
+    <div class="p-col-4" [innerHTML]="formData?.direction"></div>
+</div>
+<div class="p-grid" style="border-top: 1px solid white">
+    <div class="p-col-12">
+        <ng-container *ngFor="let segement of formData?.segments; let segmentIndex = index">
+            <div class="content" *ngFor="let question of segement?.questions">
+                <div class="header" [innerHTML]="question?.final_message_question?.final_message_summary_header">
+                </div>
+                <img src="{{serverimgPath}}{{question?.final_message_question?.final_message_image?.s3_file_name}}" class="img-preview" *ngIf="question?.final_message_question?.final_message_image?.s3_file_name"> <br>
+                <div class="footer" [innerHTML]="question?.final_message_question?.final_message_summary_footer">
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

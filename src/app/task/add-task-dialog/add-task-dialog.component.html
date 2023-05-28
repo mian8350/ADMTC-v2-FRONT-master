@@ -1,0 +1,244 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid" style="vertical-align: middle">
+      <div class="w-30 no-padding">
+        <mat-icon class="mt-2px" svgIcon="tick-checkbox" style="width: 24px; height: 36px"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span>{{ 'Add_Task' | translate }}</span>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+  <div class="test-card-form" style="margin-bottom: 0.5rem">
+    <div class="p-grid no-padding">
+      <div style="width: 100%">
+        <form [formGroup]="form">
+          <div>
+            <mat-slide-toggle
+              *ngIf="permissionService.internalTaskInTaskTablePerm()"
+              [checked]="internalChecked"
+              formControlName="internalTask"
+              (change)="intenalTaskToggleChange($event)"
+              >{{
+                form?.get('internalTask')?.value ? ('Internal_Task_ON' | translate) : ('Internal_Task_OFF' | translate)
+              }}</mat-slide-toggle
+            >
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="is_self_reminder_task" (change)="selfReminderToggleChange($event)">{{
+              selfReminderToggle ? ('Task is Self Reminder Task' | translate) : ('Task is Not Self Reminder Task' | translate)
+            }}</mat-slide-toggle>
+          </div>
+          <div *ngIf="!internalTaskToggle && !selfReminderToggle">
+            <mat-form-field appearance="outline">
+              <input
+                type="text"
+                placeholder="{{ 'TASK.RNCP_Title' | translate }}*"
+                matInput
+                formControlName="rncpTitle"
+                [matAutocomplete]="autoRncpTitle"
+                (keyup)="keyupTitle('type')"
+              />
+              <mat-autocomplete
+                autoActiveFirstOption
+                #autoRncpTitle="matAutocomplete"
+                (optionSelected)="valueChange('title')"
+                [panelWidth]="'fit'"
+              >
+                <mat-option *ngFor="let title of rncpTitlesList" [value]="title.short_name" (click)="selectedTitle(title._id)">
+                  {{ title.short_name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <input
+                type="text"
+                placeholder="{{ 'TASK.Class' | translate }}*"
+                matInput
+                formControlName="class_id"
+                [disabled]="form.get('rncpTitle').value"
+                [readonly]="form.get('rncpTitle').invalid"
+                [matAutocomplete]="autoClass"
+              />
+              <mat-autocomplete
+                autoActiveFirstOption
+                #autoClass="matAutocomplete"
+                (optionSelected)="valueChange('class')"
+                [panelWidth]="'fit'"
+              >
+                <mat-option *ngFor="let class of classes" [value]="class.name" (click)="selectedClass(class._id)">
+                  {{ class.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <label>{{ 'User' | translate }} </label>
+            <mat-slide-toggle [checked]="checked" (change)="categoryChange($event)" formControlName="categoryChecked">{{
+              'TUTORIAL_MENU.CATEGORY' | translate
+            }}</mat-slide-toggle>
+          </div>
+
+          <ng-container *ngIf="!selfReminderToggle">
+            <mat-form-field appearance="outline" *ngIf="!form.get('categoryChecked').value">
+              <input
+                type="text"
+                placeholder="{{ 'User' | translate }}*"
+                (keyup)="keyupUser('type')"
+                matInput
+                formControlName="users"
+                [matAutocomplete]="autoUsers"
+              />
+              <mat-autocomplete
+                autoActiveFirstOption
+                #autoUsers="matAutocomplete"
+                (optionSelected)="valueChange('user')"
+                [panelWidth]="'fit'"
+              >
+                <mat-option disabled *ngIf="userNotFound">{{ 'User not Found' | translate }} </mat-option>
+                <mat-option *ngFor="let user of userList" (click)="selectedUser(user)" [value]="user.first_name + ' ' + user.last_name">
+                  {{ user.first_name }} {{ user.last_name | uppercase }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <ng-container *ngIf="isAcademicDirector">
+              <mat-form-field appearance="outline" *ngIf="!form.get('categoryChecked').value">
+                <input
+                  type="text"
+                  placeholder="{{ 'School' | translate }}"
+                  matInput
+                  [formControl]="schoolCtrl"
+                  [matAutocomplete]="autoSchool"
+                />
+                <mat-autocomplete
+                  autoActiveFirstOption
+                  #autoSchool="matAutocomplete"
+                  (optionSelected)="valueChange('school')"
+                  [panelWidth]="'fit'"
+                >
+                  <mat-option *ngFor="let school of schoolFiltered | async" (click)="selectedSchool(school)" [value]="school.short_name">
+                    {{ school.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </ng-container>
+
+            <mat-form-field *ngIf="form.get('categoryChecked').value">
+              <input
+                type="text"
+                placeholder="{{ 'TUTORIAL_MENU.CATEGORY' | translate }}"
+                matInput
+                formControlName="userTypes"
+                [matAutocomplete]="autoUserTypes"
+                (keyup)="keyupUserType('type')"
+              />
+              <mat-autocomplete
+                autoActiveFirstOption
+                #autoUserTypes="matAutocomplete"
+                (optionSelected)="valueChange('type')"
+                [panelWidth]="'fit'"
+              >
+                <mat-option
+                  *ngFor="let userType of userTypesList"
+                  (click)="selectedUserType(userType._id)"
+                  value="{{ 'USER_TYPES.' + userType.name | translate }}"
+                >
+                  {{ 'USER_TYPES.' + userType.name | translate }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </ng-container>
+
+          <div class="p-grid">
+            <div class="p-col-6 pad-t-md pad-l-none">
+              <label>{{ 'DASHBOARD.PRIORITY' | translate }}:</label>
+              <mat-radio-group formControlName="priority">
+                <mat-radio-button value="1" id="one">1</mat-radio-button>
+                <mat-radio-button value="2" id="two">2</mat-radio-button>
+                <mat-radio-button value="3" id="three">3</mat-radio-button>
+                <!-- <mat-error>{{'This field is required'|translate}}</mat-error> -->
+              </mat-radio-group>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  (click)="picker.open()"
+                  readonly
+                  placeholder="{{ 'DASHBOARD.DUEDATE' | translate }}"
+                  formControlName="date"
+                  [min]="today"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field>
+            <textarea matInput placeholder="{{ 'Description' | translate }}" rows="2" formControlName="description"></textarea>
+            <mat-error>{{ 'This field is required' | translate }}</mat-error>
+          </mat-form-field>
+
+          <ng-container *ngIf="isADMTC">
+            <div class="p-grid">
+              <div class="p-col-7 pad-l-none">
+                <mat-form-field>
+                  <input
+                    matInput
+                    placeholder="{{ 'TASK.NAMEDOCUMENT' | translate }}"
+                    #docAdd
+                    onkeypress="return /[^?*:\/]/i.test(event.key)"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="p-col-5 pad-r-none">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="!docAdd.value"
+                  class="float-right"
+                  type="button"
+                  (click)="addDocument(docAdd)"
+                >
+                  {{ 'TASK.ADDEXPECTEDDOCUMENT' | translate }}
+                </button>
+              </div>
+            </div>
+            <div formArrayName="documents" *ngFor="let document of documents?.value; let i = index">
+              <mat-form-field [formGroupName]="i" style="width: 80%">
+                <input matInput type="text" formControlName="name" [readonly]="form.value.documents[i].isDocumentAssigned" />
+              </mat-form-field>
+              <a color="primary" type="button" (click)="removeDocument(i)" style="cursor: pointer">
+                <mat-icon>remove_circle</mat-icon>
+              </a>
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+  <button mat-raised-button color="primary" (click)="createTask()">
+    {{ 'SUBMIT' | translate }}
+  </button>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

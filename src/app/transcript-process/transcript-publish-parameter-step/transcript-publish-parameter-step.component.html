@@ -1,0 +1,220 @@
+<div class="mrgn-t-md">
+  <div class="p-grid mrgn-b-sm">
+    <div class="p-col-6 text-left pad-t-none">
+      <button mat-raised-button color="warn" (click)="leave()">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+    </div>
+    <div class="p-col-6 text-right pad-t-none">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="savePublishParameter()"
+        [disabled]="!publishParameterForm.valid || comparison()"
+        *ngIf="publishParameterForm?.get('transcript_process_status')?.value === 'initial_setup'"
+      >
+        {{ 'Save' | translate }}
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="margin-none"
+        [disabled]="!publishParameterForm.valid"
+        (click)="startInputDecision()"
+        *ngIf="publishParameterForm?.get('transcript_process_status')?.value === 'initial_setup'"
+      >
+        {{ 'FINAL_TRANSCRIPT.start_input_decision' | translate }}
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="savePublishParameter()"
+        [disabled]="!publishParameterForm.valid || comparison()"
+        *ngIf="publishParameterForm?.get('transcript_process_status')?.value !== 'initial_setup'"
+      >
+        {{ 'Save' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-6" [formGroup]="publishParameterForm">
+      <div class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ 'FINAL_TRANSCRIPT.rule_to_display_result' | translate }}</h3>
+        </div>
+        <div class="p-col-12">
+          <mat-slide-toggle formControlName="is_diploma_must_uploaded">
+            <span
+              [ngStyle]="{ color: publishParameterForm.get('is_diploma_must_uploaded').value ? '#ffe77a' : 'white' }"
+              class="fix-font-size"
+            >
+              {{
+                (publishParameterForm.get('is_diploma_must_uploaded').value
+                  ? 'TRANSCRIPT_PROCESS.SLIDERS.student_upload_diploma_on'
+                  : 'TRANSCRIPT_PROCESS.SLIDERS.student_upload_diploma_off'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+        <div class="p-col-12" style="margin-top: 5px">
+          <mat-slide-toggle formControlName="is_employability_survey_must_completed">
+            <span
+              [ngStyle]="{ color: publishParameterForm.get('is_employability_survey_must_completed').value ? '#ffe77a' : 'white' }"
+              class="fix-font-size"
+            >
+              {{
+                (publishParameterForm.get('is_employability_survey_must_completed').value
+                  ? 'TRANSCRIPT_PROCESS.SLIDERS.student_complete_survey_on'
+                  : 'TRANSCRIPT_PROCESS.SLIDERS.student_complete_survey_off'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+        <div class="p-col-12" style="margin-top: 5px">
+          <mat-slide-toggle formControlName="is_administrative_must_completed">
+            <span
+              [ngStyle]="{ color: publishParameterForm.get('is_administrative_must_completed').value ? '#ffe77a' : 'white' }"
+              class="fix-font-size"
+            >
+              {{
+                (publishParameterForm.get('is_administrative_must_completed').value
+                  ? 'TRANSCRIPT_PROCESS.SLIDERS.student_has_no_issue_on'
+                  : 'TRANSCRIPT_PROCESS.SLIDERS.student_has_no_issue_off'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <!-- RETAKE PARAMETER SECTION -->
+      <div class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ 'FINAL_TRANSCRIPT.Retake Parameter' | translate }}</h3>
+        </div>
+        <div class="p-col-12 py-0">
+          <!-- Slider will not displayed if for eval by competency, and will only be false so only sent Transcript N2B -->
+          <mat-slide-toggle *ngIf="classData?.type_evaluation !== 'expertise'" formControlName="is_student_can_give_decision" (change)="onChange(publishParameterForm.get('is_student_can_give_decision').value)">
+            <span
+              [ngStyle]="{ color: publishParameterForm.get('is_student_can_give_decision').value ? '#ffe77a' : 'white' }"
+              class="fix-font-size"
+            >
+              {{
+                (publishParameterForm.get('is_student_can_give_decision').value
+                  ? 'TRANSCRIPT_PROCESS.Student can reject or accept the retake offer'
+                  : 'TRANSCRIPT_PROCESS.Student automatically accept the retake offer'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+          <ng-container *ngIf="classData?.type_evaluation !== 'expertise'">
+            <p *ngIf="publishParameterForm.get('is_student_can_give_decision').value">
+              {{ 'TRANSCRIPT_PROCESS.SPECIAL_TEXT' | translate }}
+            </p>
+            <p *ngIf="!publishParameterForm.get('is_student_can_give_decision').value">
+              {{ 'TRANSCRIPT_PROCESS.SPECIAL_TEXT2' | translate }}
+            </p>
+          </ng-container>
+          <p *ngIf="classData?.type_evaluation === 'expertise'">
+            {{ 'TRANSCRIPT_PROCESS.SPECIAL_TEXT2' | translate }}
+          </p>
+        </div>
+        <div class="p-col-12" *ngIf="classData?.type_evaluation !== 'expertise'">
+          <ckeditor
+            [config]="{
+              toolbar: [
+                'heading',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'highlight:redPen',
+                'highlight:greenPen',
+                'removeHighlight',
+                'numberedList',
+                'bulletedList',
+                'link',
+                'undo',
+                'redo'
+              ],
+              link: {
+                addTargetToExternalLinks: true
+              }
+            }"
+            *ngIf="publishParameterForm.get('is_student_can_give_decision').value"
+            [editor]="Editor"
+            formControlName="final_n2_text"
+            (ready)="onReady($event)"
+          >
+          </ckeditor>
+
+          <ckeditor
+            [config]="{
+              toolbar: [
+                'heading',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'highlight:redPen',
+                'highlight:greenPen',
+                'removeHighlight',
+                'numberedList',
+                'bulletedList',
+                'link',
+                'undo',
+                'redo'
+              ],
+              link: {
+                addTargetToExternalLinks: true
+              }
+            }"
+            *ngIf="!publishParameterForm.get('is_student_can_give_decision').value"
+            [editor]="Editor"
+            formControlName="transcript_n2b"
+            (ready)="onReady($event)"
+          >
+          </ckeditor>
+        </div>
+
+        <!-- For class type evalutaion expertise always send custom text transcript_n2b  -->
+        <div class="p-col-12" *ngIf="classData?.type_evaluation === 'expertise'">
+          <ckeditor
+            [config]="{
+              toolbar: [
+                'heading',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'highlight:redPen',
+                'highlight:greenPen',
+                'removeHighlight',
+                'numberedList',
+                'bulletedList',
+                'link',
+                'undo',
+                'redo'
+              ],
+              link: {
+                addTargetToExternalLinks: true
+              }
+            }"
+            [editor]="Editor"
+            formControlName="transcript_n2b"
+            (ready)="onReady($event)"
+          >
+          </ckeditor>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

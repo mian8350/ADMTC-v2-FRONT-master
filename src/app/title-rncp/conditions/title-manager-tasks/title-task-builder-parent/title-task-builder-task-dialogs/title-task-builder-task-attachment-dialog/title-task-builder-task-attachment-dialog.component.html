@@ -1,0 +1,57 @@
+<div mat-dialog-title class="dialog-title-wrapper" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>add_box</mat-icon>
+  <h2 class="dialog-title">{{ 'Add Attachment' | translate }}</h2>
+  <button mat-icon-button class="close-icon" (click)="closeDialog()" tabindex="-1">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div class="p-grid p-align-baseline">
+  <div class="p-col">
+    <mat-form-field color="accent">
+      <mat-label>
+        <strong>{{ 'DOCUMENT NAME' | translate | titlecase }}</strong>
+      </mat-label>
+      <input matInput type="text" [formControl]="documentNameFormControl" />
+    </mat-form-field>
+  </div>
+  <div class="p-col-fixed">
+    <input
+      type="file"
+      accept="application/pdf"
+      style="display: none"
+      (click)="fileInputRef.value = ''"
+      (change)="onFileInput($event)"
+      #fileInputRef
+    />
+    <button
+      mat-button
+      mat-raised-button
+      color="accent"
+      (click)="fileInputRef.click()"
+      [disabled]="!documentNameFormControl.value || isUploadingFile"
+    >
+      <mat-icon class="mat-icon-default" *ngIf="!isUploadingFile">add</mat-icon>
+      <mat-icon class="mat-icon-default" *ngIf="isUploadingFile">
+        <mat-spinner [diameter]="18"></mat-spinner>
+      </mat-icon>
+      {{ 'Select File' | translate }}
+    </button>
+  </div>
+</div>
+<div class="mrgn-y-md p-grid p-dir-col">
+  <div class="file-item" *ngFor="let group of attachmentFilesFormArray.controls; let idx = index">
+    <mat-icon>insert_drive_file</mat-icon>
+    <span class="file-item__name">{{ group.get('file_name').value }}</span>
+    <button mat-icon-button color="warn" (click)="onDeleteFileAt(idx)">
+      <mat-icon>remove_circle</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="p-grid p-justify-end p-align-center">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="accent" [disabled]="!attachmentFilesFormArray.controls.length" (click)="onEnter()">
+    {{ 'ENTER' | translate }}
+  </button>
+</div>

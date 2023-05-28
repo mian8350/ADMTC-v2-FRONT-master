@@ -1,0 +1,77 @@
+<mat-card class="pdf-card">
+    <mat-card-title>
+        <div class="p-grid">
+            <div class="p-col-4">
+                <button mat-icon-button color="greyed" (click)="prevPreview()" *ngIf="(expertiseData.length - (currentPage + 1)) < (expertiseData.length - 1)">
+                    <mat-icon>navigate_before</mat-icon>
+                </button>
+            </div>
+            <div class="p-col-4">
+                <p style="text-align: center">Page {{currentPage + 1}} of {{expertiseData.length}}</p>
+            </div>
+            <div class="p-col-4">
+                <button mat-icon-button color="greyed" (click)="nextPreview()" style="float: right" *ngIf="(currentPage + 1) < expertiseData.length">
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-title>
+    <div class="pdf-container">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <h3 class="text-center">{{'PARAMETERS-RNCP.TEST.ConditionsTitleTxt' | translate}}</h3>
+            </div>
+            <div class="p-col-12">
+                <h5 class="text-center">{{rncpTitle?.short_name}} - {{classData?.name}} - {{rncpTitle?.long_name}}</h5>
+            </div>
+        </div>
+        <div class="p-grid outline-border-grey">
+            <div class="p-col-6"></div>
+            <div class="p-col-2"><h6 class="text-center">{{'EXPERTISE.FINALSCORE.title' | translate}}</h6></div>
+            <div class="p-col-2"><h6 class="text-center" *ngIf="markPointStatus">{{'PARAMETERS-RNCP.PDF.NumberOfPointsMax' | translate}}</h6></div>
+            <div class="p-col-2"><h6 class="text-center">{{'EXPERTISE.MINSCORE.title' | translate}}</h6></div>
+        </div>
+        <ng-container *ngFor="let expert of currentExpertise">
+            <div class="p-grid outline-border-white">
+                <div class="p-col-6"><span class="text-center">{{expert?.block_of_experise}}</span></div>
+                <div class="p-col-2">
+                    <p class="text-center">
+                        <mat-icon *ngIf="expert?.count_for_title_final_score">done</mat-icon>
+                    </p>
+                </div>
+                <div class="p-col-2"><p class="text-center" *ngIf="markPointStatus">{{expert?.max_point}}</p></div>
+                <div class="p-col-2"><p class="text-center">{{expert?.min_score}}</p></div>
+            </div>
+            <div class="p-grid outline-border-white">
+                <div class="p-col-6"><h5>{{'PARAMETERS-RNCP.TEST.SUBJECT&TEST' | translate}}</h5></div>
+                <div class="p-col-2">
+                    <h5 class="text-center" *ngIf="!markPointStatus">Coef.</h5>
+                </div>
+                <div class="p-col-2"><h5 class="text-center">{{'PARAMETERS-RNCP.TEST.WEIGHT' | translate}}</h5></div>
+                <div class="p-col-2"><h5 class="text-center">{{'EXPERTISE.MINSCORE.title' | translate}}</h5></div>
+            </div>
+            <ng-container *ngFor="let subject of expert?.subjects; let subjectIndex = index">
+                <div class="p-grid outline-border-dot">
+                    <div class="p-col-6"><p>{{subject?.subject_name}}</p></div>
+                    <div class="p-col-2"><p class="text-center" *ngIf="!markPointStatus">{{subject?.coefficient}}</p></div>
+                    <div class="p-col-2"></div>
+                    <div class="p-col-2"><p class="text-center">{{subject?.minimum_score_for_certification}}</p></div>
+                </div>
+                <ng-container *ngFor="let test of subject?.subject_tests; let subjectIndex = index">
+                    <div class="p-grid outline-border-dot">
+                        <div class="p-col-6"><p class="text-right">{{test?.evaluation}}</p></div>
+                        <div class="p-col-2"><p class="text-center">{{test?.type}}</p></div>
+                        <div class="p-col-2"></div>
+                        <div class="p-col-2"><p class="text-center">{{test?.weight}}</p></div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <div class="p-grid" style="margin-top: 10px; page-break-after: always">
+            <div class="p-col-12">
+                <h5 class="text-center">ADMTC {{rncpTitle?.short_name}} - {{classData?.name}}
+                    - CONDITIONS - 2018-2019</h5>
+            </div>
+        </div>
+    </div>
+</mat-card>

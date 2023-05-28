@@ -1,0 +1,28 @@
+.full-width {
+  width: 100%;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.dialog-title {
+  margin-left: 10px;
+  color: #000000;
+}
+
+.condition-dialog {
+  margin-top: 20px;
+  color: #000000;
+}
+
+.mat-dialog-actions {
+  // ...
+  &[align='end'] {
+    justify-content: flex-end;
+  }
+
+  &[align='center'] {
+    justify-content: center;
+  }
+}

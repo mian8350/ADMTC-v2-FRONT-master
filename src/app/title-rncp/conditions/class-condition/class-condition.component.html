@@ -1,0 +1,223 @@
+<div *ngIf="selectedRncpTitleId && selectedClassId">
+  <mat-tab-group [(selectedIndex)]="selectedIndex" disableRipple [color]="'accent'">
+    <!-- First tab always shown -->
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 (click)="setActiveTab($event, 0)" [ngStyle]="{ color: selectedIndex === 0 ? '#ffe77a' : 'white' }">
+          {{ 'Step 1 : Evaluation Type' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-first-step-eva-type
+          *ngIf="isClassDataLoaded"
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId"
+          [typeEvaluation]="typeEvaluation"
+          [subTypeEvaluation]="subTypeEvaluation"
+          [className]="className"
+          [titleName]="titleName"
+          [classConditionData]="classConditionData"
+          (update)="getClassData(); goToNextTab(1)"
+        >
+        </ms-first-step-eva-type>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Only if eval type : score -->
+    <ng-container *ngIf="typeEvaluation && typeEvaluation === 'score'">
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <h5 (click)="setActiveTab($event, 1)" [ngStyle]="{ color: selectedIndex === 1 ? '#ffe77a' : 'white' }">
+            {{ 'CONDITION_SCORE.Step 2 : Condition' | translate }}
+          </h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-second-step-score
+            *ngIf="isClassDataLoaded"
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [typeEvaluation]="typeEvaluation"
+            [subTypeEvaluation]="subTypeEvaluation"
+            [className]="className"
+            [titleName]="titleName"
+            [titleLongName]="titleLongName"
+            [evaMaxPoint]="evaMaxPoint"
+            [evaluationStep]="evaluationStep"
+            (update)="getClassData()"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-second-step-score>
+        </ng-template>
+      </mat-tab>
+      <mat-tab disabled>
+        <ng-template mat-tab-label>
+          <h5 (click)="setActiveTab($event, 2)" [ngStyle]="{ color: selectedIndex === 2 ? '#ffe77a' : 'white' }">
+            {{ 'CONDITION_SCORE.Step 3 : Validation' | translate }}
+          </h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-third-step-score
+            *ngIf="isClassDataLoaded"
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [typeEvaluation]="typeEvaluation"
+            [subTypeEvaluation]="subTypeEvaluation"
+            [className]="className"
+            [titleName]="titleName"
+            [titleLongName]="titleLongName"
+            [evaMaxPoint]="evaMaxPoint"
+            [evaluationStep]="evaluationStep"
+            (update)="getClassData()"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-third-step-score>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+
+    <!-- Only if eval type : Eval. by Expertise -->
+    <ng-container *ngIf="typeEvaluation && typeEvaluation === 'expertise'">
+      <mat-tab
+        *ngIf="evaluationStep === 'first' || evaluationStep === 'second' || evaluationStep === 'third' || evaluationStep === 'fourth' || evaluationStep === 'fifth'"
+      >
+        <ng-template mat-tab-label>
+          <h5 [ngStyle]="{ color: selectedIndex === 1 ? '#ffe77a' : 'white' }">
+            {{ 'EVAL_BY_EXPERTISE.Step 2 : Template for Competency' | translate }}
+          </h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-second-step-expertise
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [evaluationStep]="evaluationStep"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-second-step-expertise>
+        </ng-template>
+      </mat-tab>
+      <mat-tab
+        *ngIf="
+          (evaluationStep === 'second' || evaluationStep === 'third' || evaluationStep === 'fourth' || evaluationStep === 'fifth') &&
+          classConditionData?.soft_skill?.allow_soft_skill
+        "
+      >
+        <ng-template mat-tab-label>
+          <h5 [ngStyle]="{ color: selectedIndex === 2 ? '#ffe77a' : 'white' }">
+            {{ 'EVAL_BY_EXPERTISE.Step 3 : Template for Soft Skill Evaluation' | translate }}
+          </h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-third-step-expertise
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [evaluationStep]="evaluationStep"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-third-step-expertise>
+        </ng-template>
+      </mat-tab>
+      <mat-tab *ngIf="evaluationStep === 'third' || evaluationStep === 'fourth' || evaluationStep === 'fifth'">
+        <ng-template mat-tab-label>
+          <h5
+            *ngIf="classConditionData?.soft_skill?.allow_soft_skill; else Step3"
+            [ngStyle]="{ color: selectedIndex === 3 ? '#ffe77a' : 'white' }"
+          >
+            {{ 'EVAL_BY_EXPERTISE.Step 4 : Condition' | translate }}
+          </h5>
+          <ng-template #Step3>
+            <h5 [ngStyle]="{ color: selectedIndex === 2 ? '#ffe77a' : 'white' }">
+              {{ 'EVAL_BY_EXPERTISE.Step 3 : Condition' | translate }}
+            </h5>
+          </ng-template>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-fourth-step-expertise
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [className]="className"
+            [titleName]="titleName"
+            [titleLongName]="titleLongName"
+            [evaluationStep]="evaluationStep"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-fourth-step-expertise>
+        </ng-template>
+      </mat-tab>
+      <mat-tab *ngIf="evaluationStep === 'fourth' || evaluationStep === 'fifth'">
+        <ng-container *ngIf="classConditionData?.soft_skill?.allow_soft_skill">
+          <ng-template mat-tab-label>
+            <h5 [ngStyle]="{ color: selectedIndex === 4 ? '#ffe77a' : 'white' }">
+              {{ 'EVAL_BY_EXPERTISE.Step 5 : Suggested Question' | translate }}
+            </h5>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="!classConditionData?.soft_skill?.allow_soft_skill">
+          <ng-template mat-tab-label>
+            <h5 [ngStyle]="{ color: selectedIndex === 3 ? '#ffe77a' : 'white' }">
+              {{ 'EVAL_BY_EXPERTISE.Step 4 : Suggested Question' | translate }}
+            </h5>
+          </ng-template>
+        </ng-container>
+        <ng-template matTabContent>
+          <ms-fifth-sugested-question
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [evaluationStep]="evaluationStep"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-fifth-sugested-question>
+        </ng-template>
+      </mat-tab>
+      <mat-tab *ngIf="evaluationStep === 'fourth' || evaluationStep === 'fifth'">
+        <ng-container *ngIf="classConditionData?.soft_skill?.allow_soft_skill">
+          <ng-template mat-tab-label>
+            <h5
+            [ngStyle]="{ color: selectedIndex === 5 ? '#ffe77a' : 'white' }">
+              {{ 
+                'EVAL_BY_EXPERTISE.Step 6 : Grand Oral Validation' | translate 
+               }}
+            </h5>
+          </ng-template>
+        </ng-container>
+        <ng-container *ngIf="!classConditionData?.soft_skill?.allow_soft_skill">
+          <ng-template mat-tab-label>
+            <h5
+            [ngStyle]="{ color: selectedIndex === 4 ? '#ffe77a' : 'white' }">
+              {{ 
+                'EVAL_BY_EXPERTISE.Step 5 : Grand Oral Validation' | translate 
+               }}
+            </h5>
+          </ng-template>
+        </ng-container>
+        <ng-template matTabContent>
+          <ms-sixth-step-expertise
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [evaluationStep]="evaluationStep"
+            (updateStep)="updateStep($event)"
+          >
+          </ms-sixth-step-expertise>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+
+    <!-- Only if eval type : score + eval -->
+    <!-- <ng-container *ngIf="typeEvaluation && typeEvaluation === 'expertise_score'">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h5>{{ 'Step 2 : Evaluation Type: Score + Eval. by Expertise' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-first-step-eva-type
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId">
+          </ms-first-step-eva-type>
+        </ng-template>
+      </mat-tab>
+    </ng-container> -->
+  </mat-tab-group>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

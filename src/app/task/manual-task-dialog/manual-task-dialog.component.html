@@ -1,0 +1,198 @@
+<div class="header-div">
+  <mat-icon svgIcon="tick-checkbox" style="margin-bottom: 5px"></mat-icon>
+  <h2 class="header-text">
+    {{ data?.taskData?.description }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr/>
+
+<form [formGroup]="manualTaskForm" class="header-form">
+  <div fxLayout="row">
+    <div fxFlex fxLayout="column" >
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'Due Date' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ getTranslatedDate(data?.taskData?.due_date) }}
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'Assigned To' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ getAssignedUser(data?.taskData?.user_selection?.user_id) }}
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <div fxFlex="35">
+            <b>{{'Task' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ data?.taskData?.description }}
+          </div>
+        </div>
+      </div>
+
+      <!-- <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'Subject/Test' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            
+          </div>
+        </div>
+      </div> -->
+
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start" >
+          <div fxFlex="35">
+            <b>{{'Priority' | translate}} </b>
+          </div>
+          <div fxFlex="5">
+            <b>:</b>
+          </div>
+          <div fxFlex="60">
+            {{ data?.taskData?.priority }}
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="!data?.taskData?.document_expecteds?.length">
+        <div fxFlex>
+          <div fxLayout="row wrap" fxLayoutAlign="center start">
+            <div fxFlex="100" style="text-align: center; margin-top: 10px;">
+              <mat-slide-toggle color="accent" formControlName="pending_slider">
+                <span [ngClass]="{'text-slider-color': manualTaskForm.get('pending_slider').value}">
+                  {{ (manualTaskForm.get('pending_slider').value ? 'Achieved' : 'Pending') | translate }}
+                </span>
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="data?.taskData?.document_expecteds?.length">
+        <div fxFlex>
+          <div fxLayout="row wrap" fxLayoutAlign="start start" >
+            <div fxFlex="35">
+              <b>{{'Document to upload' | translate}} </b>
+            </div>
+            <div fxFlex="5">
+              <b>:</b>
+            </div>
+            <div fxFlex="60">
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex formArrayName="document_expecteds">
+          <div fxLayout="row wrap" fxLayoutAlign="start start" *ngFor="let doc of getDocExpectedArray().controls; let docIndex = index" [formGroupName]="docIndex" style="margin-top: 10px;">
+            <div fxFlex="10">
+            </div>
+            <div fxFlex="50">
+              <span>{{ doc.get('name').value }}</span>
+            </div>
+            <div fxFlex="20" style="text-align: end;">
+              <button mat-icon-button (click)="downloadDoc(doc?.get('document_id')?.value)">
+                <mat-icon [ngClass]="{ 'green-icon': doc.get('document_id').value }">insert_drive_file</mat-icon>
+              </button>
+            </div>
+            <div fxFlex="20">
+              <ng-container *ngIf="doc.get('document_id').value">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  (click)="fileUploadDoc.click()"
+                  style="margin-right: 10px"
+                >
+                <mat-icon svgIcon="pencil">edit</mat-icon> {{ 'Modify' | translate }}
+                </button>
+              </ng-container>
+              <ng-container *ngIf="!doc.get('document_id').value">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  (click)="fileUploadDoc.click()"
+                  style="margin-right: 10px"
+                >
+                  <mat-icon class="baseline-middle">add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+                </button>
+              </ng-container>
+              <input
+                #fileUploadDoc
+                type="file"
+                accept=".pdf,.jpeg,.png,.jpg"
+                class="hidden"
+                (change)="chooseFile($event, docIndex)"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="center start" >
+          <div fxFlex="100">
+            <mat-form-field color="accent" class="full-width">
+              <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="3"
+                placeholder="{{'Action Taken' | translate}}"
+                formControlName="action_taken">
+              </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div> 
+</form>
+
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'ASSIGN_CORRECTOR_DIALOG.CANCEL' | translate }}
+    </button>
+  </div>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submitManualTask()"
+      type="button"
+    >
+      {{ 'ASSIGN_CORRECTOR_DIALOG.SUBMIT' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

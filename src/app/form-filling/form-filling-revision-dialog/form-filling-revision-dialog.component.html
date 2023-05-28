@@ -1,0 +1,33 @@
+<div class="header-div"  cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <mat-icon class="dialog-header-icon" style="margin-bottom: 5px">description</mat-icon>
+    <h2 class="header-text">
+        {{'Ask For Revision' | translate}}
+    </h2>
+    <button (click)="closeDialog()" mat-icon-button type="button" class="header-icon">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <div class="body">
+        <label for="textInput">{{'What Needs to be Revised?' | translate}}</label>
+        <div id="textInput" class="ckeditor">
+          <ckeditor #editor [editor]="Editor" [formControl]="text_message" (ready)="onReady($event)" [config]="config"></ckeditor>
+        </div>
+        <div class="microphone">
+          <button mat-icon-button (click)="recordNote()" class="margin-right-button">
+            <mat-icon svgIcon="microphone">microphone</mat-icon>
+          </button>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+      <button (click)="onSubmit()" mat-raised-button color="primary">
+        {{ 'SUBMIT' | translate }}
+      </button>
+</mat-dialog-actions>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

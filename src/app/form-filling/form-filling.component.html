@@ -1,0 +1,139 @@
+<div class="gene-registerV2" style="padding-top: 3.8rem !important; background-image: none !important">
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="column" fxFlex="100" fxFlex.xs="97" fxFlex.sm="80" fxFlex.md="95" fxFlex.lg="97" fxFlex.xl="80">
+      <div
+        fxLayout="row wrap"
+        fxLayoutAlign="center stretch"
+        class="height-full pad-t-xl pad-b-xl form-wrap-row set-resp-space"
+        fxLayoutGap.gt-md="15px"
+      >
+        <div fxLayout="column" fxFlex="100">
+          <mat-card
+            class="gene-registerV2-wrap"
+            [style.min-height.px]="getAutomaticHeight()"
+            style="border: 1px solid #eeeeee; padding: 20px 0px"
+          >
+            <div class="language-drop-down">
+              <ms-language-drop-down></ms-language-drop-down>
+            </div>
+            <mat-stepper
+              *ngIf="!isWaitingForResponse"
+              [linear]="!formDetail.isPreview"
+              (selectionChange)="onStepChange($event)"
+              #stepperForm
+              [selectedIndex]="selectedIndex"
+            >
+              <ng-template matStepperIcon="done">
+                <mat-icon>done</mat-icon>
+              </ng-template>
+
+              <ng-template matStepperIcon="edit">
+                <mat-icon>done</mat-icon>
+              </ng-template>
+
+              <ng-container *ngIf="formattedSteps">
+                <mat-step
+                  [completed]="(step?.step_status === 'accept' || (isReceiver && step?.is_final_step && step?.is_validation_required && step?.step_status === 'need_validation')) ? true : false"
+                  [editable]="
+                    step?.step_status === 'ask_for_revision' ||
+                    step?.step_status === 'need_validation' ||
+                    step?.step_status === 'accept' ||
+                    formDetail?.isPreview ||
+                    formDetail?.admission_status === 'ask_for_revision'
+                      ? true
+                      : false
+                  "
+                  *ngFor="let step of formattedSteps; let stepIndex = index"
+                  disableRipple="true"
+                  [label]="step?.step_title"
+                >
+                  <ng-container
+                    *ngIf="
+                      (step?.step_type === 'question_and_field' || step?.step_type === 'academic_journey') &&
+                      (userData || formDetail.isPreview)
+                    "
+                  >
+                    <ms-form-fill-normal-question
+                      *ngIf="stepIndex === selectedIndex"
+                      [currentStepIndex]="stepIndex"
+                      [stepData]="step"
+                      [userData]="userData"
+                      [formData]="formData"
+                      (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                      [formDetail]="formDetail"
+                      [isReceiver]="isReceiver"
+                      [fieldsSurvey]="fieldsSurvey"
+                    ></ms-form-fill-normal-question>
+                  </ng-container>
+                  <ng-container *ngIf="step?.step_type === 'document_expected' && (userData || formDetail.isPreview)">
+                    <ms-form-fill-document-expected
+                      *ngIf="stepIndex === selectedIndex"
+                      [currentStepIndex]="stepIndex"
+                      [stepData]="step"
+                      [userData]="userData"
+                      [formDetail]="formDetail"
+                      [formData]="formData"
+                      (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                      (updateDocument)="fetchStudentAdmissionForm($event, true, true)"
+                    ></ms-form-fill-document-expected>
+                  </ng-container>
+                  <ng-container *ngIf="step?.step_type === 'condition_acceptance' && (userData || formDetail.isPreview)">
+                    <ms-form-fill-condition-acceptance
+                      *ngIf="stepIndex === selectedIndex"
+                      [formDetail]="formDetail"
+                      [currentStepIndex]="stepIndex"
+                      [stepData]="step"
+                      [userData]="userData"
+                      [formData]="formData"
+                      (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                    ></ms-form-fill-condition-acceptance>
+                  </ng-container>
+                  <ng-container *ngIf="step?.step_type === 'step_with_signing_process' && (userData || formDetail.isPreview)">
+                    <ms-form-fill-contract-singing-process
+                      *ngIf="stepIndex === selectedIndex"
+                      [formDetail]="formDetail"
+                      [formData]="formData"
+                      [stepData]="step"
+                      [userData]="userData"
+                      [isReceiver]="isReceiver"
+                      (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                    >
+                    </ms-form-fill-contract-singing-process>
+                  </ng-container>
+                  <ng-container *ngIf="step?.step_type === 'summary' && (userData || formDetail.isPreview)">
+                    <ms-form-fill-dynamic-summary
+                      *ngIf="stepIndex === selectedIndex"
+                      [formDetail]="formDetail"
+                      [currentStepIndex]="stepIndex"
+                      [stepData]="step"
+                      [userData]="userData"
+                      [isReceiver]="isReceiver"
+                      (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                    ></ms-form-fill-dynamic-summary>
+                  </ng-container>
+                  <ng-container *ngIf="step?.step_type === 'final_message'">
+                    <ms-form-fill-final-message [stepData]="step"></ms-form-fill-final-message>
+                  </ng-container>
+                </mat-step>
+              </ng-container>
+
+              <!-- <mat-step *ngIf="allStepsCompleted || formDetail.isPreview" label="{{ 'ERP_009_TEACHER_CONTRACT.Summary' | translate }}">
+                <ng-container *ngIf="selectedIndex === formattedSteps?.length">
+                  <ms-form-fill-summary
+                    [formDetail]="formDetail"
+                    (triggerRefresh)="fetchStudentAdmissionForm($event, true)"
+                    [userDataInput]="userData"
+                  ></ms-form-fill-summary>
+                </ng-container>
+              </mat-step> -->
+            </mat-stepper>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

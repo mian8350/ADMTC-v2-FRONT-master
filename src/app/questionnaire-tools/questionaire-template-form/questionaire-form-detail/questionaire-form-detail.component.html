@@ -1,0 +1,721 @@
+<mat-card>
+  <mat-card-title>
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <div class="p-grid">
+          <div class="p-col-6 no-padding">
+            <mat-icon style="vertical-align: middle; margin-right: 10px">border_color</mat-icon>
+            <mat-form-field style="width: 80%">
+              <input
+                matInput
+                type="text"
+                #questionnaire_name
+                placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.QuestionnaireName' | translate }}"
+                (blur)="setquestionnaire_name(questionnaire_name.value)"
+              />
+            </mat-form-field>
+          </div>
+          <div class="p-col-6 no-padding">
+            <mat-form-field>
+              <mat-select
+                [placeholder]="'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPE' | translate"
+                [(ngModel)]="questionnaire_type"
+                (selectionChange)="changequestionnaire_type($event)"
+              >
+                <mat-option value="employability_survey" (click)="selectType('employability_survey')">{{
+                  'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPES.employability-survey' | translate
+                }}</mat-option>
+                <mat-option value="mentor_evaluation" (click)="selectType('mentor_evaluation')">{{
+                  'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPES.mentor-evaluation' | translate
+                }}</mat-option>
+                <mat-option value="job_description" (click)="selectType('job_description')">{{
+                  'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPES.job_description' | translate
+                }}</mat-option>
+                <mat-option value="problematic" (click)="selectType('problematic')">{{
+                  'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPES.problematic' | translate
+                }}</mat-option>
+                <mat-option value="other" (click)="selectType('other')">{{
+                  'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TYPES.other' | translate
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 no-padding">
+        <small style="width: 100%" *ngIf="formSubmit && questionnaire.questionnaire_name == ''" class="mat-text-warn">{{
+          'DASHBOARD.ERRORS.REQUIREDFIELD' | translate
+        }}</small>
+      </div>
+    </div>
+  </mat-card-title>
+  <hr />
+  <mat-card-content>
+    <mat-tab-group mat-stretch-tabs>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>vertical_align_top</mat-icon>
+          {{ 'QUESTIONNAIRE_TOOLS.HEADER' | translate
+          }}<i *ngIf="isHeaderValid()" class="fa fa-exclamation-circle" style="margin-left: 5px; font-size: 18px; color: #ffd740"></i>
+        </ng-template>
+        <div>
+          <mat-card class="mt-5px background-primary">
+            <mat-card-header>
+              <mat-card-title>{{ 'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_TITLE' | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <hr />
+            <mat-card-content>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="px-1">
+                    <label class="mr-1">{{ 'TEXT' | translate }}</label>
+                    <button mat-mini-fab color="accent" type="button" (click)="openTextDialog('questionnaire-title-text')">
+                      <mat-icon>{{ questionnaire.questionnaire_grid.header.title === '' ? 'add' : 'edit' }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mt-5px background-primary">
+            <mat-card-header>
+              <mat-card-title>{{ 'QUESTIONNAIRE_TOOLS.MAIN_HEADER' | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <hr />
+            <mat-card-content>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="px-1">
+                    <label class="mr-1">{{ 'TEXT' | translate }}</label>
+                    <button mat-mini-fab color="accent" type="button" (click)="openTextDialog('top-header')">
+                      <mat-icon>{{ questionnaire.questionnaire_grid.header.text === '' ? 'add' : 'edit' }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mt-5px background-primary">
+            <mat-card-header>
+              <mat-card-title>{{ 'QUESTIONNAIRE_TOOLS.DIRECTION' | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <hr />
+            <mat-card-content>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="px-1">
+                    <label class="mr-1">{{ 'TEXT' | translate }}</label>
+                    <button mat-mini-fab color="accent" type="button" (click)="openTextDialog('direction-text')">
+                      <mat-icon>{{ questionnaire.questionnaire_grid.header.direction === '' ? 'add' : 'edit' }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>help</mat-icon>
+          {{ 'Questionnaire' | translate
+          }}<i
+            *ngIf="form.invalid || !questionnaireservice.getNestedValidation()"
+            class="fa fa-exclamation-circle"
+            style="margin-left: 5px; font-size: 18px; color: #ffd740"
+          ></i>
+        </ng-template>
+        <div>
+          <mat-card class="mt-5px background-primary">
+            <mat-card-header class="pb-1 px-1 justify-content-between">
+              <mat-card-title class="m-0">{{ 'QUESTIONNAIRE.BOARD.Questionnaire_Block' | translate }}</mat-card-title>
+              <button color="accent" mat-raised-button type="button" (click)="addNewCompetenceDialog()">
+                <mat-icon class="mat-icon-default">add</mat-icon>
+                {{ 'ADD' | translate }}
+              </button>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <hr />
+            <mat-card-content>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <form [formGroup]="form">
+                    <div *ngFor="let competence of form['controls']; let competenceIndex = index" [formGroupName]="competenceIndex">
+                      <mat-card class="mt-5px border-yellow">
+                        <mat-card-content>
+                          <div #blockPanel class="p-grid">
+                            <div class="p-col-11 no-padding">
+                              <mat-form-field color="accent" style="width: 100%">
+                                <input
+                                  matInput
+                                  #segmentValue
+                                  formControlName="competence_name"
+                                  (blur)="updateDocumentObject()"
+                                  [placeholder]="'QUESTIONNAIRE_TOOLS.QUESTIONNAIRE_BLOCK_NAME' | translate"
+                                  type="text"
+                                  required
+                                />
+                                <!-- <mat-error *ngIf="formSubmit && form.value[competenceIndex]['competence_name'] == ''">
+                                    {{ 'This field is required' | translate }}
+                                  </mat-error> -->
+                              </mat-form-field>
+                              <small *ngIf="formSubmit && form.value[competenceIndex]['competence_name'] == ''" class="mat-text-warn">{{
+                                'DASHBOARD.ERRORS.REQUIREDFIELD' | translate
+                              }}</small>
+                            </div>
+
+                            <div class="p-col-1 no-padding">
+                              <div style="text-align: right">
+                                <button mat-mini-fab color="warn" type="button" (click)="removeCompetence(competenceIndex)">
+                                  <mat-icon>close</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="p-grid" style="margin-bottom: 20px">
+                            <div class="p-col-12 no-padding self-center">
+                              <mat-radio-group
+                                formControlName="block_type"
+                                [(ngModel)]="form.value[competenceIndex]['block_type']"
+                                (change)="changeSelectionOption($event, competenceIndex)"
+                              >
+                                <mat-radio-button
+                                  [value]="option.selectionType"
+                                  *ngFor="let option of optionSelectionType; let indexSelection = index"
+                                  style="padding-right: 10px"
+                                >
+                                  {{ 'MENTOREVALUATION.QUESTIONNAIRE.RADIO_BTN.' + option.name | translate }}
+                                </mat-radio-button>
+                              </mat-radio-group>
+                              <mat-error *ngIf="formSubmit && form.value[competenceIndex]['block_type'] == ''">
+                                {{ 'This field is required' | translate }}
+                              </mat-error>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div class="p-grid">
+                              <button
+                                mat-raised-button
+                                type="button"
+                                color="primary"
+                                class="add-section-btn"
+                                (click)="addNewSegment(competenceIndex)"
+                              >
+                                <mat-icon>add</mat-icon>{{ 'MENTOREVALUATION.QUESTIONNAIRE.ADD_SEGEMENT' | translate }}
+                              </button>
+                            </div>
+                            <div class="p-grid">
+                              <div class="p-col-12 no-padding" formGroupName="segment">
+                                <mat-card
+                                  class="mt-5px background-primary"
+                                  *ngFor="let segment of competence.get('segment')['controls']; let segmentIndex = index"
+                                  [formGroupName]="segmentIndex"
+                                >
+                                  <mat-card-content>
+                                    <div class="p-grid">
+                                      <div class="p-col-9">
+                                        <mat-form-field color="accent" style="width: 100%">
+                                          <input
+                                            matInput
+                                            #segment_name
+                                            formControlName="segment_name"
+                                            (blur)="updateDocumentObject()"
+                                            [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.SEGEMENT_NAME' | translate"
+                                            type="text"
+                                            required
+                                          />
+                                          <!-- <mat-error *ngIf="formSubmit && form.value[competenceIndex]['segment'][segmentIndex]['segment_name'] == ''">
+                                              {{ 'This field is required' | translate }}
+                                            </mat-error> -->
+                                        </mat-form-field>
+                                        <small
+                                          *ngIf="formSubmit && form.value[competenceIndex]['segment'][segmentIndex]['segment_name'] == ''"
+                                          class="mat-text-warn"
+                                          >{{ 'DASHBOARD.ERRORS.REQUIREDFIELD' | translate }}</small
+                                        >
+                                      </div>
+
+                                      <div class="p-col-3">
+                                        <div style="text-align: right">
+                                          <button
+                                            mat-mini-fab
+                                            type="button"
+                                            color="warn"
+                                            (click)="removeSegment(competenceIndex, segmentIndex)"
+                                          >
+                                            <mat-icon>close</mat-icon>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <button
+                                      mat-raised-button
+                                      type="button"
+                                      class="add-section-btn"
+                                      (click)="AddQuestion(competenceIndex, segmentIndex)"
+                                    >
+                                      <mat-icon>add</mat-icon>{{ 'MENTOREVALUATION.QUESTIONNAIRE.AddQuestionAndField' | translate }}
+                                    </button>
+
+                                    <div formGroupName="question">
+                                      <mat-card
+                                        class="mt-5px"
+                                        *ngFor="let question of segment.get('question')['controls']; let questionIndex = index"
+                                        [formGroupName]="questionIndex"
+                                      >
+                                        <mat-card-content>
+                                          <div class="p-grid">
+                                            <div class="p-col-10" style="align-self: center; padding-bottom: 0px">
+                                              <mat-slide-toggle
+                                                #is_fieldToggle
+                                                formControlName="is_field"
+                                                (change)="
+                                                  changeis_field($event, competenceIndex, segmentIndex, questionIndex, question.value)
+                                                "
+                                              >
+                                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD' | translate }}
+                                              </mat-slide-toggle>
+                                            </div>
+                                            <div class="p-col-2" style="padding-bottom: 0px">
+                                              <div style="text-align: right">
+                                                <button
+                                                  color="warn"
+                                                  mat-mini-fab
+                                                  type="button"
+                                                  (click)="removeQuestion(competenceIndex, segmentIndex, questionIndex)"
+                                                >
+                                                  <mat-icon>close</mat-icon>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="p-grid">
+                                            <ng-template [ngIf]="!is_fieldToggle.checked">
+                                              <div
+                                                [ngClass]="{
+                                                  'p-col-4': showRequiredCheckBox(question.value),
+                                                  'p-col-6': !showRequiredCheckBox(question.value)
+                                                }"
+                                              >
+                                                <mat-form-field color="accent" style="width: 100%">
+                                                  <input
+                                                    #question_name
+                                                    matInput
+                                                    style="width: 100%"
+                                                    (blur)="updateDocumentObject()"
+                                                    formControlName="question_name"
+                                                    [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.QUESTION_NAME' | translate"
+                                                    type="text"
+                                                    required
+                                                  />
+                                                  <!-- <mat-error *ngIf="formSubmit && form.value[competenceIndex]['segment'][segmentIndex]['question'][questionIndex]['question_name'] == ''">
+                                                    {{ 'This field is required' | translate }}
+                                                  </mat-error> -->
+                                                </mat-form-field>
+                                                <small
+                                                  *ngIf="
+                                                    formSubmit &&
+                                                    form.value[competenceIndex]['segment'][segmentIndex]['question'][questionIndex][
+                                                      'question_name'
+                                                    ] == ''
+                                                  "
+                                                  class="mat-text-warn"
+                                                  >{{ 'DASHBOARD.ERRORS.REQUIREDFIELD' | translate }}</small
+                                                >
+                                              </div>
+                                              <div
+                                                [ngClass]="{
+                                                  'p-col-4': showRequiredCheckBox(question.value),
+                                                  'p-col-6': !showRequiredCheckBox(question.value)
+                                                }"
+                                                class="self-center"
+                                              >
+                                                <div class="px-1 select-input-container">
+                                                  <mat-form-field>
+                                                    <mat-select
+                                                      #question_type
+                                                      (selectionChange)="updateDocumentObject()"
+                                                      formControlName="question_type"
+                                                      [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate"
+                                                    >
+                                                      <mat-option
+                                                        *ngFor="let questionAnswerType of questionnaireConsts.questionAnswerTypes"
+                                                        (click)="
+                                                          selectAnswerType(questionAnswerType, competenceIndex, segmentIndex, questionIndex)
+                                                        "
+                                                        [value]="questionAnswerType.key"
+                                                      >
+                                                        {{ 'QUESTION_ANSWER_TYPE.' + questionAnswerType.name.toUpperCase() | translate }}
+                                                      </mat-option>
+                                                      <mat-option
+                                                        *ngIf="
+                                                          questionnaire?.questionnaire_type === 'employability_survey' &&
+                                                          (form?.value[competenceIndex]['block_type'] === 'always_visible' ||
+                                                            form?.value[competenceIndex]['block_type'] === 'router')
+                                                        "
+                                                        [disabled]="questionnaireservice.isContinueStudyExist"
+                                                        [ngStyle]="{
+                                                          display: hideContinueStudy
+                                                            ? selectedSegment === segmentIndex
+                                                              ? selectedIndex === questionIndex
+                                                                ? ''
+                                                                : 'none'
+                                                              : 'none'
+                                                            : ''
+                                                        }"
+                                                        (click)="
+                                                          selectAnswerType(
+                                                            { name: 'CONTINUE_STUDY', key: 'mission_activity' },
+                                                            competenceIndex,
+                                                            segmentIndex,
+                                                            questionIndex,
+                                                            competence.value
+                                                          )
+                                                        "
+                                                        [value]="'continues_student'"
+                                                      >
+                                                        {{ 'QUESTION_ANSWER_TYPE.' + 'CONTINUE_STUDY' | translate }}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                  </mat-form-field>
+                                                </div>
+                                                <small
+                                                  *ngIf="
+                                                    (formSubmit &&
+                                                      form.value[competenceIndex]['segment'][segmentIndex]['question'][questionIndex][
+                                                        'question_type'
+                                                      ] == 'none') ||
+                                                    form.value[competenceIndex]['segment'][segmentIndex]['question'][questionIndex][
+                                                      'question_type'
+                                                    ] == ''
+                                                  "
+                                                  class="mat-text-warn"
+                                                  >{{ 'DASHBOARD.ERRORS.REQUIREDFIELD' | translate }}</small
+                                                >
+                                              </div>
+                                            </ng-template>
+
+                                            <ng-template [ngIf]="is_fieldToggle.checked">
+                                              <div
+                                                class="self-center"
+                                                [ngClass]="{
+                                                  'p-col-8': showRequiredCheckBox(question.value),
+                                                  'p-col-12': !showRequiredCheckBox(question.value)
+                                                }"
+                                              >
+                                                <div class="select-input-container">
+                                                  <mat-form-field>
+                                                    <mat-select
+                                                      (selectionChange)="
+                                                        onQuestionnaireFieldsChange($event, competenceIndex, segmentIndex, questionIndex)
+                                                      "
+                                                      formControlName="questionnaire_field_key"
+                                                      [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.SELECT_FIELD' | translate"
+                                                    >
+                                                      <mat-option
+                                                        [value]="field"
+                                                        *ngFor="let field of questionnaireConsts.questionnaireFields"
+                                                        >{{ 'QUESTIONNAIRE_FIELDS.' + field | translate }}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                  </mat-form-field>
+                                                </div>
+                                              </div>
+                                            </ng-template>
+
+                                            <div class="p-col-4" style="align-self: center" *ngIf="showRequiredCheckBox(question.value)">
+                                              <mat-checkbox
+                                                formControlName="is_answer_required"
+                                                value="form.value[competenceIndex]['segment'][segmentIndex]['question'][questionIndex]['is_answer_required']"
+                                                (change)="changeis_answer_required($event, competenceIndex, segmentIndex, questionIndex)"
+                                                >{{ 'MENTOREVALUATION.QUESTIONNAIRE.Required' | translate }}?</mat-checkbox
+                                              >
+                                            </div>
+                                          </div>
+
+                                          <div
+                                            fxLayout="row"
+                                            *ngIf="competence && question && segment && checkIsParentChild(question.value)"
+                                          >
+                                            <div class="p-col-8">
+                                              <mat-form-field color="accent" style="width: 100%">
+                                                <input
+                                                  #option
+                                                  formControlName="answer"
+                                                  matInput
+                                                  type="text"
+                                                  [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.OPTION.title' | translate"
+                                                />
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="p-col-4">
+                                              <button
+                                                mat-mini-fab
+                                                color="primary"
+                                                type="button"
+                                                (click)="addMoreAnswers(competenceIndex, segmentIndex, questionIndex)"
+                                              >
+                                                <mat-icon>add</mat-icon>
+                                              </button>
+                                            </div>
+                                          </div>
+
+                                          <ul *ngIf="checkIsParentChild(question.value) && !is_fieldToggle.checked">
+                                            <li
+                                              *ngFor="
+                                                let option of questionnaire['competence'][competenceIndex]['segment'][segmentIndex][
+                                                  'question'
+                                                ][questionIndex].parent_child_options;
+                                                let optionIndex = index
+                                              "
+                                            >
+                                              <ms-parent-child-nesting
+                                                [questionnaireWholeObj]="questionnaire"
+                                                [parent_child_options]="option"
+                                                [question]="question.value"
+                                                [optionIndex]="optionIndex"
+                                                [questionnaireForm]="form.value"
+                                                [competenceIndex]="competenceIndex"
+                                                [segmentIndex]="segmentIndex"
+                                                [questionIndex]="questionIndex"
+                                                [isViewOnly]="false"
+                                              ></ms-parent-child-nesting>
+                                            </li>
+                                          </ul>
+
+                                          <div class="p-grid" *ngIf="checkIsMutiOption(question.value)">
+                                            <div class="p-col-8">
+                                              <mat-form-field color="accent" style="width: 100%">
+                                                <input
+                                                  #option
+                                                  formControlName="answer"
+                                                  matInput
+                                                  type="text"
+                                                  [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.OPTION.title' | translate"
+                                                />
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="p-col-4">
+                                              <button
+                                                mat-mini-fab
+                                                color="primary"
+                                                type="button"
+                                                type="button"
+                                                (click)="addMoreOptions(competenceIndex, segmentIndex, questionIndex)"
+                                              >
+                                                <mat-icon>add</mat-icon>
+                                              </button>
+                                            </div>
+                                          </div>
+
+                                          <div class="p-grid" *ngIf="checkIsMutiOption(question.value)">
+                                            <ng-container
+                                              *ngFor="
+                                                let option of form.value[competenceIndex]['segment'][segmentIndex]['question'][
+                                                  questionIndex
+                                                ].options;
+                                                let optionIndex = index
+                                              "
+                                            >
+                                              <div class="p-col-12">
+                                                <div class="p-grid">
+                                                  <div class="p-col-5">
+                                                    <span style="text-align: right">{{ optionIndex + 1 }}) {{ option.option_text }} </span>
+                                                  </div>
+                                                  <div class="p-col-2">
+                                                    <button
+                                                      type="button"
+                                                      mat-icon-button
+                                                      (click)="removeOption(competenceIndex, segmentIndex, questionIndex, optionIndex)"
+                                                    >
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </div>
+                                                  <div
+                                                    class="p-col-5"
+                                                    *ngIf="
+                                                      form.value[competenceIndex]['block_type'] === 'router' &&
+                                                      checkingForSingleOption(question.value)
+                                                    "
+                                                  >
+                                                    <mat-select
+                                                      style="width: 80%"
+                                                      [ngModelOptions]="{ standalone: true }"
+                                                      [ngModel]="
+                                                        returnBindingForm(competenceIndex, segmentIndex, questionIndex, optionIndex)
+                                                      "
+                                                      (selectionChange)="
+                                                        changeSelectionBlock($event, {
+                                                          block: competenceIndex,
+                                                          segment: segmentIndex,
+                                                          question: questionIndex,
+                                                          answer: optionIndex
+                                                        })
+                                                      "
+                                                    >
+                                                      <mat-option
+                                                        [value]="blockVal.blockIndex"
+                                                        *ngFor="let blockVal of optionBlockValue; let blockIndex = index"
+                                                      >
+                                                        {{ blockVal.blockName }}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </ng-container>
+                                            <!-- <div class="p-grid" style="align-items: center;">
+                                              
+                                            </div> -->
+                                          </div>
+
+                                          <!-- For Selection of Continous Study that are in router -->
+                                          <div
+                                            class="p-grid"
+                                            *ngIf="checkIsContinousRouter(question.value, segment.value, competence.value)"
+                                          >
+                                            <ng-container
+                                              *ngFor="
+                                                let option of form.value[competenceIndex]['segment'][segmentIndex]['question'][
+                                                  questionIndex
+                                                ].options;
+                                                let optionIndex = index
+                                              "
+                                            >
+                                              <div class="p-col-12">
+                                                <div class="p-grid">
+                                                  <div class="p-col-5">
+                                                    <span style="text-align: right"
+                                                      >{{ optionIndex + 1 }}) {{ option.option_text | translate }}
+                                                    </span>
+                                                  </div>
+                                                  <div class="p-col-5">
+                                                    <mat-select
+                                                      style="width: 80%"
+                                                      [ngModelOptions]="{ standalone: true }"
+                                                      [ngModel]="
+                                                        returnBindingForm(competenceIndex, segmentIndex, questionIndex, optionIndex)
+                                                      "
+                                                      (selectionChange)="
+                                                        changeSelectionBlock($event, {
+                                                          block: competenceIndex,
+                                                          segment: segmentIndex,
+                                                          question: questionIndex,
+                                                          answer: optionIndex
+                                                        })
+                                                      "
+                                                    >
+                                                      <mat-option
+                                                        [value]="blockVal.blockIndex"
+                                                        *ngFor="let blockVal of optionBlockValue; let blockIndex = index"
+                                                      >
+                                                        {{ blockVal.blockName }}
+                                                      </mat-option>
+                                                      <mat-option [value]="-1">
+                                                        {{ 'No Route' | translate }}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </ng-container>
+                                          </div>
+                                        </mat-card-content>
+                                      </mat-card>
+                                    </div>
+                                  </mat-card-content>
+                                </mat-card>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="p-grid card-margin mt-5px">
+                            <button
+                              color="primary"
+                              mat-raised-button
+                              mat-button-sm
+                              (click)="addpage_break(competenceIndex)"
+                              *ngIf="
+                                !questionnaire?.competence[competenceIndex]?.page_break &&
+                                competenceIndex < questionnaire?.competence.length - 1
+                              "
+                            >
+                              <i class="fa fa-plus fa-xs"></i>
+                              {{ 'TEST.PAGEBREAK' | translate }}
+                            </button>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                      <div
+                        class="p-grid background-primary px-1"
+                        *ngIf="
+                          questionnaire?.competence[competenceIndex]?.page_break && competenceIndex < questionnaire?.competence.length - 1
+                        "
+                      >
+                        <div class="p-col-12 text-center text-weight-bold">
+                          {{ 'TEST.PAGEBREAK' | translate }}
+                          <span>
+                            <i class="fa-solid fa-xmark fa-xs" (click)="removepage_break(competenceIndex)"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>vertical_align_bottom</mat-icon>
+          {{ 'TEST.FOOTER' | translate
+          }}<i *ngIf="isFooterValid()" class="fa fa-exclamation-circle" style="margin-left: 5px; font-size: 18px; color: #ffd740"></i>
+        </ng-template>
+        <div>
+          <mat-card class="mt-5px background-primary">
+            <mat-card-header>
+              <mat-card-title>{{ 'TEST.MAINFOOTER' | translate }}</mat-card-title>
+              <div class="mr-1 mt-1" style="right: 0; position: absolute; margin-top: 0.25em">
+                <mat-checkbox
+                  name="cb"
+                  color="accent"
+                  align="end"
+                  [checked]="questionnaire.questionnaire_grid.footer.text_below"
+                  (change)="footerTextPositionChanged($event)"
+                >
+                  {{ 'TEST.FOOTERBELOW' | translate }}
+                </mat-checkbox>
+              </div>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <hr />
+            <mat-card-content>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="px-1">
+                    <label class="mr-1">{{ 'TEXT' | translate }}</label>
+                    <button mat-mini-fab color="accent" type="button" (click)="openTextDialog('footer-text')">
+                      <mat-icon>{{ questionnaire.questionnaire_grid.footer.text === '' ? 'add' : 'edit' }}</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

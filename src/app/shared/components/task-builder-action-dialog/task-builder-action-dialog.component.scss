@@ -1,0 +1,65 @@
+// .task-builder-preview {
+//   padding: 35px;
+// }
+.border-wrap {
+  border: 1px solid black;
+}
+mat-card {
+  background-color: white !important;
+  color: black !important;
+}
+.attach-circle {
+  margin-right: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ck.ck-editor__editable_inline {
+  overflow: auto;
+  padding: 0 var(--ck-spacing-standard);
+  border: 1px solid lightgrey;
+}
+div:nth-child(odd) .file {
+  background-color: lightgrey;
+}
+.icon-title-svg {
+  margin-top: -10px !important;
+  margin-right: 2px !important;
+}
+body .app-dark .mat-divider {
+  border-color: black !important;
+}
+.pad-left {
+  padding-left: 0 !important;
+}
+.file {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 65px;
+}
+.dialog-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid 1px black;
+  margin-bottom: 1rem;
+
+  .dialog-title {
+    flex: 1;
+    flex-grow: 1;
+    margin-bottom: 0;
+  }
+}
+.red {
+  color: red;
+}
+
+.overflow {
+  max-height: 700px;
+  overflow: auto;
+  padding: 0 10px;
+}

@@ -1,0 +1,180 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+:host ::ng-deep table {
+    tr {
+      td,
+      th {
+        border-right: 1px solid $grey;
+        &:nth-child(1) {
+          width: 15%;
+          text-align: left !important;
+          .mat-form-field {
+            width: 98%;
+          }
+        }
+  
+        &:nth-child(2) {
+          width: 10%;
+          text-align: left !important;
+          padding-left: 10px;
+          .mat-form-field {
+            padding-top: 1px !important;
+            width: 98%;
+            padding-right: 6px;
+          }
+        }
+  
+        &:nth-child(3) {
+          width: 20%;
+          text-align: left !important;
+          padding-left: 10px;
+          .mat-form-field {
+            padding-top: 6px !important;
+            padding-right: 6px;
+            width: 98%;
+          }
+        }
+  
+        &:nth-child(4) {
+          width: 10%;
+          text-align: center !important;
+          .mat-form-field {
+            padding-left: 10px;
+            width: 98%;
+          }
+        }
+  
+        &:nth-child(5) {
+          width: 10%;
+          text-align: left !important;
+          padding-left: 10px;
+          .mat-form-field {
+            padding-right: 6px;
+            padding-top: 1px !important;
+            width: 98%;
+          }
+        }
+      }
+  
+      td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 0;
+        white-space: nowrap;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+  
+      th {
+        vertical-align: top;
+        .mat-form-field-infix {
+          width: unset !important;
+        }
+      }
+  
+      &:nth-child(2) {
+        th {
+          padding-top: 0.9em;
+        }
+      }
+    }
+
+    th.mat-header-cell:first-of-type {
+      padding-left: 6px;
+    }
+
+    th.mat-header-cell:last-of-type {
+      padding-right: 0px !important;
+    }
+
+    td.mat-cell:first-of-type {
+      padding-left: 10px !important;
+    }
+  
+    thead tr {
+      &:nth-child(2) {
+        height: 35px;
+      }
+      &:nth-child(2),
+      &:nth-child(3) {
+        background: $light-black;
+        th {
+          color: $white;
+        }
+      }
+    }
+  }
+  
+  .no-records {
+    background-color: #424242;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-right: 1px solid #545454;
+    border-bottom: 1px solid #545454;
+  }
+
+  .green-icon {
+    font-size: 25px;
+    width: 30px;
+    color: #adff2f;
+  }
+  .red-icon {
+    font-size: 25px;
+    width: 30px;
+    color: #ff4040;
+  }
+  .black-icon {
+    font-size: 25px;
+    width: 30px;
+    color: #000000;
+  }
+
+  :host::ng-deep.ng-select {
+    margin-bottom: 16px;
+  }
+  :host::ng-deep.ng-select .ng-select-container {
+    background-color: #fff0;
+    color: #fff;
+    border: none;
+    border-radius: 0px !important;
+    border-bottom: 1px solid #bdbdbd !important;
+    min-height: 36px;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+  :host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+    color: white;
+    box-sizing: content-box;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    cursor: default;
+    padding-left: 0px !important;
+    width: 100%;
+  }
+  :host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+    padding-left: 0px !important;
+  }
+  :host::ng-deep.ng-select .ng-select-container .ng-value-container {
+    padding-left: 0px !important;
+  }
+  :host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+  .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+    font-size: 14px !important;
+  }
+  .ng-select-custom-header {
+    cursor: pointer;
+  }
+
+  ::ng-deep ng-dropdown-panel,
+  .ng-dropdown-panel {
+    width: auto !important;
+    text-align: left !important;
+    font-size: 15px !important;
+  }
+  

@@ -1,0 +1,74 @@
+:host::ng-deep .mat-dialog-content {
+  overflow: unset !important;
+}
+
+.doctype-input {
+  width: 90%;
+}
+
+.uploaded-file-wrapper {
+  display: block;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.no-padding {
+  padding-top: 0 !important;
+}
+
+h1{
+  color: black;
+  margin-left: 6px;
+  margin-bottom: 0 !important;
+}
+
+.dialog-body {
+  font-size: 14px !important;
+  padding: 10px;
+}
+
+.mat-select{
+  margin-bottom: -7px;
+}
+.disabled-text {
+  color: #9e9e9ecf;
+  font-weight: 100;
+}
+
+.dialogTitle {
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  color: black;
+  padding: 10px;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+.no-padding {
+  padding: 0px;
+}
+
+.w-30 {
+  width: 30px;
+}
+.w-65 {
+  width: 60px;
+}
+
+.ml-48 {
+  margin-left: 48px !important;
+}
+
+.mat-dialog-content {
+  margin: 0 !important;
+}
+
+.mr-16 {
+  margin-right: 16px;
+}

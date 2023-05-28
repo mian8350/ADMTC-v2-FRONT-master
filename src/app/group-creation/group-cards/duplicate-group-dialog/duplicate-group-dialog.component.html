@@ -1,0 +1,42 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="content-copy"></mat-icon>
+  <h2 class="header-text">
+    {{ 'GROUP_CREATION.Duplicate Group' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md" [formGroup]="duplicateGroupForm">
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <!-- <mat-form-field color="accent" class="full-width">
+          <input matInput required placeholder="{{ 'Group Name' | translate }}" formControlName="name" />
+        </mat-form-field> -->
+        <mat-form-field>
+          <mat-label>{{'Select Test' | translate}}</mat-label>
+          <mat-select formControlName="test_id" [disabled]="!testList || !testList.length">
+            <mat-option *ngFor="let test of testList" class="not-empty-select" [value]="test._id">{{ test.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="submit()" [disabled]="!duplicateGroupForm.valid">
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>

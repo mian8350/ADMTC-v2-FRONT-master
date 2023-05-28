@@ -1,0 +1,25 @@
+<div class="p-grid yellow-border certification-container">
+  <div class="section-header">
+    <h3>{{ 'Title Gov Registration' | translate }}</h3>
+  </div>
+  <div class="certification-tabs">
+    <mat-tab-group [(selectedIndex)]="selectedIndex">
+      <mat-tab label="Generated">
+        <ng-template mat-tab-label>
+          <h5>{{ 'ACAD_169.File Generated' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-title-gov-registration-generated-tab  [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId"></ms-class-title-gov-registration-generated-tab>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Generation">
+        <ng-template mat-tab-label>
+          <h5>{{ 'ACAD_169.File Generation' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-title-gov-registration-generation-tab (selectedIndexChange)="IndexChange($event)" [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId"></ms-class-title-gov-registration-generation-tab>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

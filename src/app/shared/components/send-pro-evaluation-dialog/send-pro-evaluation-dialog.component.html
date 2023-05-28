@@ -1,0 +1,25 @@
+<ms-pdf-personalized-student
+  #pdfNominatifAcademic
+  *ngIf="testAcademic"
+  [testData]="testAcademic"
+  [titleData]="data?.rncpTitle"
+  [lastPageText]="''"
+  [schoolId]="data?.schoolId"
+  [titleId]="data?.rncpTitle?._id"
+  [classId]="data?.classId"
+  [studentIds]="data?.studentIds"
+  (isWaitingDone)="isWaitingDone($event)">
+</ms-pdf-personalized-student>
+
+<ms-pdf-personalized-student
+  #pdfNominatifSoftSkill
+  *ngIf="testSoftSkill"
+  [testData]="testSoftSkill"
+  [titleData]="data?.rncpTitle"
+  [lastPageText]="''"
+  [schoolId]="data?.schoolId"
+  [titleId]="data?.rncpTitle?._id"
+  [classId]="data?.classId"
+  [studentIds]="data?.studentIds"
+  (isWaitingDone)="isWaitingDone($event)">
+</ms-pdf-personalized-student>

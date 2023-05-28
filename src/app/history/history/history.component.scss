@@ -1,0 +1,191 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.form-field {
+  margin-top: 6px;
+}
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+table,
+th,
+td {
+  border: unset;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.5rem !important;
+      &:nth-child(1) {
+        width: 7%;
+
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      
+      &:nth-child(2) {
+        width: 7%;
+        text-align: center;
+        padding-left: 0 !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 8%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 20%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 8%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: 11%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(7) {
+        width: 12%;
+        margin-right: 6x;
+        .mat-form-field {
+          width: 93%;
+        }
+      }
+      &:nth-child(8) {
+        width: 12%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(9) {
+        width: 7%;
+        margin-right: 6px;
+        .mat-form-field {
+          width: 93%;
+        }
+      }
+      &:nth-child(10) {
+        width: 7%;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(11) {
+        width: 6%;
+        padding-right: 0 !important;
+        text-align: center !important;
+      }
+    }
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  .userpopup {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    width: 52em;
+    max-width: 100%;
+    padding: 1.25em;
+    border: none;
+    border-radius: 0.3125em;
+    background: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  text-align: right !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.horizontal {
+  overflow: auto;
+}
+
+.btn-time {
+  position: relative;
+  top: 8px;
+  right: -5px;
+}
+
+:host ::ng-deep button.ngx-material-timepicker-toggle {
+  border-radius: 0px !important;
+  padding: 0px !important;
+}
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.top-date-picker {
+  width: 120px !important;
+  margin-right: 1rem !important;
+  margin-top: 5px !important;
+}

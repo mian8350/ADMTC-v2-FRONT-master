@@ -1,0 +1,352 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+.horizontal {
+  overflow: auto;
+  overflow-y: hidden;
+}
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+.school-filter {
+  padding-top: 0px !important; 
+  margin-top: 0 !important;
+  margin-bottom: 7px !important;
+}
+
+.width-filter {
+  max-width:50px !important;
+}
+
+.header-action {
+  font-family: firaSans !important;
+  height: 50px;
+  padding: 8px;
+  background: #424242;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.form-field {
+  margin-top: 6px;
+}
+
+.mat-column-selectFilter,
+.mat-column-select {
+  text-align: center;
+  min-width: 40px;
+  max-width: 40px;
+  width: 4%;
+  box-shadow: inset 1px 0px 1px#545454;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-schoolFilter,
+.mat-column-school {
+  min-width: 200px;
+  max-width: 200px;
+  // width: 20%;
+  box-shadow: inset 1px 0px 1px#545454;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-studentFilter,
+.mat-column-student {
+  min-width: 240px;
+  max-width: 240px;
+  // width: 20%;
+  box-shadow: inset 1px 0px 1px#545454;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-finalTranscripResultFilter,
+.mat-column-finalTranscripResult {
+  text-align: center;
+  min-width: 40px !important;
+  .mat-form-field {
+    padding: 6px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-studentStatusFilter,
+.mat-column-studentStatus {
+  text-align: center;
+  min-width: 40px !important;
+  .mat-form-field {
+    padding: 6px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-titleStatusFilter,
+.mat-column-titleStatus {
+  text-align: center;
+  min-width: 70px !important;
+  .mat-form-field {
+    padding: 6px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-statusFilter,
+.mat-column-status {
+  text-align: center;
+  min-width: 40px !important;
+  padding-top: 8px;
+  .mat-form-field {
+    padding: 6px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-actionFilter,
+.mat-column-action {
+  text-align: center;
+  min-width: 83px !important;
+  width: 4%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+
+      &:nth-child(n + 4) {
+        width: 88px;
+        min-width: 88px;
+        text-align: center;
+        padding: 0;
+        box-shadow: inset 1px 0px 1px#545454;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(1) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(1) {
+      height: 35px;
+    }
+    &:nth-child(1),
+    &:nth-child(2) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.yellow {
+  color: #ffd740;
+}
+.orange {
+  color: #f49f36;
+}
+.blue {
+  color: #36ebf4;
+}
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+.purple {
+  color: #ff46f9;
+}
+.green-icon {
+  font-size: 25px;
+  width: 30px;
+  color: #adff2f;
+}
+.red-icon {
+  font-size: 25px;
+  width: 30px;
+  color: #ff4040;
+}
+.black-icon {
+  font-size: 25px;
+  width: 30px;
+  color: #000000;
+}
+
+// ***************** ng-select styling *****************
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 90% !important;
+  padding-left: 2%;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  padding-left: 0px !important;
+  width: 90%;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  font-size: 14px !important;
+}
+.ng-select-custom-header {
+  cursor: pointer;
+}
+::ng-deep.ng-dropdown-panel.custom-panel-dropdown {
+  text-align: left !important;
+  font-size: 15px !important;
+  width: 200px !important;
+}
+
+::ng-deep.filterPanel{
+  margin-top: 25px;
+}
+
+
+
+.active-color {
+  color: #adff2f;
+}
+
+.retake-color {
+  color: #f49f36;
+}
+
+.admission-color {
+  color: #ffd740;
+}
+
+.completed-color {
+  color: #ff46f9;
+}
+
+.deactivated-color {
+  color: #000000;
+}
+
+.suspended-color {
+  color: #ff4040;
+}
+
+.statusIcon {
+  font-size: 21px !important;
+  margin-right: 0px !important;
+}
+
+@media screen and (max-width: 1440px){
+  :host ::ng-deep table {
+    tr {
+      td,
+      th {
+        &:nth-child(2) {
+          min-width: 160px;
+        }
+        &:nth-child(3) {
+          min-width: 180px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1180px){
+  :host ::ng-deep table {
+    tr {
+      td,
+      th {
+        font-size: 12px !important;
+        &:nth-child(2) {
+          min-width: 140px;
+        }
+        &:nth-child(3) {
+          min-width: 160px;
+        }
+      }
+    }
+  }
+}
+
+// ********************************************************

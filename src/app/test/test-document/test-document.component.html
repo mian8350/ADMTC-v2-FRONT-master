@@ -1,0 +1,1097 @@
+<mat-card style="box-shadow: none; padding-left: 0px; padding-right: 0px; margin-right: 0px; margin-left: 0px">
+  <mat-card-content>
+    <div
+      fxLayout="row wrap"
+      fxLayout="space-between center"
+      *ngIf="expanded"
+      class="background-primary pa-1"
+      style="border-bottom: 2px solid #424242"
+    >
+      <span class="text-xl" fxFlex>{{ rncpTitle ? rncpTitle.long_name : '' }}</span>
+      <span class="text-xl" fxFlex>{{ test.name }}</span>
+      <div>
+        <button mat-raised-button class="active-tab" type="button" (click)="downloadPDF()">
+          <i class="fa fa-file-pdf-o mr-1"></i>
+          PDF
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+      <div [fxFlex]="expanded ? '30' : '0'" *ngIf="expanded" class="background-primary">
+        <div *ngIf="test" fxLayout="column" class="pa-1" style="border-bottom: 2px solid #424242">
+          <div fxFlex class="text-center pb-1">
+            <b class="text-xl">{{ 'TEST.IDENTITY' | translate }}</b>
+          </div>
+          <div fxFlex *ngIf="test.name">
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.TESTNAME' | translate }} </b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60">
+                <span class="span-block" matTooltip="{{ test.name }}">
+                  {{ test.name }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div fxFlex *ngIf="test.type">
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.TESTTYPE' | translate }}</b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60" class="ellipsis-one-line">
+                <span class="span-block" matTooltip="{{ test.type ? ('PARAMETERS-RNCP.TEST.TYPE.' + test.type | translate) : '' }}">
+                  {{ test.type ? ('PARAMETERS-RNCP.TEST.TYPE.' + test.type | translate) : '' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div fxFlex *ngIf="test?.date?.date_utc && test?.date?.time_utc">
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.TESTDATE' | translate }}</b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60" class="ellipsis-one-line">
+                <span class="span-block" matTooltip="{{ test.date && test.date !== 'Invalid date' ? getTranslatedDate(test.date) : '' }}">
+                  {{ test.date && test.date !== 'Invalid date' ? getTranslatedDate(test.date) : '' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div fxFlex *ngIf="test.date_type">
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.DATETYPE' | translate }}</b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60" class="ellipsis-one-line">
+                <span
+                  class="span-block"
+                  matTooltip="{{ test.date_type ? ('TEST.DATETYPES.' + test.date_type.toUpperCase() | translate) : '' }}"
+                >
+                  {{ test.date_type ? ('TEST.DATETYPES.' + test.date_type.toUpperCase() | translate) : '' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="test.coefficient" fxFlex>
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.COEFFICIENT' | translate }}</b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60" class="ellipsis-one-line">
+                <span class="span-block" matTooltip="{{ test.coefficient ? test.coefficient : '' }}">
+                  {{ test.coefficient ? test.coefficient : '' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div fxFlex *ngIf="test.correction_type">
+            <div fxLayout="row wrap" fxLayoutAlign="start end">
+              <div fxFlex="35">
+                <b>{{ 'TEST.CORRECTIONTYPE' | translate }}</b>
+              </div>
+              <div fxFlex="5">
+                <b>:</b>
+              </div>
+              <div fxFlex="60" class="ellipsis-one-line">
+                <span
+                  class="span-block"
+                  matTooltip="{{ test.correction_type ? ('TEST.CORRECTIONTYPES.' + test.correction_type | translate) : '' }}"
+                >
+                  {{ test.correction_type ? ('TEST.CORRECTIONTYPES.' + test.correction_type | translate) : '' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="test && test.calendar && test.calendar.steps && test.calendar.steps.length; else noCalendar"
+          fxLayout="column"
+          class="pa-1"
+          style="border-bottom: 2px solid #424242"
+        >
+          <div fxFlex class="text-center pb-1">
+            <b class="text-xl">{{ 'Calendar Steps' | translate }}</b>
+          </div>
+          <div fxFlex *ngFor="let task of test.calendar.steps; let i = index" style="padding-bottom: 1rem">
+            <div fxLayout="row">
+              <div fxFlex="10" style="text-align: -webkit-center">
+                <mat-icon>date_range</mat-icon>
+              </div>
+              <div fxFlex fxLayout="column">
+                <div fxFlex>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div fxFlex="100">
+                      {{ getTaskTranslation(task) }}
+                    </div>
+                  </div>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div fxFlex="100">
+                      <div *ngIf="task.date?.type === 'fixed'">
+                        <span style="font-size: 0.7rem">
+                          {{ getTranslatedDateDocument(task?.date?.value) }}
+                        </span>
+                      </div>
+                      <div *ngIf="task.date?.type === 'relative'">
+                        <span style="font-size: 0.7rem"
+                          >{{ task.date?.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{ task.date?.day }}
+                          {{ 'DAYS' | translate }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noCalendar>
+          <div fxLayout="column" class="pa-1" style="border-bottom: 2px solid #424242">
+            <div fxFlex class="text-center pb-1">
+              <b class="text-xl">{{ 'Calendar Steps' | translate }}</b>
+            </div>
+            <div fxFlex style="text-align: center">
+              {{ 'TEST.NOSTEPS' | translate }}
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- <div fxLayout="column wrap" class="pa-1" style="border-bottom: 2px solid #424242;">
+          <div fxFlex class="text-center">
+            <b class="text-xl" style="text-decoration: underline">{{'TEST.CALENDERSTEPS' | translate}}</b>
+          </div>
+          <div fxFlex>
+            <mat-card-content *ngIf="test.calendar.steps.length <= 0" class="text-center">
+              {{'TEST.NOSTEPS' | translate}}
+            </mat-card-content>
+            <mat-nav-list dense>
+              <a mat-list-item *ngFor="let step of test.calendar.steps; let i = index">
+                <mat-icon mat-list-icon>date_range</mat-icon>
+                <span mat-line>{{getTranslateWhat(step.text)}}</span>
+                <span mat-line *ngIf="step.date.type === 'fixed'">{{getTranslatedDate(step?.date?.value)}}</span>
+                <span mat-line *ngIf="step.date.type === 'relative'">{{step?.date?.before ? ('BEFORE' | translate) : ('AFTER' | translate)}} {{step.date.day}} {{'DAYS' | translate}}</span>
+              </a>
+            </mat-nav-list>
+          </div>
+        </div> -->
+
+        <div
+          *ngIf="addedDocuments && addedDocuments.length; else noAddedDocument"
+          fxLayout="column"
+          style="border-bottom: 2px solid #424242"
+        >
+          <div fxFlex class="text-center pa-1" style="padding-bottom: 0px !important">
+            <b class="text-xl mb-1">{{ 'DOCUMENT.DOCUMENTS' | translate }}</b>
+          </div>
+          <div fxFlex *ngFor="let document of addedDocuments; let i = index">
+            <div fxLayout="column" class="document-box pa-1">
+              <div fxFlex fxLayout="column">
+                <div fxFlex>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div fxFlex="35">
+                      <b>{{ 'DOCUMENT.NAME' | translate }} </b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div class="ellipsis-one-line" fxFlex="60">
+                      <span class="span-block" matTooltip="{{ document?.document_name }}">
+                        {{ document?.document_name }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex>
+                  <div fxLayout="row" fxLayoutAlign="start start">
+                    <div fxFlex="35">
+                      <b>{{ 'DOCUMENT.TYPE' | translate }}</b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div class="ellipsis-one-line" fxFlex="60">
+                      <span class="span-block" matTooltip="{{ 'DOCUMENTTYPES.' + document?.type_of_document?.toUpperCase() | translate }}">
+                        {{ 'DOCUMENTTYPES.' + document?.type_of_document?.toUpperCase() | translate }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div fxFlex="35">
+                      <b>{{ 'DOCUMENT.FILE' | translate }}</b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div class="ellipsis-one-line" fxFlex="60">
+                      <span class="span-block" matTooltip="{{ document?.s3_file_name }}">
+                        {{ document?.s3_file_name }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <div fxFlex="35">
+                      <b>{{ 'DOCUMENT.USERTYPE' | translate }}</b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div class="ellipsis-one-line" fxFlex="60">
+                      <span class="span-block" matTooltip="{{ getUserTypeToolTip(document) }}">
+                        <ng-container *ngFor="let userType of document.published_for_user_types_id; let last = last">
+                          {{ 'USER_TYPES.' + userType?.name | translate }}<span *ngIf="!last">{{ ', ' }}</span>
+                        </ng-container>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex>
+                  <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="document?.publication_date?.type === 'fixed'">
+                    <div fxFlex="35">
+                      <b>{{ 'EXPECTEDDOCUMENT.DATEOFPUBICATION' | translate }}</b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div class="ellipsis-one-line" fxFlex="60">
+                      <span class="span-block" matTooltip="{{ getTranslatedDateDocument(document?.publication_date.publication_date) }}">
+                        {{ getTranslatedDateDocument(document?.publication_date.publication_date) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex>
+                  <div fxLayout="row" fxLayoutAlign="start start" *ngIf="document?.publication_date?.type === 'relative'">
+                    <div fxFlex="35">
+                      <b>{{ 'EXPECTEDDOCUMENT.DATEOFPUBICATION' | translate }}</b>
+                    </div>
+                    <div fxFlex="5">
+                      <b>:</b>
+                    </div>
+                    <div *ngIf="test && test.schools && test.schools.length" class="ellipsis-one-line" fxFlex="60">
+                      <span
+                        class="span-block"
+                        matTooltip="{{ document.publication_date.day }} {{
+                          document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                        }} {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                          'Mark Entry' | translate
+                        }}"
+                      >
+                        {{ document.publication_date.day }}
+                        {{ document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                        {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                        {{ 'Mark Entry' | translate }}
+                      </span>
+                    </div>
+                    <div *ngIf="test && test.schools && !test.schools.length" class="ellipsis-one-line" fxFlex="60">
+                      <span
+                        class="span-block"
+                        matTooltip="{{ document.publication_date.day }} {{
+                          document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate)
+                        }} {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }} {{
+                          getTranslateTestDate(test.date)
+                        }}"
+                      >
+                        {{ document.publication_date.day }}
+                        {{ document.publication_date.day === 1 ? ('DAY' | translate) : ('DAYS' | translate) }}
+                        {{ document.publication_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                        {{ getTranslateTestDate(test.date) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div fxFlex fxLayoutAlign="end start">
+                  <div fxLayout="row wrap" fxLayoutAlign="end start">
+                    <div fxFlex="100">
+                      <button mat-raised-button class="btn-test" color="accent" (click)="downloadDocumentAdded(document)">
+                        {{ 'Download Document' }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noAddedDocument>
+          <div fxLayout="column" class="pa-1" style="border-bottom: 2px solid #424242">
+            <div fxFlex class="text-center pb-1">
+              <b class="text-xl">{{ 'DOCUMENT.DOCUMENTS' | translate }}</b>
+            </div>
+            <div fxFlex style="text-align: center">
+              {{ 'DOCUMENT.NODOCUMENTS' | translate }}
+            </div>
+          </div>
+        </ng-template>
+
+        <div
+          *ngIf="test.expected_documents && test.expected_documents.length; else noExpectedDocument"
+          fxLayout="column"
+          style="border-bottom: 2px solid #424242"
+        >
+          <div fxFlex class="text-center pa-1" style="padding-bottom: 0px !important">
+            <b class="text-xl mb-1">{{ 'EXPECTEDDOCUMENT.DOCUMENTSEXPECTED' | translate }}</b>
+          </div>
+          <div fxFlex *ngFor="let expectedDocument of test.expected_documents; let i = index">
+            <div fxLayout="column" class="document-box pa-1">
+              <div fxFlex>
+                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                  <div fxFlex="35">
+                    <b>{{ 'EXPECTEDDOCUMENT.NAME' | translate }} </b>
+                  </div>
+                  <div fxFlex="5">
+                    <b>:</b>
+                  </div>
+                  <div class="ellipsis-one-line" fxFlex="60">
+                    <span class="span-block" matTooltip="{{ expectedDocument.document_name }}">
+                      {{ expectedDocument.document_name }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                  <div class="ellipsis-one-line" fxFlex="35">
+                    <b>{{ 'EXPECTEDDOCUMENT.USERTYPE' | translate }}</b>
+                  </div>
+                  <div fxFlex="5">
+                    <b>:</b>
+                  </div>
+                  <div class="ellipsis-one-line" fxFlex="60">
+                    <span class="span-block" matTooltip="{{ getDocumentUserType(expectedDocument.document_user_type) | translate }}">
+                      {{ getDocumentUserType(expectedDocument.document_user_type) | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="expectedDocument?.deadline_date?.type === 'fixed'">
+                  <div fxFlex="35">
+                    <b>{{ 'EXPECTEDDOCUMENT.DEADLINE' | translate }}</b>
+                  </div>
+                  <div fxFlex="5">
+                    <b>:</b>
+                  </div>
+                  <div class="ellipsis-one-line" fxFlex="60">
+                    <span class="span-block" matTooltip="{{ getTranslatedDateDocument(expectedDocument.deadline_date.deadline) }}">
+                      {{ getTranslatedDateDocument(expectedDocument.deadline_date.deadline) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex>
+                <div fxLayout="row wrap" fxLayoutAlign="start start" *ngIf="expectedDocument?.deadline_date?.type === 'relative'">
+                  <div fxFlex="35">
+                    <b>{{ 'EXPECTEDDOCUMENT.DEADLINE' | translate }}</b>
+                  </div>
+                  <div fxFlex="5">
+                    <b>:</b>
+                  </div>
+                  <div class="ellipsis-one-line" fxFlex="60">
+                    <span
+                      matTooltip="{{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                    {{ expectedDocument.deadline_date.day }} {{ 'DAYS' | translate }}"
+                    >
+                      {{ expectedDocument.deadline_date.before ? ('BEFORE' | translate) : ('AFTER' | translate) }}
+                      {{ expectedDocument.deadline_date.day }} {{ 'DAYS' | translate }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noExpectedDocument>
+          <div fxLayout="column" class="pa-1" style="border-bottom: 2px solid #424242">
+            <div fxFlex class="text-center pb-1">
+              <b class="text-xl">{{ 'EXPECTEDDOCUMENT.DOCUMENTSEXPECTED' | translate }}</b>
+            </div>
+            <div fxFlex style="text-align: center">
+              {{ 'DOCUMENT.NODOCUMENTS' | translate }}
+            </div>
+          </div>
+        </ng-template>
+
+        <!-- <div fxLayout="column wrap" class="pa-1">
+          <div fxFlex class="text-center">
+            <b class="text-xl" style="text-decoration: underline">{{'TEST.DOCUMENTSEXPECTED' | translate}}</b>
+          </div>
+          <div fxFlex>
+            <mat-card-content *ngIf="test.expected_documents.length <= 0" class="text-center">
+              {{'EXPECTEDDOCUMENT.NODOCUMENTS' | translate}}
+            </mat-card-content>
+            <mat-nav-list dense>
+              <a mat-list-item *ngFor="let ed of test.expected_documents; let i = index">
+                <mat-icon mat-list-icon>insert_drive_file</mat-icon>
+                <span mat-line>{{'EXPECTEDDOCUMENT.NAME' | translate}} : {{ ed.document_name }}</span>
+                <span mat-line>{{'EXPECTEDDOCUMENT.USERTYPE' | translate}} : {{ ed.document_user_type._id | translate }}
+                <span mat-line>{{'EXPECTEDDOCUMENT.USERTYPE' | translate}} : {{ getTranslateADMTCSTAFFKEY(getDocumentUserType(ed.document_user_type))}}
+                  
+                </span>
+                <span mat-line *ngIf="ed.deadline_date.type === 'fixed'">{{'EXPECTEDDOCUMENT.DEADLINE' | translate}} : {{getTranslatedDateDocument(ed.deadline_date.deadline)}}</span>
+                <span mat-line *ngIf="ed.deadline_date.type === 'relative'">{{'EXPECTEDDOCUMENT.DEADLINE' | translate}} : {{ed.deadline_date.before ? ('BEFORE' | translate) : ('AFTER'
+                  | translate)}} {{ed.deadline_date.day}} {{'DAYS' | translate}}
+                </span>
+              </a>
+            </mat-nav-list>
+          </div>
+        </div> -->
+      </div>
+
+      <div [fxFlex]="expanded ? '70' : '100'" class="document-view mat-grey-50 background-primary pa-1">
+        <div class="mb-1" [ngClass]="{ 'justify-content-center': pages === 1, 'justify-content-between': pages > 1 }">
+          <button mat-mini-fab color="background" (click)="showPreviousPage()" *ngIf="pages > 1">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-raised-button class="active-tab btn-test" (click)="expand()">
+            <mat-icon>{{ expanded ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+            {{ expanded ? ('TEST.RETURNTOFORM' | translate) : ('TEST.VIEWTESTSHEET' | translate) }}
+          </button>
+          <div class="gene-relative">
+            <div class="page-text" *ngIf="pages > 1">Page {{ visiblePage }} / {{ pages }}</div>
+            <button mat-mini-fab color="background" (click)="showNextPage()" *ngIf="pages > 1">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="ql-editor document-parent">
+          <div #pagesElement style="overflow: auto">
+            <div
+              class="document"
+              [ngStyle]="{ display: visiblePage === 1 ? 'block' : 'none' }"
+              [ngClass]="'preview-orientation-' + test.correction_grid.orientation"
+            >
+              <div class="pa-1" style="min-height: 100%; position: relative">
+                <div class="doc-page-no" style="text-align: right">1 / {{ pages }}</div>
+                <div class="doc-rncp-title" style="text-align: center; font-size: 16px">
+                  {{ 'TEST.EVALUATIONGRID' | translate }} {{ test.name }}
+                </div>
+                <div class="doc-rncp-title" style="text-align: center; font-size: 16px">
+                  {{ rncpTitle ? rncpTitle.short_name + ' - ' + rncpTitle.long_name : '' }} {{ className ? ' - ' + className : '' }}
+                </div>
+                <div class="doc-header">
+                  <div class="doc-header-top" [innerHTML]="test.correction_grid.header.text | safeHtml"></div>
+                  <!-- <div class="doc-header-fields">
+                    <div fxLayout="row wrap" fxLayoutAlign="start center">
+                      <div class="lineme pr-1" fxFlex="50">Etablissement :</div>
+                      <div style="text-align: right;" fxFlex="50"></div>
+                      <div class="lineme pr-1" *ngIf="!test.group_test" fxFlex="50">Nom :</div>
+                      <div class="lineme pr-1" *ngIf="test.group_test" fxFlex="50">Nom du Groupe :</div>
+                      <div style="text-align: right;" fxFlex="50"></div>
+                    </div>
+                  </div> -->
+                  <div
+                    class="doc-header-fields"
+                    *ngIf="
+                      test.correction_grid &&
+                      test.correction_grid.header &&
+                      test.correction_grid.header.fields &&
+                      test.correction_grid.header.fields.length > 0
+                    "
+                  >
+                    <div fxLayout="row wrap" fxLayoutAlign="start center">
+                      <ng-template ngFor let-i="index" let-c="count" let-field [ngForOf]="test.correction_grid.header.fields">
+                        <ng-template [ngIf]="field.type === 'longtext'">
+                          <div class="lineme" fxFlex="100">{{ field.value }} :</div>
+                        </ng-template>
+                        <ng-template [ngIf]="field.type !== 'longtext' && field.align === 'left'">
+                          <div
+                            [ngClass]="{
+                              lineme: field.type !== 'signature',
+                              signature: field.type === 'signature',
+                              'pr-1': field.align === 'left'
+                            }"
+                            fxFlex="50"
+                          >
+                            {{ field.value | translate }} :
+                          </div>
+                          <ng-template [ngIf]="i === c - 1 || test.correction_grid.header.fields[i + 1].align === 'left'">
+                            <div fxFlex="50"></div>
+                          </ng-template>
+                        </ng-template>
+                        <ng-template [ngIf]="field.type !== 'longtext' && field.align === 'right'">
+                          <ng-template
+                            [ngIf]="
+                              i === 0 ||
+                              test.correction_grid.header.fields[i - 1].align === 'right' ||
+                              test.correction_grid.header.fields[i - 1].type === 'longtext'
+                            "
+                          >
+                            <div fxFlex="50"></div>
+                          </ng-template>
+                          <div
+                            [ngClass]="{
+                              lineme: field.type !== 'signature',
+                              signature: field.type === 'signature'
+                            }"
+                            fxFlex="50"
+                          >
+                            {{ field.value | translate }} :
+                          </div>
+                        </ng-template>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                <div class="doc-group-details" *ngIf="test.group_test">
+                  <div class="group-header">
+                    {{ test.correction_grid.group_detail.header_text }}
+                  </div>
+                  <table class="group-table">
+                    <tbody>
+                      <tr class="header">
+                        <th width="10%" class="text-center font-weight-bold"></th>
+                        <th class="text-center font-weight-bold">{{ 'TEST.NAMEOFSTUDENT' | translate }}</th>
+                      </tr>
+                      <tr *ngFor="let s of students; index as i">
+                        <td>{{ i + 1 }}.</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- For Directive Long -->
+                <div
+                  *ngIf="test?.correction_grid?.header?.directive_long"
+                  class="doc-header pt-1"
+                  style="page-break-after: always; position: relative"
+                >
+                  <div class="doc-header-top" [innerHTML]="test.correction_grid.header.directive_long | safeHtml"></div>
+                </div>
+                <div class="doc-grid">
+                  <div *ngIf="test.correction_grid && test.correction_grid.correction && test.correction_grid.correction.show_as_list">
+                    <ng-template ngFor let-section [ngForOf]="pageSectionsArray[0]">
+                      <div
+                        fxLayout="row wrap"
+                        fxFlexAlign="space-between center"
+                        class="text-lg px-1 list-header"
+                        *ngIf="section?.is_selected !== false"
+                      >
+                        <b>{{ section?.ref_id }}&nbsp;-&nbsp;</b>
+                        <b fxFlex [innerHTML]="section.title"></b>
+                        <b *ngIf="test?.block_type !== 'competence' && test?.block_type !== 'soft_skill' && test?.type !== 'academic_recommendation'">
+                          / {{ section.maximum_rating }}</b
+                        >
+                      </div>
+                      <ul class="my-1 px-1 fix-ql-ul">
+                        <ng-container *ngFor="let notation of section.sub_sections">
+                          <li fxLayout="row wrap" *ngIf="notation?.is_selected !== false">
+                            <div>{{ notation?.ref_id }}&nbsp;-&nbsp;</div>
+                            <div fxFlex [innerHTML]="notation.title"></div>
+                            <span *ngIf="test?.correction_grid?.correction?.show_notation_marks && test?.type !== 'academic_recommendation'"> / {{ notation.maximum_rating }} </span>
+                          </li>
+                        </ng-container>
+                      </ul>
+
+                      <div *ngIf="test.correction_grid.correction.comment_for_each_sub_section" class="mb-2">
+                        <span class="text-lg">
+                          <b>{{ test.correction_grid.correction.comment_for_each_sub_section_header }} :</b>
+                        </span>
+                        <div class="comment-section"></div>
+                        <div class="comment-section"></div>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <table
+                    width="100%"
+                    *ngIf="!(test.correction_grid && test.correction_grid.correction && test.correction_grid.correction.show_as_list)"
+                    class="doc-table"
+                  >
+                    <tbody>
+                      <ng-template ngFor let-section let-sectionIndex="index" [ngForOf]="pageSectionsArray[0]">
+                        <tr class="section" *ngIf="section?.is_selected !== false">
+                          <td [width]="getTitleWidth()">
+                            <span class="gene-block">{{ section?.ref_id }}</span>
+                            <span [innerHTML]="section.title"></span>
+                          </td>
+                          <td
+                            style="width: 30%"
+                            class="text-center font-weight-bold"
+                            *ngIf="test.correction_grid.correction.show_direction_column"
+                          >
+                            {{ test.correction_grid.correction.directions_column_header }}
+                          </td>
+                          <!-- ********** For non multiple date, the input for column is only one -->
+                          <ng-container *ngIf="test?.date_type !== 'multiple_date'">
+                            <td
+                              class="text-center font-weight-bold"
+                              [width]="'10%'"
+                              *ngIf="test.correction_grid.correction.show_number_marks_column"
+                            >
+                              {{ test.correction_grid.correction.number_marks_column_header }}
+                            </td>
+                            <td
+                              class="text-center font-weight-bold"
+                              [width]="'10%'"
+                              *ngIf="test.correction_grid.correction.show_letter_marks_column"
+                            >
+                              {{ test.correction_grid.correction.letter_marks_column_header }}
+                            </td>
+                            <td
+                              class="text-center font-weight-bold"
+                              [width]="'10%'"
+                              *ngIf="test.correction_grid.correction.show_phrase_marks_column"
+                            >
+                              {{ test.correction_grid.correction.phrase_marks_column_header }}
+                            </td>
+                            <td
+                              class="text-center font-weight-bold"
+                              [width]="'30%'"
+                              *ngIf="test.correction_grid.correction.comment_for_each_sub_section"
+                            >
+                              {{ test.correction_grid.correction.comment_for_each_sub_section_header }}
+                            </td>
+                          </ng-container>
+                          <!-- ********** For multiple date, the input for column is per date -->
+                          <ng-container *ngIf="test?.date_type === 'multiple_date'">
+                            <ng-container *ngFor="let date of test?.multiple_dates">
+                              <td
+                                class="text-center font-weight-bold"
+                                [width]="'10%'"
+                                *ngIf="test.correction_grid.correction.show_number_marks_column"
+                              >
+                                <!-- {{ test.correction_grid.correction.number_marks_column_header }} -->
+                                {{ getTranslatedDateDocument(date) }}
+                              </td>
+                              <td
+                                class="text-center font-weight-bold"
+                                [width]="'10%'"
+                                *ngIf="test.correction_grid.correction.show_letter_marks_column"
+                              >
+                                {{ test.correction_grid.correction.letter_marks_column_header }}
+                              </td>
+                              <td
+                                class="text-center font-weight-bold"
+                                [width]="'10%'"
+                                *ngIf="test.correction_grid.correction.show_phrase_marks_column"
+                              >
+                                {{ test.correction_grid.correction.phrase_marks_column_header }}
+                              </td>
+                              <td class="text-center font-weight-bold" *ngIf="test.correction_grid.correction.comment_for_each_sub_section">
+                                {{ test.correction_grid.correction.comment_for_each_sub_section_header }}
+                              </td>
+                            </ng-container>
+                          </ng-container>
+                        </tr>
+                        <ng-container *ngFor="let subSection of section.sub_sections">
+                          <tr class="sub-section" *ngIf="subSection?.is_selected !== false">
+                            <td>
+                              <span class="gene-block">{{ subSection?.ref_id }}</span>
+                              <span [innerHTML]="subSection.title"></span>
+                            </td>
+                            <td *ngIf="test.correction_grid.correction.show_direction_column" [innerHTML]="subSection.direction"></td>
+
+                            <ng-container *ngIf="test?.date_type !== 'multiple_date'">
+                              <td align="right" *ngIf="test.correction_grid.correction.show_number_marks_column">
+                                <u>/ {{ subSection.maximum_rating }}</u>
+                              </td>
+                              <td *ngIf="test.correction_grid.correction.show_letter_marks_column"></td>
+                              <td *ngIf="test.correction_grid.correction.show_phrase_marks_column"></td>
+                              <td *ngIf="test.correction_grid.correction.comment_for_each_sub_section"></td>
+                            </ng-container>
+
+                            <ng-container *ngIf="test?.date_type === 'multiple_date'">
+                              <ng-container *ngFor="let date of test?.multiple_dates">
+                                <td align="right" *ngIf="test.correction_grid.correction.show_number_marks_column">
+                                  <u>/ {{ subSection.maximum_rating }}</u>
+                                </td>
+                                <td *ngIf="test.correction_grid.correction.show_letter_marks_column"></td>
+                                <td *ngIf="test.correction_grid.correction.show_phrase_marks_column"></td>
+                                <td *ngIf="test.correction_grid.correction.comment_for_each_sub_section"></td>
+                              </ng-container>
+                            </ng-container>
+                          </tr>
+                        </ng-container>
+                        <ng-container *ngIf="test.block_type !== 'competence' && test.block_type !== 'soft_skill'">
+                          <tr *ngIf="test.correction_grid.correction.show_number_marks_column">
+                            <td></td>
+                            <td *ngIf="test.correction_grid.correction.show_direction_column"></td>
+                            <td align="right" *ngIf="test.correction_grid.correction.show_number_marks_column">
+                              <u>/ {{ section.maximum_rating }}</u>
+                            </td>
+                            <td *ngIf="test.correction_grid.correction.show_letter_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.show_phrase_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.comment_for_each_sub_section"></td>
+                          </tr>
+                        </ng-container>
+                        <tr *ngIf="test.correction_grid.correction.comment_for_each_section && section?.is_selected !== false">
+                          <td colspan="5">
+                            <b>{{ test.correction_grid.correction.comment_for_each_section_header }}</b>
+                          </td>
+                        </tr>
+                        <!-- to separate each section -->
+                        <tr>
+                          <td class="no-border"></td>
+                        </tr>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                  <div *ngIf="showBottomGrid(1); then bottomGrid"></div>
+                </div>
+                <div *ngIf="showBottomGrid(1); then gridFooter"></div>
+                <!-- <div *ngIf="docFooterText" class="operator-footer-text">
+                  {{ 'ADMTC – ' }} {{ 'TEST.EVALUATIONGRID' | translate }} {{ ' ' }} {{ test.name }} {{ ' – ' }}
+                  {{ rncpTitle?.short_name }}
+                </div> -->
+                <div *ngIf="docFooterText" class="doc-footer">
+                  <div class="doc-footer-text">
+                    ADMTC – {{ 'TEST.EVALUATIONGRID' | translate }} {{ test?.name }} - {{ rncpTitle?.short_name }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="page-break-before: always; position: relative"></div>
+            <div
+              *ngFor="let pageArray of getArrayExceptFirst(); index as pageArrayIndex"
+              [ngStyle]="{ display: visiblePage === pageArrayIndex + 2 ? 'block' : 'none' }"
+              class="document"
+              [ngClass]="'preview-orientation-' + test.correction_grid.orientation"
+            >
+              <div style="page-break-after: always; position: relative"></div>
+              <div class="pa-1" style="min-height: 100%; position: relative">
+                <div class="doc-page-no" style="text-align: right">{{ pageArrayIndex + 2 }} / {{ pages }}</div>
+                <div class="doc-rncp-title">
+                  <span>{{ rncpTitle ? rncpTitle.longName : '' }}</span>
+                </div>
+                <div class="doc-grid">
+                  <div *ngIf="test.correction_grid && test.correction_grid.correction && test.correction_grid.correction.show_as_list">
+                    <ng-template ngFor let-section [ngForOf]="pageSectionsArray[pageArrayIndex + 1]">
+                      <div
+                        fxLayout="row wrap"
+                        fxFlexAlign="space-between center"
+                        class="text-lg px-1 list-header"
+                        *ngIf="section?.is_selected !== false"
+                      >
+                        <b>{{ section?.ref_id }}&nbsp;-&nbsp;</b>
+                        <b fxFlex [innerHTML]="section.title"></b>
+                        <b *ngIf="test?.block_type !== 'competence' && test?.block_type !== 'soft_skill' && test?.type !== 'academic_recommendation'">
+                          / {{ section.maximum_rating }}</b
+                        >
+                      </div>
+                      <ul class="my-1 px-1 fix-ql-ul">
+                        <ng-container *ngFor="let notation of section.sub_sections">
+                          <li fxLayout="row wrap" *ngIf="notation?.is_selected !== false">
+                            <div>{{ notation?.ref_id }}&nbsp;-&nbsp;</div>
+                            <div fxFlex [innerHTML]="notation.title"></div>
+                            <span *ngIf="test?.correction_grid?.correction?.show_notation_marks && test?.type !== 'academic_recommendation'"> / {{ notation.maximum_rating }} </span>
+                          </li>
+                        </ng-container>
+                      </ul>
+
+                      <div *ngIf="test.correction_grid.correction.comment_for_each_sub_section" class="mb-2">
+                        <span class="text-lg">
+                          <b>{{ test.correction_grid.correction.comment_for_each_sub_section_header }} :</b>
+                        </span>
+                        <div class="comment-section"></div>
+                        <div class="comment-section"></div>
+                      </div>
+                    </ng-template>
+                  </div>
+                  <table
+                    width="100%"
+                    *ngIf="!(test.correction_grid && test.correction_grid.correction && test.correction_grid.correction.show_as_list)"
+                    class="doc-table"
+                  >
+                    <tbody>
+                      <ng-template ngFor let-section let-sectionIndex="index" [ngForOf]="pageSectionsArray[pageArrayIndex + 1]">
+                        <tr class="section" *ngIf="section?.is_selected !== false">
+                          <td [width]="getTitleWidth()">
+                            <span class="gene-block">{{ section?.ref_id }}</span>
+                            <span [innerHTML]="section.title"></span>
+                          </td>
+                          <td
+                            style="width: 30%"
+                            class="text-center font-weight-bold"
+                            *ngIf="test.correction_grid.correction.show_direction_column"
+                          >
+                            {{ test.correction_grid.correction.directions_column_header }}
+                          </td>
+                          <td
+                            class="text-center font-weight-bold"
+                            [width]="'10%'"
+                            *ngIf="test.correction_grid.correction.show_number_marks_column"
+                          >
+                            {{ test.correction_grid.correction.number_marks_column_header }}
+                          </td>
+                          <td
+                            class="text-center font-weight-bold"
+                            [width]="'10%'"
+                            *ngIf="test.correction_grid.correction.show_letter_marks_column"
+                          >
+                            {{ test.correction_grid.correction.letter_marks_column_header }}
+                          </td>
+                          <td
+                            class="text-center font-weight-bold"
+                            [width]="'10%'"
+                            *ngIf="test.correction_grid.correction.show_phrase_marks_column"
+                          >
+                            {{ test.correction_grid.correction.phrase_marks_column_header }}
+                          </td>
+                          <td class="text-center font-weight-bold" *ngIf="test.correction_grid.correction.comment_for_each_sub_section">
+                            {{ test.correction_grid.correction.comment_for_each_sub_section_header }}
+                          </td>
+                        </tr>
+                        <ng-container *ngFor="let subSection of section.sub_sections">
+                          <tr class="sub-section" *ngIf="subSection?.is_selected !== false">
+                            <td>
+                              <span class="gene-block">{{ subSection?.ref_id }}</span>
+                              <span [innerHTML]="subSection.title"></span>
+                            </td>
+                            <td *ngIf="test.correction_grid.correction.show_direction_column" [innerHTML]="subSection.direction"></td>
+                            <td align="right" *ngIf="test.correction_grid.correction.show_number_marks_column">
+                              <u>/ {{ subSection.maximum_rating }}</u>
+                            </td>
+                            <td *ngIf="test.correction_grid.correction.show_letter_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.show_phrase_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.comment_for_each_sub_section"></td>
+                          </tr>
+                        </ng-container>
+                        <ng-container *ngIf="test.block_type !== 'competence' && test.block_type !== 'soft_skill'">
+                          <tr *ngIf="test.correction_grid.correction.show_number_marks_column">
+                            <td></td>
+                            <td *ngIf="test.correction_grid.correction.show_direction_column"></td>
+                            <td align="right" *ngIf="test.correction_grid.correction.show_number_marks_column">
+                              <u>/ {{ section.maximum_rating }}</u>
+                            </td>
+                            <td *ngIf="test.correction_grid.correction.show_letter_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.show_phrase_marks_column"></td>
+                            <td *ngIf="test.correction_grid.correction.comment_for_each_sub_section"></td>
+                          </tr>
+                        </ng-container>
+                        <tr *ngIf="test.correction_grid.correction.comment_for_each_section && section?.is_selected !== false">
+                          <td colspan="5">
+                            <b>{{ test.correction_grid.correction.comment_for_each_section_header }}</b>
+                          </td>
+                        </tr>
+                        <!-- to separate each section -->
+                        <tr>
+                          <td class="no-border"></td>
+                        </tr>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                  <div *ngIf="showBottomGrid(pageArrayIndex + 2); then bottomGrid"></div>
+                </div>
+                <div *ngIf="showBottomGrid(pageArrayIndex + 2); then gridFooter"></div>
+                <!-- <div *ngIf="docFooterText" class="operator-footer-text">
+                  {{ 'ADMTC – ' }} {{ 'TEST.EVALUATIONGRID' | translate }} {{ ' ' }} {{ test.name }} {{ ' – ' }}
+                  {{ rncpTitle?.short_name }}
+                </div> -->
+                <div *ngIf="docFooterText" class="doc-footer">
+                  <div class="doc-footer-text">
+                    ADMTC – {{ 'TEST.EVALUATIONGRID' | translate }} {{ test?.name }} - {{ rncpTitle?.short_name }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="column wrap" class="pa-1" *ngIf="expanded && test.date_type === 'Different'" class="school-names">
+        <div fxFlex class="text-center" style="margin: 10px">
+          <b class="text-xl" style="text-decoration: underline">{{ 'DOCUMENT.DATES_OF_TESTES' | translate }}</b>
+        </div>
+        <div fxLayout="row" fxLayoutWrap="wrap" style="justify-content: space-between">
+          <span *ngFor="let school of test?.schools" class="school-name-date">
+            {{ school?.school_details }}{{ ' - ' }} {{ getLocalDate(school?.test_date) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #bottomGrid>
+  <div
+    fxLayout="row wrap"
+    class="doc-penalties mt-1"
+    *ngIf="test?.correction_grid?.correction?.show_penalty || test?.correction_grid?.correction?.show_bonus"
+  >
+    <div fxFlex>
+      <ng-template [ngIf]="test?.correction_grid?.correction?.show_penalty">
+        <table class="doc-table">
+          <tr>
+            <td class="pr-1 font-weight-bold" style="border: none; padding-left: 0">
+              {{ test.correction_grid.correction.penalty_header }}
+            </td>
+            <td align="center" class="font-weight-bold" width="10%" style="border: none"></td>
+          </tr>
+          <tr *ngFor="let penalty of test?.correction_grid?.correction?.penalties; index as i">
+            <td style="border: none; padding-left: 0">{{ penalty?.title }}</td>
+            <td class="score-column">&nbsp;</td>
+          </tr>
+        </table>
+      </ng-template>
+
+      <ng-template [ngIf]="test.correction_grid.correction.show_bonus">
+        <table class="doc-table">
+          <tr style="border: none">
+            <td class="pr-1 font-weight-bold" style="border: none; padding-left: 0">{{ test.correction_grid.correction.bonus_header }}</td>
+            <td align="center" class="font-weight-bold" style="border: none" width="10%"></td>
+          </tr>
+          <tr *ngFor="let bonus of test?.correction_grid?.correction?.bonuses; index as i">
+            <td style="border: none; padding-left: 0">{{ bonus?.title }}</td>
+            <td class="score-column">&nbsp;</td>
+          </tr>
+        </table>
+      </ng-template>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" *ngIf="test.correction_grid.correction.show_elimination">
+    <div fxFlex>
+      <div class="mt-1">
+        <span class="text-lg">
+          <b>{{ 'TEST.ELIMINATION' | translate }} :</b>
+        </span>
+        <table class="doc-table" width="100%">
+          <tr style="height: 20px" class="sub-section">
+            <!-- <td style="padding-left:0.75rem; padding-right:0.75rem"></td>
+            <td style="border:none;">&nbsp; &nbsp;</td> -->
+            <td style="border: none; padding-left: 0 !important">{{ 'TEST.REASON' | translate }}{{ ':' }}</td>
+            <td style="width: 87.3%">
+              <span></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- final total for normal test -->
+  <div
+    style="overflow: hidden"
+    *ngIf="
+      test.correction_grid.correction.display_final_total &&
+      test.correction_grid.correction.show_number_marks_column &&
+      test.block_type !== 'competence' &&
+      test.block_type !== 'soft_skill'
+    "
+  >
+    <table class="doc-table mt-1" style="float: right">
+      <tbody>
+        <tr>
+          <td class="head px-1">Total /{{ getMaxScore() }}</td>
+          <td class="px-3"></td>
+        </tr>
+        <tr *ngIf="test.correction_grid.correction.total_zone.display_additional_total">
+          <td class="head px-1">Total /{{ getMaxCustomScore() }}</td>
+          <td class="px-3"></td>
+        </tr>
+        <tr *ngIf="test.type == 'Jury' || test.type == 'Memoire-ORAL'">
+          <td class="head px-1">{{ 'TEST.SCORE_BY_JURY' | translate }} /{{ getMaxCustomScore() }}</td>
+          <td class="px-3"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- final total for eval by competence/expertise free continous control test -->
+  <div style="overflow: hidden" *ngIf="test.block_type === 'competence' || test.block_type === 'soft_skill'">
+    <table class="doc-table mt-1" style="float: right" *ngIf="test?.type === 'free_continuous_control'">
+      <tbody>
+        <tr>
+          <td class="head px-1">Total /{{ getMaxCustomScore() }}</td>
+          <td class="px-3"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div fxLayout="row wrap" *ngIf="test.correction_grid.correction.show_final_comment">
+    <div fxFlex>
+      <div class="mt-1">
+        <span class="text-lg">
+          <b>{{ test.correction_grid.correction.final_comment_header }} :</b>
+        </span>
+        <div class="comment-section"></div>
+        <div class="comment-section"></div>
+        <div class="comment-section"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #gridFooter>
+  <div class="doc-footer">
+    <div
+      class="doc-footer-text"
+      *ngIf="!test.correction_grid.footer.text_below"
+      [innerHTML]="test.correction_grid.footer.text | safeHtml"
+    ></div>
+
+    <div class="doc-footer-fields" *ngIf="test.correction_grid.footer.fields.length > 0">
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <ng-template ngFor let-i="index" let-c="count" let-field [ngForOf]="test.correction_grid.footer.fields">
+          <ng-template [ngIf]="field.type === 'longtext'">
+            <div class="lineme" fxFlex="100">{{ field.value }} :</div>
+          </ng-template>
+          <ng-template [ngIf]="field.type !== 'longtext' && field.align === 'left'">
+            <div
+              [ngClass]="{
+                lineme: field.type !== 'signature',
+                signature: field.type === 'signature',
+                'pr-1': field.align === 'left'
+              }"
+              fxFlex="50"
+            >
+              {{ field.value }} :
+            </div>
+            <ng-template [ngIf]="i === c - 1 || test.correction_grid.footer.fields[i + 1].align === 'left'">
+              <div fxFlex="50"></div>
+            </ng-template>
+          </ng-template>
+          <ng-template [ngIf]="field.type !== 'longtext' && field.align === 'right'">
+            <ng-template
+              [ngIf]="
+                i === 0 ||
+                test.correction_grid.footer.fields[i - 1].align === 'right' ||
+                test.correction_grid.footer.fields[i - 1].type === 'longtext'
+              "
+            >
+              <div fxFlex="50"></div>
+            </ng-template>
+            <div
+              [ngClass]="{
+                lineme: field.type !== 'signature',
+                signature: field.type === 'signature'
+              }"
+              fxFlex="50"
+            >
+              {{ field.value }} :
+            </div>
+          </ng-template>
+        </ng-template>
+      </div>
+    </div>
+
+    <div
+      class="doc-footer-text"
+      *ngIf="test.correction_grid.footer.text_below"
+      [innerHTML]="test.correction_grid.footer.text | safeHtml"
+    ></div>
+  </div>
+</ng-template>

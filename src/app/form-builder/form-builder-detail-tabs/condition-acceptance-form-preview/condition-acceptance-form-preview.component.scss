@@ -1,0 +1,33 @@
+section {
+  padding: 10px;
+  margin-top: 2rem;
+}
+
+.header {
+  margin: 15px auto;
+}
+
+.segment-name {
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+}
+
+.ql-editor {
+  margin: 1rem auto;
+  // max-height: 30rem;
+}
+
+.container-view-potrait {
+  iframe {
+    height: 975px;
+    width: 100%;
+  }
+}
+
+.container-view-lanscape {
+  iframe {
+    height: 500px;
+    width: 100%;
+    vertical-align: bottom;
+  }
+}

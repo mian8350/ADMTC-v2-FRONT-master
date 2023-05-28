@@ -1,0 +1,82 @@
+<div class="title" style="vertical-align: middle">
+  <div class="no-padding urgentIcon">
+    <mat-icon svgIcon="alarm-light" class="mat-icon-section-svgIcon"></mat-icon>
+  </div>
+  <h4 class="header-title">{{ 'New functionality in the platform - Please answer this before using the platform' | translate }}</h4>
+</div>
+
+<div class="body-section">
+  <div class="compose-mail">
+    <div style="width: 100%; padding-top: 15px">
+      <div class="emailsubject e-mailSubject" style="display: contents">
+        <b>{{ parentData?.name }}</b>
+      </div>
+      <span style="float: right; font-size: 12px">{{ transformDate(parentData?.published_date) }}</span>
+      <hr style="border: 1px solid !important" />
+    </div>
+
+    <div class="message_detail" style="padding-top: 15px">
+      <ckeditor
+        [config]="{
+          toolbar: [],
+          link: {
+            addTargetToExternalLinks: true
+          }
+        }"
+        [editor]="Editor"
+        [data]="parentData?.message"
+        [disabled]="true"
+        (ready)="onReady($event)"
+      ></ckeditor>
+    </div>
+  </div>
+</div>
+<div class="footer" f style="padding: 0px 26px" [formGroup]="alertForm">
+  <div class="p-col-12">
+    <div class="p-grid reply-answer" *ngIf="parentData && parentData.required_response">
+      <!-- <mat-form-field style="width: 85%">
+        <textarea matInput type="text" [formControl]="replyForm" placeholder="{{ 'Reply here' | translate }}"></textarea>
+      </mat-form-field> -->
+      <ckeditor
+        [config]="{
+          toolbar: [
+            'heading',
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            'highlight:redPen',
+            'highlight:greenPen',
+            'removeHighlight',
+            'numberedList',
+            'bulletedList',
+            'link',
+            'undo',
+            'redo'
+          ],
+          link: {
+            addTargetToExternalLinks: true
+          },
+          placeholder: 'MailBox.reply-here' | translate
+        }"
+        [editor]="Editor"
+        formControlName="response"
+        (ready)="onReady($event)"
+        style="width: 80%"
+        [required]="parentData && parentData.required_response ? true : false"
+      >
+      </ckeditor>
+      <button mat-raised-button class="background-accent" (click)="onReply()">
+        <mat-icon>reply</mat-icon> {{ 'MailBox.emailDetails.reply' | translate }}
+      </button>
+    </div>
+    <div *ngIf="parentData && !parentData.required_response" class="p-grid button-right">
+      <button mat-raised-button color="primary" (click)="setResponse(parentData?.button1)">{{ parentData?.button1 }}</button>
+      <button mat-raised-button color="primary" (click)="setResponse(parentData?.button2)">{{ parentData?.button2 }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

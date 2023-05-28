@@ -1,0 +1,211 @@
+<div style="margin-top: 16px">
+  <div class="horizontal header-button header-action">
+    <div class="text-right" style="display: inline-block; float: right">
+      <button
+        style="padding: 0px 8px !important"
+        color="accent"
+        mat-raised-button
+        matTooltip="{{ 'Reminder' | translate }}"
+        [disabled]="disabledButton"
+        (click)="sendReminderMultiple()"
+      >
+        {{ 'Reminder' | translate }}
+      </button>
+      <button
+        style="padding: 0px 8px !important"
+        color="accent"
+        mat-raised-button
+        matTooltip="{{ 'Email' | translate }}"
+        [disabled]="disabledButton"
+        (click)="sendMultipleMail()"
+      >
+        {{ 'Email' | translate }}
+      </button>
+      <button
+        style="padding: 0px 8px !important"
+        color="primary"
+        mat-raised-button
+        matTooltip="{{ 'Reset Filter' | translate }}"
+        (click)="reset()"
+      >
+        <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'Reset' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="horizontal mat-elevation-z8 finance-table" style="font-family: 'firaSans' !important">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <!---FILTERS START-->
+      <ng-container matColumnDef="selectFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+      </ng-container>
+      <ng-container matColumnDef="schoolFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <ng-select
+            class="dropdown margin"
+            [appendTo]="'body'"
+            [multiple]="false"
+            [clearable]="false"
+            placeholder="{{ 'search' | translate }}"
+            [formControl]="schoolFilter"
+            clear
+            (change)="selectSchool()"
+          >
+            <ng-option value="">{{ 'All' | translate }}</ng-option>
+            <ng-option *ngFor="let record of schoolFilterList" [value]="record?._id">
+              {{ record?.short_name }}
+            </ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+
+      <ng-container *ngFor="let i of testColumns" matColumnDef="{{ i }}_filter">
+        <th mat-header-cell *matHeaderCellDef class="dynamic-column">
+          <ng-select
+            class="dropdown"
+            [appendTo]="'body'"
+            [multiple]="false"
+            [clearable]="false"
+            [(ngModel)]="taskDynamic['T' + i]"
+            (change)="updateFilterTask(task, $event)"
+          >
+            <ng-option *ngFor="let status of taskFilterDropdown" [value]="status?.value">
+              {{ status?.key | translate }}
+            </ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="taskAcadFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="taskStudent">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+      </ng-container>
+      <!---FILTERS END-->
+
+      <!---ROW DATA START-->
+      <ng-container matColumnDef="selection">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null; selected()"
+            [checked]="(selection.hasValue() && isAllSelected()) || isCheckedAll"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null; selected()"
+            [checked]="selection.isSelected(row) || isCheckedAll"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school_short_name">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="school_short_name">{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row?.school_id?.short_name }}</td>
+      </ng-container>
+
+      <ng-container *ngIf="testColumns && testColumns.length">
+        <ng-container *ngFor="let i of testColumns; let in = index" matColumnDef="{{ i }}">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="dynamic-column"
+            matTooltipPosition="above"
+            [matTooltip]="row?.tasks[in]?.task_builder_id?.task_title"
+          >
+            <div [mat-sort-header]="'task_status_' + tasks[in]?.task_builder_id?._id" class="clamp-3">
+              {{ row?.tasks[in]?.task_builder_id?.task_title }}
+            </div>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="text-center"
+            [matTooltip]="setToolTip(row?.tasks[in]?.acad_task_id?.task_status, row, i)"
+            matTooltipPosition="above"
+          >
+            <span *ngIf="!row?.tasks[in]">-</span>
+            <mat-icon *ngIf="row?.tasks[in]?.acad_task_id?.task_status === 'done'" class="green-icon">lens</mat-icon>
+            <mat-icon *ngIf="row?.tasks[in]?.acad_task_id?.task_status !== 'done' && row?.tasks[in]" class="red-icon">lens</mat-icon>
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <ng-container matColumnDef="task_academic_director_late">
+        <th mat-header-cell *matHeaderCellDef style="right: 0">
+          <h5 mat-sort-header="task_academic_director_late" class="clamp-3">
+            {{ 'Task Late for' | translate }} {{ 'USER_TYPES.Acad Dir' | translate }}
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">{{ row?.task_academic_director_late || '-' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="task_student_late">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 mat-sort-header="task_student_late" class="clamp-3">
+            {{ 'Task Late for' | translate }} {{ 'USER_TYPES.Student' | translate }}
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">{{ row?.task_student_late || '-' }}</td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="etc">
+        <th mat-header-cell *matHeaderCellDef>{{ 'Etc.' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="text-center"></td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'Action' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <button mat-icon-button (click)="sendReminder(row)" matTooltip="{{ 'Reminder' | translate }}" matTooltipPosition="above">
+            <mat-icon>notifications</mat-icon>
+          </button>
+          <button mat-icon-button (click)="sendMail(row)" matTooltip="{{ 'Email' | translate }}" matTooltipPosition="above">
+            <mat-icon>mail</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="23" style="text-align: center !important">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+    </table>
+  </div>
+
+  <div class="horizontal" style="margin-bottom: 40px">
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+  </div>
+</div>

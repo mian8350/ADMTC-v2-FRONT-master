@@ -1,0 +1,299 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  matSortDisableClear
+  class="mat-elevation-z8 mrgn-t-md"
+>
+  <ng-container matColumnDef="reset">
+    <th mat-header-cell *matHeaderCellDef colspan="11" class="action-header-column">
+      <div class="p-col justify-content-between">
+        <div class="text-left">
+          <mat-form-field class="top-date-picker">
+            <input matInput 
+              [matDatepicker]="fromPicker" 
+              placeholder="{{ 'FROM_HISTORY' | translate }}" 
+              [formControl]="dateFromFilter"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker" style="margin-right:5px"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="top-date-picker">
+            <input matInput 
+              [matDatepicker]="toPicker" 
+              placeholder="{{ 'TO_HISTORY' | translate }}" 
+              [formControl]="dateToFilter"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="toPicker" style="margin-right:5px" [disabled]="!dateFromFilter?.value"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button color="primary" class="margin-right-0" (click)="searchTodayResult()">
+            <mat-icon svgIcon="magnify" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Today' | translate }}
+          </button>
+        </div>
+        <div class="text-right">
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button mat-raised-button color="warn" (click)="cancelAssignMemberJury()">
+            <mat-icon class="mat-icon-default align">reply</mat-icon>
+            <span>{{ 'CANCEL' | translate }}</span>
+          </button>
+          <!--  [disabled]="juryOrgData?.current_status !== 'assign_president_jury'" -->
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="saveAssignMemberJury()"
+          >
+            {{ 'Save' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="!isUserAcadDirMin"
+            (click)="submitAssignMemberJury()"
+          >
+            {{ 'Submit' | translate }}
+          </button>
+        </div>
+      </div>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="selectFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="jurySerialNumberFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="dateStartFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matDatepicker]="picker"
+          [formControl]="dateStartFilter"
+          placeholder="{{ 'SELECTDATE' | translate }}"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="schoolFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="cityFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="cityFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitlesFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="rncpTitlesFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="studentsFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="presidentJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="presidentJuryFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="professionalJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="professionalJuryFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="academicJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="academicJuryFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="substitutionJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="substitutionJuryFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(element) : null"
+        [checked]="selection.isSelected(element)"
+        [aria-label]="checkboxLabel(element)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="jury_serial_number">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.JURYNUMBER' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.jury_serial_number }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="date_start">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'MailBox.DATE' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.date_start | date: 'dd/MM/yyyy' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="school">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'Location' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" [matTooltip]="element?.school?.short_name">{{ element?.school?.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'City' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.school?.school_address[0]?.city }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitles">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'TASK.RNCP_Title' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.rncp_title.short_name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="students">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'Students' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.students?.length }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="president_of_jury">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.PRESIDENT' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element?.president_of_jury?.last_name | uppercase }} {{ element?.president_of_jury?.first_name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="professional_jury_member">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.PROFESSIONAL' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <mat-select [(ngModel)]="element.professional_jury_member">
+          <mat-option [value]="">
+            {{ 'NONE' | translate }}
+          </mat-option>
+          <ng-container *ngFor="let pro of professionalJuries">
+            <mat-option *ngIf="isUserHasSameSchool(element?.school?._id, pro?.entities)" [value]="pro?._id">
+              {{ pro?.last_name | uppercase }} {{ pro?.first_name }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="academic_jury_member">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <mat-select [(ngModel)]="element.academic_jury_member">
+          <mat-option [value]="">
+            {{ 'NONE' | translate }}
+          </mat-option>
+          <ng-container *ngFor="let academic of academicJuries">
+            <mat-option *ngIf="isUserHasSameSchool(element?.school?._id, academic?.entities)" [value]="academic?._id">
+              {{ academic?.last_name | uppercase }} {{ academic?.first_name }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="substitution_jury_member">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <h5>{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <mat-select [(ngModel)]="element.substitution_jury_member">
+          <mat-option [value]="">
+            {{ 'NONE' | translate }}
+          </mat-option>
+          <ng-container *ngFor="let sub of subtituteJuries">
+            <mat-option *ngIf="isUserHasSameSchool(element?.school?._id, sub?.entities)" [value]="sub?._id">
+              {{ sub?.last_name | uppercase }} {{ sub?.first_name }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="loading">
+    <th mat-header-cell *matHeaderCellDef colspan="11" class="text-center">
+      <div class="center-spinner">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+    </th>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+</table>
+
+<mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>

@@ -1,0 +1,78 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon class="class-error">error_outline</mat-icon>
+</div>
+
+<div class="pad-x-md pad-t-md">
+  <p>
+    {{
+      parentData && parentData.required_response
+        ? ('To get the answer details from user please export the result' | translate)
+        : ('Here is the total answer up to today' | translate) + ' : '
+    }}
+  </p>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!parentData?.required_response">
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>{{ ('Total Click on' | translate) + ' ' + parentData?.button1 }}</th>
+      <td mat-cell *matCellDef="let element">{{ parentData && parentData.responseButton1 ? parentData.responseButton1 : 0 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>{{ ('Total Click on' | translate) + ' ' + parentData?.button2 }}</th>
+      <td mat-cell *matCellDef="let element">{{ parentData && parentData.responseButton2 ? parentData.responseButton2 : 0 }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <p style="margin-top: 15px">
+    {{
+      parentData && parentData.required_response
+        ? ('You can click on the export button below to have the result on a google sheet' | translate)
+        : ('You can Export the result of total answer up to today to google sheet by clicking on “Export” button below' | translate)
+    }}
+  </p>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      matTooltip="{{ 'ExportAlert' | translate }}"
+      matTooltipPosition="above"
+      (click)="exportName = 'Export'; exportSwal.show()"
+    >
+      {{ 'ExportAlert' | translate }}
+    </button>
+  </div>
+</div>
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>

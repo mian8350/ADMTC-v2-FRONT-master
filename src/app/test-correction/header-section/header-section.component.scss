@@ -1,0 +1,45 @@
+.input-width {
+  width: 7rem;
+}
+
+.test-data {
+  font-size: 13px;
+}
+
+.header-section {
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  width: inherit;
+}
+
+.header-field-text {
+  width: 130px;
+}
+
+.header-field-date {
+  width: 130px;
+}
+
+.small-field-font {
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -0.5em;
+}
+
+:host ::ng-deep .mat-form-field-label {
+  font-size: 12px;
+}
+
+.box {
+  // width: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+// :host ::ng-deep .mat-form-field-infix {
+//   padding: 0px;
+//   margin-top: 10px;
+// }

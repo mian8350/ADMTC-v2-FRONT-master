@@ -1,0 +1,519 @@
+<div class="p-grid">
+  <div style="text-align: start" class="p-col-1">
+    <button matTooltip="{{ 'LEAVE' | translate }}" mat-raised-button color="warn" style="padding-left: 10px" (click)="leave()">
+      <mat-icon class="mat-icon-default">keyboard_arrow_left</mat-icon>
+      {{ 'LEAVE' | translate }}
+    </button>
+  </div>
+
+  <div class="p-col-5 text-end-no-pad-r" [formGroup]="stepParamatersForm">
+    <!-- [disabled]="!templateStepForm.valid || isFormChanged() || isPublished" -->
+
+    <button
+      matTooltip="{{ 'Save' | translate }}"
+      mat-raised-button
+      color="accent"
+      [disabled]="!stepParamatersForm.valid || formIsSame() || isPublished"
+      (click)="saveStepData()"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-6 form-side" style="margin-top: 2rem">
+    <div class="p-grid yellow-border card-row" [formGroup]="stepParamatersForm">
+      <div [ngClass]="stepParamatersForm.get('step_type').value === 'step_with_signing_process' ? 'p-col-12' : 'p-col-6'">
+        <mat-form-field color="accent">
+          <mat-label>{{ 'Select Step Type' | translate }}</mat-label>
+          <mat-select formControlName="step_type" (selectionChange)="changeStepType($event.value)">
+            <mat-option *ngFor="let type of stepTypes" [value]="type">
+              {{ 'ERP_009_TEACHER_CONTRACT.' + type | translate }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              stepParamatersForm.get('step_type').hasError('required') &&
+              (stepParamatersForm.get('step_type').dirty || stepParamatersForm.get('step_type').touched)
+            "
+          >
+            {{ 'This field is required' | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div
+        class="p-col-6"
+        [ngStyle]="{
+          display:
+            stepParamatersForm.get('step_type').value !== 'final_message' &&
+            stepParamatersForm.get('step_type').value !== 'summary' &&
+            stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+              ? 'block'
+              : 'none'
+        }"
+      >
+        <mat-form-field color="accent" *ngIf="stepParamatersForm.get('step_type').value !== 'final_message'">
+          <mat-label>{{ 'Select user who will complete the step' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="userTypeAuto"
+            (keyup)="onStepCompleterFilter($event)"
+            [formControl]="completerFilter"
+            [required]="
+              stepParamatersForm.get('step_type').value !== 'final_message' &&
+              stepParamatersForm.get('step_type').value !== 'summary' &&
+              stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+            "
+          />
+          <mat-autocomplete #userTypeAuto [panelWidth]="'fit'">
+            <mat-option *ngFor="let type of filteredStepCompleterUserTypes" [value]="type?.name" (click)="onSelectStepCompleter(type)">
+              {{ type?.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-error
+          *ngIf="
+            (completerFilter.dirty || completerFilter.touched) && this.stepParamatersForm.get('user_who_complete_step').hasError('required')
+          "
+        >
+          {{ 'This field is required' | translate }}
+        </mat-error>
+      </div>
+      <div
+        class="p-col-12"
+        *ngIf="
+          stepParamatersForm.get('step_type').value !== 'final_message' &&
+          stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+        "
+      >
+        <mat-slide-toggle formControlName="is_validation_required" (change)="onValidationParameterChange($event)">
+          {{
+            (stepParamatersForm.get('is_validation_required').value
+              ? 'Validation Required to continue to next steps'
+              : 'ERP_009_TEACHER_CONTRACT.Validation is not required to continue to next steps'
+            ) | translate
+          }}
+        </mat-slide-toggle>
+      </div>
+      <div
+        class="p-col-12 pad-l-md"
+        *ngIf="
+          stepParamatersForm.get('is_validation_required').value &&
+          stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+        "
+      >
+        <mat-form-field color="accent">
+          <mat-label>{{ '056_ES.Select Validator' | translate }}*</mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="userTypeAuto"
+            (keyup)="onStepValidatorFilter($event)"
+            [formControl]="validatorFilter"
+          />
+          <mat-autocomplete #userTypeAuto [panelWidth]="'fit'">
+            <mat-option *ngFor="let type of filteredStepValidatorUserTypes" [value]="type?.name" (click)="onSelectStepValidator(type)">
+              {{ type?.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-error
+          *ngIf="
+            (this.validatorFilter.dirty || this.validatorFilter.touched) && this.stepParamatersForm.get('validator').hasError('required')
+          "
+        >
+          {{ 'This field is required' | translate }}
+        </mat-error>
+      </div>
+      <div
+        class="p-col-12"
+        *ngIf="
+          stepParamatersForm.get('step_type').value !== 'final_message' &&
+          stepParamatersForm.get('is_final_step').value !== true &&
+          stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+        "
+      >
+        <mat-slide-toggle formControlName="is_only_visible_based_on_condition">
+          {{ 'Step only visible based on condition' | translate }}
+        </mat-slide-toggle>
+      </div>
+      <div
+        class="p-col-12"
+        *ngIf="
+          stepParamatersForm.get('step_type').value !== 'final_message' &&
+          stepParamatersForm.get('step_type').value !== 'summary' &&
+          stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+        "
+      >
+        <mat-slide-toggle formControlName="is_include_in_summary">
+          {{ 'Include this step in the summary' | translate }}
+        </mat-slide-toggle>
+      </div>
+      <div
+        class="p-col-12"
+        *ngIf="
+          stepParamatersForm.get('step_type').value !== 'final_message' &&
+          stepParamatersForm.get('is_only_visible_based_on_condition').value !== true &&
+          stepParamatersForm.get('step_type').value !== 'step_with_signing_process'
+        "
+      >
+        <mat-slide-toggle formControlName="is_final_step">
+          {{ 'Set this step as Final Step' | translate }}
+        </mat-slide-toggle>
+      </div>
+
+      <div
+        class="p-col-12 form-side"
+        [ngStyle]="{ display: stepParamatersForm.get('step_type').value === 'step_with_signing_process' ? 'block' : 'none' }"
+      >
+        <fieldset [disabled]="isPublished" style="padding: 0; border: none">
+          <div class="p-grid yellow-border card-row">
+            <div class="section-header">
+              <h3>{{ 'ERP_009_TEACHER_CONTRACT.Contract Signatory' | translate }}</h3>
+            </div>
+
+            <div class="p-col-12">
+              <mat-slide-toggle style="margin-right: 1rem" color="accent" formControlName="is_contract_signatory_in_order">
+                <span [ngClass]="{ 'text-slider-color': stepParamatersForm.get('is_contract_signatory_in_order').value }">
+                  {{
+                    (stepParamatersForm.get('is_contract_signatory_in_order').value
+                      ? 'ERP_009_TEACHER_CONTRACT.Signatory is in Order'
+                      : 'ERP_009_TEACHER_CONTRACT.Signatory is not in Order'
+                    ) | translate
+                  }}
+                </span>
+              </mat-slide-toggle>
+            </div>
+
+            <div class="p-col-12">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                cdkDropList
+                [cdkDropListData]="dataSource"
+                (cdkDropListDropped)="onMoveItem($event)"
+                matSort
+                class="mat-elevation-z8"
+              >
+                <ng-container matColumnDef="reset">
+                  <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+                    <div class="p-grid">
+                      <div class="p-col-12 no-padding text-right">
+                        <button
+                          matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Add Signatory' | translate }}"
+                          mat-raised-button
+                          color="accent"
+                          (click)="addSignatory()"
+                        >
+                          <mat-icon class="mat-icon-default">add</mat-icon>
+                          {{ 'ERP_009_TEACHER_CONTRACT.Add Signatory' | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </th>
+                </ng-container>
+
+                <!-- column header and value -->
+                <ng-container matColumnDef="number">
+                  <th mat-header-cell *matHeaderCellDef matTooltip="{{ '#' | translate }}">
+                    <h5>{{ '#' | translate }}</h5>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index" style="cursor: pointer" matTooltip="{{ rowIndex + 1 }}">
+                    {{ rowIndex + 1 }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="userType">
+                  <th mat-header-cell *matHeaderCellDef style="text-align: center" matTooltip="{{ 'User Type' | translate }}">
+                    <h5>{{ 'User Type' | translate }}</h5>
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="cursor: pointer">
+                    {{ 'USER_TYPES.' + element?.name | translate }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'GROUPOFSCHOOL.Action' | translate }}">
+                    <h5>{{ 'GROUPOFSCHOOL.Action' | translate }}</h5>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let rowIndex = index">
+                    <button
+                      mat-icon-button
+                      class="margin-right-button"
+                      matTooltip="{{ 'Delete' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="deleteSignatory(rowIndex, element)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="loading">
+                  <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+                    <div class="center-spinner">
+                      <mat-spinner color="accent"></mat-spinner>
+                    </div>
+                  </th>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <!-- <tr mat-header-row *matHeaderRowDef="filterColumns"></tr> -->
+                <!-- <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr> -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns" cdkDrag [cdkDragData]="row"></tr>
+              </table>
+              <div *ngIf="noData | async" class="no-records">
+                {{ 'NOT RECORD FOUND' | translate }}
+              </div>
+              <div [ngClass]="{ hide: noData | async }">
+                <mat-paginator
+                  [ngClass]="{ 'hide-pagination-buttons': signatoryCount <= 10 }"
+                  [length]="signatoryCount"
+                  [hidePageSize]="true"
+                  [pageSize]="[10]"
+                  showFirstLastButtons
+                ></mat-paginator>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="p-col-12">
+        <div class="p-grid">
+          <div class="p-col-12 no-padding-y">
+            <mat-form-field class="full-width">
+              <input
+                type="text"
+                formControlName="step_title"
+                matInput
+                required
+                placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Step Title' | translate }}"
+                ngModel
+                maxlength="150"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-12 no-padding-y">
+            <div *ngIf="stepParamatersForm?.get('direction')" class="ckeditor">
+              <div class="p-grid">
+                <div class="p-col-6">
+                  <label>{{ 'Header/Direction' | translate }}</label>
+                </div>
+                <ng-container>
+                  <div class="p-col-6" style="text-align: end">
+                    <button matTooltip="{{ 'List of keys' | translate }}" mat-raised-button color="accent" (click)="openTableKey()">
+                      <mat-icon class="mat-icon-default">save</mat-icon>
+                      {{ 'List of keys' | translate }}
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+              <ckeditor
+                #editor
+                [editor]="Editor"
+                [formControl]="stepParamatersForm.controls['direction']"
+                (ready)="onReady($event)"
+                [config]="config"
+                [disabled]="isPublished"
+              ></ckeditor>
+            </div>
+          </div>
+        </div>  
+        <div class="buttons-container" formGroupName="custom_button_text" *ngIf="stepParamatersForm.get('step_type').value !== 'final_message'">
+          <div class="p-grid">
+            <div class="p-col-12 buttons-text">
+              {{ 'Button Label' | translate }}
+            </div>
+          </div>
+          <ng-container *ngIf="stepParamatersForm.get('step_type').value !== 'step_with_signing_process'">
+            <div class="p-grid custom-button">
+              <div class="p-col-4"
+                [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('save_text').hasError('required') &&
+                            (stepParamatersForm.get('custom_button_text').get('save_text').dirty || stepParamatersForm.get('custom_button_text').get('save_text').touched)}">
+                {{ 'Custom_Buttons.Save Text' | translate }} *
+              </div>
+              <span> : </span>
+              <div class="p-col no-padding-y">
+                <mat-form-field color="accent">
+                  <input type="text" matInput formControlName="save_text"/>
+                  <mat-error
+                    *ngIf="
+                      stepParamatersForm.get('custom_button_text').get('save_text').hasError('required') &&
+                      (stepParamatersForm.get('custom_button_text').get('save_text').dirty || stepParamatersForm.get('custom_button_text').get('save_text').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <div class="p-grid custom-button">
+              <div class="p-col-4"
+              [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('submit_text').hasError('required') &&
+                          (stepParamatersForm.get('custom_button_text').get('submit_text').dirty || stepParamatersForm.get('custom_button_text').get('submit_text').touched)}">
+                {{ 'Custom_Buttons.Submit Text' | translate }} *
+              </div>
+              <span> : </span>
+              <div class="p-col no-padding-y">
+                <mat-form-field color="accent">
+                  <input type="text" matInput formControlName="submit_text"/>
+                  <mat-error
+                    *ngIf="
+                      stepParamatersForm.get('custom_button_text').get('submit_text').hasError('required') &&
+                      (stepParamatersForm.get('custom_button_text').get('submit_text').dirty || stepParamatersForm.get('custom_button_text').get('submit_text').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="stepParamatersForm.get('is_validation_required').value">
+            <div class="p-grid custom-button">
+              <div class="p-col-4"
+              [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('ask_revision_text').hasError('required') &&
+                          (stepParamatersForm.get('custom_button_text').get('ask_revision_text').dirty || stepParamatersForm.get('custom_button_text').get('ask_revision_text').touched)}">
+                {{ 'Custom_Buttons.Ask For Revision Text' | translate }} *
+              </div>
+              <span> : </span>
+              <div class="p-col no-padding-y">
+                <mat-form-field color="accent">
+                  <input type="text" matInput formControlName="ask_revision_text"/>
+                  <mat-error
+                    *ngIf="
+                      stepParamatersForm.get('custom_button_text').get('ask_revision_text').hasError('required') &&
+                      (stepParamatersForm.get('custom_button_text').get('ask_revision_text').dirty || stepParamatersForm.get('custom_button_text').get('ask_revision_text').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <div class="p-grid custom-button">
+              <div class="p-col-4"
+              [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('validate_text').hasError('required') &&
+                          (stepParamatersForm.get('custom_button_text').get('validate_text').dirty || stepParamatersForm.get('custom_button_text').get('validate_text').touched)}">
+                {{ 'Custom_Buttons.Validate Text' | translate }} *
+              </div>
+              <span> : </span>
+              <div class="p-col no-padding-y">
+                <mat-form-field color="accent">
+                  <input type="text" matInput formControlName="validate_text"/>
+                  <mat-error
+                    *ngIf="
+                      stepParamatersForm.get('custom_button_text').get('validate_text').hasError('required') &&
+                      (stepParamatersForm.get('custom_button_text').get('validate_text').dirty || stepParamatersForm.get('custom_button_text').get('validate_text').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+  
+            <div class="p-grid custom-button">
+              <div class="p-col-4"
+              [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('complete_revision_text').hasError('required') &&
+                          (stepParamatersForm.get('custom_button_text').get('complete_revision_text').dirty || stepParamatersForm.get('custom_button_text').get('complete_revision_text').touched)}">
+                {{ 'Custom_Buttons.Complete Revision Text' | translate }} *
+              </div>
+              <span> : </span>
+              <div class="p-col no-padding-y">
+                <mat-form-field color="accent">
+                  <input type="text" matInput formControlName="complete_revision_text"/>
+                  <mat-error
+                    *ngIf="
+                      stepParamatersForm.get('custom_button_text').get('complete_revision_text').hasError('required') &&
+                      (stepParamatersForm.get('custom_button_text').get('complete_revision_text').dirty || stepParamatersForm.get('custom_button_text').get('complete_revision_text').touched)
+                    "
+                  >
+                    {{ 'This field is required' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="p-grid custom-button" *ngIf="stepParamatersForm.get('step_type').value === 'step_with_signing_process'">
+            <div class="p-col-4"
+            [ngClass]="{'color-red': stepParamatersForm.get('custom_button_text').get('sign_contract_text').hasError('required') &&
+                        (stepParamatersForm.get('custom_button_text').get('sign_contract_text').dirty || stepParamatersForm.get('custom_button_text').get('sign_contract_text').touched)}">
+              {{ 'Custom_Buttons.Sign Contract Text' | translate }} *
+            </div>
+            <span> : </span>
+            <div class="p-col no-padding-y">
+              <mat-form-field color="accent">
+                <input type="text" matInput formControlName="sign_contract_text"/>
+                <mat-error
+                  *ngIf="
+                    stepParamatersForm.get('custom_button_text').get('sign_contract_text').hasError('required') &&
+                    (stepParamatersForm.get('custom_button_text').get('sign_contract_text').dirty || stepParamatersForm.get('custom_button_text').get('sign_contract_text').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div> -->
+
+<!-- /////////////////////////////////// -->
+
+<!-- <div class="p-grid" style="min-height: 55px" *ngIf="!finalValidation">
+    <div
+      [ngClass]="templateStepForm.get('is_validation_required').value ? 'p-col-6' : 'p-col-12'"
+      class="no-padding-y"
+      style="align-self: center"
+    >
+      <mat-slide-toggle
+        (change)="onChangeValidationRequirement($event)"
+        color="accent"
+        formControlName="is_validation_required"
+        [disabled]="isPublished"
+      >
+        <span [ngClass]="{ 'text-slider-color': templateStepForm.get('is_validation_required').value }">
+          {{
+            (templateStepForm.get('is_validation_required').value
+              ? 'ERP_031_CONTINUOUS_FORMATION.Validation Required to continue to next steps'
+              : 'ERP_031_CONTINUOUS_FORMATION.Validation is not required to continue to next steps'
+            ) | translate
+          }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+    <div class="p-col-6 no-padding-y" *ngIf="templateStepForm.get('is_validation_required').value">
+      <ng-select
+        placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Who Validate?' | translate }}"
+        formControlName="validator"
+        [clearable]="false"
+        [disabled]="isPublished"
+        [required]="templateStepForm?.get('is_validation_required')?.value"
+      >
+        <ng-option *ngFor="let validator of validatorList" [value]="validator?._id">{{ validator?.name | translate }}</ng-option>
+      </ng-select>
+    </div>
+  </div> -->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

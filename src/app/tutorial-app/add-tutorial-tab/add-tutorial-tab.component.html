@@ -1,0 +1,358 @@
+<div class="p-grid">
+  <div class="p-col-12 no-padding text-right" style="margin-top: 10px; padding-right: 2px !important">
+    <button mat-raised-button type="button" color="warn" (click)="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button mat-raised-button color="accent" [disabled]="validateButton() || isSaved" (click)="submitOnlyTutorial()">
+      <mat-icon class="mat-icon-default">save</mat-icon>{{ 'Save' | translate }}
+    </button>
+    <button mat-raised-button color="accent" [disabled]="validateButton() || isSavedAndPublished" (click)="submitTutorial()">
+      <mat-icon class="mat-icon-default">save</mat-icon>{{ 'Save and Publish' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="p-col-7" style="display: inline-block; padding-top: 0px !important">
+  <div class="p-grid" cdkDropListGroup>
+    <div class="p-col-12 yellow-border mt-1rem">
+      <mat-card [formGroup]="form">
+        <!-- <ng-select
+          appendTo="body"
+          bindValue="value"
+          bindLabel="name"
+          class="mrgn-btn"
+          [items]="displayInOption"
+          [multiple]="false"
+          placeholder="{{ 'Module' | translate }}"
+          formControlName="module"
+        >
+        </ng-select> -->
+        <mat-form-field>
+          <mat-label>{{ 'Module' | translate }}</mat-label>
+          <mat-select formControlName="module">
+            <ng-container *ngFor="let modules of moduleData">
+              <mat-option [value]="modules?.module" (click)="patchValues(modules?.module)">
+                {{ modules?.module | translate }}
+              </mat-option>
+              <ng-container *ngFor="let subModule of modules?.sub_module">
+                <mat-option style="padding-left: 32px" [value]="subModule?.name" (click)="patchValues(subModule?.name)">
+                  {{ subModule?.name | translate }}
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <ng-select
+          appendTo="body"
+          class="mrgn-btn"
+          [multiple]="true"
+          placeholder="{{ 'TUTORIAL_MENU.CATEGORY' | translate }}"
+          formControlName="user_types"
+          (change)="patchValues('')"
+        > 
+        <ng-container *ngIf="userTypesList && userTypesList.length">
+          <ng-option [value]="item?._id" *ngFor="let item of userTypesList" (click)="patchValues('')" class="ng-select-custom-header">
+            {{ 'USER_TYPES.' + item?.name | translate }}
+          </ng-option>
+        </ng-container>
+        </ng-select>
+        <mat-form-field>
+          <input matInput placeholder="{{ 'Video Link' | translate }}" formControlName="video_url" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="{{ 'Link Presentation' | translate }}" formControlName="video_presentation" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="{{ 'Checklist QA Link' | translate }}" formControlName="qa_checklist_url" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="{{ 'Checklist Scenario Link' | translate }}" formControlName="scenario_checklist_url" />
+        </mat-form-field>
+
+        <div class="p-grid" style="margin-top: 0.1rem">
+          <div class="p-col-12 align-right-button no-padding" style="text-align: end; margin-bottom: 7px">
+            <button (click)="addSubModal()" mat-raised-button class="margin-none" color="accent">
+              <mat-icon class="mat-icon-default">add</mat-icon>
+              {{ 'Sub Module' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <mat-accordion
+          class="example-headers-align"
+          [cdkDropListData]="subModal.controls"
+          [multi]="true"
+          cdkDropList
+          (cdkDropListDropped)="drop($event)"
+          formArrayName="sub_modules"
+        >
+          <mat-expansion-panel
+            *ngFor="let dataModul of subModal.controls; let ins = index; let isFirstSub = first"
+            [formGroupName]="ins"
+            [expanded]="true"
+            cdkDrag
+            style="background: #607d8b"
+            class="panel-spacing"
+          >
+            <mat-expansion-panel-header cdkDragHandle>
+              <mat-panel-title>
+                <h4 style="color: white; align-self: center; margin: 0px">
+                  {{
+                    form.get('sub_modules').get(ins.toString()).get('sub_module').value
+                      ? form.get('sub_modules').get(ins.toString()).get('sub_module').value
+                      : ('Sub Module' | translate)
+                  }}
+                </h4>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="p-grid panel-divider">
+              <div *ngIf="!isFirstSub" class="p-col-11 no-padding"></div>
+              <div *ngIf="!isFirstSub" class="p-col-1 text-right no-padding">
+                <button (click)="removeSubModal(ins)" mat-icon-button class="small-icon" color="red">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="p-grid" [ngClass]="{ 'mrgn-10': isFirstSub }">
+              <div class="p-col-12 no-padding">
+                <mat-form-field color="accent">
+                  <input matInput placeholder="{{ 'Sub Module' | translate }}" formControlName="sub_module" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="p-grid" style="margin-top: 0.1rem">
+              <div class="p-col-12 align-right-button no-padding" style="text-align: end; margin-bottom: 7px">
+                <button (click)="addItem(ins)" mat-raised-button class="margin-none" color="accent">
+                  <mat-icon class="mat-icon-default">add</mat-icon>
+                  {{ 'Item' | translate }}
+                </button>
+              </div>
+            </div>
+            <mat-accordion
+              class="example-headers-align"
+              [cdkDropListData]="getItems(ins).controls"
+              [multi]="true"
+              cdkDropList
+              (cdkDropListDropped)="dropItem($event, ins)"
+              multi
+              formArrayName="items"
+            >
+              <mat-expansion-panel
+                *ngFor="let data of getItems(ins).controls; let inItem = index; let isFirst = first"
+                [formGroupName]="inItem"
+                cdkDrag
+                [expanded]="true"
+                style="background: #424242"
+                class="panel-spacing"
+              >
+                <mat-expansion-panel-header cdkDragHandle>
+                  <mat-panel-title>
+                    <h4 style="color: white; align-self: center; margin: 0px">
+                      {{
+                        form.get('sub_modules').get(ins.toString()).get('items').get(inItem.toString()).get('title').value
+                          ? form.get('sub_modules').get(ins.toString()).get('items').get(inItem.toString()).get('title').value
+                          : ('Item' | translate)
+                      }}
+                    </h4>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="p-grid panel-divider">
+                  <div *ngIf="!isFirst" class="p-col-11 no-padding"></div>
+                  <div *ngIf="!isFirst" class="p-col-1 text-right no-padding">
+                    <button (click)="removeItem(ins, inItem)" mat-icon-button class="small-icon" color="red">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+                  <mat-form-field [ngClass]="{ 'mrgn-10': isFirst }">
+                    <input matInput placeholder="{{ 'Item' | translate }}" formControlName="title" />
+                  </mat-form-field>
+
+                  <div class="ckeditor">
+                    <ckeditor
+                      #editor
+                      [editor]="Editor"
+                      formControlName="description"
+                      (ready)="onReady($event)"
+                      [config]="{
+                        toolbar: [
+                          'heading',
+                          '|',
+                          'fontSize',
+                          'fontFamily',
+                          'fontColor',
+                          'fontBackgroundColor',
+                          '|',
+                          'bold',
+                          'italic',
+                          'underline',
+                          'strikethrough',
+                          '|',
+                          'alignment',
+                          '|',
+                          'numberedList',
+                          'bulletedList',
+                          '|',
+                          'indent',
+                          'outdent',
+                          '|',
+                          'link',
+                          'blockQuote',
+                          'imageUpload',
+                          'insertTable',
+                          'pageBreak',
+                          '|',
+                          'undo',
+                          'redo'
+                        ],
+                        link: {
+                          addTargetToExternalLinks: true
+                        }
+                      }"
+                    ></ckeditor>
+                    <button mat-icon-button (click)="recordNote(ins, inItem)" class="margin-right-button btn-mic">
+                      <mat-icon class="mic-style">keyboard_voice</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div class="p-col-5" style="display: inline-block; float: right; padding-top: 0px !important">
+  <div class="p-grid">
+    <div class="p-col-12 yellow-border mt-1rem">
+      <mat-card>
+        <mat-toolbar class="primary-bg">
+          <h3>{{ 'TUTORIALS' | translate }}</h3>
+          <div class="btn-auto">
+            <img
+              *ngIf="form?.get('module').value === 'Jury Organization'"
+              src="../../../assets/img/panic-btn.png"
+              alt="Aide Jury"
+              style="cursor: pointer; margin-right: 5px; height: 31px !important; margin-top: 4px;"
+              matTooltip="{{ 'PANIC.BTN_TITLE' | translate }} {{ 'PANIC.BTN_TEXT_CLEAN' | translate }}"
+              matTooltipPosition="above"
+            />
+            <button
+              *ngIf="form?.get('video_presentation').value"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              (click)="viewTutorial(form?.get('video_presentation').value)"
+              class="margin-right-button"
+              [matTooltip]="'Link Presentation' | translate"
+            >
+              <mat-icon style="height: 21px" svgIcon="file-presentation-box"></mat-icon>
+            </button>
+            <button
+              *ngIf="form?.get('video_url').value"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              (click)="viewTutorial(form?.get('video_url').value)"
+              class="margin-right-button"
+              [matTooltip]="'Video Link' | translate"
+            >
+              <mat-icon style="height: 21px" svgIcon="youtube"></mat-icon>
+            </button>
+            <button
+              *ngIf="form?.get('scenario_checklist_url').value"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              (click)="viewTutorial(form?.get('scenario_checklist_url').value)"
+              class="margin-right-button"
+              [matTooltip]="'Scenario Link' | translate"
+            >
+              <mat-icon style="height: 21px" svgIcon="book-open"></mat-icon>
+            </button>
+            <button
+              *ngIf="form?.get('qa_checklist_url').value"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              (click)="viewTutorial(form?.get('qa_checklist_url').value)"
+              class="margin-right-button"
+              [matTooltip]="'Checklist QA Link' | translate"
+            >
+              <mat-icon style="height: 21px" svgIcon="format-list-bulleted-square"></mat-icon>
+            </button>
+            <button
+              [matTooltip]="'Compose email' | translate"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              class="margin-right-button"
+            >
+              <mat-icon style="height: 21px" svgIcon="message-question"></mat-icon>
+            </button>
+            <button
+              [matTooltip]="'Close the Tutorial' | translate"
+              mat-icon-button
+              style="background: #424242; padding: 3px"
+              class="margin-right-button"
+            >
+              <mat-icon style="height: 21px" svgIcon="arrow-right-bold-circle"></mat-icon>
+            </button>
+          </div>
+        </mat-toolbar>
+
+        <mat-nav-list style="padding: 0px; border: 1px solid #767676">
+          <mat-list-item style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: auto">
+            <div *ngIf="!dataModuleNoEmpty()" style="width: 100%; margin-bottom: 20px">
+              <mat-icon class="content-empty">article</mat-icon>
+              <span class="text-empty">{{ 'No tutorial created for this menu' | translate }}</span>
+            </div>
+            <div *ngIf="dataModuleNoEmpty()" style="width: 100%; padding-bottom: 10px; padding-top: 10px">
+              <mat-accordion class="example-headers-align" multi>
+                <ng-container *ngFor="let dataSub of subModal.controls; let ins = index">
+                  <mat-expansion-panel style="margin: 0px; border-radius: unset !important; border-bottom: 1px solid #8f8f8f">
+                    <mat-expansion-panel-header style="border: unset !important">
+                      <mat-panel-title>
+                        <h5 style="margin-bottom: 0px; text-align: left !important" mat-line>
+                          {{ form.get('sub_modules').get(ins.toString()).get('sub_module').value }}
+                        </h5>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="dataItemNoEmpty(ins)">
+                      <mat-accordion class="example-headers-align" multi>
+                        <ng-container *ngFor="let data of getItems(ins).controls; let inItem = index">
+                          <mat-expansion-panel style="margin: 0px; border-radius: unset !important; border-bottom: 1px solid #8f8f8f">
+                            <mat-expansion-panel-header style="border: unset !important">
+                              <mat-panel-title>
+                                <p mat-line style="text-align: left !important; font-size: 12px; white-space: normal !important">
+                                  <b>{{
+                                    form.get('sub_modules').get(ins.toString()).get('items').get(inItem.toString()).get('title').value
+                                  }}</b>
+                                </p>
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p
+                              mat-line
+                              style="white-space: break-spaces; margin-top: 10px; padding-left: 20px"
+                              innerHTML="{{
+                                form.get('sub_modules').get(ins.toString()).get('items').get(inItem.toString()).get('description').value
+                              }}"
+                              (click)="getMessage(form.get('sub_modules').get(ins.toString()).get('items').get(inItem.toString()).get('description').value)"
+                            ></p>
+                          </mat-expansion-panel>
+                        </ng-container>
+                      </mat-accordion>
+                    </div>
+                  </mat-expansion-panel>
+                </ng-container>
+              </mat-accordion>
+            </div>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,54 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+// .mat-dialog-container {
+//     padding: 0px;
+// }
+.contextmenu {
+  position: absolute;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  left: 52% !important;
+  padding: 5px;
+  top: 77% !important;
+  z-index: 999;
+  font-size: 12px;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contextmenu:hover {
+    background: #ffd740;
+    color: black;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  flex: 1 1 100%;
+}
+.component {
+  height: 100%;
+}
+.yellow-button {
+  background-color: #ffd740;
+}
+.bottom_aligner {
+  display: inline-block;
+  height: 100%;
+  vertical-align: bottom;
+  width: 0px;
+}
+
+// .mat-tab-label.mat-tab-label-active {
+//     box-shadow: 0px 0px 0px 0px #607d8b, 0px 0px 0px 0px #607d8b !important;
+// 	border-right: 0px solid #607d8b !important;
+// 	border-left: 0px solid #607d8b !important;
+// }
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: #506169;
+}
+
+.auto-tab-width {
+  .mat-tab-label {
+    min-width: auto !important;
+  }
+}

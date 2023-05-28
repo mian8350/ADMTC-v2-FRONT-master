@@ -1,0 +1,223 @@
+<div style="color: black;">
+  <div *ngIf="!editRNCP">
+    <h1 mat-dialog-title>
+      <mat-icon style="vertical-align: middle;">import_contacts</mat-icon>
+      <span style="vertical-align: middle;">{{ 'Add RNCP Title' | translate }}</span>
+    </h1>
+  </div>
+  <div *ngIf="editRNCP">
+    <h1 mat-dialog-title>
+      <mat-icon style="vertical-align: middle;">import_contacts</mat-icon>
+      <span style="vertical-align: middle;">{{ 'Edit RNCP Title' | translate }}</span>
+    </h1>
+  </div>
+  <form [formGroup]="form">
+    <mat-dialog-content>
+      <mat-form-field>
+        <input matInput formControlName="short_name" placeholder="{{ 'RNCP.TITLESHORT' | translate }}*" [readonly]="editRNCP" />
+        <mat-error *ngIf="form.get('short_name').hasError('required')
+                                                     && (form.get('short_name').dirty
+                                                     || form.get('short_name').touched)">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea
+          matInput
+          formControlName="long_name"
+          placeholder="{{ 'RNCP.TITLELONG' | translate }}*"
+          rows="2"
+          [readonly]="editRNCP"
+        ></textarea>
+        <mat-error *ngIf="form.get('long_name').hasError('required')
+                                                     && (form.get('long_name').dirty
+                                                     || form.get('long_name').touched)">{{'This field is required'|translate}}</mat-error>
+      </mat-form-field>
+      <div class="p-grid">
+        <div class="p-col-6 pad-l-none">
+          <mat-form-field class="pad-t-xs">
+            <input
+              matInput
+              formControlName="rncp_code"
+              placeholder="{{ 'RNCP.CODERNCP' | translate }}*"
+              [readonly]="editRNCP"
+              type="tel"
+              [maxlength]="5"
+              min="0"
+              [minlength]="5"
+              onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+            />
+            <mat-error *ngIf="form.get('rncp_code').hasError('pattern')
+                                                     && (form.get('rncp_code').dirty
+                                                     || form.get('rncp_code').touched)">
+              {{'must contain number only' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="p-col-6">
+          <mat-form-field>
+            <mat-select placeholder="{{ 'RNCP.RNCPLEVEL' | translate }}*" formControlName="rncp_level" [disabled]="editRNCP">
+              <mat-option *ngFor="let level of rncpLevel" [value]="level.value">{{ level.viewValue }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('rncp_level').hasError('required')
+                                                     && (form.get('rncp_level').dirty
+                                                     || form.get('rncp_level').touched)">
+              {{'This field is required'|translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field>
+        <textarea matInput placeholder="{{ 'RNCP.TEXTOFFICIALJOURNAL' | translate }}*" rows="2" formControlName="journal_text"></textarea>
+        <mat-error *ngIf="form.get('journal_text').hasError('required')
+                                                     && (form.get('journal_text').dirty
+                                                     || form.get('journal_text').touched)">
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <div class="p-grid">
+        <div class="p-col-6 pad-l-none">
+          <mat-form-field>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              placeholder="{{ 'RNCP.DATEOFFICIALJOURNAL' | translate }}*"
+              formControlName="journal_date"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.get('journal_date').hasError('required')
+                                                     && (form.get('journal_date').dirty
+                                                     || form.get('journal_date').touched)">
+              {{'This field is required'|translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field>
+        <mat-select placeholder="{{ 'RNCP.DIRINCHARGE' | translate }}*" [(ngModel)]="dirName" formControlName="admtc_dir_responsible">
+          <mat-option *ngFor="let dir of dirInCharge" [value]="dir._id">{{ dir.first_name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('admtc_dir_responsible').hasError('required')
+                                                     && (form.get('admtc_dir_responsible').dirty
+                                                     || form.get('admtc_dir_responsible').touched)">
+          {{'This field is required'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <div class="p-grid">
+        <div class="p-col-8 pad-l-none">
+          <mat-form-field>
+            <input matInput placeholder="{{ 'RNCP.SPECIALIZATION' | translate }}" #specAdd />
+          </mat-form-field>
+        </div>
+        <div class="p-col-4 pad-r-none">
+          <button mat-button mat-raised-button color="primary" type="button" class="m-1 button-align" (click)="addSpecialization(specAdd)">
+            {{ 'RNCP.ADDSPECIALIZATION' | translate }}
+          </button>
+        </div>
+      </div>
+      <div formArrayName="specializations" *ngFor="let specialization of specializations?.value; let i = index">
+        <mat-form-field [formGroupName]="i" style="width: 80%;">
+          <input matInput type="text" formControlName="name" [readonly]="form.value.specializations[i].is_specialization_assigned" />
+        </mat-form-field>
+        <a color="primary" type="button" (click)="removeSpecialization(i)" style="cursor: pointer;">
+          <mat-icon>remove_circle</mat-icon>
+        </a>
+      </div>
+      <div *ngIf="!editRNCP">
+        <div *ngIf="!showDetail">
+          <div class="p-grid">
+            <div class="p-col-8 pad-l-none">
+              <mat-form-field>
+                <input
+                  matInput
+                  class="form-field"
+                  [matAutocomplete]="autoSchool"
+                  formControlName="short_name"
+                  placeholder="{{ 'SCHOOL.SCHOOLSHORTNAME' | translate }}"
+                  #school
+                />
+                <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option *ngFor="let school of filteredSchools | async" [value]="school">{{ school }}</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div *ngIf="!showDetail" class="p-col-4 pad-r-none">
+              <button mat-button mat-raised-button color="primary" type="button" class="mrgn-l-md button-align" (click)="addSchool()">
+                {{ 'Add School' | translate }}
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="showDetail">
+          <button mat-button mat-raised-button color="warn" class="button-align" type="button" (click)="removeSchool()">
+            {{ 'RNCP.CANCELADDSCHOOL' | translate }}
+          </button>
+          <div formGroupName="add_school">
+            <mat-form-field>
+              <input matInput placeholder="{{ 'SCHOOL.SCHOOLSHORTNAME' | translate }}" formControlName="short_name" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="{{ 'SCHOOL.SCHOOLLONGNAME' | translate }}" formControlName="long_name" />
+            </mat-form-field>
+
+            <div formGroupName="school_address">
+              <mat-form-field>
+                <input matInput placeholder="{{ 'SCHOOL.ADDRESS1' | translate }}" formControlName="address1" />
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput placeholder="{{ 'SCHOOL.ADDRESS2' | translate }}" formControlName="address2" />
+              </mat-form-field>
+              <div class="p-grid">
+                <div class="p-col-6 pad-l-none">
+                  <mat-form-field>
+                    <input
+                      matInput
+                      placeholder="{{ 'SCHOOL.ZIPCODE' | translate }}"
+                      formControlName="postal_code"
+                      type="tel"
+                      [maxlength]="5"
+                      min="0"
+                      [minlength]="5"
+                      onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="p-col-6">
+                  <mat-form-field>
+                    <input matInput placeholder="{{ 'City' | translate }}" formControlName="city" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-6 pad-l-none">
+                <mat-form-field>
+                  <mat-select placeholder="{{ 'SCHOOL.COUNTRY' | translate }}" formControlName="country">
+                    <mat-option *ngFor="let country of countryList" [value]="country.id">{{ country.countryName }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-col-6">
+                <mat-form-field>
+                  <input matInput placeholder="{{ 'School Siret' | translate }}" formControlName="school_siret" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+      <button mat-button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+      <button mat-button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="isWaitingForResponse" (click)="save(form.value)">
+        {{ 'SUBMIT' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+
+</div>

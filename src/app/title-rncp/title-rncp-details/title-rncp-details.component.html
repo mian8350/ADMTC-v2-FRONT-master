@@ -1,0 +1,59 @@
+<mat-tab-group (click)="checkValidation($event)" [selectedIndex]="selected.value">
+  <mat-tab disabled class="white-tabs" value="Title Identity">
+    <ng-template mat-tab-label>
+      <h5 [className]="'matTabNavication'" [ngStyle]="{ color: selected.value === 0 ? '#ffe77a' : 'white' }">
+        {{ 'Title Identity' | translate }}
+      </h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-title-identity #titleIdentity [rncpId]="rncpId"></ms-title-identity>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab disabled class="white-tabs" value="Class">
+    <ng-template mat-tab-label>
+      <h5 [className]="'matTabNavication'" [ngStyle]="{ color: selected.value === 1 ? '#ffe77a' : 'white' }">
+        {{ 'List of Class' | translate }}
+      </h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-class [rncpId]="rncpId" (updateClass)="updateClass($event)" (passClass)="goToClass($event)"></ms-class>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab disabled class="white-tabs">
+    <ng-template mat-tab-label>
+      <h5 [className]="'matTabNavication'" [ngStyle]="{ color: selected.value === 2 ? '#ffe77a' : 'white' }">
+        {{ 'Documents' | translate }}
+      </h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-documents [rncpId]="rncpId"></ms-documents>
+    </ng-template>
+  </mat-tab>
+
+  <ng-container *ngIf="classData && classData.length > 0">
+    <mat-tab disabled class="white-tabs" *ngFor="let cls of classData; let classIndex = index">
+      <ng-template mat-tab-label>
+        <h5 [className]="'matTabNavication'" [ngStyle]="{ color: selected.value === 3 + classIndex ? '#ffe77a' : 'white' }">
+          {{ 'Class' | translate }} {{ ': ' + cls?.name }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-conditions
+          (scroll)="onScroll($event)"
+          [selectedClassId]="cls?._id"
+          [selectedClassName]="cls?.name"
+          [selectedRncpTitleId]="rncpId"
+          [preSelectedIndex]="conditionPreSelectedIndex"
+          [classData]="classData"
+          [classIndex]="classIndex"
+          (updateClass)="updateClass($event)"
+          (lastTab)="lastTab($event)"
+          [tab]="tab"
+          [subtab]="subtab"
+        ></ms-conditions>
+      </ng-template>
+    </mat-tab>
+  </ng-container>
+</mat-tab-group>

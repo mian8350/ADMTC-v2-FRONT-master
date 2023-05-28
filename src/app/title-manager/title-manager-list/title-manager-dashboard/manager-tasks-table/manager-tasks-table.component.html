@@ -1,0 +1,281 @@
+<div class="some-radius mb-4rem">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="dueDate"
+    matSortDirection="desc"
+    class="mat-elevation-z8"
+    (matSortChange)="sortTable($event)"
+  >
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column">
+        <div class="p-grid justify-content-between p-align-center">
+          <div class="p-col-12 text-left title-style" *ngIf="rncp && class">
+            {{ rncp ? rncp.short_name : '' }} - {{ class ? ('Class' | translate) + ' ' + class.name : '' }}
+            {{
+              rncp && rncp.admtc_dir_responsible
+                ? ('Title Manager Dashboard' | translate) +
+                  ' : ' +
+                  rncp.admtc_dir_responsible.first_name +
+                  ' ' +
+                  rncp.admtc_dir_responsible.last_name
+                : ''
+            }}
+          </div>
+          <div class="p-col-6 text-left">
+            <!-- <div class="title-style">
+              {{
+                managerTasks && managerTasks.length && managerTasks[0].rncp && managerTasks[0].rncp.short_name
+                  ? managerTasks[0].rncp.short_name
+                  : ''
+              }}
+              {{
+                managerTasks && managerTasks.length && managerTasks[0].class_id && managerTasks[0].class_id.name
+                  ? ' - ' + ('Class' | translate) + ' ' + managerTasks[0].class_id.name
+                  : ''
+              }}
+              {{
+                managerTasks && managerTasks.length && managerTasks[0].rncp && managerTasks[0].rncp.admtc_dir_responsible
+                  ? ('Title Manager Dashboard' | translate) +
+                    ' : ' +
+                    managerTasks[0].rncp.admtc_dir_responsible.first_name +
+                    ' ' +
+                    managerTasks[0].rncp.admtc_dir_responsible.last_name
+                  : ''
+              }}
+            </div> -->
+            <!-- <img width="64" height="64" src="assets/img/imcp-logo.png" /> -->
+            <div class="title-style">{{ 'TASKPENDING' | translate }}</div>
+          </div>
+          <div class="p-col-6 float-right">
+            <button *ngIf="showManagerTaskButton()" mat-raised-button color="accent" matTooltip="{{ 'Manager Task' | translate }} " (click)="onManagerTask()">
+              {{ 'Manager Task' | translate }}
+            </button>
+            <button *ngIf="showResetButton()" mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="reset()">
+              <mat-icon class="mat-icon-svgIcon" svgIcon="loop"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="ScopeFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-select [formControl]="scopeFilter">
+            <mat-option *ngFor="let scope of scopeDropdown" [value]="scope?.value">
+              {{ scope?.name | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDateFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [formControl]="dueDateFilter"
+            (click)="picker.open()"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="userFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="userFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="taskFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput [formControl]="taskFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="Scope">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="scope" matTooltip="{{ 'Scope' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Scope' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{
+          element && element.scope && element.scope === 'class'
+            ? element?.class_id?.name
+            : element && element.scope && element.scope === 'school'
+            ? element?.school.short_name
+            : ''
+        }}"
+        matTooltipPosition="above"
+      >
+        {{
+          element && element.scope && element.scope === 'class'
+            ? element?.class_id?.name
+            : element && element.scope && element.scope === 'school'
+            ? element?.school.short_name
+            : ''
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDate">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="due_date"
+        matTooltip="{{ 'DASHBOARD.DUEDATE' | translate }}"
+        matTooltipPosition="above"
+        style="padding-top: 0.5rem !important"
+      >
+        <h5>{{ 'DASHBOARD.DUEDATE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ transformDate(element?.due_date) }}" matTooltipPosition="above">
+        {{ transformDate(element?.due_date) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="user_assigned" matTooltip="{{ 'User' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'User' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{
+          element?.user_selection?.user_id
+            ? element?.user_selection?.user_id?.last_name +
+              ' ' +
+              element?.user_selection?.user_id?.first_name +
+              ' ' +
+              (element?.user_selection?.user_id?.civility | translate)
+            : ''
+        }}"
+        matTooltipPosition="above"
+      >
+        <span *ngIf="element?.user_selection?.user_id">
+          {{
+            element?.user_selection?.user_id?.last_name +
+              ' ' +
+              element?.user_selection?.user_id?.first_name +
+              ' ' +
+              (element?.user_selection?.user_id?.civility | translate)
+          }}</span
+        >
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="task">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="description"
+        matTooltip="{{ 'PREVIEWGENERATEDTASK.Task' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'PREVIEWGENERATEDTASK.Task' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element?.description }}"
+        matTooltipPosition="above"
+        style="text-overflow: clip !important; white-space: normal !important; overflow: auto !important; cursor: pointer"
+        (click)="openTask(element)"
+      >
+        <span *ngIf="element?.validation_status === 'validation_in_process'"> {{ 'validation' | translate }} :</span> {{ element?.description | translate }}
+      </td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'DASHBOARD.TASKTYPE' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'DASHBOARD.TASKTYPE' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" [matTooltip]="getTranslateWhat(element.description, element)" matTooltipPosition="above" style="text-overflow: clip !important; white-space: normal !important; overflow: auto !important;">
+          {{element?.description | translate}}
+          {{ getTranslateWhat(element.description, element) }}
+        </td>
+      </ng-container> -->
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" class="text-center action-button-task">
+        <button
+          mat-icon-button
+          class="margin-right-button action-button-task"
+          matTooltip="{{ 'Change Due Date' | translate }}"
+          matTooltipPosition="above"
+          (click)="openDueDate(element?._id)"
+        >
+          <mat-icon svgIcon="calendar"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']" class="hide-row"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="!dataSource.data.length && !isWaitingForResponse" class="no-records">
+    {{ 'NO_PENDING_DATA' | translate }}
+  </div>
+
+  <div>
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+      [hidePageSize]="true"
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>
+
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>

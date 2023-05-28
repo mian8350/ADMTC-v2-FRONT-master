@@ -1,0 +1,227 @@
+<div class="some-radius">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    (matSortChange)="changeSort($event)"
+    matSort
+    class="mat-elevation-z8"
+    matSortActive="from_date"
+    matSortDirection="desc"
+  >
+
+    <ng-container matColumnDef="reset" class="no-padding">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="action-header-column">
+        <div class="p-grid justify-content-between p-align-center">
+          <div class="text-xl header-style">{{ 'DASHBOARD.CALENDAR' | translate }} - {{'COMPANY.CLASS' | translate}} {{ selectedClass?.name }}</div>
+          <div class="p-col no-padding">
+            <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="resetAllFilter()"  matTooltip="{{ 'RESET' | translate }}" matTooltipPosition="above">
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+            <button 
+              mat-raised-button 
+              color="accent" 
+              [disabled]="isWaitingForResponse" 
+              (click)="addEvent()"  
+              matTooltip="{{ 'DASHBOARD.EVENT' | translate }}" 
+              matTooltipPosition="above"
+              *ngIf="permissionService.addCalendarPerm()"
+            >
+              <mat-icon class="mat-icon-default">add</mat-icon>{{ 'DASHBOARD.EVENT' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="fromDateFilter">
+      <th mat-header-cell *matHeaderCellDef [formGroup]="filterGroup">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="fromDateFilter"
+            [matDatepicker]="fromPicker"
+            (click)="fromPicker.open()"
+            placeholder="{{ 'Select a date' | translate }}"
+          />
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="toDateFilter">
+      <th mat-header-cell *matHeaderCellDef [formGroup]="filterGroup">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="toDateFilter"
+            [matDatepicker]="toPicker"
+            (click)="toPicker.open()"
+            placeholder="{{ 'Select a date' | translate }}"
+          />
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="nameFilter">
+      <th mat-header-cell *matHeaderCellDef [formGroup]="filterGroup">
+        <mat-form-field floatLabel="never">
+          <input matInput class="form-field"  formControlName="nameFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="classFilter">
+      <th mat-header-cell *matHeaderCellDef [formGroup]="filterGroup">
+        <mat-form-field>
+          <input matInput class="form-control m-6" [matAutocomplete]="autoClass" formControlName="classFilter" placeholder="{{ 'search' | translate }}"  />
+          <mat-autocomplete #autoClass="matAutocomplete">
+            <mat-option value="" (click)="setClassFilter('')">{{ 'AllM' | translate }}</mat-option>
+            <mat-option 
+            *ngFor="let class of classes | async" [value]="class.name"
+            (click)="setClassFilter(class?.name)">{{ class.name }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container> -->
+
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef [formGroup]="filterGroup">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="autoSchool"
+            formControlName="schoolFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+
+          <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setSchoolFilter('')">{{ 'AllM' | translate }}</mat-option>
+            <mat-option 
+            *ngFor="let school of schools | async" 
+            [value]="school?.short_name" 
+            (click)="setSchoolFilter(school?.short_name)">{{ school?.short_name }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter" *ngIf="isUserADMTCdir || isUserADMTCAdmin">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="from_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="from_date" matTooltip="{{ 'DASHBOARD.FROM_CALENDAR' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'DASHBOARD.FROM_CALENDAR' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip=" {{ element.from_date | date: 'dd/MM/yyyy' }}" matTooltipPosition="above">
+        {{ element.from_date | date: 'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="to_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="to_date" matTooltip="{{ 'DASHBOARD.TO_CALENDAR' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'DASHBOARD.TO_CALENDAR' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="  {{ element.to_date | date: 'dd/MM/yyyy' }}" matTooltipPosition="above">
+        {{ element.to_date | date: 'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="name" style="text-align: center;" matTooltip="{{ 'DASHBOARD.EVENTNAME' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'DASHBOARD.EVENTNAME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.name }}" matTooltipPosition="above">{{ element.name }}</td>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="class">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" matTooltip="{{ 'DASHBOARD.CLASSNAME' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'DASHBOARD.CLASSNAME' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+          <span *ngIf="element?.class_id.length === classesL.length" class="tags" [matTooltip]="renderTooltipClass(element.class_id)" matTooltipPosition="above">
+            {{'All Class' | translate}}
+          </span>
+          <span *ngIf="element?.class_id.length !== classesL.length">
+            <span *ngFor="let class of element?.class_id" class="tags" [matTooltip]="renderTooltipClass(element.class_id)" matTooltipPosition="above">
+              {{ class?.name }}
+            </span>
+          </span>
+      </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="school">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" matTooltip="{{ 'DASHBOARD.SCHOOLS' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'DASHBOARD.SCHOOLS' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element?.is_all_school || (element.schools.length === schoolsL.length && element.schools.length > 1); else SchoolName" class="tags" [matTooltip]="renderTooltipAllSchool()" matTooltipPosition="above">
+          {{'All Schools' | translate}}
+        </span>
+        <ng-template #SchoolName>
+          <span>
+            <span *ngFor="let school of element.schools" class="tags" [matTooltip]="renderTooltipSchool(element.schools)" matTooltipPosition="above">
+              {{ school?.short_name }}
+            </span>
+          </span>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action" *ngIf="isUserADMTCdir || isUserADMTCAdmin">
+      <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="Action" matTooltipPosition="above">
+        <h5>Action</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'DASHBOARD.Edit Event' | translate }}"
+          (click)="calenderEdit(element)"
+          matTooltipPosition="above"
+          *ngIf="permissionService.editCalendarPerm()"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'DASHBOARD.Delete Event' | translate }}"
+          (click)="delete(element._id)"
+          matTooltipPosition="above"
+          *ngIf="permissionService.deleteCalendarPerm()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    
+  </table>
+  <div *ngIf="paginator.length < 1 && !isWaitingForResponse" class="no-records">
+    {{ 'No Calendar Data' | translate }}
+  </div>
+  <div [ngClass]="{ hide: paginator.length < 1 }">
+    <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons [disabled]="isWaitingForResponse" (page)="changePage($event)"></mat-paginator>
+  </div>
+</div>

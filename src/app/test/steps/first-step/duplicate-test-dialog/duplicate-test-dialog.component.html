@@ -1,0 +1,185 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="receipt"></mat-icon>
+  <h2 *ngIf="data?.testId; else addDocument" class="header-text">
+    {{ 'TEST.EDITDOCUMENT' | translate }}
+  </h2>
+  <ng-template #addDocument>
+    <h2 class="header-text">{{ 'TEST.AVAILABLETEST' | translate }}</h2>
+  </ng-template>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<form [formGroup]="duplicateForm" class="header-form">
+  <h3 class="mrgn-l-md">{{ 'Target Test' | translate }}:</h3>
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-label>{{ 'TEST.CLASS' | translate }}</mat-label>
+          <mat-select formControlName="class_target" (selectionChange)="getBlockList(true)" disabled>
+            <mat-option [value]="">{{ 'None' | translate }}</mat-option>
+            <mat-option *ngFor="let classData of classesTarget" [value]="classData?._id" (click)="setClassEvalType(classData)">
+              {{ classData?.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="33">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-label>{{ 'TEST.SELECT_BLOCK' | translate }}</mat-label>
+          <mat-select
+            formControlName="block_target"
+            (selectionChange)="getSubjectList(true)"
+            [disableOptionCentering]="true"
+            panelClass="filterPanel custom-matselect-dropdown"
+          >
+            <mat-option [value]="">{{ 'None' | translate }}</mat-option>
+            <mat-option *ngFor="let block of blocksTarget" [value]="block?._id">
+              {{ utilService.cleanHTML(block?.block_of_competence_condition) }}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="33">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-label>{{ 'TEST.SELECT_SUBJECT' | translate }}</mat-label>
+          <mat-select
+            formControlName="subject_target"
+            (selectionChange)="getTestList(true)"
+            [disableOptionCentering]="true"
+            panelClass="filterPanel custom-matselect-dropdown"
+          >
+            <mat-option [value]="">{{ 'None' | translate }}</mat-option>
+            <mat-option *ngFor="let subject of subjectsTarget" [value]="subject?._id">
+              {{ subject?.subject_name }}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxFlex="33">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <mat-label>{{ 'TEST.SELECT_TEST' | translate }}</mat-label>
+          <mat-select formControlName="eval_target" [disableOptionCentering]="true" panelClass="filterPanel custom-matselect-dropdown">
+            <mat-option [value]="">{{ 'None' | translate }}</mat-option>
+            <mat-option *ngFor="let test of testsTarget" [value]="test?._id">
+              {{ test?.evaluation }}
+            </mat-option>
+          </mat-select>
+          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mrgn-t-md mrgn-l-md">{{ 'Duplicate From' | translate }}:</h3>
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="title_id"
+            [matAutocomplete]="title"
+            placeholder="{{ 'Select RNCP Title' | translate }}"
+            (keyup)="titleChanges()"
+          />
+          <mat-autocomplete
+            #title="matAutocomplete"
+            [displayWith]="displayTitleName.bind(this)"
+            (optionSelected)="getClassDropdownList($event)"
+            [panelWidth]="'fit'"
+          >
+            <mat-option [value]="">{{ 'ALL' | translate }}</mat-option>
+            <mat-option *ngFor="let title of filteredTitle | async" [value]="title?._id">
+              {{ title?.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="class_id"
+            [matAutocomplete]="class"
+            placeholder="{{ 'Select Class' | translate }}"
+            (keyup)="classChanges()"
+          />
+          <mat-autocomplete
+            #class="matAutocomplete"
+            [displayWith]="displayClassName.bind(this)"
+            (optionSelected)="getTestDropdownList($event)"
+            [panelWidth]="'fit'"
+          >
+            <mat-option [value]="">{{ 'ALL' | translate }}</mat-option>
+            <mat-option *ngFor="let class of filteredClass | async" [value]="class?._id">
+              {{ class?.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" class="baseline-align">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            formControlName="test_id"
+            [matAutocomplete]="test"
+            placeholder="{{ 'Select Test to Duplicate' | translate }}"
+            (keyup)="testChanges()"
+          />
+          <mat-autocomplete
+            #test="matAutocomplete"
+            [displayWith]="displayTestName.bind(this)"
+            (optionSelected)="getTestData($event)"
+            [panelWidth]="'fit'"
+          >
+            <mat-option [value]="">{{ 'ALL' | translate }}</mat-option>
+            <ng-container *ngFor="let test of filteredTest | async">
+              <mat-option [value]="test?._id" *ngIf="test?._id !== data?.testId">
+                {{ test?.name }}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="pb-1 pt-1" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="!isDuplicateFormValid() || disablePlease" (click)="duplicateTest()" type="button">
+      {{ 'Duplicate' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,333 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+
+.mat-table {
+    width: 60%;
+}
+
+.select-school{
+    bottom: 2px !important;
+    width: 90%;
+}
+
+.form-field {
+  margin-top: 6px;
+}
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.5rem !important;
+      box-shadow: -1px 0px 0px 0px $grey inset;
+      -webkit-box-shadow: -1px 0px 0px 0px $grey inset;
+      -moz-box-shadow: -1px 0px 0px 0px $grey inset;
+      min-width: 50px;
+
+      .mat-form-field {
+        width: 80%;
+      }
+    }
+
+    th.col-block,
+    td.col-block {
+      padding: 0 !important;
+      
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+
+.mat-column-action {
+  width: 115px !important;
+  min-width: 115px !important;
+  text-align: center;
+  padding: 0;
+}
+
+.mat-column-select {
+  width: 50px !important;
+}
+
+.mat-column-student {
+  width: 200px !important;
+  min-width: 150px !important;
+}
+
+.mat-column-school {
+  width: 150px !important;
+  min-width: 150px !important;
+}
+
+.mat-column-statusFilter {
+  padding-left: 0px;
+}
+
+.mat-column-date {
+  width: 120px !important;
+  min-width: 120px;
+  box-shadow: 1px 0px 0px 0px $grey inset, -1px 0px 0px 0px $grey inset;
+}
+
+.mat-colum-dateFilter {
+  box-shadow: 1px 0px 0px 0px $grey inset;
+}
+
+.mat-column-start {
+  width: 80px !important;
+}
+
+.mat-column-duration {
+  width: 80px !important;
+}
+
+.mat-column-end {
+  width: 80px !important;
+}
+
+.mat-column-president,
+.mat-column-professional,
+.mat-column-academic,
+.mat-column-subtitute {
+  width: 200px !important;
+}
+
+.mat-column-status {
+  width: 50px !important;
+  text-align: center;
+}
+
+.action-header-column {
+  justify-content: space-between;
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.mat-paginator {
+  width: 60% !important;
+}
+
+.horizontal {
+  overflow: auto;
+}
+
+.icon-hand {
+  cursor: pointer;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+  width: 60%;
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.publish-icon {
+  font-size: 35px;
+  vertical-align: middle;
+  cursor: pointer;
+  width: fit-content;
+}
+
+:host ::ng-deep .ngx-material-timepicker-toggle {
+  svg {
+    filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(66deg) brightness(98%) contrast(93%);
+  }
+}
+
+.red {
+  color: #ff4a4a;
+}
+.green {
+  color: #adff2f;
+}
+.orange {
+  color: #f49f36;
+}
+
+.white {
+  color: white;
+}
+
+.buttons-wraper {
+  display: flex;
+  justify-content: space-between;
+}
+
+// INFO STYLE ///////////////
+
+.wraper {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.border-left {
+    border-left: 5px solid white;
+    padding-top: 2px;
+    padding-left: 24px;
+}
+
+.setup-info-key {
+  min-width: 170px;
+  max-width: 180px;
+}
+
+.setup-info-value {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.last-info {
+  margin-top: -1.5rem;
+}
+
+:host::ng-deep.mat-form-field-infix {
+  border-top: 0;
+}
+
+.width-10rem {
+  min-width: 10rem;
+}
+
+:host::ng-deep.ngx-material-timepicker-toggle[_ngcontent-ihb-c29] {
+  background-color: white;
+  width: 25px;
+  height: 25px;
+}
+
+// INFO STYLE END ///////////////
+
+// ***************** ng-select styling *****************
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select {
+  margin-bottom: 16px;
+  bottom: 10px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  padding-left: 0px !important;
+  width: 100%;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  font-size: 14px !important;
+}
+.ng-select-custom-header {
+  cursor: pointer;
+}
+:host::ng-deep.ng-select .ng-dropdown-panel {
+  width: 230px !important;
+  max-width: 230px;
+  text-align: left !important;
+  font-size: 15px !important;
+}
+::ng-deep ng-dropdown-panel,
+.ng-dropdown-panel {
+  width: 250px !important;
+  min-width: 250px !important;
+  text-align: left !important;
+  font-size: 15px !important;
+}
+.icon-display{
+  transform: rotate(180deg)
+}
+:host ::ng-deep .mat-raised-button[disabled][disabled]{
+  fill: rgba(255,255,255,.3)
+}
+::ng-deep.filterPanel{
+  margin-top: 25px;
+}
+.pl-0 {
+  padding-left: 0px !important;
+}

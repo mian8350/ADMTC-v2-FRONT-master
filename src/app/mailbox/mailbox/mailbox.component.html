@@ -1,0 +1,617 @@
+<div class="p-grid">
+  <!-- ***** Added by Mohamed For ACAD_032 MAILBOX ***** -->
+
+  <div class="p-col-12" *ngIf="!isStudentUserCard">
+    <div fxFlex.gt-sm="60" fxFlex.gt-xs="60" fxFlex="60" class="mail-type-list-wrapper">
+      <mat-list>
+        <a
+          mat-list-item
+          fxFlex
+          *ngFor="let mailCat of mailCategories"
+          [ngClass]="'mail-type-' + mailCat.key"
+          routerLinkActive="active-link"
+          [routerLink]="['/' + mailCat.state]"
+        >
+          <i class="fa" [ngClass]="mailCat.icon"></i> {{ mailCat.name | translate }}
+          <span *ngIf="mailCat.key === 'inbox' && inboxCount" class="unreadNotify">
+            <b> {{ inboxCount }} </b>
+          </span>
+          <span *ngIf="mailCat.key === 'cc' && ccCount" class="unreadNotify">
+            <b> {{ ccCount }} </b>
+          </span>
+          <span *ngIf="mailCat.key === 'important' && importantCount" class="unreadNotify">
+            <b> {{ importantCount }} </b>
+          </span>
+        </a>
+      </mat-list>
+    </div>
+    <div fxFlex.gt-sm="40" fxFlex.gt-xs="40" fxFlex="40" class="mail-type-list-wrapper"></div>
+  </div>
+  <!-- <div fxLayout="row" fxLayoutWrap="wrap">
+      <mat-form-field fxFlex="50">
+        <input #SearchTool type="text" matInput [formControl]="subjectFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+      <button mat-button-sm mat-raised-button class="blue-patina-button" (click)="resetFilter()" matTooltip="{{ 'RESET' | translate }}">
+        <mat-icon svgIcon="loop"></mat-icon>
+        {{ 'RESET' | translate }}
+      </button>
+    </div> -->
+
+  <!-- ***** End of what Mohamed added For ACAD_032 MAILBOX ***** -->
+  <ng-container>
+    <div class="view-mailbox-template">
+      <div class="view-mailbox-by-side">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          matSortActive="createdAt"
+          matSortDirection="asc"
+          class="mat-elevation-z8 mailTable"
+          (matSortChange)="sortData($event)"
+        >
+          <ng-container matColumnDef="reset">
+            <th mat-header-cell *matHeaderCellDef colspan="6" class="header-alignment">
+              <div fxLayout="row" fxLayoutWrap="wrap">
+                <div class="mail-controls" fxFlex="100" fxFlex.lt-md="100">
+                    <button
+                      mat-button
+                      mat-button-sm
+                      class="right-float yellow-admtc"
+                      matTooltip="{{ 'Compose' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="sendMail()"
+                      [disabled]="isWaitingForResponse"
+                      *ngIf="showActionSubMenuMailbox(selectedMailCategory, 'btn_compose') && !isStudentUserCard && selectedMailCategory !== 'cc'"
+                    >
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button
+                      fxLayoutWrap="wrap"
+                      mat-button
+                      class="right-float resetBtn"
+                      md-raised-button
+                      (click)="resetFilter()"
+                      matTooltip="{{ 'RESET' | translate }}"
+                      matTooltipPosition="above"
+                      [disabled]="isWaitingForResponse"
+                      *ngIf="showActionSubMenuMailbox(selectedMailCategory, 'btn_reset')"
+                    >
+                      <mat-icon svgIcon="loop"></mat-icon>{{ 'RESET' | translate }}
+                    </button>
+                  <ng-container *ngIf="selectedMailCategory !== 'cc'">
+                    <button
+                      fxLayoutWrap="wrap"
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'Mail to Group' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="sendMailToGroup()"
+                      [disabled]="isWaitingForResponse"
+                      *ngIf="showActionSubMenuMailbox(selectedMailCategory, 'btn_mail_to_group') && !isStudentUserCard"
+                    >
+                      <mat-icon style="width: 17px; height: 17px; margin: -3px" svgIcon="account-supervisor"></mat-icon>
+                    </button>
+                    <button
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'Urgent message' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="sendUrgentMessage()"
+                      [disabled]="isWaitingForResponse"
+                      *ngIf="showActionSubMenuMailbox(selectedMailCategory, 'btn_urgent_message')"
+                    >
+                      <i class="fa fa-bolt"></i>
+                    </button>
+                    <button
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'Downloads emails' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="resetFilter()"
+                      [disabled]="isWaitingForResponse"
+                      *ngIf="showActionSubMenuMailbox(selectedMailCategory, 'btn_download_email')"
+                    >
+                      <i class="fa fa-download"></i>
+                    </button>
+                    <button
+                      *ngIf="countSelected && permissionService.deleteMailActionInTaskTablePerm()"
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'Delete' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="onDeleteMail()"
+                      [disabled]="isWaitingForResponse"
+                    >
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <button
+                      *ngIf="countSelected && selectedMailCategory === 'inbox' && permissionService.deleteMailActionInTaskTablePerm()"
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'Important' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="mailMoveTo('important')"
+                      [disabled]="isWaitingForResponse"
+                    >
+                      <i class="fa fa-hand-paper-o"></i>
+                    </button>
+                    <button
+                      *ngIf="countSelected && selectedMailCategory === 'important'"
+                      mat-button
+                      mat-button-sm
+                      class="right-float"
+                      matTooltip="{{ 'MailBox.REMOVE IMPORTANT' | translate }}"
+                      matTooltipPosition="above"
+                      (click)="mailMoveTo('inbox')"
+                      [disabled]="isWaitingForResponse"
+                    >
+                      <i class="fa fa-hand-paper-o"></i>
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                (change)="showOptions()"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && isAllSelected()"
+                [aria-label]="checkboxLabel()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                #checkBox
+                *ngIf="selectedMailCategory === 'inbox'"
+                [className]="!row?.is_already_read && selectedMailCategory === 'inbox' ? 'unread' : ''"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                (change)="showOptions()"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+              <mat-checkbox
+                #checkBox
+                *ngIf="selectedMailCategory === 'cc'"
+                [className]="!row?.is_already_read && selectedMailCategory === 'cc' ? 'unread' : ''"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                (change)="showOptions()"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+              <mat-checkbox
+                #checkBox
+                *ngIf="selectedMailCategory === 'important'"
+                (change)="showOptions()"
+                [className]="!row?.is_already_read && selectedMailCategory === 'important' ? 'unread' : ''"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+              <mat-checkbox
+                #checkBox
+                *ngIf="selectedMailCategory === 'trash' || selectedMailCategory === 'draft' || selectedMailCategory === 'sent'"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                (change)="showOptions()"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+              <span style="text-align: center; padding-left: 20px" *ngIf="row.is_urgent_mail == true">
+                <i class="fa fa-bolt"></i>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="selectFilter">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAtFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field style="margin-top: 6px">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [formControl]="dateFilter"
+                  (click)="picker.open()"
+                  placeholder="{{ 'Select a date' | translate }}"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="fromFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <div class="matFormModif" *ngIf="selectedMailCategory != 'sent'">
+                <mat-form-field>
+                  <input matInput class="form-field" [formControl]="fromFilter" placeholder="{{ 'search' | translate }}" />
+                </mat-form-field>
+              </div>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="toFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <div class="matFormModif" *ngIf="selectedMailCategory != 'inbox'">
+                <mat-form-field>
+                  <input matInput class="form-field" [formControl]="toFilter" placeholder="{{ 'search' | translate }}" />
+                </mat-form-field>
+              </div>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="subjectFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput class="form-field" [formControl]="subjectFilter" placeholder="{{ 'search' | translate }}" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="created_at">
+            <th
+              style="padding-left: 24px"
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="latest_email"
+              matTooltip="{{ 'MailBox.date' | translate }}"
+            >
+              <h5>{{ 'MailBox.date' | translate }}</h5>
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              (click)="onSelectMessage(element, i)"
+              style="text-align: center"
+              matTooltip="{{ (element?.date ? element.date : element.created_at) | date: 'dd/MM/yyyy' }}"
+            >
+              {{ (element?.date ? element.date : element.created_at) | date: 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="from">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="from" matTooltip="{{ 'MailBox.from' | translate }}">
+              <h5>{{ 'MailBox.from' | translate }}</h5>
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              (click)="onSelectMessage(element, i)"
+              matTooltip="{{ element?.sender_property?.sender?.last_name | uppercase }} {{
+                element?.sender_property?.sender?.first_name
+              }} {{ element?.sender_property?.sender?.civility | translate }}"
+            >
+              {{ element?.sender_property?.sender?.last_name | uppercase }} {{ element?.sender_property?.sender?.first_name }}
+              {{ element?.sender_property?.sender?.civility | translate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="to">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="to" matTooltip="{{ 'MailBox.to' | translate }}">
+              <h5>{{ 'MailBox.to' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <span
+                *ngIf="!element?.user_type_selection"
+                (click)="onSelectMessage(element, i)"
+                matTooltip="{{ ((element?.recipient_properties)[0]?.recipients)[0]?.last_name | uppercase }} {{
+                  ((element?.recipient_properties)[0]?.recipients)[0]?.first_name
+                }} {{ ((element?.recipient_properties)[0]?.recipients)[0]?.civility | translate }}"
+              >
+                {{ ((element?.recipient_properties)[0]?.recipients)[0]?.last_name | uppercase }}
+                {{ ((element?.recipient_properties)[0]?.recipients)[0]?.first_name }}
+                {{ ((element?.recipient_properties)[0]?.recipients)[0]?.civility | translate }}
+              </span>
+              <span *ngIf="element?.user_type_selection">
+                <span
+                  *ngIf="
+                    element?.group_detail?.user_types &&
+                    element?.group_detail?.user_types.length &&
+                    element.group_detail.rncp_titles &&
+                    element.group_detail.rncp_titles.length
+                  "
+                  (click)="onSelectMessage(element, i)"
+                  matTooltip="{{ 'Mail_All' | translate }} {{ 'USER_TYPES.' + element.group_detail.user_types[0].name | translate }} {{
+                    'Mail_of' | translate
+                  }} {{ element.group_detail.rncp_titles[0].short_name }}"
+                >
+                  {{ 'Mail_All' | translate }} {{ 'USER_TYPES.' + element.group_detail.user_types[0].name | translate }}
+                  {{ 'Mail_of' | translate }} {{ element.group_detail.rncp_titles[0].short_name }}
+                </span>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="subject">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="subject"
+              style="padding-right: 0.5rem !important"
+              matTooltip="{{ 'MailBox.composeMail.subject' | translate }}"
+            >
+              <h5>{{ 'MailBox.composeMail.subject' | translate }}</h5>
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element; let i = index"
+              (click)="onSelectMessage(element, i)"
+              style="padding-right: 0.5rem !important"
+              matTooltip="{{ element?.subject }}"
+            >
+              {{ element?.subject }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef colspan="6" class="text-center">
+              <div class="center-spinner">
+                <mat-spinner color="accent"></mat-spinner>
+              </div>
+            </th>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+        </table>
+        <div *ngIf="paginator.length < 1 && !isWaitingForResponse" class="no-records">
+          {{ 'No Mail Data' | translate }}
+        </div>
+        <div [ngClass]="{ hide: paginator.length < 1 || isWaitingForResponse }">
+          <mat-paginator
+            [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+            (page)="changePage($event)"
+            [hidePageSize]="true"
+            [pageSizeOptions]="[10]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+      <div class="view-mailbox-by-side">
+        <div class="view-message-section" *ngIf="viewMessageData?._id">
+          <div style="width: 100%" class="compose-mail-action">
+            <div style="float: left">
+              <button
+                *ngIf="selectedMailCategory !== 'sent' && selectedMailCategory !== 'trash' && selectedMailCategory !== 'draft'"
+                class="mail-action-btn"
+                [title]="'MailBox.emailDetails.reply' | translate"
+                (click)="OpenMailPopupRequest(viewMessageData, 'reply-mail')"
+                mat-button
+                md-button
+              >
+                <i class="fa fa-reply"></i>
+              </button>
+              <button
+                *ngIf="selectedMailCategory !== 'sent' && selectedMailCategory !== 'trash' && selectedMailCategory !== 'draft'"
+                class="mail-action-btn"
+                [title]="'MailBox.emailDetails.reply_all' | translate"
+                (click)="OpenMailPopupRequest(viewMessageData, 'reply-all')"
+                mat-button
+                md-button
+              >
+                <i class="fa fa-reply-all"></i>
+              </button>
+              <button
+                *ngIf="selectedMailCategory !== 'trash' && selectedMailCategory !== 'draft'"
+                class="mail-action-btn"
+                [title]="'MailBox.emailDetails.forward' | translate"
+                (click)="OpenMailPopupRequest(viewMessageData, 'foward-mail')"
+                mat-button
+                md-button
+              >
+                <i class="fa fa-mail-forward"></i>
+              </button>
+              <button
+                class="mail-action-btn"
+                [title]="'MailBox.emailDetails.delete' | translate"
+                (click)="openDialog(viewMessageData)"
+                mat-button
+                md-button
+              >
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+              <span *ngIf="viewMessageData.is_urgent_mail == true">
+                <i class="fa fa-bolt"></i> {{ 'MailBox.URGENT_MESSAGE' | translate }}
+              </span>
+            </div>
+            <div style="float: right">
+              <button
+                *ngIf="!checkIsPreviousBtnShow()"
+                [title]="'MailBox.emailDetails.previous' | translate"
+                class="mail-action-btn"
+                mat-button
+                md-button
+                style="color: gray"
+              >
+                <i class="fa fa-caret-left"></i>
+              </button>
+              <button
+                *ngIf="checkIsPreviousBtnShow()"
+                [title]="'MailBox.emailDetails.previous' | translate"
+                class="mail-action-btn"
+                mat-button
+                md-button
+                (click)="onPreviousMessage(viewMessageData)"
+              >
+                <i class="fa fa-caret-left"></i>
+              </button>
+              <button
+                *ngIf="!checkIsNextBtnShow()"
+                [title]="'MailBox.emailDetails.next' | translate"
+                class="mail-action-btn"
+                mat-button
+                style="color: gray"
+                md-button
+              >
+                <i class="fa fa-caret-right"></i>
+              </button>
+              <button
+                *ngIf="checkIsNextBtnShow()"
+                [title]="'MailBox.emailDetails.next' | translate"
+                class="mail-action-btn"
+                mat-button
+                md-button
+                (click)="onNextMessage(viewMessageData)"
+              >
+                <i class="fa fa-caret-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="compose-mail">
+            <div style="width: 100%">
+              <div class="emailsubject e-mailSubject" *ngIf="viewMessageData?.subject">
+                <b *ngIf="!translatedSubject; else subjectTranslateds">{{ viewMessageData?.subject }}</b>
+                <ng-template #subjectTranslateds>
+                  <b> {{ subjectTranslated | translate }} {{ resWordMessage }}</b></ng-template
+                >
+              </div>
+              <hr />
+              <span *ngIf="translate.currentLang === 'fr'" style="float: right; margin-right: 18px; font-size: 12px">{{
+                momentlang(viewMessageData?.created_at)
+              }}</span>
+              <span *ngIf="translate.currentLang === 'en'" style="float: right; margin-right: 18px; font-size: 12px">{{
+                viewMessageData?.created_at | date: 'EEEE dd MMMM yyyy'
+              }}</span>
+            </div>
+
+            <div class="sender-mail">
+              <label style="font-weight: 800; font-size: 12px">{{ 'MailBox.from' | translate }} : </label>
+              <span *ngIf="viewMessageData?.sender_property?.sender">
+                {{ viewMessageData?.sender_property?.sender?.last_name | uppercase }}
+                {{ viewMessageData?.sender_property?.sender?.first_name }}
+                {{ viewMessageData?.sender_property?.sender?.civility | translate }}
+              </span>
+            </div>
+
+            <div class="recipient-mail" *ngIf="recpList?.length > 0">
+              <label style="font-weight: 800; font-size: 12px">{{ 'MailBox.to' | translate }} : </label>
+              <span *ngIf="viewMessageData?.user_type_selection">
+                <span>
+                  {{ 'Mail_All' | translate }} {{ 'USER_TYPES.' + typeName | translate }} {{ 'Mail_of' | translate }} {{ titleName }}
+                </span>
+              </span>
+              <span *ngIf="!viewMessageData?.user_type_selection">
+                <span *ngFor="let recipientList of recpList; let i = index">
+                  <span *ngIf="recipientList?.rank" title="{{ recipientList?.rank }}">
+                    <!-- <span *ngFor="let rec of recipientList?.recipient_properties"> -->
+                    <span *ngIf="recipientList?.recipients" title="{{ recipientList?.recipients }}">
+                      {{ (recipientList?.recipients)[0]?.last_name | uppercase }} {{ (recipientList?.recipients)[0]?.first_name }}
+                      {{ (recipientList?.recipients)[0]?.civility | translate }}
+                    </span>
+                    <span *ngIf="i < recpList.length - 1">,&nbsp;&nbsp;</span>
+                    <!-- </span> -->
+                  </span>
+                </span>
+              </span>
+            </div>
+            <div *ngFor="let attach of viewMessageData?.file_attachments">
+              <label style="font-weight: 800; font-size: 12px">{{ 'Attachment' | translate }}</label>
+              <div class="fileInfo">
+                <button mat-button type="button">
+                  <i class="fa fa-file-archive-o"></i>
+                </button>
+                <label>{{ attach?.file_name }}</label>
+                <button mat-button type="button" (click)="downloadFile(attach)">
+                  <i class="fa fa-download"></i>
+                </button>
+              </div>
+            </div>
+            <div class="recipient-mail" *ngIf="ccList?.length > 0">
+              <label style="font-weight: 800; font-size: 12px">{{ 'MailBox.composeMail.cc' | translate }} : </label>
+              <span *ngFor="let recipientList of ccList; let i = index">
+                <span *ngIf="recipientList?.rank" title="{{ recipientList?.rank }}">
+                  <!-- <span *ngFor="let rec of recipientList?.recipient_properties"> -->
+                  <span *ngIf="recipientList?.recipients" title="{{ recipientList?.recipients }}">
+                    {{ (recipientList?.recipients)[0].last_name | uppercase }} {{ (recipientList?.recipients)[0].first_name }}
+                    {{ (recipientList?.recipients)[0].civility | translate }}
+                  </span>
+                  <span *ngIf="i < ccList.length - 1">,&nbsp;&nbsp;</span>
+                  <!-- </span> -->
+                </span>
+              </span>
+            </div>
+            <div class="recipient-mail" *ngIf="bccList?.length > 0">
+              <label style="font-weight: 800; font-size: 12px">{{ 'MailBox.composeMail.bcc' | translate }} : </label>
+              <span *ngFor="let recipientList of bccList; let i = index">
+                <span *ngIf="recipientList?.rank" title="{{ recipientList?.rank }}">
+                  <!-- <span *ngFor="let rec of recipientList?.recipient_properties"> -->
+                  <span *ngIf="recipientList?.recipients" title="{{ recipientList?.recipients }}">
+                    {{ (recipientList?.recipients)[0].last_name | uppercase }} {{ (recipientList?.recipients)[0].first_name }}
+                    {{ (recipientList?.recipients)[0].civility | translate }}
+                  </span>
+                  <span *ngIf="i < bccList.length - 1">,&nbsp;&nbsp;</span>
+                  <!-- </span> -->
+                </span>
+              </span>
+            </div>
+
+            <div
+              class="group-rncp"
+              *ngIf="
+                selectedMailCategory === 'sent' && viewMessageData?.is_group_parent && viewMessageData?.group_detail?.rncp_titles?.length
+              "
+            >
+              <div class="message_view">
+                <label>{{ 'RNCP Titles' | translate }}</label>
+                <span *ngFor="let rncpItem of viewMessageData?.group_detail?.rncp_titles; let rncpIndex = index">
+                  {{ rncpItem.short_name }}{{ rncpIndex === 0 ? '' : ',' }}
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="group-usertype"
+              *ngIf="
+                selectedMailCategory === 'sent' && viewMessageData?.is_group_parent && viewMessageData?.group_detail?.user_types?.length
+              "
+            >
+              <div class="message_view">
+                <label>{{ 'UserType' | translate }}</label>
+                <span *ngFor="let userTypeItem of viewMessageData?.group_detail?.user_types; let userTypeIndex = index">
+                  {{ userTypeItem.name }}{{ userTypeIndex === 0 ? '' : ',' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="mail-cc" *ngIf="ccList?.length > 0">
+              <div class="message_view"></div>
+            </div>
+
+            <hr />
+            <div class="message_detail">
+              <div class="message_view break-word">
+                <p [innerHTML]="getMessage(viewMessageData?.message)"></p>
+                <br />
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

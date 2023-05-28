@@ -1,0 +1,34 @@
+<div class="p-grid" style="color:black; background-color: #fafafa;">
+  <div class="p-col-12 scrollable-over">
+    <div *ngIf="testData && testData.calendar && testData.calendar.steps && testData.calendar.steps.length; else noTask">
+      <div *ngFor="let task of testData.calendar.steps" class="p-col-12" fxLayout="row" fxLayoutAlign="start center" style="border-bottom: dimgray 1px solid;">
+        <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+          <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="50" >
+              <i class="fa fa-file" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div fxFlex="90" class="font-style" fxLayout="column" fxLayoutAlign="start start">
+            <div>
+              {{ getTaskTranslation(task) }}
+            </div>
+            <div *ngIf="task.date?.type === 'fixed'">
+              <span style="font-size: 0.7rem;">
+                {{ getTranslatedDate(task?.date?.value) }}
+              </span>
+            </div>
+            <div *ngIf="task.date?.type === 'relative'">
+              <span style="font-size: 0.7rem;">{{ task.date?.before ? ('BEFORE' | translate) : ('AFTER'
+                | translate)}} {{task.date?.day}} {{'DAYS' | translate}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noTask>
+      <div class="p-col-12 font-style" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 8px;">
+        {{ 'There is no task for this test' }}
+      </div>
+    </ng-template>
+  </div>
+</div>

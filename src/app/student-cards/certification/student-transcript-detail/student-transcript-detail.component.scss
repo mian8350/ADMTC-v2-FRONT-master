@@ -1,0 +1,63 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+.orange-border {
+  border-color: #fdd835;
+  border-style: solid;
+  font-size: 12px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 1em;
+  // width: 100%;
+}
+
+.grey-border {
+  // border-color: #d6d6d6;
+  border-color: #898989;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 1em;
+  font-size: 12px;
+  width: 100%;
+}
+
+.yellow {
+  color: #ffd740;
+}
+
+.orange {
+  color: #f49f36;
+}
+
+.red {
+  color: #ff4040;
+}
+
+.green {
+  color: #008000;
+}
+
+.green-yellow {
+  color: #adff2f;
+}
+
+.large-icon {
+  transform: scale(1.5);
+}
+
+.mat-list-base .mat-list-item {
+  height: inherit !important;
+}
+
+.select-decision {
+  width: 150px;
+  margin-right: 0.5rem;
+}
+
+.span-text {
+  white-space: normal;
+  margin-left: 10px;
+}
+
+.span-checkbox-text {
+  white-space: normal;
+}

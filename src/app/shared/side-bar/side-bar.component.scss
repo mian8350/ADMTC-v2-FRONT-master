@@ -1,0 +1,146 @@
+.cide-text {
+  font-size: 30px;
+  font-weight: 700;
+  vertical-align: middle;
+  text-shadow: 0px 1px, 1px 0px, 1px 1px;
+  letter-spacing: 2px;
+}
+
+.cide-text-school {
+  font-size: 28px;
+  font-weight: 700;
+  vertical-align: middle;
+  text-shadow: 0px 1px, 1px 0px, 1px 1px;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.margin-for-school {
+  margin: 20px 0px !important;
+}
+
+.cide-text-sm {
+  @extend .cide-text;
+  font-size: 25px;
+}
+
+.add-top10 {
+  margin-top: 5px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.sizing {
+  font-size: 8.5rem !important;
+  line-height: 0.85 !important;
+}
+
+.gene-user-name {
+  margin: 0;
+}
+
+.gene-logo {
+  padding: 0;
+}
+
+.gene-user-thumb {
+  padding: 0;
+}
+
+.search-bar {
+  width: 80%;
+  margin-bottom: -10px;
+}
+
+.profile-padding {
+  padding-top: 1rem;
+}
+
+.sidenav-container {
+  // margin-top: 2em;
+}
+
+.version-text {
+  display: block;
+  color: #ffffff80;
+  font-size: 14px;
+}
+
+.text {
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  cursor: pointer;
+}
+
+.overlay {
+  position: relative;
+  padding-top: 1px !important;
+  margin: -108px auto 0px auto;
+  text-align: center;
+  vertical-align: middle;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+}
+
+.overlay-male {
+  position: relative;
+  padding-top: 1px !important;
+  margin: -108px auto 0px auto;
+  text-align: center;
+  vertical-align: middle;
+  height: 110px;
+  width: 110px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+}
+
+.imgContainer:hover .overlay {
+  opacity: 1;
+}
+.imgContainer:hover .overlay-male {
+  opacity: 1;
+}
+
+::ng-deep body .active-link {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #ffd740 !important;
+  fill: #ffd740 !important;
+}
+.side-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.align-icon {
+  vertical-align: -webkit-baseline-middle;
+  cursor: pointer;
+}
+
+.button-icon {
+  background-color: #607d8b;
+  height: 28px;
+}
+
+.margin-icon {
+  margin-right: 3px;
+}
+.email-search-icon {
+  width: 23px;
+  height: 23px;
+}

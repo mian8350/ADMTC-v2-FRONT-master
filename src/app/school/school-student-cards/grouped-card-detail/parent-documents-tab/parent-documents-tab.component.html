@@ -1,0 +1,38 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #tabMatGroup >
+  <!-- My Document Tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showMyDocumentTabStudentCardPerm() && !openFromPrevCourseDetail" label="MyDocuments">
+    <ng-template mat-tab-label>
+      <h5>{{ 'My Document' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-my-document-tab *ngIf="studentId" [studentId]="studentId" [schoolId]="schoolId" [classId]="classId" [titleId]="titleId">
+      </ms-my-document-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- published document tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showDocumentTabStudentCardPerm() && !openFromPrevCourseDetail" label="PublishedDocuments">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.DOCUMENTS_PUBLISHED' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-documents-tab
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        (continue)="nextTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-documents-tab>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+
+<mat-card *ngIf="!isClose">
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'Documents' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

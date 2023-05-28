@@ -1,0 +1,57 @@
+<div class="p grid">
+  <div class="p-col-12 inline-blk">
+    <div class="p-col-3 left-rl no-padding">
+      <button mat-raised-button color="warn" (click)="leaveDetails()" [disabled]="isWaitingForResponse">
+        <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        {{ 'Back' | translate }}
+      </button>
+    </div>
+    <div class="p-col-9 right-rl no-padding">
+      <button mat-raised-button color="accent" (click)="openPDFParchemint()">
+        <mat-icon svgIcon="file-pdf-outline" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'PDF' | translate }}
+      </button>
+      <button mat-raised-button color="accent" (click)="nextStep()">
+        {{ 'CONTINUE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <mat-card class="doc-view">
+      <mat-card-content>
+        <div class="background-primary pa-1" style="border-bottom: 2px solid #424242">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <h4 class="title-center">{{ 'Preview of Template' | translate }} {{ templateSelected?.pdf_name }}</h4>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 bg-white">
+              <div style="min-height: 242px">
+                <ng-container *ngIf="parcheminUrl && !isWaitingForResponse">
+                  <div class="img-preview container-view">
+                    <iframe [src]="parcheminUrl" frameBorder="0" width="100%" style="height: 860px"></iframe>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!parcheminUrl && !isWaitingForResponse">
+                  <mat-icon class="content-empty">article</mat-icon>
+                  <span class="text-empty">{{ 'No Template Selected for This Certificate' | translate }}</span>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="container-spinner" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner color="accent" class="spin" mode="indeterminate"> </mat-progress-spinner>
+</div>

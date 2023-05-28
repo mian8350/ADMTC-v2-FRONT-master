@@ -1,0 +1,96 @@
+<div class="p-grid" class="pb-1rem">
+  <div class="p-col-12 pt-0 pb-6 cursor-pointer" *ngIf="showFollowupRegistration()">
+    <div class="panel-spacing">
+      <div class="panel-color-registration">
+        <div style="padding: 10px 25px;" (click)="openVisibility('registration')">
+          <h4 style="color: white; align-self: center; margin: 0px">
+            {{ 'BUTTON_CHART.BTN1' | translate }}
+          </h4>
+        </div>
+      </div>
+      <div class="pane-divider min-height" *ngIf="registrationStatus">
+        <div class="p-grid panel-content min-height">
+          <div class="p-col-12">
+            <div style="text-align: right;" *ngIf="showButtonFollowupRegistration()">
+              <button mat-raised-button color="accent" (click)="onRegistrationClick()">{{ 'BUTTON_CHART.BTN5' | translate }}</button>
+            </div>
+            <div class="chart-container">
+              <ms-dashboard-graphic-charts-registration [rncpId]="rncpId" [classId]="classId"></ms-dashboard-graphic-charts-registration>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-12 pb-6 cursor-pointer" *ngIf="showFollowupSchool()">
+    <div class="panel-spacing">
+      <div class="panel-color-school">
+        <div style="padding: 10px 25px;" (click)="openVisibility('school')">
+          <h4 style="color: white; align-self: center; margin: 0px">
+            {{ 'BUTTON_CHART.BTN2' | translate }}
+          </h4>
+        </div>
+      </div>
+      <div class="pane-divider min-height" *ngIf="schoolStatus">
+        <div class="p-grid panel-content min-height">
+          <div class="p-col-12">
+            <div style="text-align: right;" *ngIf="showButtonFollowupSchool()">
+              <button mat-raised-button color="accent" (click)="goToTitleManagerSchool()">{{ 'BUTTON_CHART.BTN7' | translate }}</button>
+            </div>
+            <div class="chart-container">
+              <ms-dashboard-graphic-charts-school [rncpId]="rncpId" [classId]="classId"></ms-dashboard-graphic-charts-school>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-12 pb-6 cursor-pointer" *ngIf="showFollowupSchool()">
+    <div class="panel-spacing">
+      <div class="panel-color-task">
+        <div style="padding: 10px 25px;" (click)="openVisibility('task')">
+          <h4 style="color: white; align-self: center; margin: 0px">
+            {{ 'BUTTON_CHART.BTN3' | translate }}
+          </h4>
+        </div>
+      </div>
+      <div class="pane-divider min-height" *ngIf="taskStatus">
+        <div class="p-grid panel-content min-height">
+          <div class="p-col-12">
+            <div style="text-align: right;" *ngIf="showButtonFollowupSchool()">
+              <button mat-raised-button color="accent" (click)="goToTitleManagerSchool()">{{ 'BUTTON_CHART.BTN7' | translate }}</button>
+            </div>
+            <div class="chart-container">
+              <ms-dashboard-graphic-charts-task [rncpId]="rncpId" [classId]="classId"></ms-dashboard-graphic-charts-task>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-12 pb-6 cursor-pointer" *ngIf="showFolloupCompany()">
+    <div>
+      <div class="panel-spacing">
+        <div class="panel-color-company">
+          <div style="padding: 10px 25px;" (click)="openVisibility('company')">
+            <h4 style="color: white; align-self: center; margin: 0px">
+              {{ 'BUTTON_CHART.BTN4' | translate }}
+            </h4>
+          </div>
+        </div>
+        <div class="pane-divider min-height" *ngIf="companyStatus">
+          <div class="p-grid panel-content min-height">
+            <div class="p-col-12">
+              <div style="text-align: right;" *ngIf="showButtonFollowupCompany()">
+                <button mat-raised-button color="accent" (click)="goToTitleManagerCompany()">{{ 'BUTTON_CHART.BTN8' | translate }}</button>
+              </div>
+              <div class="chart-container">
+                <ms-dashboard-graphic-charts-company [rncpId]="rncpId" [classId]="classId"></ms-dashboard-graphic-charts-company>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

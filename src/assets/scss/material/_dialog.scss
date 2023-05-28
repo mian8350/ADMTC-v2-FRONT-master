@@ -1,0 +1,5 @@
+@use '@angular/material' as mat;
+.mat-dialog-container {
+  background: mat.get-color-from-palette($background, card);
+  border-radius: $border-radius-base;
+}

@@ -1,0 +1,64 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="p-col-10 no-padding">
+        <h1 mat-dialog-title *ngIf="!parentData.isUpdate">{{ 'ACAD_KIT.DOC.Add Document' | translate }}</h1>
+        <h1 mat-dialog-title *ngIf="parentData.isUpdate">{{ 'TEST.EDITDOCUMENT' | translate }}</h1>
+      </div>
+      <div class="w-65 no-padding ml-48">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body" [formGroup]="uploadDocForm">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'ACAD_KIT.DOC.Name of File' | translate }}</mat-label>
+        <input matInput formControlName="document_name" style="font-size: 14px !important;">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="p-gird" *ngIf="uploadDocForm?.get('s3_file_name')?.value">
+    <div class="p-col-12">
+      <mat-card >
+        <div class="uploaded-file-wrapper">
+          <mat-icon class="icon">insert_drive_file</mat-icon>
+          {{ uploadDocForm?.get('s3_file_name')?.value }}
+        </div>
+        <!-- add and remove file button -->
+        <div class="uploaded-file-wrapper mt-1rem" *ngIf="selectedFile">
+          <button (click)="uploadSubmitDerogationDocument()" mat-button mat-raised-button color="primary">
+            <mat-icon>file_upload</mat-icon>{{ 'ACAD_KIT.DOC.Add this File' | translate }}
+          </button>
+          <button (click)="removeFile()" mat-button mat-raised-button color="warn">
+            <mat-icon>delete</mat-icon>{{ 'ACAD_KIT.DOC.Remove' | translate }}
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- transparent loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-16">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'CANCEL' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="primary" *ngIf="parentData.isUpdate" (click)="submitDerogationDocument()" [disabled]="!uploadDocForm?.valid || !isUploadedFileExist()">
+    {{ 'ACAD_KIT.DOC.Submit' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="primary" (click)="openUploadWindow()" *ngIf="!selectedFile" [disabled]="!uploadDocForm?.valid">
+    <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+  </button>
+  <input #fileUploadDoc type="file" accept=".pdf" class="hidden" (change)="addFile($event)" />
+</div>

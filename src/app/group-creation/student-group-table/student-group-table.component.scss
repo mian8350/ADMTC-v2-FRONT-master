@@ -1,0 +1,129 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        width: 50%;
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+
+      &:nth-child(2) {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        width: 50%;
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+
+      h5 {
+        margin-bottom: 0px;
+        color: white;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+    }
+
+    th {
+      vertical-align: middle;
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    color: $white;
+    background: $light-black !important;
+    height: 30px;
+    &:nth-child(2) {
+      th {
+        box-shadow: 1px 1px 0px 1px #545454;
+      }
+    }
+    border: none !important;
+  }
+
+  tbody tr {
+    height: 28px;
+    border-right: none !important;
+    border-left: none !important;
+  }
+}
+
+.footer-row {
+  color: white;
+  padding-top: 0px !important;
+}
+
+.footer-height {
+  height: 28px;
+}
+
+.test-result {
+  background-color: $light-black;
+  padding: 3px 5px;
+}
+
+.mat-icon-style {
+  color: rgb(20, 117, 11);
+  width: 24px;
+  height: 24px;
+}
+
+.table-section-height {
+  max-height: 65vh;
+  overflow: auto;
+}
+
+.pad-tb-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.pad-bottom-10 {
+  padding-bottom: 10px;
+}
+.table-scroll {
+  overflow: auto;
+  height: 340px;
+}
+.hover-text:hover {
+  color: #ffd740;
+}
+.table-section-height {
+  max-height: 65vh;
+  overflow: auto;
+}
+
+.header-height {
+  height: 46px;
+}
+
+// .black-color-panel.mat-select-panel {
+//   color: black;
+// }
+
+.not-empty-select.mat-selected {
+  color: #37474F !important;
+}

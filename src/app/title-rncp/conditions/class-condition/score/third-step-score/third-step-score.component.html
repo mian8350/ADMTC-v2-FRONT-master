@@ -1,0 +1,666 @@
+<div class="p-grid" style="margin-bottom: 30px">
+  <div class="p-col-6">
+    <div class="btn-right mt-1rem mrgn-btn-10">
+      <button *ngIf="isFinalTranscript" [disabled]="isWaitingForResponse" (click)="reCalculateGrandOralResult()" mat-raised-button color="accent">
+        {{ 'Recalculate Final Result' | translate }}
+      </button>
+      <button
+        color="accent"
+        [disabled]="allowUserSave()"
+        matTooltip="{{ 'Save' | translate }}"
+        style="margin: 0px !important"
+        (click)="saves()"
+        mat-raised-button
+      >
+        <mat-icon>save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+    <div class="p-grid" *ngIf="titleName && className">
+      <mat-accordion style="width: 100%" [multi]="true">
+        <ng-container [formGroup]="conditionOfAwardForm">
+          <ng-container formArrayName="block_of_competence_condition_input">
+            <ng-container
+              *ngFor="
+                let comp of conditionOfAwardForm.get('block_of_competence_condition_input').controls;
+                let blockIndex = index;
+                let isFirst = first;
+                let isLast = last
+              "
+            >
+              <mat-expansion-panel
+                [expanded]="getPassFailDecisionParameters(blockIndex.toString()).length > 0"
+                (closed)="getPassFailDecisionParameters(blockIndex.toString()).length < 1"
+                (opened)="getPassFailDecisionParameters(blockIndex.toString()).length > 0"
+                [formGroupName]="blockIndex"
+                class="panel-spacing"
+              >
+                <mat-expansion-panel-header class="panel-header-comp panel-header-specialization">
+                  <mat-panel-title>
+                    <h5 style="color: whitesmoke; margin: 0px">
+                      {{ blockFormArray.at(blockIndex).get('block_of_competence_condition').value }}
+                    </h5>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- block of competency form section -->
+                <ng-container>
+                  <div class="btn-right mrgn-btn-10 mt-1rem">
+                    <button
+                      mat-raised-button
+                      color="accent"
+                      class="condition-btn"
+                      [matTooltip]="'Add Condition' | translate"
+                      (click)="openPassFailDialog(blockIndex.toString())"
+                    >
+                      <mat-icon>add</mat-icon> {{ 'Add Condition' | translate }}
+                    </button>
+                  </div>
+                  <ng-container formArrayName="pass_fail_conditions">
+                    <div
+                      class="yellow-border card-row"
+                      *ngFor="let condition of getPassFailDecisionParameters(blockIndex.toString()).controls; let paramIndex = index"
+                      [formGroupName]="paramIndex"
+                    >
+                      <div class="p-grid">
+                        <div class="p-col-fixed btn-action">
+                          <button
+                            (click)="removepassFailDecisionParameters(blockIndex.toString(), paramIndex)"
+                            mat-icon-button
+                            color="warn"
+                            matTooltip="{{ 'Delete' | translate }}"
+                          >
+                            <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                          </button>
+                          <button mat-icon-button class="text-white" matTooltip="{{ 'Edit' | translate }}">
+                            <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                          </button>
+                        </div>
+
+                        <div class="p-col-3 no-padding">
+                          <mat-form-field>
+                            <mat-label>{{ 'Condition type' | translate }}</mat-label>
+                            <mat-select formControlName="condition_type">
+                              <mat-option
+                                matTooltip="{{ condition.label | translate }}"
+                                *ngFor="let condition of passFailConditions"
+                                [value]="condition.value"
+                              >
+                                {{ condition.label | translate }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="p-col-3 input-align no-padding">
+                          <mat-form-field>
+                            <input type="text" formControlName="condition_name" matInput placeholder="{{ 'Condition Name' | translate }}" />
+                          </mat-form-field>
+                        </div>
+                        <div class="p-col btn-paramater float-right">
+                          <button
+                            mat-raised-button
+                            color="accent"
+                            (click)="addParameters(blockIndex.toString(), paramIndex.toString())"
+                            matTooltip="{{ 'Parameters' | translate }}"
+                          >
+                            <mat-icon>add</mat-icon> {{ 'Parameters' | translate }}
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Table Started -->
+                      <div class="p-grid mrg-top">
+                        <div class="p-col-12" style="padding: 0.5em 0em 0.5em 0px">
+                          <table
+                            class="scoreTable"
+                            mat-table
+                            #scoreTable
+                            [dataSource]="getParameters(blockIndex.toString(), paramIndex.toString()).controls"
+                            formArrayName="condition_parameters"
+                          >
+                            <!-- correlation Column -->
+                            <ng-container matColumnDef="correlation">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Correlation' | translate }}">
+                                {{ 'Correlation' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <mat-form-field floatLabel="never" *ngIf="i > 0">
+                                  <mat-select
+                                    matTooltip="{{
+                                      getParameters(blockIndex.toString(), paramIndex.toString()).get(i.toString()).get('correlation').value
+                                        | translate
+                                    }}"
+                                    formControlName="correlation"
+                                    required
+                                  >
+                                    <mat-option
+                                      matTooltip="{{ correlation.label | translate }}"
+                                      *ngFor="let correlation of correlations"
+                                      [value]="correlation.value"
+                                    >
+                                      {{ correlation.label | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+                            </ng-container>
+                            <!-- correlation Column -->
+                            <ng-container matColumnDef="validation_type">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}">
+                                {{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <mat-form-field floatLabel="never">
+                                  <mat-select
+                                    matTooltip="{{
+                                      getParameters(blockIndex.toString(), paramIndex.toString()).get(i.toString()).get('validation_type')
+                                        .value | translate
+                                    }}"
+                                    formControlName="validation_type"
+                                    required
+                                  >
+                                    <mat-option
+                                      matTooltip="{{ valType.label | translate }}"
+                                      *ngFor="let valType of validationTypesBlock"
+                                      [value]="valType.value"
+                                      (click)="
+                                        getTypeSekected(
+                                          valType.value,
+                                          blockIndex,
+                                          paramIndex.toString(),
+                                          i.toString(),
+                                          blockIndex.toString()
+                                        )
+                                      "
+                                    >
+                                      {{ valType.label | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+                            </ng-container>
+                            <!-- correlation Column -->
+                            <ng-container matColumnDef="validation_parameters">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Validation 2' | translate }}">
+                                {{ 'Validation 2' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <ng-container
+                                  formGroupName="validation_parameter"
+                                  [ngSwitch]="getValidationType(paramIndex.toString(), i.toString(), blockIndex.toString())"
+                                >
+                                  <mat-form-field floatLabel="never" *ngSwitchCase="'block'">
+                                    <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                    <mat-select matTooltip="{{ 'Minimum Score' | translate }}" formControlName="parameter_type" required>
+                                      <mat-option matTooltip="{{ 'Minimum Score' | translate }}" [value]="'minimum_score'">
+                                        {{ 'Minimum Score' | translate }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+
+                                  <mat-form-field floatLabel="never" *ngSwitchCase="'subject'">
+                                    <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                    <mat-select
+                                      matTooltip="{{
+                                        generateTooltipBlock(paramIndex.toString(), i.toString(), blockIndex.toString(), blockIndex)
+                                      }}"
+                                      formControlName="subject_id"
+                                      required
+                                    >
+                                      <mat-option
+                                        matTooltip="{{ subject.subject_name | translate }}"
+                                        *ngFor="let subject of listOfSubject[blockIndex]"
+                                        [value]="subject._id"
+                                      >
+                                        {{ subject.subject_name | translate }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+
+                                  <mat-form-field floatLabel="never" *ngSwitchCase="'evaluation'">
+                                    <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                    <mat-select
+                                      matTooltip="{{
+                                        generateTooltipBlock(paramIndex.toString(), i.toString(), blockIndex.toString(), blockIndex)
+                                      }}"
+                                      formControlName="evaluation_id"
+                                      required
+                                    >
+                                      <mat-optgroup *ngFor="let group of listOfSubject[blockIndex]" [label]="group.subject_name">
+                                        <mat-option
+                                          matTooltip="{{ test.evaluation | translate }}"
+                                          *ngFor="let test of group.evaluations"
+                                          [value]="test._id"
+                                        >
+                                          {{ test.evaluation }}
+                                        </mat-option>
+                                      </mat-optgroup>
+                                      <!-- <mat-option *ngFor="let test of listOfEvaluation[blockIndex]" [value]="test._id">
+                                        {{ test.evaluation | translate }}
+                                      </mat-option> -->
+                                    </mat-select>
+                                  </mat-form-field>
+
+                                  <mat-form-field floatLabel="never" *ngSwitchDefault>
+                                    <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                    <mat-select formControlName="parameter_type">
+                                      <mat-option></mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </ng-container>
+                              </td>
+                            </ng-container>
+                            <!-- correlation Column -->
+                            <ng-container matColumnDef="score">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Minimum Score' | translate }}">
+                                {{ 'Minimum Score' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <!-- <ng-container
+                                    *ngIf="getValidationType(paramIndex.toString(), i.toString(), blockIndex.toString()) !== 'block'"
+                                  > -->
+                                <mat-form-field formGroupName="validation_parameter" class="sign-form" floatLabel="never">
+                                  <mat-label>{{ 'Sign' | translate }}</mat-label>
+                                  <mat-select
+                                    matTooltip="{{
+                                      getParameters(blockIndex.toString(), paramIndex.toString())
+                                        .get(i.toString())
+                                        .get('validation_parameter')
+                                        .get('sign').value | translate
+                                    }}"
+                                    formControlName="sign"
+                                    required
+                                  >
+                                    <mat-option matTooltip="{{ sign.label | translate }}" *ngFor="let sign of signs" [value]="sign.value">
+                                      {{ sign.label }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <mat-form-field color="accent" class="score-form" floatLabel="never">
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    required
+                                    matInput
+                                    placeholder="{{ 'Score' | translate }}"
+                                    formControlName="pass_mark"
+                                  />
+                                </mat-form-field>
+                                <!-- </ng-container>
+                                  <ng-container
+                                    *ngIf="getValidationType(paramIndex.toString(), i.toString(), blockIndex.toString()) === 'block'"
+                                  >
+                                    <mat-form-field floatLabel="never">
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        matInput
+                                        placeholder="{{ 'Score' | translate }}"
+                                        formControlName="pass_mark"
+                                      />
+                                    </mat-form-field>
+                                  </ng-container> -->
+                              </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="action">
+                              <th mat-header-cell *matHeaderCellDef></th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <a
+                                  color="primary"
+                                  (click)="removeParameters(blockIndex, paramIndex, i)"
+                                  type="button"
+                                  matTooltip="{{ 'Delete' | translate }}"
+                                  style="cursor: pointer"
+                                >
+                                  <mat-icon class="red-button">remove_circle</mat-icon>
+                                </a>
+                              </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedScoreColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedScoreColumns"></tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </mat-expansion-panel>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-container [formGroup]="juryDecisionParameterForm">
+          <ng-container>
+            <mat-expansion-panel
+              class="panel-spacing"
+              [expanded]="getPassFailDecisionParametersScore().length > 0"
+              (closed)="getPassFailDecisionParametersScore().length < 1"
+              (opened)="getPassFailDecisionParametersScore().length > 0"
+            >
+              <mat-expansion-panel-header class="panel-header-comp panel-header-specialization">
+                <mat-panel-title>
+                  <h5 style="color: whitesmoke; margin: 0px" matTooltip="{{ 'Condition for Certification' | translate }}">
+                    {{ 'Condition for Certification' | translate }}
+                  </h5>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <!-- block of competency form section -->
+              <ng-container>
+                <div class="btn-right mrgn-btn-10 mt-1rem">
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    class="condition-btn"
+                    [matTooltip]="'Add Condition' | translate"
+                    (click)="openPassFailDialogScore()"
+                  >
+                    <mat-icon>add</mat-icon> {{ 'Add Condition' | translate }}
+                  </button>
+                </div>
+                <ng-container formArrayName="pass_fail_conditions">
+                  <div
+                    class="yellow-border card-row"
+                    *ngFor="let condition of getPassFailDecisionParametersScore().controls; let paramIndex = index"
+                    [formGroupName]="paramIndex"
+                  >
+                    <div class="p-grid">
+                      <div class="p-col-fixed btn-action">
+                        <button
+                          (click)="removepassFailDecisionParametersScore(paramIndex)"
+                          mat-icon-button
+                          color="warn"
+                          matTooltip="{{ 'Delete' | translate }}"
+                        >
+                          <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                        </button>
+                        <button mat-icon-button class="text-white" matTooltip="{{ 'Edit' | translate }}">
+                          <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                        </button>
+                      </div>
+
+                      <div class="p-col-3 no-padding">
+                        <mat-form-field>
+                          <mat-label>{{ 'Condition type' | translate }}</mat-label>
+                          <mat-select
+                            formControlName="condition_type"
+                            matTooltip="{{ passFailDecisionParameters.get(paramIndex.toString()).get('condition_type').value | translate }}"
+                          >
+                            <mat-option *ngFor="let condition of passFailConditions" [value]="condition.value">
+                              {{ condition.label | translate }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
+                      <div class="p-col-3 input-align no-padding">
+                        <mat-form-field>
+                          <input type="text" formControlName="condition_name" matInput placeholder="{{ 'Condition Name' | translate }}" />
+                        </mat-form-field>
+                      </div>
+                      <div class="p-col btn-paramater float-right">
+                        <button
+                          mat-raised-button
+                          color="accent"
+                          (click)="addParametersScore(paramIndex.toString())"
+                          matTooltip="{{ 'Parameters' | translate }}"
+                        >
+                          <mat-icon>add</mat-icon> {{ 'Parameters' | translate }}
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Table Started -->
+                    <div class="p-grid mrg-top">
+                      <div class="p-col-12" style="padding: 0.5em 0em 0.5em 0px">
+                        <table
+                          class="scoreTable"
+                          mat-table
+                          #scoreTable
+                          [dataSource]="getParametersScore(paramIndex.toString()).controls"
+                          formArrayName="condition_parameters"
+                        >
+                          <!-- correlation Column -->
+                          <ng-container matColumnDef="correlation">
+                            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Correlation' | translate }}">
+                              {{ 'Correlation' | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                              <mat-form-field floatLabel="never" *ngIf="i > 0">
+                                <mat-select
+                                  matTooltip="{{
+                                    passFailDecisionParameters
+                                      .get(paramIndex.toString())
+                                      .get('condition_parameters')
+                                      .get(i.toString())
+                                      .get('correlation').value | translate
+                                  }}"
+                                  formControlName="correlation"
+                                  required
+                                >
+                                  <mat-option *ngFor="let correlation of correlations" [value]="correlation.value">
+                                    {{ correlation.label | translate }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                          </ng-container>
+                          <!-- correlation Column -->
+                          <ng-container matColumnDef="validation_type">
+                            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}">
+                              {{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                              <mat-form-field floatLabel="never">
+                                <mat-select
+                                  matTooltip="{{
+                                    passFailDecisionParameters
+                                      .get(paramIndex.toString())
+                                      .get('condition_parameters')
+                                      .get(i.toString())
+                                      .get('validation_type').value | translate
+                                  }}"
+                                  formControlName="validation_type"
+                                  required
+                                >
+                                  <mat-option
+                                    (click)="initFormValidationParameter(valType.value, paramIndex.toString(), i.toString())"
+                                    *ngFor="let valType of validationTypes"
+                                    [value]="valType.value"
+                                  >
+                                    {{ valType.label | translate }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </td>
+                          </ng-container>
+                          <!-- correlation Column -->
+                          <ng-container matColumnDef="validation_parameters">
+                            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}">
+                              {{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                              <ng-container
+                                formGroupName="validation_parameter"
+                                [ngSwitch]="getValidationTypeScore(paramIndex.toString(), i.toString())"
+                              >
+                                <mat-form-field floatLabel="never" *ngSwitchCase="'block'">
+                                  <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                  <mat-select
+                                    class="select-panel"
+                                    matTooltip="{{ generateTooltipClass(paramIndex.toString(), i.toString()) }}"
+                                    formControlName="block_id"
+                                    required
+                                  >
+                                    <mat-option
+                                      *ngFor="let expertise of expertises"
+                                      matTooltip="{{ expertise.block_of_competence_condition | translate }}"
+                                      [value]="expertise._id"
+                                    >
+                                      {{ expertise.block_of_competence_condition | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="never" *ngSwitchCase="'subject'">
+                                  <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                  <mat-select
+                                    matTooltip="{{ generateTooltipClass(paramIndex.toString(), i.toString()) }}"
+                                    formControlName="subject_id"
+                                    required
+                                  >
+                                    <mat-option
+                                      *ngFor="let subject of subjects"
+                                      matTooltip="{{ subject.subject_name | translate }}"
+                                      [value]="subject._id"
+                                    >
+                                      {{ subject.subject_name | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="never" *ngSwitchCase="'evaluation'">
+                                  <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                  <mat-select
+                                    matTooltip="{{ generateTooltipClass(paramIndex.toString(), i.toString()) }}"
+                                    formControlName="evaluation_id"
+                                    required
+                                  >
+                                    <mat-optgroup *ngFor="let group of subjects" [label]="group.subject_name">
+                                      <mat-option
+                                        matTooltip="{{ test.evaluation | translate }}"
+                                        *ngFor="let test of group.evaluations"
+                                        [value]="test._id"
+                                      >
+                                        {{ test.evaluation }}
+                                      </mat-option>
+                                    </mat-optgroup>
+                                    <!-- <mat-option *ngFor="let test of evaluationList" [value]="test._id">
+                                      {{ test.evaluation | translate }}
+                                    </mat-option> -->
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="never" *ngSwitchCase="'overall_score'">
+                                  <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                  <mat-select matTooltip="{{ 'Average' | translate }}" formControlName="parameter_type" required>
+                                    <mat-option [value]="'average'">
+                                      {{ 'Average' | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+
+                                <mat-form-field floatLabel="never" *ngSwitchDefault>
+                                  <mat-label>{{ 'Select parameter' | translate }}</mat-label>
+                                  <mat-select formControlName="parameter_type">
+                                    <mat-option></mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </ng-container>
+                            </td>
+                          </ng-container>
+                          <!-- correlation Column -->
+                          <ng-container matColumnDef="score">
+                            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Minimum Score' | translate }}">
+                              {{ 'Minimum Score' | translate }}
+                            </th>
+                            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                              <ng-container *ngIf="getValidationTypeScore(paramIndex.toString(), i.toString()) !== 'block'">
+                                <mat-form-field formGroupName="validation_parameter" class="sign-form" floatLabel="never">
+                                  <mat-label>{{ 'Sign' | translate }}</mat-label>
+                                  <mat-select
+                                    matTooltip="{{
+                                      passFailDecisionParameters
+                                        .get(paramIndex.toString())
+                                        .get('condition_parameters')
+                                        .get(i.toString())
+                                        .get('validation_parameter')
+                                        .get('sign').value | translate
+                                    }}"
+                                    formControlName="sign"
+                                    required
+                                  >
+                                    <mat-option *ngFor="let sign of signs" [value]="sign.value">
+                                      {{ sign.label }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <mat-form-field color="accent" class="score-form" floatLabel="never">
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    matInput
+                                    placeholder="{{ 'Score' | translate }}"
+                                    formControlName="pass_mark"
+                                    required
+                                  />
+                                </mat-form-field>
+                              </ng-container>
+                              <ng-container *ngIf="getValidationTypeScore(paramIndex.toString(), i.toString()) === 'block'">
+                                <mat-form-field formGroupName="validation_parameter" class="pass-fail-form" floatLabel="never">
+                                  <!-- <mat-label>{{ 'Sign' | translate }}</mat-label> -->
+                                  <mat-select
+                                    matTooltip="{{ getTooltipMinimum(paramIndex.toString(), i.toString()) }}"
+                                    formControlName="sign"
+                                    required
+                                  >
+                                    <mat-option value="pass">
+                                      {{ 'Validated' | translate }}
+                                    </mat-option>
+                                    <mat-option value="failed">
+                                      {{ 'Not Validated' | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </ng-container>
+                            </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                              <a
+                                color="primary"
+                                matTooltip="{{ 'Delete' | translate }}"
+                                (click)="removeParametersScore(paramIndex, i)"
+                                type="button"
+                                style="cursor: pointer"
+                              >
+                                <mat-icon class="red-button">remove_circle</mat-icon>
+                              </a>
+                            </td>
+                          </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedScoreColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedScoreColumns"></tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </mat-expansion-panel>
+          </ng-container>
+        </ng-container>
+      </mat-accordion>
+    </div>
+  </div>
+
+  <div class="p-col-6">
+    <!-- <ms-condition-score-preview
+      #conditionPdf
+      [className]="className"
+      [titleName]="titleName"
+      [titleLongName]="titleLongName"
+      [competency]="conditionOfAwardForm.get('block_of_competence_condition_input').value"
+      [markPointStatus]="subTypeEvaluation === 'point_weight' || subTypeEvaluation === 'point_coefficient'"
+      [maxPoint]="evaMaxPoint"
+      [isPreviewFor]="'score'"
+      [subTypeEvaluation]="subTypeEvaluation"
+    >
+    </ms-condition-score-preview> -->
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,89 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+.job-button{
+    margin: 30px;
+    width: 170px;
+    display: initial;
+}
+
+.jobButton{
+    width: 180px;
+    padding: 7px;
+    border-radius: 10px;
+    background-color: $dark-yellow;
+    border-color: #353535;
+    cursor: default;
+}
+
+.para{
+    max-width: 110px;
+    margin: 2px 10px 0px 0px;
+    color: $black;
+    font-weight: 700;
+}
+
+mat-icon{   
+    font-size: 2.5rem;
+    margin-right: 0.75rem;
+    width: 1rem;
+    font-weight: 700;
+}
+
+.jobDescription{
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.card{
+    margin: 0 6rem;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+.border-yellow{
+    border: 2px solid $dark-yellow;
+    padding: 0.5rem;
+    margin: 1rem;
+}
+
+.status{
+    font-weight: 500;
+}
+
+.spacing{
+    padding-left: 0 !important;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.spacing{
+   margin-right: 3rem;
+   margin-top: 0.5rem;
+}
+
+.spacing-lg{
+    margin-right: 1rem;
+}
+
+.spacing-xs{
+    margin-right: 1.25rem;
+}
+
+.spacing-md{
+    margin-right: -0.75rem;
+}
+
+.spacing-sm{
+    margin-right: -0.75rem;
+}
+
+.color{
+   background-color: $dark-yellow;
+   color: $black !important;
+}

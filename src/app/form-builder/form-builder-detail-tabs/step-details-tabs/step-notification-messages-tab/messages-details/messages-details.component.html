@@ -1,0 +1,83 @@
+<section [formGroup]="messageForm">
+  <!-- <mat-form-field appearance="fill">
+    <input type="text" matInput formControlName="ref_id" [placeholder]="reference" readonly />
+  </mat-form-field> -->
+  <mat-accordion>
+    <mat-expansion-panel class="custom-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h4>{{ 'Message Parameters' | translate }}</h4>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="content">
+        <div class="p-grid">
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <mat-label>{{ 'Message Ref Id' | translate }}</mat-label>
+              <input matInput formControlName="ref_id" readonly disabled />
+            </mat-form-field>
+          </div>
+          <div class="p-col-6">
+            <mat-form-field color="accent">
+              <mat-label>{{ 'Trigger Condition' | translate }}</mat-label>
+              <input
+                matInput
+                required
+                formControlName="trigger_condition"
+                [matAutocomplete]="triggerAuto"
+                (keyup)="onTriggerConditionFilter($event)"
+              />
+              <mat-autocomplete
+                #triggerAuto="matAutocomplete"
+                [panelWidth]="'fit'"
+                [displayWith]="getTranslationForCondition.bind(this)"
+              >
+                <mat-option *ngFor="let option of filteredTriggerConditions" [value]="option.key">
+                  {{ option.value | translate }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error>{{ 'This field is required' | translate }}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-card style="margin-top: 1.5rem">
+    <div class="ckeditor">
+      <label>{{ 'Header/Direction' | translate }}</label>
+      <ckeditor
+        #editor
+        [editor]="Editor"
+        [formControl]="messageForm.controls['body']"
+        (ready)="onReady($event)"
+        [config]="config"
+        [disabled]="isPublished"
+      ></ckeditor>
+    </div>
+    <div>
+      <div class="p-grid">
+        <mat-form-field class="p-col-4">
+          <mat-label>{{ 'Button' | translate }} 1</mat-label>
+          <input type="text" formControlName="first_button" matInput />
+        </mat-form-field>
+        <span class="help-button">
+          <mat-icon [matTooltipPosition]="'right'" matTooltip="{{ 'button_one_tooltip' | translate }}"> help </mat-icon>
+        </span>
+      </div>
+      <div class="p-grid">
+        <mat-form-field class="p-col-4">
+          <mat-label>{{ 'Button' | translate }} 2</mat-label>
+          <input formControlName="second_button" type="text" matInput />
+        </mat-form-field>
+        <span class="help-button"
+          ><mat-icon [matTooltipPosition]="'right'" matTooltip="{{ 'button_two_tooltip' | translate }}">help</mat-icon></span
+        >
+      </div>
+    </div>
+  </mat-card>
+</section>
+
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>

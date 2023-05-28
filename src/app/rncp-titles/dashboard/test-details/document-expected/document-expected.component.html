@@ -1,0 +1,48 @@
+<div class="p-grid" style="color: black; background-color: #fafafa;">
+  <div class="p-col-12 scrollable-over">
+    <div *ngIf="testData && testData.expected_documents && testData.expected_documents.length; else noDocument">
+      <div
+        *ngFor="let document of testData.expected_documents"
+        class="p-col-12"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        style="border-bottom: dimgray 1px solid;"
+      >
+        <div class="p-col-12" fxLayout="row" fxLayoutAlign="start center">
+          <div fxFlex="10" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="50">
+              <i class="fa fa-file" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div fxFlex="90" class="font-style" fxLayout="column" fxLayoutAlign="start start">
+            <div>
+              {{ document.document_name }}
+            </div>
+            <div *ngIf="document.deadline_date.type === 'fixed'">
+              <ng-container *ngIf="document.deadline_date.type === 'fixed'">
+                <span style="font-size: 0.7rem;">{{ 'Deadline' | translate }} : 
+                  {{ getTranslatedDateDocument(document?.deadline_date.deadline) }}
+                </span>
+              </ng-container>
+              <ng-container *ngIf="document.deadline_date.type === 'relative'">
+                <span style="font-size: 0.7rem;">{{ 'Deadline' | translate }}: 
+                  {{ document.deadline_date.before ? ('BEFORE' | translate) : ('AFTER'
+                  | translate)}} {{document.deadline_date.day}} {{'DAYS' | translate}} {{'of Mark entry' | translate}}</span> 
+              </ng-container>
+              <ng-container *ngIf="document.is_for_all_student">
+                <br>
+                <span style="font-size: 0.7rem;">{{'EXPECTEDDOCUMENT.FOREACH' | translate}}
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noDocument>
+      <div class="p-col-12 font-style" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 8px;">
+        {{ 'There is no document expected for this test' | translate }}
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div>
+    <button 
+    mat-raised-button 
+    color="accent"
+    class="btn-save"
+    (click)="onSave()">
+    <mat-icon class="mat-icon-default">save</mat-icon>
+    {{'COMPANY.SAVE' | translate | titlecase}}
+    </button>
+</div>
+
+<mat-card class="mr-top">
+    <div class="p-col">
+      <div class="p-grid" >
+        <div class="p-col-8">
+          <h4>{{ 'COMPANY.Information about this branche' | translate }}</h4>
+        </div>
+        <div [formGroup]="editBranchCompany" class="margin-form">
+            <div class="p-grid" >
+                <mat-form-field >
+                    <input matInput required  
+                    placeholder="{{ 'COMPANY.Branche Emblem' | translate }}" 
+                    formControlName="company_name"
+                    />
+                </mat-form-field>
+                <mat-form-field >
+                    <input matInput required  
+                    placeholder="{{ 'COMPANY.RC' | translate }}"
+                    formControlName="no_RC"/>
+                </mat-form-field>    
+                <mat-form-field >
+                    <input matInput   
+                    placeholder="{{ 'COMPANY.NIC Key' | translate }}" 
+                    formControlName="nic"/>
+                </mat-form-field>
+                 <mat-form-field >
+                    <input matInput required  
+                    placeholder="{{ 'COMPANY.COMPANY_TYPE' | translate }}" 
+                    formControlName="type_of_company"/>
+                </mat-form-field>
+                <ng-container formArrayName="company_addresses">
+                    <ng-container *ngFor="let address of companyAddressFormArray.controls; let addressIndex = index;"
+                    [formGroupName]="addressIndex">
+                    <mat-form-field>
+                        <input matInput required  
+                        placeholder="{{ 'COMPANY.ZIPCODE' | translate }}" 
+                        formControlName="postal_code"/>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{ 'COMPANY.COUNTRY' | translate }}</mat-label>
+                        <mat-select formControlName="country" required>
+                          <mat-option *ngFor="let country of countries" [value]="country.name">
+                            {{ country.name | translate }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+            
+                    </ng-container>
+                </ng-container>
+                
+                <mat-form-field >
+                    <input matInput required  
+                    placeholder="{{ 'COMPANY.Main activity of the establishment (NAF/APE)' | translate }}" 
+                    formControlName="activity"/>
+                </mat-form-field>
+                <mat-form-field >
+                    <input matInput required  
+                    placeholder="{{ 'COMPANY.Slice of salaried workforce' | translate }}" 
+                    formControlName="no_of_employee_in_france"/>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="isWaitingForResponse" class="loading-indicator">
+            <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+</mat-card>
+  

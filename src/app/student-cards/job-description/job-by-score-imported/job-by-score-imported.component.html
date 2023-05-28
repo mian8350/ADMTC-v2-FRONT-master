@@ -1,0 +1,786 @@
+<div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12" style="text-align: center !important; display: contents">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
+<div (scroll)="onScroll($event)" class="overlow-auto">
+  <div class="p-grid">
+    <div class="mrgn-right-15">
+      <div class="p-col-12" style="text-align: center">
+        <!-- ************** For Status Cards -->
+        <div class="p-grid justify-around" *ngIf="!typeDisplay">
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to Student' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_student, 'icon-false': !statusCard.sent_to_student }">
+                    {{ statusCard.sent_to_student ? '&#10004;' : '&#10799;' }}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- *************** If mentor is selected -->
+          <ng-container *ngIf="classData && classData.is_mentor_selected_in_job_description">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ 'JOB_STATUS.Sent to Mentor' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Sent to Mentor' | translate }}">
+                    <span [ngClass]="{ 'icon-true': statusCard.sent_to_mentor, 'icon-false': !statusCard.sent_to_mentor }">
+                      {{ statusCard.sent_to_mentor ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status">
+                      {{ 'JOB_STATUS.Validated by Mentor' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Sent to Student' | translate }}">
+                    <span [ngClass]="{ 'icon-true': statusCard.validated_by_mentor, 'icon-false': !statusCard.validated_by_mentor }">
+                      {{ statusCard.validated_by_mentor ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="p-col no-padding" style="text-align: center">
+            <div class="p-grid" style="padding-top: 4px; display: block">
+              <div class="yellow-button background-status label-status card-status">
+                <div class="font-status">
+                  <p class="text-status">
+                    {{ 'JOB_STATUS.Sent to School' | translate }}
+                  </p>
+                </div>
+                <span title="{{ 'JOB_STATUS.Sent to School' | translate }}">
+                  <span [ngClass]="{ 'icon-true': statusCard.sent_to_school, 'icon-false': !statusCard.sent_to_school }">
+                    {{ statusCard.sent_to_school ? '&#10004;' : '&#10799;' }}</span
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- If Rejected by Acad Dep -->
+          <ng-container *ngIf="statusCard.rejected_by_acad_dir">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="background-rejected label-status card-status">
+                  <div class="font-status">
+                    <p class="text-status label-reject">
+                      {{ 'JOB_STATUS.Rejected by Academic Dpt' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- If not rejected by acad dep -->
+          <ng-container *ngIf="!statusCard.rejected_by_acad_dir">
+            <div class="p-col no-padding" style="text-align: center">
+              <div class="p-grid" style="padding-top: 4px; display: block">
+                <div class="yellow-button background-status label-status card-status">
+                  <div
+                    [ngClass]="{
+                      'font-status': translate.currentLang === 'en',
+                      'font-status-validate': translate.currentLang === 'fr'
+                    }"
+                    class=""
+                  >
+                    <p
+                      [ngClass]="{
+                        'text-status': translate.currentLang === 'en',
+                        'text-status-validate': translate.currentLang === 'fr'
+                      }"
+                    >
+                      {{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}
+                    </p>
+                  </div>
+                  <span title="{{ 'JOB_STATUS.Validated by Academic Dpt' | translate }}">
+                    <span
+                      [ngClass]="{ 'icon-true': statusCard.validated_by_acad_staff, 'icon-false': !statusCard.validated_by_acad_staff }"
+                    >
+                      {{ statusCard.validated_by_acad_staff ? '&#10004;' : '&#10799;' }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Job Description Title -->
+      <div class="p-grid p-justify-around">
+        <div class="p-col-12 title-header no-padding">
+          <div class="text-center">
+            <h4 class="title-job">{{ 'JOBDESCRIPTIONFORM.TITLE' | translate }}</h4>
+          </div>
+        </div>
+      </div>
+
+      <fieldset class="fieldset-class" [disabled]="studentPrevCourseData">
+      <div class="p-grid" style="margin-bottom: 10px">
+        <div class="yellow-border card-row p-col-12">
+          <div class="p-grid">
+            <!-- Student Name -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'Student' | translate }} : </span>
+              <span> {{ studentData?.civility | translate }} {{ studentData?.first_name }} {{ studentData?.last_name }} </span>
+            </div>
+            <!-- Student Company -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'SM_COMPANY.Company' | translate }} : </span>
+              <span>
+                {{ studentData?.companies[0]?.company?.company_name }}
+              </span>
+            </div>
+            <!-- Student School -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'School' | translate }} : </span>
+              <span>
+                {{ studentData?.school?.short_name }}
+              </span>
+            </div>
+            <!-- Student Mentor -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'Mentor' | translate }} : </span>
+              <span>
+                {{ studentData?.companies[0]?.mentor?.civility | translate }} {{ studentData?.companies[0]?.mentor?.first_name }}
+                {{ studentData?.companies[0]?.mentor?.last_name }}
+              </span>
+            </div>
+            <!-- Student RNCP Title -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'CARDDETAIL.RNCP Title' | translate }} : </span>
+              <span>
+                {{ studentData?.rncp_title?.short_name }}
+              </span>
+            </div>
+            <!-- Student Class -->
+            <div class="p-col-6">
+              <span class="grey-text"> {{ 'Class' | translate }} : </span>
+              <span>
+                {{ studentData?.current_class?.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form *ngIf="jobDescForm" [formGroup]="jobDescForm">
+        <!-- View for Job Identity Data -->
+        <div class="p-grid" style="margin-bottom: 10px">
+          <div class="yellow-border card-row p-col-12 pad-btn-none">
+            <div class="p-grid">
+              <div class="p-col-3 self-center">
+                {{ 'JOB_DESCRIPTION_TEXT.Job Identity' | translate }}
+              </div>
+              <div class="p-col-9 pad-btn-none">
+                <mat-form-field class="width-ninety">
+                  <mat-label>{{ 'JOB_DESCRIPTION_TEXT.Job Name' | translate }}</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="job_name"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    #autosize="cdkTextareaAutosize"
+                    [readonly]="!allowEditForm"
+                    required
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="p-grid" formGroupName="date_of_the_mission">
+              <div class="p-col-3 self-center">
+                {{ 'JOB_DESCRIPTION_TEXT.Date of Mission' | translate }}
+              </div>
+              <div class="p-col-9 x-pad-none">
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding" formGroupName="from">
+                    <mat-form-field class="width-eighty">
+                      <mat-label>{{ 'SM_COMPANY.From' | translate }}</mat-label>
+                      <input
+                        matInput
+                        readonly
+                        (click)="picker1.open()"
+                        [matDatepicker]="picker1"
+                        [max]="jobDescForm.get('date_of_the_mission').get('to').get('date').value"
+                        formControlName="date"
+                        [disabled]="!allowEditForm"
+                        required
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-6 no-padding" formGroupName="to">
+                    <mat-form-field class="width-eighty">
+                      <mat-label>{{ 'SM_COMPANY.To' | translate }}</mat-label>
+                      <input
+                        matInput
+                        readonly
+                        (click)="picker2.open()"
+                        [matDatepicker]="picker2"
+                        formControlName="date"
+                        [min]="jobDescForm.get('date_of_the_mission').get('from').get('date').value"
+                        [disabled]="!allowEditForm"
+                        required
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-3 self-center">
+                {{ 'JOB_DESCRIPTION_TEXT.Presentation Of The Department' | translate }}
+              </div>
+              <div class="p-col-9 x-pad-none">
+                <div class="p-grid">
+                  <div class="p-col-6 no-padding">
+                    <mat-form-field class="width-eighty">
+                      <mat-label>{{ 'JOB_DESCRIPTION_TEXT.Main Mission Of The Department' | translate }}</mat-label>
+                      <textarea
+                        matInput
+                        formControlName="main_mission_of_the_department"
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="1"
+                        #autosize="cdkTextareaAutosize"
+                        [readonly]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                        required
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="p-col-6 no-padding">
+                    <mat-form-field class="width-eighty">
+                      <mat-label>{{ 'JOB_DESCRIPTION_TEXT.Organisation of the Department' | translate }}</mat-label>
+                      <textarea
+                        matInput
+                        formControlName="organization_of_the_department"
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="1"
+                        #autosize="cdkTextareaAutosize"
+                        [readonly]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                        required
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid">
+              <div class="p-col-3 self-center">
+                {{ 'JOB_DESCRIPTION_TEXT.Job Mission' | translate }}
+              </div>
+              <div class="p-col-9 x-pad-none">
+                <mat-form-field class="width-ninety">
+                  <mat-label>{{ 'JOB_DESCRIPTION_TEXT.Main Mission' | translate }}</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="main_mission"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    #autosize="cdkTextareaAutosize"
+                    [readonly]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                    required
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div formGroupName="old_job_desc">
+          <div class="p-grid" *ngIf="getMissionActivityArray() && getMissionActivityArray().length">
+            <div class="card-row p-col-12 no-padding">
+              <div formArrayName="missions_activities_autonomy">
+                <!-- Dipslay For Autonomy Fields -->
+                <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                  <div *ngFor="let missionActivity of getMissionActivityArray().controls; let missionIndex = index">
+                    <div class="p-grid" [formGroupName]="missionIndex">
+                      <div class="p-col-4 pad-btn-none">
+                        <mat-form-field>
+                          <mat-label>{{ 'mission' | translate }}</mat-label>
+                          <textarea
+                            matInput
+                            formControlName="mission"
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="1"
+                            #autosize="cdkTextareaAutosize"
+                            [readonly]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                            required
+                          ></textarea>
+                        </mat-form-field>
+                      </div>
+                      <div class="p-col-4 pad-btn-none">
+                        <mat-form-field>
+                          <mat-label>{{ 'activity' | translate }}</mat-label>
+                          <textarea
+                            matInput
+                            formControlName="activity"
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="1"
+                            #autosize="cdkTextareaAutosize"
+                            [readonly]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                            required
+                          ></textarea>
+                        </mat-form-field>
+                      </div>
+                      <div class="p-col-4 pad-btn-none">
+                        <div class="autonomy">
+                          <mat-form-field>
+                            <mat-label>{{ 'autonomy level' | translate }}</mat-label>
+                            <mat-select required formControlName="autonomy_level" [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'">
+                              <mat-option *ngFor="let autonomy of autonomyLevel" [value]="autonomy.value">
+                                {{ autonomy.viewValue | translate }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="btn-dynamic">
+                          <button
+                            class="pad-top10"
+                            mat-icon-button
+                            color="warn"
+                            (click)="removeMissionActivityFromForm(missionIndex)"
+                            *ngIf="missionIndex > 0"
+                            [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                          >
+                            <mat-icon>remove_circle_outline</mat-icon>
+                          </button>
+                          <button
+                            class="pad-top10"
+                            mat-icon-button
+                            color="primary"
+                            (click)="addMissionActivityToForm()"
+                            [disabled]="!allowEditForm  || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                          >
+                            <mat-icon>add_circle_outline</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="card-row p-col-12 no-padding">
+              <div *ngIf="(getKnowledge() && getKnowledge().length) || (getKnowHow() && getKnowHow().length)">
+                <!-- Dipslay For Competencies For This Job Field -->
+                <div class="p-col-12 pad-btn-none yellow-border mission-activity">
+                  <div *ngIf="getKnowledge() && getKnowledge().length" formArrayName="knowledges">
+                    <div *ngFor="let knowledges of getKnowledge().controls; let knowledgesIndex = index">
+                      <div class="p-grid" [formGroupName]="knowledgesIndex">
+                        <div class="p-col-3 self-center" *ngIf="knowledgesIndex === 0">
+                          {{ 'REQUIREDCOMPETENCIESFORTHISJOB.JOBPROFILE' | translate }}
+                        </div>
+                        <div class="p-col-3 self-center" *ngIf="knowledgesIndex >= 1"></div>
+                        <div class="p-col-9 x-pad-none">
+                          <div class="knowledges">
+                            <mat-form-field class="width-95">
+                              <mat-label>{{ 'REQUIREDCOMPETENCIESFORTHISJOB.KNOWLEDGE' | translate }}</mat-label>
+                              <textarea
+                                class="height-50"
+                                matInput
+                                formControlName="knowledges"
+                                cdkTextareaAutosize
+                                cdkAutosizeMinRows="1"
+                                #autosize="cdkTextareaAutosize"
+                              ></textarea>
+                            </mat-form-field>
+                          </div>
+                          <div class="btn-dynamic">
+                            <button
+                              (click)="removeKnowledge(knowledgesIndex)"
+                              *ngIf="knowledgesIndex > 0"
+                              class="pad-top10"
+                              mat-icon-button
+                              color="warn"
+                              [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                            >
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                            <button (click)="addKnowledge()" [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'" class="pad-top10" mat-icon-button color="primary">
+                              <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="getKnowHow() && getKnowHow().length" formArrayName="know_how">
+                    <div *ngFor="let objectives of getKnowHow().controls; let knowhowIndex = index">
+                      <div class="p-grid" [formGroupName]="knowhowIndex">
+                        <div class="p-col-3 self-center"></div>
+                        <div class="p-col-9 x-pad-none">
+                          <div class="knowhow">
+                            <mat-form-field class="width-95">
+                              <mat-label>{{ 'REQUIREDCOMPETENCIESFORTHISJOB.KNOWHOW' | translate }}</mat-label>
+                              <textarea
+                                class="height-50"
+                                matInput
+                                formControlName="know_how"
+                                cdkTextareaAutosize
+                                cdkAutosizeMinRows="1"
+                                #autosize="cdkTextareaAutosize"
+                              ></textarea>
+                            </mat-form-field>
+                          </div>
+                          <div class="btn-dynamic">
+                            <button
+                              (click)="removeKnowHow(knowhowIndex)"
+                              *ngIf="knowhowIndex > 0"
+                              class="pad-top10"
+                              mat-icon-button
+                              color="warn"
+                              [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                            >
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                            <button (click)="addKnowHow()" [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'" class="pad-top10" mat-icon-button color="primary">
+                              <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid">
+            <div class="card-row p-col-12 no-padding">
+              <div
+                *ngIf="
+                  (getExpectedStudentArray() && getExpectedStudentArray().length) ||
+                  (getObjectiveDepartment() && getObjectiveDepartment().length)
+                "
+              >
+                <!-- Dipslay For Objectives Of The Job And Expected Contributions Of The Students Field -->
+                <div class="p-col-12 float-left yellow-border mission-activity">
+                  <div class="p-col-5 mrgn-right-none mrgn-10 no-padding float-left yellow-border width-objective">
+                    <div class="p-grid">
+                      <div class="p-col-12 self-center">
+                        {{ 'OBJECTIVESOFTHEDEPARTMENT' | translate }}
+                      </div>
+                      <div
+                        class="full-width"
+                        *ngIf="getObjectiveDepartment() && getObjectiveDepartment().length"
+                        formArrayName="objectives_of_the_department"
+                      >
+                        <div class="full-width" *ngFor="let objectives of getObjectiveDepartment().controls; let objectiveIndex = index">
+                          <div>
+                            <div [formGroupName]="objectiveIndex">
+                              <div class="p-col-12 pad-left" style="float: left">
+                                <div class="objective">
+                                  <mat-form-field>
+                                    <mat-label>{{ 'Objective' | translate }}</mat-label>
+                                    <input matInput formControlName="objectives_of_the_department" />
+                                  </mat-form-field>
+                                </div>
+                                <div class="btn-dynamic">
+                                  <button
+                                    (click)="removeObjectiveDepartment(objectiveIndex)"
+                                    *ngIf="objectiveIndex > 0"
+                                    class="pad-top10"
+                                    mat-icon-button
+                                    color="warn"
+                                    [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                                  >
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                  </button>
+                                  <button
+                                    (click)="addObjectiveDepartment()"
+                                    [disabled]="!allowEditForm || getRejectionArray().length >= 5 || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                                    class="pad-top10"
+                                    mat-icon-button
+                                    color="primary"
+                                  >
+                                    <mat-icon>add_circle_outline</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col-6 mrgn-10 no-padding float-right yellow-border">
+                    <div class="p-grid">
+                      <div class="p-col-12 self-center">
+                        {{ 'EXPECTEDFROMSTUDENT.TITLE' | translate }}
+                      </div>
+                      <div *ngIf="getExpectedStudentArray() && getExpectedStudentArray().length" formArrayName="expected_from_the_students">
+                        <div class="p-col-12 x-pad-none">
+                          <div *ngFor="let objectives of getExpectedStudentArray().controls; let objectiveIndex = index">
+                            <div [formGroupName]="objectiveIndex">
+                              <div class="p-col-5 float-left x-pad-none">
+                                <mat-form-field>
+                                  <mat-label>{{ 'EXPECTEDFROMSTUDENT.CONTRIBUTION' | translate }}</mat-label>
+                                  <input matInput formControlName="contribution" />
+                                </mat-form-field>
+                              </div>
+                              <div class="p-col-7 float-left x-pad-none">
+                                <div class="objective-s">
+                                  <mat-form-field>
+                                    <mat-label>{{ 'EXPECTEDFROMSTUDENT.OBJECTIVE' | translate }}</mat-label>
+                                    <input matInput formControlName="objective" />
+                                  </mat-form-field>
+                                </div>
+                                <div class="btn-dynamic">
+                                  <button
+                                    (click)="removeExpectedStudent(objectiveIndex)"
+                                    *ngIf="objectiveIndex > 0"
+                                    class="pad-top10"
+                                    mat-icon-button
+                                    color="warn"
+                                    [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                                  >
+                                    <mat-icon>remove_circle_outline</mat-icon>
+                                  </button>
+                                  <button
+                                    (click)="addExpectedStudentForm()"
+                                    [disabled]="!allowEditForm || jobDescData?.job_description_status === 'validated_by_acad_staff'"
+                                    class="pad-top10"
+                                    mat-icon-button
+                                    color="primary"
+                                  >
+                                    <mat-icon>add_circle_outline</mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ************* View for Rejection Information -->
+        <div
+          class="p-grid"
+          style="margin-bottom: 10px"
+          *ngIf="getRejectionArray() && getRejectionArray().length"
+          formArrayName="job_desc_rejections"
+        >
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid" *ngFor="let reason of getRejectionArray().controls; let reasonIndex = index">
+              <ng-container [formGroupName]="reasonIndex">
+                <div class="p-col-12">
+                  <div class="p-grid">
+                    <div class="p-col-3 self-center">
+                      {{ 'Reason' | translate }}
+                    </div>
+                    <div class="p-col-9 x-pad-none">
+                      <mat-form-field class="width-ninety">
+                        <mat-label>{{ 'Reason' | translate }}</mat-label>
+                        <textarea matInput formControlName="reason_of_rejection" cdkTextareaAutosize #autosize="cdkTextareaAutosize" readonly></textarea>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="p-grid">
+                    <div class="p-col-3 self-center">
+                      {{ 'Date of Rejection' | translate }}
+                    </div>
+                    <div class="p-col-9 x-pad-none">
+                      {{ translateDate(reason.get('rejection_date').get('date').value) }}
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- ************** View For Signature -->
+
+        <div class="p-grid" style="margin-bottom: 10px">
+          <div class="yellow-border card-row p-col-12 x-pad-none">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <mat-checkbox
+                  color="accent"
+                  formControlName="signature_of_the_student"
+                  style="margin-right: 10px"
+                  [disabled]="jobDescData?.job_description_status !== 'sent_to_student' || !allowEditForm"
+                  *ngIf="statusCard.sent_to_student"
+                >
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.get('signature_of_the_student').value }">
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Student' | translate }}
+                  </span>
+                </mat-checkbox>
+                <mat-checkbox
+                  color="accent"
+                  formControlName="signature_of_the_company_mentor"
+                  style="margin-right: 10px"
+                  [disabled]="jobDescData?.job_description_status !== 'sent_to_mentor' || !allowEditForm"
+                  *ngIf="statusCard.sent_to_mentor && showSignature(isStudent, jobDescForm.get('signature_of_the_company_mentor').value)"
+                >
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.get('signature_of_the_company_mentor').value }">
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Mentor' | translate }}
+                  </span>
+                </mat-checkbox>
+                <mat-checkbox
+                  color="accent"
+                  formControlName="signature_of_the_acadir"
+                  style="margin-right: 10px"
+                  [disabled]="jobDescData?.job_description_status !== 'sent_to_school' || !allowEditForm"
+                  *ngIf="statusCard.sent_to_school && showSignature(isStudent, jobDescForm.get('signature_of_the_acadir').value)"
+                >
+                  <span [ngClass]="{ 'text-slider-color': jobDescForm.get('signature_of_the_acadir').value }">
+                    {{ 'JOB_DESCRIPTION_SIGNATURE.Signature For Acad Dir' | translate }}
+                  </span>
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </fieldset>
+      <div class="p-grid p-justify-around">
+        <div class="p-col-12 no-padding">
+          <div class="text-center">
+            <div *ngIf="jobDescForm">
+              <div
+                *ngIf="
+                  (jobDescData?.job_description_status === 'sent_to_student' ||
+                    jobDescData?.job_description_status === 'rejected_by_acad_dir') &&
+                  (isADMTC || isAcadDirAdmin || isStudent)
+                "
+              >
+                <button
+                  mat-raised-button
+                  color="accent"
+                  class="float-right"
+                  (click)="submitForm('submit')"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky-save' : 'savebtn') : ''"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'job_desc.submit' | translate }}
+                </button>
+                <button
+                  mat-raised-button
+                  color="accent"
+                  class="float-right"
+                  (click)="saveForm()"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky' : 'savebtn') : ''"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'Save' | translate }}
+                </button>
+              </div>
+              <div *ngIf="jobDescData?.job_description_status === 'sent_to_mentor' && (isADMTC || isAcadDirAdmin || isMentor)">
+                <button
+                  mat-raised-button
+                  class="float-right"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky-save' : 'savebtn') : ''"
+                  color="accent"
+                  [disabled]="jobDescForm.invalid"
+                  (click)="submitForm('mentor')"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'job_desc.validate' | translate }}
+                </button>
+              </div>
+              <div *ngIf="jobDescData?.job_description_status === 'sent_to_school' && (isADMTC || isAcadDirAdmin)">
+                <button
+                  mat-raised-button
+                  class="float-right"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky-save' : 'savebtn') : ''"
+                  color="accent"
+                  [disabled]="jobDescForm.invalid"
+                  (click)="submitForm('academic')"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'job_desc.validate' | translate }}
+                </button>
+                <button
+                  *ngIf="getRejectionArray().length < 5"
+                  mat-raised-button
+                  class="float-right"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky' : 'savebtn') : ''"
+                  color="warn"
+                  [disabled]="jobDescForm.invalid"
+                  (click)="rejectForm()"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'job_desc.reject' | translate }}
+                </button>
+              </div>
+              <div *ngIf="(jobDescData?.job_description_status === 'validated_by_acad_staff' || jobDescData?.job_description_status === 'expedite_by_acad_staff') && (isADMTC || isAcadDirAdmin)">
+                <button
+                  *ngIf="getRejectionArray().length < 5"
+                  mat-raised-button
+                  color="accent"
+                  class="float-right"
+                  (click)="saveForm()"
+                  [ngClass]="this.scrollEvent ? (this.scrollEvent?.path[0]?.scrollTop >= 142 ? 'btn-sticky' : 'savebtn') : ''"
+                  [disabled]="studentPrevCourseData"
+                >
+                  {{ 'Save' | translate }}
+                </button>
+              </div>
+              <button mat-raised-button (click)="exportPdf()" class="float-right" color="accent">
+                <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'PDF' | translate }}
+              </button>
+              <button mat-raised-button class="float-right" color="accent" (click)="openFullScreen()" *ngIf="!typeDisplay">
+                <mat-icon>fullscreen</mat-icon>
+                {{ 'view full screen' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ms-job-description-pdf
+  *ngIf="jobDescForm"
+  #jobDescriptionPDF
+  [studentData]="studentData"
+  [schoolId]="schoolId"
+  [classData]="classData"
+  [titleId]="titleId"
+  [jobDescForm]="jobDescForm.value"
+  [jobDescData]="jobDescData"
+  [jobDescriptionType]="jobDescriptionType"
+  [statusCard]="statusCard"
+>
+</ms-job-description-pdf>

@@ -1,0 +1,552 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.form-field {
+  margin-top: 6px;
+}
+.finance-table table {
+  border-collapse: unset !important;
+}
+.horizontal {
+  overflow: auto;
+  overflow-y: hidden;
+}
+.horizontal::-webkit-scrollbar {
+  height: 10px;
+  height: 10px;
+}
+.horizontal::-webkit-scrollbar-track {
+  background: #212121;
+}
+.horizontal::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #eaa11c !important;
+}
+.person-image {
+  display: inline-block;
+  margin-right: 0px;
+  min-height: 20px;
+  max-height: 20px;
+  min-width: 20px;
+  max-width: 20px;
+}
+.flag-icon {
+  vertical-align: text-top;
+  height: 17px;
+  width: 17px;
+}
+img.engagement-level-icon {
+  height: 15px;
+  width: 15px;
+  display: inline;
+  margin: 0;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+th.mat-header-cell {
+  h5 {
+    align-items: center;
+    font-size: 10pt;
+  }
+}
+.mat-column-select,
+.mat-column-selectFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+
+.mat-column-typeFormation,
+.mat-column-typeFormationFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+
+.mat-column-studentNumber,
+.mat-column-studentNumberFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+.mat-column-name,
+.mat-column-nameFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+.mat-column-nationality,
+.mat-column-nationalityFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+.mat-column-entryWay,
+.mat-column-entryWayFilter {
+  text-align: center;
+  z-index: 999 !important;
+  box-shadow: 1px 1px 0px 0px #545454;
+}
+.header-action {
+  font-family: 'firaSans' !important;
+  height: 50px;
+  padding: 8px 8px;
+  background: #424242;
+}
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      align-items: center !important;
+      border-right: 1px solid $grey;
+      padding: 4px !important;
+      &:nth-child(1) {
+        width: 2%;
+        z-index: 999 !important;
+      }
+      &:nth-child(2) {
+        width: 15%;
+        font-size: 11px;
+        text-align: left;
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+      &:nth-child(3) {
+        width: 15%;
+        font-size: 11px;
+        text-align: left;
+        .mat-form-field {
+          padding-top: 0px;
+          width: 100%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 5%;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 90%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 5%;
+        text-align: center !important;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 90%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: 5%;
+        text-align: center !important;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 100%;
+        }
+      }
+      &:nth-child(7) {
+        text-align: center !important;
+        width: 5%;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 100%;
+        }
+      }
+      &:nth-child(8) {
+        text-align: center !important;
+        width: 5%;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 100%;
+        }
+      }
+    }
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      &:nth-child(1) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+      }
+      &:nth-child(2) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: left;
+        justify-content: center;
+        margin: auto;
+      }
+
+      &:nth-child(3) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: left;
+        justify-content: center;
+        margin: auto;
+      }
+      &:nth-child(4) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+        .mat-icon-status {
+          padding-right: 0px !important;
+        }
+      }
+
+      &:nth-child(5) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+      }
+
+      &:nth-child(6) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+      }
+
+      &:nth-child(7) {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        vertical-align: middle;
+        text-align: center;
+        justify-content: center;
+        margin: auto;
+      }
+      * {
+        vertical-align: middle;
+      }
+      .mat-icon-status {
+        font-size: 14px;
+        text-align: center;
+        vertical-align: middle;
+        padding-right: 0px;
+      }
+    }
+
+    th {
+      align-items: center;
+      text-align: center !important;
+      font-size: 10pt !important;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+      button.mat-sort-header-button {
+        display: inline !important;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(1),
+    &:nth-child(2) {
+      background: $light-black;
+      border-bottom: none !important;
+      font-size: 10pt !important;
+      height: auto;
+      th {
+        color: $white;
+        .mat-icon-status {
+          vertical-align: text-bottom;
+        }
+        .mat-icon-svgIcon {
+          vertical-align: text-bottom;
+        }
+        &:nth-child(17) {
+          .mat-icon {
+            display: inline-flex;
+            margin: 8%;
+          }
+        }
+      }
+    }
+    &:nth-child(1),
+    &:nth-child(2) {
+      background: $light-black;
+      th {
+        color: $white;
+        .mat-icon-status {
+          vertical-align: text-bottom;
+        }
+        .mat-icon-svgIcon {
+          vertical-align: text-bottom;
+        }
+      }
+    }
+  }
+}
+
+
+.dynamic-column {
+  width: 2%;
+  cursor: default;
+  background-color: #607d8b !important;
+}
+
+.mat-column-downPaymentFilter,
+.mat-column-downPayment {
+  width: 2%;
+  .mat-form-field {
+    padding-top: 6px;
+    width: 100%;
+  }
+}
+
+.mat-column-dueDate,
+.mat-column-registrationDate {
+  text-align: center !important;
+  width: 5%;
+  font-size: 11px;
+  min-width: 80px;
+  max-width: 80px;
+  .mat-form-field {
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 0px;
+    font-size: 11px;
+    width: 100%;
+  }
+}
+
+.mat-column-action {
+  width: 5%;
+  max-width: 150px !important;
+  min-width: 150px !important;
+  text-align: center !important;
+  box-shadow: -2px 0px 0px 0px #545454;
+}
+
+.mat-icon-status {
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+.action-header-column {
+  text-align: right !important;
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.horizontal {
+  overflow: auto;
+}
+
+.hide {
+  display: none;
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+.icon-thumbsup {
+  width: 13px;
+  padding: 2px 0px 0px 0px;
+}
+
+.icon-certifier {
+  width: 15px;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 6em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.yellow {
+  color: #ffd740;
+}
+.orange {
+  color: #f49f36;
+}
+.blue {
+  color: #36ebf4;
+}
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+.purple {
+  color: purple;
+}
+.magenta {
+  color: magenta;
+}
+.black {
+  color: #000000;
+}
+.cyan {
+  color: cyan;
+}
+.greenyellow {
+  color: greenyellow;
+}
+.green-icon {
+  font-size: 14px;
+  cursor: default;
+  color: #adff2f;
+}
+.red-icon {
+  font-size: 14px;
+  cursor: default;
+  color: #ff4040;
+}
+.orange-icon {
+  font-size: 14px;
+  cursor: default;
+  color: #f49f36;
+}
+.black-icon {
+  font-size: 14px;
+  cursor: default;
+  color: #000000;
+}
+.cyan-icon {
+  font-size: 14px;
+  cursor: default;
+  color: cyan;
+}
+.magenta-icon {
+  font-size: 14px;
+  cursor: default;
+  color: magenta;
+}
+.width-size {
+  width: 300px;
+  padding: 9px;
+  font-size: 11px;
+}
+.width-sizes {
+  width: 300px;
+  padding: 9px;
+  font-size: 12px;
+}
+:host::ng-deep.mat-autocomplete-panel {
+  min-width: 190px !important;
+}
+.mat-autocomplete-panel {
+  min-width: 190px !important;
+}
+:host.mat-autocomplete-panel {
+  min-width: 190px !important;
+}
+::ng-deep.mat-autocomplete-panel {
+  min-width: 190px !important;
+}
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #bdbdbd !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 6px;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  width: 100%;
+}
+
+
+:host::ng-deep.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  color: black;
+}
+
+::ng-deep ng-dropdown-panel.dropdown {
+  width: 200px !important;
+}
+.mrg-tminus {
+  margin-top: -10px !important;
+}
+
+.admission-button {
+  background: #4aa744 !important;
+}
+
+.border-group-button {
+  display: inline-block;
+  border-right: 1px solid white;
+  margin: 0 10px;
+  padding: 13px 0;
+}
+img.payment-success {
+  height: 11px !important;
+}
+

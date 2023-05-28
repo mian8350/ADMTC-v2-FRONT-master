@@ -1,0 +1,161 @@
+<div class="top-space">
+  <div class="p-grid">
+    <div class="p-col-7 padding-none">
+      <div class="horizontal mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+          <ng-container matColumnDef="reset">
+            <th mat-header-cell colspan="4" *matHeaderCellDef class="action-header-column">
+              <!-- <button
+                *ngIf="isTutorialAdded"
+                matTooltip="{{ 'Tutorial for this module' | translate }}"
+                (click)="toggleTutorial(tutorialData)"
+                mat-icon-button
+                style="margin-right: 1rem"
+              >
+                <mat-icon>help</mat-icon>
+              </button> -->
+              <button mat-raised-button color="primary" (click)="resetFilter()" matTooltip="{{ 'RESET' | translate }}">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+            </th>
+          </ng-container>
+
+          <!-- filter row -->
+          <ng-container matColumnDef="titleFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="{{ 'search' | translate }}"
+                  class="form-field"
+                  [formControl]="titleFilter"
+                  [matAutocomplete]="autotitleFilter"
+                />
+                <mat-autocomplete #autotitleFilter="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option value="" (click)="setTitle(null)">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let option of filteredTitles | async"
+                    [value]="option.short_name"
+                    matTooltip="{{ option.short_name }}"
+                    (click)="setTitle(option)"
+                  >
+                    {{ option.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="classFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input
+                  matInput
+                  placeholder="{{ 'search' | translate }}"
+                  class="form-field"
+                  [formControl]="classFilter"
+                  [matAutocomplete]="autoClassFilter"
+                />
+                <mat-autocomplete #autoClassFilter="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option value="" (click)="setClass(null)">{{ 'All' | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let option of filteredClasss | async"
+                    [value]="option.name"
+                    (click)="setClass(option)"
+                    matTooltip="{{ option.name }}"
+                  >
+                    {{ option.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="testFilter">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-form-field>
+                <input matInput placeholder="{{ 'search' | translate }}" class="form-field" [formControl]="testFilter" />
+              </mat-form-field>
+            </th>
+          </ng-container>
+
+          <ng-container matColumnDef="actionFilter">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <!-- data row -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="title" class="text-center">
+              <h5>{{ 'Title' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.parent_rncp_title.short_name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="class">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="class" class="text-center">
+              <h5>{{ 'DASHBOARD.CLASSNAME' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.class_id.name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="test">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <h5>{{ 'Test' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <h5>{{ 'Action' | translate }}</h5>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                *ngIf="permissionService.showCrossCorrection()"
+                mat-icon-button
+                class="margin-right-button"
+                matTooltip="{{ 'View' | translate }}"
+                (click)="openCrossCorrectionDetail(element)"
+              >
+                <mat-icon svgIcon="eye"></mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+              <div class="center-spinner spinner-wrapper">
+                <mat-spinner color="accent"></mat-spinner>
+              </div>
+            </th>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+        </table>
+      </div>
+      <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+        {{ 'NOT RECORD FOUND' | translate }}
+      </div>
+      <div [ngClass]="{ hide: noData | async }">
+        <mat-paginator
+          [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+          [length]="dataCount"
+          [hidePageSize]="true"
+          [pageSizeOptions]="[10]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

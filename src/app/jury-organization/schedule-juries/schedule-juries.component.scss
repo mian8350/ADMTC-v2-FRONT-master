@@ -1,0 +1,430 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.form-field {
+  margin-top: 6px;
+}
+
+.mat-column-selectFilter,
+.mat-column-select {
+  text-align: center;
+  width: 3%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-schoolFilter,
+.mat-column-school {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-rncpTitlesFilter,
+.mat-column-rncpTitles {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-lastNameFilter,
+.mat-column-lastName {
+  text-align: left;
+  width: auto;
+  min-width: 200px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-regionFilter,
+.mat-column-region {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-dateFilter,
+.mat-column-date {
+  text-align: left;
+  width: 8%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-startFilter,
+.mat-column-start {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-presidentJuryFilter,
+.mat-column-presidentJury {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-professionalJuryFilter,
+.mat-column-professionalJury {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-academicJuryFilter,
+.mat-column-academicJury {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-substitutionJuryFilter,
+.mat-column-substitutionJury {
+  text-align: left;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-actionFilter,
+.mat-column-action {
+  text-align: center;
+  min-width: 250px !important;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-retakeCenterFilter,
+.mat-column-retakeCenter {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-visioJuryFilter,
+.mat-column-visioJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-rehearsalDoneFilter,
+.mat-column-rehearsalDone {
+  text-align: center;
+  min-width: 100px !important;    
+  padding-top: 8px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-markEntryStatusFilter,
+.mat-column-markEntryStatus {
+  text-align: center;
+  min-width: 100px !important;
+  padding-top: 8px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  
+  // tbody tr:nth-child(odd) {
+  //   .mat-icon-button {
+  //     background: transparent !important;
+  //     line-height: 0 !important;
+  //   }
+  // }
+  // tbody tr:nth-child(even) {
+  //   .mat-icon-button {
+  //     background: transparent !important;
+  //     line-height: 0 !important;
+  //   }
+  // }
+}
+
+td.mat-cell:last-of-type {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+// :host ::ng-deep table {
+//   tr {
+//     td,
+//     th {
+//       border-right: 1px solid $grey;
+//       padding-left: 0.3rem !important;
+//       padding-right: 0.3rem !important;
+//       &:nth-child(1) {
+//         text-align: center;
+//         width: 4%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(2) {
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(3) {
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(4) {
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(5) {
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(6) {
+//         width: 8rem;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(7) {
+//         text-align: center;
+//         width: 6%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(8) {
+//         text-align: center;
+//         width: 6%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(9) {
+//         text-align: center;
+//         width: auto;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(10) {
+//         text-align: center;
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(11) {
+//         text-align: center;
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(12) {
+//         text-align: center;
+//         padding-right: 0 !important;
+//         width: 8.9%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+//     }
+
+//     td {
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//       max-width: 0;
+//       white-space: nowrap;
+//       color: black;
+//       padding-top: 0.5em;
+//       padding-bottom: 0.5em;
+//     }
+
+//     th {
+//       vertical-align: top;
+//       text-align: center;
+
+//       .mat-form-field-infix {
+//         width: unset !important;
+//       }
+//     }
+//     &:nth-child(2) {
+//       th {
+//         padding-top: 0.9em;
+//       }
+//     }
+//   }
+
+//   thead tr {
+//     &:nth-child(2) {
+//       height: 35px;
+//     }
+//     &:nth-child(2),
+//     &:nth-child(3) {
+//       background: $light-black;
+//       th {
+//         color: $white;
+//       }
+//     }
+//   }
+// }
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.header-btn {
+  min-width: auto !important;
+}
+
+.top-date-picker {
+  width: 120px !important;
+  margin-right: 1rem !important;
+  margin-top: 5px !important;
+}
+
+.red {
+  color: #ff4040;
+}
+.green {
+  color: #adff2f;
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}

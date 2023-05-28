@@ -1,0 +1,344 @@
+<div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12" style="text-align: center !important; display: contents">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
+<div *ngIf="!isWaitingForResponse" class="p-grid" [formGroup]="parentsForm">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <mat-card>
+      <div class="p-grid">
+        <div
+          class="p-col-12"
+          *ngIf="parentsArrayForm.length < 2"
+          style="text-align: right; margin-bottom: 1rem; padding: 0px; width: 100.7%"
+        >
+          {{ 'CARDDETAIL.Add another parent' | translate }}
+          <button mat-icon-button class="small-icon" color="success" (click)="addParent()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="p-grid" formArrayName="parents">
+        <div
+          class="p-col-12 yellow-border"
+          style="margin-bottom: 10px"
+          [ngStyle]="{ 'margin-top': parentIndex > 0 ? '1rem' : '0rem;' }"
+          *ngFor="let parent of parentsArrayForm.controls; let parentIndex = index"
+          [formGroupName]="parentIndex"
+        >
+          <div class="p-grid" style="padding-left: 5px; margin-top: 5px">
+            <div class="p-col-6">
+              <div class="p-grid">
+                <mat-form-field>
+                  <mat-label>{{ 'CARDDETAIL.Relations' | translate }}</mat-label>
+                  <mat-select formControlName="relation">
+                    <mat-option *ngFor="let relation of relationList" [value]="relation">
+                      {{ 'CARDDETAIL.RELATION.' + relation | translate }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="p-col-6" style="align-self: center">
+              <div class="p-grid">
+                <div class="p-col-6" style="align-self: center">
+                  <mat-slide-toggle *ngIf="parent.get('is_same_address').value" formControlName="is_same_address" (change)="duplicateStudentAddress($event, parentIndex)">
+                    <span [ngStyle]="{ color: parent.get('is_same_address').value ? '#ffe77a' : 'white' }" style="font-size: 12px;">
+                      {{ (parent.get('is_same_address').value ? 'CARDDETAIL.Same Address' : 'CARDDETAIL.Different Address') | translate }}
+                    </span>
+                  </mat-slide-toggle>
+                </div>
+                <div class="p-col-6" *ngIf="parentsArrayForm.length > 1" style="text-align: right; font-size: 12px">
+                  {{ 'CARDDETAIL.Remove parent' | translate }}
+                  <button mat-icon-button class="small-icon" color="red" (click)="removeParent(parentIndex)">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid" style="padding-bottom: 0.3rem; padding-left: 5px">
+            <div class="p-col-6" style="padding-left: 0px">
+              <div class="p-grid">
+                <div class="p-col-2 center-label">
+                  <label>{{ 'CARDDETAIL.Civility' | translate }}</label>
+                </div>
+                <div class="p-col-10">
+                  <mat-radio-group formControlName="civility">
+                    <mat-radio-button style="margin-right: 1rem" value="MR">{{ 'CARDDETAIL.MR' | translate }}</mat-radio-button>
+                    <mat-radio-button value="MRS">{{ 'CARDDETAIL.MRS' | translate }}</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid" style="padding-left: 5px">
+            <div class="p-col-6">
+              <div class="p-grid">
+                <mat-form-field>
+                  <input matInput formControlName="name" type="text" placeholder="{{ 'CARDDETAIL.First Name' | translate }}" required />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="p-col-5">
+              <div class="p-grid">
+                <mat-form-field>
+                  <input
+                    matInput
+                    formControlName="family_name"
+                    type="text"
+                    placeholder="{{ 'CARDDETAIL.Last Name' | translate }}"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid" style="padding-left: 5px">
+            <div class="p-col-6">
+              <div class="p-grid">
+                <mat-form-field>
+                  <input
+                    matInput
+                    formControlName="tele_phone"
+                    type="text"
+                    pattern="^[0-9]+$"
+                    maxlength="10"
+                    placeholder="{{ 'CARDDETAIL.Phone' | translate }}"
+                    required
+                  />
+                  <mat-error>
+                    <p *ngIf="parentsArrayForm.at(parentIndex).get('tele_phone').hasError('pattern')">
+                      {{ 'must contain number only' | translate }}
+                    </p>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="p-col-5">
+              <div class="p-grid">
+                <mat-form-field>
+                  <input matInput formControlName="email" placeholder="{{ 'CARDDETAIL.Email' | translate }}" required />
+                  <mat-error>{{ 'Invalid email format' | translate }}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!isSameAddress[parentIndex]"
+            class="p-grid mb-1rem"
+            style="padding-top: 25px; padding-left: 10px; padding-right: 10px"
+          >
+            <div class="p-col-6 text-bold" style="padding-top: 20px; font-size: 14px; padding-left: 0px">
+              {{ 'Address' | translate }}
+            </div>
+            <div class="p-col-6 text-right" style="padding-right: 0px">
+              <mat-slide-toggle
+                *ngIf="!parent.get('is_same_address').value"
+                style="padding-right: 20px"
+                formControlName="is_same_address"
+                (change)="duplicateStudentAddress($event, parentIndex)"
+              >
+                <span [ngStyle]="{ color: parent.get('is_same_address').value ? '#ffe77a' : 'white' }" style="font-size: 12px">
+                  {{ (parent.get('is_same_address').value ? 'CARDDETAIL.Same Address' : 'CARDDETAIL.Different Address') | translate }}
+                </span>
+              </mat-slide-toggle>
+              <button (click)="addParentAddress(parentIndex)" mat-raised-button class="no-margin" color="primary">
+                <mat-icon class="mat-icon-default">add</mat-icon>
+                {{ 'Add address' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div
+            *ngIf="!isSameAddress[parentIndex]"
+            class="p-grid"
+            formArrayName="parent_address"
+            style="padding-left: 10px; padding-right: 10px"
+          >
+            <div
+              class="p-col-12 mb-1rem border-white"
+              *ngFor="let address of parentAddressArrayForm(parentIndex).controls; let addressIndex = index"
+              [formGroupName]="addressIndex"
+            >
+              <!-- only show delete button if more than 1 address -->
+              <div class="p-grid" *ngIf="parentAddressArrayForm(parentIndex).controls.length > 1">
+                <div class="p-col-12 text-right" style="padding-bottom: 0px">
+                  <mat-slide-toggle
+                    formControlName="is_main_address"
+                    (change)="checkMainAddress($event, parentIndex)"
+                    *ngIf="!isMainAddressSelected[parentIndex] || address.get('is_main_address').value"
+                  >
+                    <span [ngStyle]="{ color: address.get('is_main_address').value ? '#ffe77a' : 'white' }">{{
+                      'CARDDETAIL.MAIN_ADDRESS' | translate
+                    }}</span>
+                  </mat-slide-toggle>
+                  <button
+                    mat-icon-button
+                    class="small-icon"
+                    color="red"
+                    (click)="
+                      removeParentAddress(
+                        parentIndex,
+                        addressIndex,
+                        isMainAddressSelected[parentIndex],
+                        address.get('is_main_address').value
+                      )
+                    "
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <!-- End of delete -->
+
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="p-col-12">
+                    <div class="p-grid flex-hidden-mr-1">
+                      <mat-form-field color="accent" class="full-width">
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="address"
+                          placeholder="{{ 'CARDDETAIL.Address' | translate }}"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="p-grid">
+                    <div class="p-col-4">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <mat-form-field color="accent" class="full-width">
+                          <input
+                            matInput
+                            type="text"
+                            formControlName="postal_code"
+                            (keyup)="getPostcodeData(parentIndex, addressIndex)"
+                            placeholder="{{ 'CARDDETAIL.Zip Code' | translate }}"
+                            required
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="p-col-4">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <mat-form-field color="accent" class="full-width">
+                          <input
+                            type="text"
+                            placeholder="{{ 'CARDDETAIL.Country' | translate }}"
+                            matInput
+                            formControlName="country"
+                            [matAutocomplete]="autoCountry"
+                            (keyup)="filterCountry(parentIndex, addressIndex)"
+                            required
+                          />
+                          <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="getPostcodeData(parentIndex, addressIndex)" [panelWidth]="'fit'">
+                            <mat-option *ngFor="let option of filteredCountry[parentIndex][addressIndex]" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div class="p-grid">
+                    <div class="p-col-4">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <mat-form-field color="accent" class="full-width">
+                          <input
+                            type="text"
+                            placeholder="{{ 'CARDDETAIL.City' | translate }}"
+                            matInput
+                            formControlName="city"
+                            [matAutocomplete]="autoCity"
+                            (keyup)="filterCity(parentIndex, addressIndex)"
+                            required
+                          />
+                          <mat-autocomplete #autoCity="matAutocomplete" [panelWidth]="'fit'">
+                            <mat-option *ngFor="let option of filteredCities[parentIndex][addressIndex]" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="p-col-4">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <mat-form-field color="accent" class="full-width">
+                          <input
+                            type="text"
+                            placeholder="{{ 'CARDDETAIL.Department' | translate }}"
+                            matInput
+                            formControlName="department"
+                            [matAutocomplete]="autoDepartment"
+                            (keyup)="filterDepartment(parentIndex, addressIndex)"
+                            required
+                          />
+                          <mat-autocomplete #autoDepartment="matAutocomplete" [panelWidth]="'fit'">
+                            <mat-option *ngFor="let option of filteredDepartments[parentIndex][addressIndex]" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="p-col-4">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <mat-form-field color="accent" class="full-width">
+                          <input
+                            type="text"
+                            placeholder="{{ 'CARDDETAIL.Region' | translate }}"
+                            matInput
+                            formControlName="region"
+                            [matAutocomplete]="autoRegion"
+                            (keyup)="filterRegion(parentIndex, addressIndex)"
+                            required
+                          />
+                          <mat-autocomplete #autoRegion="matAutocomplete" [panelWidth]="'fit'">
+                            <mat-option *ngFor="let option of filteredRegions[parentIndex][addressIndex]" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <div class="p-grid mrgn-top-05" id="parent1">
+      <div class="p-col-12 alignment-btn">
+        <button mat-button mat-raised-button class="btn-student" color="primary" (click)="previousTab()">
+          {{ 'CARDDETAIL.Previous' | translate }}
+        </button>
+        <button mat-raised-button color="warn" (click)="onCancelAdd()">
+          {{ 'CANCEL' | translate }}
+        </button>
+        <button mat-raised-button [disabled]="isWaitingForResponse || !parentsForm.valid" color="accent" (click)="submit()">
+          {{ 'CARDDETAIL.SAVE_LEAVE' | translate }}
+        </button>
+        <button mat-raised-button color="accent" [disabled]="isWaitingForResponse || !parentsForm.valid" (click)="nextTab()">
+          {{ 'CARDDETAIL.SAVE_CONTINUE' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

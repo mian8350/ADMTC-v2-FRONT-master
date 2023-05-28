@@ -1,0 +1,317 @@
+{
+  "assignPresidentJury": [
+    {
+      "dateStart": "2019-05-27T16:00:00.000Z",
+      "isStudentAssigned": false,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525001001",
+      "presidentJury": "Eko ADMIN",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "John TOTO",
+      "substitutionJury": "Willy TESTING",
+      "rncpTitle": { "shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "Z-CertiTest08",
+        "schoolAddress": { "address1": "214 MONTEE DU ROCHER ", "address2": "", "postalCode": "86195", "city": "ANNOISIN", "region": "" },
+        "shortName": "Z-CertiTest08",
+        "_id": "5b7657400006052c18abbb10"
+      },
+      "students": [
+        {
+          "studentId": "5bc9934066dcb81b731dbea2",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5bcee07e48fb2941b49baede",
+          "testHoursStart": "10:30",
+          "testHoursFinish": "11:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5bbca09dea51f4114458f8f0",
+          "testHoursStart": "11:30",
+          "testHoursFinish": "12:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5bbca10cea51f4114458f900",
+          "testHoursStart": "12:30",
+          "testHoursFinish": "13:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        }
+      ],
+      "_id": "5ce90266592bd17b6aea01f9"
+    },
+    {
+      "dateStart": "2019-05-27T16:00:00.000Z",
+      "isStudentAssigned": false,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525001002",
+      "presidentJury": "Roger PRESIDENT OF JURY",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "John TOTO",
+      "substitutionJury": "Corrector PROBLEMATIC SATU",
+      "rncpTitle": { "shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "Z-CertiTest08",
+        "schoolAddress": { "address1": "214 MONTEE DU ROCHER ", "address2": "", "postalCode": "86195", "city": "ANNOISIN", "region": "" },
+        "shortName": "Z-CertiTest08",
+        "_id": "5b7657400006052c18abbb10"
+      },
+      "students": [
+        {
+          "studentId": "5bfce6f5ae773b019b1483e6",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5c74bb3c4142292ca5cf28b0",
+          "testHoursStart": "10:30",
+          "testHoursFinish": "11:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5ce219c889b79c4bc8436904",
+          "testHoursStart": "11:30",
+          "testHoursFinish": "12:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        },
+        {
+          "studentId": "5ce21b9489b79c4bc84369d9",
+          "testHoursStart": "12:30",
+          "testHoursFinish": "13:30",
+          "dateTest": "2019-05-28T12:30:00.000Z"
+        }
+      ],
+      "_id": "5ce90266592bd45b6aead1f9"
+    },
+    {
+      "dateStart": "2019-08-08T16:00:00.000Z",
+      "isStudentAssigned": false,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525002001",
+      "presidentJury": "Eko ADMIN",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "Chris WCOMPMENTOR",
+      "substitutionJury": "Willy TESTING",
+      "rncpTitle": { "id": "5b7657400006052c18abbb11", "longName": "Z-MO-08", "shortName": "S-Z-MO-08", "_id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "Z-EcoleTest08",
+        "schoolAddress": { "address1": "33 BD DE PARIS", "address2": "", "postalCode": "13002", "city": "MARSEILLE", "region": "" },
+        "shortName": "Z-EcoleTest08",
+        "_id": "5b7657910006052c18abbb17"
+      },
+      "students": [
+        {
+          "studentId": "5bd6c91a10440c7ce9ddc5cd",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bae507e835abd37d66dc1d0",
+          "testHoursStart": "10:30",
+          "testHoursFinish": "11:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbca3ebea51f4114458fb1c",
+          "testHoursStart": "11:30",
+          "testHoursFinish": "12:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbcb44c9241912fe42d5579",
+          "testHoursStart": "12:30",
+          "testHoursFinish": "13:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbcb4999241912fe42d558c",
+          "testHoursStart": "13:30",
+          "testHoursFinish": "14:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbcb4d59241912fe42d559c",
+          "testHoursStart": "14:30",
+          "testHoursFinish": "15:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbcb5159241912fe42d55ce",
+          "testHoursStart": "15:30",
+          "testHoursFinish": "16:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        }
+      ],
+      "_id": "5ce90266742bd17b6eea01f9"
+    },
+    {
+      "dateStart": "2019-08-08T16:00:00.000Z",
+      "isStudentAssigned": true,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525002002",
+      "presidentJury": "Rina CORRECTOR",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "Nopaso MOONMOON",
+      "substitutionJury": "Corrector PROBLEMATIC SATU",
+      "rncpTitle": { "shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "Z-EcoleTest08",
+        "schoolAddress": { "address1": "33 BD DE PARIS", "address2": "", "postalCode": "13002", "city": "MARSEILLE", "region": "" },
+        "shortName": "Z-EcoleTest08",
+        "_id": "5b7657910006052c18abbb17"
+      },
+      "students": [
+        {
+          "studentId": "5bbcb54d9241912fe42d55dc",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bbda1f322c03f6f3a06faa1",
+          "testHoursStart": "10:30",
+          "testHoursFinish": "11:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bdfef24c2d43d027e4c955d",
+          "testHoursStart": "11:30",
+          "testHoursFinish": "12:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5be110c52467ac3e6b8eed97",
+          "testHoursStart": "12:30",
+          "testHoursFinish": "13:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bebc90163e679716dbbdd5b",
+          "testHoursStart": "13:30",
+          "testHoursFinish": "14:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5bebc93e63e679716dbbdd64",
+          "testHoursStart": "14:30",
+          "testHoursFinish": "15:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        },
+        {
+          "studentId": "5cda4fe24c08807ffd823733",
+          "testHoursStart": "15:30",
+          "testHoursFinish": "16:30",
+          "dateTest": "2019-08-09T15:30:00.000Z"
+        }
+      ],
+      "_id": "5ce905678592bd17b6fhj01f9"
+    },
+    {
+      "dateStart": "2019-05-29T16:00:00.000Z",
+      "isStudentAssigned": false,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525003001",
+      "presidentJury": "Roger PRESIDENT OF JURY",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "Nopaso MOONMOON",
+      "substitutionJury": "Corrector PROBLEMATIC SATU",
+      "rncpTitle": { "shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "Z-Prepare-08",
+        "schoolAddress": { "address1": "Paris", "address2": "", "postalCode": "67889", "city": "Paris", "region": "" },
+        "shortName": "Z-Prepare-08",
+        "_id": "5bfe03c98cb2b36187722bc3"
+      },
+      "students": [
+        {
+          "studentId": "5bfe051e8cb2b36187722bd4",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-05-30T11:30:00.000Z"
+        },
+        {
+          "studentId": "5bfe055b8cb2b36187722bdd",
+          "testHoursStart": "10:30",
+          "testHoursFinish": "11:30",
+          "dateTest": "2019-05-30T11:30:00.000Z"
+        },
+        {
+          "studentId": "5cc11e38a15d1b6226e9fd80",
+          "testHoursStart": "11:30",
+          "testHoursFinish": "12:30",
+          "dateTest": "2019-05-30T11:30:00.000Z"
+        }
+      ],
+      "_id": "5ce90266592bd17b6aghvguf9"
+    },
+    {
+      "dateStart": "2019-06-12T16:00:00.000Z",
+      "isStudentAssigned": false,
+      "juryOrganizationId": "5ce90102592bd17b6aea01ea",
+      "jurySerialNumber": "2019525004001",
+      "presidentJury": "Eko ADMIN",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "Chris WCOMPMENTOR",
+      "substitutionJury": "Willy TESTING",
+      "rncpTitle": { "shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11" },
+      "school": {
+        "longName": "SFT 5 ",
+        "schoolAddress": { "address1": "France", "address2": "", "postalCode": "75000", "city": "Paris", "region": "" },
+        "shortName": "SFT 5 ",
+        "_id": "5cbe73bd5ae970104463526c"
+      },
+      "students": [
+        {
+          "studentId": "5be110c52467ac3e6b8eed92",
+          "testHoursStart": "09:30",
+          "testHoursFinish": "10:30",
+          "dateTest": "2019-06-13T09:30:00.000Z"
+        }
+      ],
+      "_id": "5ce902455592bd17b6aghvguf9"
+    }
+  ],
+  "displayPresidentOfJury": [
+    { "id": "5c10967364a46c5c7db9a13b", "text": "Eko ADMIN" },
+    { "id": "5bea8b30cd42ce769640c5bc", "text": "Rina CORRECTOR" },
+    { "id": "5ceba4bc1be80310937d68ab", "text": "Roger PRESIDENT OF JURY" },
+    { "id": "5d089bfc65d76d7720d0b997", "text": "Willy PRESIDENT OF JURY" }
+  ],
+  "displayAcadMemberList": [
+    { "id": "5bdc33a83241215ef45677cd", "text": "Iwan MENTOR" },
+    { "id": "5cfb2b3277886771b682fcd7", "text": "John TOTO" },
+    { "id": "5bdc33d03241215ef45677d1", "text": "Neni MENTOR" },
+    { "id": "5bc36597e6ed123e3f026c79", "text": "Chris WCOMPMENTOR" },
+    { "id": "5cdbe5292e57ec591bafa46a", "text": "Dfsfh SFGHSFFGH" },
+    { "id": "5cfb2b6377886771b682fcdf", "text": "John TOTODEUX" },
+    { "id": "5d0756eec9e1644ae65c73cd", "text": "Nopaso MOONMOON" }
+  ],
+  "displayProfMemberList": [
+    { "id": "5bdc33a83241215ef45677cd", "text": "Iwan MENTOR" },
+    { "id": "5cfb2b3277886771b682fcd7", "text": "John TOTO" },
+    { "id": "5b7658690006052c18abbb19", "text": "Jules Félix" },
+    { "id": "5bdc33d03241215ef45677d1", "text": "Neni MENTOR" }
+  ],
+  "displaySubsMemberList": [
+    { "id": "5d08529f405a895c0b0317cc", "text": "Corrector PROBLEMATIC DUA" },
+    { "id": "5d085277405a895c0b0317c4", "text": "Corrector PROBLEMATIC SATU" },
+    { "id": "5bfce63bae773b019b1483bb", "text": "Edo CORRECTOR" },
+    { "id": "5c10967364a46c5c7db9a13b", "text": "Eko ADMIN" },
+    { "id": "5bdc33a83241215ef45677cd", "text": "Iwan MENTOR" },
+    { "id": "5cfb2b3277886771b682fcd7", "text": "John TOTO" },
+    { "id": "5b7658690006052c18abbb19", "text": "Jules Félix" },
+    { "id": "5bdc33d03241215ef45677d1", "text": "Neni MENTOR" },
+    { "id": "5bea8b30cd42ce769640c5bc", "text": "Rina CORRECTOR" },
+    { "id": "5ceba4bc1be80310937d68ab", "text": "Roger PRESIDENT OF JURY" },
+    { "id": "5d089bfc65d76d7720d0b997", "text": "Willy PRESIDENT OF JURY" },
+    { "id": "5c4597cab7926045d1c45281", "text": "Willy TESTING" },
+    { "id": "5b7d2072be5f73719e3cd7b3", "text": "certificateur katia" }
+  ],
+  "_id": "5ce90266657bd17y7dea01f9"
+}

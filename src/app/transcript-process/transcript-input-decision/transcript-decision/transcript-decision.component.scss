@@ -1,0 +1,78 @@
+.orange-border {
+  border-color: #f49f36;
+  border-style: solid;
+  margin-bottom: 1em;
+  font-size: 12px;
+  width: 100%;
+}
+
+.grey-border {
+  // border-color: #d6d6d6;
+  border-color: #898989;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 1em;
+  font-size: 12px;
+  width: 100%;
+}
+
+.small-text {
+  font-size: 12px;
+}
+
+.yellow {
+  color: #ffd740;
+}
+
+.orange {
+  color: #f49f36;
+}
+
+.red {
+  color: #ff4040;
+}
+
+.green {
+  color: #008000;
+}
+
+.green-yellow {
+  color: #adff2f;
+}
+
+.large-icon {
+  transform: scale(1.5);
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-column-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.overflow-text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.decision-scroll {
+  padding-right: 5px;
+}
+.container-scroll {
+  // max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.margin-top-10 {
+  margin-top: 10px !important;
+}
+::ng-deep.filterPanel{
+  margin-top: 25px;
+}

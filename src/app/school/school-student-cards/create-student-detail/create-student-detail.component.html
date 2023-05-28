@@ -1,0 +1,71 @@
+<div>
+  <mat-tab-group [(selectedIndex)]="selectedIndex">
+    <!-- First tab always shown -->
+    <mat-tab class="p-col-3">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Course' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-create-course-detail
+          [schoolId]="schoolId"
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId"
+          #studentCourse
+          (continue)="continue($event)"
+        >
+        </ms-create-course-detail>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [disabled]="index2 > selectedIndex && !secondTab" class="p-col-3">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Identity' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-create-identity-detail
+          [schoolId]="schoolId"
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId"
+          #studentIdentity
+          (continue)="continue($event)"
+          (back)="back($event)"
+        >
+        </ms-create-identity-detail>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab [disabled]="index3 > selectedIndex && !thirdTab" class="p-col-3">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Parents' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-create-parent-detail
+          [schoolId]="schoolId"
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId"
+          #studentParent
+          (continue)="continue($event)"
+          (back)="back($event)"
+        >
+        </ms-create-parent-detail>
+      </ng-template>
+    </mat-tab>
+
+    <!--mat-tab for company-->
+    <mat-tab [disabled]="index4 > selectedIndex && !fourthTab" class="p-col-3">
+      <ng-template mat-tab-label>
+        <h5>{{ 'company' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-create-company-detail
+          [schoolId]="schoolId"
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          #studentCompany
+          [selectedClassId]="selectedClassId"
+          (back)="back($event)"
+        >
+        </ms-create-company-detail>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

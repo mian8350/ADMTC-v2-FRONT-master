@@ -1,0 +1,135 @@
+<div class="p-grid" style="margin-bottom: 5px; border-bottom: 1px solid #4e4e4e;">
+  <div class="p-col-6" style="padding-left: 0px;">
+    <div style="width: 20px;float: left;padding: 4px 0px 0px 0px;">
+      <span><mat-icon style="font-size: 16px;">file_upload</mat-icon></span>
+    </div>
+    <div>
+      <span class="titleImport">{{ 'IMPORT_STUDENTS' | translate }}</span>
+    </div>
+  </div>
+  <div class="p-col-6" style="padding-right: 0px;">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="csvTypeSelection()"
+      class="margin-right-0 float-right"
+    >
+      {{ 'DOWNLOAD_TEMPLATE' | translate }}
+    </button>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px;">
+
+    <!-- <ng-container *ngIf="isWaitingForResponse"> -->
+      <div *ngIf="isWaitingForResponse" class="p-col-12" style=" text-align: center !important; display: contents;">
+        <div class="center-spinner spinner-wrapper">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </div>
+    <!-- </ng-container> -->
+
+    <mat-card >
+      <form [formGroup]="importForm">
+
+        <div class="p-grid">
+          <div class="p-col-6">
+            <div class="p-grid baseline">
+              <mat-form-field floatLabel="never">
+                <mat-label>{{ 'CARDDETAIL.RNCP Title' | translate }}</mat-label>
+                <mat-select formControlName="rncp_title" (selectionChange)="changeTitle()">
+                  <mat-option [value]="">
+                    {{ 'None' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let title of titles" [value]="title._id">
+                    {{ title.short_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-6">
+            <div class="p-grid baseline">
+              <mat-form-field floatLabel="never">
+                <mat-label>{{ 'CARDDETAIL.Class' | translate }}</mat-label>
+                <mat-select formControlName="current_class" class="full-width">
+                  <mat-option *ngFor="let class of classes" [value]="class._id" (click)="dataIsChanged()">
+                    {{ class.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-6">
+            <div class="p-grid baseline">
+              <mat-form-field floatLabel="never">
+                <mat-label>{{ 'DELIMETER.title' | translate }}</mat-label>
+                <mat-select formControlName="file_delimeter" class="full-width">
+                  <mat-option *ngFor="let deli of delimeter" [value]="deli.value" (click)="dataIsChanged()">
+                    {{ 'STUDENT_IMPORT.DELIMETER.' + deli.text | translate }}
+                  </mat-option>
+                </mat-select>
+                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-6" style="float: left;">
+            <div class="p-col-3" style="padding: 0.5em 0px; float: left;">
+              <label>{{ 'DATA_FILE' | translate }}</label>
+            </div>
+            <div class="p-col-6" style="padding: 0.5em 0px; float: left;">
+              <span>{{ fileName }}</span>
+            </div>
+            <div class="p-col-3" style="padding: 0px; float: left; text-align: right;">
+              <input
+                #importFile
+                style="display: none;"
+                type="file"
+                accept=".csv, .tsv"
+                disableMultipart="true"
+                (change)="handleInputChange($event)"
+              />
+              <button
+                [disabled]="importForm.invalid || isWaitingForResponse"
+                mat-raised-button
+                color="accent"
+                (click)="openUploadWindow()"
+                class="margin-right-0"
+              >
+                <mat-icon class="mat-icon-default">add</mat-icon>
+                {{ 'ACAD_KIT.DOC.File' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
+<div class="p-grid mrgn-t-sm">
+  <div class="p-col-12" style="text-align: right; padding: 0px;">
+    <button mat-raised-button color="warn" (click)="onCancelImport()">
+      <mat-icon class="mat-icon-default">cancel</mat-icon>
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-raised-button color="primary" [disabled]="isWaitingForResponse" (click)="resetImport()">
+      <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+      {{ 'RESET' | translate }}
+    </button>
+    <button mat-raised-button color="accent" [disabled]="isWaitingForResponse || !importForm.valid || !file" (click)="submitStudent()" class="margin-right-0">
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'SUBMIT' | translate }}
+    </button>
+  </div>
+</div>

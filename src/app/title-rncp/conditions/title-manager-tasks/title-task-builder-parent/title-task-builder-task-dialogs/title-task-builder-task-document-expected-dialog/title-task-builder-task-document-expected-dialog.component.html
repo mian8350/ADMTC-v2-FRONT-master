@@ -1,0 +1,68 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button class="mt-5px">add_box</mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'Add Document Expected' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content" [formGroup]="docForm">
+  <div class="p-grid document-field">
+    <div class="p-col-8">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput type="text" placeholder="{{ 'DOCUMENT_NAME' | translate }}" [formControl]="document_name_input" />
+      </mat-form-field>
+    </div>
+    <div class="p-col-4">
+      <button class="float-right" mat-raised-button color="accent" (click)="addDocumentExpected()" [disabled]="!document_name_input.value">
+        {{ 'Add Expected Document' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <ng-container formArrayName="document_expected">
+    <div class="p-grid" *ngFor="let docFormGroup of getDocumentFormarray()?.controls; let docIndex = index">
+      <ng-container [formGroupName]="docIndex">
+        <div class="p-col-8">
+          <span *ngIf="docFormGroup?.get('document_expected_name').value">{{ docFormGroup?.get('document_expected_name').value }}</span>
+        </div>
+        <div class="p-col-3">
+          <mat-checkbox formControlName="is_required">
+            {{ 'Required' | translate }}
+          </mat-checkbox>
+        </div>
+        <div class="p-col-1">
+          <div class="p-col-1 text-right no-padding">
+            <button mat-icon-button class="small-icon" color="red" (click)="onDeleteDocumentExpected(docIndex)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div mat-dialog-actions class="justify-content-end mr-10">
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      class="mr-0"
+      (click)="enterDocumentExpected()"
+      [disabled]="!getDocumentFormarray()?.controls.length"
+    >
+      {{ 'Enter' | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+@import '~assets/scss/theme/admtc.variables';
+
+:host::ng-deep.mat-list-base .mat-list-item .mat-line {
+  white-space: break-spaces !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  box-sizing: border-box;
+  text-align: justify !important;
+}
+:host::ng-deep.mat-expansion-panel-spacing {
+  margin: 0 !important;
+}
+:host::ng-deep mat-expansion-panel.mat-expansion-panel.mat-expanded.mat-expansion-panel-spacing {
+  box-shadow: none !important;
+  background: transparent;
+}
+:host::ng-deep mat-expansion-panel.mat-expansion-panel {
+  background: transparent;
+  box-shadow: none !important;
+  border-bottom: 1px solid #7e7e7e;
+  border-radius: 0px !important;
+}
+:host::ng-deep.mat-list-item-content:hover {
+  background: #424242 !important;
+}
+:host::ng-deep mat-panel-title.mat-expansion-panel-header-title {
+  margin: 0px;
+}
+:host::ng-deep.mat-expansion-panel-content {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  font-size: 12px;
+}
+:host::ng-deep.mat-expansion-panel-header {
+  height: 40px !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 5px 0px 5px;
+  border-radius: inherit;
+}
+p.mat-line {
+  margin: 0px;
+}
+.btn-auto {
+  text-align: end;
+  display: block;
+  position: relative;
+  float: right;
+  right: 0px;
+  margin: auto;
+  margin-right: 0px;
+}
+.content-empty {
+  font-size: 155px;
+  color: #9e9e9e42;
+  margin: auto;
+  text-align: center;
+  width: 290px;
+  display: block;
+  margin-top: 50px;
+}
+.text-empty {
+  font-size: 16px;
+  color: #9e9e9e42;
+  font-weight: 700;
+  width: 290px;
+  text-align: center;
+  margin: auto;
+  display: block;    
+  white-space: break-spaces;
+}

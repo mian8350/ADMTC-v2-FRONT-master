@@ -1,0 +1,405 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="pdf-document">
+          <!-- Header Document -->
+          <div class="p-grid">
+            <div class="p-col-11 no-padding">
+              <div class="p-grid">
+                <div class="p-col-12 no-padding" style="font-size: 1.7rem">
+                  <h4>
+                    <b> {{ formData?.school_id?.short_name | titlecase }} {{ 'Admission Form' | translate }}</b>
+                  </h4>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-1 no-padding" style="text-align: end">
+              <button
+                color="accent"
+                mat-raised-button
+                class="btn-save"
+                matTooltip="{{ 'PDF' | translate }}"
+                [disabled]="isLoading"
+                (click)="downloadPDF()"
+              >
+                <mat-icon class="pdf-icon" svgIcon="file-pdf-outline"></mat-icon>
+                {{ 'PDF' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div style="border: 1px solid white" *ngIf="!isLoading">
+            <ng-container *ngFor="let step of templateStep; let in = index">
+              <ng-container>
+                <div class="p-col-12 step-title">
+                  <div style="display: flex">
+                    <div class="p-col-12 no-padding" style="text-align: center">
+                      <b>{{ step?.step_title }}</b>
+                    </div>
+                  </div>
+                </div>
+
+                <ng-container *ngIf="step?.step_type === 'question_and_field' || step?.step_type === 'academic_journey'">
+                  <ng-container *ngFor="let segment of step?.segments; let segmentInd = index">
+                    <div class="p-col-12 segment-title">
+                      <div style="display: flex">
+                        <div class="p-col-12 no-padding">
+                          <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-col-12 pad-ver-none">
+                      <div class="p-grid">
+                        <div
+                          #questionLoop
+                          *ngFor="let question of segment?.questions; let questInd = index"
+                          [ngClass]="[
+                            (segment?.questions[questInd + 1]?.field_position === 'right' && question?.field_position !== 'right') ||
+                            (segment?.questions[questInd === 0 ? 0 : questInd - 1]?.field_position === 'left' &&
+                              question?.field_position === 'right')
+                              ? 'half-width'
+                              : 'full-width',
+                            questionLoop.classList.contains('full-width') && question?.field_position === 'right' ? 'right-end' : 'left-end'
+                          ]"
+                        >
+                          <!----- IF is_field is TRUE ------------------------------------------------------>
+                          <ng-container *ngIf="question?.is_field">
+                            <ng-container *ngIf="question?.field_type === 'parent_relation'; else default">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ translateLabel(question?.field_type) }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ 'CARDDETAIL.RELATION.' + question?.answer | translate }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <ng-template #default>
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ translateLabel(question?.field_type) }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  :
+                                  <span style="margin-left: 10px">
+                                    {{ getQuestionAnswer(question) }}
+                                  </span>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </ng-container>
+
+                          <!----- IF is_field is FALSE ------------------------------------------------------>
+                          <ng-container *ngIf="!question?.is_field">
+                            <!----- Free Text ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'free_text'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Short Text ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'short_text'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Long Text ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'long_text'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Email ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'email'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Date Type ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'date'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.date_value }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Numeric ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'numeric'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer_number }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Single Option ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'single_option'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Multiple Option ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'multiple_option'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  :
+                                  <span
+                                    style="margin-left: 10px"
+                                    *ngFor="let answer_multiple of question?.answer_multiple; let isLast = last"
+                                    >{{ answer_multiple }}<span *ngIf="!isLast">, </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Time ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'time'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer_time }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Duration ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'duration'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer_duration }}</span>
+                                </div>
+                              </div>
+                            </ng-container>
+                            <!----- Parent & Child Option ------------------------------->
+                            <ng-container *ngIf="question?.answer_type === 'parent_child_option'">
+                              <div
+                                class="p-grid"
+                                [ngClass]="questionLoop.classList.contains('right-end') ? 'justify-end' : 'justify-start'"
+                              >
+                                <div class="p-col-4 no-padding">
+                                  <p>{{ question?.question_label }}</p>
+                                </div>
+                                <div class="p-col-8 no-padding">
+                                  : <span style="margin-left: 10px">{{ question?.answer }}</span> <br>
+                                </div>
+                              </div>
+                              <ng-container *ngFor="let questionChild of question?.parent_child_options">
+                                <ng-container *ngIf="questionChild?.option_text === question?.answer">
+                                  <ng-container *ngFor="let questionChildSecond of questionChild?.questions">
+                                    <div class="p-grid">
+                                      <div class="p-col-4 no-padding"> <span class="ml-10">{{questionChildSecond?.question_name}}</span></div>
+                                      <div class="p-col-8 no-padding"> : <span class="ml-10">{{checkQuestionChildType(questionChildSecond)}}</span></div>
+                                    </div>
+                                    <ng-container *ngFor="let parentChild of questionChildSecond?.parent_child_options">
+                                      <ng-container *ngIf="parentChild?.option_text === questionChildSecond?.answer">
+                                        <ng-container *ngFor="let questionChildThird of parentChild?.questions">
+                                          <div class="p-grid">
+                                            <div class="p-col-4 no-padding"><span class="ml-10">{{questionChildThird?.question_name}}</span></div>
+                                            <div class="p-col-8 no-padding"> : <span class="ml-10">{{checkQuestionChildType(questionChildThird)}}</span></div>
+                                          </div>
+                                          <ng-container *ngFor="let parentChild of questionChildThird?.parent_child_options">
+                                            <ng-container *ngIf="parentChild?.option_text === questionChildThird?.answer">
+                                              <ng-container *ngFor="let questionChildFourth of parentChild?.questions">
+                                                <div class="p-grid">
+                                                  <div class="p-col-4 no-padding" ><span class="ml-10">{{questionChildFourth?.question_name}}</span></div>
+                                                  <div class="p-col-8 no-padding"> : <span class="ml-10">{{checkQuestionChildType(questionChildFourth)}}</span></div>
+                                                </div>
+                                                <ng-container *ngFor="let parentChild of questionChildFourth?.parent_child_options">
+                                                  <ng-container *ngIf="parentChild?.option_text === questionChildFourth?.answer">
+                                                    <ng-container *ngFor="let questionChildFifth of parentChild?.questions">
+                                                      <div class="p-grid">
+                                                        <div class="p-col-4 no-padding"> <span class="ml-10">{{questionChildFifth?.question_name}}</span></div>
+                                                        <div class="p-col-8 no-padding"> : <span class="ml-10">{{checkQuestionChildType(questionChildFifth)}}</span></div>
+                                                      </div>
+                                                    </ng-container>
+                                                  </ng-container>
+                                                </ng-container>
+                                              </ng-container>
+                                            </ng-container>
+                                          </ng-container>
+                                        </ng-container>
+                                      </ng-container>
+                                    </ng-container>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="step?.step_type === 'document_expected'">
+                  <ng-container *ngFor="let segment of step?.segments">
+                    <div class="p-col-12 segment-title">
+                      <div style="display: flex">
+                        <div class="p-col-12 no-padding">
+                          <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-col-12 pad-ver-none">
+                      <div class="p-grid">
+                        <ng-container *ngFor="let question of segment?.questions">
+                          <div class="full-width left-end">
+                            <div class="p-grid justify-start">
+                              <div class="p-col-4 no-padding">
+                                <p>{{ question?.question_label }}</p>
+                              </div>
+                              <div class="p-col-8 no-padding">
+                                <ng-container *ngIf="question?.document_validation_status === 'validated'">
+                                  : <span style="margin-left: 10px">{{ 'SummaryForm.Submitted' | translate }}</span>
+                                </ng-container>
+                                <ng-container *ngIf="question?.document_validation_status === 'waiting_for_validation'">
+                                  : <span style="margin-left: 10px">{{ 'SummaryForm.Waiting Validation' | translate }}</span>
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="
+                                    question?.document_validation_status === 'not_validated' ||
+                                    question?.document_validation_status === null
+                                  "
+                                >
+                                  : <span style="margin-left: 10px">{{ 'SummaryForm.Not Submitted' | translate }}</span>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="step?.step_type === 'condition_acceptance'">
+                  <ng-container *ngFor="let segment of step?.segments">
+                    <div class="p-col-12 segment-title">
+                      <div style="display: flex">
+                        <div class="p-col-12 no-padding">
+                          <b style="padding: 0.5em">{{ segment?.segment_title }}</b>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="condition-acceptance-content">
+                      {{ formData?.student_id?.civility | translate }} {{ formData?.student_id?.first_name }} {{ formData?.student_id?.last_name }}
+                      {{ 'already sign and accept the certification rule at' | translate }}:
+                      {{ step?.signature_date }} ({{
+                        'Paris Time' | translate
+                      }})
+                    </div>
+                    <!-- <div class="p-col-12 pad-ver-none">
+                        <div *ngIf="segment?.acceptance_pdf || segment?.acceptance_pdf !== ''">
+                          <div class="ql-editor document-parent">
+                            <div class="img-preview container-view-lanscape">
+                              <iframe [src]="setPreviewUrl(segment?.acceptance_pdf)" frameBorder="0"></iframe>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+            <!-- Signature Box -->
+            <ng-container>
+              <div class="p-col-12 pad-ver-none" style="border-top: 1px solid white">
+                <div class="p-col-12 signature-box">
+                  <mat-checkbox [disabled]="formData?.signature_date?.date" [(ngModel)]="signature" style="padding-left: 15px">{{
+                    'Signature' | translate
+                  }}</mat-checkbox>
+                  <div *ngIf="formattedSignatureDate">
+                    {{ formattedSignatureDate }} ({{ 'Paris Time' | translate }})
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="center-spinner" *ngIf="isLoading">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

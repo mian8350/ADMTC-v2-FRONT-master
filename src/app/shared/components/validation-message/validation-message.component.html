@@ -1,0 +1,17 @@
+<ng-container [ngSwitch]="getFirstKey(control?.errors)">
+  <ng-container *ngSwitchCase="'required'">
+    {{messages?.required}}
+  </ng-container>
+  <ng-container *ngSwitchCase="'minlength'">
+    {{messages?.minlength}}
+  </ng-container>
+  <ng-container *ngSwitchCase="'email'">
+    {{messages?.email}}
+  </ng-container>
+  <ng-container *ngSwitchCase="'url'">
+    {{messages?.url}}
+  </ng-container>
+  <ng-container *ngSwitchCase="'pattern'">
+    {{messages?.pattern}}
+  </ng-container>
+</ng-container>

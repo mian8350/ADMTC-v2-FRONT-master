@@ -1,0 +1,14 @@
+<ms-select-title-class 
+  [schoolId]="schoolId" 
+  [selectedRncpTitleId]="selectedRncpTitleId" 
+  [selectedClassId]="selectedClassId"
+  [isStudentCardTab]="true"
+  [searchStudent]="searchStudent"
+  *ngIf="!isAddUser"
+>
+</ms-select-title-class>
+
+<ms-cards-list
+  *ngIf="selectedRncpTitleId && selectedRncpTitleId !== '' && selectedClassId && selectedClassId !== '' && !isAddUser"
+  [schoolId]="schoolId" [studentSelected]="studentSelected" [studentTabSelected]="studentTabSelected"
+></ms-cards-list>

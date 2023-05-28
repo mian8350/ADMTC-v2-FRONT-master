@@ -1,0 +1,31 @@
+<mat-card class="pdf-card">
+  <div class="pdf-container">
+    <div class="doc-rncp-title">
+      {{'Parameter for Final Transcript' | translate}}
+    </div>
+    <div class="doc-rncp-title">
+      {{selectedRncpTitleName}} - {{selectedClassName}} - {{selectedRncpTitleLongName}}
+    </div>
+
+    <table class="doc-table">
+      <tbody>
+          <tr class="table-row-border">
+            <th class="placeholder-text gray-bg" colspan="4">placeholder</th>
+          </tr>
+        <ng-container *ngFor="let decParam of juryDecisionparameterData.decision_parameters; let i = index">
+          <tr class="table-row-side-border">
+            <td class="blue-bg" colspan="4">{{decParam?.condition_type | translate}}: {{decParam?.condition_name}}</td>
+          </tr>
+          <ng-container *ngFor="let param of decParam?.parameters; let j = index">
+            <tr class="table-row-side-border">
+              <td class="white-bg">{{param?.correlation}}</td>
+              <td class="white-bg">{{getParameterData(param?.validation_type, param)}}</td>
+              <td class="white-bg">{{param?.score}}</td>
+              <td class="white-bg">{{param?.sign}}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</mat-card>

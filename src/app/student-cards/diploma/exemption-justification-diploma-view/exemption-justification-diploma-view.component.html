@@ -1,0 +1,43 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <div class="p-grid yellow-border card-row">
+      <div class="section-header">
+        <mat-icon svgIcon="certsvg" class="mat-icon-section-svgIcon"></mat-icon>
+        <h3>{{ 'Exemption Justification' | translate }}</h3>
+      </div>
+
+      <ng-container *ngIf="exemptionDocsData?.length">
+        <div class="p-col-12 no-padding">
+          <div class="p-col-12" *ngFor="let exemptionDoc of exemptionDocsData; let exemptionDocIndex = index">
+            <div class="border-white card-row">
+              <div class="p-grid">
+                <div class="p-col-fixed x-pad-none">
+                  <div class="imgContainer">
+                    <div class="p-grid">
+                      <div class="logo-img-wrapper">
+                        <img (click)="downloadFile(exemptionDoc.s3_file_name)" class="center-image" [src]="imgURL(exemptionDoc.s3_file_name)" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col">
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding">
+                      <div class="p-col float-left">
+                        <h3 class="diploma-title">{{ exemptionDoc.document_name ? exemptionDoc.document_name : '' }}</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

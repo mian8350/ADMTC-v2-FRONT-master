@@ -1,0 +1,60 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandleDisabled="">
+  <mat-icon svgIcon="school"></mat-icon>
+  <h2 class="header-text">
+    {{ 'Edit Connected RNCP Title' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+
+<div class="pad-x-md pad-t-md">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{ 'RNCP_Title' | translate }}" [value]="parentData?.title?.short_name" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{ 'COMPANY.CLASS' | translate }}" [value]="parentData?.title?.class_id?.name" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <mat-form-field class="full-width">
+        <mat-label>{{ 'Select specialization' | translate }}</mat-label>
+        <mat-select [formControl]="selected_specializations" multiple [disableOptionCentering]="true" panelClass="specializationPanel" #selectSpecialization>
+          <mat-select-trigger>{{ getSelectedSpecializations() }}</mat-select-trigger>
+          <mat-option [value]="null" (click)="unSelectedAllItems()">{{ 'INDUSTRYLIST.none' | translate }}</mat-option>
+          <mat-option [value]="'AllM'" (click)="toggleAllSelection()"> {{ 'AllM' | translate }} </mat-option>
+          <mat-option *ngFor="let specialization of specializations" [value]="specialization?._id" (click)="selectItem()">
+            {{ specialization?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  </div>
+  <div>
+    <button mat-button mat-raised-button color="primary" (click)="submit()" [disabled]="isWaitingForResponse" >{{ 'SUBMIT' | translate }}</button>
+  </div>
+</div>
+
+<div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12"
+  style=" text-align: center !important; display: contents;">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent" style="width: 100px;height: 100px;"></mat-spinner>
+  </div>
+</div>

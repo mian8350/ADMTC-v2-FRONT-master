@@ -1,0 +1,27 @@
+<mat-tab-group>
+  <mat-tab value="Title Identity">
+    <ng-template mat-tab-label>
+      <h5 style="color: white;">{{ 'Title Identity' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-create-title-identity #titleIdentity></ms-create-title-identity>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <h5 style="color: white;">{{ 'Class' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      
+    </ng-template>
+  </mat-tab>
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+          <h5 style="color: white;">{{ 'Documents' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+      </ng-template>
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,62 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper">
+    <div class="p-grid">
+      <div class="w-30 mt-3 no-padding">
+        <i class="fa fa-paper-plane dialog-icon"></i>
+      </div>
+      <div class="p-col-11 no-padding">
+        <h3 class="dialogTitle">{{ (data?.origin === 'pc-certification-parameter' ? 'Select School and send the Certification Rules for Preparation Centre' : 'Select School and send the Certification Rules for Students') | translate }}</h3>
+      </div>
+      <div class="w-30 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content">
+  <div [formGroup]="schoolForm">
+    <div class="p-col-12">
+      <ng-select
+        placeholder="{{ 'Select School(s)' | translate }}"
+        notFoundText="{{ 'No items found' | translate }}"
+        appendTo="body"
+        [multiple]="true"
+        [clearable]="false"
+        [closeOnSelect]="false"
+        [items]="schoolDropdownList"
+        bindValue="_id"
+        bindLabel="short_name"
+        formControlName="school_ids"
+        (close)="selectSchool()"
+      >
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+          <input type="checkbox" id="item-{{index}}" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"> {{ item.short_name }}
+        </ng-template>
+        <ng-template ng-header-tmp *ngIf="schoolDropdownList.length">
+          <mat-checkbox [ngClass]="checkBox() || checkBoxIndeterminate() ? 'checkBoxAll' : ''" style="cursor: pointer" [checked]="checkBox()" [indeterminate]="checkBoxIndeterminate()" (change)="selectedAllSchool($event)">
+            {{ 'All' | translate }}
+          </mat-checkbox>
+        </ng-template>
+      </ng-select>
+    </div>
+    <div class="p-col-12 selected-class-container">
+      <button mat-raised-button color="accent" *ngFor="let school of selectedSchoolList" (click)="unselectSchool(school)">{{ school?.short_name }}</button>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end action-button mat-dialog-actions">
+  <button mat-raised-button color="warn" (click)="closeDialog()">
+    <span>{{ 'Cancel' | translate }}</span>
+  </button>
+  <button mat-raised-button color="primary" (click)="sendCertificationRule()" [disabled]="!selectedSchoolList.length">
+    <span>{{ 'CERTIFICATION_RULE.SEND_BTN' | translate }}</span>
+  </button>
+</div>
+
+<div class="loading-indicator" *ngIf="isWaitingForResponse">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

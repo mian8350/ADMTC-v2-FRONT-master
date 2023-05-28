@@ -1,0 +1,30 @@
+<div class="p-grid">
+    <div class="p-col">
+        <mat-card>
+            <mat-card-content>
+                <div class="p-grid">
+                    <div class="p-col">
+                            <ul class="document-list">
+                                    <li *ngFor="let subject of subjectsList; index as i;">
+                                        <a (click)="subject.sub = !subject.sub">
+                                            <i class="fa" [ngClass]="subject.sub ? 'fa-caret-down': 'fa-caret-right'"></i>
+                                            <mat-icon style="vertical-align: middle;">folder</mat-icon>
+                                            {{subject.subjectName}}
+                                        </a>
+                                        <ul *ngIf="subject.sub">
+                                            <li *ngFor="let test of subject.tests; index as i;">
+                                                <a (click)="test.test = !test.test">
+                                                    <i class="fa" [ngClass]="test.test ? 'fa-caret-down': 'fa-caret-right'"></i>
+                                                    <mat-icon style="vertical-align: middle;">folder</mat-icon>
+                                                    {{test.testName}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="background-dark" *ngIf="dataMessage">
+  <form class="header-form">
+    <div>
+      <mat-dialog-content class="content-height">
+        <div class="p-grid">
+          <div class="p-col-12 text-center">
+            <b style="font-size: 18px" [innerHTML]="dataMessage?.subject"></b>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-12 text-center">
+            <b style="font-size: 18px" [innerHTML]="dataMessage?.body"></b>
+          </div>
+        </div>
+        <div class="p-grid" *ngIf="dataMessage?.image">
+          <div class="p-col-12 align-button">
+            <img [src]="dataMessage?.image" height="200" class="preview-image" />
+          </div>
+        </div>
+        <br />
+      </mat-dialog-content>
+
+      <mat-dialog-actions align="center" class="align-button" *ngIf="dataMessage">
+        <button
+          mat-raised-button
+          color="primary"
+          matTooltip="{{ dataMessage?.first_button | translate }}"
+          class="btn-opssi"
+          style="padding-left: 5px; padding-right: 8px"
+          (click)="closeDialog()"
+        >
+          <span>{{ dataMessage?.first_button | translate }}</span>
+          <mat-icon class="mat-icon-default">touch_app</mat-icon>
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          matTooltip="{{ dataMessage?.second_button | translate }}"
+          class="btn-opssi"
+          style="padding-left: 5px; padding-right: 8px"
+          [ngClass]="{
+            disabledd: count !== 0
+          }"
+          [disabled]="count !== 0"
+          (click)="closeDialog('accept')"
+        >
+          <span *ngIf="count !== 0">{{ dataMessage?.second_button | translate }} ({{ count }} s)</span>
+          <span *ngIf="count === 0">{{ dataMessage?.second_button | translate }}</span>
+          <mat-icon class="mat-icon-default">touch_app</mat-icon>
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+</div>

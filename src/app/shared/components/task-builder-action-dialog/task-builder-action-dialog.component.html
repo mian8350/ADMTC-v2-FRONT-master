@@ -1,0 +1,156 @@
+<div [formGroup]="taskBuilderForm">
+  <div mat-dialog-title class="dialog-title-wrapper" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <mat-icon svgIcon="checkbox-marked-outline" style="margin-bottom: -10px"></mat-icon>
+    <h2 class="dialog-title">{{ taskBuilderFormValue?.task_title }}</h2>
+    <button mat-icon-button class="close-icon" tabindex="-1" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="p-grid overflow">
+    <ng-container *ngIf="taskBuilderFormValue?.description">
+      <div class="p-col-12 pad-x-none">{{ 'Task Description' | translate }}</div>
+      <div class="p-col-12 border-wrap" [innerHTML]="taskBuilderFormValue?.description"></div>
+    </ng-container>
+    <div class="p-col-12 pad-x-none">
+      <div class="p-grid">
+        <div class="p-col-fixed pad-x-none">{{ 'Due Date' | translate }} :</div>
+        <div class="p-col">{{ parseUTCDateToLocalDateString(taskBuilderFormValue?.due_date) }}</div>
+      </div>
+    </div>
+    <div class="p-col-12 pad-x-none">
+      <div class="p-grid">
+        <div class="p-col-6 pad-x-none">
+          <div class="p-grid">
+            <div class="p-col-fixed pad-x-none" style="padding-right: 0">{{ 'Assigner' | translate }} :</div>
+            <!-- Avoid real person name to be translated i.e. 'USERTYPES.Mrs Amina Abbih | translate' -->
+            <div class="p-col" *ngIf="taskBuilderFormValue?.assigner_id?.name">
+              {{ taskBuilderFormValue?.assigner_id?.name }}
+            </div>
+          </div>
+        </div>
+        <div class="p-col-6 pad-x-none">
+          <div class="p-grid">
+            <div class="p-col-fixed pad-x-none" style="padding-right: 0">{{ 'Assign to' | translate }} :</div>
+            <!-- Avoid real person name to be translated i.e. 'USERTYPES.Mrs Amina Abbih | translate' -->
+            <div class="p-col" *ngIf="taskBuilderFormValue?.assign_to_id?.name">
+              {{ taskBuilderFormValue?.assign_to_id?.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="getAttachmentsFormArray()?.length">
+      <div class="p-col-12 pad-x-none">{{ 'Attachment' | translate }}</div>
+      <div class="p-col-12 file pad-x-none" formArrayName="attachments">
+        <div
+          class="p-grid"
+          *ngFor="let attachment of getAttachmentsFormArray()?.controls; let attachmentIndex = index"
+          [formGroupName]="attachmentIndex"
+        >
+          <div class="p-col">
+            <span class="fa fa-circle attach-circle"></span>
+            <span>{{ attachment?.get('file_name').value }}</span>
+          </div>
+          <div class="p-col-2 text-right">
+            <mat-icon style="font-size: 20px; cursor: pointer" (click)="openAttachment(attachment?.get('s3_file_name').value)"
+              >download</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="p-col-12 pad-x-none">{{ 'Action Taken' | translate }}</div>
+    <div class="p-col-12 pad-x-none">
+      <ckeditor #ckE [editor]="Editor" [config]="config" (ready)="onReady($event)" [formControl]="actionTaken"></ckeditor>
+    </div>
+    <ng-container *ngIf="getDocumentExpectedFormarray()?.length">
+      <div class="p-col-12 pad-x-none">{{ 'EXPECTED_DOC.Expected Document' | translate }}</div>
+      <div class="p-col-12 file" formArrayName="expected_documents">
+        <div
+          class="p-grid"
+          *ngFor="let docExpected of getDocumentExpectedFormarray()?.controls; let docExpIndex = index"
+          [formGroupName]="docExpIndex"
+        >
+          <div class="p-col">
+            <div style="vertical-align: middle; display: inline-block">
+              <mat-icon *ngIf="docExpected?.get('is_required').value" style="font-size: 18px">error</mat-icon>
+              <mat-icon *ngIf="!docExpected?.get('is_required').value" style="font-size: 18px">help</mat-icon>
+            </div>
+            <div style="display: inline-block">
+              <span
+                [ngClass]="
+                  docExpected?.get('s3_file_name').hasError('required') &&
+                  (docExpected?.get('s3_file_name').dirty || docExpected?.get('s3_file_name').touched)
+                    ? 'red'
+                    : ''
+                "
+                style="margin-left: 10px; cursor: pointer"
+                (click)="openAttachment(docExpected?.value?.s3_file_name)"
+                >{{ docExpected?.value?.expected_document_name }}</span
+              >
+            </div>
+          </div>
+          <div class="p-col-2 text-right">
+            <mat-icon class="mat-icon-default" *ngIf="!taskData && data?.type === 'preview'">upload</mat-icon>
+            <mat-icon *ngIf="isUploadingFile">
+              <mat-spinner [diameter]="18"></mat-spinner>
+            </mat-icon>
+            <mat-icon *ngIf="docExpected?.value?.s3_file_name && !isUploadingFile" style="font-size: 20px; color: green">done</mat-icon>
+            <mat-icon
+              class="mat-icon-default"
+              style="font-size: 20px; cursor: default"
+              *ngIf="taskData && docExpected?.value?.s3_file_name && (data?.type === 'done' || isAssigner)"
+              (click)="openAttachment(docExpected?.value?.s3_file_name)"
+              >download</mat-icon
+            >
+            <input
+              type="file"
+              accept="application/pdf"
+              style="display: none"
+              (click)="fileInputRef.value = ''"
+              (change)="chooseFile($event, docExpIndex)" 
+              #fileInputRef
+            />
+            <button
+              mat-button
+              mat-raised-button
+              color="accent"
+              (click)="fileInputRef.click()"
+              [disabled]="isUploadingFile"
+              *ngIf="taskData && data?.type === 'task' && !isAssigner"
+            >
+              <mat-icon class="mat-icon-default">upload</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="p-col-12 text-right" *ngIf="!taskData && data?.type === 'preview'">
+      <button mat-button mat-raised-button color="warn">{{ taskBuilderFormValue?.label_cancel }}</button>
+      <button mat-button mat-raised-button color="accent">{{ taskBuilderFormValue?.label_reject }}</button>
+      <button mat-button mat-raised-button color="accent">{{ taskBuilderFormValue?.label_validate }}</button>
+      <button mat-button mat-raised-button color="primary">{{ taskBuilderFormValue?.label_submit }}</button>
+    </div>
+
+    <div class="p-col-12 text-right" *ngIf="taskData && data?.type === 'task' && !isAssigner">
+      <div *ngIf="taskData?.validation_status === 'pending'">
+        <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ taskBuilderFormValue?.label_cancel }}</button>
+        <button mat-button mat-raised-button color="accent" (click)="submitAndValidate()" [disabled]="isUploadingFile">{{ taskBuilderFormValue?.label_submit }}</button>
+      </div>
+      <div *ngIf="taskData?.validation_status === 'validation_in_process'">
+        <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ taskBuilderFormValue?.label_cancel }}</button>
+        <button mat-button mat-raised-button color="primary" (click)="rejectTask()" [disabled]="isUploadingFile">{{ taskBuilderFormValue?.label_reject }}</button>
+        <button mat-button mat-raised-button color="accent" (click)="submitAndValidate()">
+          {{ taskBuilderFormValue?.label_validate }}
+        </button>
+      </div>
+      <div *ngIf="taskData?.validation_status === 'rejected'">
+        <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ taskBuilderFormValue?.label_cancel }}</button>
+        <button mat-button mat-raised-button color="accent" (click)="submitAndValidate()" [disabled]="isUploadingFile">{{ taskBuilderFormValue?.label_submit }}</button>
+      </div>
+    </div>
+    <div class="p-col-12 text-right" *ngIf="(taskData && data?.type === 'done') || isAssigner">
+      <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ taskBuilderFormValue?.label_cancel }}</button>
+    </div>
+  </div>
+</div>

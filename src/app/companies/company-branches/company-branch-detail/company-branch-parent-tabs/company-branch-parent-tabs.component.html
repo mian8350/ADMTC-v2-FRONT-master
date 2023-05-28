@@ -1,0 +1,34 @@
+<mat-tab-group #companyMatGroup [(selectedIndex)]="selectedIndex">
+  <mat-tab label="Identity">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Identity' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-branch-identity-tab [branchId]="companyId"></ms-branch-identity-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="companyStaff" *ngIf="permissionService.showsCompanyStaffTabPerm()">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.COMPANY_STAFF' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-branch-company-staff-tab [companyId]="companyId"></ms-branch-company-staff-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="SchoolConnected" *ngIf="permissionService.showsConnectedSchoolTabPerm()">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.School Connected' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-branch-school-connected-tab [companyId]="companyId"></ms-branch-school-connected-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Notes">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.Notes' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-company-notes-tab [companyId]="companyId" [userData]="userData"></ms-company-notes-tab>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

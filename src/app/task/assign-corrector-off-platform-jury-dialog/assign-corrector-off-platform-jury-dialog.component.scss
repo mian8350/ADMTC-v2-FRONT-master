@@ -1,0 +1,19 @@
+.header-form {
+  padding: 18px;
+}
+
+.footer-form {
+  padding: 0px 18px 18px 18px;
+}
+::ng-deep.filterPanel {
+  margin-top: 25px;
+  max-height: 30vh !important;
+}
+.select-all{
+  margin: 5px 17px;
+}
+
+.preview-overflow {
+  max-height: 200px !important; 
+  overflow: auto !important;
+}

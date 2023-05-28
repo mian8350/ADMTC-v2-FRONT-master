@@ -1,0 +1,1087 @@
+<div class="p-grid mt-1rem">
+  <div class="p-col-6 text-right" style="padding-bottom: 0">
+    <button mat-raised-button color="primary" (click)="exportPdf()">
+      <mat-icon svgIcon="file-pdf" class="mat-icon-svgIcon"></mat-icon>
+      Export PDF
+    </button>
+    <button [disabled]="isWaitingForResponse" (click)="save()" mat-raised-button class="margin-right-0" color="accent">
+      <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-6">
+    <div class="p-grid">
+      <div *ngIf="titleName && className" class="p-col-12 yellow-border mt-1rem scrollable" [formGroup]="conditionOfAwardForm">
+        <fieldset class="small-text-fieldset" style="margin-top: 1rem">
+          <legend class="legend-label">{{ 'CONDITION_SCORE.Condition of award for' | translate }} {{ titleName }} - {{ className }}</legend>
+          <div class="p-grid">
+            <div class="p-col-12 label-align-end">
+              <p class="mrgn-btn-6">{{ 'CONDITION_SCORE.Type of Evaluation' | translate }} : {{ typeEvaluation | translate }}</p>
+            </div>
+            <div class="p-col-12 label-align-end padding-btn-none">
+              <p class="mrgn-btn-none">{{ 'CONDITION_SCORE.Calculated Based on' | translate }} : {{ subTypeEvaluation | translate }}</p>
+            </div>
+            <div
+              *ngIf="subTypeEvaluation && (subTypeEvaluation === 'point_weight' || subTypeEvaluation === 'point_coefficient')"
+              class="p-col-12 padding-top-none"
+            >
+              <div class="p-grid p-nogutter">
+                <div class="p-col label-align-end padding-top-none">
+                  <p class="label-align-end">{{ 'CONDITION_SCORE.Total Max Point for this Condition of Award' | translate }} :</p>
+                  <mat-form-field class="p-col-4 padding-top-none eval" style="padding-bottom: 0">
+                    <input
+                      matInput
+                      [(ngModel)]="evaMaxPoint"
+                      [ngModelOptions]="{ standalone: true }"
+                      [min]="this.calculateTotalBlock()"
+                      type="number"
+                      (focusout)="validateMaxPoint($event)"
+                      required
+                    />
+                    <mat-error *ngIf="!evaMaxPoint">
+                      {{ 'This field is required' | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="p-grid p-nogutter">
+                <p>
+                  <span>{{ 'MAX_POINT_TEXT_1' | translate }}</span> <br />
+                  <span>{{ 'MAX_POINT_TEXT_2' | translate }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <!-- Button -->
+        <div
+          class="p-grid"
+          style="margin-top: 0.1rem"
+          [ngStyle]="{ 'margin-top': conditionOfAwardForm.get('block_of_competence_condition_input').value.length ? '2rem' : '0' }"
+        >
+          <div class="p-col-12 align-right-button">
+            <button (click)="addBlockFormArray()" mat-raised-button class="margin-none" color="accent">
+              <mat-icon class="mat-icon-default">add</mat-icon>
+              {{ 'Block of Competency' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <ng-container formArrayName="block_of_competence_condition_input">
+          <mat-accordion [multi]="true" [displayMode]="flat" cdkDropList (cdkDropListDropped)="dropComp($event)">
+            <ng-container
+              *ngFor="
+                let comp of conditionOfAwardForm.get('block_of_competence_condition_input').controls;
+                let blockIndex = index;
+                let isFirst = first;
+                let isLast = last
+              "
+            >
+              <mat-expansion-panel
+                [formGroupName]="blockIndex"
+                class="panel-spacing"
+                (closed)="closeCompPanel(blockIndex)"
+                (opened)="openCompPanel(blockIndex)"
+                cdkDrag
+                [expanded]="competencyDisabled[blockIndex]"
+                [cdkDragDisabled]="competencyDisabled[blockIndex]"
+              >
+                <mat-expansion-panel-header
+                  class="panel-header-comp"
+                  [ngClass]="{
+                    'panel-header-tranversal': blockFormArray.at(blockIndex).get('transversal_block').value,
+                    'panel-header-retake': blockFormArray.at(blockIndex).get('is_retake_by_block').value,
+                    'panel-header-specialization':
+                      blockFormArray.at(blockIndex).get('is_specialization').value &&
+                      !blockFormArray.at(blockIndex).get('count_for_title_final_score').value,
+                    'panel-header-calculated-final':
+                      blockFormArray.at(blockIndex).get('count_for_title_final_score').value &&
+                      !blockFormArray.at(blockIndex).get('is_specialization').value,
+                    'panel-header-specialization-final':
+                      blockFormArray.at(blockIndex).get('count_for_title_final_score').value &&
+                      blockFormArray.at(blockIndex).get('is_specialization').value,
+                    'panel-header-not-calculated-final':
+                      !blockFormArray.at(blockIndex).get('transversal_block').value &&
+                      !blockFormArray.at(blockIndex).get('is_retake_by_block').value &&
+                      !blockFormArray.at(blockIndex).get('count_for_title_final_score').value &&
+                      !blockFormArray.at(blockIndex).get('is_specialization').value
+                  }"
+                >
+                  <mat-panel-title>
+                    <h3 #blockPanel style="color: whitesmoke">
+                      {{ blockFormArray.at(blockIndex).get('block_of_competence_condition').value }}
+                    </h3>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- block of competency form section -->
+                <ng-container>
+                  <fieldset class="small-text-fieldset block-fieldset-spacing">
+                    <legend class="legend-label">{{ 'Block Identity' | translate }}</legend>
+                    <div class="p-grid">
+                      <div class="p-col-11"></div>
+                      <!-- padder -->
+                      <div class="p-col-1 text-right">
+                        <button (click)="removeBlockFormArray(blockIndex)" mat-icon-button class="small-icon" color="red">
+                          <mat-icon>remove</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="p-grid">
+                      <div class="p-col-12">
+                        <mat-form-field class="full-width">
+                          <input
+                            formControlName="block_of_competence_condition"
+                            (focusout)="validateBlockName(blockIndex)"
+                            matInput
+                            placeholder="{{ 'Block of Competency Name' | translate }}"
+                            required
+                          />
+                          <mat-error *ngIf="blockFormArray.at(blockIndex).get('block_of_competence_condition').hasError('required')">
+                            {{ 'Please enter the name of the block of competency' | translate }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="p-grid">
+                      <div class="p-col-12">
+                        <mat-form-field class="full-width">
+                          <input matInput formControlName="block_rncp_reference" placeholder="{{ 'Block RNCP Reference' | translate }}" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="p-grid">
+                      <div class="p-col-12">
+                        {{ 'Block Of Competency Description' | translate }}
+                      </div>
+                      <div class="p-col-12">
+                        <div class="editor-background-white">
+                          <ckeditor
+                            [config]="{
+                              toolbar: ['bold', 'italic', 'underline'],
+                              link: {
+                                addTargetToExternalLinks: true
+                              }
+                            }"
+                            [editor]="Editor"
+                            (ready)="onReady($event)"
+                            formControlName="description"
+                          >
+                          </ckeditor>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-container *ngIf="!comp.get('transversal_block').value">
+                      <div
+                        class="p-grid"
+                        *ngIf="
+                          (!comp.get('is_specialization').value &&
+                            !comp.get('is_retake_by_block').value &&
+                            subTypeEvaluation === 'point_weight') ||
+                          subTypeEvaluation === 'point_coefficient'
+                        "
+                      >
+                        <div class="p-col-6 label-align-end">
+                          <p>{{ 'Maximum Point for this block of competency' | translate }}</p>
+                        </div>
+                        <div class="p-col-4 p-offset-1">
+                          <mat-form-field class="full-width">
+                            <input
+                              matInput
+                              type="text"
+                              pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                              required
+                              formControlName="max_point"
+                              (focusout)="validateBlockMaxPoint(blockIndex)"
+                              placeholder="{{ 'Max. Point' | translate }}"
+                            />
+                            <mat-error *ngIf="blockFormArray.at(blockIndex).get('max_point').hasError('required')">
+                              {{ 'Maximum Point is required' | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="blockFormArray.at(blockIndex).get('max_point').hasError('pattern')">
+                              {{ 'This Field only accept numeric' | translate }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
+                      <!-- <div class="p-grid">
+                        <div class="p-col-6 label-align-end">
+                          <p>{{ 'Minimum Score for this block of competency' | translate }}</p>
+                        </div>
+                        <div class="p-col-4 p-offset-1">
+                          <mat-form-field class="full-width">
+                            <input
+                              matInput
+                              type="text"
+                              pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                              (keyup)="validateMinScore(blockIndex)"
+                              required
+                              formControlName="min_score"
+                              placeholder="{{ 'Min. Score' | translate }}"
+                            />
+                            <mat-error *ngIf="blockFormArray.at(blockIndex).get('min_score').hasError('required')">
+                              {{ 'Minimum Score is required ' | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="blockFormArray.at(blockIndex).get('min_score').hasError('pattern')">
+                              {{ 'This Field only accept numeric' | translate }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div> -->
+                      <div class="p-grid">
+                        <div class="p-col-6 label-align-end">
+                          <p>{{ 'ECTS Credit' | translate }}</p>
+                        </div>
+                        <div class="p-col-4 p-offset-1">
+                          <mat-form-field class="full-width">
+                            <input matInput formControlName="block_of_competence_condition_credit" type="text" />
+                            <mat-error>{{ 'This Field only accept numeric' | translate }}</mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <div class="p-grid">
+                      <div class="p-col-12">
+                        <mat-slide-toggle
+                          formControlName="transversal_block"
+                          (change)="changeTranversalBlock($event, blockIndex)"
+                          color="accent"
+                        >
+                          <span [ngStyle]="{ color: blockFormArray.at(blockIndex).get('transversal_block').value ? '#fdd835' : 'white' }">
+                            {{ 'Set This Block of Competency as Transversal Block' | translate }}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                      <div class="p-col-12">
+                        <mat-slide-toggle
+                          formControlName="is_retake_by_block"
+                          (change)="changeRetakeBlock($event, blockIndex)"
+                          color="accent"
+                        >
+                          <span [ngStyle]="{ color: blockFormArray.at(blockIndex).get('is_retake_by_block').value ? '#fdd835' : 'white' }">
+                            {{ 'Set This Block of competency as Block of Retake' | translate }}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                      <div *ngIf="blockFormArray.at(blockIndex).get('is_retake_by_block').value" class="p-col-12">
+                        <mat-form-field class="full-width">
+                          <mat-label>{{ 'Select the Connected block for Retake' | translate }}</mat-label>
+                          <mat-select formControlName="selected_block_retake" (selectionChange)="selectRetakeBlock($event, blockIndex)">
+                            <mat-option *ngFor="let block of blockList" [value]="block._id">
+                              {{ block.block_of_competence_condition }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="p-col-12">
+                        <mat-slide-toggle
+                          formControlName="is_specialization"
+                          (change)="changeSpecializationOrCountForFinal($event, blockIndex, 'isSpecialization')"
+                          color="accent"
+                        >
+                          <span [ngStyle]="{ color: blockFormArray.at(blockIndex).get('is_specialization').value ? '#fdd835' : 'white' }">
+                            {{ 'Set this Block of competency as Specialization Block' | translate }}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                      <div
+                        class="p-col-12"
+                        [ngStyle]="{ display: blockFormArray.at(blockIndex).get('is_specialization').value ? 'block' : 'none' }"
+                      >
+                        <mat-form-field class="full-width">
+                          <mat-label>{{ 'Select Specialization' | translate }}</mat-label>
+                          <mat-select
+                            formControlName="specialization"
+                            [required]="blockFormArray.at(blockIndex).get('is_specialization').value"
+                            (selectionChange)="selectSpecialization($event, blockIndex)"
+                          >
+                            <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+                            <mat-option
+                              *ngFor="let spec of specializations"
+                              [value]="spec._id"
+                              [disabled]="selectedSpec.includes(spec._id)"
+                            >
+                              {{ spec.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="p-col-12">
+                        <mat-slide-toggle
+                          formControlName="count_for_title_final_score"
+                          (change)="changeSpecializationOrCountForFinal($event, blockIndex)"
+                          color="accent"
+                        >
+                          <span
+                            [ngStyle]="{
+                              color: blockFormArray.at(blockIndex).get('count_for_title_final_score').value ? '#fdd835' : 'white'
+                            }"
+                          >
+                            {{ 'Count this block in Final Transcript' | translate }}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                    </div>
+                    <div class="p-grid mt-2rem">
+                      <div class="p-col-12 align-right-button">
+                        <button [disabled]="isWaitingForResponse" (click)="save()" mat-raised-button class="margin-none" color="accent">
+                          <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <div class="p-grid mt-2rem">
+                    <div class="p-col-12 align-right-button">
+                      <button (click)="addSubjectFormArray(blockIndex)" mat-raised-button class="margin-none" color="primary">
+                        <mat-icon class="mat-icon-default">add</mat-icon>
+                        {{ 'CONDITIONS.Subject' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <ng-container formArrayName="subjects">
+                    <mat-accordion [multi]="true" [displayMode]="flat" cdkDropList (cdkDropListDropped)="dropSub($event)">
+                      <mat-expansion-panel
+                        *ngFor="
+                          let subj of blockFormArray.at(blockIndex).get('subjects').controls;
+                          let subjectIndex = index;
+                          let isFirst = first
+                        "
+                        [formGroupName]="subjectIndex"
+                        [expanded]="subjectDisabled[subjectIndex]"
+                        (closed)="closeSubPanel(subjectIndex)"
+                        (opened)="openSubPanel(subjectIndex)"
+                        cdkDrag
+                        [cdkDragDisabled]="subjectDisabled[subjectIndex]"
+                        style="background: #607d8b"
+                        class="panel-spacing"
+                      >
+                        <mat-expansion-panel-header class="panel-header-subj">
+                          <mat-panel-title>
+                            <h4 style="color: white; align-self: center">
+                              {{
+                                getSubjectArray(blockIndex).at(subjectIndex).get('is_subject_transversal_block').value
+                                  ? getSubjectArray(blockIndex)
+                                      .at(subjectIndex)
+                                      .get('add_subject_transversal_block')
+                                      .get('subject_transversal_block_name').value
+                                  : getSubjectArray(blockIndex).at(subjectIndex).get('subject_name').value
+                              }}
+                            </h4>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- block of Subject section -->
+                        <div class="p-grid">
+                          <div class="p-col-12 align-right-button panel-divider">
+                            <button
+                              mat-icon-button
+                              (click)="removeSubjectFormArray(blockIndex, subjectIndex)"
+                              class="small-icon"
+                              color="red"
+                            >
+                              <mat-icon>remove</mat-icon>
+                            </button>
+                          </div>
+
+                          <div class="p-col-12" style="padding-top: 0">
+                            <mat-slide-toggle
+                              *ngIf="
+                                !blockFormArray.at(blockIndex).get('transversal_block').value &&
+                                isTransversalBlockExist &&
+                                !getSubjectArray(blockIndex).at(subjectIndex).get('evaluations').value.length
+                              "
+                              color="accent"
+                              formControlName="is_subject_transversal_block"
+                              (change)="changeSubjectIsTranversal($event, blockIndex, subjectIndex)"
+                            >
+                              <span
+                                [ngStyle]="{
+                                  color: getSubjectArray(blockIndex).at(subjectIndex).get('is_subject_transversal_block').value
+                                    ? '#fdd835'
+                                    : 'white'
+                                }"
+                              >
+                                {{ 'Select Subject from Block of Transversal' | translate }}
+                              </span>
+                            </mat-slide-toggle>
+                            <ng-container>
+                              <div
+                                class="p-grid mt-1rem"
+                                *ngIf="
+                                  !getSubjectArray(blockIndex).at(subjectIndex).get('is_subject_transversal_block').value;
+                                  else elseBlock
+                                "
+                              >
+                                <mat-form-field color="accent" class="full-width">
+                                  <input
+                                    matInput
+                                    required
+                                    formControlName="subject_name"
+                                    (focusout)="validateSubjectName(blockIndex, subjectIndex)"
+                                    placeholder="{{ 'Subject Name' | translate }}"
+                                  />
+                                  <mat-error>{{ 'Please enter Subject Name' | translate }}</mat-error>
+                                </mat-form-field>
+                              </div>
+
+                              <ng-template #elseBlock>
+                                <ng-container formGroupName="add_subject_transversal_block">
+                                  <div class="p-grid mt-1rem">
+                                    <mat-form-field color="accent" class="p-col-7" style="padding: 0em">
+                                      <mat-label>{{ 'Select subject' | translate }}</mat-label>
+                                      <mat-select
+                                        formControlName="subject_transversal_block_name"
+                                        (selectionChange)="selectTransversalSubject($event, blockIndex, subjectIndex)"
+                                      >
+                                        <mat-option
+                                          class="black-option"
+                                          *ngFor="let subject of transversalSubjectList"
+                                          [value]="subject.subject_name"
+                                        >
+                                          {{ subject.subject_name }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </div>
+                                </ng-container>
+                              </ng-template>
+
+                              <div class="p-grid" *ngIf="!blockFormArray.at(blockIndex).get('transversal_block').value">
+                                <!-- <div class="p-col-5 label-align-end" style="padding-left: 0em">
+                                  <p style="font-size: 12px">{{ 'Minimum Score to Pass this subject' | translate }}:</p>
+                                </div>
+                                <div class="p-col-2" style="align-self: center">
+                                  <mat-form-field color="accent" class="full-width">
+                                    <input
+                                      matInput
+                                      formControlName="minimum_score_for_certification"
+                                      (keyup)="validateSubjectScore(blockIndex, subjectIndex)"
+                                      type="number"
+                                      max="1000"
+                                      required
+                                      placeholder="{{ 'Score' | translate }}"
+                                    />
+                                    <mat-error>{{ 'This Field only accept numeric' | translate }}</mat-error>
+                                  </mat-form-field>
+                                </div> -->
+                                <div class="p-col-2" *ngIf="subTypeEvaluation === 'mark'">
+                                  <mat-form-field color="accent" class="full-width">
+                                    <input
+                                      matInput
+                                      formControlName="coefficient"
+                                      (keyup)="validateSubjectCoefficient(blockIndex, subjectIndex)"
+                                      type="number"
+                                      max="1000"
+                                      placeholder="{{ 'Coefficient' | translate }}"
+                                      required
+                                    />
+                                    <mat-error>{{ 'Coeficient is Required' | translate }}</mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div
+                                  class="p-col-2"
+                                  *ngIf="subTypeEvaluation === 'point_weight' || subTypeEvaluation === 'point_coefficient'"
+                                >
+                                  <mat-form-field color="accent" class="full-width">
+                                    <input
+                                      matInput
+                                      formControlName="max_point"
+                                      (focusout)="validateSubjectMaxPoint(blockIndex, subjectIndex)"
+                                      type="number"
+                                      min="0"
+                                      max="1000"
+                                      placeholder="{{ 'Max Point' | translate }}"
+                                      required
+                                    />
+                                    <mat-error
+                                      *ngIf="this.getSubjectArray(blockIndex).at(subjectIndex).get('max_point').hasError('required')"
+                                    >
+                                      {{ 'Maximum Point is Required' | translate }}
+                                    </mat-error>
+                                    <mat-error
+                                      *ngIf="this.getSubjectArray(blockIndex).at(subjectIndex).get('max_point').hasError('pattern')"
+                                    >
+                                      {{ 'This Field only accept numeric' | translate }}
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                                <div class="p-col-2">
+                                  <mat-form-field color="accent" class="full-width">
+                                    <input
+                                      matInput
+                                      formControlName="credit"
+                                      type="number"
+                                      max="1000"
+                                      placeholder="{{ 'ECTS Credit' | translate }}"
+                                    />
+                                  </mat-form-field>
+                                </div>
+                              </div>
+
+                              <div
+                                class="p-grid mt-2rem"
+                                *ngIf="!getSubjectArray(blockIndex).at(subjectIndex).get('is_subject_transversal_block').value"
+                              >
+                                <div class="p-col-12 align-right-button">
+                                  <button [disabled]="isWaitingForResponse" (click)="save()" mat-raised-button color="accent">
+                                    <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+                                  </button>
+                                  <button
+                                    mat-raised-button
+                                    class="margin-none"
+                                    color="accent"
+                                    (click)="addEvaluationFormArray(blockIndex, subjectIndex)"
+                                  >
+                                    <mat-icon class="mat-icon-default">add</mat-icon>
+                                    {{ 'Evaluation' | translate }}
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div
+                                class="p-grid"
+                                *ngIf="getSubjectArray(blockIndex).at(subjectIndex).get('is_subject_transversal_block').value"
+                              >
+                                <p style="font-size: 12px; margin-top: 30px">
+                                  {{
+                                    'Note: This subject is taken from transversal block. All evaluation will be taken as well, in case you want to modify the evaluation, please modify it in the transversal block in which this subject belong to'
+                                      | translate
+                                  }}
+                                </p>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+
+                        <!-- evaluation form section -->
+                        <mat-accordion
+                          [multi]="true"
+                          [displayMode]="flat"
+                          cdkDropList
+                          (cdkDropListDropped)="dropEval($event)"
+                          formArrayName="evaluations"
+                        >
+                          <mat-expansion-panel
+                            *ngFor="
+                              let eval of getSubjectArray(blockIndex).at(subjectIndex).get('evaluations').controls;
+                              let evalIndex = index
+                            "
+                            [formGroupName]="evalIndex"
+                            [expanded]="evaluationDisabled[evalIndex]"
+                            (closed)="closeEvalPanel(evalIndex)"
+                            (opened)="openEvalPanel(evalIndex)"
+                            cdkDrag
+                            [cdkDragDisabled]="evaluationDisabled[evalIndex]"
+                            class="panel-spacing"
+                          >
+                            <mat-expansion-panel-header class="panel-header-test">
+                              <mat-panel-title>
+                                <h4 style="color: white">
+                                  {{ getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('evaluation').value }}
+                                </h4>
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="p-grid">
+                              <div class="p-col-12 text-right panel-divider">
+                                <button
+                                  mat-icon-button
+                                  class="small-icon"
+                                  color="red"
+                                  (click)="removeEvaluationFormArray(blockIndex, subjectIndex, evalIndex)"
+                                >
+                                  <mat-icon>remove</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="p-grid">
+                              <div class="p-col-12">
+                                <mat-form-field class="full-width">
+                                  <input
+                                    matInput
+                                    formControlName="evaluation"
+                                    (focusout)="validateEvaluationName(blockIndex, subjectIndex, evalIndex)"
+                                    placeholder="{{ 'Evaluation Name' | translate }}"
+                                    [readonly]="
+                                      conditionData &&
+                                      conditionData[blockIndex]?.subjects[subjectIndex]?.evaluations[evalIndex]?.published_test_id
+                                        ?.is_published
+                                    "
+                                    required
+                                  />
+                                  <mat-error>
+                                    {{ 'Please enter the Evaluation Name' | translate }}
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="p-grid">
+                              <div class="p-col-8 label-align-end">
+                                <mat-form-field>
+                                  <mat-label>
+                                    {{ 'Select Type of Evaluation' | translate }}
+                                  </mat-label>
+                                  <mat-select
+                                    formControlName="type"
+                                    [disabled]="
+                                      conditionData &&
+                                      conditionData[blockIndex]?.subjects[subjectIndex]?.evaluations[evalIndex]?.published_test_id
+                                        ?.is_published
+                                    "
+                                    required
+                                  >
+                                    <mat-option *ngFor="let type of evaluationTyoe" [value]="type.value">
+                                      {{ 'TYPE.' + type.name | translate }}
+                                    </mat-option>
+                                  </mat-select>
+                                  <mat-error>
+                                    {{ 'This field is required' | translate }}
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="p-col-2">
+                                <mat-form-field
+                                  class="full-width"
+                                  style="margin-top: 0.76rem"
+                                  matTooltip="{{ 'COEF_GENERATE_POINT' | translate }}"
+                                  matTooltipPosition="above"
+                                  *ngIf="subTypeEvaluation === 'point_coefficient'"
+                                >
+                                  <input
+                                    (keyup)="validateEvaCoefficient(blockIndex, subjectIndex, evalIndex)"
+                                    matInput
+                                    formControlName="coefficient"
+                                    type="number"
+                                    max="1000"
+                                    placeholder="{{ 'Coefficient' | translate }}"
+                                    required
+                                  />
+                                  <mat-error>{{ 'Coeficient is Required' | translate }}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field
+                                  class="full-width"
+                                  style="margin-top: 0.76rem"
+                                  *ngIf="subTypeEvaluation === 'point_weight' || subTypeEvaluation === 'mark'"
+                                >
+                                  <input
+                                    matInput
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    placeholder="{{ 'Weight' | translate }}"
+                                    formControlName="weight"
+                                    (focusout)="validateEvalWeight(blockIndex, subjectIndex, evalIndex)"
+                                    pattern="^[0-9]+(\.[0-9]{1,2})?$|^100$"
+                                    required
+                                  />
+                                  <mat-error
+                                    *ngIf="
+                                      getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('weight').hasError('required')
+                                    "
+                                  >
+                                    {{ 'This field is required' | translate }}
+                                  </mat-error>
+                                  <mat-error
+                                    *ngIf="getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('weight').hasError('pattern')"
+                                  >
+                                    {{ 'Weight total of all ecaluation must not exceed 100%' | translate }}
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <!-- <div class="p-grid">
+                              <div class="p-col-8 label-align-end">
+                                <p>{{ 'Minimum Score to Pass this Evaluation' | translate }}</p>
+                              </div>
+                              <mat-form-field class="full-width" style="width: 15%; margin-left: 0.5rem">
+                                <input
+                                  matInput
+                                  type="number"
+                                  pattern="^[0-9]+(\.[0-9]{1,2})?$"
+                                  min="0"
+                                  max="1000"
+                                  (keyup)="validateEvalMinScore(blockIndex, subjectIndex, evalIndex)"
+                                  formControlName="minimum_score"
+                                />
+                                <mat-error
+                                  *ngIf="
+                                    getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('minimum_score').hasError('pattern')
+                                  "
+                                  >{{ 'This Field only accept numeric' | translate }}</mat-error
+                                >
+                              </mat-form-field>
+                            </div> -->
+                            <div class="p-grid">
+                              <div class="p-col-4 label-align-end">
+                                <p>{{ 'Result Visibility' | translate }}*</p>
+                              </div>
+                              <mat-form-field class="full-width p-col-8">
+                                <mat-select class="result-visibility" required formControlName="result_visibility" required>
+                                  <mat-option *ngFor="let type of resultVisibility" [value]="type.value">
+                                    {{ type.name | translate }}
+                                  </mat-option>
+                                  <!-- <mat-option value="after_correction">
+                                    {{ 'Visible after Correction Finish' | translate }}
+                                  </mat-option>
+                                  <mat-option value="after_jury_decision">
+                                    {{ 'Visible after Jury Decission for Final Transcript is Finish' | translate }}
+                                  </mat-option>
+                                  <mat-option value="never_visible">
+                                    {{ 'Never Visible to Student' | translate }}
+                                  </mat-option> -->
+                                </mat-select>
+                                <mat-error>
+                                  {{ 'This field is required' | translate }}
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <fieldset class="small-text-fieldset" style="margin-top: 1rem; padding-bottom: 1.5rem">
+                              <legend class="legend-label">{{ 'Parallel Intake' | translate }}</legend>
+                              <div class="p-grid">
+                                <div class="p-col-12">
+                                  <mat-slide-toggle
+                                    formControlName="parallel_intake"
+                                    color="accent"
+                                    (change)="changeParallelIntake($event, blockIndex, subjectIndex, evalIndex)"
+                                  >
+                                    {{ 'Field is Parallel Intake' | translate }}
+                                  </mat-slide-toggle>
+                                </div>
+                              </div>
+                              <div
+                                class="p-grid"
+                                *ngIf="getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('parallel_intake').value"
+                              >
+                                <div class="p-col-8 label-align-end">
+                                  <p>{{ 'Automatic Score for Parallel Intake student' | translate }}*</p>
+                                </div>
+                                <div class="p-col-2">
+                                  <mat-form-field class="full-width">
+                                    <input
+                                      matInput
+                                      type="number"
+                                      max="1000"
+                                      pattern="^[0-9]$|^0[1-9]$|^1[0-9]$|^20$"
+                                      required
+                                      formControlName="auto_mark"
+                                    />
+                                    <span matSuffix>/20</span>
+                                    <mat-error
+                                      *ngIf="
+                                        getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('auto_mark').hasError('required')
+                                      "
+                                    >
+                                      {{ 'Automatic Score is required' | translate }}
+                                    </mat-error>
+                                    <mat-error
+                                      *ngIf="
+                                        getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('auto_mark').hasError('pattern')
+                                      "
+                                    >
+                                      {{ 'Automatic Score must not exceed 20' | translate }}
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </fieldset>
+
+                            <!-- Retake During the Year section -->
+                            <fieldset
+                              class="small-text-fieldset mt-1rem"
+                              *ngIf="displayRetakeDuringTheYear(blockIndex, subjectIndex, evalIndex)"
+                            >
+                              <legend class="legend-label">{{ 'Retake During the Year' | translate }}</legend>
+                              <div class="p-grid">
+                                <div class="p-col-12">
+                                  <mat-slide-toggle
+                                    color="accent"
+                                    formControlName="retake_during_the_year"
+                                    (change)="changeRetakeDuringTheYear($event, blockIndex, subjectIndex, evalIndex)"
+                                  >
+                                    {{ 'Enable Retake During the year for this Evaluation' | translate }}
+                                  </mat-slide-toggle>
+                                </div>
+                              </div>
+                              <ng-container
+                                *ngIf="getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('retake_during_the_year').value"
+                              >
+                                <div class="p-grid">
+                                  <div class="p-col-6 v-pad-none label-align-end">
+                                    <p>{{ 'Student Eligible for Retake Test' | translate }}*</p>
+                                  </div>
+                                  <div class="p-col-2 v-pad-none">
+                                    <mat-form-field class="witdh-55">
+                                      <span matPrefix>&le; &nbsp;</span>
+                                      <input
+                                        type="number"
+                                        matInput
+                                        max="1000"
+                                        formControlName="student_eligible_to_join"
+                                        pattern="^[0-9]$|^0[1-9]$|^1[0-9]$|^20$"
+                                        required
+                                      />
+                                      <span class="fn-14" matSuffix>/20</span>
+                                      <mat-error
+                                        *ngIf="
+                                          getEvaluationFormArray(blockIndex, subjectIndex)
+                                            .at(evalIndex)
+                                            .get('student_eligible_to_join')
+                                            .hasError('required')
+                                        "
+                                      >
+                                        {{ 'This field is mandatory' | translate }}
+                                      </mat-error>
+                                      <mat-error
+                                        *ngIf="
+                                          getEvaluationFormArray(blockIndex, subjectIndex)
+                                            .at(evalIndex)
+                                            .get('student_eligible_to_join')
+                                            .hasError('pattern')
+                                        "
+                                      >
+                                        {{ 'This field must not exceed 20' | translate }}
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="p-grid">
+                                  <div class="p-col-6">
+                                    <mat-checkbox formControlName="retake_when_absent_justified">
+                                      {{ 'Absence is Justified' | translate }}
+                                    </mat-checkbox>
+                                  </div>
+                                  <div class="p-col-4">
+                                    <mat-checkbox formControlName="retake_when_absent_not_justified">
+                                      {{ 'Absence is Not Justified' | translate }}
+                                    </mat-checkbox>
+                                  </div>
+                                </div>
+                                <div class="p-grid mt-1rem">
+                                  <div class="p-col-12">
+                                    <mat-slide-toggle
+                                      color="accent"
+                                      formControlName="use_different_notation_grid"
+                                      (change)="changeUseDifferentNotationGrid($event, blockIndex, subjectIndex, evalIndex)"
+                                    >
+                                      {{ 'Use Different Evaluation for Retake' | translate }}
+                                    </mat-slide-toggle>
+                                  </div>
+                                </div>
+                                <div
+                                  class="p-grid"
+                                  formGroupName="retake_evaluation"
+                                  *ngIf="
+                                    getEvaluationFormArray(blockIndex, subjectIndex).at(evalIndex).get('use_different_notation_grid').value
+                                  "
+                                >
+                                  <div class="p-col-6 padding-top-none">
+                                    <mat-form-field class="full-width">
+                                      <input
+                                        placeholder="{{ 'Retake Evaluation Name' | translate }}"
+                                        matInput
+                                        formControlName="evaluation"
+                                        required
+                                      />
+                                      <mat-error>
+                                        {{ 'This field is mandatory' | translate }}
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="p-col-6 padding-top-none">
+                                    <mat-form-field class="full-width">
+                                      <mat-label>{{ 'Select Type of Evaluation' | translate }}</mat-label>
+                                      <mat-select formControlName="type" required>
+                                        <mat-option value="Oral">{{ 'PARAMETERS-RNCP.TEST.TYPE.Oral' | translate }}</mat-option>
+                                        <mat-option value="Written">{{ 'PARAMETERS-RNCP.TEST.TYPE.Written' | translate }}</mat-option>
+                                        <mat-option value="Memoire - ECRIT">{{
+                                          'PARAMETERS-RNCP.TEST.TYPE.Memoire-ECRIT' | translate
+                                        }}</mat-option>
+                                      </mat-select>
+                                      <mat-error>
+                                        {{ 'Please select one!' | translate }}
+                                      </mat-error>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </fieldset>
+
+                            <!-- Retake By Block section -->
+                            <fieldset class="small-text-fieldset mt-1rem" *ngIf="hasConnectedRetakeByBlock(blockIndex)">
+                              <legend class="legend-label">{{ 'Retake By Block' | translate }}</legend>
+                              <div class="p-grid">
+                                <div class="p-col-12">
+                                  <mat-slide-toggle
+                                    color="accent"
+                                    (change)="changeScoreNotCalculatedForRetakeBlock(blockIndex, subjectIndex, evalIndex)"
+                                    formControlName="score_not_calculated_for_retake_block"
+                                  >
+                                    <span
+                                      [ngStyle]="{
+                                        color: getEvaluationFormArray(blockIndex, subjectIndex)
+                                          .at(evalIndex)
+                                          .get('score_not_calculated_for_retake_block').value
+                                          ? '#fdd835'
+                                          : 'white'
+                                      }"
+                                    >
+                                      {{
+                                        getEvaluationFormArray(blockIndex, subjectIndex)
+                                          .at(evalIndex)
+                                          .get('score_not_calculated_for_retake_block').value
+                                          ? ('Score calculated for the Retake Block' | translate)
+                                          : ('Score NOT calculated for the Retake Block' | translate)
+                                      }}</span
+                                    >
+                                  </mat-slide-toggle>
+                                </div>
+                              </div>
+                              <div class="p-grid">
+                                <div class="p-col-12">
+                                  <mat-slide-toggle
+                                    color="accent"
+                                    (change)="changeConnectEvaluationRetakeBlock($event, blockIndex, subjectIndex, evalIndex)"
+                                    formControlName="test_is_not_retake_able_in_retake_block"
+                                  >
+                                    <span
+                                      [ngStyle]="{
+                                        color: getEvaluationFormArray(blockIndex, subjectIndex)
+                                          .at(evalIndex)
+                                          .get('test_is_not_retake_able_in_retake_block').value
+                                          ? '#fdd835'
+                                          : 'white'
+                                      }"
+                                    >
+                                      {{
+                                        getEvaluationFormArray(blockIndex, subjectIndex)
+                                          .at(evalIndex)
+                                          .get('test_is_not_retake_able_in_retake_block').value
+                                          ? ('Retake block connected to this block' | translate)
+                                          : ('No retake block connected to this block' | translate)
+                                      }}
+                                    </span>
+                                  </mat-slide-toggle>
+                                </div>
+                              </div>
+                              <div
+                                class="p-grid"
+                                *ngIf="
+                                  getEvaluationFormArray(blockIndex, subjectIndex)
+                                    .at(evalIndex)
+                                    .get('test_is_not_retake_able_in_retake_block').value
+                                "
+                              >
+                                <div class="p-col-8 label-align-end" style="margin-left: 3rem">
+                                  <mat-form-field>
+                                    <mat-label>
+                                      {{ 'Select Evaluation in Retake Block' | translate }}
+                                    </mat-label>
+                                    <mat-select
+                                      formControlName="selected_evaluation_retake_block"
+                                      (selectionChange)="selectEvaluationRetakeBlock($event, blockIndex, subjectIndex, evalIndex)"
+                                      multiple
+                                      required
+                                    >
+                                      <ng-container
+                                        *ngFor="
+                                          let evaluation of this.evaluationRetakeBlockMap.get(
+                                            this.blockFormArray.at(blockIndex).get('_id').value
+                                          )
+                                        "
+                                      >
+                                        <mat-option
+                                          *ngIf="
+                                            !isRetakeEvaluationAlreadySelected(
+                                              blockIndex,
+                                              subjectIndex,
+                                              evalIndex,
+                                              evaluation?.selected_evaluation_retake_block
+                                            )
+                                          "
+                                          [value]="evaluation?.selected_evaluation_retake_block"
+                                        >
+                                          {{ evaluation?.selected_evaluation_retake_block_temp?.selected_evaluation_retake_block_name }}
+                                        </mat-option>
+                                      </ng-container>
+                                    </mat-select>
+                                    <mat-error>
+                                      {{ 'Please select evaluation from the retake block' | translate }}
+                                    </mat-error>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </fieldset>
+                            <div class="p-grid mt-2rem">
+                              <div class="p-col-12 align-right-button">
+                                <button
+                                  [disabled]="isWaitingForResponse"
+                                  (click)="save()"
+                                  mat-raised-button
+                                  class="margin-none"
+                                  color="accent"
+                                >
+                                  <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+                                </button>
+                              </div>
+                            </div>
+                          </mat-expansion-panel>
+                        </mat-accordion>
+                      </mat-expansion-panel>
+                    </mat-accordion>
+                  </ng-container>
+                </ng-container>
+              </mat-expansion-panel>
+
+              <!-- page break button to add page break -->
+              <div class="p-grid" style="margin-top: 0.1rem" *ngIf="!blockFormArray.at(blockIndex).get('page_break').value && !isLast">
+                <div class="p-col-12 align-right-button" style="margin-bottom: 0.5rem">
+                  <button (click)="addPageBreak(blockIndex)" mat-raised-button class="margin-none" color="primary">
+                    <mat-icon class="mat-icon-default">add</mat-icon>
+                    {{ 'Page Break' | translate }}
+                  </button>
+                </div>
+              </div>
+              <!-- page break panel to remove page break -->
+              <mat-expansion-panel *ngIf="blockFormArray.at(blockIndex).get('page_break').value" disabled hideToggle class="panel-spacing">
+                <mat-expansion-panel-header [collapsedHeight]="'30px'" style="padding: 0">
+                  <mat-panel-title class="page-break-title">
+                    <span> PAGE BREAK </span>
+                  </mat-panel-title>
+                  <mat-panel-description style="justify-content: flex-end; flex-grow: 0; margin: 0">
+                    <button (click)="removePageBreak(blockIndex)" mat-icon-button class="small-icon" color="red">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+              </mat-expansion-panel>
+            </ng-container>
+          </mat-accordion>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-6">
+    <ms-condition-score-preview
+      #conditionPdf
+      [className]="className"
+      [titleName]="titleName"
+      [titleLongName]="titleLongName"
+      [competency]="conditionOfAwardForm.get('block_of_competence_condition_input').value"
+      [markPointStatus]="subTypeEvaluation === 'point_weight' || subTypeEvaluation === 'point_coefficient'"
+      [maxPoint]="evaMaxPoint"
+      [isPreviewFor]="'score'"
+      [subTypeEvaluation]="subTypeEvaluation"
+    >
+    </ms-condition-score-preview>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

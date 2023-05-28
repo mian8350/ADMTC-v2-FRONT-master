@@ -1,0 +1,148 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+.form-field {
+  margin-top: 6px;
+}
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        width: 8rem;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 13%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 13%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 12%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 15%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          padding-top: 6px;
+          width: 80%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: auto;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(7) {
+        width: 10%;
+        text-align: center !important;
+        .mat-form-field {
+          width: 80%;
+        }
+      }
+
+      &:nth-child(8) {
+        width: 12%;
+        padding-right: 0 !important;
+        vertical-align: middle;
+        text-align: center;
+        .mat-form-field {
+          width: 60%;
+        }
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.left-margin {
+  margin-left: 3%;
+}
+
+:host ::ng-deep .swal2-checkbox label,
+.swal2-radio label {
+  font-size: 1em !important;
+}
+
+.color {
+  color: $black !important;
+}
+
+.no-records {
+    background-color: #424242;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-right: 1px solid #545454;
+    border-bottom: 1px solid #545454;
+}

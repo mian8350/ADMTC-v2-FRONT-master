@@ -1,0 +1,44 @@
+<div class="p-grid p-justify-end search-title-row">
+  <div class="p-col content-end add-rncp-button">
+    <div class="search-btn add-rncp-button">
+      <button mat-raised-button color="primary" (click)="resetSearch()">{{ 'All Schools' | translate }}</button>
+    </div>
+    <div class="search-field add-rncp-button">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="{{ 'search' | translate }}" [formControl]="searchForm" />
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div fxLayout="row wrap" class="center-card" *ngIf="filteredSchoolList" style="margin-top: 2rem;">
+    <div *ngFor="let data of filteredSchoolList" class="card-spacing">
+      <mat-card class="rncp-title-tile">
+        <mat-card-content class="first text-center" (click)="goToTitleDashBoard(data)">
+          <div class="text-center">
+            <img
+              class="img-responsive img-circle"
+              [src]="data.logo ? data.logo : defaultSchoolIcon"
+              width="150"
+              height="150"
+            />
+          </div>
+  
+          <div class="divider-line-container">
+            <mat-divider></mat-divider>
+          </div>  
+  
+          <h5 style="height: auto; max-height: 30%;">
+            <b class="test" style="font-size: 28px;" matTooltip="{{ data.short_name }}" matTooltipPosition="above">
+              {{ data.short_name }}
+            </b>
+          </h5>
+          
+          
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,153 @@
+@import '../../../../assets/scss/bootstrap';
+
+.segment-name {
+  border-bottom: 3px solid white;
+  padding-bottom: 10px;
+}
+
+.header {
+  overflow-wrap: anywhere;
+}
+
+label {
+  font-size: 12px;
+}
+
+.form-select {
+  width: 100%;
+  height: 2.2em;
+  border-radius: 5px;
+  color: black;
+  background-color: #eeeeee;
+}
+
+input[disabled] + mat-datepicker-toggle.mat-datepicker-toggle {
+  visibility: hidden;
+}
+
+input[readonly] + mat-datepicker-toggle.mat-datepicker-toggle {
+  background: #eee;
+}
+
+mat-datepicker-toggle.mat-datepicker-toggle {
+  position: absolute;
+  right: 8px;
+  top: 2px;
+  color: black;
+  background: white;
+}
+
+.form-group {
+  position: relative;
+  width: 100% !important;
+}
+
+.full-width {
+  width: 66.67%;
+
+  .p-grid {
+    .p-col-4 {
+      width: 25% !important;
+    }
+
+    .p-col-8 {
+      width: 50% !important;
+    }
+  }
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.right-end {
+  margin-left: auto;
+}
+
+.left-end {
+  margin-right: auto;
+}
+
+.half-width {
+  width: 50%;
+}
+
+.p-col-3 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-wrap: anywhere;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  background-color: white !important;
+  color: black !important;
+}
+
+:host ::ng-deep .mat-radio-label-content {
+  max-width: 12rem;
+  padding-right: 0;
+  white-space: break-spaces;
+  font-size: 14px;
+}
+
+:host ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  line-height: 24px;
+  max-width: 12rem;
+  white-space: break-spaces;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.btn-time {
+  position: absolute;
+  top: -3px;
+  right: 0;
+}
+
+.custom-error {
+  color: red;
+}
+
+.long-text {
+  width: 100%;
+}
+
+.parent-child-input-group {
+  display: flex;
+  margin-top: 10px;
+  
+  label {
+    flex: 1;
+  }
+
+  div {
+    flex: 2;
+  }
+}
+
+:host ::ng-deep .form-ng-select.ng-select .ng-select-container {
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 0px !important;
+}
+
+.form-ng-select {
+  background-color: rgb(238,238,238) !important;
+  color: black !important;
+  border-radius: 5px !important;
+}
+
+:host::ng-deep.ng-select.form-ng-select .ng-select-container .ng-value-container .ng-value .ng-value-label {
+  color: black !important;
+  padding-left: 10px;
+}
+
+:host::ng-deep.ng-select .ng-dropdown-panel{
+  width: auto !important;
+}

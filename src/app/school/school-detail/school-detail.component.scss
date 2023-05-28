@@ -1,0 +1,336 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.no-image {
+  height: 200px;
+  background-color: #6f6f6f;
+  line-height: 200px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  width: 173px;
+}
+
+.imgContainer {
+  width: auto;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  background-color: transparent;
+}
+
+.imgContainer:hover .overlay {
+  opacity: 1;
+}
+
+.school-details-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.text {
+  width: 165px;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  margin-left: 0;
+}
+
+.overlay {
+  position: absolute;
+  // top: 7px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  width: 173px;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+  cursor: pointer;
+}
+
+.logo-img-wrapper {
+  height: 200px;
+  background-color: #6f6f6f;
+  margin: auto;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  margin-left: 0px;
+  width: 173px;
+}
+
+.center-image {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 3px;
+}
+
+.card-row {
+  padding: 8px;
+}
+
+.balance-dropdown {
+  margin-top: 8px;
+}
+
+.save-button-section {
+  margin-top: 3rem;
+}
+
+.school-detail-fieldset {
+  margin-top: 0.5rem;
+  margin-bottom: 6rem;
+}
+
+.rncp-title-fieldset {
+  margin-top: 3rem;
+  margin-bottom: 6rem;
+}
+
+.image-text {
+  font-size: larger;
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+.logo-spinner-wrapper {
+  height: 200px;
+  width: auto;
+  background-color: #6f6f6f;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+
+.border-white {
+  border: 1px solid white;
+}
+
+.text-bold {
+  display: flex;
+  align-items: flex-end;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        width: 17%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(2) {
+        width: auto;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(3) {
+        width: 30%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(4) {
+        width: 11%;
+        padding-left: 0 !important;
+        text-align: center !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(5) {
+        width: 10%;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center !important;
+      }
+      
+      &:nth-child(6) {
+        width: 10%;
+        min-width: 80px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        text-align: center !important;
+      }
+    }
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+    th {
+      vertical-align: top;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  .action-header-column {
+    vertical-align: middle !important;
+    padding-right: 0 !important;
+    .p-grid {
+      margin-top: unset !important;
+    }
+  }
+}
+
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.pc-section {
+  width: 50%;
+  text-align: right;
+  padding-right: 5px;
+  display: inline-block;
+}
+
+.cr-section {
+  width: 50%;
+  text-align: left;
+  display: inline-block;
+}
+
+// .logo-section {
+//   width: 100%;
+//   text-align: center;
+//   display: inline-block;
+// }
+
+.spinner-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  background-color: #3a3a3a85;
+}
+.logo-section {
+  padding-left: 5px;
+  // width: 180px;
+  display: inline;
+  position: relative;
+}
+.text-logo-section {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+.ml-0 {
+  margin-left: 0px;
+}
+.m-auto {
+  margin: 0 auto;
+}
+.p-top-8 {
+  padding-top: 8px;
+}
+
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+
+:host ::ng-deep body .app-dark .mat-form-field-appearance-legacy .mat-form-field-label {
+  color: #cacaca !important;
+}
+:host ::ng-deep mat-input-element {
+  color: white !important;
+}
+.pad-top-30 {
+  padding-top: 30px;
+}
+.text-white {
+  color: white !important;
+}
+.pc-section {
+  width: 50%; 
+  text-align: right; 
+  padding-right: 5px; 
+  display: inline-block;
+}
+
+.cr-section {
+  width: 50%; 
+  text-align: left; 
+  display: inline-block;
+}
+
+.buttonContainer {
+  width: 172px;
+  text-align: center;
+}
+
+.questionMarkSpan {
+  margin: 0px;
+  padding: 0px !important;
+  margin-left: 10px !important;
+  margin-top: 10px !important;
+  line-height: 16px;
+  width: 16px !important;
+  min-width: 16px;
+  cursor: pointer;
+}

@@ -1,0 +1,41 @@
+.header-form {
+  padding: 18px;
+}
+
+.footer-form {
+  padding: 0px 18px 18px 18px;
+}
+
+.not-empty-select.mat-selected {
+  color: #37474F !important;
+}
+
+.selectDrop{
+  padding-bottom: 1.25em;
+}
+
+// .ng-dropdown-panel .ng-dropdown-panel-items {
+//   max-height: 70px !important;
+// }
+
+:host::ng-deep .ng-select.custom  .ng-select-container  {            
+  min-height: 0px;
+  border-radius: 0;
+  max-height: 200px;
+}
+
+:host::ng-deep .ng-dropdown-panel .ng-dropdown-panel-items {
+  display: block;
+  height: auto;
+  box-sizing: border-box;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+:host::ng-deep .ng-select.max-width .ng-dropdown-panel {
+  width: 100% !important;
+}
+
+.pad-b-10 {
+  padding-bottom: 10px !important;
+}

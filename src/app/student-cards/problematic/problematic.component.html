@@ -1,0 +1,30 @@
+<div class="p-grid">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <mat-card *ngIf="problematicData" class="pad-right-none">
+      <ng-container *ngIf="isImported">
+        <ms-imported-problematic-form
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [classId]="classId"
+          [titleId]="titleId"
+          [historyData]="historyData"
+          [problematicId]="problematicData._id"
+          [studentPrevCourseData]="studentPrevCourseData"
+        >
+        </ms-imported-problematic-form>
+      </ng-container>
+      <ng-container *ngIf="!isImported" class="pad-right-none">
+        <ms-new-problematic-form
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [classId]="classId"
+          [historyData]="historyData"
+          [titleId]="titleId"
+          [problematicId]="problematicData._id"
+          [studentPrevCourseData]="studentPrevCourseData"
+        >
+        </ms-new-problematic-form>
+      </ng-container>
+    </mat-card>
+  </div>
+</div>

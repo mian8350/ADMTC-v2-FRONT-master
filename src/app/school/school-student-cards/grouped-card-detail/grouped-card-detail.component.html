@@ -1,0 +1,211 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #studentMatGroup>
+  <ng-container>
+    <mat-tab label="Identity" *ngIf="permissionService.showParentIdentityTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Identity' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-parent-identity-tab
+          [schoolId]="schoolId"
+          [studentId]="studentId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [openFromPrevCourseDetail]="openFromPrevCourseDetail"
+          (goNextTab)="continue($event)"
+          [selectedSubTab]="selectedSubTab"
+          [isStatusStudent]="isStatusStudent"
+        ></ms-parent-identity-tab>
+      </ng-template>
+    </mat-tab>
+  </ng-container>
+  <ng-container *ngIf="isStatusStudent !== 'deactivated' && isStatusStudent !== 'suspended'">
+    <mat-tab label="Admission" *ngIf="permissionService.showParentAdmissionTabStudentCardPerm() && isOpenMentor">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Admission' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-parent-admission-tab
+          [schoolId]="schoolId"
+          [studentId]="studentId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [openFromPrevCourseDetail]="openFromPrevCourseDetail"
+          (goNextTab)="continue($event)"
+          [selectedSubTab]="selectedSubTab"
+        ></ms-parent-admission-tab>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Company" *ngIf="permissionService.showParentCompanyTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Company' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-parent-company-tab
+          [schoolId]="schoolId"
+          [studentId]="studentId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [openFromPrevCourseDetail]="openFromPrevCourseDetail"
+          (goNextTab)="continue($event)"
+          [selectedSubTab]="selectedSubTab"
+        ></ms-parent-company-tab>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Documents" *ngIf="permissionService.showParentDocumentTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'DOCUMENT.DOCUMENTS' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-parent-documents-tab
+          [schoolId]="schoolId"
+          [studentId]="studentId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [openFromPrevCourseDetail]="openFromPrevCourseDetail"
+          (goNextTab)="continue($event)"
+          [selectedSubTab]="selectedSubTab"
+        ></ms-parent-documents-tab>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Certifications" *ngIf="permissionService.showParentCertificationTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Certification' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-parent-certification-tab
+          [schoolId]="schoolId"
+          [studentId]="studentId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [openFromPrevCourseDetail]="openFromPrevCourseDetail"
+          (goNextTab)="continue($event)"
+          [selectedSubTab]="selectedSubTab"
+        ></ms-parent-certification-tab>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="EmployabilitySurvey" *ngIf="permissionService.showEmpSurveyTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Employability Survey' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-employability-survey
+          [studentId]="studentId"
+          [schoolId]="schoolId"
+          [studentPrevCourseData]="studentPrevCourseData"
+          [currentTitleId]="titleId"
+          [currentClassId]="classId"
+        ></ms-employability-survey>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Commentaries" *ngIf="permissionService.showCommentTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Commentaries' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-commentaries [studentId]="studentId" #commentaries></ms-commentaries>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Mailbox" *ngIf="permissionService.showMailboxTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Mailbox' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <mat-tab-group class="mailbox">
+          <mat-tab label="Inbox" *ngIf="permissionService.showInboxInMailboxTabStudentCardPerm()">
+            <ng-template mat-tab-label>
+              <div class="inbox-tab">
+                <i class="fa fa-inbox"></i>
+                <h4>{{ 'MailBox.INBOX' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-mailbox [isStudentUserCard]="true" [studentId]="studentId"></ms-mailbox>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Cc">
+            <ng-template mat-tab-label>
+              <div class="cc-tab">
+                <i class="fa fa-inbox"></i>
+                <h4>{{ 'MailBox.CC' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-cc [isStudentUserCard]="true" [studentId]="studentId"></ms-cc>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Sent" *ngIf="permissionService.showSentInMailboxTabStudentCardPerm()">
+            <ng-template mat-tab-label>
+              <div class="sent-tab">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h4>{{ 'MailBox.SENT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-sent [isStudentUserCard]="true" [studentId]="studentId"></ms-sent>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Important" *ngIf="permissionService.showImportantInMailboxTabStudentCardPerm()">
+            <ng-template mat-tab-label>
+              <div class="important-tab">
+                <i class="fa fa-hand-paper-o"></i>
+                <h4>{{ 'MailBox.IMPORTANT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-important [isStudentUserCard]="true" [studentId]="studentId"></ms-important>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Draft" *ngIf="permissionService.showDraftInMailboxTabStudentCardPerm()">
+            <ng-template mat-tab-label>
+              <div class="draft-tab">
+                <i class="fa fa-archive"></i>
+                <h4>{{ 'MailBox.DRAFT' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-draft [isStudentUserCard]="true" [studentId]="studentId"></ms-draft>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Trash" *ngIf="permissionService.showTrashInMailboxTabStudentCardPerm()">
+            <ng-template mat-tab-label>
+              <div class="trash-tab">
+                <i class="fa-solid fa-trash-can"></i>
+                <h4>{{ 'MailBox.TRASH' | translate }}</h4>
+              </div>
+            </ng-template>
+            <ng-template matTabContent>
+              <ms-trash [isStudentUserCard]="true" [studentId]="studentId"></ms-trash>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Tasks" *ngIf="permissionService.showTaskTabStudentCardPerm()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Tasks' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-task [isFromStudentCard]="true" [passedStudentId]="studentId"></ms-task>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Field From Survey">
+      <ng-template mat-tab-label>
+        <h5>{{ 'Field From Survey' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-question-field-tab [studentId]="studentId"></ms-question-field-tab>
+      </ng-template>
+    </mat-tab>
+  </ng-container>
+</mat-tab-group>

@@ -1,0 +1,72 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+:host ::ng-deep ng-select.ng-invalid.ng-touched .ng-select-container {
+  border-color: #dc3545 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px #fde6e8 !important;
+}
+
+.icon-style{
+    vertical-align: middle;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+  padding: 0px !important;
+}
+
+:host ::ng-deep{
+    .mat-dialog-content{
+      height: 80vh !important;
+      max-height: 80vh;
+    }
+  }
+  
+  :host ::ng-deep .ck-editor__editable_inline {
+    height: 40vh;
+    color: black;
+}
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+:host::ng-deep.mat-form-field-outline-thick {
+  height: 40px !important;
+}
+:host::ng-deep.mat-form-field-outline {
+  height: 40px !important;
+}
+
+.cursorStyle{
+  cursor: pointer;
+}
+
+.floatRight{
+  float: right;
+}
+
+.fileInfo{
+  width: fit-content !important;
+  margin: 5px !important;
+  display: inline-block !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07)
+}
+.chip-list {
+  width: 100%;
+}

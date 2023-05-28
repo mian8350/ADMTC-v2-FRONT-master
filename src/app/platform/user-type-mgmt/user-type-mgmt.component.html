@@ -1,0 +1,640 @@
+<mat-card *ngIf="!AddNewStatus">
+  <mat-card-header>
+    <mat-card-title>
+      <div class="spacing">
+        <h3>{{ 'PLATFORM.USERTYPEMGMT' | translate }}</h3>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="horizontal">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="reset">
+          <th mat-header-cell *matHeaderCellDef colspan="14" class="action-header-column" style=" text-align: right !important;">
+            <button mat-raised-button color="primary" (click)="filterReset()">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+            <button mat-raised-button color="accent" (click)="addScholarSeason()">
+              <mat-icon class="mat-icon-default">add</mat-icon>
+              {{ 'Add New User Type' | translate }}
+            </button>
+          </th>
+        </ng-container>
+        <ng-container matColumnDef="nameFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+            </mat-form-field>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="entityFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="entityFilter" placeholder="{{ 'search' | translate }}" />
+            </mat-form-field>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="systemTypesFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="systemTypesFilter">
+              <mat-option [value]="option" *ngFor="let option of systemTypesFilterList">{{ 'USER_TYPE.' + option | translate }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="mgmtFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="managementFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="questionnaireTypeFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="questionnaireTypeFilter" placeholder="{{ 'search' | translate }}" />
+            </mat-form-field>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="epreuvesFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="epreuvesFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="outilsFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="outilsFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="communicationFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="communicationFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="examensFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="examensFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="organisationFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="organisationFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="programmeFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="programmeFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="certificationFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="certificationFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="archivesFilter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-select [formControl]="archivesFilter">
+              <mat-option *ngFor="let option of operationList" [value]="option.value">{{
+                'USER_TYPE.' + option.label | translate
+              }}</mat-option>
+            </mat-select>
+          </th>
+        </ng-container>
+
+        <ng-container matColumnDef="actionFilter">
+          <th mat-header-cell *matHeaderCellDef></th>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Type Utilisateur' | translate }}">
+            <h5 mat-sort-header="name">{{ 'Type Utilisateur' | translate }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.name }}">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="entity">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Entity' | translate }}">
+            <h5 mat-sort-header="entity">{{ 'Entity' | translate }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.entity }}">{{ element.entity }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="systemTypes">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'System Type' | translate }}">
+            <h5>
+              {{ 'System Type' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="mgmt">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Student Management' | translate }}">
+            <h5>
+              {{ 'Student Management' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.mgmt }}">{{ element.mgmt }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="questionnaireType">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ADMISSIONS' | translate }}">
+            <h5>
+              {{ 'ADMISSIONS' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.questionnaireType }}">{{ element.questionnaireType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="epreuves">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ANNALES EPREUVES' | translate }}">
+            <h5>
+              {{ 'ANNALES EPREUVES' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.epreuves }}">{{ element.epreuves }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="outils">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'BOITE A OUTILS' | translate }}">
+            <h5>
+              {{ 'BOITE A OUTILS' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.outils }}">{{ element.outils }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="communication">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Communication' | translate }}">
+            <h5>
+              {{ 'Communication' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.communication }}">{{ element.communication }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="examens">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Examens' | translate }}">
+            <h5>{{ 'Examens' | translate | truncate: [4] }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.examens }}">{{ element.examens }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="organisation">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ORGANISATION' | translate }}">
+            <h5>
+              {{ 'ORGANISATION' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.organisation }}">{{ element.organisation }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="programme">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'PROGRAMME' | translate }}">
+            <h5>{{ 'PROGRAMME' | translate | truncate: [4] }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.programme }}">{{ element.programme }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="certification">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EPREUVES CERTIFICATION' | translate }}">
+            <h5>
+              {{ 'EPREUVES CERTIFICATION' | translate | truncate: [4] }}
+            </h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.certification }}">{{ element.certification }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="archives">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ARCHIVES' | translate }}">
+            <h5>{{ 'ARCHIVES' | translate | truncate: [4] }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element" matTooltip="{{ element.archives }}">{{ element.archives }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}">
+            <h5>{{ 'Action' | translate }}</h5>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              class="margin-right-button"
+              matTooltip="{{ 'View - Edit' | translate }}"
+              (click)="EditUserType(element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Delete' | translate }}">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator?.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="AddNewStatus">
+  <form [formGroup]="form">
+    <mat-card-content>
+      <h5>Add New User Type</h5>
+      <div fxLayout="row" fxLayoutWrap="wrap">
+        <div fxFlex="50" fxFlex.lt-md="50">
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <div class="px-1" style="width: 100%">
+              <mat-form-field style="width: 100%">
+                <input
+                  matInput
+                  type="text"
+                  [formControl]="form.controls['name']"
+                  [readonly]="disableElement"
+                  [placeholder]="'SETTINGS.USERTYPES.USERTYPE.title' | translate"
+                />
+                <mat-error
+                        *ngIf="form.controls['name'].hasError('required') && (form.controls['name'].touched || form.controls['name'].dirty)"
+                        class="mat-text-warn"
+                >{{ 'SETTINGS.USERTYPES.USERTYPE.validation1' | translate }}</mat-error>
+              </mat-form-field>
+              >
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <div class="px-1 select-input-container" style="width: 100%">
+              <mat-select
+                placeholder="{{ 'SETTINGS.USERTYPES.ENTITY.title' | translate }}"
+                formControlName="entity"
+                style="width: 100%"
+                [disabled]="disableElement"
+              >
+                <mat-option *ngFor="let data of entity" [value]="data.key">
+                  {{ getTranslateENTITY(data.value) }}
+                </mat-option>
+              </mat-select>
+              <small
+                *ngIf="form.controls['entity'].hasError('required') && (form.controls['entity'].touched || formSubmit)"
+                class="mat-text-warn"
+              >
+                {{ 'SETTINGS.USERTYPES.ENTITY.validation1' | translate }}</small
+              >
+            </div>
+          </div>
+          <div formGroupName="FolderPermission">
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="admissions">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.ADMISSION.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.admissions.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="annalesEpreuves">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.ANNALESEPREUVES.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.annalesEpreuves.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="boiteaOutils">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.BOITEAOUTILS.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.boiteaOutils.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="communication">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.Communication.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.communication.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="examens">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.Examens.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.examens.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="organisation">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.ORGANISATION.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.organisation.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="programme">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.PROGRAMME.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.programme.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="epreuvesCertification">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.EPREUVESCERTIFICATION.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.epreuvesCertification.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutWrap="wrap" formGroupName="archives">
+              <div class="px-1" fxFlex="40">
+                <mat-slide-toggle
+                  labelPosition="befour"
+                  class="example-margin"
+                  [color]="color"
+                  [checked]="checked"
+                  [disabled]="disabled"
+                  formControlName="status"
+                >
+                  {{ 'SETTINGS.USERTYPES.ARCHIVES.title' | translate }}
+                </mat-slide-toggle>
+              </div>
+              <div class="px-1" fxFlex="60" *ngIf="form.value.FolderPermission.archives.status" formGroupName="permissions">
+                <mat-checkbox labelPosition="befour" formControlName="view">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.view' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="update">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.update' | translate
+                }}</mat-checkbox
+                >&nbsp;
+                <mat-checkbox labelPosition="befour" formControlName="download">{{
+                  'SETTINGS.USERTYPES.STUDENTMANAGMENT.download' | translate
+                }}</mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <div style="width: 100%;border-bottom: 1px solid gray;margin-top: 10px;margin-bottom: 10px;"></div>
+          </div>
+
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <div class="px-1" fxFlex="40">
+              <mat-slide-toggle
+                labelPosition="befour"
+                class="example-margin"
+                [color]="color"
+                [checked]="checked"
+                [disabled]="disabled"
+                formControlName="studentManagement"
+              >
+                {{ 'SETTINGS.USERTYPES.STUDENTMANAGMENT.title' | translate }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="5" fxFlex.lt-mat="5">&nbsp;</div>
+
+        <div fxFlex="45" fxFlex.lt-mat="45">
+          <div fxLayout="row" fxLayoutWrap="wrap">
+            <mat-form-field color="accent" style="width: 100%">
+              <textarea
+                rows="20"
+                matInput
+                id="icon_prefix2"
+                [placeholder]="'SETTINGS.USERTYPES.DESCRIPTION.title' | translate"
+                class="materialize-textarea"
+                [formControl]="form.controls['description']"
+              ></textarea>
+              <mat-error
+                      *ngIf="form.controls['description'].hasError('required') && (form.controls['description'].touched || form.controls['description'].dirty)"
+                      class="mat-text-warn"
+              >
+                {{ 'SETTINGS.USERTYPES.DESCRIPTION.validation1' | translate }}</mat-error
+              >
+            </mat-form-field>
+
+          </div>
+          <div fxLayout="row" fxLayoutWrap="wrap" style="float: right;margin-top: 20px;">
+            <button mat-raised-button color="warn" class="mr-1" type="button" (click)="cancel()">
+              {{ 'SETTINGS.USERTYPES.CANCEL' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              color="accent"
+              class="margin-right-0"
+              type="submit"
+              (click)="saveUserType()"
+            >
+              {{ 'SETTINGS.USERTYPES.SAVE' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>

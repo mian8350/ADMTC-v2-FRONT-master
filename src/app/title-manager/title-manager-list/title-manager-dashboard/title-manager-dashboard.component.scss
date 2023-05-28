@@ -1,0 +1,158 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.text-xl {
+  font-size: 120% !important;
+}
+
+.mr-2 {
+  margin-right: 10px;
+}
+
+.header-box {
+  height: auto;
+  margin-bottom: 3vh;
+
+  img {
+    max-height: 12vh;
+    height: 100%;
+  }
+}
+
+.content-left {
+    vertical-align: middle;
+    position: relative;
+    display: flex;
+  }
+  
+  .text-sm {
+    font-size: 70% !important;
+  }
+  
+  .adjustWidth {
+    width: 100%;
+  }
+  
+  .class-option-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    & > div {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .acad-title-class {
+    background: $medium-grey !important;
+    padding: 1em 1em 3.7em 1em !important;
+    margin-bottom: 0px;
+  }
+  
+  .alternate-color {
+    background-color: $dark-blue !important;
+    padding: 4px !important;
+  }
+  
+  .mt-4rem {
+    margin-top: 4rem;
+  }
+  
+  .mb-4rem {
+    margin-bottom: 4rem;
+  }
+  
+  .small-margin-left {
+    margin-left: 8px !important;
+  }
+  
+  .small-margin-right {
+    margin-right: 8px !important;
+  }
+  
+  .kit-header {
+    display: flex;
+    padding: 4px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .title-style {
+    font-size: 18px;
+    color: #ffffff;
+    font-family: Roboto, 'Helvetica Neue', sans-serif !important;
+  }
+  
+  .no-padding {
+    padding: 0 !important;
+  }
+  
+  .align-header-pending-task {
+    height: fit-content;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    margin-top: 0px;
+  
+    button {
+      margin-top: 1vh;
+    }
+  }
+  
+  .align-header-no-task {
+    height: 60px;
+    padding: 0 0 0 10px;
+  }
+  
+  .space-3rem {
+    margin: 3rem 0 !important;
+  }
+  
+  .basic-height {
+    height: 400px;
+  }
+  .margin-auto {
+    margin: auto;
+  }
+  .margin-no {
+    margin: 0px;
+  }
+  .mt-10 {
+    margin-top: 10px;
+  }
+  .logo-img-wrapper {
+    // height: 75px;
+    width: 200px;
+    float: left;
+  }
+  .logo-img-right {
+    height: 75px;
+    width: 105px;
+    float: right;
+  }
+  .pad-l-0 {
+    padding-left: 0px;
+  }
+  .head-acadkit {
+    background-color: #212121;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
+  .loading-spinner {
+    height: 50% !important;
+  }
+  .loading-acad {
+    width: 20%;
+    height: 50%;
+    position: absolute;
+  }
+  .float-left {
+    float: left;
+  }
+
+  :host ::ng-deep {  
+    .form-control.mat-form-field {
+      width: 200px;    
+    }
+  }

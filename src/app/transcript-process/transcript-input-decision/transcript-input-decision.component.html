@@ -1,0 +1,42 @@
+<div class="mrgn-t-md">
+  <div class="p-grid">
+    <div class="p-col-7 padding-none" #transcriptStudentTableContainer>
+      <ms-transcript-student-result-table
+        [titleId]="titleId"
+        [classId]="classId"
+        [certifierId]="certifierId"
+        [transcriptId]="transcriptId"
+        [containerWidth]="getContainerWidth()"
+        [refreshTable]="refreshTable"
+        (selectStudentId)="selectStudent($event)"
+        [checkValidationForm]="checkValidationForm"
+        [transcriptDecision]="transcriptDecision"
+        (transcriptDetailData)="setTranscriptDetail($event)"
+        (transcriptData)="onTranscriptData($event)"
+        (typeClass)="getClassType($event)"
+      >
+      </ms-transcript-student-result-table>
+    </div>
+    <div class="p-col-5 pad-all-md">
+      <ms-transcript-decision
+        #transcriptDecision
+        *ngIf="studentId"
+        [transcriptData]="transcriptData"
+        [studentId]="studentId"
+        [titleId]="titleId"
+        [classId]="classId"
+        [certifierId]="certifierId"
+        [transcriptId]="transcriptId"
+        [transcriptDetail]="transcriptDetail"
+        [classType]="classType"
+        (refreshTable)="triggerRefreshTable($event)"
+        (loadSuccessfully)="triggerLoadTable($event)"
+      >
+      </ms-transcript-decision>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

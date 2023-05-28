@@ -1,0 +1,219 @@
+<div class="p-col-12">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="4" class="action-header-column">
+        <div class="p-grid">
+          <div class="p-col-12 text-right">
+            <button mat-button mat-raised-button (click)="resetFilters()" color="primary" class="btn-standard">
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'COMPANY.RESET' | translate }}
+            </button>
+            <button
+              mat-button
+              mat-raised-button
+              color="accent"
+              [disabled]="isWaitingForResponse"
+              (click)="onConnectSchool()"
+              class="btn-standard"
+              *ngIf="permissionService.connectSchoolInConnectedSchoolTabPerm()"
+            >
+              {{ 'COMPANY.CONNECT_SCHOOL' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <!-- table filter section -->
+    <ng-container matColumnDef="school_nameFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="school_nameFilter"
+            [matAutocomplete]="school"
+            placeholder="{{ 'COMPANY.SEARCH' | translate }}"
+            (keyup)="filterSchool()"
+          />
+          <mat-autocomplete #school="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setSchoolFilter('AllM')">{{ 'AllM' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let school of getUniqueSchool(schoolList)"
+              [value]="school?.name"
+              matTooltip="{{ school?.name }}"
+              (click)="setSchoolFilter(school?._id)"
+            >
+              {{ school?.name | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <mat-form-field>
+          <input matInput class="form-field" [formControl]="school_nameFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field> -->
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="shortNameFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="shortNameFilter"
+            [matAutocomplete]="title"
+            placeholder="{{ 'COMPANY.SEARCH' | translate }}"
+            (keyup)="filterTitle()"
+          />
+          <mat-autocomplete #title="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setTitleFilter('AllM')">{{ 'AllM' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let title of getUniqueTitle(titleList)"
+              [value]="title?.name"
+              matTooltip="{{ title?.name }}"
+              (click)="setTitleFilter(title?.name)"
+            >
+              {{ title?.name | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <mat-form-field>
+          <input matInput class="form-field" [formControl]="shortNameFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field> -->
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="classesFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="classesFilter"
+            [matAutocomplete]="class"
+            placeholder="{{ 'COMPANY.SEARCH' | translate }}"
+            (keyup)="filterClass()"
+          />
+          <mat-autocomplete #class="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="setClassFilter('AllM')">{{ 'AllM' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let class of getUnique(classList)"
+              [value]="class?.name"
+              matTooltip="{{ class?.name }}"
+              (click)="setClassFilter(class?.name)"
+            >
+              {{ class?.name | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+          <input matInput class="form-field" [formControl]="classesFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field> -->
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <!-- table header and value section -->
+    <ng-container matColumnDef="school_name">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.SCHOOL' | translate }}">
+        <h5 class="text-center" mat-sort-header="short_name">{{ 'COMPANY.SCHOOL' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element?.short_name }}">
+        {{ element?.short_name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="rncpTitles">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.RNCP_TITLE' | translate }}">
+        <h5 class="text-center" mat-sort-header="rncp_title_name">{{ 'COMPANY.RNCP_TITLE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element?.title">
+          <span
+            *ngFor="let title of element?.title"
+            [matTooltip]="renderTooltipTitle(element?.title)"
+            class="tags"
+          >
+            <span *ngIf="title">
+              {{ title?.name }}
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="classes">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.CLASS' | translate }}">
+        <h5 class="text-center" mat-sort-header="class_name">{{ 'COMPANY.CLASS' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element?.title">
+          <span
+            *ngFor="let classs of element?.title"
+            [matTooltip]="renderTooltipClass(element?.title)"
+          >
+            <span *ngIf="classs">
+              <span *ngFor="let classses of uniqueClass(classs?.class)" class="tags">
+                {{ classses?.name }}
+              </span>
+            </span>
+          </span>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.ACTION' | translate }}">
+        <h5 class="text-center">{{ 'COMPANY.ACTION' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" class="force-no-padding-right">
+        <button
+          mat-icon-button
+          matTooltip="{{ 'COMPANY.Connect Mentor to School' | translate }}"
+          class="margin-right-button"
+          matTooltipPosition="above"
+          (click)="connectMentor(element._id, element?.short_name)"
+          *ngIf="permissionService.connectMentorActionInConnectedSchoolTabPerm()"
+        >
+          <mat-icon svgIcon="account-plus" class="mat-icon-svgIcon mt-0"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'COMPANY.DISCONNECT' | translate }}"
+          matTooltipPosition="above"
+          (click)="disconnectSchool(element._id, element?.short_name)"
+          *ngIf="permissionService.deleteActionInConnectedSchoolTabPerm()"
+        >
+          <mat-icon svgIcon="close">clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- loading spinner -->
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      [length]="paginator.length"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

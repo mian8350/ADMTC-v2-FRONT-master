@@ -1,0 +1,192 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        width: 5%;
+        // text-align: center;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(2) {
+        width: 8%;
+        // text-align: center;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(3) {
+        width: 10%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(4) {
+        width: 23%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(5) {
+        width: 12%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(6) {
+        width: 12%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+
+      &:nth-child(7) {
+        width: 12%;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(8) {
+        width: 6%;
+        text-align: center !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(9) {
+        width: 12%;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        text-align: center !important;
+      }
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0;
+      padding: 0 0.4em;
+      //   font-size: 12px !important;
+    }
+
+    th {
+      vertical-align: top;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    .reset-header-column {
+      vertical-align: middle !important;
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(1) {
+      height: 41px;
+    }
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: #ffffff;
+      }
+    }
+    &:nth-child(3) th {
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+
+  tr.mat-footer-row,
+  tr.mat-row {
+    height: 42px;
+  }
+  th.mat-header-cell:first-of-type {
+    padding-left: 5px;
+  }
+  td.mat-cell:first-of-type {
+    padding-left: 10px;
+  }
+}
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: black;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #8c8c8c !important;
+  // min-height: 50px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  width: 100%;
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container {
+  color: #ffffff;
+}
+// :host::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container {
+//   padding-left: 1px;
+// }
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+
+:host::ng-deep.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  text-align: left;
+  font-size: 14px;
+}
+:host::ng-deep.usertype .ng-dropdown-panel {
+  min-width: 320px;
+}
+:host::ng-deep.mat-datepicker-toggle .mat-icon-button span {
+  font-size: 22px;
+}
+.Generated {
+  color: green;
+  font-size: 25px;
+}
+.Ungenerated {
+  color: red;
+  font-size: 25px;
+}
+.publish-action {
+  font-size: 33px;
+  vertical-align: middle;
+  cursor: pointer;
+  width: 50px;
+  text-align: start;
+  padding-left: 3px;
+}
+.no-background {
+  background: transparent !important;
+  margin-right: 8px;
+}

@@ -1,0 +1,69 @@
+<div style="margin-bottom: 1rem" *ngIf="transcriptData">
+  <mat-tab-group #transcriptMatGroup [(selectedIndex)]="selectedIndex">
+    <!-- First tab always shown -->
+    <mat-tab label="parameter">
+      <ng-template mat-tab-label>
+        <h5>{{ 'TRANSCRIPT_PROCESS.Step 1' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-transcript-process-parameter
+          #processParameter
+          *ngIf="titleId && classId && transcriptId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [transcriptId]="transcriptId"
+        >
+        </ms-transcript-process-parameter>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="publishParameters" *ngIf="showPublishParameter()">
+      <ng-template mat-tab-label>
+        <h5>{{ 'TRANSCRIPT_PROCESS.Step 2' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-transcript-publish-parameter-step
+          #publishParameter
+          *ngIf="titleId && classId && transcriptId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [transcriptId]="transcriptId"
+        >
+        </ms-transcript-publish-parameter-step>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="resultInput" *ngIf="transcriptData?.transcript_process_status !== 'initial_setup'">
+      <ng-template mat-tab-label>
+        <h5>{{ 'TRANSCRIPT_PROCESS.Step 3' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-transcript-input-decision
+          #transcriptInputDecision
+          *ngIf="titleId && classId && certifierId && transcriptId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [certifierId]="certifierId"
+          [transcriptId]="transcriptId"
+        >
+        </ms-transcript-input-decision>
+      </ng-template>
+    </mat-tab>
+
+    <!-- <mat-tab label="certificateGeneration" *ngIf="transcriptData?.transcript_process_status !== 'initial_setup' && transcriptData?.is_final_transcript">
+      <ng-template mat-tab-label>
+        <h5>{{ 'TRANSCRIPT_PROCESS.Step 4' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-transcript-certificate-genertion
+          *ngIf="titleId && classId && certifierId && transcriptId"
+          [titleId]="titleId"
+          [classId]="classId"
+          [certifierId]="certifierId"
+          [transcriptId]="transcriptId"
+        >
+        </ms-transcript-certificate-genertion>
+      </ng-template>
+    </mat-tab> -->
+  </mat-tab-group>
+</div>

@@ -1,0 +1,469 @@
+<!-- Preview Document Eval -->
+<div class="p-grid" *ngIf="isPreviewFor === 'score'">
+  <div class="p-col-12 mt-1rem" style="border-top-width: 0em; margin-top: 0.5em; padding-left: 0">
+    <mat-card class="pdf-card scrollable">
+      <div class="p-grid">
+        <div class="p-col-4">
+          <button
+            mat-mini-fab
+            color="background"
+            (click)="prevPreview()"
+            *ngIf="competencyData.length - (currentPage + 1) < competencyData.length - 1"
+          >
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </div>
+        <div class="p-col-4 justify-content-center">
+          <span>Page {{ currentPage + 1 }} of {{ competencyData.length }}</span>
+        </div>
+        <div class="p-col-4">
+          <button
+            mat-mini-fab
+            style="float: right"
+            color="background"
+            (click)="nextPreview()"
+            *ngIf="currentPage + 1 < competencyData.length"
+          >
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="pdf-container document-parent">
+        <div class="p-grid title-section">
+          <div class="p-col-12 pad-y-none text-center">
+            <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.ConditionsTitleTxt' | translate }}</span>
+          </div>
+          <div class="p-col-12 pad-y-none text-center">
+            <span class="font-bold">{{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+          </div>
+        </div>
+        <div class="p-grid outline-border-grey">
+          <div class="pad-y-none p-col-6"></div>
+          <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold">{{ 'EXPERTISE.FINALSCORE.title' | translate }}</span>
+          </div>
+          <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold" *ngIf="markPointStatus">{{ 'PARAMETERS-RNCP.PDF.NumberOfPointsMax' | translate }}</span>
+          </div>
+          <!-- <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+          </div> -->
+        </div>
+        <ng-container *ngFor="let comp of currentCompetency">
+          <div class="p-grid outline-border-white">
+            <div class="p-col-6">
+              <span class="text-center">{{ utilService.cleanHTML(comp?.block_of_competence_condition) }}</span>
+            </div>
+            <div class="p-col-2">
+              <p class="text-center">
+                <mat-icon *ngIf="comp?.count_for_title_final_score">done</mat-icon>
+              </p>
+            </div>
+            <div class="p-col-2">
+              <p class="text-center" *ngIf="markPointStatus">{{ comp?.max_point }}</p>
+            </div>
+            <!-- <div class="p-col-2">
+              <p class="text-center">{{ comp?.min_score }}</p>
+            </div> -->
+          </div>
+          <div class="p-grid outline-border-white">
+            <div class="pad-y-none p-col-6">
+              <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.SUBJECT&TEST' | translate }}</span>
+            </div>
+            <div class="pad-y-none p-col-2 text-center">
+              <span class="font-bold" *ngIf="!markPointStatus">Coef.</span>
+            </div>
+            <!-- ************ If subtypeevaluation exist, mean its from score, otherwise its eval by comp -->
+            <div class="pad-y-none p-col-2 text-center" *ngIf="subTypeEvaluation"> 
+              <span class="font-bold" *ngIf="subTypeEvaluation === 'point_coefficient'">Coef.</span>
+              <span class="font-bold" *ngIf="subTypeEvaluation !== 'point_coefficient'">{{ 'PARAMETERS-RNCP.TEST.WEIGHT' | translate }}</span>
+            </div>
+            <!-- <div class="pad-y-none p-col-2 text-center">
+              <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+            </div> -->
+          </div>
+          <ng-container *ngFor="let subject of comp?.subjects; let subjectIndex = index">
+            <div class="p-grid outline-border-dot">
+              <div class="p-col-6">
+                <p>{{ subject?.subject_name }}</p>
+              </div>
+              <div class="p-col-2">
+                <p class="text-center" *ngIf="!markPointStatus">{{ subject?.coefficient }}</p>
+              </div>
+              <div class="p-col-2"></div>
+              <!-- <div class="p-col-2">
+                <p class="text-center">{{ subject?.minimum_score_for_certification }}</p>
+              </div> -->
+            </div>
+            <ng-container *ngFor="let eva of subject?.evaluations; let subjectIndex = index">
+              <div class="p-grid outline-border-dot">
+                <div class="p-col-6">
+                  <p class="text-right">{{ eva?.evaluation }}</p>
+                </div>
+                <div class="p-col-2">
+                  <p class="text-center">{{ eva?.type ? ('TYPE.'+ eva?.type | translate) : '' }}</p>
+                </div>
+                <div class="p-col-2">
+                  <p class="text-center" *ngIf="subTypeEvaluation === 'point_coefficient'">{{ eva?.coefficient }}</p>
+                  <p class="text-center" *ngIf="subTypeEvaluation !== 'point_coefficient'">{{ eva?.weight }} {{ eva?.weight ? '%' : '' }}</p>
+                </div>
+                <div class="p-col-2"></div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <div class="p-grid pad-t-md">
+          <div class="p-col-12 text-center">
+            <span>ADMTC {{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Preview Document Eval -->
+<div class="p-grid" *ngIf="isPreviewFor === 'eval'">
+  <div class="p-col-12 mt-1rem" style="border-top-width: 0em; margin-top: 0.5em; padding-left: 0">
+    <mat-card class="pdf-card scrollable">
+      <div class="p-grid">
+        <div class="p-col-4">
+          <button
+            mat-mini-fab
+            color="background"
+            (click)="prevPreview()"
+            *ngIf="competencyData.length - (currentPage + 1) < competencyData.length - 1"
+          >
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </div>
+        <div class="p-col-4 justify-content-center">
+          <span>Page {{ currentPage + 1 }} of {{ competencyData.length }}</span>
+        </div>
+        <div class="p-col-4">
+          <button
+            mat-mini-fab
+            style="float: right"
+            color="background"
+            (click)="nextPreview()"
+            *ngIf="currentPage + 1 < competencyData.length"
+          >
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="pdf-container document-parent">
+        <div class="p-grid title-section">
+          <div class="p-col-12 pad-y-none text-center">
+            <span class="font-bold">{{ 'Professional Certification Preview' | translate }}</span>
+          </div>
+          <div class="p-col-12 pad-y-none text-center">
+            <span class="font-bold">{{ titleLongName }} ({{ titleName }})</span>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-7">
+            <span class="font-bold">{{ 'INDUSTRY COMPETENCIES' | translate }}</span>
+          </div>
+          <div class="p-col-3 text-center">
+            <span>{{ 'Evaluation Type' | translate }}</span>
+          </div>
+          <div class="p-col-2 text-center">
+            <span>{{ 'ECTS/Weight' | translate }}</span>
+          </div>
+        </div>
+        <hr class="border-header">
+        <!-- <div class="p-grid outline-border-grey">
+          <div class="pad-y-none p-col-6"></div>
+          <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold">{{ 'EXPERTISE.FINALSCORE.title' | translate }}</span>
+          </div>
+          <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold" *ngIf="markPointStatus">{{ 'PARAMETERS-RNCP.PDF.NumberOfPointsMax' | translate }}</span>
+          </div>
+          <div class="pad-y-none p-col-2 text-center">
+            <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+          </div>
+        </div> -->
+        <ng-container *ngFor="let comp of blockCompetency; let blockIndex = index">
+          <div class="margin-y-10">
+            <div class="p-grid outline-border-white">
+              <div class="p-col-12 pad-y-none">
+                <span class="text-center">{{ getRefID(comp?._id) }} {{ utilService.cleanHTML(comp?.block_of_competence_condition) | translate }}</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let subject of comp?.subjects; let subjectIndex = index">
+              <div class="p-grid outline-border-white" style="border-top: 0px;">
+                <div class="p-grid full-wide">
+                  <div class="p-col-10 pad-y-none">
+                    <p class="p-subject">{{ subject?.subject_name | translate  }}</p>
+                  </div>
+                  <!-- <div class="p-col-3 pad-y-none">
+                    <p class="text-center margin-bottom-none" *ngIf="!markPointStatus">{{ subject?.coefficient }}</p>
+                  </div> -->
+                  <!-- <div class="p-col-2 pad-y-none">
+                    <p class="text-center margin-bottom-none">{{ subject?.minimum_score_for_certification }}</p>
+                  </div> -->
+                </div>
+                <ng-container *ngFor="let eva of subject?.evaluations; let subjectIndex = index">
+                  <div class="p-grid full-wide">
+                    <div class="p-col-7 pad-y-none">
+                      <p class="p-eval">{{ eva?.evaluation | translate  }}</p>
+                    </div>
+                    <div class="p-col-3 pad-y-none">
+                      <p class="text-center margin-bottom-none">{{ eva?.type ? ('TYPE.'+ eva?.type | translate) : '' }}</p>
+                    </div>
+                    <div class="p-col-2 pad-y-none">
+                      <p class="text-center margin-bottom-none">{{ eva?.weight }} {{ eva?.weight ? '%' : '' }}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+        <div class="p-grid margin-top-10">
+          <div class="p-col-7">
+            <span class="font-bold">{{ 'SOFT SKILLS' | translate }}</span>
+          </div>
+          <div class="p-col-3 text-center"></div>
+          <div class="p-col-2 text-center"></div>
+        </div>
+        <hr class="border-header">
+        <ng-container *ngFor="let comp of blockSoftSkill; let blockIndex = index">
+          <div class="margin-y-10">
+            <div class="p-grid outline-border-white">
+              <div class="p-col-12 pad-y-none">
+                <span class="text-center">{{ getRefID(comp?._id) }} {{ utilService.cleanHTML(comp?.block_of_competence_condition) | translate }}</span>
+              </div>
+            </div>
+            <ng-container *ngFor="let subject of comp?.subjects; let subjectIndex = index">
+              <div class="p-grid outline-border-white" style="border-top: 0px;">
+                <div class="p-grid full-wide">
+                  <div class="p-col-10 pad-y-none">
+                    <p class="p-subject">{{ subject?.subject_name | translate  }}</p>
+                  </div>
+                  <!-- <div class="p-col-3 pad-y-none">
+                    <p class="text-center margin-bottom-none" *ngIf="!markPointStatus">{{ subject?.coefficient }}</p>
+                  </div> -->
+                  <!-- <div class="p-col-2 pad-y-none">
+                    <p class="text-center margin-bottom-none">{{ subject?.minimum_score_for_certification }}</p>
+                  </div> -->
+                </div>
+                <ng-container *ngFor="let eva of subject?.evaluations; let subjectIndex = index">
+                  <div class="p-grid full-wide">
+                    <div class="p-col-7 pad-y-none">
+                      <p class="p-eval">{{ eva?.evaluation | translate  }}</p>
+                    </div>
+                    <div class="p-col-3 pad-y-none">
+                      <p class="text-center margin-bottom-none">{{ eva?.type ? ('TYPE.'+ eva?.type | translate) : '' }}</p>
+                    </div>
+                    <div class="p-col-2 pad-y-none">
+                      <p class="text-center margin-bottom-none">{{ eva?.weight }} {{ eva?.weight ? '%' : '' }}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+        <div class="p-grid pad-t-md">
+          <div class="p-col-12 text-center">
+            <span>{{ titleName }} - {{ className }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!-- export pdf start here -->
+<div id="pdf-condition-of-award-score" style="display: none">
+  <div class="pdf-container document-parent" *ngFor="let currComp of competencyData; let compIndex = index">
+    <div class="p-grid title-section">
+      <div class="p-col-12 pad-y-none text-center">
+        <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.ConditionsTitleTxt' | translate }}</span>
+      </div>
+      <div class="p-col-12 pad-y-none text-center">
+        <span class="font-bold">{{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+      </div>
+    </div>
+    <div class="p-grid outline-border-grey">
+      <div class="pad-y-none p-col-6 eval-col-1"></div>
+      <div class="pad-y-none p-col-2 eval-col-2 text-center">
+        <span class="font-bold">{{ 'EXPERTISE.FINALSCORE.title' | translate }}</span>
+      </div>
+      <div class="pad-y-none p-col-2 eval-col-3 text-center">
+        <span class="font-bold" *ngIf="markPointStatus">{{ 'PARAMETERS-RNCP.PDF.NumberOfPointsMax' | translate }}</span>
+      </div>
+      <!-- <div class="pad-y-none p-col-2 eval-col-4 text-center">
+        <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+      </div> -->
+    </div>
+    <div style="border: 1px solid black !important" class="pad-y-none" *ngFor="let comp of currComp">
+      <div class="p-grid pad-y-none outline-border-white outline-border-x-none">
+        <div class="p-col-6 eval-col-1" style="padding-top: 12px">
+          <span class="text-center font-bold">{{ utilService.cleanHTML(comp?.block_of_competence_condition) }}</span>
+        </div>
+        <div class="p-col-2 eval-col-2">
+          <p class="text-center">
+            <span *ngIf="comp?.count_for_title_final_score">&#10004;</span>
+            <!-- <mat-icon *ngIf="comp?.count_for_title_final_score">done</mat-icon> -->
+          </p>
+        </div>
+        <div class="p-col-2 eval-col-3">
+          <p class="text-center" *ngIf="markPointStatus">{{ comp?.max_point }}</p>
+        </div>
+        <!-- <div class="p-col-2 eval-col-4">
+          <p class="text-center">{{ comp?.min_score }}</p>
+        </div> -->
+      </div>
+      <div class="p-grid pad-y-none outline-border-white outline-border-x-none">
+        <div class="p-col-6 eval-col-1 pad-y-none">
+          <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.SUBJECT&TEST' | translate }}</span>
+        </div>
+        <div class="p-col-2 eval-col-2 text-center pad-y-none">
+          <span class="font-bold" *ngIf="!markPointStatus">Coef.</span>
+        </div>
+        <!-- <div class="p-col-2 eval-col-3 text-center pad-y-none">
+          <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.WEIGHT' | translate }}</span>
+        </div> -->
+        <div class="p-col-2 eval-col-3 text-center pad-y-none" *ngIf="subTypeEvaluation"> 
+          <span class="font-bold" *ngIf="subTypeEvaluation === 'point_coefficient'">Coef.</span>
+          <span class="font-bold" *ngIf="subTypeEvaluation !== 'point_coefficient'">{{ 'PARAMETERS-RNCP.TEST.WEIGHT' | translate }}</span>
+        </div>
+        <!-- <div class="p-col-2 eval-col-4 text-center pad-y-none">
+          <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+        </div> -->
+      </div>
+      <ng-container *ngFor="let subject of comp?.subjects; let subjectIndex = index">
+        <div class="p-grid outline-border-dot pad-y-none">
+          <div class="p-col-6 eval-col-1 pad-y-none">
+            <p>{{ subject?.subject_name }}</p>
+          </div>
+          <div class="p-col-2 eval-col-2 pad-y-none">
+            <p class="text-center" *ngIf="!markPointStatus">{{ subject?.coefficient }}</p>
+          </div>
+          <div class="p-col-2 eval-col-3 pad-y-none"></div>
+          <!-- <div class="p-col-2 eval-col-4 pad-y-none">
+            <p class="text-center">{{ subject?.minimum_score_for_certification }}</p>
+          </div> -->
+        </div>
+        <ng-container *ngFor="let eva of subject?.evaluations; let subjectIndex = index">
+          <div class="p-grid pad-y-none outline-border-dot">
+            <div class="p-col-6 eval-col-1 pad-y-none">
+              <p class="text-right">{{ eva?.evaluation }}</p>
+            </div>
+            <div class="p-col-2 eval-col-2 pad-y-none">
+              <p class="text-center">{{ eva?.type ? ('TYPE.'+ eva?.type | translate) : '' }}</p>
+            </div>
+            <div class="p-col-2 eval-col-3 pad-y-none">
+              <p class="text-center pad-none" *ngIf="subTypeEvaluation === 'point_coefficient'">{{ eva?.coefficient }} </p>
+              <p class="text-center pad-none" *ngIf="subTypeEvaluation !== 'point_coefficient'">{{ eva?.weight }} {{ eva?.weight ? '%' : '' }}</p>
+            </div>
+            <div class="p-col-2 eval-col-4 pad-y-none"></div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div *ngIf="comp?.page_break" style="page-break-after: always"></div>
+    </div>
+    <ng-container> </ng-container>
+  </div>
+  <div class="p-grid pad-t-md">
+    <div class="p-col-12 text-center">
+      <span>ADMTC {{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+    </div>
+  </div>
+</div>
+
+<div id="pdf-condition-of-award-eval" style="display: none">
+  <div class="pdf-container document-parent" *ngFor="let currComp of competencyData; let compIndex = index">
+    <div class="p-grid title-section">
+      <div class="p-col-12 pad-y-none text-center">
+        <span class="font-bold">{{ 'PARAMETERS-RNCP.TEST.ConditionsTitleTxt' | translate }}</span>
+      </div>
+      <div class="p-col-12 pad-y-none text-center">
+        <span class="font-bold">{{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+      </div>
+    </div>
+    <div class="p-grid outline-border-grey">
+      <div class="pad-y-none p-col-6 eval-col-1"></div>
+      <div class="pad-y-none p-col-2 eval-col-2 text-center">
+        <span class="font-bold">{{ 'EXPERTISE.FINALSCORE.title' | translate }}</span>
+      </div>
+      <div class="pad-y-none p-col-2 eval-col-3 text-center">
+        <span class="font-bold" *ngIf="markPointStatus">{{ 'PARAMETERS-RNCP.PDF.NumberOfPointsMax' | translate }}</span>
+      </div>
+      <!-- <div class="pad-y-none p-col-2 eval-col-4 text-center">
+        <span class="font-bold">{{ 'EXPERTISE.MINSCORE.title' | translate }}</span>
+      </div> -->
+    </div>
+    <ng-container style="border: 1px solid black !important" *ngFor="let comp of currComp">
+      <div class="p-grid outline-border-white" style="margin-left: 5px">
+        <div class="pad-y-none p-col-6 eval-col-1">
+          <span class="text-center font-bold">{{ utilService.cleanHTML(comp?.block_of_competence_condition) }}</span>
+        </div>
+        <div class="pad-y-none p-col-2 eval-col-2">
+          <p class="text-center">
+            <span *ngIf="comp?.count_for_title_final_score">&#10004;</span>
+            <!-- <mat-icon *ngIf="comp?.count_for_title_final_score">done</mat-icon> -->
+          </p>
+        </div>
+        <div class="pad-y-none p-col-2 eval-col-3">
+          <p class="text-center" *ngIf="markPointStatus">{{ comp?.max_point }}</p>
+        </div>
+        <!-- <div class="pad-y-none p-col-2 eval-col-4">
+          <p class="text-center">{{ comp?.min_score }}</p>
+        </div> -->
+      </div>
+      <div class="p-grid outline-border-white" style="margin-left: 5px">
+        <div class="pad-y-none p-col-6 eval-col-1">
+          <p>{{ 'PARAMETERS-RNCP.TEST.SUBJECT&TEST' | translate }}</p>
+        </div>
+        <div class="pad-y-none p-col-2 eval-col-2 text-center">
+          <p>Coef.</p>
+        </div>
+        <div class="pad-y-none p-col-2 eval-col-3 text-center">
+          <p>{{ 'PARAMETERS-RNCP.TEST.WEIGHT' | translate }}</p>
+        </div>
+        <!-- <div class="pad-y-none p-col-2 eval-col-4 text-center">
+          <p>{{ 'EXPERTISE.MINSCORE.title' | translate }}</p>
+        </div> -->
+      </div>
+      <ng-container *ngFor="let subject of comp?.subjects; let subjectIndex = index">
+        <div class="p-grid outline-border-dot" style="margin-left: 5px">
+          <div class="pad-y-none p-col-6 eval-col-1">
+            <p class="pad-none">{{ subject?.subject_name }}</p>
+          </div>
+          <div class="pad-y-none p-col-2 eval-col-2">
+            <p class="text-center pad-none">{{ subject?.coefficient }}</p>
+          </div>
+          <div class="pad-y-none p-col-2 eval-col-3"></div>
+          <!-- <div class="pad-y-none p-col-2 eval-col-4">
+            <p class="text-center pad-none">{{ subject?.minimum_score_for_certification }}</p>
+          </div> -->
+        </div>
+        <ng-container *ngFor="let eva of subject?.evaluations; let subjectIndex = index">
+          <div class="p-grid outline-border-dot" style="margin-left: 5px">
+            <div class="pad-y-none p-col-6 eval-col-1">
+              <p class="text-right pad-none">{{ eva?.evaluation }}</p>
+            </div>
+            <div class="pad-y-none p-col-2 eval-col-2">
+              <p class="text-center pad-none">{{ eva?.type ? ('TYPE.'+ eva?.type | translate) : '' }}</p>
+            </div>
+            <div class="pad-y-none p-col-2 eval-col-3">
+              <p class="text-center pad-none">{{ eva?.weight }} {{ eva?.weight ? '%' : '' }}</p>
+            </div>
+            <div class="pad-y-none p-col-2 eval-col-4"></div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div *ngIf="comp?.page_break" style="page-break-after: always"></div>
+    </ng-container>
+  </div>
+  <div class="p-grid pad-t-md">
+    <div class="p-col-12 text-center">
+      <span>ADMTC {{ titleName }} - {{ className }} - {{ titleLongName }}</span>
+    </div>
+  </div>
+</div>

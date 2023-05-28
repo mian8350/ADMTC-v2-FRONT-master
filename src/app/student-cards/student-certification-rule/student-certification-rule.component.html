@@ -1,0 +1,45 @@
+<div class="p-grid" style="display: flex; justify-content: center;">
+  <div class="p-col-12 p-xl-11">
+    <div class="action-btn">
+      <button *ngIf="uploadedDoc.length > 0" mat-raised-button color="accent" (click)="downloadCertRule()">
+          <mat-icon class="mat-icon-default">get_app</mat-icon> {{ 'Cert_Rule.Download' | translate }}
+      </button>
+      <button *ngIf="uploadedDoc.length > 0" mat-raised-button color="accent" (click)="downloadDoc()">
+          <mat-icon class="mat-icon-default">get_app</mat-icon> {{ 'Attached Document' | translate }}
+      </button>
+    </div>
+
+    <div class="card-row cert-preview" id="pdfdoc" [style.height.px]="getAutomaticHeight()" [style.max-height.px]="getAutomaticHeight()">
+      <!-- <div class="center-title" 
+          [translate]="'CERTIFICATION_RULE.RULE_DIALOG_TITLE'" 
+          [translateParams]="{rncpTitle: titleName}">
+      </div> -->
+
+      <div class="center-title" [innerHTML]="titleText"></div>
+      <div style="text-align: center;">
+        <ng-container *ngIf="pdfFile">
+          <embed [src]="getSafeUrl(pdfFile)" width="100%" height="550px"/>
+        </ng-container>
+      </div>
+      <!-- <div class="center-title" style="border-bottom: 3px solid black;" [innerHTML]="titleLongName"></div>
+      <div class="body-text body-section" [innerHTML]="messageText"></div> -->
+    
+      <div mat-dialog-actions class="alignment-bottom app-light">
+        <div class="p-grid action-section">
+          <div class="p-col-4">
+              <div class="action-text">
+                <span [ngClass]="{ 'text-slider-color': isAccepted }">
+                  {{ isAccepted ? '&#10004;' : '&#10799;' }}
+                  {{ 'Student Signature' | translate }}
+                </span>
+              </div>
+          </div>
+          <div class="p-col-8" style="text-align: right;">
+            {{ 'Date of Acceptance' | translate}} {{ acceptanceDate }} ({{ 'Paris Time' | translate}})
+          </div>    
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.border-white {
+  border: 1px solid white;
+}
+
+.center-label {
+  align-self: center;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+.flex-hidden-mr-1 {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  margin-right: 1rem !important;
+}
+
+.fieldset-class {
+  padding: 0px;
+  border: 0px;
+}
+
+label {
+  font-size: 12px !important;
+}
+.btn-student {
+  line-height: 30px;
+  font-size: 12px !important;
+  border-radius: 2px;
+}
+
+.spinner-wrapper {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}
+.overlow-auto {
+  overflow: auto;
+}

@@ -1,0 +1,69 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #tabMatGroup>
+  <!-- subject for certification tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showSubjectCertTabStudentCardPerm() && !openFromPrevCourseDetail" label="SubjectForCertification">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.SUBJECTFORCERTIFICATION' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-subjects-for-certification
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (nextTab)="nextTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-subjects-for-certification>
+    </ng-template>
+  </mat-tab>
+
+  <!-- certification tab -->
+  <mat-tab *ngIf="permissionService.showCertificationTabStudentCardPerm() && showCertificationTab" label="Certification">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.CERTIFICATIONS' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-certification
+        *ngIf="studentId"
+        [studentId]="studentId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (nextTab)="nextTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-certification>
+    </ng-template>
+  </mat-tab>
+
+  <!-- detail of certification tab, dont display for prev course -->
+  <mat-tab *ngIf="permissionService.showDetailCertificationTabStudentCardPerm()" label="DetailsOfCertification">
+    <ng-template mat-tab-label>
+      <h5>{{ 'STUDENT_CARD.TAB_TITLE' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-details-of-certification
+        *ngIf="studentId"
+        [selectedIndex]="selectedIndex"
+        [studentId]="studentId"
+        [classId]="classId"
+        [titleId]="titleId"
+        [schoolId]="schoolId"
+        [classId]="classId"
+        [titleId]="titleId"
+        (nextTab)="nextTab($event)"
+        [studentPrevCourseData]="studentPrevCourseData"
+      >
+      </ms-details-of-certification>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<mat-card *ngIf="!isClose">
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ 'No Data Found For' | translate }} {{ 'Certification' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,1099 @@
+<div class="sidebar-panel gene-sidenav" fxLayout="column">
+  <mat-toolbar
+    class="sidebar-logo"
+    [ngClass]="{
+      'margin-for-school':
+        currentUser?.entities[0]?.entity_name === 'academic' &&
+        currentUser?.entities[0]?.school?.short_name &&
+        currentUser?.entities[0]?.school.short_name.length > 5
+    }"
+  >
+    <div class="gene-logo">
+      <a (click)="onClick()" class="pointer">
+        <!-- <div class="logo-sign inline-block"><img src="assets/img/logo-sign.png" width="30" height="30" /></div> -->
+
+        <div class="logo-text inline-block">
+          <span
+            *ngIf="currentUser.entities[0].entity_name === 'academic' && currentUser.entities[0].school.short_name; else ADMTC"
+            class="cide-text-school"
+          >
+            {{ currentUser.entities[0].school.short_name }}
+          </span>
+          <ng-template #ADMTC>
+            <span class="cide-text">ADMTC</span>
+          </ng-template>
+        </div>
+      </a>
+    </div>
+  </mat-toolbar>
+  <div class="gene-user-thumb text-center" style="display: flex; justify-content: center">
+    <div class="imgContainer" style="width: 50%">
+      <img
+        *ngIf="!isLoadingUpload"
+        style="cursor: pointer; height: 107px !important; object-fit: cover"
+        class="img-responsive img-circle add-top10"
+        [src]="
+          currentUser.profile_picture
+            ? serverimgPath + currentUser.profile_picture
+            : currentUser.civility === 'MR'
+            ? maleUserIcon
+            : femaleUserIcon
+        "
+        (click)="openUploadWindow()"
+        width="107"
+        height="107"
+        alt="user list image"
+      />
+      <div class="logo-spinner-wrapper" *ngIf="isLoadingUpload">
+        <mat-progress-spinner style="margin: 0 auto" mode="indeterminate" color="accent"></mat-progress-spinner>
+      </div>
+      <div
+        *ngIf="!isLoadingUpload"
+        class="img-responsive img-circle add-top10"
+        [ngClass]="currentUser.civility === 'MR' ? 'overlay-male' : 'overlay'"
+      >
+        <div (click)="openUploadWindow()" class="text">
+          {{ 'DOCUMENT.IMAGE' | translate }}
+        </div>
+      </div>
+    </div>
+    <!-- <img
+          style="cursor: pointer"
+          class="img-responsive img-circle"
+          [src]="profilePic.value"
+          (click)="uploadProfilePic(fileUpload)"
+          width="107"
+          height="107"
+          alt="user list image"
+        /> -->
+    <input
+      *ngIf="!isLoadingUpload"
+      type="file"
+      #fileUpload
+      name="file"
+      style="display: none"
+      accept="image/png, image/jpeg, image/jpg"
+      (change)="handleInputChange($event)"
+    />
+  </div>
+  <div class="gene-user-thumb text-center">
+    <div class="gene-user-name profile-padding">
+      {{ currentUser?.civility | translate }} {{ currentUser?.first_name + ' ' + (currentUser?.last_name | uppercase) }}
+    </div>
+    <div class="gene-user-name profile-padding">
+      <span *ngIf="utilService.isUserEntityADMTC()">
+        {{ currentUser?.entities[0]?.type?.name | translate }}
+      </span>
+      <span *ngIf="!utilService.isUserEntityADMTC()">
+        {{ currentUser?.entities[0]?.type?.name | translate }}
+        {{ (currentUser?.entities[0]?.school?.short_name ? 'MAIN_MENU.MAIN_TEXT_3' : '') | translate }}
+        {{ currentUser?.entities[0]?.school?.short_name | titlecase }}
+      </span>
+    </div>
+
+    <div
+      class="gene-user-name profile-padding"
+      *ngIf="utilService.isUserEntityADMTC() || utilService.isUserAcadDirAdmin() || utilService.isUserCRDirAdmin()"
+    >
+      <div class="p-grid p-justify-center">
+        <div class="p-col-12 gene-logo">
+          <mat-form-field class="search-bar">
+            <input matInput (paste)="onPaste($event)" [formControl]="userSearch" placeholder="{{ 'Quick Search' | translate }}" type="text" />
+          </mat-form-field>
+        </div>
+        <div class="p-col-12 gene-logo">
+          <button
+            mat-icon-button
+            [disabled]="!userSearch.value"
+            class="button-icon margin-icon"
+            (click)="quickSearch('user')"
+            matTooltip="{{ 'Search User' | translate }}"
+          >
+            <mat-icon svgIcon="account-search" class="mat-icon-section-svgIcon align-icon">account-search</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [disabled]="!userSearch.value"
+            class="button-icon margin-icon"
+            (click)="quickSearch('student')"
+            matTooltip="{{ 'Search Student' | translate }}"
+          >
+            <mat-icon svgIcon="school" class="mat-icon-section-svgIcon align-icon">school</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [disabled]="!userSearch.value"
+            class="button-icon margin-icon"
+            *ngIf="!utilService.isUserCRDirAdmin()"
+            (click)="quickSearch('mentor')"
+            matTooltip="{{ 'Search Mentor' | translate }}"
+          >
+            <mat-icon svgIcon="account-tie" class="mat-icon-section-svgIcon align-icon">account-tie</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [disabled]="!userSearch.value"
+            class="button-icon margin-icon"
+            *ngIf="utilService.isUserCRDirAdmin() || utilService.isUserEntityADMTC()"
+            (click)="quickSearch('school')"
+            matTooltip="{{ 'Search School' | translate }}"
+          >
+            <mat-icon svgIcon="bank" class="mat-icon-section-svgIcon align-icon">bank</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            [disabled]="!userSearch.value"
+            class="button-icon margin-icon"
+            (click)="quickSearch('title')"
+            matTooltip="{{ 'Search Title' | translate }}"
+          >
+            <mat-icon class="mat-icon-section-svgIcon align-icon">import_contacts</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="button-icon margin-icon"
+            matTooltip="{{ 'Search User/Student by Email' | translate }}"
+            [disabled]="!userSearch.value"
+            (click)="quickSearch('email')"
+          >
+            <mat-icon svgIcon="email-search" class="mat-icon-section-svgIcon align-icon email-search-icon"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <perfect-scrollbar>
+    <div class="sidebar-container">
+      <div class="sidenav-scrollbar-container sidenav-container" fxLayout="column">
+        <ng-container *ngIf="verticalMenuStatus; else horizontalMenuStatus">
+          <mat-nav-list fxLayout="column" menuToggleDirective class="navigation">
+            <mat-list-item menuToggleLink *ngFor="let menuitem of menus">
+              <!-- menu type button -->
+              <ng-container *ngIf="menuitem?.type === 'button'">
+                <ng-container *ngIf="menuitem?.permissions; else buttonNopErmission">
+                  <a
+                    menuToggle
+                    class="gene-relative"
+                    mat-ripple
+                    routerLinkActive="active-link"
+                    *ngIf="permissionService.showMenu(menuitem?.permissions)"
+                    [routerLink]="['/horizontal/guide/table_1']"
+                  >
+                    <mat-icon>{{ menuitem?.icon }}</mat-icon>
+                    <span>{{ menuitem?.name | translate }}</span>
+                    <ng-container *ngIf="menuitem?.label">
+                      <span class="sidebar-label">{{ menuitem?.label }}</span>
+                    </ng-container>
+                  </a>
+                </ng-container>
+                <ng-template #buttonNopErmission>
+                  <a
+                    menuToggle
+                    class="gene-relative"
+                    mat-ripple
+                    routerLinkActive="active-link"
+                    [routerLink]="['/horizontal/guide/table_1']"
+                  >
+                    <mat-icon>{{ menuitem?.icon }}</mat-icon>
+                    <span>{{ menuitem?.name | translate }}</span>
+                    <ng-container *ngIf="menuitem?.label">
+                      <span class="sidebar-label">{{ menuitem?.label }}</span>
+                    </ng-container>
+                  </a>
+                </ng-template>
+              </ng-container>
+              <!-- menu type link -->
+              <ng-container *ngIf="menuitem?.type === 'link'">
+                <ng-container *ngIf="menuitem?.permissions; else linkNopErmission">
+                  <div *ngIf="!permissionService.showMenu('schools.group_of_schools.show_perm')">
+                    <a
+                      menuToggle
+                      class="gene-relative"
+                      mat-ripple
+                      [routerLink]="['/', menuitem?.state]"
+                      routerLinkActive="active-link"
+                      *ngIf="permissionService.showMenu(menuitem?.permissions)"
+                    >
+                      <!-- switch case for icon that does not exist in material.io/resources/icons of type link -->
+                      <div [ngSwitch]="menuitem?.icon">
+                        <mat-icon *ngSwitchCase="'library'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'PreviousCourse'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M10,16L5,11L6.41,9.58L10,13.17L17.59,5.58L19,7M19,1H5C3.89,1 3,1.89 3,3V15.93C3,16.62 3.35,17.23 3.88,17.59L12,23L20.11,17.59C20.64,17.23 21,16.62 21,15.93V3C21,1.89 20.1,1 19,1Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'AcademicJourneys'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M22,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M22,19H2V5H22V19M21,6H14V11H21V6M20,8L17.5,9.75L15,8V7L17.5,8.75L20,7V8M9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12M9,8A1,1 0 0,1 10,9A1,1 0 0,1 9,10A1,1 0 0,1 8,9A1,1 0 0,1 9,8M15,16.59C15,14.09 11.03,13 9,13C6.97,13 3,14.09 3,16.59V18H15V16.59M5.5,16C6.22,15.5 7.7,15 9,15C10.3,15 11.77,15.5 12.5,16H5.5Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'companies'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'task'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'ideas'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'tutorial'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'finance'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M6,16.5L3,19.44V11H6M11,14.66L9.43,13.32L8,14.64V7H11M16,13L13,16V3H16M18.81,12.81L17,11H22V16L20.21,14.21L13,21.36L9.53,18.34L5.75,22H3L9.47,15.66L13,18.64"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchDefault>{{ menuitem?.icon }}</mat-icon>
+                      </div>
+                      <span>{{ menuitem?.name | translate }}</span>
+                      <ng-container *ngIf="menuitem?.label">
+                        <span class="sidebar-label">{{ menuitem?.label }}</span>
+                      </ng-container>
+                    </a>
+                  </div>
+                  <div *ngIf="permissionService.showMenu('schools.group_of_schools.show_perm') && menuitem?.state !== 'school-detail'">
+                    <a
+                      menuToggle
+                      class="gene-relative"
+                      mat-ripple
+                      [routerLink]="['/', menuitem?.state]"
+                      routerLinkActive="active-link"
+                      *ngIf="permissionService.showMenu(menuitem?.permissions)"
+                    >
+                      <!-- switch case for icon that does not exist in material.io/resources/icons of type link -->
+                      <div [ngSwitch]="menuitem?.icon">
+                        <mat-icon *ngSwitchCase="'library'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,8A3,3 0 0,0 15,5A3,3 0 0,0 12,2A3,3 0 0,0 9,5A3,3 0 0,0 12,8M12,11.54C9.64,9.35 6.5,8 3,8V19C6.5,19 9.64,20.35 12,22.54C14.36,20.35 17.5,19 21,19V8C17.5,8 14.36,9.35 12,11.54Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'PreviousCourse'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M10,16L5,11L6.41,9.58L10,13.17L17.59,5.58L19,7M19,1H5C3.89,1 3,1.89 3,3V15.93C3,16.62 3.35,17.23 3.88,17.59L12,23L20.11,17.59C20.64,17.23 21,16.62 21,15.93V3C21,1.89 20.1,1 19,1Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'AcademicJourneys'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M22,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M22,19H2V5H22V19M21,6H14V11H21V6M20,8L17.5,9.75L15,8V7L17.5,8.75L20,7V8M9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12M9,8A1,1 0 0,1 10,9A1,1 0 0,1 9,10A1,1 0 0,1 8,9A1,1 0 0,1 9,8M15,16.59C15,14.09 11.03,13 9,13C6.97,13 3,14.09 3,16.59V18H15V16.59M5.5,16C6.22,15.5 7.7,15 9,15C10.3,15 11.77,15.5 12.5,16H5.5Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'companies'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'task'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'ideas'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'tutorial'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'finance'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M6,16.5L3,19.44V11H6M11,14.66L9.43,13.32L8,14.64V7H11M16,13L13,16V3H16M18.81,12.81L17,11H22V16L20.21,14.21L13,21.36L9.53,18.34L5.75,22H3L9.47,15.66L13,18.64"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchDefault>{{ menuitem?.icon }}</mat-icon>
+                      </div>
+                      <span>{{ menuitem?.name | translate }}</span>
+                      <ng-container *ngIf="menuitem?.label">
+                        <span class="sidebar-label">{{ menuitem?.label }}</span>
+                      </ng-container>
+                    </a>
+                  </div>
+                </ng-container>
+                <!--Link no permission-->
+                <ng-template #linkNopErmission>
+                  <a
+                    menuToggle
+                    class="gene-relative"
+                    mat-ripple
+                    [routerLink]="['/', menuitem?.state]"
+                    routerLinkActive="active-link"
+                    *ngIf="permissionService.showMenu(menuitem?.permissions)"
+                  >
+                    <!-- switch case for icon that does not exist in material.io/resources/icons of type link -->
+                    <div [ngSwitch]="menuitem?.icon">
+                      <mat-icon *ngSwitchCase="'companies'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'task'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'ideas'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M12,6A6,6 0 0,1 18,12C18,14.22 16.79,16.16 15,17.2V19A1,1 0 0,1 14,20H10A1,1 0 0,1 9,19V17.2C7.21,16.16 6,14.22 6,12A6,6 0 0,1 12,6M14,21V22A1,1 0 0,1 13,23H11A1,1 0 0,1 10,22V21H14M20,11H23V13H20V11M1,11H4V13H1V11M13,1V4H11V1H13M4.92,3.5L7.05,5.64L5.63,7.05L3.5,4.93L4.92,3.5M16.95,5.63L19.07,3.5L20.5,4.93L18.37,7.05L16.95,5.63Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'tutorial'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'finance'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M6,16.5L3,19.44V11H6M11,14.66L9.43,13.32L8,14.64V7H11M16,13L13,16V3H16M18.81,12.81L17,11H22V16L20.21,14.21L13,21.36L9.53,18.34L5.75,22H3L9.47,15.66L13,18.64"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchDefault>{{ menuitem?.icon }}</mat-icon>
+                    </div>
+                    <span>{{ menuitem?.name | translate }}</span>
+                    <ng-container *ngIf="menuitem?.label">
+                      <span class="sidebar-label">{{ menuitem?.label }}</span>
+                    </ng-container>
+                  </a>
+                </ng-template>
+              </ng-container>
+              <!-- menu type sub. this menu hold sub menu -->
+              <ng-container *ngIf="menuitem?.type === 'sub'">
+                <ng-container *ngIf="menuitem?.permissions; else subNoPermission">
+                  <!-- *************** For Sub non-academic journey, it only open the submenu -->
+                  <a
+                    menuToggle
+                    class="gene-relative"
+                    mat-ripple
+                    href="javascript:void(0)"
+                    [routerLink]="['/', menuitem?.state]"
+                    routerLinkActive="active-link"
+                    *ngIf="permissionService.showMenu(menuitem?.permissions)"
+                  >
+                    <!-- switch case for icon that does not exist in material.io/resources/icons of type sub -->
+                    <div [ngSwitch]="menuitem?.state">
+                      <mat-icon *ngSwitchCase="'companies'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'export'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'process'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M2,11L4.05,11.1C4.3,8.83 5.5,6.85 7.25,5.56L6.13,3.84C5.86,3.36 6,2.75 6.5,2.47C7,2.2 7.59,2.36 7.87,2.84L8.8,4.66C9.78,4.24 10.86,4 12,4C13.14,4 14.22,4.24 15.2,4.66L16.13,2.84C16.41,2.36 17,2.2 17.5,2.47C18,2.75 18.14,3.36 17.87,3.84L16.75,5.56C18.5,6.85 19.7,8.83 19.95,11.1L22,11A1,1 0 0,1 23,12A1,1 0 0,1 22,13L19.95,12.9C19.7,15.17 18.5,17.15 16.75,18.44L17.87,20.16C18.14,20.64 18,21.25 17.5,21.53C17,21.8 16.41,21.64 16.13,21.16L15.2,19.34C14.22,19.76 13.14,20 12,20C10.86,20 9.78,19.76 8.8,19.34L7.87,21.16C7.59,21.64 7,21.8 6.5,21.53C6,21.25 5.86,20.64 6.13,20.16L7.25,18.44C5.5,17.15 4.3,15.17 4.05,12.9L2,13A1,1 0 0,1 1,12A1,1 0 0,1 2,11M9.07,11.35C9.2,10.74 9.53,10.2 10,9.79L8.34,7.25C7.11,8.19 6.27,9.6 6.05,11.2L9.07,11.35M12,9C12.32,9 12.62,9.05 12.9,9.14L14.28,6.45C13.58,6.16 12.81,6 12,6C11.19,6 10.42,6.16 9.72,6.45L11.1,9.14C11.38,9.05 11.68,9 12,9M14.93,11.35L17.95,11.2C17.73,9.6 16.89,8.19 15.66,7.25L14,9.79C14.47,10.2 14.8,10.74 14.93,11.35M14.93,12.65C14.8,13.26 14.47,13.8 14,14.21L15.66,16.75C16.89,15.81 17.73,14.4 17.95,12.8L14.93,12.65M12,15C11.68,15 11.38,14.95 11.09,14.86L9.72,17.55C10.42,17.84 11.19,18 12,18C12.81,18 13.58,17.84 14.28,17.55L12.91,14.86C12.62,14.95 12.32,15 12,15M9.07,12.65L6.05,12.8C6.27,14.4 7.11,15.81 8.34,16.75L10,14.21C9.53,13.8 9.2,13.26 9.07,12.65Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'academic-journeys'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M22,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M22,19H2V5H22V19M21,6H14V11H21V6M20,8L17.5,9.75L15,8V7L17.5,8.75L20,7V8M9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12M9,8A1,1 0 0,1 10,9A1,1 0 0,1 9,10A1,1 0 0,1 8,9A1,1 0 0,1 9,8M15,16.59C15,14.09 11.03,13 9,13C6.97,13 3,14.09 3,16.59V18H15V16.59M5.5,16C6.22,15.5 7.7,15 9,15C10.3,15 11.77,15.5 12.5,16H5.5Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'certification'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M15.2,10.7L16.6,16L12,12.2L7.4,16L8.8,10.8L4.6,7.3L10,7L12,2L14,7L19.4,7.3L15.2,10.7M14,19.1H13V16L12,15L11,16V19.1H10A2,2 0 0,0 8,21.1V22.1H16V21.1A2,2 0 0,0 14,19.1Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'title-manager'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M6,16.5L3,19.44V11H6M11,14.66L9.43,13.32L8,14.64V7H11M16,13L13,16V3H16M18.81,12.81L17,11H22V16L20.21,14.21L13,21.36L9.53,18.34L5.75,22H3L9.47,15.66L13,18.64"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'task'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchDefault>{{ menuitem?.icon }}</mat-icon>
+                    </div>
+                    <span>{{ menuitem?.name | translate }}</span>
+                    <mat-icon class="menu-caret">chevron_right</mat-icon>
+                  </a>
+                </ng-container>
+                <ng-template #subNoPermission>
+                  <a menuToggle class="gene-relative" mat-ripple href="javascript:void(0)">
+                    <!-- switch case for icon that does not exist in material.io/resources/icons of type sub -->
+                    <div [ngSwitch]="menuitem?.state">
+                      <mat-icon *ngSwitchCase="'companies'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'export'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'process'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M2,11L4.05,11.1C4.3,8.83 5.5,6.85 7.25,5.56L6.13,3.84C5.86,3.36 6,2.75 6.5,2.47C7,2.2 7.59,2.36 7.87,2.84L8.8,4.66C9.78,4.24 10.86,4 12,4C13.14,4 14.22,4.24 15.2,4.66L16.13,2.84C16.41,2.36 17,2.2 17.5,2.47C18,2.75 18.14,3.36 17.87,3.84L16.75,5.56C18.5,6.85 19.7,8.83 19.95,11.1L22,11A1,1 0 0,1 23,12A1,1 0 0,1 22,13L19.95,12.9C19.7,15.17 18.5,17.15 16.75,18.44L17.87,20.16C18.14,20.64 18,21.25 17.5,21.53C17,21.8 16.41,21.64 16.13,21.16L15.2,19.34C14.22,19.76 13.14,20 12,20C10.86,20 9.78,19.76 8.8,19.34L7.87,21.16C7.59,21.64 7,21.8 6.5,21.53C6,21.25 5.86,20.64 6.13,20.16L7.25,18.44C5.5,17.15 4.3,15.17 4.05,12.9L2,13A1,1 0 0,1 1,12A1,1 0 0,1 2,11M9.07,11.35C9.2,10.74 9.53,10.2 10,9.79L8.34,7.25C7.11,8.19 6.27,9.6 6.05,11.2L9.07,11.35M12,9C12.32,9 12.62,9.05 12.9,9.14L14.28,6.45C13.58,6.16 12.81,6 12,6C11.19,6 10.42,6.16 9.72,6.45L11.1,9.14C11.38,9.05 11.68,9 12,9M14.93,11.35L17.95,11.2C17.73,9.6 16.89,8.19 15.66,7.25L14,9.79C14.47,10.2 14.8,10.74 14.93,11.35M14.93,12.65C14.8,13.26 14.47,13.8 14,14.21L15.66,16.75C16.89,15.81 17.73,14.4 17.95,12.8L14.93,12.65M12,15C11.68,15 11.38,14.95 11.09,14.86L9.72,17.55C10.42,17.84 11.19,18 12,18C12.81,18 13.58,17.84 14.28,17.55L12.91,14.86C12.62,14.95 12.32,15 12,15M9.07,12.65L6.05,12.8C6.27,14.4 7.11,15.81 8.34,16.75L10,14.21C9.53,13.8 9.2,13.26 9.07,12.65Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchCase="'certification'">
+                        <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                          <path
+                            fill="currentColor"
+                            d="M15.2,10.7L16.6,16L12,12.2L7.4,16L8.8,10.8L4.6,7.3L10,7L12,2L14,7L19.4,7.3L15.2,10.7M14,19.1H13V16L12,15L11,16V19.1H10A2,2 0 0,0 8,21.1V22.1H16V21.1A2,2 0 0,0 14,19.1Z"
+                          />
+                        </svg>
+                      </mat-icon>
+                      <mat-icon *ngSwitchDefault>{{ menuitem?.icon }}</mat-icon>
+                    </div>
+                    <span>{{ menuitem?.name | translate }}</span>
+                    <mat-icon class="menu-caret">chevron_right</mat-icon>
+                  </a>
+                </ng-template>
+              </ng-container>
+
+              <mat-nav-list class="sub-menu" *ngIf="menuitem?.type === 'sub'">
+                <mat-list-item *ngFor="let childitem of menuitem?.children" routerLinkActive="open">
+                  <ng-container *ngIf="childitem.permissions; else childNoPermissions">
+                    <div *ngIf="menuitem?.state === 'certification' && childitem.state === 'search-user' && childitem.permissions">
+                      <mat-form-field style="width: 45%; max-width: 135px; left: 65px">
+                        <input matInput [formControl]="userSearch" placeholder="{{ 'Quick Search' | translate }}" type="text" />
+                      </mat-form-field>
+                      <button
+                        mat-icon-button
+                        class="button-icon margin-icon"
+                        (click)="quickSearch('jury')"
+                        matTooltip="{{ 'Search User' | translate }}"
+                        style="left: 65px"
+                      >
+                        <mat-icon svgIcon="account-search" class="mat-icon-section-svgIcon align-icon" style="margin: 0px !important"
+                          >account-search</mat-icon
+                        >
+                      </button>
+                    </div>
+                    <div
+                      *ngIf="
+                        childitem.state !== 'urgent-message' &&
+                        childitem.state !== 'groups' &&
+                        childitem.state !== 'group-mailing' &&
+                        childitem.state !== 'process-management' &&
+                        childitem.state !== 'status-update' &&
+                        childitem.state !== 'search-user'
+                      "
+                    >
+                      <a
+                        [routerLink]="['/' + childitem.state]"
+                        routerLinkActive="active-link"
+                        class="gene-relative"
+                        mat-ripple
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <!-- switch case for icon that does not exist in material.io/resources/icons in sub menu -->
+                        <div [ngSwitch]="childitem.icon">
+                          <mat-icon *ngSwitchCase="'companies'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M5,3V21H11V17.5H13V21H19V3H5M7,5H9V7H7V5M11,5H13V7H11V5M15,5H17V7H15V5M7,9H9V11H7V9M11,9H13V11H11V9M15,9H17V11H15V9M7,13H9V15H7V13M11,13H13V15H11V13M15,13H17V15H15V13M7,17H9V19H7V17M15,17H17V19H15V17Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'titles'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M4,3C2.89,3 2,3.89 2,5V15A2,2 0 0,0 4,17H12V22L15,19L18,22V17H20A2,2 0 0,0 22,15V8L22,6V5A2,2 0 0,0 20,3H16V3H4M12,5L15,7L18,5V8.5L21,10L18,11.5V15L15,13L12,15V11.5L9,10L12,8.5V5M4,5H9V7H4V5M4,9H7V11H4V9M4,13H9V15H4V13Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'account-multiple-outline'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M13.07 10.41A5 5 0 0 0 13.07 4.59A3.39 3.39 0 0 1 15 4A3.5 3.5 0 0 1 15 11A3.39 3.39 0 0 1 13.07 10.41M5.5 7.5A3.5 3.5 0 1 1 9 11A3.5 3.5 0 0 1 5.5 7.5M7.5 7.5A1.5 1.5 0 1 0 9 6A1.5 1.5 0 0 0 7.5 7.5M16 17V19H2V17S2 13 9 13 16 17 16 17M14 17C13.86 16.22 12.67 15 9 15S4.07 16.31 4 17M15.95 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'groups'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'notifications'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M21 11.1V8C21 6.9 20.1 6 19 6H11L9 4H3C1.9 4 1 4.9 1 6V18C1 19.1 1.9 20 3 20H10.3C11.6 21.9 13.8 23 16 23C19.9 23 23 19.9 23 16C23 14.2 22.3 12.4 21 11.1M16 21C13.2 21 11 18.8 11 16S13.2 11 16 11 21 13.2 21 16 18.8 21 16 21M17 20H15V15H17V20M17 14H15V12H17V14Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'tests'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M4,6V18H11V6H4M20,18V6H18.76C19,6.54 18.95,7.07 18.95,7.13C18.88,7.8 18.41,8.5 18.24,8.75L15.91,11.3L19.23,11.28L19.24,12.5L14.04,12.47L14,11.47C14,11.47 17.05,8.24 17.2,7.95C17.34,7.67 17.91,6 16.5,6C15.27,6.05 15.41,7.3 15.41,7.3L13.87,7.31C13.87,7.31 13.88,6.65 14.25,6H13V18H15.58L15.57,17.14L16.54,17.13C16.54,17.13 17.45,16.97 17.46,16.08C17.5,15.08 16.65,15.08 16.5,15.08C16.37,15.08 15.43,15.13 15.43,15.95H13.91C13.91,15.95 13.95,13.89 16.5,13.89C19.1,13.89 18.96,15.91 18.96,15.91C18.96,15.91 19,17.16 17.85,17.63L18.37,18H20M8.92,16H7.42V10.2L5.62,10.76V9.53L8.76,8.41H8.92V16Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'questionaire-tools'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2M12.19,5.5C11.3,5.5 10.59,5.68 10.05,6.04C9.5,6.4 9.22,7 9.27,7.69H11.24C11.24,7.41 11.34,7.2 11.5,7.06C11.7,6.92 11.92,6.85 12.19,6.85C12.5,6.85 12.77,6.93 12.95,7.11C13.13,7.28 13.22,7.5 13.22,7.8C13.22,8.08 13.14,8.33 13,8.54C12.83,8.76 12.62,8.94 12.36,9.08C11.84,9.4 11.5,9.68 11.29,9.92C11.1,10.16 11,10.5 11,11H13C13,10.72 13.05,10.5 13.14,10.32C13.23,10.15 13.4,10 13.66,9.85C14.12,9.64 14.5,9.36 14.79,9C15.08,8.63 15.23,8.24 15.23,7.8C15.23,7.1 14.96,6.54 14.42,6.12C13.88,5.71 13.13,5.5 12.19,5.5M11,12V14H13V12H11Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'employability-survey'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M3,15H1V3A2,2 0 0,1 3,1H19V3H3V15M12,23A1,1 0 0,1 11,22V19H7A2,2 0 0,1 5,17V7A2,2 0 0,1 7,5H21A2,2 0 0,1 23,7V17A2,2 0 0,1 21,19H16.9L13.2,22.71C13,22.89 12.76,23 12.5,23H12M9,9V11H19V9H9M9,13V15H17V13H9Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'quality-control'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12,20C9.79,20 7.79,19.1 6.34,17.66L17.66,6.34C19.1,7.79 20,9.79 20,12A8,8 0 0,1 12,20M6,8H8V6H9.5V8H11.5V9.5H9.5V11.5H8V9.5H6M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,16H17V14.5H12V16Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'cross-correction'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M21.82,15.42L19.32,19.75C18.83,20.61 17.92,21.06 17,21H15V23L12.5,18.5L15,14V16H17.82L15.6,12.15L19.93,9.65L21.73,12.77C22.25,13.54 22.32,14.57 21.82,15.42M9.21,3.06H14.21C15.19,3.06 16.04,3.63 16.45,4.45L17.45,6.19L19.18,5.19L16.54,9.6L11.39,9.69L13.12,8.69L11.71,6.24L9.5,10.09L5.16,7.59L6.96,4.47C7.37,3.64 8.22,3.06 9.21,3.06M5.05,19.76L2.55,15.43C2.06,14.58 2.13,13.56 2.64,12.79L3.64,11.06L1.91,10.06L7.05,10.14L9.7,14.56L7.97,13.56L6.56,16H11V21H7.4C6.47,21.07 5.55,20.61 5.05,19.76Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'functionality-alert'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M6,6.9L3.87,4.78L5.28,3.37L7.4,5.5L6,6.9M13,1V4H11V1H13M20.13,4.78L18,6.9L16.6,5.5L18.72,3.37L20.13,4.78M4.5,10.5V12.5H1.5V10.5H4.5M19.5,10.5H22.5V12.5H19.5V10.5M6,20H18A2,2 0 0,1 20,22H4A2,2 0 0,1 6,20M12,5A6,6 0 0,1 18,11V19H6V11A6,6 0 0,1 12,5Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'jury-organization'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M2.3,20.28L11.9,10.68L10.5,9.26L9.78,9.97C9.39,10.36 8.76,10.36 8.37,9.97L7.66,9.26C7.27,8.87 7.27,8.24 7.66,7.85L13.32,2.19C13.71,1.8 14.34,1.8 14.73,2.19L15.44,2.9C15.83,3.29 15.83,3.92 15.44,4.31L14.73,5L16.15,6.43C16.54,6.04 17.17,6.04 17.56,6.43C17.95,6.82 17.95,7.46 17.56,7.85L18.97,9.26L19.68,8.55C20.07,8.16 20.71,8.16 21.1,8.55L21.8,9.26C22.19,9.65 22.19,10.29 21.8,10.68L16.15,16.33C15.76,16.72 15.12,16.72 14.73,16.33L14.03,15.63C13.63,15.24 13.63,14.6 14.03,14.21L14.73,13.5L13.32,12.09L3.71,21.7C3.32,22.09 2.69,22.09 2.3,21.7C1.91,21.31 1.91,20.67 2.3,20.28M20,19A2,2 0 0,1 22,21V22H12V21A2,2 0 0,1 14,19H20Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'calendar-account'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12,10C14,10 15,12.42 13.59,13.84C12.17,15.26 9.75,14.25 9.75,12.25C9.75,11 10.75,10 12,10M16.5,19H7.5V17.88C7.5,16.63 9.5,15.63 12,15.63C14.5,15.63 16.5,16.63 16.5,17.88M19,20H5V9H19M16,2V4H8V2H6V4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4H18V2H16Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'final-transcript'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,10.84 21.79,9.69 21.39,8.61L19.79,10.21C19.93,10.8 20,11.4 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.6,4 13.2,4.07 13.79,4.21L15.4,2.6C14.31,2.21 13.16,2 12,2M19,2L15,6V7.5L12.45,10.05C12.3,10 12.15,10 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12C14,11.85 14,11.7 13.95,11.55L16.5,9H18L22,5H19V2M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12H16A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8V6Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'certidegree'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M4,3C2.89,3 2,3.89 2,5V15A2,2 0 0,0 4,17H12V22L15,19L18,22V17H20A2,2 0 0,0 22,15V8L22,6V5A2,2 0 0,0 20,3H16V3H4M12,5L15,7L18,5V8.5L21,10L18,11.5V15L15,13L12,15V11.5L9,10L12,8.5V5M4,5H9V7H4V5M4,9H7V11H4V9M4,13H9V15H4V13Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'label_draft'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M3,3H21V7H3V3M4,8H20V21H4V8M9.5,11A0.5,0.5 0 0,0 9,11.5V13H15V11.5A0.5,0.5 0 0,0 14.5,11H9.5Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'AcademicJourneys'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M22,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M22,19H2V5H22V19M21,6H14V11H21V6M20,8L17.5,9.75L15,8V7L17.5,8.75L20,7V8M9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12M9,8A1,1 0 0,1 10,9A1,1 0 0,1 9,10A1,1 0 0,1 8,9A1,1 0 0,1 9,8M15,16.59C15,14.09 11.03,13 9,13C6.97,13 3,14.09 3,16.59V18H15V16.59M5.5,16C6.22,15.5 7.7,15 9,15C10.3,15 11.77,15.5 12.5,16H5.5Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_profile'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_diploma'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M4,3C2.89,3 2,3.89 2,5V15A2,2 0 0,0 4,17H12V22L15,19L18,22V17H20A2,2 0 0,0 22,15V8L22,6V5A2,2 0 0,0 20,3H16V3H4M12,5L15,7L18,5V8.5L21,10L18,11.5V15L15,13L12,15V11.5L9,10L12,8.5V5M4,5H9V7H4V5M4,9H7V11H4V9M4,13H9V15H4V13Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_experience'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M10,2H14A2,2 0 0,1 16,4V6H20A2,2 0 0,1 22,8V19A2,2 0 0,1 20,21H4C2.89,21 2,20.1 2,19V8C2,6.89 2.89,6 4,6H8V4C8,2.89 8.89,2 10,2M14,6V4H10V6H14Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_skill'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M22,2C22,2 14.36,1.63 8.34,9.88C3.72,16.21 2,22 2,22L3.94,21C5.38,18.5 6.13,17.47 7.54,16C10.07,16.74 12.71,16.65 15,14C13,13.44 11.4,13.57 9.04,13.81C11.69,12 13.5,11.6 16,12L17,10C15.2,9.66 14,9.63 12.22,10.04C14.19,8.65 15.56,7.87 18,8L19.21,6.07C17.65,5.96 16.71,6.13 14.92,6.57C16.53,5.11 18,4.45 20.14,4.32C20.14,4.32 21.19,2.43 22,2Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_language'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M12.87,15.07L10.33,12.56L10.36,12.53C12.1,10.59 13.34,8.36 14.07,6H17V4H10V2H8V4H1V6H12.17C11.5,7.92 10.44,9.75 9,11.35C8.07,10.32 7.3,9.19 6.69,8H4.69C5.42,9.63 6.42,11.17 7.67,12.56L2.58,17.58L4,19L9,14L12.11,17.11L12.87,15.07M18.5,10H16.5L12,22H14L15.12,19H19.87L21,22H23L18.5,10M15.88,17L17.5,12.67L19.12,17H15.88Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'my_interest'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M5,20.5A3.5,3.5 0 0,1 1.5,17A3.5,3.5 0 0,1 5,13.5A3.5,3.5 0 0,1 8.5,17A3.5,3.5 0 0,1 5,20.5M5,12A5,5 0 0,0 0,17A5,5 0 0,0 5,22A5,5 0 0,0 10,17A5,5 0 0,0 5,12M14.8,10H19V8.2H15.8L13.86,4.93C13.57,4.43 13,4.1 12.4,4.1C11.93,4.1 11.5,4.29 11.2,4.6L7.5,8.29C7.19,8.6 7,9 7,9.5C7,10.13 7.33,10.66 7.85,10.97L11.2,13V18H13V11.5L10.75,9.85L13.07,7.5M19,20.5A3.5,3.5 0 0,1 15.5,17A3.5,3.5 0 0,1 19,13.5A3.5,3.5 0 0,1 22.5,17A3.5,3.5 0 0,1 19,20.5M19,12A5,5 0 0,0 14,17A5,5 0 0,0 19,22A5,5 0 0,0 24,17A5,5 0 0,0 19,12M16,4.8C17,4.8 17.8,4 17.8,3C17.8,2 17,1.2 16,1.2C15,1.2 14.2,2 14.2,3C14.2,4 15,4.8 16,4.8Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'tutorial'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'pencil-ruler'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M3 17.25V21H6.75L17.81 9.93L14.06 6.18L3 17.25M22.61 18.36L18.36 22.61L13.16 17.41L14.93 15.64L15.93 16.64L18.4 14.16L19.82 15.58L18.36 17L19.42 18L20.84 16.6L22.61 18.36M6.61 10.83L1.39 5.64L5.64 1.39L7.4 3.16L4.93 5.64L6 6.7L8.46 4.22L9.88 5.64L8.46 7.05L9.46 8.05L6.61 10.83M20.71 7C21.1 6.61 21.1 6 20.71 5.59L18.37 3.29C18 2.9 17.35 2.9 16.96 3.29L15.12 5.12L18.87 8.87L20.71 7Z"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'finance'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M6,16.5L3,19.44V11H6M11,14.66L9.43,13.32L8,14.64V7H11M16,13L13,16V3H16M18.81,12.81L17,11H22V16L20.21,14.21L13,21.36L9.53,18.34L5.75,22H3L9.47,15.66L13,18.64"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchCase="'task'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchDefault>{{ childitem.icon }}</mat-icon>
+                        </div>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                    <div *ngIf="childitem.state === 'urgent-message'">
+                      <a
+                        class="gene-relative"
+                        mat-ripple
+                        (click)="sendUrgentMessage()"
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <mat-icon>{{ childitem.icon }}</mat-icon>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                    <div *ngIf="childitem.state === 'groups'">
+                      <a
+                        class="gene-relative"
+                        mat-ripple
+                        (click)="openExportGroups()"
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <mat-icon>{{ childitem.icon }}</mat-icon>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                    <div *ngIf="childitem.state === 'status-update'">
+                      <a
+                        class="gene-relative"
+                        mat-ripple
+                        (click)="openStatusUpdateDialog()"
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <mat-icon>{{ childitem.icon }}</mat-icon>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                    <div *ngIf="childitem.state === 'group-mailing'">
+                      <a
+                        class="gene-relative"
+                        mat-ripple
+                        (click)="sendMailToGroup()"
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <mat-icon>{{ childitem.icon }}</mat-icon>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                    <!-- *************** For Sub menu process management, hide if in kandoo -->
+                    <div *ngIf="childitem.state === 'process-management' && !envLink.includes('kandoo')">
+                      <a
+                        [routerLink]="['/' + childitem.state]"
+                        routerLinkActive="active-link"
+                        class="gene-relative"
+                        mat-ripple
+                        *ngIf="permissionService.showMenu(childitem.permissions)"
+                      >
+                        <div [ngSwitch]="childitem.icon">
+                          <mat-icon *ngSwitchCase="'process-management'">
+                            <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                              <path
+                                fill="currentColor"
+                                d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M15,19L11,15H14V8H16V15H19L15,19M10,16H8V9H5L9,5L13,9H10V16"
+                              />
+                            </svg>
+                          </mat-icon>
+                          <mat-icon *ngSwitchDefault>{{ childitem.icon }}</mat-icon>
+                        </div>
+                        <span>{{ childitem.name | translate }}</span>
+                      </a>
+                    </div>
+                  </ng-container>
+                  <ng-template #childNoPermissions>
+                    <a [routerLink]="['/' + childitem.state]" routerLinkActive="active-link" class="gene-relative" mat-ripple>
+                      <!-- switch case for icon that does not exist in material.io/resources/icons in sub menu -->
+                      <div [ngSwitch]="childitem.icon">
+                        <mat-icon *ngSwitchCase="'titles'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M4,3C2.89,3 2,3.89 2,5V15A2,2 0 0,0 4,17H12V22L15,19L18,22V17H20A2,2 0 0,0 22,15V8L22,6V5A2,2 0 0,0 20,3H16V3H4M12,5L15,7L18,5V8.5L21,10L18,11.5V15L15,13L12,15V11.5L9,10L12,8.5V5M4,5H9V7H4V5M4,9H7V11H4V9M4,13H9V15H4V13Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'account-multiple-outline'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M13.07 10.41A5 5 0 0 0 13.07 4.59A3.39 3.39 0 0 1 15 4A3.5 3.5 0 0 1 15 11A3.39 3.39 0 0 1 13.07 10.41M5.5 7.5A3.5 3.5 0 1 1 9 11A3.5 3.5 0 0 1 5.5 7.5M7.5 7.5A1.5 1.5 0 1 0 9 6A1.5 1.5 0 0 0 7.5 7.5M16 17V19H2V17S2 13 9 13 16 17 16 17M14 17C13.86 16.22 12.67 15 9 15S4.07 16.31 4 17M15.95 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'groups'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'notifications'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M21 11.1V8C21 6.9 20.1 6 19 6H11L9 4H3C1.9 4 1 4.9 1 6V18C1 19.1 1.9 20 3 20H10.3C11.6 21.9 13.8 23 16 23C19.9 23 23 19.9 23 16C23 14.2 22.3 12.4 21 11.1M16 21C13.2 21 11 18.8 11 16S13.2 11 16 11 21 13.2 21 16 18.8 21 16 21M17 20H15V15H17V20M17 14H15V12H17V14Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'tests'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M4,6V18H11V6H4M20,18V6H18.76C19,6.54 18.95,7.07 18.95,7.13C18.88,7.8 18.41,8.5 18.24,8.75L15.91,11.3L19.23,11.28L19.24,12.5L14.04,12.47L14,11.47C14,11.47 17.05,8.24 17.2,7.95C17.34,7.67 17.91,6 16.5,6C15.27,6.05 15.41,7.3 15.41,7.3L13.87,7.31C13.87,7.31 13.88,6.65 14.25,6H13V18H15.58L15.57,17.14L16.54,17.13C16.54,17.13 17.45,16.97 17.46,16.08C17.5,15.08 16.65,15.08 16.5,15.08C16.37,15.08 15.43,15.13 15.43,15.95H13.91C13.91,15.95 13.95,13.89 16.5,13.89C19.1,13.89 18.96,15.91 18.96,15.91C18.96,15.91 19,17.16 17.85,17.63L18.37,18H20M8.92,16H7.42V10.2L5.62,10.76V9.53L8.76,8.41H8.92V16Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'questionaire-tools'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2M12.19,5.5C11.3,5.5 10.59,5.68 10.05,6.04C9.5,6.4 9.22,7 9.27,7.69H11.24C11.24,7.41 11.34,7.2 11.5,7.06C11.7,6.92 11.92,6.85 12.19,6.85C12.5,6.85 12.77,6.93 12.95,7.11C13.13,7.28 13.22,7.5 13.22,7.8C13.22,8.08 13.14,8.33 13,8.54C12.83,8.76 12.62,8.94 12.36,9.08C11.84,9.4 11.5,9.68 11.29,9.92C11.1,10.16 11,10.5 11,11H13C13,10.72 13.05,10.5 13.14,10.32C13.23,10.15 13.4,10 13.66,9.85C14.12,9.64 14.5,9.36 14.79,9C15.08,8.63 15.23,8.24 15.23,7.8C15.23,7.1 14.96,6.54 14.42,6.12C13.88,5.71 13.13,5.5 12.19,5.5M11,12V14H13V12H11Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'employability-survey'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M3,15H1V3A2,2 0 0,1 3,1H19V3H3V15M12,23A1,1 0 0,1 11,22V19H7A2,2 0 0,1 5,17V7A2,2 0 0,1 7,5H21A2,2 0 0,1 23,7V17A2,2 0 0,1 21,19H16.9L13.2,22.71C13,22.89 12.76,23 12.5,23H12M9,9V11H19V9H9M9,13V15H17V13H9Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'quality-control'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,20C9.79,20 7.79,19.1 6.34,17.66L17.66,6.34C19.1,7.79 20,9.79 20,12A8,8 0 0,1 12,20M6,8H8V6H9.5V8H11.5V9.5H9.5V11.5H8V9.5H6M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,16H17V14.5H12V16Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'cross-correction'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M21.82,15.42L19.32,19.75C18.83,20.61 17.92,21.06 17,21H15V23L12.5,18.5L15,14V16H17.82L15.6,12.15L19.93,9.65L21.73,12.77C22.25,13.54 22.32,14.57 21.82,15.42M9.21,3.06H14.21C15.19,3.06 16.04,3.63 16.45,4.45L17.45,6.19L19.18,5.19L16.54,9.6L11.39,9.69L13.12,8.69L11.71,6.24L9.5,10.09L5.16,7.59L6.96,4.47C7.37,3.64 8.22,3.06 9.21,3.06M5.05,19.76L2.55,15.43C2.06,14.58 2.13,13.56 2.64,12.79L3.64,11.06L1.91,10.06L7.05,10.14L9.7,14.56L7.97,13.56L6.56,16H11V21H7.4C6.47,21.07 5.55,20.61 5.05,19.76Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'functionality-alert'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M6,6.9L3.87,4.78L5.28,3.37L7.4,5.5L6,6.9M13,1V4H11V1H13M20.13,4.78L18,6.9L16.6,5.5L18.72,3.37L20.13,4.78M4.5,10.5V12.5H1.5V10.5H4.5M19.5,10.5H22.5V12.5H19.5V10.5M6,20H18A2,2 0 0,1 20,22H4A2,2 0 0,1 6,20M12,5A6,6 0 0,1 18,11V19H6V11A6,6 0 0,1 12,5Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'jury-organization'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M2.3,20.28L11.9,10.68L10.5,9.26L9.78,9.97C9.39,10.36 8.76,10.36 8.37,9.97L7.66,9.26C7.27,8.87 7.27,8.24 7.66,7.85L13.32,2.19C13.71,1.8 14.34,1.8 14.73,2.19L15.44,2.9C15.83,3.29 15.83,3.92 15.44,4.31L14.73,5L16.15,6.43C16.54,6.04 17.17,6.04 17.56,6.43C17.95,6.82 17.95,7.46 17.56,7.85L18.97,9.26L19.68,8.55C20.07,8.16 20.71,8.16 21.1,8.55L21.8,9.26C22.19,9.65 22.19,10.29 21.8,10.68L16.15,16.33C15.76,16.72 15.12,16.72 14.73,16.33L14.03,15.63C13.63,15.24 13.63,14.6 14.03,14.21L14.73,13.5L13.32,12.09L3.71,21.7C3.32,22.09 2.69,22.09 2.3,21.7C1.91,21.31 1.91,20.67 2.3,20.28M20,19A2,2 0 0,1 22,21V22H12V21A2,2 0 0,1 14,19H20Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'calendar-account'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,10C14,10 15,12.42 13.59,13.84C12.17,15.26 9.75,14.25 9.75,12.25C9.75,11 10.75,10 12,10M16.5,19H7.5V17.88C7.5,16.63 9.5,15.63 12,15.63C14.5,15.63 16.5,16.63 16.5,17.88M19,20H5V9H19M16,2V4H8V2H6V4H5A2,2 0 0,0 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4H18V2H16Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'final-transcript'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,10.84 21.79,9.69 21.39,8.61L19.79,10.21C19.93,10.8 20,11.4 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.6,4 13.2,4.07 13.79,4.21L15.4,2.6C14.31,2.21 13.16,2 12,2M19,2L15,6V7.5L12.45,10.05C12.3,10 12.15,10 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12C14,11.85 14,11.7 13.95,11.55L16.5,9H18L22,5H19V2M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12H16A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8V6Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'certidegree'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M4,3C2.89,3 2,3.89 2,5V15A2,2 0 0,0 4,17H12V22L15,19L18,22V17H20A2,2 0 0,0 22,15V8L22,6V5A2,2 0 0,0 20,3H16V3H4M12,5L15,7L18,5V8.5L21,10L18,11.5V15L15,13L12,15V11.5L9,10L12,8.5V5M4,5H9V7H4V5M4,9H7V11H4V9M4,13H9V15H4V13Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'label_draft'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M3,3H21V7H3V3M4,8H20V21H4V8M9.5,11A0.5,0.5 0 0,0 9,11.5V13H15V11.5A0.5,0.5 0 0,0 14.5,11H9.5Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'AcademicJourneys'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M22,3H2A2,2 0 0,0 0,5V19A2,2 0 0,0 2,21H22A2,2 0 0,0 24,19V5A2,2 0 0,0 22,3M22,19H2V5H22V19M21,6H14V11H21V6M20,8L17.5,9.75L15,8V7L17.5,8.75L20,7V8M9,12A3,3 0 0,0 12,9A3,3 0 0,0 9,6A3,3 0 0,0 6,9A3,3 0 0,0 9,12M9,8A1,1 0 0,1 10,9A1,1 0 0,1 9,10A1,1 0 0,1 8,9A1,1 0 0,1 9,8M15,16.59C15,14.09 11.03,13 9,13C6.97,13 3,14.09 3,16.59V18H15V16.59M5.5,16C6.22,15.5 7.7,15 9,15C10.3,15 11.77,15.5 12.5,16H5.5Z"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchCase="'process-management'">
+                          <svg style="width: 17px; height: 17px" viewBox="0 0 24 24">
+                            <path
+                              fill="currentColor"
+                              d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M15,19L11,15H14V8H16V15H19L15,19M10,16H8V9H5L9,5L13,9H10V16"
+                            />
+                          </svg>
+                        </mat-icon>
+                        <mat-icon *ngSwitchDefault>{{ childitem.icon }}</mat-icon>
+                      </div>
+                      <span>{{ childitem.name | translate }}</span>
+                    </a>
+                  </ng-template>
+                </mat-list-item>
+              </mat-nav-list>
+            </mat-list-item>
+          </mat-nav-list>
+        </ng-container>
+        <ng-template #horizontalMenuStatus>
+          <mat-nav-list fxLayout="column" menuToggleDirective class="navigation">
+            <mat-list-item *ngFor="let menuitem of menuList.getAll()" menuToggleLink>
+              <a
+                menuToggle
+                class="gene-relative"
+                mat-ripple
+                *ngIf="menuitem?.type === 'button'"
+                routerLinkActive="active-link"
+                [routerLink]="['/dashboard/crm']"
+              >
+                <mat-icon>{{ menuitem?.icon }}</mat-icon>
+                <span>{{ menuitem?.name | translate }}</span>
+                <ng-container *ngIf="menuitem?.label">
+                  <span class="sidebar-label">{{ menuitem?.label }}</span>
+                </ng-container>
+              </a>
+              <a href="javascript:void(0)" *ngIf="menuitem?.type === 'sub'">
+                <span class="gene-text-sm">{{ menuitem?.name | translate }}</span>
+              </a>
+              <mat-nav-list *ngIf="menuitem?.type === 'sub'">
+                <mat-list-item menuToggleLink *ngFor="let childItems of menuitem?.children" [ngClass]="{ open: childItems.isOpen }">
+                  <a
+                    class="anglo-relative"
+                    menuToggle
+                    routerLinkActive="active-link"
+                    [routerLink]="['/' + childItems.state]"
+                    *ngIf="childItems.type == 'link'"
+                  >
+                    <mat-icon>{{ childItems.icon }}</mat-icon>
+                    <span>{{ childItems.name | translate }}</span>
+                  </a>
+                  <a class="anglo-relative" menuToggle href="javascript:void(0)" *ngIf="childItems.type == 'subChild'">
+                    <mat-icon>{{ childItems.icon }}</mat-icon>
+                    <span>{{ childItems.name | translate }}</span>
+                    <span fxFlex></span>
+                    <mat-icon class="menu-caret">chevron_right</mat-icon>
+                  </a>
+                  <mat-nav-list class="sub-menu" *ngIf="childItems.type === 'subChild'">
+                    <mat-list-item *ngFor="let subchilditem of childItems.children" routerLinkActive="open">
+                      <a
+                        class="anglo-relative"
+                        [routerLink]="['/' + childItems.state + '/' + subchilditem.state]"
+                        routerLinkActive="active-link"
+                      >
+                        <span>{{ subchilditem.name | translate }}</span>
+                      </a>
+                    </mat-list-item>
+                  </mat-nav-list>
+                </mat-list-item>
+              </mat-nav-list>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-nav-list>
+        </ng-template>
+      </div>
+    </div>
+    <div class="version-text">FE Version: {{ frontendVersion }}</div>
+    <div class="version-text">BE Version: {{ backendVersion }}</div>
+  </perfect-scrollbar>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

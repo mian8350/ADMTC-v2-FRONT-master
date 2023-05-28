@@ -1,0 +1,149 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="dialogTitleWrapper header-dialog">
+      <div class="p-grid">
+        <div class="w-30 no-padding">
+          <mat-icon mat-icon-button svgIcon="alert-circle-outline" class="mt-5px"></mat-icon>
+        </div>
+        <div class="p-col-10 no-padding">
+          <h3 class="dialogTitle">{{ 'TRANSFER.TITLE' | translate }}</h3>
+        </div>
+        <div class="w-65 no-padding">
+          <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+<div mat-dialog-content class="mat-dialog-content dialog-body">
+    <div class="p-grid">
+        <div class="p-col-">
+            {{ 
+                'TRANSFER.HEADER' | translate: {
+                    civility: studentData?.civility | translate,
+                    firstName: studentData?.first_name,
+                    lastName: studentData?.last_name,
+                    schoolName: studentData?.school?.short_name,
+                    titleName: studentData?.rncp_title?.short_name,
+                    className: studentData?.current_class?.name
+                } 
+            }}
+        </div>
+    </div>
+    <br />
+    <div class="p-grid">
+        <div class="p-col-4">
+            <mat-form-field class="full-wid">
+                <input matInput 
+                  placeholder="{{ 'TRANSFER.INPUT_Title' | translate }}" 
+                  [matAutocomplete]="autoTitelOrigin"
+                  [formControl]="inputTitle"
+                  (focusout)="onCheckTitle()"
+                >
+                <mat-autocomplete #autoTitelOrigin="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option
+                    *ngFor="let option of filteredTitle | async"
+                    [value]="option?.short_name"
+                    (click)="setTitleDestination(option?._id)"
+                  >
+                    {{ option?.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error 
+                  *ngIf="inputTitle.hasError('required') &&
+                  (inputTitle.dirty || inputTitle.touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <div class="p-col-4">
+            <mat-form-field class="full-wid">
+                <input matInput 
+                  placeholder="{{ 'TRANSFER.INPUT_Class' | translate }}"
+                  [matAutocomplete]="autoClassOrigin"
+                  [formControl]="inputClass"
+                  (focusout)="onCheckClass()"
+                >
+                <mat-autocomplete #autoClassOrigin="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option
+                    *ngFor="let option of filteredClass | async"
+                    [value]="option?.name"
+                    (click)="setClassDestination(option?._id)"
+                  >
+                    {{ option?.name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error 
+                  *ngIf="inputClass.hasError('required') &&
+                  (inputClass.dirty || inputClass.touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <div class="p-col-4">
+            <mat-form-field class="full-wid">
+                <input matInput 
+                  placeholder="{{ 'TRANSFER.INPUT_School' | translate }}"
+                  [matAutocomplete]="autoSchoolOrigin"
+                  [formControl]="inputSchool"
+                >
+                <mat-autocomplete #autoSchoolOrigin="matAutocomplete" [panelWidth]="'fit'">
+                  <mat-option
+                    *ngFor="let option of filteredSchool | async"
+                    [value]="option?.short_name"
+                    (click)="setSchoolDestination(option?._id)"
+                  >
+                    {{ option?.short_name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error 
+                  *ngIf="inputSchool.hasError('required') &&
+                  (inputSchool.dirty || inputSchool.touched)"
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+        </div>
+        <br />
+        <br />
+        <div class="p-col-12 text-area-border" [ngClass]="inputReason.hasError('required') && (inputReason.dirty || inputReason.touched) ? 'invalid' : ''">
+          <textarea
+            maxLength="300"
+            rows="4" 
+            cols="40" 
+            [formControl]="inputReason" 
+            matTextareaAutosize 
+            matInput 
+            placeholder="{{ 'TRANSFER.INPUT_Reason' | translate }} *"
+            tabindex="-1"
+          ></textarea>
+        </div>
+        <mat-error 
+          *ngIf="inputReason.hasError('required') &&
+          (inputReason.dirty || inputReason.touched)"
+        >
+          {{ 'This field is required' | translate }}
+        </mat-error>
+    </div>
+
+    <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+      <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+    </div>
+</div>
+  
+<div mat-dialog-actions class="justify-content-end mr-10">
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'TRANSFER.BTN_Cancel' | translate }}</button>
+    <button 
+      mat-button
+      mat-raised-button
+      color="primary"
+      class="mr-0"
+      (click)="enterDialog()"
+      [disabled]="isDetailSame || inputTitle.invalid || inputClass.invalid || inputSchool.invalid || inputReason.invalid"
+    >
+      {{ 'TRANSFER.BTN_Enter' | translate }}
+    </button>
+</div>  

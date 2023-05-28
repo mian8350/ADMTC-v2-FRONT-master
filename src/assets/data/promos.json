@@ -1,0 +1,32 @@
+[
+    {
+        "ref": "Francisco Abbott",
+        "title": "Francisco Abbott",
+        "subTitle": "CEO-Gene",
+        "content": "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
+        "login": true,
+        "register": false,
+        "schoolPage": false,
+        "image": "assets/img/login-slider1.jpg"
+    },
+    {
+        "ref": "Samona Brown",
+        "title": "Samona Brown",
+        "subTitle": "Designer",
+        "content": "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
+        "login": true,
+        "register": true,
+        "schoolPage": false,
+        "image": "assets/img/login-slider3.jpg"
+    },
+    {
+        "ref": "Anna Smith",
+        "title": "Anna Smith",
+        "subTitle": "Managing Director",
+        "content": "Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.",
+        "login": true,
+        "register": true,
+        "schoolPage": true,
+        "image": "assets/img/login-slider2.jpg"
+    }
+]

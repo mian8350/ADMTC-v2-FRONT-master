@@ -1,0 +1,78 @@
+<div class="p-col-12 task-builder-preview">
+  <mat-card>
+    <mat-card-title>
+      <div class="p-grid">
+        <mat-icon svgIcon="checkbox-marked-outline" class="icon-title-svg"></mat-icon>
+        <h3>{{ taskFormValue?.task_title }}</h3>
+      </div>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div class="p-col-12 pad-left">{{ 'Task Description' | translate }}</div>
+      <div class="p-col-12 border-wrap" [innerHTML]="taskFormValue?.description"></div>
+      <div class="p-col-12 pad-left">
+        <div class="p-grid">
+          <div class="p-col-fixed pad-left">{{ 'Due Date' | translate }} :</div>
+          <div class="p-col">{{ taskFormValue?.due_date?.date }}</div>
+        </div>
+      </div>
+      <div class="p-col-12 pad-left">
+        <div class="p-grid">
+          <div class="p-col-6 pad-left">
+            <div class="p-grid">
+              <div class="p-col-fixed pad-left" style="padding-right: 0">{{ 'Assigner' | translate }} :</div>
+              <div class="p-col" *ngIf="taskFormValue?.assigner_id?.name">
+                {{ 'USER_TYPES.' + transformNameIfADMTCDir(taskFormValue?.assigner_id?.name) | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="p-col-6 pad-left">
+            <div class="p-grid">
+              <div class="p-col-fixed pad-left" style="padding-right: 0">{{ 'Assign to' | translate }} :</div>
+              <div class="p-col" *ngIf="taskFormValue?.assign_to_id?.name">
+                {{ 'USER_TYPES.' + transformNameIfADMTCDir(taskFormValue?.assign_to_id?.name) | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 pad-left">{{ 'Attachment' | translate }}</div>
+      <div class="p-col-12 file pad-left">
+        <div class="p-grid p-align-center" *ngFor="let attachment of taskFormValue?.attachments">
+          <div class="p-col-fixed"><span class="fa fa-circle attach-circle"></span></div>
+          <div class="p-col">
+            {{ attachment?.file_name }}
+          </div>
+          <div class="p-col-fixed">
+            <mat-icon style="font-size: 18px; vertical-align: middle">download</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 pad-left">{{ 'Action Taken' | translate }}</div>
+      <div class="p-col-12 pad-left">
+        <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)" [disabled]="true"></ckeditor>
+      </div>
+      <div class="p-col-12 pad-left">{{ 'EXPECTED_DOC.Expected Document' | translate }}</div>
+      <div class="p-col-12 file">
+        <div class="p-grid p-align-center" *ngFor="let document of taskFormValue?.expected_documents">
+          <div class="p-col-fixed">
+            <mat-icon *ngIf="document?.is_required" style="font-size: 18px; vertical-align: middle">error</mat-icon>
+            <mat-icon *ngIf="!document?.is_required" style="font-size: 18px; vertical-align: middle">help</mat-icon>
+          </div>
+          <div class="p-col">
+            {{ document?.expected_document_name }}
+          </div>
+          <div class="p-col-fixed">
+            <mat-icon style="font-size: 18px; vertical-align: middle">upload</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 button-preview">
+        <button mat-raised-button color="warn" style="cursor: default">{{ taskFormValue?.label_cancel }}</button>
+        <button mat-raised-button color="accent" style="cursor: default">{{ taskFormValue?.label_reject }}</button>
+        <button mat-raised-button color="accent" style="cursor: default">{{ taskFormValue?.label_validate }}</button>
+        <button mat-raised-button class="submit-button" style="cursor: default">{{ taskFormValue?.label_submit }}</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

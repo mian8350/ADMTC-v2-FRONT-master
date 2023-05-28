@@ -1,0 +1,21 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.no-pad-top {
+  padding-top: 0 !important;
+}
+.no-pad-bot {
+  padding-bottom: 0 !important;
+}
+.fn-14 {
+  font-size: 14px;
+}
+.fn-10 {
+  font-size: 10px;
+}
+
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

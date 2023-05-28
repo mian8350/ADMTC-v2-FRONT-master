@@ -1,0 +1,126 @@
+<div (scroll)="onScroll($event)" *ngIf="selectedRncpTitleId && selectedClassId">
+  <mat-tab-group
+    (click)="checkValidation($event)"
+    [color]="'accent'"
+    disableRipple
+    [selectedIndex]="selectedIndex"
+    (selectedIndexChange)="onSelectedIndexChange($event)"
+  >
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 0 ? '#ffe77a' : 'white' }">
+          {{ 'Class Parameters' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-class-parameter
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId"
+          [selectedClassName]="selectedClassName"
+          (updateClassParam)="updateClassParam($event)"
+        >
+        </ms-class-parameter>
+      </ng-template>
+    </mat-tab>
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 1 ? '#ffe77a' : 'white' }">
+          {{ 'Task Manager' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-title-manager-tasks [rncpId]="selectedRncpTitleId" [classId]="selectedClassId" [subtab]="subtab"></ms-title-manager-tasks>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 2 ? '#ffe77a' : 'white' }">
+          {{ 'Connected school / user type' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-usertype-class-duplication [selectedClassId]="selectedClassId"> </ms-usertype-class-duplication>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 3 ? '#ffe77a' : 'white' }">{{ 'Conditions' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-class-condition [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId"> </ms-class-condition>
+      </ng-template>
+    </mat-tab>
+
+    <!-- <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5>{{ 'Conditions OLD' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-condition-for-award 
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId">
+        </ms-condition-for-award>
+      </ng-template>
+    </mat-tab> -->
+
+    <!-- <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{'color' : selectedIndex === 2 ? '#ffe77a' : 'white'}">{{ 'JURY_PARAM.TITLE' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-jury-decision-parameter
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedRncpTitleName]="selectedRncpTitleName"
+          [selectedRncpTitleLongName]="selectedRncpTitleLongName"
+          [selectedClassId]="selectedClassId"
+          [selectedClassName]="selectedClassName">
+        </ms-jury-decision-parameter>
+      </ng-template>
+    </mat-tab> -->
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 4 ? '#ffe77a' : 'white' }">
+          {{ 'Jury Organization Parameter' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-jury-organization-parameter [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId">
+        </ms-jury-organization-parameter>
+      </ng-template>
+    </mat-tab>
+
+    <!-- <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{'color' : selectedIndex === 4 ? '#ffe77a' : 'white'}">{{ 'Final Transcript Parameters' | translate }}</h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-final-transcript-parameter
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedClassId]="selectedClassId">
+        </ms-final-transcript-parameter>
+      </ng-template>
+    </mat-tab> -->
+
+    <mat-tab disabled>
+      <ng-template mat-tab-label>
+        <h5 class="child-tab-font" [ngStyle]="{ color: selectedIndex === 5 ? '#ffe77a' : 'white' }">
+          {{ 'Certification Rule' | translate }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <ms-certification-rule
+          #certificationRule
+          [selectedRncpTitleId]="selectedRncpTitleId"
+          [selectedRncpTitleName]="selectedRncpTitleName"
+          [selectedRncpTitleLongName]="selectedRncpTitleLongName"
+          [selectedClassId]="selectedClassId"
+          [selectedClassName]="selectedClassName"
+        >
+        </ms-certification-rule>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

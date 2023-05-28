@@ -1,0 +1,615 @@
+<form [formGroup]="firstStepForm">
+  <div class="p-grid row-margin" style="margin: 0px !important">
+    <div class="p-col-12 align-left" style="padding-top: 0px; padding-left: 0px">
+      <!-- <button mat-raised-button class="red-button btn-test" (click)="cancelTest()" style="font-size: 12px; padding-left: 2px;">
+        <mat-icon svgIcon="undo-variant"></mat-icon>
+        {{ 'LEAVE' | translate }}
+      </button> -->
+      <!-- <button mat-raised-button class="background-accent" (click)="goToSecondStep()" style="font-size: 12px;">
+        {{ 'CONTINUE' | translate }}
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button> -->
+    </div>
+  </div>
+
+  <mat-card style="margin-top: 10px; margin-right: 10px; margin-left: 0px; padding-right: 0px; padding-left: 0px; box-shadow: none">
+    <div class="p-grid create-test-header-button">
+      <button
+        mat-raised-button
+        color="accent"
+        *ngIf="!formData?.is_published"
+        [disabled]="testProgress?.is_assign_corrector_done"
+        (click)="openDuplicateDialog()"
+      >
+        <mat-icon class="mat-icon-default">content_copy</mat-icon>
+        {{ 'TEST.DUPLICATETEST' | translate }}
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="saveTest()"
+        [disabled]="
+          !testCreationService.getFirstTabValidationWithoutSubscribe() || testProgress?.is_assign_corrector_done || isWaitingForResponse
+        "
+      >
+        <mat-icon class="mat-icon-default">save</mat-icon>
+        {{ 'TEST.SAVE' | translate }}
+      </button>
+    </div>
+
+    <fieldset class="yellow-border">
+      <legend>{{ 'TEST.SELECT_TEST' | translate }}</legend>
+      <div class="p-grid row-margin">
+        <div class="p-col-8">
+          <mat-form-field>
+            <mat-label>{{ 'TEST.CLASS' | translate }}</mat-label>
+            <!-- select class dropdown -->
+            <mat-select
+              formControlName="class_id"
+              (selectionChange)="getBlockList()"
+              [disabled]="!!firstStepForm.get('_id')?.value || !!classId"
+              required
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <mat-option [value]="">
+                {{ 'None' | translate }}
+              </mat-option>
+              <mat-option *ngFor="let classData of classes" [value]="classData?._id" (click)="toggleResetSectionEvalskill(true)">
+                {{ classData?.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('class_id').hasError('required') &&
+                (firstStepForm.get('class_id').dirty || firstStepForm.get('class_id').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid row-margin">
+        <div class="p-col-4">
+          <mat-form-field>
+            <mat-label>{{ 'TEST.SELECT_BLOCK' | translate }}</mat-label>
+            <!-- select block dropdown -->
+            <mat-select
+              formControlName="block_of_competence_condition_id"
+              (selectionChange)="getSubjectList()"
+              [disabled]="!!firstStepForm.get('_id')?.value"
+              required
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <ng-container *ngIf="isLoadingBlockList">
+                <mat-option disabled>
+                  <mat-spinner style="margin-left: auto; margin-right: auto" color="accent" [diameter]="20"></mat-spinner>
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="!isLoadingBlockList">
+              <mat-option [value]="">
+                {{ 'None' | translate }}
+              </mat-option>
+              <mat-option
+                *ngFor="let block of blockList"
+                [value]="block?._id"
+                (click)="checkIfCompetencyExist(block?._id, block?.block_type, block?.is_specialization); toggleResetSectionEvalskill(true)"
+              >
+                {{ block?.block_of_competence_condition }}
+              </mat-option></ng-container>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('block_of_competence_condition_id').hasError('required') &&
+                (firstStepForm.get('block_of_competence_condition_id').dirty ||
+                  firstStepForm.get('block_of_competence_condition_id').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="p-col-4">
+          <mat-form-field>
+            <mat-label>{{ 'TEST.SELECT_SUBJECT' | translate }}</mat-label>
+            <!-- select subject dropdown -->
+            <mat-select
+              formControlName="subject_id"
+              (selectionChange)="getTestList()"
+              [disabled]="!!firstStepForm.get('_id')?.value"
+              required
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <ng-container *ngIf="isLoadingSubjectList">
+                <mat-option disabled>
+                  <mat-spinner style="margin-left: auto; margin-right: auto" color="accent" [diameter]="20"></mat-spinner>
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="!isLoadingSubjectList">
+                <mat-option [value]="">
+                  {{ 'None' | translate }}
+                </mat-option>
+                <mat-option *ngFor="let subject of subjectList" [value]="subject?._id">
+                  {{ subject?.subject_name }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('subject_id').hasError('required') &&
+                (firstStepForm.get('subject_id').dirty || firstStepForm.get('subject_id').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="p-col-4">
+          <mat-form-field>
+            <mat-label>{{ 'TEST.SELECT_TEST' | translate }}</mat-label>
+            <!-- select test dropdown -->
+            <mat-select
+              formControlName="evaluation_id"
+              (selectionChange)="getTestData('manual'); triggerTypeChangeFromOutside();"
+              [disabled]="!!firstStepForm.get('_id')?.value"
+              required
+              [disableOptionCentering]="true"
+              panelClass="filterPanel custom-matselect-dropdown"
+            >
+              <ng-container *ngIf="isLoadingEvaluationList">
+                <mat-option disabled>
+                  <mat-spinner style="margin-left: auto; margin-right: auto" color="accent" [diameter]="20"></mat-spinner>
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="!isLoadingEvaluationList">
+                <mat-option [value]="">
+                  {{ 'None' | translate }}
+                </mat-option>
+                <mat-option *ngFor="let test of testList" [value]="test?._id">
+                  {{ test?.evaluation }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('evaluation_id').hasError('required') &&
+                (firstStepForm.get('evaluation_id').dirty || firstStepForm.get('evaluation_id').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid row-margin font-size-12">
+        <div class="p-col-6 label-text-wrapper">
+          <span class="label-text">
+            {{ 'TEST.WEIGHTDESCRIPTION1' | translate }}
+            {{ testData?.weight ? testData?.weight : 0 }}%
+            {{ 'TEST.WEIGHTDESCRIPTION2' | translate }}
+          </span>
+        </div>
+        <div class="p-col-6 label-text-wrapper">
+          <span class="label-text" style="width: 42%; float: left">{{ 'TEST.TESTTYPE' | translate }}: </span>
+          <p style="width: 58%; float: left">{{ (testData?.type ? 'PARAMETERS-RNCP.TEST.TYPE.' + testData?.type : '') | translate }}</p>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="yellow-border">
+      <legend>{{ 'TEST.CORRECTIONTYPE' | translate }}</legend>
+      <div class="p-grid row-margin">
+        <div class="p-col-8">
+          <mat-form-field>
+            <mat-label>{{ 'TEST.CORRECTIONTYPE' | translate }}</mat-label>
+            <!-- select correction type dropdown -->
+            <mat-select formControlName="correction_type" (openedChange)="triggerTypeChangeFromOutside()" required [disableOptionCentering]="true"
+            panelClass="filterPanel custom-matselect-dropdown">
+              <mat-option *ngFor="let type of correctionTypes" [value]="type">
+                {{ 'TEST.CORRECTIONTYPES.' + (firstStepForm.get('type').value === 'preparation_center_eval_soft_skill' ? 'academic_director' : type) | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('correction_type').hasError('required') &&
+                (firstStepForm.get('correction_type').dirty || firstStepForm.get('correction_type').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="p-col-4" style="margin-top: 13px" *ngIf="firstStepForm.get('correction_type').value === 'cross_correction'">
+          <mat-checkbox formControlName="cross_corr_paperless" style="margin-left: 20px">
+            <span *ngIf="firstStepForm.get('cross_corr_paperless').value; else unchecked">
+              {{ 'PaperBtn.Checked' | translate }}
+            </span>
+            <ng-template #unchecked>
+              {{ 'PaperBtn.Unchecked' | translate }}
+            </ng-template>
+          </mat-checkbox>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset
+      class="yellow-border"
+      [ngClass]="{
+        hide: !(
+          firstStepForm.get('type').value === 'academic_pro_evaluation' || firstStepForm.get('type').value === 'soft_skill_pro_evaluation'
+        )
+      }"
+    >
+      <legend>{{ 'Send Date' | translate }}</legend>
+      <div class="p-grid row-margin">
+        <div class="p-col-8" formGroupName="send_date_to_mentor"> 
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="date_utc"
+              readonly
+              [matDatepicker]="testSendDatePicker"
+              placeholder="{{ 'Send Date' | translate }}"
+              [min]="minDate"
+              (click)="testSendDatePicker.open()"
+              (dateInput)="dateSendUpdateService()"
+              [required]="
+                firstStepForm.get('type').value === 'academic_pro_evaluation' ||
+                firstStepForm.get('type').value === 'soft_skill_pro_evaluation'
+              "
+            />
+            <mat-datepicker-toggle matSuffix [for]="testSendDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker [startAt]="minDate" #testSendDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset
+      class="yellow-border"
+      *ngIf="
+        !(firstStepForm.get('type').value === 'mentor_evaluation') &&
+        !(firstStepForm.get('type').value === 'memoire_oral') &&
+        !(firstStepForm.get('type').value === 'memoire_oral_non_jury') &&
+        !(firstStepForm.get('type').value === 'academic_auto_evaluation') &&
+        !(firstStepForm.get('type').value === 'academic_pro_evaluation') &&
+        !(firstStepForm.get('type').value === 'soft_skill_auto_evaluation') &&
+        !(firstStepForm.get('type').value === 'soft_skill_pro_evaluation') &&
+        !(firstStepForm.get('type').value === 'academic_recommendation') &&
+        !(firstStepForm.get('type').value === 'preparation_center_eval_soft_skill') &&
+        firstStepForm.get('correction_type').value !== 'cross_correction' &&
+        firstStepForm.get('correction_type').value !== 'admtc' &&
+        !firstStepForm.get('is_retake_test').value
+      "
+    >
+      <legend>{{ 'TEST.ADDITIONAL_PARAMETER' | translate }}</legend>
+      <!-- Quality Control -->
+      <ng-container
+        *ngIf="
+          !firstStepForm.get('group_test').value &&
+          !firstStepForm.get('controlled_test').value &&
+          !(firstStepForm.get('type').value === 'free_continuous_control') &&
+          !(firstStepForm.get('type').value === 'mentor_evaluation') &&
+          !isSpecializationBlock
+        "
+      >
+        <div class="p-grid row-margin font-size-12">
+          <div class="p-col-12">
+            <mat-slide-toggle
+              (change)="resetQualityControl()"
+              [style.display]="isQualityControlDisabled ? 'none' : ''"
+              formControlName="quality_control"
+            >
+              {{ 'TEST.QUALITY_CONTROL' | translate }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+        <div
+          class="p-grid row-margin"
+          *ngIf="firstStepForm.get('quality_control').value"
+          [style.display]="isQualityControlDisabled ? 'none' : ''"
+        >
+          <div class="p-col-8">
+            <mat-form-field>
+              <input
+                type="number"
+                matInput
+                placeholder="{{ 'QUALITY_CONTROL.NO_OF_STUDENTS_PC' | translate }}"
+                formControlName="student_per_school_for_qc"
+                [required]="firstStepForm.get('quality_control').value"
+              />
+              <mat-error
+                *ngIf="
+                  firstStepForm.get('student_per_school_for_qc').hasError('required') &&
+                  (firstStepForm.get('student_per_school_for_qc').dirty || firstStepForm.get('student_per_school_for_qc').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <div
+          class="p-grid row-margin"
+          *ngIf="firstStepForm.get('quality_control').value"
+          [style.display]="isQualityControlDisabled ? 'none' : ''"
+        >
+          <div class="p-col-8">
+            <mat-form-field>
+              <input
+                type="number"
+                matInput
+                placeholder="{{ 'QUALITY_CONTROL.DIFFERENT_ALLOWED' | translate }}"
+                formControlName="quality_control_difference"
+                [required]="firstStepForm.get('quality_control').value"
+              />
+              <mat-error
+                *ngIf="
+                  firstStepForm.get('quality_control_difference').hasError('required') &&
+                  (firstStepForm.get('quality_control_difference').dirty || firstStepForm.get('quality_control_difference').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Free Control -->
+      <div
+        class="p-grid row-margin font-size-12"
+        *ngIf="
+          !(firstStepForm.get('correction_type').value === 'certifier') &&
+          !(firstStepForm.get('correction_type').value === 'cross_correction') &&
+          !(firstStepForm.get('type').value === 'memoire_ecrit') &&
+          !firstStepForm.get('quality_control').value &&
+          !firstStepForm.get('group_test').value && !(firstStepForm.get('type').value === 'academic_recommendation')
+        "
+      >
+        <div class="p-col-12">
+          <mat-slide-toggle
+            formControlName="controlled_test"
+            [required]="firstStepForm.get('type').value === 'free_continuous_control'"
+            (change)="resetDateTypeFromMark($event)"
+          >
+            {{ 'TEST.FREETESTCONTROL' | translate }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <!-- Free Control ONLY -->
+      <ng-container *ngIf="firstStepForm.get('type').value === 'free_continuous_control'">
+        <div class="p-col-12 font-size-12">
+          <mat-slide-toggle #withAssignCorrector formControlName="with_assign_corrector">
+            {{ withAssignCorrector.checked ? ('TEST.WITH_ASSIGN_CORRECTOR' | translate) : ('TEST.WITHOUT_ASSIGN_CORRECTOR' | translate) }}
+          </mat-slide-toggle>
+        </div>
+      </ng-container>
+
+      <!-- Group Test -->
+      <ng-container
+        *ngIf="
+          !firstStepForm.get('quality_control').value &&
+          !(firstStepForm.get('type').value === 'free_continuous_control') &&
+          !(firstStepForm.get('type').value === 'mentor_evaluation') 
+          && !(firstStepForm.get('type').value === 'academic_recommendation')
+        "
+      >
+        <div
+          class="p-grid row-margin font-size-12"
+          *ngIf="!(firstStepForm.get('correction_type').value === 'cross_correction') && !firstStepForm.get('controlled_test').value"
+        >
+          <div class="p-col-12">
+            <mat-slide-toggle formControlName="group_test" (change)="toggleGroupTest($event)">
+              {{ 'TEST.GROUPTEST' | translate }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+        <div class="p-grid row-margin font-size-12" *ngIf="firstStepForm.get('group_test').value" formGroupName="correction_grid">
+          <div class="p-col-12" style="padding-bottom: 0px">
+            <span class="label-text" style="margin-bottom: 0px">{{ 'TEST.NO_STUDENT_ALLOW_GROUP' | translate }}</span>
+          </div>
+          <div class="p-col-4" style="padding-top: 0px" formGroupName="group_detail">
+            <mat-form-field>
+              <input
+                [required]="firstStepForm.get('group_test').value"
+                type="number"
+                matInput
+                placeholder="Min"
+                formControlName="min_no_of_student"
+                (change)="checkIsBiggerThanMax()"
+                (keyup)="checkIsBiggerThanMax()"
+              />
+              <mat-error
+                *ngIf="
+                  firstStepForm.get('correction_grid').get('group_detail').get('min_no_of_student').hasError('required') &&
+                  (firstStepForm.get('correction_grid').get('group_detail').get('min_no_of_student').dirty ||
+                    firstStepForm.get('correction_grid').get('group_detail').get('min_no_of_student').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="p-col-4" style="padding-top: 0px" formGroupName="group_detail">
+            <mat-form-field>
+              <input
+                type="number"
+                [required]="firstStepForm.get('group_test').value"
+                matInput
+                placeholder="Max"
+                formControlName="no_of_student"
+                (change)="checkIsLowerThanMin()"
+                (keyup)="checkIsLowerThanMin()"
+              />
+              <mat-error
+                *ngIf="
+                  firstStepForm.get('correction_grid').get('group_detail').get('no_of_student').hasError('required') &&
+                  (firstStepForm.get('correction_grid').get('group_detail').get('no_of_student').dirty ||
+                    firstStepForm.get('correction_grid').get('group_detail').get('no_of_student').touched)
+                "
+                >{{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+    </fieldset>
+
+    <fieldset class="yellow-border">
+      <legend>{{ 'TEST.TESTDATE_STEP_ONE' | translate }}</legend>
+      <div
+        class="p-grid row-margin font-size-12"
+        formGroupName="date"
+        [ngClass]="{ hide: firstStepForm.get('date_type').value === 'multiple_date' }"
+      >
+        <!-- with matsuffix -->
+        <div class="p-col-2">
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="date_utc"
+              readonly
+              [matDatepicker]="testDatePicker"
+              placeholder="{{ 'TEST.Send Date' | translate }}"
+              [min]="minDate"
+              (click)="testDatePicker.open()"
+              (dateInput)="dateUpdateService()"
+              required
+            />
+            <mat-datepicker-toggle matSuffix [for]="testDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker [startAt]="minDate" [disabled]="testProgress?.is_assign_corrector_done" #testDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div #testTimeDiv class="p-col-2" style="display: flex">
+          <mat-form-field style="width: 75px">
+            <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time_utc" />
+            <ngx-material-timepicker-toggle [disabled]="testProgress?.is_assign_corrector_done" matSuffix [for]="time_utc">
+              <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                <path
+                  [attr.fill]="testProgress?.is_assign_corrector_done ? '#7b7b7b' : '#ffffff'"
+                  d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                />
+              </svg>
+            </ngx-material-timepicker-toggle>
+          </mat-form-field>
+          <ngx-material-timepicker #time_utc (timeSet)="dateUpdateService($event)"></ngx-material-timepicker>
+        </div>
+      </div>
+      <div class="p-grid row-margin font-size-12">
+        <div class="p-col-12">
+          <mat-radio-group formControlName="date_type" (change)="setTestDate()">
+            <mat-radio-button *ngFor="let type of dateTypes" [value]="type">
+              {{ 'TEST.DATETYPES.' + type.toUpperCase() | translate }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!-- multiple date test correction -->
+      <div *ngIf="firstStepForm.get('date_type').value === 'multiple_date' && multipleDateFormArray?.length" formArrayName="multiple_dates">
+        <div
+          class="p-grid row-margin"
+          *ngFor="let dateData of multipleDateFormArray.controls; let i = index; let last = last"
+          [formGroupName]="i"
+        >
+          <div class="p-col-4" style="padding: 1em 0.5em 0.5em 0.5em">Date {{ i + 1 }}</div>
+          <div class="p-col-2" style="padding: 0px 0.5em 0px 0.5em">
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="date_utc"
+                [matDatepicker]="multipleDateDatePicker"
+                placeholder="{{ 'TESTCORRECTIONS.TESTDATE' | translate }}"
+                [min]="getMinDate(i)"
+                (click)="openMultipleDateDatePicker(i)"
+                (dateInput)="dateUpdateServiceMultipleDate(i)"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="multipleDateDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker
+                [disabled]="testProgress?.is_assign_corrector_done"
+                [startAt]="minDate"
+                #multipleDateDatePicker
+              ></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div #testPCTimeDiv class="p-col-2" style="padding: 0px 0.5em 0px 0.5em; display: flex">
+            <mat-form-field style="width: 75px">
+              <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time_utc" />
+              <ngx-material-timepicker-toggle [disabled]="testProgress?.is_assign_corrector_done" matSuffix [for]="time_utc">
+                <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                  <path
+                    [attr.fill]="testProgress?.is_assign_corrector_done ? '#7b7b7b' : '#ffffff'"
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+            </mat-form-field>
+            <ngx-material-timepicker #time_utc (timeSet)="dateUpdateServiceMultipleDate(i, $event)"></ngx-material-timepicker>
+          </div>
+          <div class="pad-t-xs display-flex">
+            <button
+              mat-mini-fab
+              color="warn"
+              type="button"
+              class="multiple-date-btn mrgn-r-xs"
+              *ngIf="multipleDateFormArray?.length > 1"
+              (click)="removeMultipleDateFormArray(i)"
+            >
+              <mat-icon class="multiple-date-icon">close</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" type="button" class="multiple-date-btn" *ngIf="last" (click)="addMultipleDateFormArray()">
+              <mat-icon class="multiple-date-icon">add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- different date for each school -->
+      <div *ngIf="firstStepForm.get('date_type').value === 'different' && (schoolTestDateFormArray.length === schoolList.length)" formArrayName="schools">
+        <div class="p-grid row-margin" *ngFor="let school of schoolList; let i = index">
+          <ng-container [formGroupName]="i">
+            <div class="p-col-4" style="padding: 1em 0.5em 0.5em 0.5em">
+              {{ school?.short_name }}
+            </div>
+            <div class="p-col-2" style="padding: 0px 0.5em 0px 0.5em" formGroupName="test_date">
+              <mat-form-field>
+                <input
+                  matInput
+                  formControlName="date_utc"
+                  [matDatepicker]="testSchoolDatePicker"
+                  placeholder="{{ 'TESTCORRECTIONS.TESTDATE' | translate }}"
+                  [min]="minDate"
+                  (click)="openSchoolDatePicker(i)"
+                  (dateInput)="dateUpdateServicePC(i, $event, 'date')"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="testSchoolDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker
+                  [disabled]="testProgress?.is_assign_corrector_done"
+                  [startAt]="minDate"
+                  #testSchoolDatePicker
+                ></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div #testPCTimeDiv class="p-col-2" style="padding: 0px 0.5em 0px 0.5em; display: flex" formGroupName="test_date">
+              <mat-form-field style="width: 75px">
+                <input matInput [ngxTimepicker]="time_utc" readonly [format]="24" formControlName="time_utc" />
+                <ngx-material-timepicker-toggle [disabled]="testProgress?.is_assign_corrector_done" matSuffix [for]="time_utc">
+                  <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                    <path
+                      [attr.fill]="testProgress?.is_assign_corrector_done ? '#7b7b7b' : '#ffffff'"
+                      d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                    />
+                  </svg>
+                </ngx-material-timepicker-toggle>
+              </mat-form-field>
+              <ngx-material-timepicker #time_utc (timeSet)="dateUpdateServicePC(i, $event, 'time')"></ngx-material-timepicker>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

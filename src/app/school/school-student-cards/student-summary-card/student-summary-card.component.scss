@@ -1,0 +1,309 @@
+.open {
+  color: white;
+  align-self: center;
+  margin: 0px;
+}
+.close {
+  color: black;
+  align-self: center;
+  margin: 0px;
+}
+.pane-divider {
+  margin-top: 12px;
+  min-height: 150px;
+}
+.field {
+  border-right: solid;
+}
+.student-photo {
+  // width: 120px !important;
+  vertical-align: middle;
+  padding-left: 0px;
+  padding-right: 2px;
+}
+.student-photo img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.second-field {
+  margin-left: 5px;
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.panel-divider {
+  border-top: 1px solid white;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.student-contact {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.margin-btm-5 {
+  margin-bottom: -5px;
+}
+
+.panel-header {
+  color: #ffffff;
+  font-size: 18px;
+  height: 40px !important;
+}
+:host ::ng-deep.mat-icon-button .mat-button-wrapper {
+  border: 1px solid #424242;
+  border-radius: 50%;
+  background-color: #424242;
+  padding: 6px !important;
+  cursor: pointer;
+}
+:host ::ng-deep.mat-icon {
+  width: 18px;
+  margin-top: 4px;
+}
+
+.mr-left {
+  margin-left: 470px;
+}
+.block {
+  margin-bottom: 3px !important;
+  margin-right: 3px !important;
+}
+.yellow {
+  color: #ffd740;
+  font-size: 17px;
+}
+.orange {
+  color: #f49f36;
+  font-size: 17px;
+}
+.blue {
+  color: #36ebf4;
+  font-size: 17px;
+}
+.red {
+  color: #ff4040;
+  font-size: 17px;
+}
+.green {
+  color: #adff2f;
+  font-size: 17px;
+}
+.purple {
+  color: #ff46f9;
+  font-size: 17px;
+}
+.black {
+  color: #000000;
+  font-size: 17px;
+}
+.green-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #adff2f;
+}
+.red-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #ff4040;
+}
+.black-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #000000;
+}
+.yellow-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #ffd740;
+}
+.orange-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #f49f36;
+}
+.purple-icon {
+  font-size: 17px;
+  width: 17px;
+  color: #ff46f9;
+}
+.default-icon-size {
+  font-size: 17px;
+  width: 17px;
+}
+.status {
+  font-size: 17px;
+}
+:host ::ng-deep.mat-icon-button {
+  justify-self: end;
+}
+.status-text {
+  display: flex;
+  margin-left: 7px;
+}
+.status-icons {
+  display: flex;
+  margin-left: 10px;
+  justify-content: space-around;
+  margin-bottom: 8px;
+}
+.status-icons > div:last-of-type {
+  display: flex;
+  margin-left: 30px;
+  margin-right: 10px !important;
+}
+.status-icon {
+  display: flex;
+  align-items: center;
+
+  div :nth-child(1) {
+    max-width: 30px;
+  }
+
+  .icon-label {
+    margin-right: 10px;
+  }
+}
+.status-icon p {
+  font-size: 15px;
+  margin-bottom: 0px !important;
+  margin-right: 0px !important;
+}
+.title {
+  width: 125px;
+  padding-right: 5px;
+}
+.academic {
+  display: inline;
+}
+.dot-icon {
+  display: inline;
+  font-size: 17px;
+}
+.login-icon {
+  display: inline;
+}
+
+.login-icon.mat-icon {
+  margin-top: 0;
+  transform: scale(0.7);
+}
+
+.last-login-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-left: 0px;
+  margin-left: -4px;
+  margin-top: -10px;
+}
+
+.last-login {
+  width: 150px;
+}
+
+:host ::ng-deep .status-desc .mat-icon {
+  width: 18px;
+  vertical-align: top;
+}
+.text-user {
+  padding-left: 6px;
+}
+.text-user ul {
+  list-style: none;
+  display: table;
+}
+.text-user li {
+  display: table-row;
+}
+.text-user span {
+  display: table-cell;
+}
+.text-user li > span:last-of-type {
+  display: table-cell;
+  padding-left: 5px;
+}
+.status-desc span {
+  padding-left: 5px;
+  display: inline;
+  width: 200px !important;
+}
+.margin-top {
+  margin-top: 2px;
+}
+
+.ml-12 {
+  margin-left: 12px !important;
+}
+
+.exemped {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.exempted-block {
+  margin-bottom: 0.2rem;
+  padding-left: 10px;
+}
+
+.icon-msg {
+  padding-left: 0 !important;
+}
+
+:host ::ng-deep .exempted-block {
+  .mat-checkbox-layout {
+    white-space: normal !important;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .mat-checkbox-inner-container {
+    margin: 5px 8px 0 0;
+  }
+
+  span.mat-checkbox-label {
+    color: #ff4040;
+    padding-right: 14px;
+  }
+}
+
+.certifier-icon {
+  font-size: 15px !important;
+}
+
+.scrollable {
+  max-height: 30vh !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.icon-status {
+  margin-top: 2px !important;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.padding-icon-info {
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .padding-icon-right {
+    padding-right: 4px;
+  }
+}
+
+.mg-0 {
+  margin: 0;
+}
+
+.no-pt {
+  padding-top: 0;
+}
+
+.no-paddingtop {
+  padding-top: 0px !important;
+}

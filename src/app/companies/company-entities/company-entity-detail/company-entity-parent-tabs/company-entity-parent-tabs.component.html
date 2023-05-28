@@ -1,0 +1,34 @@
+<mat-tab-group #companyMatGroup [(selectedIndex)]="selectedIndex">
+  <mat-tab label="Entity">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.ENTITY' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-entity-identity-tab [companyId]="companyId"></ms-entity-identity-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="HeadOffice">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.Head Office' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-entity-head-office-tab [companyId]="companyId"></ms-entity-head-office-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Branches">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.Branches' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-entity-branches-tab [companyId]="companyId" [entityRC]="entityRC"></ms-entity-branches-tab>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Notes">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.Notes' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-company-notes-tab [companyEntityId]="companyId" [userData]="userData"></ms-company-notes-tab>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

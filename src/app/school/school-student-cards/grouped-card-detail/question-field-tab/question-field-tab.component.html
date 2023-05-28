@@ -1,0 +1,92 @@
+<div class="top-space">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+        <div class="p-grid">
+          <div class="p-col-12 text-right">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="isWaitingForResponse"
+              (click)="reset()"
+              matTooltip="{{ 'RESET' | translate }}"
+            >
+              <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+              {{ 'RESET' | translate }}
+            </button>
+          </div>
+        </div>
+      </th>
+    </ng-container>
+
+    <!-- filter section -->  
+    <ng-container matColumnDef="questionFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            [formControl]="questionFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="answerFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            [formControl]="answerFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+        </mat-form-field>
+      </th>
+    </ng-container>
+      
+    <!-- column header and value -->  
+    <ng-container matColumnDef="question">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'FIELDFROMSURVEY.Question' | translate }}">
+        <h5 mat-sort-header="question_label">{{ 'FIELDFROMSURVEY.Question' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ translateLabel(element?.question_label) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="answer">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'FIELDFROMSURVEY.Answer' | translate }}">
+        <h5 mat-sort-header="answer">{{ 'FIELDFROMSURVEY.Answer' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element?.question_answer }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': questionCount <= 10 }"
+      [length]="questionCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

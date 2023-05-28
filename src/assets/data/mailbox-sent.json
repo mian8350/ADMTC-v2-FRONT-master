@@ -1,0 +1,31 @@
+[
+    {
+        "createdAt": "2019-07-03T06:03:43.311Z",
+        "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+        "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c453f76c7ed42d80273c5"},
+        "status": "active",
+        "subject": "DRH 2020: Récap hebdo de tâches en retard"
+    },
+    {
+        "createdAt": "2019-07-04T06:03:06.030Z",
+        "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+        "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c451a76c7ed42d8027239"},
+        "status": "active",
+        "subject": "MSC 2 ANS 2020: Récap hebdo de tâches en retard"
+    },
+    {
+        "createdAt": "2019-08-03T06:03:02.568Z",
+        "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+        "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c451676c7ed42d80271f7"},
+        "status": "active",
+        "subject": "RGP 2019: Récap hebdo de tâches en retard"
+    },
+    {
+        "createdAt": "2019-07-06T06:02:57.484Z",
+        "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+        "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c451176c7ed42d80271b5"},
+        "status": "active",
+        "subject": "MSC 1 AN 2019: Récap hebdo de tâches en retard"
+    }
+
+]

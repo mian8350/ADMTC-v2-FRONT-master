@@ -1,0 +1,12 @@
+<div class="p-grid">
+  <div class="p-col-4">
+    <mat-card style="background-color: #424242; padding:0;">
+      <ms-president-juries-list-table [juryOrgId]="juryOrgId" (selectPresident)="selectPresident($event)" (selectGlobalId)="selectGlobalId($event)" [isSaved]="isSaved"></ms-president-juries-list-table>
+    </mat-card>
+  </div>
+  <div class="p-col-8" *ngIf="presidentId && globalBackupId">
+    <mat-card style="background-color: #424242; padding:0;">
+      <ms-schedule-per-president-jury-table [juryOrgId]="juryOrgId" [presidentId]="presidentId" [globalBackupId]="globalBackupId" (updateSaved)="isSavedClicked($event)"></ms-schedule-per-president-jury-table>
+    </mat-card>
+  </div>
+</div>

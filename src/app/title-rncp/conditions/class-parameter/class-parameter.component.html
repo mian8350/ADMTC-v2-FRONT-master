@@ -1,0 +1,569 @@
+<div class="p-grid">
+  <div class="p-col-12 classHeading">
+    <h3>
+      <svg class="icon-title" viewBox="0 0 24 24">
+        <path fill="currentColor"
+          d="M6 2C4.89 2 4 2.89 4 4V20A2 2 0 0 0 6 22H12.68A7 7 0 0 1 12 19A7 7 0 0 1 19 12A7 7 0 0 1 20 12.08V8L14 2H6M13 3.5L18.5 9H13V3.5M18 14C17.87 14 17.76 14.09 17.74 14.21L17.55 15.53C17.25 15.66 16.96 15.82 16.7 16L15.46 15.5C15.35 15.5 15.22 15.5 15.15 15.63L14.15 17.36C14.09 17.47 14.11 17.6 14.21 17.68L15.27 18.5C15.25 18.67 15.24 18.83 15.24 19C15.24 19.17 15.25 19.33 15.27 19.5L14.21 20.32C14.12 20.4 14.09 20.53 14.15 20.64L15.15 22.37C15.21 22.5 15.34 22.5 15.46 22.5L16.7 22C16.96 22.18 17.24 22.35 17.55 22.47L17.74 23.79C17.76 23.91 17.86 24 18 24H20C20.11 24 20.22 23.91 20.24 23.79L20.43 22.47C20.73 22.34 21 22.18 21.27 22L22.5 22.5C22.63 22.5 22.76 22.5 22.83 22.37L23.83 20.64C23.89 20.53 23.86 20.4 23.77 20.32L22.7 19.5C22.72 19.33 22.74 19.17 22.74 19C22.74 18.83 22.73 18.67 22.7 18.5L23.76 17.68C23.85 17.6 23.88 17.47 23.82 17.36L22.82 15.63C22.76 15.5 22.63 15.5 22.5 15.5L21.27 16C21 15.82 20.73 15.65 20.42 15.53L20.23 14.21C20.22 14.09 20.11 14 20 14H18M19 17.5C19.83 17.5 20.5 18.17 20.5 19C20.5 19.83 19.83 20.5 19 20.5C18.16 20.5 17.5 19.83 17.5 19C17.5 18.17 18.17 17.5 19 17.5Z" />
+      </svg><span>{{ 'Class Parameters' | translate }}</span>
+      <button *ngIf="isTutorialAdded" mat-button style="
+          line-height: 16px;
+          margin: 10px !important;
+          padding: 0px !important;
+          width: 16px !important;
+          min-width: 16px;
+          background: #424242 !important;
+        " matTooltip="{{ 'Tutorial for this module' | translate }}" (click)="toggleTutorial(tutorialData)">
+        <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+      </button>
+    </h3>
+  </div>
+</div>
+
+<div class="p-grid" [formGroup]="classParameterForm">
+  <div class="right-container">
+    <div class="p-col-fixed" style="width: 600px">
+      <div class="align-right-button">
+        <button mat-raised-button class="mrgn-btn11" color="accent" (click)="goToFormFolowUp()">
+          <mat-icon class="mat-icon-default" svgIcon="clipboard-search-outline" style="height: 24px;"></mat-icon> {{ 'Go to Form Follow Up' | translate }}
+        </button>
+        <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()">
+          <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+        </button>
+      </div>
+      <div class="yellow-border card-row">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <mat-form-field class="full-width">
+              <input type="text" formControlName="name" matInput required placeholder="{{ 'Class Name' | translate }}" />
+              <mat-error>
+                <p *ngIf="classParameterForm.get('name').hasError('required')">
+                  {{ 'Class Name is Required' | translate }}
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="p-grid">
+          <div class="p-col-12">
+            <mat-form-field class="full-width">
+              <textarea matInput formControlName="description"
+                placeholder="{{ 'Class Description' | translate }}"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="p-grid" *ngIf="classData && classData.type_evaluation !== null">
+          <div class="p-col-12">
+            <mat-slide-toggle color="accent" formControlName="is_admission_enabled" (change)="toggleAdmission($event)">
+              <span [ngStyle]="{ color: classParameterForm.get('is_admission_enabled').value ? '#fdd835' : 'white' }">
+                {{ (classParameterForm.get('is_admission_enabled').value ? 'Admission Form is Enabled' : 'Admission Form is Disabled') | translate }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+  
+        <div *ngIf="classData && classData.type_evaluation !== null" class="p-grid">
+          <div class="p-col-12">
+            <mat-slide-toggle [disabled]="classData && classData.is_job_desc_active" color="accent"
+              formControlName="allow_job_description" (change)="toggleJob($event)">
+              <span [ngStyle]="{ color: classParameterForm.get('allow_job_description').value ? '#fdd835' : 'white' }">
+                {{
+                (classParameterForm.get('allow_job_description').value
+                ? 'Job Description is enabled'
+                : 'Job Description is disabled'
+                ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="p-grid" *ngIf="classData && classData.type_evaluation !== null">
+          <div class="p-col-12">
+            <mat-slide-toggle [disabled]="classData && classData.quality_form" color="accent" formControlName="is_quality_form_enabled" (change)="toggleQualityForm($event)">
+              <span [ngStyle]="{ color: classParameterForm.get('is_quality_form_enabled').value ? '#fdd835' : 'white' }">
+                {{
+                  (classParameterForm.get('is_quality_form_enabled').value ? 'Quality Form is Enabled' : 'Quality Form is Disabled')
+                    | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+  
+        <div *ngIf="classData && classData.type_evaluation !== null" class="p-grid">
+          <div class="p-col-12">
+            <mat-slide-toggle [disabled]="classData && classData.is_problematic_active" color="accent"
+              formControlName="allow_problematic" (change)="toggleProblematic($event)">
+              <span [ngStyle]="{ color: classParameterForm.get('allow_problematic').value ? '#fdd835' : 'white' }">
+                {{
+                (classParameterForm.get('allow_problematic').value ? 'Problematic is enabled' : 'Problematic is disabled')
+                | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="p-grid"
+          *ngIf="classData && classData.type_evaluation !== 'expertise' && classData.type_evaluation !== null">
+          <div class="p-col-12">
+            <mat-slide-toggle [disabled]="classData && classData.is_employability_survey_active" color="accent"
+              formControlName="allow_mentor_evaluation" (change)="toggleMentor($event)">
+              <span [ngStyle]="{ color: classParameterForm.get('allow_mentor_evaluation').value ? '#fdd835' : 'white' }">
+                {{
+                (classParameterForm.get('allow_mentor_evaluation').value
+                ? 'Mentor Evaluation is enabled'
+                : 'Mentor Evaluation is disabled'
+                ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div>
+        </div>
+  
+        <div *ngIf="classData && classData.type_evaluation !== null" class="p-grid">
+          <!-- <div class="p-col-12">
+            <mat-slide-toggle
+              [disabled]="classData && classData.is_employability_survey_active"
+              color="accent"
+              formControlName="allow_employability_survey"
+              (change)="toggleEmployabilitySurvey($event)"
+            >
+              <span [ngStyle]="{ color: classParameterForm.get('allow_employability_survey').value ? '#fdd835' : 'white' }">
+                {{
+                  (classParameterForm.get('allow_employability_survey').value
+                    ? 'Employability Survey is enabled'
+                    : 'Employability Survey is disabled'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div> -->
+  
+          <div class="p-grid" formGroupName="identity_verification">
+            <div class="p-col-12">
+              <mat-slide-toggle color="accent" formControlName="allow_auto_send_identity_verification"
+                (change)="toggleVerification($event)">
+                <span
+                  [ngStyle]="{ color: getIdentityForm().get('allow_auto_send_identity_verification').value ? '#fdd835' : 'white' }">
+                  {{
+                  (getIdentityForm().get('allow_auto_send_identity_verification').value
+                  ? 'identity_verification.auto_send_identity_verification_enable'
+                  : 'identity_verification.auto_send_identity_verification_disable'
+                  ) | translate
+                  }}
+                </span>
+              </mat-slide-toggle>
+            </div>
+          </div>
+  
+          <div class="p-grid" formGroupName="registration_period">
+            <div class="p-col-4">
+              <p class="regis_period">{{ 'Registration Period' | translate }} :</p>
+            </div>
+            <div class="p-col-4" formGroupName="start_date">
+              <mat-form-field>
+                <input
+                  matInput
+                  (click)="startDatepicker.open()"
+                  readonly
+                  formControlName="date"
+                  [matDatepicker]="startDatepicker"
+                  [placeholder]="'Start Date' | translate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatepicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+    
+            <div class="p-col-4" formGroupName="end_date">
+              <mat-form-field>
+                <input
+                  [disabled]="!getPeriodForm().get('start_date').get('date').value"
+                  matInput
+                  (click)="endDatepicker.open()"
+                  readonly
+                  formControlName="date"
+                  [min]="getPeriodForm().get('start_date').get('date').value"
+                  [matDatepicker]="endDatepicker"
+                  [placeholder]="'End Date' | translate"
+                />
+                <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatepicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+    <div class="p-grid">
+      <div class="p-col-fixed" style="width: 600px">
+        <div class="p-grid yellow-border card-row">
+          <div class="section-header">
+            <h3>{{ 'Specialization' | translate }}</h3>
+          </div>
+          <div class="p-col-12 no-padding">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div class="inline-block">
+                  <mat-form-field color="accent">
+                    <input (keydown.enter)="addSpecialization()" matInput [formControl]="specialization_input" type="text"
+                      placeholder="{{ 'Specialization' | translate }}" />
+                  </mat-form-field>
+                </div>
+                <div class="inline-block mrgn-l-sm">
+                  <button [disabled]="!specialization_input.value" type="button" mat-raised-button color="primary"
+                    (click)="addSpecialization()">
+                    {{ 'Add Specialization' | translate }}
+                  </button>
+                </div>
+              </div>
+    
+              <div class="p-col-12"
+                *ngFor="let specialization of classParameterForm.get('specializations')['controls']; let i = index"
+                class="specialization-pill">
+                {{ specialization.get('name').value }}
+                <span>
+                  <mat-icon style="cursor: pointer" (click)="removeSpecialization(i)" class="icon-mat-change">cancel
+                  </mat-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-5">
+            <p class="regis_period">{{'TITLE_IDENTITY.Year of Certification' | translate}} :</p>
+          </div>
+          <div class="p-col-6" style="padding-left: 20px;">
+            <mat-form-field>
+              <input [matDatepicker]="year" class="hidden-date-input" [readonly]="true">
+              <input 
+              matInput 
+              (click)="year.open()" 
+              [readonly]="true"
+              formControlName="year_of_certification" 
+              [value]="myDate"
+              placeholder="{{'TITLE_IDENTITY.Year of Certification' | translate}}" 
+              >
+
+              <mat-datepicker-toggle matSuffix [for]="year"></mat-datepicker-toggle>
+              <mat-datepicker name="myDate" #year startView="multi-year" (yearSelected)="closedYearSelected($event, year)"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="p-col-4"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="p-col tab-container">
+    <mat-tab-group [(selectedIndex)]="selectedIndex" #sliderMatTabGroup>
+      <!-- For Title Gov Registration -->
+      <mat-tab label="TitleGov">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Title Gov Registration' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-title-gov-registration-tab [selectedRncpTitleId]="selectedRncpTitleId" 
+          [selectedClassId]="selectedClassId">
+          </ms-class-title-gov-registration-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- For Admission Tab -->
+      <mat-tab label="AddmissionForm" *ngIf="classParameterForm.get('is_admission_enabled').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Admission Form' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-admission-tab [classForm]="classParameterForm.get('is_admission_enabled').value"
+            [classFormData]="classParameterForm.value" [selectedClassId]="selectedClassId"
+            [admissionData]="admissionData" (refreshData)="refreshData($event)">
+          </ms-class-admission-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- For Job Desc Tab -->
+      <mat-tab label="JobDesc" *ngIf="classParameterForm.get('allow_job_description').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'JOB_DESCRIPTION' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-job-desc-tab [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId"
+            [selectedClassName]="classParameterForm.get('name').value" [classData]="classData"
+            [classForm]="classParameterForm.value">
+          </ms-class-job-desc-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- For Quality Form Tab -->
+      <mat-tab label="QualityForm" *ngIf="classParameterForm.get('is_quality_form_enabled').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Quality Form' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-quality-form-tab
+            [classForm]="classParameterForm.get('is_quality_form_enabled').value"
+            [classFormData]="classParameterForm.value"
+            [selectedClassId]="selectedClassId"
+            [qualityFormData]="qualityFormData"
+          >
+          </ms-class-quality-form-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- For Problematic Tab -->
+      <mat-tab label="Problematic" *ngIf="classParameterForm.get('allow_problematic').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'PROBLEMATIC' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-problematic-tab [selectedRncpTitleId]="selectedRncpTitleId" [selectedClassId]="selectedClassId"
+            [selectedClassName]="classParameterForm.get('name').value" [classData]="classData"
+            [classForm]="classParameterForm.value">
+          </ms-class-problematic-tab>
+        </ng-template>
+      </mat-tab>
+
+      <!-- For Problematic Tab -->
+      <!-- <mat-tab label="{{ 'PROBLEMATIC' | translate }}">
+        <ng-template matTabContent>
+          <fieldset [ngClass]="{'hide-element': !classParameterForm.get('allow_problematic').value}" class="fieldset-class" [disabled]="classData && classData.is_problematic_active">
+            <div class="yellow-border card-row">
+              <div class="p-grid">
+                <div class="p-col-12 mb-1rem border-white">
+                  <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-prob' : 'fr-prob'">
+                    <h5>{{ 'PROBLEMATIC_019.Problematic Form' | translate }}*</h5>
+                  </div>
+                  <div class="p-col-8 pad-none mrgn-left15">
+                    <mat-form-field>
+                      <mat-select
+                        [required]="classParameterForm.get('allow_problematic').value"
+                        [disabled]="classData && classData.is_problematic_active"
+                        formControlName="problematic_questionnaire_template_id"
+                        style="width: 100%"
+                        color="accent"
+                        [placeholder]="'PROBLEMATIC_019.Select Form Template for Problematic' | translate"
+                      >
+                        <mat-option *ngFor="let quest of problematicQuetionaireList" [value]="quest._id">
+                          {{ quest.questionnaire_name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="p-grid" formGroupName="problematic_activation_date">
+                <div class="p-col-12 mb-1rem border-white">
+                  <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-activation' : 'fr-activation'">
+                    <h5>{{ 'Activation Date' | translate }}</h5>
+                  </div>
+                  <div class="p-0-6 mrgn-left15">
+                    <div [fxFlex]="30">
+                      <mat-form-field style="margin-top: 5px; margin-bottom: -1.4em">
+                        <input
+                          [required]="classParameterForm.get('allow_problematic').value"
+                          matInput
+                          readonly
+                          [placeholder]="'Date of Activation' | translate"
+                          
+                          formControlName="date"
+                          (click)="picker3.open()"
+                          [matDatepicker]="picker3"
+                        />
+                        Previously there is min validator blocking save [min]="today"
+                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                        <mat-datepicker #picker3></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="5">
+                      <mat-form-field style="width: 75px; margin-top: -2px">
+                        <input
+                          [required]="classParameterForm.get('allow_problematic').value"
+                          matInput
+                          [ngxTimepicker]="time_utc_prob"
+                          readonly
+                          [format]="24"
+                          formControlName="time"
+                        />
+                        <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc_prob">
+                          <svg
+                            style="transform: scale(0.85)"
+                            viewBox="0 0 30 30"
+                            width="30px"
+                            height="30px"
+                            ngxMaterialTimepickerToggleIcon
+                          >
+                            <path
+                              fill="#ffffff"
+                              d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                            />
+                          </svg>
+                        </ngx-material-timepicker-toggle>
+                      </mat-form-field>
+                      <ngx-material-timepicker #time_utc_prob></ngx-material-timepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </ng-template>
+      </mat-tab> -->
+
+      <!-- For Mentor Tab -->
+      <mat-tab label="MentorEval" *ngIf="classParameterForm.get('allow_mentor_evaluation').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'MENTOREVALUATION.TITLE' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent></ng-template>
+      </mat-tab>
+
+      <!-- For ES Tab -->
+      <!-- <mat-tab label="EmployabilitySurvey" *ngIf="classParameterForm.get('allow_employability_survey').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'EMPLOYABILITY SURVEY' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-class-employability-survey-tab
+            [selectedRncpTitleId]="selectedRncpTitleId"
+            [selectedClassId]="selectedClassId"
+            [selectedClassName]="selectedClassName"
+            [classData]="classData"
+          >
+          </ms-class-employability-survey-tab>
+        </ng-template>
+      </mat-tab> -->
+
+      <!-- For Identity Verification Tab -->
+      <mat-tab label="IdentityVerification"
+        *ngIf="getIdentityForm().get('allow_auto_send_identity_verification').value">
+        <ng-template mat-tab-label>
+          <h5>{{ 'identity_verification.identity_verification' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <fieldset class="fieldset-class">
+            <div class="yellow-border card-row">
+              <div class="p-grid" formGroupName="identity_verification">
+                <div class="p-col-12 mb-1rem border-white">
+                  <div class="section-header"
+                    [ngClass]="translate.currentLang === 'en' ? 'en-activation' : 'fr-activation'">
+                    <h5>{{ 'Activation Date' | translate }}</h5>
+                  </div>
+                  <div class="p-0-6 mrgn-left15">
+                    <ng-container formGroupName="identity_verification_activation_date">
+                      <mat-form-field style="width: 200px; margin-top: 5px; margin-bottom: -1.4em; margin-right: 1rem">
+                        <input [required]="getIdentityForm().get('allow_auto_send_identity_verification').value"
+                          matInput readonly formControlName="date_utc" [placeholder]="'Date of Activation' | translate"
+                          (click)="picker4.open()" [matDatepicker]="picker4" />
+                        <!-- Previously there is min validator blocking save [min]="today" -->
+                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                        <mat-datepicker #picker4></mat-datepicker>
+                      </mat-form-field>
+                      <!-- <div [fxFlex]="30">
+                        
+                      </div> -->
+                      <mat-form-field style="width: 75px; margin-top: -2px">
+                        <input [required]="getIdentityForm().get('allow_auto_send_identity_verification').value"
+                          matInput formControlName="time_utc" [ngxTimepicker]="time_utc_identity" readonly
+                          [format]="24" />
+                        <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc_identity">
+                          <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px"
+                            ngxMaterialTimepickerToggleIcon>
+                            <path fill="#ffffff"
+                              d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z" />
+                          </svg>
+                        </ngx-material-timepicker-toggle>
+                      </mat-form-field>
+                      <ngx-material-timepicker #time_utc_identity></ngx-material-timepicker>
+                      <!-- <div #testTimeDiv [fxFlex]="20" [fxFlexOffset]="5">
+                        
+                      </div> -->
+                    </ng-container>
+                    <ng-container formGroupName="identity_verification_due_date">
+                      <mat-form-field
+                        style="width: 200px; margin-top: 5px; margin-bottom: -1.4em; margin-right: 1rem; margin-left: 1rem">
+                        <input [required]="getIdentityForm()?.get('allow_auto_send_identity_verification')?.value"
+                          [disabled]="!getIdentityForm()?.get('identity_verification_activation_date')?.get('date_utc')?.value"
+                          [min]="getIdentityForm()?.get('identity_verification_activation_date')?.get('date_utc')?.value"
+                          matInput readonly formControlName="date_utc" [placeholder]="'Due Date' | translate"
+                          (click)="picker5.open()" [matDatepicker]="picker5" />
+                        <!-- Previously there is min validator blocking save [min]="today" -->
+                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <mat-datepicker #picker5></mat-datepicker>
+                      </mat-form-field>
+                    </ng-container>
+                  </div>
+                  <div>
+                    <p>{{ 'Identity Verification Note' | translate }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Certification Rules for Preparation Centres Tab -->
+      <mat-tab label="Certification Rules for Preparation Centres">
+        <ng-template mat-tab-label>
+          <h5>{{ 'Certification Rules for Preparation Centres' | translate }}</h5>
+        </ng-template>
+        <ng-template matTabContent>
+          <ms-pc-certification-tabs 
+            [rncpId]="selectedRncpTitleId" 
+            [classId]="selectedClassId">
+          </ms-pc-certification-tabs>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+<!-- <div class="p-grid">
+  <div class="p-col-fixed" style="width: 600px">
+    <div class="p-grid yellow-border card-row">
+      <div class="section-header">
+        <h3>{{ 'Specialization' | translate }}</h3>
+      </div>
+      <div class="p-col-12 no-padding">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="inline-block">
+              <mat-form-field color="accent">
+                <input (keydown.enter)="addSpecialization()" matInput [formControl]="specialization_input" type="text"
+                  placeholder="{{ 'Specialization' | translate }}" />
+              </mat-form-field>
+            </div>
+            <div class="inline-block mrgn-l-sm">
+              <button [disabled]="!specialization_input.value" type="button" mat-raised-button color="primary"
+                (click)="addSpecialization()">
+                {{ 'Add Specialization' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="p-col-12"
+            *ngFor="let specialization of classParameterForm.get('specializations')['controls']; let i = index"
+            class="specialization-pill">
+            {{ specialization.get('name').value }}
+            <span>
+              <mat-icon style="cursor: pointer" (click)="removeSpecialization(i)" class="icon-mat-change">cancel
+              </mat-icon>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

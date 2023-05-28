@@ -1,0 +1,17 @@
+<div class="text-input" mat-dialog-title>
+    <h2>{{'CERTIFICATION_RULE.ADD_DOCUMENT' | translate}}</h2>
+</div>
+<div mat-dialog-content>
+  <mat-form-field class="full-width">
+    <input class="text-input" matInput [formControl]="fileName" placeholder="{{ 'DOCUMENT.NAME' | translate }}" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="action-btn">
+  <button mat-raised-button color="red" (click)="closeDialog()">{{'CERTIFICATION_RULE.CANCEL' | translate}}</button>
+  <button mat-raised-button color="primary" [disabled]="isWaitingForResponse || !fileName.valid" (click)="addFile(fileUpload)"><mat-icon>add</mat-icon> File</button>
+  <input type="file" #fileUpload style="display: none;" accept="application/pdf" />
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

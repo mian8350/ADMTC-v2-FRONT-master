@@ -1,0 +1,148 @@
+.right-btn {
+  margin: 0.33333333rem
+}
+.etape-section {
+  background: #607d8b;
+}
+
+.no-bottom-margin [fxFlex] {
+  margin-bottom: auto;
+}
+
+.active-tab {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+.pa-1 {
+  padding: 1rem !important;
+}
+.pr-1 {
+  padding-right: 1rem !important;
+}
+.pl-1 {
+  padding-left: 1rem !important;
+}
+.pt-1 {
+  padding-top: 1rem !important;
+}
+.pb-1 {
+  padding-bottom: 1rem !important;
+}
+.px-1 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+.px-3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+.py-1 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.p-1-8 {
+  padding-top: 1.8em !important;
+}
+
+.p-0-8 {
+  padding-top: 0.8em !important;
+}
+
+.ma-1 {
+  margin: 1rem !important;
+}
+.mr-1 {
+  margin-right: 1rem !important;
+}
+.ml-1 {
+  margin-left: 1rem !important;
+}
+.mt-1 {
+  margin-top: 1rem !important;
+}
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+.mx-1 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+.my-1 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.m-p-0 {
+  margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.p-0{
+  padding-left: 0.7em;
+    padding-right: 0px;
+}
+
+.background-primary {
+  background-color: #607d8b !important;
+}
+
+.create-test-header-button {
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.yellow-action-btn {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+.label-text {
+  width: 140px;
+  display: inline-block;
+}
+
+.align-input-field {
+  margin-bottom: 9px;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.is-loading ::ng-deep .mat-option-text {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep.custom-matselect-dropdown.mat-select-panel{
+  max-width: fit-content !important;
+}
+::ng-deep.filterPanel {
+  margin-top: 25px !important;
+}

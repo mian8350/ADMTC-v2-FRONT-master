@@ -1,0 +1,100 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon class="icon-alignment" mat-icon-button svgIcon="receipt"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">
+          <span *ngIf="data?.type === 'add'">{{ 'Add an Event' | translate }}</span>
+          <span *ngIf="data?.type === 'edit'">{{ 'Edit an Event' | translate }}</span>
+        </h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" mat-dialog-close tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body dialog-border-light">
+  <form [formGroup]="calendarEventForm">
+    
+    <div style="color: black;">
+      <!-- <h1 mat-dialog-title>
+        <mat-icon svgIcon="receipt" style="vertical-align: sub;"></mat-icon>
+      </h1>
+      <mat-divider style="margin-bottom: 5px;"></mat-divider> -->
+      <!-- <mat-dialog-content> -->
+        <mat-slide-toggle formControlName="is_all_school" style="margin-bottom: 1rem;" (change)="isAllSchool()">{{
+          'For All Schools*' | translate
+        }}</mat-slide-toggle>
+        <div class="selectDrop" *ngIf="!calendarEventForm.get('is_all_school').value">
+          <ng-select (click)="getEvent($event)" formControlName="schools" [multiple]="true" placeholder="{{ 'CALENDAR_Select Schools*' | translate }}">
+            <ng-option *ngFor="let school of schools" [value]="school._id">{{ school.short_name }}</ng-option>
+          </ng-select>
+          <span style="color: #dc3545;" *ngIf="calendarEventForm.get('schools').hasError('required')
+                                                      && (calendarEventForm.get('schools').dirty
+                                                      || calendarEventForm.get('schools').touched)">{{'This field is required'|translate}}</span>
+        </div>
+        <div class="selectDrop">
+          <ng-select (click)="getEvent($event)" formControlName="user_types" [multiple]="true" placeholder="{{ 'Select User Type*' | translate }}">
+            <ng-option *ngFor="let user of userTypesList" [value]="user._id">{{ 'USER_TYPES.' + user.name | translate }}</ng-option>
+          </ng-select>
+          <span style="color: #dc3545;" *ngIf="calendarEventForm.get('user_types').hasError('required')
+                                                      && (calendarEventForm.get('user_types').dirty
+                                                      || calendarEventForm.get('user_types').touched)">{{'This field is required'|translate}}</span>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-6" style="padding-left: 0px; padding-right: 1.5rem;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="from_date" readonly (click)="from_date.open()" placeholder="{{ 'From' | translate }}*" formControlName="from_date" (dateChange)="patchToDate()"/>
+              <mat-datepicker-toggle matSuffix [for]="from_date"></mat-datepicker-toggle>
+              <mat-datepicker #from_date></mat-datepicker>
+              <mat-error *ngIf="calendarEventForm.get('from_date').hasError('required')
+                                                      && (calendarEventForm.get('from_date').dirty
+                                                      || calendarEventForm.get('from_date').touched)">{{'This field is required'|translate}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="p-col-6" style="padding-right: 0px; padding-left: 1.5rem;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="to_date" readonly (click)="to_date.open()" placeholder="{{ 'To' | translate }}*" formControlName="to_date" />
+              <mat-datepicker-toggle matSuffix [for]="to_date"></mat-datepicker-toggle>
+              <mat-datepicker #to_date></mat-datepicker>
+              <mat-error *ngIf="calendarEventForm.get('to_date').hasError('required')
+                                                      && (calendarEventForm.get('to_date').dirty
+                                                      || calendarEventForm.get('to_date').touched)">{{'This field is required'|translate}}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-form-field>
+          <textarea matInput placeholder="{{ 'Description' | translate }}*" rows="3" formControlName="name"></textarea>
+          <mat-error *ngIf="calendarEventForm.get('name').hasError('required')
+                                                      && (calendarEventForm.get('name').dirty
+                                                      || calendarEventForm.get('name').touched)">{{'This field is required'|translate}}</mat-error>
+        </mat-form-field>
+      <!-- </mat-dialog-content> -->      
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button type="button" color="warn" mat-dialog-close class="cancel-btn">{{ 'Cancel' | translate }}</button>
+  <button
+    mat-button
+    mat-raised-button
+    type="submit"
+    color="primary"
+    [disabled]="!calendarEventForm.valid || isWaitingForResponse || isSubmitDisable"
+    [mat-dialog-close]="true"
+    (click)="saveForm()"
+  >
+  {{'Save'| translate }}
+  </button>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

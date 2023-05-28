@@ -1,0 +1,23 @@
+<span *ngIf="currentUser">
+  <div class="p-grid yellow-banner">
+    <div class="p-col-1 no-padding" style="align-self: center;">
+      <mat-icon>error</mat-icon>
+    </div>
+    <div class="p-col-10">
+      {{'MAIN_MENU.MAIN_TEXT_1' | translate}} {{((currentUser && currentUser?.civility) ? currentUser?.civility : '') | translate}} {{currentUser?.first_name ? currentUser?.first_name : '' }} {{currentUser?.last_name ? currentUser?.last_name : '' }}
+      <span *ngIf="currentUser && currentUser.entities[0] && currentUser.entities[0].type && currentUser.entities[0].type.name">
+        {{'MAIN_MENU.MAIN_TEXT_2' | translate}} {{currentUser?.entities[0]?.type?.name | translate}} 
+      </span>
+      <span *ngIf="currentUser && currentUser.entities[0] && currentUser.entities[0].school && currentUser.entities[0].school.short_name">
+        {{ (currentUser?.entities[0]?.school?.short_name ? 'MAIN_MENU.MAIN_TEXT_3' : '') | translate }} {{ currentUser?.entities[0]?.school?.short_name }}
+      </span>
+      <span style="cursor: pointer;" (click)="backToPreviousLogin()">
+        <b><u>{{'MAIN_MENU.MAIN_TEXT_4' | translate}}</u></b>
+      </span>
+      {{'MAIN_MENU.MAIN_TEXT_5' | translate}}
+    </div>
+    <div class="p-col-1 no-padding" style="align-self: center;">
+      <mat-icon (click)="dismiss()" style="cursor: pointer;">close</mat-icon>
+    </div>
+  </div>
+</span>

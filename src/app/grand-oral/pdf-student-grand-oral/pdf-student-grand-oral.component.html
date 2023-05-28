@@ -1,0 +1,324 @@
+<div
+  #pagesElementStudents
+  id="grand-oral-student"
+  class="over-table"
+  style="
+    padding: 15px !important;
+    top: 15px !important;
+    left: 30px !important;
+    bottom: 15px !important;
+    right: 15px !important;
+    position: relative;
+    display: none;
+  "
+>
+  <ng-container
+    *ngFor="let competence of dataGrandOral?.conpetences; let isFirst = first; let blockIndex = index; let isFirstBlock = first"
+  >
+    <div class="pad">
+      <table
+        border="1"
+        style="
+          font-size: 12px;
+          margin: 0px !important;
+          padding: 0px !important;
+          top: 0px !important;
+          left: 0px !important;
+          bottom: 0px !important;
+          right: 0px !important;
+        "
+      >
+        <!-- <============================ Start Header =====================> -->
+        <!-- Note : Structure Header - akan ada kemungkinan sebuah column bakalan tidak tampil di UI secara dynamic berdasar data
+                    di bagian header, kamu tinggal buat condition per tiap header untuk masalah tampilannya nanti -->
+        <thead
+          class="container-body"
+          style="
+            margin: 0px !important;
+            padding: 0px !important;
+            top: 0px !important;
+            left: 0px !important;
+            bottom: 0px !important;
+            right: 0px !important;
+          "
+        >
+          <tr>
+            <th class="border-none" rowspan="6" colspan="2"><img style="min-width: 205px" [src]="imcp46" class="img" /></th>
+            <th class="border-none h-center" rowspan="6" colspan="3">
+              <span class="h-text"> <h4>Certification Professionnelle</h4> </span>
+              <span class="h-text"> <h4>Responsable de Développement Commercial (RDC)</h4> </span>
+              <span class="h-text">
+                <h4><b>Bilan de compétences</b></h4>
+              </span>
+            </th>
+            <th class="border-none"></th>
+            <th class="no-padding h-left" colspan="1">Certificateur</th>
+            <th class="h-center no-padding" colspan="10">IMCP</th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding h-left" colspan="1">Lieu de préparation</th>
+            <th class="h-center no-padding" style="min-width: 155px;width: 155px" colspan="10">ALTEA</th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding h-left" colspan="1">Année de promotion</th>
+            <th class="h-center no-padding" colspan="10">2021</th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding h-left" colspan="1">Apprenant</th>
+            <th class="h-center no-padding" colspan="10">Mme Simone Dupont</th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="no-padding h-left" colspan="1">Date et lieu de naissance</th>
+            <th class="h-center no-padding" colspan="10">18/06/2000 á Nancy</th>
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="border-none" colspan="1"></th>
+            <th class="border-none" colspan="10"></th>
+          </tr>
+          <tr class="header">
+            <th colspan="4" class="h-left"><h2>Grand Oral</h2></th>
+            <th colspan="1" style="font-size: 8px !important">Evaluations Pédagogiques</th>
+            <th style="font-size: 8px !important" colspan="3">Auto Eval.</th>
+            <th style="font-size: 8px !important" colspan="6">Eval. Professionnelle</th>
+            <!-- <th style="font-size: 8px !important" colspan="3" rowspan="2">GRAND ORAL Entrée des décision du jury</th> -->
+          </tr>
+          <tr class="header">
+            <th colspan="4" class="h-left">
+              <h4>{{ dataGrandOral?.block }}</h4>
+            </th>
+            <th style="font-size: 8px !important">
+              Diagnostic et préconisations sur la politique et les pratiques de la gestion administrative RH
+            </th>
+            <!-- <th>Oral Individuel</th> -->
+            <th style="font-size: 8px !important" colspan="3">Auto-Eval.</th>
+            <th style="font-size: 8px !important" colspan="6">Eval. Prof</th>
+          </tr>
+          <tr class="header" style="font-size: 10px !important">
+            <th colspan="4" class="h-right">
+              <!-- <span class="h-text"> Rappel des tranches de Niveaux d'Evaluations : </span>
+              <span class="h-text"> "D" = Démontré "N" = Non Démontré </span>
+              <span class="h-text"> "C" = En Cours "-" = Non Evalué </span> -->
+            </th>
+            <th>Justification</th>
+            <!-- <th>Justification</th> -->
+            <th rowspan="2" colspan="3">Justification</th>
+            <th rowspan="2" colspan="6">Justification</th>
+            <!-- <th rowspan="2">Justification</th>
+            <th class="competences" rowspan="2">Compétences</th>
+            <th class="competences" rowspan="2" style="height: 150px !important">Bloc de Compétence</th> -->
+          </tr>
+          <tr>
+            <th class="border-none"></th>
+            <th class="border-none">Compétence</th>
+            <th class="border-none"></th>
+            <th class="h-lefts">
+              <span class="h-text"> Critères d'évaluation </span>
+            </th>
+            <th></th>
+            <!-- <th></th> -->
+          </tr>
+        </thead>
+
+        <!-- <============================ End Header =====================> -->
+
+        <!-- <============================ Start Body =====================> -->
+        <!-- Note : Structure body - nya di tentukan dari row (line) yang pertama, jadi pada body rowspan dan colspan di tentukan pada row pertama,
+                    Kamu bisa tampilin first index dari data criteria di bagian ini, dan sisanya di looping di row selanjutnya -->
+        <tbody class="container-body" style="font-size: 10px !important">
+          <tr>
+            <td [attr.rowspan]="competence?.criteria?.length" style="text-align: center; width: 10px; max-width: 10px; min-width: 10px">
+              {{ competence?.ref }}
+            </td>
+            <td
+              matTooltip="{{ competence?.competence }}"
+              class="text-center"
+              [attr.rowspan]="competence?.criteria?.length"
+              style="padding: 0px; width: 30px; position: relative"
+            >
+              <p
+                style="
+                  padding: 0px !important;
+                  margin: 0px !important;
+                  position: absolute;
+                  -webkit-transform: rotate(-90deg);
+                  transform: rotate(-90deg);
+                  width: 240px;
+                  font-size: 14px;
+                  left: -42px;
+                  top: 137px;
+                  font-size: 10px !important;
+                "
+              >
+                {{ competence?.competence }}
+              </p>
+            </td>
+            <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.ref : '' }}
+            </td>
+            <td
+              class="backgreen"
+              matTooltip="{{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.criteria : '' }}"
+              style="
+                font-size: 9px !important;
+                min-width: 250px;
+                max-width: 150px !important;
+                width: 150px !important;
+                overflow: hidden !important;
+              "
+            >
+              <p class="no-padding" style="padding: 0px !important; margin: 0px">
+                {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.criteria : '' }}
+              </p>
+            </td>
+            <!-- <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.ecrit?.note : '' }}
+            </td>
+            <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.ecrit?.level : '' }}
+            </td> -->
+            <td style="min-width: 250px" class="backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.ecrit?.justification : '' }}
+            </td>
+            <!-- <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.oral?.note : '' }}
+            </td>
+            <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.oral?.level : '' }}
+            </td> -->
+            <!-- <td style="min-width: 250px" class="backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.oral?.justification : '' }}
+            </td> -->
+            <!-- <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.bilan?.note : '' }}
+            </td>
+            <td class="text-center backgreen">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.bilan?.level : '' }}
+            </td>
+            <td class="text-center" rowspan="6">
+              {{ competence?.criteria && competence?.criteria.length ? competence?.criteria[0]?.eval_acad?.competence : '' }}
+            </td> -->
+            <td [attr.rowspan]="competence?.criteria?.length" colspan="3">
+              <div style="font-size: 9px !important">{{ competence?.eval_acad?.justification }}</div>
+            </td>
+            <!-- <td class="text-center" rowspan="6">
+              {{ competence?.eval_acad?.competence }}
+            </td> -->
+            <td [attr.rowspan]="competence?.criteria?.length" colspan="6">
+              <div style="font-size: 9px !important">{{ competence?.eval_prof?.justification }}</div>
+            </td>
+            <!-- <td class="text-center" rowspan="6">
+              {{ competence?.eval_prof?.competence }}
+            </td> -->
+            <!-- <td [attr.rowspan]="competence?.criteria?.length"> -->
+              <!-- <mat-form-field color="accent" class="full-width">
+                  <mat-icon class="icon-self-right" (click)="openVoiceRecog()" svgIcon="microphone"></mat-icon>
+                  <textarea
+                    class="noScroll"
+                    matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    [formControl]="justification"
+                    placeholder="{{ 'Justification' | translate }}"
+                  ></textarea>
+                </mat-form-field> -->
+              <!-- <mat-form-field>
+                <mat-label>Justification</mat-label>
+                <input matInput type="text" />
+              </mat-form-field> -->
+            <!-- </td> -->
+            <!-- <td class="text-center" [attr.rowspan]="competence?.criteria?.length"> -->
+              <!-- <mat-form-field>
+                  <mat-label>{{ 'Compétences' }}</mat-label>
+                  <mat-select required [formControl]="competence">
+                    <mat-option [value]="'Acquis'">Acquis</mat-option>
+                    <mat-option [value]="'Non Acquis'">Non Acquis</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              <!-- <mat-form-field>
+                <mat-label>Compétences</mat-label>
+                <input matInput type="text" />
+              </mat-form-field> -->
+            <!-- </td> -->
+            <!-- <td class="text-center" [attr.rowspan]="competence?.criteria?.length"> -->
+              <!-- <mat-form-field>
+                  <mat-label>{{ 'Bloc de Compétence' }}</mat-label>
+                  <mat-select required [formControl]="block">
+                    <mat-option [value]="'Validé'">Validé</mat-option>
+                    <mat-option [value]="'Non Validé'">Non Validé</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+              <!-- <mat-form-field>
+                <mat-label>Bloc de Compétence</mat-label>
+                <input matInput type="text" />
+              </mat-form-field> -->
+            <!-- </td> -->
+          </tr>
+          <!-- <============================ Body Line 2 =====================> -->
+          <!-- Note : Kamu bisa rubah mulai bagian ini ke bawah menggunakan looping angular, karena jika di perhatiin bentuknya sama -->
+          <ng-container
+            *ngFor="let criteria of competence?.criteria; let isFirstCriteria = first; let evens = even; let indexCriteria = index"
+          >
+            <tr *ngIf="!isFirstCriteria" [ngClass]="{ backgreen: evens || indexCriteria === 0 }">
+              <td class="text-center">{{ criteria?.ref }}</td>
+              <td
+                matTooltip="{{ criteria?.criteria }}"
+                style="
+                  font-size: 9px !important;
+                  min-width: 250px;
+                  max-width: 150px !important;
+                  width: 150px !important;
+                  overflow: hidden !important;
+                "
+              >
+                <p class="no-padding" style="padding: 0px !important; margin: 0px">
+                  {{ criteria?.criteria }}
+                </p>
+              </td>
+              <!-- <td class="text-center">{{ criteria?.eval_acad?.ecrit?.note }}</td>
+              <td class="text-center">{{ criteria?.eval_acad?.ecrit?.level }}</td> -->
+              <td>
+                {{ criteria?.eval_acad?.ecrit?.justification }}
+              </td>
+              <!-- <td class="text-center">{{ criteria?.eval_acad?.oral?.note }}</td>
+              <td class="text-center">{{ criteria?.eval_acad?.oral?.level }}</td> -->
+              <!-- <td>
+                {{ criteria?.eval_acad?.oral?.justification }}
+              </td> -->
+              <!-- <td class="text-center">{{ criteria?.eval_acad?.bilan?.note }}</td>
+              <td class="text-center">{{ criteria?.eval_acad?.bilan?.level }}</td> -->
+            </tr>
+          </ng-container>
+
+          <!-- Line  Controles Continus / 20 -->
+          <!-- <tr>
+            <td class="text-center">CC</td>
+            <td class="text-center">
+              <p style="margin: 0px !important; padding: 0px !important"></p>
+              Controles Continus / 20
+            </td>
+            <td class="text-center">15</td>
+            <td colspan="10"></td>
+          </tr> -->
+          <ng-container *ngFor="let cc of dataGrandOral?.cc; let isFirstCriteria = first">
+            <tr>
+              <td class="text-center">{{ cc?.ref }}</td>
+              <td style="font-size: 9px" colspan="2" class="text-center">
+                <p style="margin: 0px !important; padding: 0px !important; font-size: 9px"></p>
+                {{ cc?.competence }}
+              </td>
+              <td class="text-center">{{ cc?.score }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <!-- <============================ End Body =====================> -->
+      </table>
+      <div style="display: block; page-break-before: always !important; position: relative"></div>
+    </div>
+    <!-- <div style="display: block; page-break-after: always !important; position: relative"></div> -->
+  </ng-container>
+</div>

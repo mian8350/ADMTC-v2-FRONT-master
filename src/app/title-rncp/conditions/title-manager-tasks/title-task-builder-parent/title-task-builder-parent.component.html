@@ -1,0 +1,23 @@
+<mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changePageTitle($event)" #tabGroup>
+  <mat-tab label="{{ 'Task Details' | translate }}">
+    <ng-template matTabContent>
+      <ms-title-task-builder-task-detail
+        [titleId]="titleId"
+        [classId]="classId"
+        (formValueChange)="onFormValueChange($event)"
+        (onLeaveEmitter)="onLeave($event)"
+        (saveReload)="saveReload($event)"
+      ></ms-title-task-builder-task-detail>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="taskId && (type === 'edit'||type === 'view')" label="{{ 'Task Parameters' | translate }}">
+    <ng-template matTabContent>
+      <ms-title-task-builder-task-parameter (onLeaveEmitter)="onLeave($event)"></ms-title-task-builder-task-parameter>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="taskId && (type === 'edit'||type === 'view')" label="{{ 'Notification and Messages' | translate }}">
+    <ng-template matTabContent>
+      <ms-title-task-builder-task-notification-message [isViewTask]="type==='view'?true:false"[classId]="classId"></ms-title-task-builder-task-notification-message>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

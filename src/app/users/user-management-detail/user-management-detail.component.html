@@ -1,0 +1,96 @@
+<ng-container class="main-candidate-file">
+  <ng-container>
+    <div class="header-filter list-horizontal p-grid">
+      <mat-form-field style="width: 150px" class="search">
+        <input
+          type="text"
+          matInput
+          [placeholder]="'Search on Last Name' | translate"
+          [formControl]="userFilter"
+          style="margin-right: 15px"
+        />
+      </mat-form-field>
+      <ng-select
+        class="mrgn-btn"
+        [items]="school"
+        bindLabel="short_name"
+        bindValue="_id"
+        [multiple]="false"
+        placeholder="{{ 'School' | translate }}"
+        [formControl]="schoolFilter"
+        (change)="getTitle()"
+        style="padding-top: 3px; width: 200px; margin-right: 15px; margin-left: 15px"
+      >
+      </ng-select>
+      <ng-select
+        class="mrgn-btn"
+        [items]="title"
+        bindLabel="short_name"
+        bindValue="_id"
+        [multiple]="false"
+        placeholder="{{ 'RNCP Title' | translate }}"
+        [formControl]="titleFilter"
+        (change)="getDataClass()"
+        [disabled]="!schoolFilter.value"
+        style="padding-top: 3px; width: 200px; margin-right: 15px"
+      >
+      </ng-select>
+      <ng-select
+        class="mrgn-btn"
+        [items]="class"
+        bindLabel="name"
+        bindValue="_id"
+        [multiple]="false"
+        placeholder="{{ 'Class' | translate }}"
+        [formControl]="classFilter"
+        [disabled]="!titleFilter.value"
+        style="padding-top: 3px; width: 200px; margin-right: 15px"
+      >
+      </ng-select>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="resetUsers()"
+        style="margin-top: 10px; margin-left: 10px"
+        matTooltip="{{ 'Reset' | translate }} "
+      >
+        <mat-icon class="mat-icon-svgIcon" svgIcon="loop">loop</mat-icon>
+        {{ 'Reset' | translate }}
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="p-grid" style="padding-top: 10px" [style.height.px]="getAutomaticHeight()" [style.max-height.px]="getAutomaticHeight()">
+      <div class="p-col-4 left-side" style="width: 335px">
+        <ms-user-cards
+          (selectedUserChange)="updatedSelectedUser($event)"
+          [userList]="userList"
+          [selectedUserId]="currSelectedUserId"
+          [load]="isWaitingForResponse"
+        ></ms-user-cards>
+        <div class="p-grid display-block" style="margin-top: 14px !important">
+          <div class="p-col-12 pad-x-none">
+            <mat-paginator
+              [ngClass]="{ 'hide-pagination-buttons': dataCount <= 6 }"
+              [length]="dataCount"
+              [hidePageSize]="true"
+              [pageSize]="[10]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </div>
+      <div class="p-col right-side">
+        <div class="scrollbar" style="overflow-x: hidden; overflow-y: auto" [style.height.px]="getCardHeight()">
+          <ng-container *ngIf="currSelectedUserId && currSelectedUser">
+            <ms-user-details [tab]="tab" [userId]="currSelectedUserId" [status]="status" (reload)="reload($event)"></ms-user-details>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

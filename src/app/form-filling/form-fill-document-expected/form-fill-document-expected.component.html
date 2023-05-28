@@ -1,0 +1,309 @@
+<section>
+  <div class="revision-box-container" *ngIf="stepData?.revise_request_messages?.length">
+    <ms-form-filling-revision-box
+      [formDetail]="formDetail"
+      [stepId]="stepData?._id"
+      [stepData]="stepData"
+      [messages]="stepData?.revise_request_messages"
+      (triggerRefresh)="this.triggerRefresh.emit(formId)"
+    ></ms-form-filling-revision-box>
+  </div>
+
+  <div class="header" [innerHTML]="stepData?.direction"></div>
+  <h3>{{ stepData?.segments[0]?.segment_title }}</h3>
+  <hr />
+  <div class="p-grid">
+    <div class="p-col-12 p-md-4 table-side">
+      <div class="top-space">
+        <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="submit">
+            <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right"></th>
+          </ng-container>
+
+          <ng-container matColumnDef="document">
+            <th mat-header-cell *matHeaderCellDef matTooltip="document">
+              <h4>{{ 'Document' | translate }}</h4>
+            </th>
+            <td
+              [ngClass]="{ red: element?.is_required }"
+              class="document-name"
+              mat-cell
+              (click)="setDocumentOnPreviewUrl(element)"
+              *matCellDef="let element"
+              [matTooltip]="element?.question_label"
+            >
+              {{ element?.question_label }} {{ element?.is_required ? '*' : '' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Status' | translate }}">
+              <h4>{{ 'Status' | translate }}</h4>
+            </th>
+            <td mat-cell *matCellDef="let element" [matTooltip]="element?.status">
+              <mat-icon
+                matTooltip="{{ element?.document_validation_status | translate }}"
+                [ngClass]="{
+                  green: element?.document_validation_status === 'validated',
+                  red: element?.document_validation_status === 'not_validated',
+                  yellow: element?.document_validation_status === 'waiting_for_validation'
+                }"
+                class="mat-icon-status"
+                aria-hidden="true"
+                >lens
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}">
+              <h4>{{ 'Action' | translate }}</h4>
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-buttons">
+              <ng-container *ngIf="formDetail.isPreview">
+                <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Upload a File' | translate }}">
+                  <mat-icon>file_upload</mat-icon>
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="stepData?.isCompletingUser && !disable">
+                <button
+                  [disabled]="disable"
+                  (click)="fileUploadDoc.click()"
+                  mat-icon-button
+                  class="margin-right-button"
+                  matTooltip="{{ 'Upload a File' | translate }}"
+                >
+                  <mat-icon>file_upload</mat-icon>
+                </button>
+                <input
+                  mat-form-fi
+                  #fileUploadDoc
+                  type="file"
+                  hidden
+                  style="display: none"
+                  accept=".pdf"
+                  (change)="chooseFile($event, element)"
+                />
+              </ng-container>
+
+              <ng-container *ngIf="isValidator && !stepData?.isCompletingUser && !disable">
+                <mat-slide-toggle
+                  [disabled]="disable"
+                  [(ngModel)]="element.is_document_validated"
+                  (change)="validateDocument(element, $event)"
+                >
+                </mat-slide-toggle>
+              </ng-container>
+            </td>
+          </ng-container>
+
+          <!-- ROW HEADER AND CONTENT END -->
+          <ng-container matColumnDef="loading">
+            <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+              <div class="center-spinner">
+                <mat-spinner color="accent"></mat-spinner>
+              </div>
+            </th>
+          </ng-container>
+
+          <!-- <tr mat-header-row *matHeaderRowDef="['submit']"></tr> -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+          <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumn" [hidden]="isWaitingForResponse"></tr>
+        </table>
+        <div *ngIf="noData | async" class="no-records">
+          {{ 'NOT RECORD FOUND' | translate }}
+        </div>
+        <div [ngClass]="{ hide: noData | async }">
+          <mat-paginator
+            class="paginator-color"
+            [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+            [hidePageSize]="true"
+            [pageSize]="[10]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-md-8" style="margin-top: 2rem">
+      <div class="ql-editor document-parent">
+        <ng-container *ngIf="documentOnPreviewUrl">
+          <div class="img-preview container-view-lanscape">
+            <iframe (load)="loadIframe($event)" [src]="documentOnPreviewUrl" frameBorder="0"></iframe>
+          </div>
+          <div class="center-spinner document-spinner" *ngIf="loadingPreviewDocument">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!documentOnPreviewUrl">
+          <h4 class="no-document">{{ 'NOT RECORD FOUND' | translate }}</h4>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div *ngIf="!formDetail.isPreview" class="text-right action-button-container" style="display: inline-block; float: right">
+  <ng-container *ngIf="!stepData?.is_final_step || (stepData?.is_final_step && !formData?.is_final_validator_active)">
+    <button
+      *ngIf="stepData?.isCompletingUser && stepData?.step_status === 'not_started' && !disable"
+      matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }} "
+      style="padding: 0px 7px !important"
+      mat-raised-button
+      color="accent"
+      (click)="nextStepMessage('waiting_for_validation', 'submitDocumentStep')"
+    >
+      {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }}
+    </button>
+    <!-- Below is for submitting the step again after already submitted before but final validator is active and final step is not submitted -->
+    <button
+      *ngIf="stepData?.isCompletingUser && stepData?.step_status === 'accept' && !disable"
+      matTooltip="{{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Submit Document for Verification' | translate) }} "
+      style="padding: 0px 7px !important"
+      mat-raised-button
+      color="accent"
+      (click)="submitDocumentStep()"
+    >
+      {{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Submit Document for Verification' | translate) }}
+    </button>
+
+    <button
+      *ngIf="stepData?.isCompletingUser && isValidator && stepData.step_status === 'need_validation' && !disable"
+      matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }} "
+      style="padding: 0px 7px !important"
+      mat-raised-button
+      color="accent"
+      (click)="nextStepMessage('validated', 'submitDocumentStep')"
+    >
+      {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }}
+    </button>
+    <button
+      *ngIf="isValidator && !stepData?.isCompletingUser && !disable"
+      [disabled]="validateButtonStep()"
+      matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the step' | translate) }} "
+      style="padding: 0px 7px !important"
+      mat-raised-button
+      color="accent"
+      (click)="nextStepMessage('validated', 'validateDocumentStep')"
+    >
+      {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the step' | translate) }}
+    </button>
+    <button
+      *ngIf="
+        stepData?.isCompletingUser &&
+        isValidator &&
+        (stepData?.step_status === 'not_started' || stepData?.step_status === 'need_validation')
+      "
+      color="accent"
+      mat-raised-button
+      class="btn-accept"
+      matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }} "
+      (click)="onAskForRevision()"
+    >
+      {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Ask For Revision' | translate) }}
+    </button>
+    <button
+      *ngIf="isValidator && stepData?.step_status === 'need_validation'"
+      color="accent"
+      mat-raised-button
+      class="btn-accept"
+      matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }} "
+      (click)="onAskForRevision()"
+    >
+      {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }}
+    </button>
+    <button
+      *ngIf="stepData?.step_status === 'ask_for_revision' && isRevisionUser"
+      color="accent"
+      mat-raised-button
+      class="btn-accept"
+      (click)="onCompleteRevision()"
+      matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }} "
+    >
+      {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+    </button>
+  </ng-container>
+  <ng-container *ngIf="stepData?.is_final_step && formData?.is_final_validator_active">
+    <button
+      *ngIf="formDetail?.isFinalValidatorUser && formData?.admission_status !== 'ask_for_revision'"
+      color="accent"
+      mat-raised-button
+      class="btn-save"
+      matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }} "
+      (click)="onAskForRevisionFinalValidator()"
+    >
+      {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }}
+    </button>
+
+    <button
+      *ngIf="formDetail?.isFinalValidatorUser && formData?.admission_status !== 'ask_for_revision'"
+      color="accent"
+      mat-raised-button
+      class="btn-save"
+      matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}"
+      (click)="onValidateFormFinalValidator()"
+    >
+      <mat-icon class="mat-icon-default">
+        <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+          <path
+            fill="currentColor"
+            d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
+          />
+        </svg>
+      </mat-icon>
+      {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}
+    </button>
+
+    <button
+      *ngIf="formDetail?.isFinalRevisionUser && formData?.admission_status === 'ask_for_revision'"
+      color="accent"
+      mat-raised-button
+      matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}"
+      (click)="onCompleteRevisionFinalValidator()"
+    >
+      {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+    </button>
+    <button
+      *ngIf="!isAccepted && formData?.admission_status !== 'ask_for_revision'"
+      color="accent"
+      mat-raised-button
+      class="btn-save"
+      matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}"
+      (click)="onSubmitFormFinalVlidator()"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}
+    </button>
+  </ng-container>
+
+  <!-- Hide button of save when doing final revision because user can update directly from upload -->
+  <!-- <button
+    color="accent"
+    mat-raised-button
+    class="btn-accept"
+    matTooltip="{{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}"
+    *ngIf="formDetail?.admission_status === 'ask_for_revision' && formDetail?.isFinalRevisionUser"
+    (click)="saveDataOnFinalRevision()"
+  >
+    <mat-icon>save</mat-icon>
+    {{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}
+  </button> -->
+  <!-- Button save here if ask for revision by final validation -->
+</div>
+
+<div *ngIf="formDetail.isPreview" class="text-right action-button-container-preview" style="display: inline-block; float: right">
+  <button
+    matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }} "
+    style="padding: 0px 7px !important"
+    mat-raised-button
+    color="accent"
+  >
+    {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit Document for Verification' | translate) }}
+  </button>
+</div>
+
+<div *ngIf="isPageLoading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

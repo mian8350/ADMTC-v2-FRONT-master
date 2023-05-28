@@ -1,0 +1,902 @@
+<table
+  *ngIf="displayedColumns?.length"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  (matSortChange)="sortData($event)"
+  matSortDirection="asc"
+  class="mat-elevation-z8"
+>
+  <ng-container matColumnDef="reset">
+    <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column">
+      <div class="p-grid justify-content-between">
+        <div class="p-col" style="text-align: start">
+          <ng-container *ngFor="let certificationYear of yearOfCertificationList">
+            <span
+              *ngIf="type !== 'today'"
+              class="tags-primary clickable"
+              [ngClass]="{ selectedYear: certificationYear.year === selectedCertificationYear }"
+              (click)="filterByCertificationYear(certificationYear.year)"
+              >{{ certificationYear.year }}
+            </span>
+          </ng-container>
+        </div>
+        <div class="p-col-fixed" style="width: 950px; text-align: end">
+          <mat-form-field class="top-date-picker">
+            <input
+              matInput
+              [matDatepicker]="fromPicker"
+              placeholder="{{ 'FROM_HISTORY' | translate }}"
+              [formControl]="dateFromFilter"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="top-date-picker">
+            <input matInput [matDatepicker]="toPicker" placeholder="{{ 'TO_HISTORY' | translate }}" [formControl]="dateToFilter" readonly />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="toPicker"
+              style="margin-right: 5px"
+              [disabled]="!dateFromFilter?.value"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-raised-button [color]="filterDateStatus === 'today'? 'accent':'primary'" (click)="searchTodayResult()">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Today' | translate }}
+          </button>
+
+          <button mat-raised-button [color]="filterDateStatus === 'yesterday'? 'accent':'primary'" (click)="searchDateRange('yesterday')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Yesterday' | translate }}
+          </button>
+
+          <button mat-raised-button [color]="filterDateStatus === 'lastWeek'? 'accent':'primary'" (click)="searchDateRange('lastWeek')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Last 7 days' | translate }}
+          </button>
+
+          <button mat-raised-button [color]="filterDateStatus === 'lastMonth'? 'accent':'primary'" (click)="searchDateRange('lastMonth')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Last 30 days' | translate }}
+          </button>
+
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+        </div>
+      </div>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="selectFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="schoolFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="autoSchools"
+          [formControl]="schoolFilter"
+          placeholder="{{ 'search' | translate }}"
+        />
+        <mat-autocomplete #autoSchools="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+          <ng-container *ngIf="!isDropdownLoading">
+            <mat-option [value]="" (click)="setSchoolFilter('')">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let school of filteredSchools | async" [value]="school?.short_name" (click)="setSchoolFilter(school?._id)">
+              {{ school?.short_name | translate }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitlesFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="autoTitle"
+          [formControl]="rncpTitlesFilter"
+          placeholder="{{ 'search' | translate }}"
+        />
+        <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+          <ng-container *ngIf="!isDropdownLoading">
+            <mat-option [value]="" (click)="setTitleFilter('')">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let title of filteredTitles | async" [value]="title?.short_name" (click)="setTitleFilter(title?._id)">
+              {{ title?.short_name | translate }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="lastNameFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="lastNameFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="regionFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input matInput class="form-field" [formControl]="regionFilter" placeholder="{{ 'search' | translate }}" />
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="dateFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [formControl]="dateFilter"
+          [matDatepicker]="picker"
+          placeholder="{{ 'SELECTDATE' | translate }}"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="startFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [ngxTimepicker]="time_utc"
+          readonly
+          [format]="24"
+          placeholder="{{ 'JURY_ORGANIZATION.START_TIME' | translate }}"
+          [formControl]="timeFilter"
+        />
+        <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc">
+          <svg
+            style="transform: scale(0.85); position: relative; top: 7px"
+            viewBox="0 0 30 30"
+            width="30px"
+            height="30px"
+            ngxMaterialTimepickerToggleIcon
+          >
+            <path
+              fill="#ffffff"
+              d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+            />
+          </svg>
+        </ngx-material-timepicker-toggle>
+      </mat-form-field>
+      <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="presidentJuryFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="autoPresident"
+          [formControl]="presidentJuryFilter"
+          placeholder="{{ 'search' | translate }}"
+        />
+        <mat-autocomplete #autoPresident="matAutocomplete" [panelWidth]="'fit'">
+          <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+          <ng-container *ngIf="!isDropdownLoading">
+            <mat-option [value]="" (click)="setPresidentFilter('')">{{ 'All' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let juryData of filteredPresidents | async"
+              value="{{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}"
+              (click)="setPresidentFilter(juryData?._id)"
+            >
+              {{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container>
+    <ng-container matColumnDef="professionalJuryFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="autoPro"
+            [formControl]="professionalJuryFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #autoPro="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+            <ng-container *ngIf="!isDropdownLoading">
+              <mat-option [value]="" (click)="setProJuryFilter('')">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let juryData of filteredPros | async"
+                value="{{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}"
+                (click)="setProJuryFilter(juryData?._id)"
+              >
+                {{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="academicJuryFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="autoAcad"
+            [formControl]="academicJuryFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #autoAcad="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+            <ng-container *ngIf="!isDropdownLoading">
+              <mat-option [value]="" (click)="setAcadJuryFilter('')">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let juryData of filteredAcademics | async"
+                value="{{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}"
+                (click)="setAcadJuryFilter(juryData?._id)"
+              >
+                {{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="substitutionJuryFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="autoSubs"
+            [formControl]="substitutionJuryFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #autoSubs="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngIf="isDropdownLoading" class="is-loading"><mat-spinner diameter="25"></mat-spinner></mat-option>
+            <ng-container *ngIf="!isDropdownLoading">
+              <mat-option [value]="" (click)="setSubsJuryFilter('')">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let juryData of filteredSubs | async"
+                value="{{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}"
+                (click)="setSubsJuryFilter(juryData?._id)"
+              >
+                {{ juryData?.last_name | uppercase }} {{ juryData?.first_name }}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+  </ng-container>
+
+  <ng-container matColumnDef="visioJuryFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="rehearsalDoneFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <mat-select [formControl]="rehearsalFilter">
+          <mat-option *ngFor="let record of rehearsalFilterList" [value]="record.value">{{
+            (record.key | translate) === 'AllM' ? 'Tous' : (record.key | translate)
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="mark_entry_status_filter">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-form-field>
+        <mat-select [formControl]="mark_entry_status_filter">
+          <mat-option *ngFor="let record of markEntryStatusList" [value]="record.value">{{
+            (record.key | translate) === 'AllM' ? 'Tous' : (record.key | translate)
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="actionFilter">
+    <th mat-header-cell *matHeaderCellDef>
+      <!-- <ng-container *ngIf="isUserADMTC || isPresidentJury || isCertifierAdmin">
+        <mat-form-field>
+          <mat-select [formControl]="markEntryFilter">
+            <mat-option *ngFor="let record of markEntryList" [value]="record.value">{{
+              (record.key | translate) === 'AllM' ? 'Tous' : (record.key | translate)
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container> -->
+    </th>
+  </ng-container>
+
+  <ng-container matColumnDef="retakeCenterFilter">
+    <th mat-header-cell *matHeaderCellDef></th>
+  </ng-container>
+
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef class="text-center">
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(element) : null"
+        [checked]="selection.isSelected(element)"
+        [aria-label]="checkboxLabel(element)"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="school">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="school" matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'School' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" matTooltip="{{ element?.school?.short_name }}">
+      {{ element?.school?.short_name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="rncpTitles">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header="rncp_title"
+      matTooltip="{{ 'TASK.RNCP_Title' | translate }}"
+      matTooltipPosition="above"
+    >
+      <h5>{{ 'TASK.RNCP_Title' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" matTooltip="{{ element?.rncp_title?.short_name }}">
+      {{ element?.rncp_title?.short_name }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header="name_of_participant"
+      matTooltip="{{ 'Name' | translate }}"
+      matTooltipPosition="above"
+    >
+      <h5>{{ 'Name' | translate }}</h5>
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      matTooltip="{{ element?.students?.student_id?.last_name | uppercase }} {{ element?.students?.student_id?.first_name }}
+    {{ element?.students?.student_id?.civility | translate }}"
+    >
+      {{ element?.students?.student_id?.last_name | uppercase }} {{ element?.students?.student_id?.first_name }}
+      {{ element?.students?.student_id?.civility | translate }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="region">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="region" matTooltip="{{ 'Region' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'Region' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" matTooltip="{{ element?.students?.student_id?.student_address[0]?.city }}">
+      {{ element?.students?.student_id?.student_address[0]?.city }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="date" matTooltip="{{ 'MailBox.DATE' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'MailBox.DATE' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" matTooltip="{{ element?.time?.date | date: 'dd/MM/yyyy' }}">
+      {{ element?.time?.date | date: 'dd/MM/yyyy' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="start">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header="start"
+      matTooltip="{{ 'JURY_ORGANIZATION.START - FINISH' | translate }}"
+      matTooltipPosition="above"
+    >
+      <h5>{{ 'JURY_ORGANIZATION.START - FINISH' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element" matTooltip="{{ element?.time?.start }} - {{ element?.time?.finish }}">
+      {{ element?.time?.start }} - {{ element?.time?.finish }}
+    </td>
+  </ng-container>
+
+  <!-- <ng-container matColumnDef="finish">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      matTooltip="{{ 'JURY_ORGANIZATION.FINISH' | translate }}"
+      matTooltipPosition="above"
+    >
+      <h5>{{ 'JURY_ORGANIZATION.FINISH' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.time?.finish }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="presidentJury">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header="president_of_jury"
+      matTooltip="{{ 'JURY_ORGANIZATION.PRESIDENT' | translate }}"
+      matTooltipPosition="above"
+    >
+      <h5>{{ 'JURY_ORGANIZATION.PRESIDENT' | translate }}</h5>
+    </th>
+    <td
+      mat-cell
+      *matCellDef="let element"
+      matTooltip="{{ element?.president_of_jury?.last_name | uppercase }} {{ element?.president_of_jury?.first_name }}"
+    >
+      {{ element?.president_of_jury?.last_name | uppercase }} {{ element?.president_of_jury?.first_name }}
+    </td>
+  </ng-container>
+
+  <ng-container>
+    <ng-container matColumnDef="professionalJury">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="professional_jury_member"
+        matTooltip="{{ 'JURY_ORGANIZATION.PROFESSIONAL' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'JURY_ORGANIZATION.PROFESSIONAL' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element?.professional_jury_member; else FromStudent">
+          <span
+            matTooltip="{{ element?.professional_jury_member?.last_name | uppercase }} {{ element?.professional_jury_member?.first_name }}"
+          >
+            {{ element?.professional_jury_member?.last_name | uppercase }} {{ element?.professional_jury_member?.first_name }}
+          </span>
+        </ng-container>
+        <ng-template #FromStudent>
+          <span
+            matTooltip="{{ element?.students?.professional_jury_member?.last_name | uppercase }} {{
+              element?.students?.professional_jury_member?.first_name
+            }}"
+          >
+            {{ element?.students?.professional_jury_member?.last_name | uppercase }}
+            {{ element?.students?.professional_jury_member?.first_name }}
+          </span>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="academicJury">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="academic_jury_member"
+        matTooltip="{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'JURY_ORGANIZATION.ACADEMIC' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="element?.academic_jury_member; else FromStudent">
+          <span matTooltip="{{ element?.academic_jury_member?.last_name | uppercase }} {{ element?.academic_jury_member?.first_name }}">
+            {{ element?.academic_jury_member?.last_name | uppercase }} {{ element?.academic_jury_member?.first_name }}
+          </span>
+        </ng-container>
+        <ng-template #FromStudent>
+          <span
+            matTooltip="{{ element?.students?.academic_jury_member?.last_name | uppercase }} {{
+              element?.students?.academic_jury_member?.first_name
+            }}"
+          >
+            {{ element?.students?.academic_jury_member?.last_name | uppercase }} {{ element?.students?.academic_jury_member?.first_name }}
+          </span>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="substitutionJury">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="substitution_jury_Member"
+        matTooltip="{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'JURY_ORGANIZATION.SUBSTITUTE' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element?.substitution_jury_member?.last_name | uppercase }} {{ element?.substitution_jury_member?.first_name }}"
+      >
+        <ng-container *ngIf="element?.substitution_jury_member; else FromStudent">
+          <span
+            matTooltip="{{ element?.substitution_jury_member?.last_name | uppercase }} {{ element?.substitution_jury_member?.first_name }}"
+          >
+            {{ element?.substitution_jury_member?.last_name | uppercase }} {{ element?.substitution_jury_member?.first_name }}
+          </span>
+        </ng-container>
+        <ng-template #FromStudent>
+          <span
+            matTooltip="{{ element?.students?.substitution_jury_member?.last_name | uppercase }} {{
+              element?.students?.substitution_jury_member?.first_name
+            }}"
+          >
+            {{ element?.students?.substitution_jury_member?.last_name | uppercase }}
+            {{ element?.students?.substitution_jury_member?.first_name }}
+          </span>
+        </ng-template>
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <ng-container matColumnDef="visioJury">
+    <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.VISIOJURY' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'JURY_ORGANIZATION.VISIOJURY' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        *ngIf="isBeforeMeetingStarted(element)"
+        mat-raised-button
+        type="button"
+        class="header-btn"
+        color="accent"
+        (click)="joinRehearsalRoomStudent(element)"
+      >
+        {{ 'JURY_ORGANIZATION.VISIOJURY' | translate }}
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="rehearsalDone">
+    <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.REHEARSALDONE' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'R?' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button class="margin-right-button" (click)="inverseRehearsal(element)">
+        <mat-icon
+          *ngIf="!checkRehearsalDone(element)"
+          style="color: #ff4040"
+          svgIcon="thumb-up-outline"
+          aria-hidden="true"
+          matTooltip="{{ 'Rehearsal Not Done' | translate }}"
+          >lens
+        </mat-icon>
+        <mat-icon
+          *ngIf="checkRehearsalDone(element)"
+          style="color: #adff2f"
+          svgIcon="thumb-up-outline"
+          aria-hidden="true"
+          matTooltip="{{ 'Rehearsal Done' | translate }}"
+          >lens
+        </mat-icon>
+      </button>
+      <button mat-icon-button class="margin-right-button" (click)="inverseAideJury(element)">
+        <mat-icon
+          *ngIf="!checkAideJuryDone(element)"
+          style="color: #ff4040"
+          svgIcon="thumb-up-outline"
+          aria-hidden="true"
+          matTooltip="{{ 'Aide Jury Not Done' | translate }}"
+          >lens
+        </mat-icon>
+        <mat-icon
+          *ngIf="checkAideJuryDone(element)"
+          style="color: #adff2f"
+          svgIcon="thumb-up-outline"
+          aria-hidden="true"
+          matTooltip="{{ 'Aide Jury Done' | translate }}"
+          >lens
+        </mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="mark_entry_status">
+    <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Mark Entry' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'Mark Entry' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        *ngIf="
+          (isUserADMTC || isPresidentJury || isCertifierAdmin) &&
+          element?.mark_entry_assigned?.task_id?._id &&
+          element?.jury_organization_id?.type !== 'grand_oral' &&
+          element?.jury_organization_id?.type !== 'retake_grand_oral'
+        "
+        mat-icon-button
+        class="grid-button"
+        matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.MARK_ENTRY' | translate }}"
+        (click)="goToMarkEntry(element)"
+        style="margin: 0 3px"
+      >
+        <svg style="width: 31px; height: 24px" viewBox="0 0 24 24">
+          <path
+            [attr.fill]="element?.mark_entry_task_status?.toLowerCase() === 'done' ? '#00FF00' : '#ff0000'"
+            d="M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H10V20.09L12.09,18H6V16H14.09L16.09,14H6V12H18.09L20,10.09V8L14,2H6M13,3.5L18.5,9H13V3.5M20.15,13C20,13 19.86,13.05 19.75,13.16L18.73,14.18L20.82,16.26L21.84,15.25C22.05,15.03 22.05,14.67 21.84,14.46L20.54,13.16C20.43,13.05 20.29,13 20.15,13M18.14,14.77L12,20.92V23H14.08L20.23,16.85L18.14,14.77Z"
+          />
+        </svg>
+      </button>
+      <!-- Grand Oral Mark Entry -->
+      <button
+        *ngIf="
+          (isUserADMTC || isPresidentJury || isCertifierAdmin) &&
+          element?.students?.student_id !== null &&
+          (element?.jury_organization_id?.type === 'grand_oral' || element?.jury_organization_id?.type === 'retake_grand_oral')
+        "
+        mat-icon-button
+        class="grid-button test2"
+        matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.MARK_ENTRY' | translate }}"
+        (click)="goToMarkEntryGrandOral(element)"
+        style="margin: 0 3px"
+      >
+        <svg style="width: 31px; height: 24px" viewBox="0 0 24  24">
+          <path
+            [attr.fill]="checkGrandOralStatus(element)"
+            d="M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H10V20.09L12.09,18H6V16H14.09L16.09,14H6V12H18.09L20,10.09V8L14,2H6M13,3.5L18.5,9H13V3.5M20.15,13C20,13 19.86,13.05 19.75,13.16L18.73,14.18L20.82,16.26L21.84,15.25C22.05,15.03 22.05,14.67 21.84,14.46L20.54,13.16C20.43,13.05 20.29,13 20.15,13M18.14,14.77L12,20.92V23H14.08L20.23,16.85L18.14,14.77Z"
+          />
+        </svg>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'Action' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <ng-container>
+        <button
+          *ngIf="isUserADMTC && (element?.students?.student_id?._id || element?.test_groups?.group_id?._id) 
+          && isBeforeMeetingStarted(element) 
+          && permissionService.viewScheduleTabJuryOrganizationPerm()"
+          mat-icon-button
+          color="accent"
+          (click)="helpStudent(element)"
+          matTooltip="{{ 'JURY_ORGANIZATION.VISIOJURY' | translate }}"
+          matTooltipPosition="above"
+          style="margin: 0 3px"
+        >
+          <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+            />
+          </svg>
+        </button>
+        <ng-container *ngIf="onlineJuryOrganization">
+          <button
+            *ngIf="element.time.finish 
+            && !this.isMeetingEnded(element) 
+            && permissionService.viewScheduleTabJuryOrganizationPerm()"
+            mat-icon-button
+            class="grid-button"
+            (click)="launchSession(element)"
+            matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.MEETING' | translate }}"
+            matTooltipPosition="above"
+            style="margin: 0 3px"
+            [ngClass]="{
+              green: element?.jury_organization_id?.is_google_meet && element?.students?.google_meet_url,
+              red: element?.jury_organization_id?.is_google_meet && !element?.students?.google_meet_url
+            }"
+          >
+            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M20,17A2,2 0 0,0 22,15V4A2,2 0 0,0 20,2H9.46C9.81,2.61 10,3.3 10,4H20V15H11V17M15,7V9H9V22H7V16H5V22H3V14H1.5V9A2,2 0 0,1 3.5,7H15M8,4A2,2 0 0,1 6,6A2,2 0 0,1 4,4A2,2 0 0,1 6,2A2,2 0 0,1 8,4Z"
+              />
+            </svg>
+          </button>
+          <button
+            *ngIf="element?.recorded_video_link && checkVisibility(element) && permissionService.viewScheduleTabJuryOrganizationPerm()"
+            mat-icon-button
+            class="grid-button"
+            matTooltip="{{ 'JURY_ORGANIZATION.RECORD_MEETING' | translate }}"
+            (click)="getRecordedMeeting(element)"
+            matTooltipPosition="above"
+            style="margin: 0 3px"
+          >
+            <svg style="width: 31px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"
+              />
+            </svg>
+          </button>
+        </ng-container>
+        <button
+          *ngIf="element?.jury_organization_id?.type === 'retake_grand_oral' && element?.previous_grand_oral?.s3_file_name && permissionService.viewScheduleTabJuryOrganizationPerm()"
+          mat-icon-button
+          style="margin: 0 3px"
+          matTooltip="{{ 'Grand_Oral_Improvement.Download Previous Grand Oral' | translate : {
+            processName: element?.class?.jury_process_name ? element.class?.jury_process_name : 'Grand Oral'
+          } 
+        }}"
+          (click)="downloadPreviousGrandOral(element?.previous_grand_oral?.s3_file_name)"
+        >
+          <mat-icon class="material-icons-outlined">description</mat-icon>
+        </button>
+        <button
+          *ngIf="checkPDFGrandOral(element) && permissionService.viewScheduleTabJuryOrganizationPerm()"
+          mat-icon-button
+          class="grid-button test1"
+          [matTooltip]="
+            element?.jury_organization_id?.type === 'retake_grand_oral'
+              ? ('Grand_Oral_Improvement.Doc Retake Grand Oral' | translate : {
+                processName: element?.class?.jury_process_name ? element.class?.jury_process_name : 'Grand Oral'
+              } | translate) 
+              : ('Grand_Oral_Improvement.Doc Grand Oral' | translate : {
+                processName: element?.class?.jury_process_name ? element.class?.jury_process_name : 'Grand Oral'
+              } | translate) 
+          "
+          (click)="generatePDFGrandOral(element)"
+          style="margin: 0 3px"
+        >
+          <mat-icon style="width: 31px; height: 24px" svgIcon="file-download"></mat-icon>
+        </button>
+        <!-- <button
+          *ngIf="
+            (isUserADMTC || isPresidentJury || isCertifierAdmin) &&
+            element?.mark_entry_assigned?.task_id?._id &&
+            element?.jury_organization_id?.type !== 'grand_oral' &&
+            element?.jury_organization_id?.type !== 'retake_grand_oral'
+          "
+          mat-icon-button
+          class="grid-button"
+          matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.MARK_ENTRY' | translate }}"
+          (click)="goToMarkEntry(element)"
+          style="margin: 0 3px"
+        >
+          <svg style="width: 31px; height: 24px" viewBox="0 0 24 24">
+            <path
+              [attr.fill]="element?.mark_entry_task_status?.toLowerCase() === 'done' ? '#00FF00' : '#ff0000'"
+              d="M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H10V20.09L12.09,18H6V16H14.09L16.09,14H6V12H18.09L20,10.09V8L14,2H6M13,3.5L18.5,9H13V3.5M20.15,13C20,13 19.86,13.05 19.75,13.16L18.73,14.18L20.82,16.26L21.84,15.25C22.05,15.03 22.05,14.67 21.84,14.46L20.54,13.16C20.43,13.05 20.29,13 20.15,13M18.14,14.77L12,20.92V23H14.08L20.23,16.85L18.14,14.77Z"
+            />
+          </svg>
+        </button> -->
+        <!-- Grand Oral Mark Entry -->
+        <!--<button
+          *ngIf="
+            (isUserADMTC || isPresidentJury || isCertifierAdmin) &&
+            element?.students?.student_id !== null &&
+            (element?.jury_organization_id?.type === 'grand_oral' || element?.jury_organization_id?.type === 'retake_grand_oral')
+          "
+          mat-icon-button
+          class="grid-button test2"
+          matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.MARK_ENTRY' | translate }}"
+          (click)="goToMarkEntryGrandOral(element)"
+          style="margin: 0 3px"
+        >
+          <svg style="width: 31px; height: 24px" viewBox="0 0 24  24">
+            <path
+              [attr.fill]="checkGrandOralStatus(element)"
+              d="M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H10V20.09L12.09,18H6V16H14.09L16.09,14H6V12H18.09L20,10.09V8L14,2H6M13,3.5L18.5,9H13V3.5M20.15,13C20,13 19.86,13.05 19.75,13.16L18.73,14.18L20.82,16.26L21.84,15.25C22.05,15.03 22.05,14.67 21.84,14.46L20.54,13.16C20.43,13.05 20.29,13 20.15,13M18.14,14.77L12,20.92V23H14.08L20.23,16.85L18.14,14.77Z"
+            />
+          </svg>
+         <svg style="width: 31px; height: 24px" viewBox="0 0 24  24">
+            <path
+              [attr.fill]="
+                element?.mark_entry_task_status?.toLowerCase() === 'test_flow_complete' ||
+                element?.mark_entry_task_status?.toLowerCase() === 'done'
+                  ? '#00FF00'
+                  : element?.mark_entry_task_status?.toLowerCase() === 'in_progress'
+                  ? '#FFA500'
+                  : '#ff0000'
+              "
+              d="M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H10V20.09L12.09,18H6V16H14.09L16.09,14H6V12H18.09L20,10.09V8L14,2H6M13,3.5L18.5,9H13V3.5M20.15,13C20,13 19.86,13.05 19.75,13.16L18.73,14.18L20.82,16.26L21.84,15.25C22.05,15.03 22.05,14.67 21.84,14.46L20.54,13.16C20.43,13.05 20.29,13 20.15,13M18.14,14.77L12,20.92V23H14.08L20.23,16.85L18.14,14.77Z"
+            />
+          </svg> 
+        </button>-->
+        <ng-container *ngIf="isDisplayPostponeButton(element)">
+          <button
+            *ngIf="!checkJuryType(element) && permissionService.viewScheduleTabJuryOrganizationPerm()"
+            mat-icon-button
+            class="grid-button"
+            matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.POSTPONE' | translate }}"
+            (click)="openPostponeMeetingDialog(element)"
+            matTooltipPosition="above"
+          >
+            <svg style="width: 31px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M6,2H18V8H18V8L14,12L18,16V16H18V22H6V16H6V16L10,12L6,8V8H6V2M16,16.5L12,12.5L8,16.5V20H16V16.5M12,11.5L16,7.5V4H8V7.5L12,11.5M10,6H14V6.75L12,8.75L10,6.75V6Z"
+              />
+            </svg>
+          </button>
+          <button
+            *ngIf="checkJuryType(element) && permissionService.viewScheduleTabJuryOrganizationPerm()"
+            mat-icon-button
+            class="grid-button"
+            matTooltip="{{ 'JURY_ORGANIZATION.BUTTON.POSTPONE' | translate }}"
+            (click)="openRetakeGrandOralPostponeDialog(element)"
+            matTooltipPosition="above"
+          >
+            <svg style="width: 31px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M6,2H18V8H18V8L14,12L18,16V16H18V22H6V16H6V16L10,12L6,8V8H6V2M16,16.5L12,12.5L8,16.5V20H16V16.5M12,11.5L16,7.5V4H8V7.5L12,11.5M10,6H14V6.75L12,8.75L10,6.75V6Z"
+              />
+            </svg>
+          </button>
+        </ng-container>
+        <button
+          *ngIf="permissionService.viewScheduleTabJuryOrganizationPerm()"
+          mat-icon-button
+          class="grid-button"
+          matTooltip="{{ 'Email' | translate }}"
+          (click)="sendMail(element)"
+          style="margin: 0 4px"
+        >
+          <mat-icon svgIcon="email-outline"></mat-icon>
+        </button>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="retakeCenter">
+    <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.ADDRESS_RETAKE' | translate }}" matTooltipPosition="above">
+      <h5>{{ 'JURY_ORGANIZATION.ADDRESS_RETAKE' | translate }}</h5>
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element?.retake_center }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="loading">
+    <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length" class="text-center">
+      <div class="center-spinner">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+    </th>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+</table>
+<div *ngIf="noData | async" class="no-records">
+  {{ 'NOT RECORD FOUND' | translate }}
+</div>
+
+<mat-paginator [pageSizeOptions]="[10]" [length]="dataCount" showFirstLastButtons></mat-paginator>

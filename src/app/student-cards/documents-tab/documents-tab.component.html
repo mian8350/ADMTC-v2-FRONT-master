@@ -1,0 +1,24 @@
+<!-- Spinner while waiting for the data -->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator-documents">
+  <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<!-- Looping throw root folders -->
+
+<mat-card *ngIf="!isWaitingForResponse && rootFolders.length > 0">
+  <ms-documents
+    *ngFor="let folder of rootFolders; let i = index"
+    [folder]="folder"
+    [isRootFolder]="true"
+    [customRootFolderIndex]="getCustomRootFolderIndex(i)"
+  >
+  </ms-documents>
+</mat-card>
+<mat-card *ngIf='!isWaitingForResponse && rootFolders.length===0'>
+  <div class="p-grid no-comment">
+    <div class="p-col-12">
+      <h3 style="text-align: center">{{ "No Data Found For" | translate }} {{ 'STUDENT_CARD.DOCUMENTS_PUBLISHED' | translate }}</h3>
+    </div>
+  </div>
+</mat-card>

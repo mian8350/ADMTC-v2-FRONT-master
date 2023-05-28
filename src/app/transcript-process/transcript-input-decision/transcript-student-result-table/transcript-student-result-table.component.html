@@ -1,0 +1,662 @@
+<div class="text-right mrgn-t-md mrgn-b-xs">
+  <button mat-raised-button class="pad-btn" color="warn" (click)="leave()">
+    <mat-icon svgIcon="undo-variant" class="mat-icon-svgIcon"></mat-icon>
+    {{ 'LEAVE' | translate }}
+  </button>
+  <button mat-raised-button class="pad-btn" color="primary" (click)="reset()">
+    <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+    {{ 'RESET' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    class="pad-btn"
+    color="accent"
+    (click)="csvTypeSelectionUpload()"
+    *ngIf="transcriptDetail?.jury_decision && transcriptDetail?.transcript_process_status !== 'completed'"
+  >
+    <mat-icon class="mat-icon-default">file_upload</mat-icon>
+    {{ 'TRANSCRIPT_PROCESS.import_decision' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    class="pad-btn"
+    color="primary"
+    (click)="csvTypeSelectionDownload()"
+    *ngIf="transcriptDetail?.transcript_process_status !== 'completed'"
+  >
+    <mat-icon class="mat-icon-default">file_download</mat-icon>
+    {{ 'TRANSCRIPT_PROCESS.board_submission_csv' | translate }}
+  </button>
+  <!-- [disabled]="!selection.hasValue()" -->
+  <button
+    mat-raised-button
+    class="pad-btn"
+    color="accent"
+    class="margin-right-0"
+    (click)="publishStudentTranscript()"
+    [disabled]="!(selection.hasValue() || isAllSelected())"
+    *ngIf="transcriptDetail?.transcript_process_status !== 'completed'"
+  >
+    <mat-icon class="mat-icon-default">check_circle</mat-icon>
+    {{ 'PUBLISH' | translate }}
+  </button>
+</div>
+<div class="horizontal transcript mat-elevation-z8" #tableElement>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
+    <!-- <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="13" class="action-header-column">
+        <div class="p-col text-right">
+        </div>
+      </th>
+    </ng-container> -->
+
+    <ng-container matColumnDef="selectFilter" sticky>
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolFilter" sticky>
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="{{ 'search' | translate }}"
+            class="form-field"
+            [formControl]="schoolFilter"
+            [matAutocomplete]="autoSchool"
+          />
+          <mat-autocomplete [panelWidth]="'fit'" #autoSchool="matAutocomplete">
+            <mat-option
+              *ngFor="let option of filteredSchools | async"
+              [value]="option.short_name"
+              (click)="filterSchool(option?._id)"
+              matTooltip="{{ option.short_name }}"
+            >
+              {{ option.short_name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="studentFilter" sticky>
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="studentFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="statusFilter" sticky>
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [matAutocomplete]="statusAuto"
+            [formControl]="statusFilter"
+            placeholder="{{ 'search' | translate }}"
+          />
+          <mat-autocomplete #statusAuto="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option value="" (click)="filterStatus('All')">{{ 'All' | translate }}</mat-option>
+            <mat-option
+              *ngFor="let status of statusListFiltered | async"
+              [value]="'student_status.' + status?.value | translate"
+              (click)="filterStatus(status?.value)"
+            >
+              {{ 'student_status.' + status?.value | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container *ngIf="blocks?.length">
+      <ng-container *ngFor="let block of blocks; let i = index" matColumnDef="B{{ i + 1 }}filter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngFor="let block of specializationBlocks; let i = index" matColumnDef="S{{ i + 1 }}filter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="sugestedFilter" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>
+      <ng-select
+        class="mrgn-btn"
+        [items]="suggestedFilterList"
+        bindLabel="key"
+        bindValue="value"
+        appendTo="body"
+        [multiple]="true"
+        [clearable]="false"
+        [closeOnSelect]="false"
+        [formControl]="suggestedFilter"
+        (close)="selectSuggested()"
+      >
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+          <input type="checkbox" id="item-{{index}}" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"> {{ item.key | translate }}
+        </ng-template>
+        <ng-template ng-header-tmp>
+          <mat-checkbox [ngClass]="checkAllSuggested() || checkSuggestedIndeterminate() ? 'checkBoxAll' : ''" style="cursor: pointer" [checked]="checkAllSuggested()" [indeterminate]="checkSuggestedIndeterminate()" (change)="selectedAllSuggested($event)">
+            {{ 'All' | translate }}
+          </mat-checkbox>
+        </ng-template>
+      </ng-select>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="grandOralFilter" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>
+      <ng-select
+        class="mrgn-btn"
+        [items]="decisionFilterList"
+        bindLabel="key"
+        bindValue="value"
+        appendTo="body"
+        [multiple]="true"
+        [clearable]="false"
+        [closeOnSelect]="false"
+        [formControl]="decisionFilter"
+        (close)="selectDecision()"
+      >
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+          <input type="checkbox" id="item-{{index}}" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"> {{ item.key | translate }}
+        </ng-template>
+        <ng-template ng-header-tmp>
+          <mat-checkbox [ngClass]="checkAllDecision() || checkDecisionIndeterminate() ? 'checkBoxAll' : ''" style="cursor: pointer" [checked]="checkAllDecision()" [indeterminate]="checkDecisionIndeterminate()" (change)="selectedAllDecision($event)">
+            {{ 'All' | translate }}
+          </mat-checkbox>
+        </ng-template>
+      </ng-select>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="juryDecissionFilter" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-select
+        class="mrgn-btn"
+        [items]="decisionFilterList"
+        bindLabel="key"
+        bindValue="value"
+        appendTo="body"
+        [multiple]="true"
+        [clearable]="false"
+        [closeOnSelect]="false"
+        [formControl]="decisionFilter"
+        (close)="selectDecision()"
+      >
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+          <input type="checkbox" id="item-{{index}}" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"> {{ item.key | translate }}
+        </ng-template>
+        <ng-template ng-header-tmp>
+          <mat-checkbox [ngClass]="checkAllDecision() || checkDecisionIndeterminate() ? 'checkBoxAll' : ''" style="cursor: pointer" [checked]="checkAllDecision()" [indeterminate]="checkDecisionIndeterminate()" (change)="selectedAllDecision($event)">
+            {{ 'All' | translate }}
+          </mat-checkbox>
+        </ng-template>
+      </ng-select>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-select [formControl]="isPublishFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+            <mat-option [value]="''" (click)="filterIsPublish('All')">{{ 'All' | translate }}</mat-option>
+            <mat-option *ngFor="let isPublish of publishList" [value]="isPublish.value" (click)="filterIsPublish(isPublish.value)">{{ 'ALERT_FUNCTIONALITY.' + isPublish.name | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="select" sticky>
+      <th mat-header-cell *matHeaderCellDef class="text-center">
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null; showOptions('all')"
+          [checked]="(selection.hasValue() && isAllSelected()) || isCheckedAll"
+          [indeterminate]="selection.hasValue() && !isAllSelected() && !isCheckedAll"
+        >
+        </mat-checkbox>
+        <!-- <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+          (change)="showOptions('all')"
+        >
+        </mat-checkbox> -->
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(element) : null; showOptions('one', $event)"
+          [checked]="selection.isSelected(element) || isCheckedAll"
+        >
+        </mat-checkbox>
+        <!-- <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(element) : null"
+          [checked]="selection.isSelected(element)"
+          (change)="showOptions('one')"
+          [aria-label]="checkboxLabel(element)"
+        >
+        </mat-checkbox> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="school" sticky>
+      <th mat-header-cell *matHeaderCellDef [matTooltip]="'School' | translate" mat-sort-header="school">
+        <h5>{{ 'School' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index" [ngClass]="{ highlight: activeRowIndex == rowIndex }">
+        {{ element?.school_id?.short_name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="student" sticky>
+      <th mat-header-cell *matHeaderCellDef [matTooltip]="'Student' | translate" mat-sort-header="student">
+        <h5>{{ 'Student' | translate }}</h5>
+      </th>
+      <td
+        style="cursor: default"
+        mat-cell
+        *matCellDef="let element; let rowIndex = index"
+        [ngClass]="{ highlight: activeRowIndex == rowIndex }"
+        matTooltip="{{ element.student_id?.last_name | uppercase }} {{
+          element.student_id?.first_name }} {{ element.student_id?.civility | translate }}"
+      >
+        {{ element.student_id?.last_name | uppercase }} {{ element.student_id?.first_name }} {{ element.student_id?.civility | translate }} 
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status" sticky>
+      <th mat-header-cell *matHeaderCellDef [matTooltip]="'status' | translate" mat-sort-header="student_title_status">
+        <h5>{{ 'Status' | translate }}</h5>
+      </th>
+      <td
+        style="cursor: default"
+        mat-cell
+        *matCellDef="let element; let rowIndex = index"
+        [ngClass]="{ highlight: activeRowIndex == rowIndex }"
+        matTooltip="{{ element?.status | translate }}"
+      >
+        <mat-icon
+          [matTooltip]="
+            element?.student_id?.student_title_status !== 'retaking'
+              ? ('student_status.' + element?.student_id?.student_title_status | translate)
+              : ('student_status.current_active' | translate)
+          "
+          matTooltipPosition="above"
+          *ngIf="element?.student_id?.student_title_status"
+          [ngClass]="{
+            green:
+              element?.student_id?.student_title_status === 'current_active' || element?.student_id?.student_title_status === 'retaking',
+            purple: element?.student_id?.student_title_status === 'completed',
+            orange: element?.student_id?.student_title_status === 'suspended',
+            red: element?.student_id?.student_title_status === 'deactivated'
+          }"
+          aria-hidden="true"
+          >lens
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container *ngFor="let block of blocks; let i = index" matColumnDef="B{{ i + 1 }}">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        matTooltip="{{ utilService.cleanHTML(block?.block_of_competence_condition) }}"
+        matTooltipPosition="above"
+        class="block"
+      >
+        <h5 class="text-center">B{{ i + 1 }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-center position-relative"
+        [ngClass]="{
+          'dark-green-background':
+            getBlockDecision(
+              element,
+              i,
+              element.block_columns[i]?.block_id?._id,
+              element?.block_competence_condition_details[i]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[i]?.block_id?._id
+            ) === 'pass',
+          'dark-red-background':
+            getBlockDecision(
+              element,
+              i,
+              element.block_columns[i]?.block_id?._id,
+              element?.block_competence_condition_details[i]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[i]?.block_id?._id
+            ) === 'fail' ||
+            getBlockDecision(
+              element.block_columns[i]?.block_id?._id,
+              element?.block_competence_condition_details[i]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[i]?.block_id?._id
+            ) === 'eliminated',
+          'dark-orange-background':
+            getBlockDecision(
+              element,
+              i,
+              element.block_columns[i]?.block_id?._id,
+              element?.block_competence_condition_details[i]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[i]?.block_id?._id
+            ) === 'retake'
+        }"
+      >
+        {{
+          getBlockScore(
+            element.block_columns[i],
+            element,
+            element?.block_competence_condition_details[i]?.block_id?.block_of_tempelate_competence?._id,
+            element?.block_competence_condition_details[i]?.block_id?._id
+          )
+        }}
+        <mat-icon
+          *ngIf="
+            getBlockDecision(
+              element,
+              i,
+              element.block_columns[i]?.block_id?._id,
+              element?.block_competence_condition_details[i]?.block_id?._id
+            ) === 'retake'
+          "
+          [ngClass]="{
+            'green-background':
+              element?.student_accept_retake &&
+              isBlockRetakeAccepted(
+                element,
+                i,
+                element.block_columns[i]?.block_id?._id,
+                element?.block_competence_condition_details[i]?.block_id?._id
+              ),
+            'white-background':
+              element?.student_accept_retake &&
+              !isBlockRetakeAccepted(
+                element,
+                i,
+                element.block_columns[i]?.block_id?._id,
+                element?.block_competence_condition_details[i]?.block_id?._id
+              ),
+            'black-background': !element?.student_accept_retake
+          }"
+          style="border-radius: 50%; width: 14px; height: 14px; font-size: 12px; position: absolute; top: 2px; right: 5px"
+        >
+          done
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container *ngFor="let block of specializationBlocks; let i = index" matColumnDef="S{{ i + 1 }}">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        matTooltip="{{ utilService.cleanHTML(block?.block_of_competence_condition) }}"
+        matTooltipPosition="above"
+        class="block"
+      >
+        <h5 class="text-center">S{{ i + 1 }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="text-center position-relative"
+        [ngClass]="
+          block?._id === element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id ? 
+            { 
+              'dark-green-background':
+            getBlockDecision(
+              element,
+              i + blocks?.length,
+              element.block_columns[i + blocks?.length]?.block_id?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id,
+              block
+            ) === 'pass',
+          'dark-red-background':
+            getBlockDecision(
+              element,
+              i + blocks?.length,
+              element.block_columns[i + blocks?.length]?.block_id?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id,
+              block
+            ) === 'fail' ||
+            getBlockDecision(
+              element.block_columns[i + blocks?.length]?.block_id?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id,
+              block
+            ) === 'eliminated',
+          'dark-orange-background':
+            getBlockDecision(
+              element,
+              i + blocks?.length,
+              element.block_columns[i + blocks?.length]?.block_id?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+              element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id
+            ) === 'retake'
+            }
+          : ''
+        "
+      >
+        <ng-container *ngIf="block?._id === element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id">
+          <div>
+            {{
+              getBlockScore(
+                element.block_columns[i + blocks?.length],
+                element,
+                element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+                element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id
+              )
+            }}
+          </div>
+          <mat-icon
+            *ngIf="
+              getBlockDecision(
+                element,
+                i + blocks?.length,
+                element.block_columns[i + blocks?.length]?.block_id?._id,
+                element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id,
+                null,
+                block
+              ) === 'retake',
+              "
+            [ngClass]="{
+              'green-background':
+                element?.student_accept_retake &&
+                isBlockRetakeAccepted(
+                  element,
+                  i + blocks?.length,
+                  element.block_columns[i + blocks?.length]?.block_id?._id,
+                  element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id
+                ),
+              'white-background':
+                element?.student_accept_retake &&
+                !isBlockRetakeAccepted(
+                  element,
+                  i + blocks?.length,
+                  element.block_columns[i + blocks?.length]?.block_id?._id,
+                  element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id
+                ),
+              'black-background': !element?.student_accept_retake
+            }"
+            style="border-radius: 50%; width: 14px; height: 14px; font-size: 12px; position: absolute; top: 2px; right: 5px"
+          >
+            done
+          </mat-icon>
+        </ng-container>
+        <p *ngIf=" getBlockScore(
+          element.block_columns[i + blocks?.length],
+          element,
+          element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?.block_of_tempelate_competence?._id,
+          element?.block_competence_condition_details[getIndexSpecialization(element, block)]?.block_id?._id
+        ) === null"> - </p>
+      </td>
+    </ng-container>
+
+    
+    <ng-container matColumnDef="sugested" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef [matTooltip]="'TRANSCRIPT_PROCESS.suggested' | translate">
+        <h5>{{ 'TRANSCRIPT_PROCESS.suggested' | translate }}</h5>
+      </th>
+      <!-- For score -->
+      <ng-container *ngIf="classType !== 'expertise'">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'dark-green-background': element.pass_fail_decision_obtained_id?.condition_type === 'pass',
+            'dark-red-background':
+              element.pass_fail_decision_obtained_id?.condition_type === 'fail' ||
+              element.pass_fail_decision_obtained_id?.condition_type === 'eliminated',
+            'dark-orange-background': element.pass_fail_decision_obtained_id?.condition_type === 'retake'
+          }"
+        >
+          {{ element.pass_fail_decision_obtained_id?.condition_type | translate }}
+        </td>
+      </ng-container>
+      <!-- For eval by competence -->
+      <ng-container *ngIf="classType === 'expertise'">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{
+            'dark-green-background': element?.suggested_decision_grand_oral?.phrase_type === 'pass',
+            'dark-red-background':
+              element?.suggested_decision_grand_oral?.phrase_type === 'fail' ||
+              element?.suggested_decision_grand_oral?.phrase_type === 'eliminated',
+            'dark-orange-background': element?.suggested_decision_grand_oral?.phrase_type === 'retake'
+          }"
+        >
+          {{ element?.suggested_decision_grand_oral?.name }}
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="grandOral" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef [matTooltip]=" transcriptDetail.class_id.jury_process_name ? transcriptDetail.class_id.jury_process_name : ('TRANSCRIPT_PROCESS.grand_oral' | translate)">
+        <h5>{{ transcriptDetail.class_id.jury_process_name ? transcriptDetail.class_id.jury_process_name : ('TRANSCRIPT_PROCESS.grand_oral' | translate)}}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+          'dark-green-background': element?.grand_oral_decision?.phrase_type === 'pass',
+          'dark-red-background':
+            element?.grand_oral_decision?.phrase_type === 'fail' || element?.grand_oral_decision?.phrase_type === 'eliminated',
+          'dark-orange-background': element?.grand_oral_decision?.phrase_type === 'retake'
+        }"
+      >
+        {{ element?.grand_oral_decision?.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="juryDecission" stickyEnd>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [matTooltip]="'TRANSCRIPT_PROCESS.jury_decision' | translate"
+        mat-sort-header="decision_school_board"
+      >
+        <h5>{{ 'TRANSCRIPT_PROCESS.decision' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+          'dark-green-background': element.decision_school_board === 'pass',
+          'dark-red-background': element.decision_school_board === 'fail' || element.decision_school_board === 'eliminated',
+          'dark-orange-background': element.decision_school_board === 'retake'
+        }"
+      >
+        {{ element.decision_school_board !== 'initial' ? (element.decision_school_board | translate) : '' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.ACTION' | translate }}"><h5>Action</h5></th>
+      <td mat-cell *matCellDef="let element; let rowIndex = index">
+        <button
+          mat-icon-button
+          class="margin-right-button pencil"
+          matTooltip="{{ 'Edit' | translate }}"
+          (click)="openStudentTranscriptLog(element, rowIndex)"
+        >
+          <mat-icon svgIcon="pencil">edit</mat-icon>
+        </button>
+        <button
+          *ngIf="checkSchoolBoardIsDone(element)"
+          mat-icon-button
+          class="margin-right-button pencil"
+          style="font-size: 14px; padding-left: 2px"
+          matTooltip="{{ 'ACAD_KIT.DOC.Download' | translate }}"
+          (click)="openFinalTranscriptPDF(element)"
+        >
+          <mat-icon>
+            <svg style="width: 18px; height: 18px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,10.84 21.79,9.69 21.39,8.61L19.79,10.21C19.93,10.8 20,11.4 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.6,4 13.2,4.07 13.79,4.21L15.4,2.6C14.31,2.21 13.16,2 12,2M19,2L15,6V7.5L12.45,10.05C12.3,10 12.15,10 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12C14,11.85 14,11.7 13.95,11.55L16.5,9H18L22,5H19V2M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12H16A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8V6Z"
+              />
+            </svg>
+          </mat-icon>
+        </button>
+        <button
+          *ngIf="checkSchoolBoardIsDone(element) && classType === 'expertise'"
+          mat-icon-button
+          class="margin-right-button pencil"
+          style="font-size: 14px; padding-left: 2px"
+          matTooltip="{{ 'Grand_Oral_Improvement.Grand Oral Result' | translate : {
+            processName: transcriptDetail?.class_id?.jury_process_name ? transcriptDetail?.class_id?.jury_process_name : 'Grand Oral'
+          } | translate }}"
+          (click)="downloadResultFile(element, rowIndex)"
+        >
+          <mat-icon svgIcon="file-document-outline"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="publishStudentTranscriptOne(element)"
+          [disabled]="transcriptDetail?.transcript_process_status === 'completed'"
+          class="margin-right-button"
+          matTooltip="{{ (element?.is_published ? 'ALERT_FUNCTIONALITY.PUBLISHED' : 'ALERT_FUNCTIONALITY.NOT_PUBLISHED') | translate }}"
+          [ngClass]="{
+            'green-background': element?.is_published,
+            'red-background': !element?.is_published
+          }"
+        >
+          <mat-icon>done</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- <tr mat-header-row *matHeaderRowDef="['reset']"></tr> -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+<div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+  {{ 'NOT RECORD FOUND' | translate }}
+</div>
+<div [ngClass]="{ hide: noData | async }">
+  <mat-paginator
+    [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+    [length]="dataCount"
+    [hidePageSize]="true"
+    [pageSizeOptions]="[10]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

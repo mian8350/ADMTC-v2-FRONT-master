@@ -1,0 +1,24 @@
+<div>
+    <mat-tab-group>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <h5>{{ 'Latest' | translate }}</h5>
+            </ng-template>
+            <ng-template matTabContent>
+                <ms-history
+                [type]="'latest'">
+                </ms-history>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <h5>{{ 'Archived' | translate }}</h5>
+            </ng-template>
+            <ng-template matTabContent>
+                <ms-history
+                [type]="'archived'">
+                </ms-history>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

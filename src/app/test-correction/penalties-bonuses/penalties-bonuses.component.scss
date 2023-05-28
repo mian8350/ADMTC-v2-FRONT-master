@@ -1,0 +1,50 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+table tr {
+  box-shadow: 1px 1px 2px 0px $light-black;
+  -webkit-box-shadow: 1px 1px 2px 0px $light-black;
+  display: flex;
+  align-items: center;
+}
+
+mat-form-field {
+  height: 5px;
+}
+
+.mat-input-wrapper {
+  height: 80px !important;
+}
+
+:host ::ng-deep table {
+  td {
+    padding: 0px 11px 11px 4px;
+  }
+}
+
+table {
+  margin: 3px;
+}
+
+.border-right-td {
+  border-right: 1px solid $grey;
+  width: 300px;
+}
+
+.no-pad {
+  padding: 0px;
+}
+
+.td-right {
+  width: 87px;
+  display: inline-block;
+}
+.font-13 {
+  font-size: 13px;
+}
+.align-box {
+  font-size: 13px !important;
+  padding: 5px;
+}
+.pad-r-2 {
+  padding-right: 2px;
+}

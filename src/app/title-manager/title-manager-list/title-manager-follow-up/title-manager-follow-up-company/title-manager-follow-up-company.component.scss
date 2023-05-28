@@ -1,0 +1,184 @@
+.card-container {
+  width: 10rem;
+  float: left;
+  padding-right: 10px;
+}
+
+.card-segment {
+  margin: 10px 0px;
+  min-height: 70px;
+  border-radius: 2px;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+.icon-grid {
+  vertical-align: middle;
+  position: relative;
+  text-align: center;
+  margin: auto;
+}
+
+.first-card {
+  color: black;
+  font-size: 20px;
+  vertical-align: middle;
+  font-weight: 700;
+  text-align: center;
+  justify-content: center;
+  padding-top: 12px !important;
+}
+
+.first-card-school {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 12px;
+  vertical-align: middle;
+  font-weight: 700;
+  text-align: center;
+  justify-content: center;
+  padding-top: 12px !important;
+  overflow: hidden;
+}
+
+.segment-icon {
+  text-align: center;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+  min-width: 0;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: white;
+  vertical-align: middle;
+  position: relative;
+  padding-top: 2px;
+}
+
+.segment-title {
+  font-size: 10px;
+  float: right;
+  text-align: right;
+}
+
+.segment-score-contract {
+  width: 100%;
+  vertical-align: middle;
+  font-size: 22px;
+  padding-left: 20px;
+  margin-top: 24px;
+}
+
+.segment-score {
+  width: 100%;
+  vertical-align: middle;
+  font-size: 22px;
+  padding-left: 7px;
+  margin-top: 10px;
+}
+
+.segment-percent {
+  font-size: 10px;
+  float: right;
+  text-align: right;
+}
+
+.total-status {
+  color: #f36826;
+}
+
+.done-100 {
+  padding: 7px 15px;
+  background: #16d46d;
+}
+
+.done-more-50 {
+  padding: 7px 15px;
+  background: #f7b149;
+}
+
+.done-bellow-50 {
+  padding: 7px 15px;
+  background: #e64f4f;
+}
+
+.chart-pie-css-36 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 36deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-120 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 120deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-240 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#ff9900 240deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-360 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#00b050 360deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-350 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#ff9900 333deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-60 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 60deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-180 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#ff9900 180deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-300 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#ff9900 300deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-0 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 0deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-1 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 5deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-3 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 10deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+.chart-pie-css-5 {
+  background: white;
+  display: block;
+  border-radius: 50%;
+  background-image: conic-gradient(#cc0000 20deg, #d6d6d6 0 235deg, #d6d6d6 0);
+}
+
+.pointer {
+  cursor: pointer;
+}

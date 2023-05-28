@@ -1,0 +1,396 @@
+<div class="mrgn-bottom" *ngIf="diplomaForm" [formGroup]="diplomaForm">
+  <div class="p-grid yellow-border card-row">
+    <div class="section-header">
+      <mat-icon svgIcon="certsvg" class="mat-icon-section-svgIcon"></mat-icon>
+      <h3>{{ 'Add Diploma' | translate }}</h3>
+    </div>
+    <div class="p-col-12 no-padding-y" formGroupName="diplomas">
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'diploma_students.diploma_name' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input matInput required type="text" formControlName="diploma_name" placeholder="{{ 'diploma_students.diploma_name' | translate }}" />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('diploma_name').hasError('required') && getDiplomaForm().get('diploma_name').dirty) ||
+                getDiplomaForm().get('diploma_name').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'Institute Name' | translate }}</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input matInput type="text" formControlName="institute_name" placeholder="{{ 'Institute/University' | translate }}" />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('institute_name').hasError('required') && getDiplomaForm().get('institute_name').dirty) ||
+                getDiplomaForm().get('institute_name').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid" formGroupName="graduation_date">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'Graduation Date' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input
+              matInput
+              required
+              (click)="myDatepicker.open()"
+              readonly
+              formControlName="date"
+              [max]="today"
+              [matDatepicker]="myDatepicker"
+              (dateInput)="dateUpdate()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker></mat-datepicker>
+            <mat-error
+              *ngIf="
+                getDiplomaForm().get('graduation_date').get('date').hasError('required') &&
+                (getDiplomaForm().get('graduation_date').get('date').dirty || getDiplomaForm().get('graduation_date').get('date').touched)
+              "
+              >{{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'diploma_students.qualification' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <mat-label>{{ 'diploma_students.qualification' | translate }}</mat-label>
+            <mat-select  required formControlName="qualification">
+              <mat-option *ngFor="let qualification of qualificationList" [value]="qualification.value">{{ qualification.name }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('qualification').hasError('required') && getDiplomaForm().get('qualification').dirty) ||
+                getDiplomaForm().get('qualification').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+<!-- 
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'diploma_students.location' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input
+              required
+              matInput
+              type="text"
+              formControlName="location"
+              placeholder="{{ 'diploma_students.location' | translate }}"
+            />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('location').hasError('required') && getDiplomaForm().get('location').dirty) ||
+                getDiplomaForm().get('location').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div> -->
+
+      
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'diploma_students.location' | translate }}</label>
+        </div>
+        <div class="p-col-3 no-padding-y">
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="city"
+              placeholder="{{ 'diploma_students.city' | translate }}"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-3 no-padding-y">
+          <mat-form-field color="accent">
+            <input
+              type="text"
+              placeholder="{{ 'diploma_students.country' | translate }}"
+              matInput
+              formControlName="country"
+              [matAutocomplete]="autoCountry"
+              (keyup)="filterCountry()"
+            />
+            <mat-autocomplete #autoCountry="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option *ngFor="let option of filteredCountry" [value]="option.name">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div class="p-grid">
+        <div class="p-col-2 no-padding-y label-align">
+          <label>{{ 'Field of Study' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input required matInput type="text" formControlName="field_of_study" placeholder="{{ 'Field of Study' | translate }}" />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('field_of_study').hasError('required') && getDiplomaForm().get('field_of_study').dirty) ||
+                getDiplomaForm().get('field_of_study').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-2 no-padding-y label-align">
+          <label>{{ 'Major' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <input matInput required type="text" formControlName="major" placeholder="{{ 'Major' | translate }}" />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('major').hasError('required') && getDiplomaForm().get('major').dirty) ||
+                getDiplomaForm().get('major').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-2 no-padding-y label-align">
+          <label>{{ 'Grade' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <mat-label>{{ 'Grade' | translate }}</mat-label>
+            <mat-select required formControlName="grade" (selectionChange)="resetGradeIfNotCGPA($event)">
+              <mat-option value="cgpa_percentage">{{ 'cgpa percentage' | translate }}</mat-option>
+              <mat-option value="incomplete">{{ 'incomplete' | translate  }}</mat-option>
+              <mat-option value="ongoing">{{ 'ongoing' | translate  }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('grade').hasError('required') && getDiplomaForm().get('grade').dirty) ||
+                getDiplomaForm().get('grade').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-grid" [ngClass]="{ 'display-none': getDiplomaForm().get('grade').value !== 'cgpa_percentage' }">
+        <div class="p-col-2 no-padding-y label-align">
+          <label>{{ 'Score' | translate }}*</label>
+        </div>
+        <div class="p-col-2 no-padding-y">
+          <mat-form-field style="margin-left: -0.5rem !important">
+            <input
+              matInput
+              [required]="getDiplomaForm().get('grade').value === 'cgpa_percentage'"
+              type="number"
+              step="0.1"
+              formControlName="score"
+              placeholder="{{ 'Score' | translate }}"
+            />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('score').hasError('required') && getDiplomaForm().get('score').dirty) ||
+                getDiplomaForm().get('score').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="p-col-2 no-padding-y label-align">
+          <label>{{ 'Out Of Score' | translate }}*</label>
+        </div>
+
+        <div class="p-col-2 no-padding-y">
+          <mat-form-field>
+            <input
+              matInput
+              [required]="getDiplomaForm().get('grade').value === 'cgpa_percentage'"
+              type="number"
+              step="0.1"
+              formControlName="out_of_score"
+              placeholder="{{ 'Out of' | translate }}"
+            />
+            <mat-error
+              *ngIf="
+                (getDiplomaForm().get('out_of_score').hasError('required') && getDiplomaForm().get('out_of_score').dirty) ||
+                getDiplomaForm().get('out_of_score').touched
+              "
+            >
+              {{ 'This field is required' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>-->
+
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align-area">
+          <label>{{ 'Additional Information' | translate }}</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <mat-form-field>
+            <textarea
+              style="color: white"
+              matInput
+              type="text"
+              formControlName="additional_information"
+              placeholder="{{ 'Additional Information' | translate }}"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              #autosize="cdkTextareaAutosize"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-3 no-padding-y label-align">
+          <label>{{ 'Upload Diploma' | translate }}*</label>
+        </div>
+        <div class="p-col-6 no-padding-y">
+          <button
+            *ngIf="!getDiplomaForm().get('diploma_photo').value"
+            mat-button
+            mat-raised-button
+            color="accent"
+            (click)="openUploadWindow()"
+            style="margin-right: 10px"
+          >
+            <mat-icon>add</mat-icon> {{ 'diploma_students.upload_diploma' | translate }}
+          </button>
+          <input
+            *ngIf="!getDiplomaForm().get('diploma_photo').value"
+            #fileUploadDoc
+            type="file"
+            accept=".jpeg, .jpg, .png, .pdf"
+            class="hidden"
+            (change)="chooseFile($event)"
+          />
+        </div>
+      </div>
+      <div class="p-grid" *ngIf="getDiplomaForm().get('diploma_photo').value">
+        <div class="p-col-3 no-padding-y label-align"></div>
+        <div class="p-col-3 no-padding-y">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding">
+              <div class="imgContainer">
+                <div class="p-grid">
+                  <div class="logo-img-wrapper">
+                    <img
+                      (click)="downloadFile(getDiplomaForm().get('diploma_photo').value)"
+                      class="center-image"
+                      [src]="imgURL(getDiplomaForm().get('diploma_photo').value)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid mrgn-top-10" *ngIf="getDiplomaForm().get('diploma_photo').value">
+        <div class="p-col-3 no-padding-y label-align"></div>
+        <div class="p-col-6 no-padding-y">
+          <button mat-button mat-raised-button color="accent" (click)="openUploadWindow()" style="margin-right: 10px">
+            <mat-icon>add</mat-icon> {{ 'diploma_students.upload_diploma' | translate }}
+          </button>
+          <input #fileUploadDoc type="file" accept=".jpeg, .jpg, .png, .pdf" class="hidden" (change)="chooseFile($event)" />
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <button mat-raised-button color="accent" style="float: right" (click)="submitForm()" [disabled]="diplomaForm.invalid">{{ 'Add' | translate }}</button>
+          <button mat-raised-button color="red" style="float: right" (click)="cancel()">{{ 'Cancel' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-grid" *ngIf="diplomaForm && diplomaData?.diplomas?.length > 1">
+    <div class="p-col-12 no-padding">
+      <div class="yellow-border card-row">
+        <ng-container *ngIf="diplomaData?.diplomas?.length">
+          <div class="p-grid" *ngFor="let diploma of diplomaData.diplomas; let diplomaIndex = index">
+            <ng-container *ngIf="showDiploma(diplomaIndex)">
+              <div class="p-grid border-white card-row">
+                <div class="p-col-2">
+                  {{ translateGraduationDate(diploma.graduation_date) }}
+                </div>
+                <div class="p-col-8">
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding">
+                      <h2>{{ diploma.diploma_name }} {{ diploma.institute_name ? ' | ' + diploma.institute_name : ''}}</h2>
+                    </div>
+                    <div class="p-col-12 no-padding">
+                      <h4 *ngIf="diploma.qualification">
+                        {{ 'qualificationList.' + diploma.qualification | translate }} {{ 'in' | translate }}
+                        {{ diploma.location }} {{ diploma.city }} {{ diploma.country }}
+                      </h4>
+                    </div>
+                    <!-- <div class="p-col-12 no-padding">
+                      <div class="p-grid">
+                        <div class="p-col-2 no-padding">
+                          {{ 'Major' | translate }}
+                        </div>
+                        <div class="p-col-5 no-padding">
+                          {{ diploma.major }}
+                        </div>
+                      </div>
+
+                      <div class="p-grid" *ngIf="diploma?.grade === 'cgpa_percentage'; else unfinishedGrade">
+                        <div class="p-col-2 no-padding">
+                          {{ 'CGPA Percentage' | translate }}
+                        </div>
+                        <div class="p-col-5 no-padding">{{ diploma.score }} / {{ diploma.out_of_score }}</div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

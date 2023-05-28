@@ -1,0 +1,43 @@
+.main-container {
+    margin-bottom: 1em;
+}
+
+.dialog-border {
+    border-bottom: 1px solid black;
+    padding: 0px
+}
+
+.header-dialog {
+    margin-top: 15px;
+    padding: 0 5px 0 15px;
+}
+
+.mat-dialog-content {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 15px;
+}
+
+.mat-dialog-actions{
+    margin-right: 10px;
+}
+
+.hide{
+    display:none
+}
+.grid-block {
+    display: grid;
+    grid-template-columns: 300px 10px auto;
+
+    span:nth-child(1) {
+        grid-column: 1/2;
+        padding-left: 1rem;
+    }
+    span :nth-child(2) {
+        grid-template-columns: 2/3;
+    }
+    span :nth-child(3) {
+        grid-template-columns: 3/4;
+    }
+
+}

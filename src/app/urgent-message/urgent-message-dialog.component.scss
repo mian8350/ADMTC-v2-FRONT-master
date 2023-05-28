@@ -1,0 +1,71 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+mat-slide-toggle,
+button,
+mat-radio-button {
+  font-size: 0.87rem;
+}
+
+:host::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0, 0, 0, 0.54) !important;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+:host::ng-deep.mat-form-field-outline-thick {
+  height: 40px !important;
+}
+:host::ng-deep.mat-form-field-outline {
+  height: 40px !important;
+}
+:host::ng-deep.ng-dropdown-panel {
+  min-width: max-content;
+  width: 100%;
+}
+.urgent-title {
+  padding: 0px;
+}
+.closeIcon {
+  float: right !important;
+  text-align: right;
+  width: 74px;
+}
+.urgentIcon {
+  font-size: 18px;
+  padding-top: 1px;
+}
+.pad-top-8 {
+  padding-bottom: 8px;
+}
+
+.dialogTitleWrapper {
+  color: black;
+}
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+.no-padding {
+  padding: 0px;
+}
+
+.header-dialog {
+  margin-top: 15px;
+  padding: 0 5px 0 15px;
+}
+
+.mat-dialog-content {
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.mat-dialog-actions{
+  margin: 15px;
+}
+
+.w-65 {
+  width: 65px;
+}

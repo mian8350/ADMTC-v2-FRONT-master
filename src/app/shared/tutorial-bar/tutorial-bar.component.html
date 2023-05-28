@@ -1,0 +1,129 @@
+<mat-toolbar class="primary-bg">
+  <h3>{{ 'TUTORIALS' | translate }}</h3>
+  <div class="btn-auto">
+    <!-- <button
+      *ngIf="dataTutorial?.module === 'Jury Organization'"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="viewTutorial(dataTutorial?.video_presentation)"
+      class="margin-right-button"
+      [matTooltip]="'Link Presentation' | translate"
+    >
+      <mat-icon style="height: 21px" svgIcon="file-presentation-box"></mat-icon>
+    </button> -->
+    <img
+      *ngIf="dataTutorial?.module === 'Jury Organization'"
+      src="../../../assets/img/panic-btn.png"
+      alt="Aide Jury"
+      (click)="panic()"
+      style="cursor: pointer; margin-right: 5px; height: 31px !important; margin-top: 4px;"
+      matTooltip="{{ 'PANIC.BTN_TITLE' | translate }} {{ 'PANIC.BTN_TEXT_CLEAN' | translate }}"
+      matTooltipPosition="above"
+    />
+    <button
+      *ngIf="dataTutorial?.video_presentation"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="viewTutorial(dataTutorial?.video_presentation)"
+      class="margin-right-button"
+      [matTooltip]="'Link Presentation' | translate"
+    >
+      <mat-icon style="height: 21px" svgIcon="file-presentation-box"></mat-icon>
+    </button>
+    <button
+      *ngIf="dataTutorial?.video_url"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="viewTutorial(dataTutorial?.video_url)"
+      class="margin-right-button"
+      [matTooltip]="'Video Link' | translate"
+    >
+      <mat-icon style="height: 21px" svgIcon="youtube"></mat-icon>
+    </button>
+    <button
+      *ngIf="dataTutorial?.scenario_checklist_url"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="viewTutorial(dataTutorial?.scenario_checklist_url)"
+      class="margin-right-button"
+      [matTooltip]="'Scenario Link' | translate"
+    >
+      <mat-icon style="height: 21px" svgIcon="book-open"></mat-icon>
+    </button>
+    <button
+      *ngIf="dataTutorial?.qa_checklist_url"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="viewTutorial(dataTutorial?.qa_checklist_url)"
+      class="margin-right-button"
+      [matTooltip]="'Checklist QA Link' | translate"
+    >
+      <mat-icon style="height: 21px" svgIcon="format-list-bulleted-square"></mat-icon>
+    </button>
+    <button
+      [matTooltip]="'Compose email' | translate"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="openNeedHelp()"
+      class="margin-right-button"
+    >
+      <mat-icon style="height: 21px" svgIcon="message-question"></mat-icon>
+    </button>
+    <button
+      [matTooltip]="'Close the Tutorial' | translate"
+      mat-icon-button
+      style="background: #424242; padding: 3px"
+      (click)="toggleSidebar()"
+      class="margin-right-button"
+    >
+      <mat-icon style="height: 21px" svgIcon="arrow-right-bold-circle"></mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-nav-list style="padding: 0px">
+  <mat-list-item
+    style="max-width: 420px !important; width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: auto"
+  >
+    <div *ngIf="!dataModuleNoEmpty()" style="width: 100%; margin-bottom: 20px">
+      <mat-icon class="content-empty">article</mat-icon>
+      <span class="text-empty">{{ 'No tutorial created for this menu' | translate }}</span>
+    </div>
+    <div *ngIf="dataModuleNoEmpty()" style="width: 100%; padding-bottom: 10px; padding-top: 10px">
+      <mat-accordion class="example-headers-align" multi>
+        <ng-container *ngFor="let dataSub of dataTutorial?.sub_modules; let ins = index">
+          <mat-expansion-panel style="margin: 0px; border-radius: unset !important; border-bottom: 1px solid #8f8f8f">
+            <mat-expansion-panel-header style="border: unset !important">
+              <mat-panel-title>
+                <h5 style="margin-bottom: 0px; text-align: left !important" mat-line>
+                  {{ dataTutorial?.sub_modules[ins].sub_module }}
+                </h5>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="dataItemNoEmpty(ins)">
+              <mat-accordion class="example-headers-align" multi>
+                <ng-container *ngFor="let data of dataTutorial?.sub_modules[ins].items; let inItem = index">
+                  <mat-expansion-panel style="margin: 0px; border-radius: unset !important; border-bottom: 1px solid #8f8f8f">
+                    <mat-expansion-panel-header style="border: unset !important">
+                      <mat-panel-title>
+                        <p mat-line style="text-align: left !important; font-size: 12px; white-space: normal !important">
+                          <b>{{ data?.title }}</b>
+                        </p>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p
+                      mat-line
+                      style="white-space: break-spaces"
+                      innerHTML="{{ data?.description }}"
+                      (click)="getMessage(data?.description)"
+                    ></p>
+                  </mat-expansion-panel>
+                </ng-container>
+              </mat-accordion>
+            </div>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+    </div>
+  </mat-list-item>
+</mat-nav-list>

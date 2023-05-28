@@ -1,0 +1,383 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.form-field {
+  margin-top: 6px;
+}
+
+.mat-column-selectFilter,
+.mat-column-select {
+  text-align: center;
+  width: 3%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-jurySerialNumberFilter,
+.mat-column-jurySerialNumber {
+  text-align: center;
+  width: auto;
+  min-width: 140px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-dateFilter,
+.mat-column-dateStart {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-locationFilter,
+.mat-column-location {
+  text-align: center;
+  width: auto;
+  min-width: 200px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-cityFilter,
+.mat-column-city {
+  text-align: center;
+  width: auto;
+  min-width: 200px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-rncpTitlesFilter,
+.mat-column-rncpTitles {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-studentsFilter,
+.mat-column-students {
+  text-align: center;
+  width: 8%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-schoolFilter,
+.mat-column-school {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-presidentJuryFilter,
+.mat-column-presidentJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-professionalJuryFilter,
+.mat-column-professionalJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-academicJuryFilter,
+.mat-column-academicJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-substitutionJuryFilter,
+.mat-column-substitutionJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-statusFilter,
+.mat-column-status {
+  text-align: center;
+  width: 60px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-actionFilter,
+.mat-column-action {
+  text-align: center;
+  width: 100px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  
+  // tbody tr:nth-child(odd) {
+  //   .mat-icon-button {
+  //     background: transparent !important;
+  //     line-height: 0 !important;
+  //   }
+  // }
+  // tbody tr:nth-child(even) {
+  //   .mat-icon-button {
+  //     background: transparent !important;
+  //     line-height: 0 !important;
+  //   }
+  // }
+}
+
+
+// :host ::ng-deep table {
+//   tr {
+//     td,
+//     th {
+//       border-right: 1px solid $grey;
+//       padding-left: 0.3rem !important;
+//       padding-right: 0.3rem !important;
+//       &:nth-child(1) {
+//         text-align: center;
+//         width: 3%;
+//         .mat-form-field {
+//           width: 80%;
+//         }
+//       }
+
+//       &:nth-child(2) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(3) {
+//         width: 8rem;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(4) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(5) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(6) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(7) {
+//         width: 8.2%;
+//         text-align: center;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(8) {
+//         width: auto;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(9) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(10) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(11) {
+//         width: 8.2%;
+//         .mat-form-field {
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(12) {
+//         text-align: center;
+//         width: 7%;
+//         .mat-form-field {
+//           margin-top: 6px;
+//           padding-left: 0.3rem !important;
+//           padding-right: 0.3rem !important;
+//           width: 90%;
+//         }
+//       }
+
+//       &:nth-child(13) {
+//         text-align: center;
+//         width: 7%;
+//         .mat-form-field {
+//           width: 90%;
+//         }
+//       }
+//     }
+
+//     td {
+//       overflow: hidden;
+//       text-overflow: ellipsis;
+//       max-width: 0;
+//       white-space: nowrap;
+//       color: black;
+//       padding-top: 0.5em;
+//       padding-bottom: 0.5em;
+//     }
+
+//     th {
+//       vertical-align: top;
+//       text-align: center;
+
+//       .mat-form-field-infix {
+//         width: unset !important;
+//       }
+//     }
+//     &:nth-child(2) {
+//       th {
+//         padding-top: 0.9em;
+//       }
+//     }
+//   }
+
+//   thead tr {
+//     &:nth-child(2) {
+//       height: 35px;
+//     }
+//     &:nth-child(2),
+//     &:nth-child(3) {
+//       background: $light-black;
+//       th {
+//         color: $white;
+//       }
+//     }
+//   }
+// }
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}

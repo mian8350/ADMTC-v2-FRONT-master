@@ -1,0 +1,1286 @@
+<div class="p-grid">
+  <div style="text-align: start" class="p-col-1">
+    <button matTooltip="{{ 'LEAVE' | translate }}" mat-raised-button color="warn" style="padding-left: 10px" (click)="leave()">
+      <mat-icon class="mat-icon-default">keyboard_arrow_left</mat-icon>
+      {{ 'LEAVE' | translate }}
+    </button>
+  </div>
+  <div class="p-col-5 text-end-no-pad-r" [formGroup]="templateStepForm">
+    <button
+      matTooltip="{{ 'Save' | translate }}"
+      mat-raised-button
+      color="accent"
+      [disabled]="!templateStepForm.valid || formIsSame() || validationOptionParentAndChild() || isPublished || !parentChildValidation"
+      (click)="saveStepData()"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col-6 form-side" style="margin-top: 2rem">
+    <fieldset [disabled]="isPublished" style="padding: 0; border: none">
+      <div [formGroup]="templateStepForm" class="p-grid yellow-border card-row">
+        <div class="section-header">
+          <h3>{{ templateStepForm.get('step_title').value }}</h3>
+        </div>
+
+        <div class="p-col-12">
+          <div class="p-grid">
+            <div class="p-col-12 no-padding-y">
+              <mat-form-field class="full-width">
+                <input
+                  type="text"
+                  formControlName="step_title"
+                  matInput
+                  required
+                  placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Step Title' | translate }}"
+                  ngModel
+                  maxlength="150"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- <div class="p-grid" style="min-height: 55px" *ngIf="!finalValidation">
+            <div
+              [ngClass]="templateStepForm.get('is_validation_required').value ? 'p-col-6' : 'p-col-12'"
+              class="no-padding-y"
+              style="align-self: center"
+            >
+              <mat-slide-toggle
+                (change)="onChangeValidationRequirement($event)"
+                color="accent"
+                formControlName="is_validation_required"
+                [disabled]="isPublished"
+              >
+                <span [ngClass]="{ 'text-slider-color': templateStepForm.get('is_validation_required').value }">
+                  {{
+                    (templateStepForm.get('is_validation_required').value
+                      ? 'ERP_009_TEACHER_CONTRACT.Validation Required to continue to next steps'
+                      : 'ERP_009_TEACHER_CONTRACT.Validation is not required to continue to next steps'
+                    ) | translate
+                  }}
+                </span>
+              </mat-slide-toggle>
+            </div>
+            <div class="p-col-6 no-padding-y" *ngIf="templateStepForm.get('is_validation_required').value">
+              <ng-select
+                placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Who Validate?' | translate }}"
+                formControlName="validator"
+                [clearable]="false"
+                [disabled]="isPublished"
+                [required]="templateStepForm?.get('is_validation_required')?.value"
+              >
+                <ng-option *ngFor="let validator of validatorList" [value]="validator?._id">{{ validator?.name | translate }}</ng-option>
+              </ng-select>
+            </div>
+          </div> -->
+
+          <!-- <div class="p-grid">
+            <div class="p-col-12 no-padding-y">
+              <ng-select
+                placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Step Type' | translate }}"
+                formControlName="step_type"
+                [clearable]="false"
+                (change)="handleStepCondition()"
+                [disabled]="isPublished"
+              >
+                <ng-option *ngFor="let stepType of stepTypeList" [value]="stepType">{{
+                  'ERP_009_TEACHER_CONTRACT.' + stepType | translate
+                }}</ng-option>
+
+                <ng-option value="summary">{{ 'Summary Step' | translate }}</ng-option>
+              </ng-select>
+            </div>
+          </div> -->
+
+          <div class="p-grid">
+            <div class="p-col-12 no-padding-y">
+              <div *ngIf="templateStepForm?.get('direction')" class="ckeditor">
+                <div class="p-grid">
+                  <div class="p-col-6">
+                    <label>{{ 'Header/Direction' | translate }}</label>
+                  </div>
+                  <ng-container>
+                    <div class="p-col-6" style="text-align: end">
+                      <button matTooltip="{{ 'List of keys' | translate }}" mat-raised-button color="accent" (click)="openTableKey()">
+                        <mat-icon class="mat-icon-default">save</mat-icon>
+                        {{ 'List of keys' | translate }}
+                      </button>
+                    </div>
+                  </ng-container>
+                </div>
+                <ckeditor
+                  #editor
+                  [editor]="Editor"
+                  [formControl]="templateStepForm.controls['direction']"
+                  (ready)="onReady($event)"
+                  [config]="config"
+                  [disabled]="isPublished"
+                ></ckeditor>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 text-end-no-pad-r">
+          <button
+            *ngIf="
+              templateStepForm?.get('step_type').value === 'question_and_field' ||
+              templateStepForm?.get('step_type').value === 'academic_journey'
+            "
+            matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Add Segment' | translate }}"
+            mat-raised-button
+            color="accent"
+            [disabled]="!templateStepForm.get('step_type').value || isPublished"
+            (click)="addSegmentForm('Open Dialog')"
+          >
+            {{ 'ERP_009_TEACHER_CONTRACT.Add Segment' | translate }}
+          </button>
+        </div>
+
+        <div class="p-col-12 no-padding">
+          <mat-accordion
+            formArrayName="segments"
+            [cdkDropListData]="getSegmentFormarray().controls"
+            [multi]="true"
+            cdkDropList
+            (cdkDropListDropped)="dropSegment($event)"
+          >
+            <mat-expansion-panel
+              *ngFor="let segment of getSegmentFormarray().controls; let segmentIndex = index"
+              [formGroupName]="segmentIndex"
+              style="background: #607d8b"
+              [expanded]="true"
+              cdkDrag
+              [cdkDragDisabled]="isPublished"
+            >
+              <mat-expansion-panel-header cdkDragHandle>
+                <mat-panel-title>
+                  <h4 style="color: white; align-self: center; margin: 0px">{{ segment.get('segment_title').value }}</h4>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <!-- Delete segment does not exist in step condition acceptance and document expected -->
+              <div
+                class="p-grid panel-divider"
+                *ngIf="
+                  templateStepForm?.get('step_type').value === 'question_and_field' ||
+                  templateStepForm?.get('step_type').value === 'academic_journey'
+                "
+              >
+                <div class="p-col-11"></div>
+                <div class="p-col-1 text-right no-padding">
+                  <button (click)="removeSegmentForm(segmentIndex)" mat-icon-button class="small-icon" color="red" [disabled]="isPublished">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-grid">
+                <!-- Segment title doesn't exist in step document expected -->
+                <ng-container>
+                  <div class="p-col-12">
+                    <mat-form-field color="accent">
+                      <input
+                        #blockPanel
+                        type="text"
+                        formControlName="segment_title"
+                        matInput
+                        required
+                        placeholder="{{ 'ERP_009_TEACHER_CONTRACT.Segment Title' | translate }}"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <ng-container *ngIf="templateStepForm?.get('step_type').value === 'document_expected'">
+                    <div class="p-col-12">
+                      <mat-slide-toggle formControlName="use_total_mandatory_documents" (change)="onUseTotalMandatory($event, segment)">
+                        {{ 'Use Total Mandatory Documents' | translate }}
+                      </mat-slide-toggle>
+                    </div>
+                    <div class="p-col-5" [ngClass]="{ hide: !segment.get('use_total_mandatory_documents').value }">
+                      <div class="p-col-12 no-padding">
+                        <mat-form-field color="accent">
+                          <mat-label>{{ 'Total Mandatory Document' | translate }}</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            [required]="segment.get('use_total_mandatory_documents').value"
+                            formControlName="total_mandatory_document"
+                          />
+                          <mat-error *ngIf="segment.get('total_mandatory_document').hasError('required')">{{
+                            'This field is required' | translate
+                          }}</mat-error>
+                          <mat-error *ngIf="segment.get('total_mandatory_document').hasError('max')">{{
+                            'cant exceed the available question' | translate
+                          }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+
+                <!-- Document type for certification acceptance is only for step condition acceptance -->
+                <ng-container *ngIf="templateStepForm?.get('step_type').value === 'condition_acceptance'">
+                  <div class="p-col-12" style="padding-top: 0px">
+                    <ng-select
+                      formControlName="document_for_condition"
+                      [clearable]="false"
+                      appendTo="body"
+                      required
+                      (change)="handleDocumentSelected($event, segmentIndex)"
+                      placeholder="{{ 'Document for condition' | translate }}*"
+                      [disabled]="isPublished"
+                    >
+                      <ng-option *ngFor="let type of docListType" [value]="type">{{ type | translate }}</ng-option>
+                    </ng-select>
+                  </div>
+
+                  <div style="width: 99% !important" class="p-col-12 no-padding-y" *ngIf="selectedDocType === 'ck_editor'">
+                    <div class="ckeditor">
+                      <ckeditor
+                        #editor
+                        [editor]="Editor"
+                        formControlName="acceptance_text"
+                        (ready)="onReady($event)"
+                        [config]="configTypeCondition"
+                        [disabled]="isPublished"
+                      ></ckeditor>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 no-padding-y" *ngIf="selectedDocType === 'upload_pdf'">
+                    <ng-container *ngIf="!listUploadDocumentPDF">
+                      <button mat-raised-button color="accent" (click)="openUploadWindow()" [disabled]="isPublished">
+                        <mat-icon>file_upload</mat-icon> {{ 'Upload PDF for user to accept' | translate }}
+                      </button>
+                      <input #fileUploadDoc type="file" accept=".pdf" class="hidden" (change)="chooseFile($event, segmentIndex)" />
+                    </ng-container>
+                    <div class="p-grid" *ngIf="listUploadDocumentPDF" style="padding-top: 15px">
+                      <input #fileUploadDoc type="file" accept=".pdf" class="hidden" (change)="chooseFile($event, segmentIndex)" />
+                      <div class="p-col-2">
+                        <button [disabled]="isPublished" (click)="openUploadWindow()" mat-icon-button matTooltip="{{ 'Edit' | translate }}">
+                          <mat-icon style="color: black">edit</mat-icon>
+                        </button>
+                        <button
+                          [disabled]="isPublished"
+                          (click)="deletePDF(segmentIndex)"
+                          mat-icon-button
+                          matTooltip="{{ 'Delete' | translate }}"
+                        >
+                          <mat-icon style="color: black">delete</mat-icon>
+                        </button>
+                      </div>
+                      <div class="p-col-10" style="margin-top: 6px">
+                        {{ listUploadDocumentPDF }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12">
+                    <mat-slide-toggle formControlName="is_rejection_allowed" (change)="onAllowRejectionChange($event, segment)">
+                      {{
+                        segment.get('is_rejection_allowed').value
+                          ? ('Reject is allowed' | translate)
+                          : ('Reject is not allowed' | translate)
+                      }}
+                    </mat-slide-toggle>
+                  </div>
+                  <div class="p-col-12 pad-l-lg" *ngIf="segment.get('is_rejection_allowed').value">
+                    <mat-slide-toggle class="pad-l-lg" formControlName="is_on_reject_complete_the_step">
+                      {{
+                        segment.get('is_on_reject_complete_the_step').value
+                          ? ('On reject complete the form' | translate)
+                          : ('On reject continue to next step' | translate)
+                      }}
+                    </mat-slide-toggle>
+                  </div>
+                  <div class="p-col-12">
+                    <mat-slide-toggle formControlName="is_download_mandatory">
+                      {{
+                        segment.get('is_download_mandatory').value
+                          ? ('Mandatory for user to download before able to complete the step' | translate)
+                          : ('Not Mandatory for user to download before able to complete the step' | translate)
+                      }}
+                    </mat-slide-toggle>
+                  </div>
+                  <div class="p-col-12 p-grid p-align-baseline">
+                    <div class="p-col-2">{{ 'Accept button' | translate }} :</div>
+                    <div class="p-col">
+                      <mat-form-field color="accent">
+                        <mat-label>{{ 'Accept button' | translate }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="accept_button"
+                          [required]="templateStepForm?.get('step_type').value === 'condition_acceptance' ? true : false"
+                        />
+                        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="p-col-12 p-grid p-align-baseline" *ngIf="segment.get('is_rejection_allowed').value">
+                    <div class="p-col-2">{{ 'Reject button' | translate }} :</div>
+                    <div class="p-col">
+                      <mat-form-field color="accent">
+                        <mat-label>{{ 'Reject button' | translate }} *</mat-label>
+                        <input matInput type="text" formControlName="reject_button" />
+                        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Add Question does not exist in step condition acceptance -->
+                <ng-container
+                  *ngIf="
+                    templateStepForm?.get('step_type').value === 'condition_acceptance' ||
+                      templateStepForm?.get('step_type').value === 'step_summary' ||
+                      templateStepForm?.get('step_type').value === 'final_message';
+                    else addQuestion
+                  "
+                >
+                </ng-container>
+                <ng-template #addQuestion>
+                  <div class="p-col-12 text-end-no-pad-r">
+                    <button
+                      matTooltip="{{ 'ERP_009_TEACHER_CONTRACT.Add Question' | translate }}"
+                      mat-raised-button
+                      color="accent"
+                      (click)="addQuestionFieldForm(segmentIndex); scrollIntoLastQuestion(segmentIndex)"
+                      [disabled]="
+                        isPublished ||
+                        (templateType === 'quality_file' &&
+                          templateStepForm?.get('step_type').value === 'document_expected' &&
+                          segment.get('questions').value.length >= 1)
+                      "
+                      *ngIf="templateStepForm?.get('step_type').value !== 'summary'"
+                    >
+                      {{ 'ERP_009_TEACHER_CONTRACT.Add Question' | translate }}
+                    </button>
+                  </div>
+                </ng-template>
+              </div>
+
+              <div class="p-grid">
+                <div
+                  class="p-col-12 no-padding"
+                  formArrayName="questions"
+                  [cdkDropListData]="getQuestionFieldFormArray(segmentIndex).controls"
+                  cdkDropList
+                  (cdkDropListDropped)="dropQuestion($event, segmentIndex)"
+                >
+                  <mat-card
+                    class="mrgn-all-xs"
+                    *ngFor="let questionField of getQuestionFieldFormArray(segmentIndex).controls; let questionIndex = index"
+                    cdkDrag
+                    [cdkDragDisabled]="
+                      isPublished ||
+                      templateStepForm?.get('step_type').value === 'summary' ||
+                      templateStepForm?.get('step_type').value === 'final_message'
+                    "
+                  >
+                    <div #questionPanel>
+                      <!-- QUESTION TYPE: EXPECTED DOCUMENT AND FIELD BELOW ----------------------------------------------------------------------------------------------------->
+                      <mat-card-content
+                        *ngIf="this.templateStepForm.get('step_type').value === 'document_expected'"
+                        [formGroupName]="questionIndex"
+                        cdkDragHandle
+                      >
+                        <div class="p-grid">
+                          <!-- The toggles row -->
+                          <div class="p-col-10" style="align-self: center; padding-bottom: 0px">
+                            <mat-slide-toggle
+                              [disabled]="isPublished"
+                              formControlName="is_field"
+                              (change)="updateFieldToggle($event, segmentIndex, questionIndex)"
+                            >
+                              <span [ngClass]="{ 'text-slider-color': questionField.get('is_field').value }">
+                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD' | translate }}
+                              </span>
+                            </mat-slide-toggle>
+                            <mat-slide-toggle formControlName="is_required" [disabled]="isPublished" style="margin-left: 1rem">
+                              <span [ngClass]="{ 'text-slider-color': questionField.get('is_required').value }">
+                                {{
+                                  (questionField.get('is_required').value
+                                    ? 'ERP_009_TEACHER_CONTRACT.Required'
+                                    : 'ERP_009_TEACHER_CONTRACT.Not Required'
+                                  ) | translate
+                                }}
+                              </span>
+                            </mat-slide-toggle>
+                          </div>
+                          <div class="p-col-2" style="padding-bottom: 0px">
+                            <div style="text-align: right">
+                              <button
+                                [disabled]="isPublished"
+                                (click)="removeQuestionFieldForm(segmentIndex, questionIndex)"
+                                mat-icon-button
+                                class="small-icon"
+                                color="red"
+                              >
+                                <mat-icon>remove</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-grid">
+                          <div class="p-col-8">
+                            <label class="float-label" [style.visibility]="questionField.get('answer_type').value ? 'visible' : 'hidden'">
+                              {{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}
+                            </label>
+                            <ng-select
+                              placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}"
+                              formControlName="answer_type"
+                              [clearable]="false"
+                              appendTo="body"
+                              required
+                              [disabled]="isPublished"
+                            >
+                              <ng-option
+                                *ngFor="let questionAnswerType of questionnaireConsts.expectedDocumentTypes"
+                                [value]="questionAnswerType.value"
+                                >{{ 'EXPECTED_DOCUMENT_TYPES.' + questionAnswerType.view | translate }}</ng-option
+                              >
+                            </ng-select>
+                          </div>
+                        </div>
+
+                        <!-- Second row, question label, only if non-field -->
+                        <div class="p-grid">
+                          <div [style.display]="questionField.get('is_field').value ? 'block' : 'none'" class="p-col-4">
+                            <label class="float-label" [style.visibility]="questionField.get('field_type').value ? 'visible' : 'hidden'">
+                              {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_TYPE' | translate }}
+                            </label>
+                            <ng-select
+                              placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_TYPE' | translate }}"
+                              formControlName="field_type"
+                              [clearable]="false"
+                              appendTo="body"
+                              [required]="questionField.get('is_field').value"
+                              [disabled]="isPublished"
+                              (change)="selectDocumentExpectedType($event, segmentIndex, questionIndex)"
+                            >
+                              <ng-option
+                                [disabled]="isPublished"
+                                *ngFor="let field of questionnaireConsts.documentExpectedFields"
+                                [value]="field"
+                              >
+                                {{ 'FORM_BUILDER_FIELD.' + field | translate }}
+                              </ng-option>
+                            </ng-select>
+                          </div>
+                          <div [style.display]="!questionField.get('is_field').value ? 'block' : 'none'" class="p-col-12">
+                            <mat-form-field>
+                              <input
+                                required
+                                matInput
+                                formControlName="question_label"
+                                [placeholder]="'Question Label' | translate"
+                                type="text"
+                                [disabled]="isPublished"
+                              />
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </mat-card-content>
+
+                      <!-- QUESTION TYPE: NORMAL QUESTION AND FIELD BELOW ----------------------------------------------------------------------------------------------------->
+                      <mat-card-content
+                        *ngIf="
+                          this.templateStepForm.get('step_type').value === 'question_and_field' ||
+                          this.templateStepForm.get('step_type').value === 'academic_journey'
+                        "
+                        [formGroupName]="questionIndex"
+                        cdkDragHandle
+                      >
+                        <div class="p-grid">
+                          <div class="p-col-10" style="align-self: center; padding-bottom: 0px">
+                            <mat-slide-toggle
+                              [disabled]="isPublished"
+                              formControlName="is_field"
+                              (change)="updateFieldToggle($event, segmentIndex, questionIndex)"
+                            >
+                              <span [ngClass]="{ 'text-slider-color': questionField.get('is_field').value }">
+                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD' | translate }}
+                              </span>
+                            </mat-slide-toggle>
+                            <mat-slide-toggle
+                              *ngIf="questionField.get('is_field').value"
+                              style="margin-left: 1rem"
+                              formControlName="is_editable"
+                              (change)="updateEditableToggle($event, segmentIndex, questionIndex)"
+                              [disabled]="isPublished"
+                            >
+                              <span [ngClass]="{ 'text-slider-color': questionField.get('is_editable').value }">
+                                {{
+                                  (questionField.get('is_editable').value
+                                    ? 'ERP_009_TEACHER_CONTRACT.Editable'
+                                    : 'ERP_009_TEACHER_CONTRACT.Not Editable'
+                                  ) | translate
+                                }}
+                              </span>
+                            </mat-slide-toggle>
+                            <mat-slide-toggle
+                              *ngIf="questionField.get('is_editable').value"
+                              style="margin-left: 1rem"
+                              formControlName="is_required"
+                              [disabled]="isPublished"
+                              (change)="updateRequiredToggle(segmentIndex, questionIndex)"
+                            >
+                              <span [ngClass]="{ 'text-slider-color': questionField.get('is_required').value }">
+                                {{
+                                  (questionField.get('is_required').value
+                                    ? 'ERP_009_TEACHER_CONTRACT.Required'
+                                    : 'ERP_009_TEACHER_CONTRACT.Not Required'
+                                  ) | translate
+                                }}
+                              </span>
+                            </mat-slide-toggle>
+                          </div>
+                          <div class="p-col-2" style="padding-bottom: 0px">
+                            <div style="text-align: right">
+                              <button
+                                (click)="removeQuestionFieldForm(segmentIndex, questionIndex)"
+                                mat-icon-button
+                                class="small-icon"
+                                color="red"
+                                [disabled]="isPublished"
+                              >
+                                <mat-icon>remove</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-grid">
+                          <!-- Display the answer type if field is false -->
+                          <ng-container>
+                            <!-- <div  [style.display]="!questionField.get('is_field').value ? 'block': 'none'" class="p-col-4">
+                              <mat-form-field>
+                                <input
+                                  matInput
+                                  formControlName="ref_id"
+                                  [placeholder]="'ERP_009_TEACHER_CONTRACT.Ref Id' | translate"
+                                  type="text"
+                                  [required]="!questionField.get('is_field').value"
+                                />
+                              </mat-form-field>
+                            </div> -->
+                            <div [style.display]="!questionField.get('is_field').value ? 'block' : 'none'" class="p-col-8">
+                              <label class="float-label" [style.visibility]="questionField.get('answer_type').value ? 'visible' : 'hidden'">
+                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}
+                              </label>
+                              <ng-select
+                                placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.ANSWER_TYPE' | translate }}"
+                                formControlName="answer_type"
+                                [clearable]="false"
+                                appendTo="body"
+                                [required]="!questionField.get('is_field').value"
+                                [disabled]="isPublished"
+                                (change)="handleChangeInAnswerType(segmentIndex, questionIndex, $event)"
+                              >
+                                <ng-option
+                                  *ngFor="let questionAnswerType of questionnaireConsts.questionAnswerTypes"
+                                  [value]="questionAnswerType.key"
+                                  [disabled]="isPublished"
+                                >
+                                  {{ 'QUESTION_ANSWER_TYPE.' + questionAnswerType.name.toUpperCase() | translate }}
+                                </ng-option>
+                              </ng-select>
+                            </div>
+                          </ng-container>
+
+                          <!-- Display the field dropdown if field is true -->
+                          <ng-container>
+                            <div [style.display]="questionField.get('is_field').value ? 'block' : 'none'" class="p-col-4">
+                              <label class="float-label" [style.visibility]="questionField.get('field_type').value ? 'visible' : 'hidden'">
+                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_TYPE' | translate }}
+                              </label>
+                              <ng-select
+                                class="field-type custom-class"
+                                placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_TYPE' | translate }}"
+                                formControlName="field_type"
+                                [clearable]="false"
+                                [required]="questionField.get('is_field').value"
+                                [disabled]="isPublished"
+                                [typeahead]="inputFieldTypeQuestion$"
+                                [loading]="isLoadingFilter"
+                                loadingText="{{ 'Loading' | translate }}"
+                                (change)="handleChangeInFieldTypeDynamic(segmentIndex, questionIndex, $event)"
+                              >
+                                <ng-option
+                                  [disabled]="isPublished"
+                                  *ngFor="let field of filteredFieldTypeQuestion | async"
+                                  [value]="field.isCustomQuestion ? field : field.questionLabel"
+                                  [disabled]="selectedFieldTypeSet?.has(field?.questionLabel)"
+                                >
+                                  {{
+                                    field.isCustomQuestion ? field.questionLabel : ('FORM_BUILDER_FIELD.' + field.questionLabel | translate)
+                                  }}
+                                </ng-option>
+                              </ng-select>
+
+                              <div>
+                                <p>{{ 'Type atleast 3 character to start the filter' | translate }}</p>
+                              </div>
+                            </div>
+                          </ng-container>
+
+                          <!-- Always display the position regardless field true/false -->
+                          <ng-container>
+                            <div
+                              class="p-col-4"
+                              [style.visibility]="questionField.get('answer_type').value === 'long_text' ? 'hidden' : 'visible'"
+                            >
+                              <label
+                                class="float-label"
+                                [style.visibility]="questionField.get('field_position').value ? 'visible' : 'hidden'"
+                              >
+                                {{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_POSITION' | translate }}
+                              </label>
+                              <ng-select
+                                placeholder="{{ 'MENTOREVALUATION.QUESTIONNAIRE.FIELD_POSITION' | translate }}"
+                                formControlName="field_position"
+                                [clearable]="false"
+                                appendTo="body"
+                                [required]="questionField.get('answer_type').value !== 'long_text'"
+                                [disabled]="isPublished"
+                              >
+                                <ng-option *ngFor="let position of questionnaireConsts.questionPositions" [value]="position">{{
+                                  'ERP_009_TEACHER_CONTRACT.POSITION.' + position | translate
+                                }}</ng-option>
+                              </ng-select>
+                            </div>
+                          </ng-container>
+
+                          <div
+                            [style.display]="
+                              !questionField.get('is_field').value && questionField.get('answer_type').value === 'numeric'
+                                ? 'contents'
+                                : 'none'
+                            "
+                            formGroupName="numeric_validation"
+                          >
+                            <div class="p-col-fixed p-col-align-center pad-r-md">
+                              {{ 'Validation' | translate }}
+                            </div>
+                            <div class="p-col-3">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Condition' | translate }}</mat-label>
+                                <mat-select
+                                  formControlName="condition"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'numeric' &&
+                                    customValidation(questionField, 'numeric')
+                                  "
+                                >
+                                  <mat-option [value]="null">{{ 'NONE' | translate }}</mat-option>
+                                  <mat-option *ngFor="let condition of questionnaireConsts.numericConditions" [value]="condition">
+                                    {{ condition | translate }}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <ng-container
+                              *ngIf="
+                                questionField.get('numeric_validation').get('condition').value === 'Between' ||
+                                questionField.get('numeric_validation').get('condition').value === 'Not between'
+                              "
+                            >
+                              <div class="p-col-2">
+                                <mat-form-field color="accent">
+                                  <mat-label>{{ 'Number' | translate }}</mat-label>
+                                  <input
+                                    matInput
+                                    type="number"
+                                    formControlName="min_number"
+                                    [required]="
+                                      !questionField.get('is_field').value &&
+                                      questionField.get('answer_type').value === 'numeric' &&
+                                      (questionField.get('numeric_validation').get('condition').value === 'Between' ||
+                                        questionField.get('numeric_validation').get('condition').value === 'Not between')
+                                    "
+                                  />
+                                  <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="p-col-2">
+                                <mat-form-field color="accent">
+                                  <mat-label>{{ 'Number' | translate }}</mat-label>
+                                  <input
+                                    matInput
+                                    type="number"
+                                    formControlName="max_number"
+                                    [required]="
+                                      !questionField.get('is_field').value &&
+                                      questionField.get('answer_type').value === 'numeric' &&
+                                      (questionField.get('numeric_validation').get('condition').value === 'Between' ||
+                                        questionField.get('numeric_validation').get('condition').value === 'Not between')
+                                    "
+                                  />
+                                  <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                </mat-form-field>
+                              </div>
+                            </ng-container>
+                            <div
+                              class="p-col-2"
+                              [style.display]="
+                                questionField.value?.numeric_validation?.condition === 'Whole number' ||
+                                questionField.get('numeric_validation').get('condition').value === 'Between' ||
+                                questionField.get('numeric_validation').get('condition').value === 'Not between'
+                                  ? 'none'
+                                  : ''
+                              "
+                            >
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Number' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="number"
+                                  formControlName="number"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'numeric' &&
+                                    questionField.get('numeric_validation').get('condition').value !== 'Whole number' &&
+                                    questionField.get('numeric_validation').get('condition').value !== 'Between' &&
+                                    questionField.get('numeric_validation').get('condition').value !== 'Not between' &&
+                                    customValidation(questionField, 'numeric')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+
+                            <div class="p-col">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Custom Error Text' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="custom_error_text"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'numeric' &&
+                                    customValidation(questionField, 'numeric')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div
+                            formGroupName="multiple_option_validation"
+                            [style.display]="
+                              !questionField.get('is_field').value && questionField.get('answer_type').value === 'multiple_option'
+                                ? 'contents'
+                                : 'none'
+                            "
+                          >
+                            <div class="p-col-fixed p-col-align-center pad-r-md">
+                              {{ 'Validation' | translate }}
+                            </div>
+                            <div class="p-col-3">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Selection Min/Max' | translate }}</mat-label>
+                                <mat-select
+                                  formControlName="condition"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'multiple_option' &&
+                                    customValidation(questionField, 'multiple_option')
+                                  "
+                                >
+                                  <mat-option [value]="null">{{ 'NONE' | translate }}</mat-option>
+                                  <mat-option *ngFor="let condition of questionnaireConsts.multipleOptionConditions" [value]="condition">
+                                    {{ condition | translate }}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="p-col-2">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Number' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="number"
+                                  formControlName="number"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'multiple_option' &&
+                                    customValidation(questionField, 'multiple_option')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="p-col">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Custom Error Text' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="custom_error_text"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    questionField.get('answer_type').value === 'multiple_option' &&
+                                    customValidation(questionField, 'multiple_option')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div
+                            [style.display]="
+                              !questionField.get('is_field').value &&
+                              questionField.get('answer_type').value === 'single_option' &&
+                              questionField.get('is_required').value
+                                ? 'contents'
+                                : 'none'
+                            "
+                          >
+                            <div class="p-col-3" *ngIf="!isFinalStep">
+                              <mat-slide-toggle (change)="resetAdditionalStep(segmentIndex, questionIndex)" formControlName="is_router_on">
+                                {{ questionField.get('is_router_on').value ? ('Router ON' | translate) : ('Router OFF' | translate) }}
+                              </mat-slide-toggle>
+                            </div>
+                            <div class="p-col">
+                              <mat-slide-toggle formControlName="is_required_for_next_es" *ngIf="templateType === 'employability_survey'">
+                                {{ '056_ES.' + 'Required for next ES' | translate }}
+                              </mat-slide-toggle>
+                            </div>
+                          </div>
+
+                          <div
+                            [style.display]="
+                              !questionField.get('is_field').value &&
+                              (questionField.get('answer_type').value === 'short_text' ||
+                                questionField.get('answer_type').value === 'long_text')
+                                ? 'contents'
+                                : 'none'
+                            "
+                            formGroupName="text_validation"
+                          >
+                            <div class="p-col-fixed p-col-align-center pad-r-md">
+                              {{ 'Length' | translate }}
+                            </div>
+                            <div class="p-col-3">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Condition' | translate }}</mat-label>
+                                <mat-select
+                                  formControlName="condition"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    (questionField.get('answer_type').value === 'short_text' ||
+                                      questionField.get('answer_type').value === 'long_text') &&
+                                    customValidation(questionField, 'text_validation')
+                                  "
+                                >
+                                  <mat-option [value]="null">{{ 'NONE' | translate }}</mat-option>
+                                  <mat-option *ngFor="let condition of questionnaireConsts.textValidationCondition" [value]="condition">
+                                    {{ condition | translate }}
+                                  </mat-option>
+                                </mat-select>
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="p-col-2">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Number' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="number"
+                                  formControlName="number"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    (questionField.get('answer_type').value === 'short_text' ||
+                                      questionField.get('answer_type').value === 'long_text') &&
+                                    customValidation(questionField, 'text_validation')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="p-col">
+                              <mat-form-field color="accent">
+                                <mat-label>{{ 'Custom Error Text' | translate }}</mat-label>
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="custom_error_text"
+                                  [required]="
+                                    !questionField.get('is_field').value &&
+                                    (questionField.get('answer_type').value === 'short_text' ||
+                                      questionField.get('answer_type').value === 'long_text') &&
+                                    customValidation(questionField, 'text_validation')
+                                  "
+                                />
+                                <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <ng-container>
+                            <div [style.display]="questionField.get('answer_type').value === 'date' ? 'block' : 'none'" class="p-col-12">
+                              <label
+                                class="float-label"
+                                [style.visibility]="questionField.get('date_format').value ? 'visible' : 'hidden'"
+                                >{{ 'Date Format' | translate }}</label
+                              >
+                              <ng-select
+                                formControlName="date_format"
+                                [placeholder]="'Date Format' | translate"
+                                [disabled]="isPublished"
+                                [required]="questionField.get('answer_type').value === 'date'"
+                              >
+                                <ng-option [value]="option" *ngFor="let option of ['DD/MM/YYYY', 'DD/MM', 'MM/YYYY', 'YYYY', 'MM', 'DD']">
+                                  {{ option }}
+                                </ng-option>
+                              </ng-select>
+                              <mat-error
+                                *ngIf="
+                                  questionField.get('date_format').hasError('required') &&
+                                  (questionField.get('date_format').touched || questionField.get('date_format').dirty)
+                                "
+                              >
+                                {{ 'This field is required' | translate }}
+                              </mat-error>
+                            </div>
+                          </ng-container>
+
+                          <!-- For Question Name, only displayed if field false -->
+                          <ng-container>
+                            <div [style.display]="!questionField.get('is_field').value ? 'block' : 'none'" class="p-col-12">
+                              <mat-form-field>
+                                <input
+                                  matInput
+                                  formControlName="question_label"
+                                  [placeholder]="'Question Label' | translate"
+                                  type="text"
+                                  [required]="!questionField.get('is_field').value"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </ng-container>
+                        </div>
+
+                        <!-- <div fxLayout="row" *ngIf="questionField && checkIsParentChild(questionField.value)">
+                          <div class="p-col-8">
+                            <mat-form-field color="accent">
+                              <input
+                                #option
+                                matInput
+                                type="text"
+                                [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.OPTION.title' | translate"
+                              />
+                            </mat-form-field>
+                          </div>
+                          <div class="p-col-4">
+                            <button
+                              [disabled]="isPublished"
+                              mat-mini-fab
+                              color="primary"
+                              type="button"
+                              (click)="addMoreAnswers(segmentIndex, questionIndex)"
+                            >
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+                        </div> -->
+
+                        <div class="p-grid" [style.display]="checkIsParentChild(questionField?.value) ? 'flex' : 'none'">
+                          <div class="p-col-8">
+                            <mat-form-field color="accent" style="width: 100%">
+                              <input
+                                #parentChildOption
+                                matInput
+                                type="text"
+                                [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.OPTION.title' | translate"
+                                [required]="
+                                  checkIsParentChild(questionField?.value) && !questionField?.get('parent_child_options')?.value?.length
+                                "
+                                (keydown.enter)="addMoreAnswers(segmentIndex, questionIndex, parentChildOption)"
+                              />
+                            </mat-form-field>
+                            <mat-error *ngIf="!parentChildOption.value && !questionField?.get('parent_child_options')?.value?.length">{{
+                              'This field is required' | translate
+                            }}</mat-error>
+                          </div>
+                          <div class="p-col-4">
+                            <button
+                              [disabled]="isPublished || !parentChildOption.value"
+                              mat-mini-fab
+                              color="primary"
+                              type="button"
+                              (click)="addMoreAnswers(segmentIndex, questionIndex, parentChildOption)"
+                            >
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+
+                        <ul
+                          style="flex-direction: column; list-style: none"
+                          [style.display]="checkIsParentChild(questionField?.value) ? 'flex' : 'none'"
+                          cdkDropList
+                          [cdkDropListData]="questionField?.value?.parent_child_options"
+                          (cdkDropListDropped)="dropPCOption($event, segmentIndex, questionIndex)"
+                          class="draggable-list-container"
+                        >
+                          <li *ngFor="let option of questionField?.value?.parent_child_options; let optionIndex = index">
+                            <ms-step-parent-child-nesting
+                              [parent_child_options]="option"
+                              [question]="questionField.value"
+                              [optionIndex]="optionIndex"
+                              [formBuilderForm]="templateStepForm"
+                              [segmentIndex]="segmentIndex"
+                              [questionIndex]="questionIndex"
+                              [isViewOnly]="false"
+                              [parentAnswerType]="parentAnswerType"
+                              [getQuestionFieldFormArray]="getQuestionFieldFormArray"
+                            ></ms-step-parent-child-nesting>
+                          </li>
+                        </ul>
+
+                        <div class="p-grid p-align-center" [style.display]="checkIsMutiOption(questionField?.value) ? 'flex' : 'none'">
+                          <div class="p-col">
+                            <mat-form-field color="accent" style="width: 100%">
+                              <input
+                                #optionInput
+                                matInput
+                                type="text"
+                                [placeholder]="'MENTOREVALUATION.QUESTIONNAIRE.OPTION.title' | translate"
+                                [required]="checkIsMutiOption(questionField?.value) && !questionField.get('options').value.length"
+                                (keydown.enter)="addMoreOptions(segmentIndex, questionIndex, optionInput); optionInput.value = ''"
+                              />
+                            </mat-form-field>
+                            <mat-error *ngIf="!optionInput.value && !questionField.get('options').value.length">{{
+                              'This field is required' | translate
+                            }}</mat-error>
+                          </div>
+                          <div class="p-col-fixed">
+                            <button
+                              [disabled]="isPublished || !optionInput.value"
+                              mat-mini-fab
+                              color="primary"
+                              type="button"
+                              type="button"
+                              (click)="addMoreOptions(segmentIndex, questionIndex, optionInput); optionInput.value = ''"
+                            >
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div
+                          cdkDropList
+                          [cdkDropListData]="getOptionsFormArrayFrom(questionField).controls"
+                          (cdkDropListDropped)="dropOption($event, segmentIndex, questionIndex)"
+                          class="p-grid draggable-list-container"
+                          *ngIf="checkIsMutiOption(questionField?.value)"
+                        >
+                          <ng-container *ngFor="let option of getOptionsFormArrayFrom(questionField).controls; let optionIndex = index">
+                            <ms-option-item
+                              style="width: 100%"
+                              [optionFormGroup]="option"
+                              [optionIndex]="optionIndex"
+                              [filteredConditionalStepsDropdown]="filteredConditionalStepsDropdown"
+                              [isPublished]="isPublished"
+                              [isFinalStep]="isFinalStep"
+                              [questionField]="questionField"
+                              (removeOptionEvent)="removeOption(segmentIndex, questionIndex, optionIndex)"
+                              (nextStepTypeEvent)="onNextStepType($event)"
+                              (selectNextStepAtEvent)="onSelectNextStepAt($event)"
+                              (updateOptionEvent)="updateOptionText(segmentIndex, questionIndex, optionIndex, $event)"
+                            ></ms-option-item>
+                          </ng-container>
+                        </div>
+                      </mat-card-content>
+
+                      <!-- if step type summary -->
+                      <mat-card-content *ngIf="this.templateStepForm.get('step_type').value === 'summary'" [formGroupName]="questionIndex">
+                        <div class="p-grid" formGroupName="special_question">
+                          <div class="p-col-12 no-padding-y">
+                            <!-- Header -->
+                            <div class="p-grid">
+                              <div class="p-col-6">
+                                <label>{{ 'Header of the summary' | translate }}</label>
+                              </div>
+                            </div>
+                            <div class="p-col-12 no-padding-y">
+                              <div class="ckeditor">
+                                <!-- [formControl]="questions.controls['question_label']" -->
+                                <ckeditor
+                                  formControlName="summary_header"
+                                  #editor
+                                  [editor]="Editor"
+                                  (ready)="onReady($event)"
+                                  [config]="config"
+                                  [disabled]="isPublished"
+                                ></ckeditor>
+                              </div>
+                            </div>
+                            <!-- Footer -->
+                            <div class="p-grid">
+                              <div class="p-col-6">
+                                <label>{{ 'Footer of the summary' | translate }}</label>
+                              </div>
+                            </div>
+                            <div class="p-col-12 no-padding-y">
+                              <div class="ckeditor">
+                                <!-- [formControl]="questions.controls['question_label']" -->
+                                <ckeditor
+                                  formControlName="summary_footer"
+                                  #editor
+                                  [editor]="Editor"
+                                  (ready)="onReady($event)"
+                                  [config]="config"
+                                  [disabled]="isPublished"
+                                ></ckeditor>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                      <!-- if step type step_summary END  -->
+
+                      <!-- if step type final_message -->
+                      <mat-card-content
+                        *ngIf="templateStepForm?.get('step_type').value === 'final_message'"
+                        [formGroupName]="questionIndex"
+                      >
+                        <div class="p-grid" formGroupName="final_message_question">
+                          <div class="p-col-12 no-padding-y">
+                            <!-- Header -->
+                            <div class="p-grid">
+                              <div class="p-col-6">
+                                <label>{{ 'Header of the summary' | translate }}</label>
+                              </div>
+                            </div>
+                            <div class="p-col-12 no-padding-y">
+                              <div class="ckeditor">
+                                <!-- [formControl]="questions.controls['question_label']" -->
+                                <ckeditor
+                                  formControlName="final_message_summary_header"
+                                  #editor
+                                  [editor]="Editor"
+                                  (ready)="onReady($event)"
+                                  [config]="config"
+                                  [disabled]="isPublished"
+                                ></ckeditor>
+                              </div>
+                            </div>
+                            <!-- Footer -->
+                            <div class="p-grid">
+                              <div class="p-col-6">
+                                <label>{{ 'Footer of the summary' | translate }}</label>
+                              </div>
+                            </div>
+                            <div class="p-col-12 no-padding-y">
+                              <div class="ckeditor">
+                                <!-- [formControl]="questions.controls['question_label']" -->
+                                <ckeditor
+                                  formControlName="final_message_summary_footer"
+                                  #editor
+                                  [editor]="Editor"
+                                  (ready)="onReady($event)"
+                                  [config]="config"
+                                  [disabled]="isPublished"
+                                ></ckeditor>
+                              </div>
+                            </div>
+
+                            <div class="p-grid">
+                              <div class="p-col-6">
+                                <label>{{ 'Image' | translate }}</label> <br />
+                                <button mat-raised-button color="accent" (click)="image.click()" [disabled]="isPublished">
+                                  <mat-icon class="mat-icon-default">add</mat-icon>
+                                  {{ 'Select File' | translate }}
+                                </button>
+                                <br />
+                                <input
+                                  #image
+                                  type="file"
+                                  accept=".jpeg, .jpg, .png"
+                                  hidden
+                                  [disabled]="isPublished"
+                                  (change)="chooseFile($event, segmentIndex, questionIndex); image.value = ''"
+                                />
+                                <img
+                                  src="{{ serverimgPath }}{{
+                                    questionField.get('final_message_question').get('final_message_image').get('s3_file_name').value
+                                  }}"
+                                  *ngIf="questionField.get('final_message_question').get('final_message_image').get('s3_file_name').value"
+                                  maxWidth="300px"
+                                />
+                                <br />
+                                <button
+                                  *ngIf="questionField.get('final_message_question').get('final_message_image').get('s3_file_name').value"
+                                  (click)="removeImage(segmentIndex, questionIndex)"
+                                  mat-icon-button
+                                  class="small-icon"
+                                  color="red"
+                                  [disabled]="isPublished"
+                                >
+                                  <mat-icon>remove</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                      <!-- if step type final_message END  -->
+                    </div>
+                  </mat-card>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="p-col-6 preview-side preview-side" style="padding-left: 1rem" *ngIf="templateStepForm?.get('step_type').value">
+    <mat-stepper #stepperForm selectedIndex="0">
+      <ng-template matStepperIcon="number" let-index="index">
+        {{ stepIndex + 1 }}
+      </ng-template>
+
+      <mat-step disableRipple="true" label="{{ templateStepForm.get('step_title').value }}">
+        <div [ngSwitch]="templateStepForm?.get('step_type').value">
+          <ms-question-form-preview
+            *ngSwitchCase="'question_and_field'"
+            [currentStepIndex]="stepIndex"
+            [templateType]="templateType"
+          ></ms-question-form-preview>
+          <ms-question-form-preview
+            *ngSwitchCase="'academic_journey'"
+            [currentStepIndex]="stepIndex"
+            [templateType]="templateType"
+          ></ms-question-form-preview>
+          <ms-document-form-preview *ngSwitchCase="'document_expected'" [currentStepIndex]="stepIndex"></ms-document-form-preview>
+          <ms-condition-acceptance-form-preview
+            *ngSwitchCase="'condition_acceptance'"
+            [currentStepIndex]="stepIndex"
+          ></ms-condition-acceptance-form-preview>
+          <ms-final-messages-preview *ngSwitchCase="'final_message'" [currentStepIndex]="stepIndex"></ms-final-messages-preview>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

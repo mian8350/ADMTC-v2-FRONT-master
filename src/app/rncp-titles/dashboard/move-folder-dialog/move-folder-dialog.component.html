@@ -1,0 +1,43 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid"  style="width: 113%">
+      <div class="p-col-10 no-padding">
+        <h1 mat-dialog-title class="dialog-title text-center">
+          {{'SELECTFOLDER' | translate}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content folder-tree-container gene-relative"
+  [ngClass]="{'basic-height': isWaitingForResponse}">
+  <ng-container *ngIf="!isWaitingForResponse">
+    <!-- navigation path -->
+    <div class="path-wrapper">
+      <a *ngFor="let path of navigationPath; let i = index; let isLastItem = last" class="path-link">
+        <span class="text-black">{{ path?.name }}</span>
+        <mat-icon *ngIf="!isLastItem" class="vertical-align-mid">chevron_right</mat-icon>
+      </a>
+    </div>
+
+    <!-- folder tree -->
+    <ms-folder-tree
+      *ngFor="let folder of acadKitFolders; let i = index"
+      [folder]="folder"
+      [selectedFolderId]="parentData?.itemId"
+      [isRootFolderView]="true"
+      [customRootFolderIndex]="getCustomRootFolderIndex(i)">
+    </ms-folder-tree>
+  </ng-container>
+
+  <!-- loading spinner -->
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mt-1rem">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button mat-button mat-raised-button color="primary" (click)="moveFolder()">{{ 'Move' | translate }} <mat-icon>
+      call_made</mat-icon></button>
+</div>

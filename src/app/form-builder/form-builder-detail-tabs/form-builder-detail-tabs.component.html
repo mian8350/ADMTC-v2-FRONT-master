@@ -1,0 +1,58 @@
+<mat-tab-group #templateMatGroup [(selectedIndex)]="selectedIndex">
+  <mat-tab label="templateFormDetail">
+    <ng-template mat-tab-label>
+      <h5>{{ 'ERP_009_TEACHER_CONTRACT.Form Template Detail' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-form-template-step-detail-parent-tabs
+        [isPublished]="isPublished"
+        [templateId]="templateId"
+        [templateType]="templateType"
+        (routeTabIndex)="goToTabStep($event)"
+        (finalValidation)="getFinalValidation($event)"
+      >
+      </ms-form-template-step-detail-parent-tabs>
+      <!-- <ms-form-template-step-detail
+        [templateId]="templateId"
+        (routeTabIndex)="goToTabStep($event)"
+        (finalValidation)="getFinalValidation($event)"
+      ></ms-form-template-step-detail> -->
+    </ng-template>
+  </mat-tab>
+
+  <ng-container *ngIf="listOfSteps && listOfSteps.length > 0">
+    <mat-tab class="white-tabs" *ngFor="let step of listOfSteps; let stepIndex = index">
+      <ng-template mat-tab-label>
+        <h5>
+          {{ step?.step_title }}
+        </h5>
+      </ng-template>
+      <ng-template matTabContent>
+        <!-- <ms-common-template-step-detail
+          *ngIf="templateType !== 'quality_file'"
+          [templateId]="templateId"
+          [stepIndex]="stepIndex"
+          [stepId]="step._id"
+          [finalValidation]="finalValidation"
+          [isPublished]="isPublished"
+          [takenUniqueStep]="takenUniqueStep"
+          (updateTabs)="fetchContractTemplateData()"
+        ></ms-common-template-step-detail> -->
+
+        <ms-step-details-tabs
+          [stepType]="step.step_type"
+          [step]="listOfSteps"
+          [stepId]="step._id"
+          [templateId]="templateId"
+          [stepIndex]="stepIndex"
+          [finalValidation]="finalValidation"
+          [isPublished]="isPublished"
+          [templateType]="templateType"
+          [takenUniqueStep]="takenUniqueStep"
+          (refetchContractTemplateData)="fetchContractTemplateData()"
+        >
+        </ms-step-details-tabs>
+      </ng-template>
+    </mat-tab>
+  </ng-container>
+</mat-tab-group>

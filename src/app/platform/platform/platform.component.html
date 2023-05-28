@@ -1,0 +1,22 @@
+<mat-tab-group selectedIndex="1">
+  <mat-tab value="UserTypes">
+    <ng-template mat-tab-label>
+      <h5>{{ 'PLATFORM.USERTYPEMGMT' | translate }}</h5>
+    </ng-template>
+    <ms-user-type-mgmt></ms-user-type-mgmt>
+  </mat-tab>
+
+  <mat-tab value="ScholarSeason">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Scholar Season' | translate }}</h5>
+    </ng-template>
+    <ms-scholer-season></ms-scholer-season>
+  </mat-tab>
+
+  <mat-tab value="CalendarSteps">
+    <ng-template mat-tab-label>
+      <h5>{{ 'PLATFORM.CALENDARSTEPSMGMT' | translate }}</h5>
+    </ng-template>
+    <ms-calendar-steps-mgmt></ms-calendar-steps-mgmt>
+  </mat-tab>
+</mat-tab-group>

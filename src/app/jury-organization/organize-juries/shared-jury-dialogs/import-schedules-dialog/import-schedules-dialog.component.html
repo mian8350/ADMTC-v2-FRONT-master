@@ -1,0 +1,57 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="file-upload"></mat-icon>
+  <h2 class="header-text">
+    {{ 'IMPORT_TEMPLATE.IMPORT' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md" [formGroup]="importForm">
+  <div class="p-grid">
+    <div class="p-col-12" style="float: left">
+      <div class="p-grid">
+        <div class="p-col-3" style="padding: 0.5em 0px; float: left">
+          <label [ngStyle]="{ color: isFileUploaded ? '' : 'red' }">{{ 'TRANSCRIPT_PROCESS.DATA_FILE' | translate }}*</label>
+        </div>
+        <div class="p-col-6" style="padding: 0.5em 0px; float: left">
+          <span>{{ file?.name }}</span>
+        </div>
+        <div class="p-col-3" style="padding: 0px; float: left; text-align: right">
+          <input
+            #importFile
+            style="display: none"
+            type="file"
+            accept=".csv, .tsv"
+            disableMultipart="true"
+            (change)="handleInputChange($event)"
+          />
+          <button [disabled]="isWaitingForResponse" mat-raised-button color="accent" (click)="openUploadWindow()" class="margin-right-0">
+            <mat-icon class="mat-icon-default">add</mat-icon>
+            {{ 'TRANSCRIPT_PROCESS.FILE' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center">
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="submit()">
+      <!-- [disabled]="!importForm.valid || !file" -->
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

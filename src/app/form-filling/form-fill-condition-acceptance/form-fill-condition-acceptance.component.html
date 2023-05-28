@@ -1,0 +1,185 @@
+<section>
+  <div class="revision-box-container" *ngIf="stepData?.revise_request_messages?.length">
+    <ms-form-filling-revision-box
+      [formDetail]="formDetail"
+      [stepId]="stepData?._id"
+      [stepData]="stepData"
+      [messages]="stepData?.revise_request_messages"
+      (triggerRefresh)="this.triggerRefresh.emit(formId)"
+    ></ms-form-filling-revision-box>
+  </div>
+
+  <div class="header" [innerHTML]="stepData?.direction"></div>
+  <h3>{{ stepData?.segments[0]?.segment_title }}</h3>
+  <hr />
+  <div class="ql-editor document-parent">
+    <ng-container>
+      <div *ngIf="documentOnPreviewUrl" class="img-preview container-view-lanscape">
+        <iframe [src]="documentOnPreviewUrl" frameBorder="0" [style.min-height.px]="getAutomaticHeight()"></iframe>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="!formDetail.isPreview" class="btn-conditions">
+    <ng-container *ngIf="!stepData?.is_final_step || (stepData?.is_final_step && !formData?.is_final_validator_active)">
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        *ngIf="stepData.step_status === 'not_started' && stepData?.isCompletingUser"
+        matTooltip="{{ 'Download the Condition' | translate }}"
+        (click)="onDownload()"
+      >
+        <mat-icon>cloud_download</mat-icon>
+        {{ 'Download the Condition' | translate }}
+      </button>
+      <button
+        color="warn"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.segments[0]?.reject_button }}"
+        [disabled]="canAcceptCondition"
+        *ngIf="
+          stepData.step_status === 'not_started' &&
+          stepData?.isCompletingUser &&
+          stepData?.segments[0]?.reject_button &&
+          stepData?.segments[0]?.is_rejection_allowed
+        "
+        (click)="nextStepMessage('waiting_for_validation', 'onReject')"
+      >
+        <mat-icon>block</mat-icon>
+        {{ stepData?.segments[0]?.reject_button }}
+      </button>
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.segments[0]?.accept_button }}"
+        [disabled]="canAcceptCondition"
+        *ngIf="stepData.step_status === 'not_started' && stepData?.isCompletingUser && stepData?.segments[0]?.accept_button"
+        (click)="nextStepMessage('waiting_for_validation', 'onAccept')"
+      >
+        <mat-icon>check_box</mat-icon>
+        {{ stepData?.segments[0]?.accept_button }}
+      </button>
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.segments[0]?.accept_button }}"
+        *ngIf="isValidator && stepData.step_status === 'need_validation' && stepData?.segments[0]?.accept_button"
+        (click)="nextStepMessage('validated', 'onAccept')"
+      >
+        <mat-icon>check_box</mat-icon>
+        {{ stepData?.segments[0]?.accept_button }}
+      </button>
+      <button
+        *ngIf="isValidator && stepData?.step_status === 'need_validation' && stepData?.segments[0]?.reject_button"
+        color="warn"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.segments[0]?.reject_button }} "
+        (click)="onAskForRevision()"
+      >
+        {{ stepData?.segments[0]?.reject_button }}
+      </button>
+      <button
+        *ngIf="stepData?.step_status === 'ask_for_revision' && isRevisionUser"
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        (click)="onCompleteRevision()"
+        matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }} "
+      >
+        {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+      </button>
+      <button
+        color="accent"
+        mat-raised-button
+        class="btn-accept"
+        matTooltip="{{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}"
+        *ngIf="formDetail?.admission_status === 'ask_for_revision' && formDetail?.isFinalRevisionUser"
+        (click)="nextStepMessage('waiting_for_validation', 'onSave')"
+      >
+        <mat-icon>save</mat-icon>
+        {{ stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate) }}
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="stepData?.is_final_step && formData?.is_final_validator_active">
+      <button
+        *ngIf="isValidator && formDetail?.admission_status !== 'ask_for_revision'"
+        color="accent"
+        mat-raised-button
+        class="btn-save"
+        matTooltip="{{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }} "
+        (click)="onAskForRevision()"
+      >
+        {{ stepData?.custom_button_text?.ask_revision_text ? stepData?.custom_button_text?.ask_revision_text : ('Reject and Ask for Revision' | translate) }}
+      </button>
+      <button
+        *ngIf="formDetail?.isFinalRevisionUser && formDetail?.admission_status === 'ask_for_revision'"
+        color="accent"
+        mat-raised-button
+        matTooltip="{{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}"
+        (click)="onCompleteRevision()"
+      >
+        {{ stepData?.custom_button_text?.complete_revision_text ? stepData?.custom_button_text?.complete_revision_text : ('Complete Revision' | translate) }}
+      </button>
+      <button
+        *ngIf="isValidator && formDetail?.admission_status !== 'ask_for_revision'"
+        color="accent"
+        mat-raised-button
+        class="btn-save"
+        matTooltip="{{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}"
+        [disabled]="!signature"
+        (click)="validateForm()"
+      >
+        <mat-icon class="mat-icon-default">
+          <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M19,19H5V5H15V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V11H19M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
+            />
+          </svg>
+        </mat-icon>
+        {{ stepData?.custom_button_text?.validate_text ? stepData?.custom_button_text?.validate_text : ('Validate the Admission Form' | translate) }}
+      </button>
+
+      <button
+        *ngIf="!isAccepted && formDetail?.admission_status !== 'ask_for_revision'"
+        color="accent"
+        mat-raised-button
+        class="btn-save"
+        matTooltip="{{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}"
+        (click)="submitForm()"
+        [disabled]="!signature"
+      >
+        <mat-icon class="mat-icon-default">save</mat-icon>
+        {{ stepData?.custom_button_text?.submit_text ? stepData?.custom_button_text?.submit_text : ('Submit and Complete Form' | translate) }}
+      </button>
+    </ng-container>
+  </div>
+
+  <div *ngIf="formDetail.isPreview" class="btn-conditions">
+    <button color="accent" mat-raised-button class="btn-accept" matTooltip="{{ 'Download the Condition' | translate }}">
+      <mat-icon>cloud_download</mat-icon>
+      {{ 'Download the Condition' | translate }}
+    </button>
+    <button
+      color="accent"
+      mat-raised-button
+      class="btn-accept"
+      matTooltip="{{ formDetail?.admission_status === 'ask_for_revision' ? (stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate)) : stepData?.segments[0]?.accept_button }}"
+    >
+      <mat-icon>check_box</mat-icon>
+      {{ formDetail?.admission_status === 'ask_for_revision' ? (stepData?.custom_button_text?.save_text ? stepData?.custom_button_text?.save_text : ('Save' | translate)) : stepData?.segments[0]?.accept_button }}
+    </button>
+    <button color="warn" mat-raised-button class="btn-accept" matTooltip="{{ stepData?.segments[0]?.reject_button }} ">
+      {{ stepData?.segments[0]?.reject_button }}
+    </button>
+  </div>
+</section>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,257 @@
+<div class="p-grid" *ngIf="selectedRncpTitleId && selectedClassId" style="color: #b3b3b3; margin-top: 2rem">
+  <div class="p-col-10">
+    <ng-container *ngIf="is_condition_setup">
+      <div class="p-grid">
+        <div class="p-col-12 align-right-button">
+          <button [disabled]="isWaitingForResponse || !firstStepForm.valid" (click)="saveFirstTab('update')" mat-raised-button class="margin-none" color="accent">
+            <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!is_condition_setup">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <p>
+            {{ 'noConditionText1' | translate }} <br />
+            {{ 'noConditionText2' | translate }}
+          </p>
+          <br />
+          <p>{{ 'noNoteConditionText' | translate }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container>
+      <div [formGroup]="firstStepForm" class="p-grid yellow-border margin-top-spacing">
+        <div class="p-col-2" style="align-self: center">{{ 'Evaluation type' | translate }} :</div>
+        <div class="p-col-5">
+          <mat-form-field>
+            <mat-label>{{ 'Select type of evaluation' | translate }}</mat-label>
+            <mat-select formControlName="type_evaluation" (selectionChange)="selectType($event)" [disabled]="classConditionData?.test_auto_pro_created">
+              <mat-option *ngFor="let type of evaType" [value]="type">
+                {{ type | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('type_evaluation').hasError('required') &&
+                (firstStepForm.get('type_evaluation').dirty || firstStepForm.get('type_evaluation').touched)
+              "
+            >
+              {{ 'This field is required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="firstStepForm.get('type_evaluation').value === 'score'" class="p-col-5">
+          <mat-form-field>
+            <mat-label>{{ 'Sub-type of evaluation' | translate }}</mat-label>
+            <mat-select formControlName="sub_type_evaluation" (selectionChange)="getTitleList('')">
+              <mat-option *ngFor="let subtype of evaSubType" [value]="subtype">
+                {{ subtype | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                firstStepForm.get('sub_type_evaluation').hasError('required') &&
+                (firstStepForm.get('sub_type_evaluation').dirty || firstStepForm.get('sub_type_evaluation').touched)
+              "
+            >
+              {{ 'This field is required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div [ngStyle]="{'display': firstStepForm.get('type_evaluation').value === 'expertise' ? 'block' : 'none'}" class="p-col-12">
+          <fieldset class="fieldset-class">
+            
+          </fieldset>
+          <div class="p-grid">
+            <div class="p-col-6">
+              <div class="p-grid yellow-border" formGroupName="competency">
+                <div class="p-col-12">
+                  {{'CHECKBOX_CONDITION.Options for Competency' | translate}}
+                  <br>
+                  <ul>
+                    <li>
+                      <mat-checkbox color="accent" formControlName="allow_competency_auto_evaluation" [disabled]="classConditionData?.test_auto_pro_created">
+                        <span [ngClass]="{'text-slider-color': firstStepForm.get('competency').get('allow_competency_auto_evaluation').value}">
+                          {{(firstStepForm.get('competency').get('allow_competency_auto_evaluation').value ? 'CHECKBOX_CONDITION.Auto Evaluation Yes' : 'CHECKBOX_CONDITION.Auto Evaluation No') | translate }}
+                        </span>
+                      </mat-checkbox>
+                    </li>
+                    <li>
+                      <mat-checkbox color="accent" formControlName="allow_competency_pro_evaluation" [disabled]="classConditionData?.test_auto_pro_created">
+                        <span [ngClass]="{'text-slider-color': firstStepForm.get('competency').get('allow_competency_pro_evaluation').value}">
+                          {{(firstStepForm.get('competency').get('allow_competency_pro_evaluation').value ? 'CHECKBOX_CONDITION.Professional Evaluation Yes' : 'CHECKBOX_CONDITION.Professional Evaluation No') | translate }}
+                        </span>
+                      </mat-checkbox>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-6">
+              <div class="p-grid yellow-border" formGroupName="soft_skill">
+                <div class="p-col-12">
+                  {{'CHECKBOX_CONDITION.Option for Soft Skills' | translate}}
+                  <br>
+                  <ul>
+                    <li>
+                      <mat-checkbox color="accent" formControlName="allow_soft_skill" (change)="allowSoftSkillChange($event)" [disabled]="classConditionData?.test_auto_pro_created">
+                        <span [ngClass]="{'text-slider-color': firstStepForm.get('soft_skill').get('allow_soft_skill').value}">
+                          {{(firstStepForm.get('soft_skill').get('allow_soft_skill').value ? 'CHECKBOX_CONDITION.Soft Skills Yes' : 'CHECKBOX_CONDITION.Soft Skills No') | translate }}
+                        </span>
+                      </mat-checkbox>
+                      <ul [ngStyle]="{'display': firstStepForm.get('soft_skill').get('allow_soft_skill').value ? 'block' : 'none'}">
+                        <li>
+                          <mat-checkbox color="accent" formControlName="allow_soft_skill_auto_evaluation" (change)="sofSkillEvaluationChange($event)" [disabled]="classConditionData?.test_auto_pro_created">
+                            <span [ngClass]="{'text-slider-color': firstStepForm.get('soft_skill').get('allow_soft_skill_auto_evaluation').value}">
+                              {{(firstStepForm.get('soft_skill').get('allow_soft_skill_auto_evaluation').value ? 'CHECKBOX_CONDITION.Auto Evaluation Yes' : 'CHECKBOX_CONDITION.Auto Evaluation No') | translate }}
+                            </span>
+                          </mat-checkbox>
+                        </li>
+                        <li>
+                          <mat-checkbox color="accent" formControlName="allow_soft_skill_pro_evaluation" (change)="sofSkillEvaluationChange($event)" [disabled]="classConditionData?.test_auto_pro_created">
+                            <span [ngClass]="{'text-slider-color': firstStepForm.get('soft_skill').get('allow_soft_skill_pro_evaluation').value}">
+                              {{(firstStepForm.get('soft_skill').get('allow_soft_skill_pro_evaluation').value ? 'CHECKBOX_CONDITION.Professional Evaluation Yes' : 'CHECKBOX_CONDITION.Professional Evaluation No') | translate }}
+                            </span>
+                          </mat-checkbox>
+                        </li>
+                        <li>
+                          <mat-checkbox color="accent" formControlName="allow_pc_soft_skill_eval" (change)="sofSkillEvaluationChange($event)" [disabled]="classConditionData?.test_eval_by_preparation_center_created">
+                            <span [ngClass]="{'text-slider-color': firstStepForm.get('soft_skill').get('allow_pc_soft_skill_eval').value}">
+                              {{(firstStepForm.get('soft_skill').get('allow_pc_soft_skill_eval').value ? 'CHECKBOX_CONDITION.Eval Soft Skills by Preparation Center Yes' : 'CHECKBOX_CONDITION.Eval Soft Skills by Preparation Center No') | translate }}
+                            </span>
+                          </mat-checkbox>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12">
+          <p>{{ 'noNoteConditionText' | translate }}</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!is_condition_setup && firstStepForm.valid">
+      <div class="p-grid yellow-border vertical-distance">
+        <div class="p-col-12">
+          <p>{{ 'selectionText' | translate }}</p>
+        </div>
+
+        <div class="p-col-12">
+          <div class="p-grid p-justify-center">
+            <div class="p-col-11">
+              <div class="p-grid p-justify-center">
+                <div
+                  class="p-col-5 selection-text create-or-select-pill"
+                  style="background-color: #4caf50; color: white"
+                  (click)="methodSelection('duplicate'); scrollToElement(target)"
+                >
+                  {{ 'Duplicate an existing condition of class' | translate }}
+                </div>
+                <div class="p-col-2 selection-text">
+                  {{ 'OR' | translate }}
+                </div>
+                <div
+                  class="p-col-5 selection-text create-or-select-pill"
+                  style="background-color: #ffd740; color: black"
+                  (click)="methodSelection('new')"
+                >
+                  {{ 'Set up a new basic one' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <ng-container *ngIf="isDuplicate">
+          <div class="p-col-12">
+            <div class="p-grid" [formGroup]="duplicateForm">
+              <div class="p-col-12">
+                <p class="mrgn-btn-none">{{ 'selectionAsk' | translate }}</p>
+              </div>
+              <mat-form-field class="p-col-3">
+                <input
+                  matInput
+                  formControlName="duplicate_from_title"
+                  [matAutocomplete]="autoTitle"
+                  placeholder="{{ 'Select RNCP title' | translate }}"
+                />
+                <mat-autocomplete
+                  #autoTitle="matAutocomplete"
+                  [displayWith]="displayTitleName.bind(this)"
+                  (optionSelected)="changeSelectedTitle()"
+                  [panelWidth]="'fit'"
+                >
+                  <ng-container>
+                    <mat-option *ngFor="let title of filteredTitle | async" [value]="title._id">
+                      {{ title.short_name | translate }}
+                    </mat-option>
+                  </ng-container>
+                </mat-autocomplete>
+                <mat-error
+                  *ngIf="
+                    duplicateForm.get('duplicate_from_title').hasError('required') &&
+                    (duplicateForm.get('duplicate_from_title').dirty || duplicateForm.get('duplicate_from_title').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="p-col-3">
+                <input
+                  matInput
+                  formControlName="duplicate_from_class"
+                  [matAutocomplete]="autoClass"
+                  placeholder="{{ 'Select Class' | translate }}"
+                />
+                <mat-autocomplete
+                  #autoClass="matAutocomplete"
+                  [displayWith]="displayClassName.bind(this)"
+                  (optionSelected)="isSelected = true"
+                  [panelWidth]="'fit'"
+                >
+                  <ng-container>
+                    <mat-option *ngFor="let class of filteredClass | async" [value]="class._id">
+                      {{ class.name | translate }}
+                    </mat-option>
+                  </ng-container>
+                </mat-autocomplete>
+                <mat-error
+                  *ngIf="
+                    duplicateForm.get('duplicate_from_class').hasError('required') &&
+                    (duplicateForm.get('duplicate_from_class').dirty || duplicateForm.get('duplicate_from_class').touched)
+                  "
+                >
+                  {{ 'This field is required' | translate }}
+                </mat-error>
+              </mat-form-field>
+              <div class="p col-2 pad-top-17">
+                <button mat-raised-button color="accent" (click)="duplicateNow()" [disabled]="!isSelected">
+                  {{ 'Duplicate now' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <div #target><p *ngIf="!isDuplicate" class="targetScroll">`</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

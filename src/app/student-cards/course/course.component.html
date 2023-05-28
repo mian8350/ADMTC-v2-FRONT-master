@@ -1,0 +1,454 @@
+<div class="p-grid" *ngIf="isWaitingForResponse || isLoading" class="p-col-12" style="text-align: center !important; display: contents">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
+
+<div *ngIf="!isWaitingForResponse && !isLoading" class="p-grid">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12" style="text-align: right; padding-right: 0px">
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="isWaitingForResponse || studentPrevCourseData || isStudent || isMentor || !courseForm.valid"
+          (click)="updateStudentCourse()"
+          *ngIf="permissionService.editCourseTabStudentCardPerm()"
+        >
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+        <button mat-raised-button color="accent" [disabled]="isWaitingForResponse" class="margin-right-0" (click)="continue.emit(true)">
+          {{ 'CARDDETAIL.Continue' | translate }}
+          <mat-icon class="mat-icon-default">keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+    <fieldset
+      class="fieldset-class"
+      [disabled]="isStudent || isMentor || studentPrevCourseData || !permissionService.editCourseTabStudentCardPerm()"
+    >
+      <mat-card>
+        <form [formGroup]="courseForm" style="margin-bottom: 20px;">
+          <div class="p-grid" *ngIf="titles && titles.length">
+            <div class="p-col-12 no-padding">
+              <div class="p-grid baseline">
+                <div class="p-col-fixed no-padding" style="width: 100px">
+                  <label>{{ 'CARDDETAIL.RNCP Title' | translate }}</label>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <mat-form-field floatLabel="never">
+                    <mat-select disabled formControlName="rncp_title" [disableOptionCentering]="true">
+                      <mat-option *ngFor="let title of titles" [value]="title._id" (click)="changeTitle(title._id)">
+                        {{ title.short_name }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="
+                        courseForm.get('rncp_title').hasError('required') &&
+                        (courseForm.get('rncp_title').dirty || courseForm.get('rncp_title').touched)
+                      "
+                      >{{ 'This field is required' | translate }}</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="p-col-4 no-padding-y" *ngIf="classData && classData.type_evaluation === 'score'">
+                  <mat-slide-toggle
+                    [disabled]="isStudent || isMentor || studentPrevCourseData || !permissionService.editCourseTabStudentCardPerm()"
+                    formControlName="parallel_intake"
+                  >
+                    <span [ngStyle]="{ color: courseForm.get('parallel_intake').value ? '#ffe77a' : 'white' }" style="font-size: 12px">{{
+                      'CARDDETAIL.Paralel Intake' | translate
+                    }}</span>
+                  </mat-slide-toggle>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid" *ngIf="classes && classes.length">
+            <div class="p-col-12 no-padding">
+              <div class="p-grid baseline">
+                <div class="p-col-fixed no-padding" style="width: 100px">
+                  <label>{{ 'CARDDETAIL.Class' | translate }}</label>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <mat-form-field floatLabel="never">
+                    <mat-select disabled formControlName="current_class" [disableOptionCentering]="true">
+                      <mat-option (click)="getAllBlocks(); getDataClass(false)" *ngFor="let class of classes" [value]="class._id">
+                        {{ class.name }}</mat-option
+                      >
+                    </mat-select>
+                    <mat-error
+                      *ngIf="
+                        courseForm.get('current_class').hasError('required') &&
+                        (courseForm.get('current_class').dirty || courseForm.get('current_class').touched)
+                      "
+                      >{{ 'This field is required' | translate }}</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-grid" *ngIf="specializations && specializations.length && classData && classData.type_evaluation === 'score'">
+            <div class="p-col-12 no-padding">
+              <div class="p-grid baseline">
+                <div class="p-col-fixed no-padding" style="width: 100px">
+                  <label>{{ 'CARDDETAIL.Specialization' | translate }}</label>
+                </div>
+                <div class="p-col-6 no-padding">
+                  <mat-form-field floatLabel="never">
+                    <mat-select
+                      [disabled]="isStudent || isMentor || studentPrevCourseData || !permissionService.editCourseTabStudentCardPerm()"
+                      formControlName="specialization"  
+                      [disableOptionCentering]="true" 
+                    >
+                      <mat-option *ngFor="let spec of specializations" [value]="spec._id"> {{ spec.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="classData && classData.type_evaluation === 'expertise'">
+            <div class="p-grid">
+              <div class="p-col-12">
+                <div class="p-grid baseline">
+                  <mat-slide-toggle formControlName="is_take_full_prepared_title" (change)="resetPartialBlock()">
+                    <span
+                      [ngStyle]="{ color: courseForm.get('is_take_full_prepared_title').value ? '#ffe77a' : 'white' }"
+                      style="font-size: 12px"
+                    >
+                      {{
+                        (courseForm.get('is_take_full_prepared_title').value ? 'Full Title prepared' : 'Title partially prepared')
+                          | translate
+                      }}
+                    </span>
+                  </mat-slide-toggle>
+                  <span *ngIf="!courseForm.get('is_take_full_prepared_title').value" class="sentence-text">
+                    {{ 'Guide Title partially prepared' | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="p-col-12" *ngIf="!courseForm.get('is_take_full_prepared_title').value">
+                <div formArrayName="partial_blocks">
+                  <div *ngFor="let blocks of blocksData; let blocksIndex = index">
+                    <div class="p-grid baseline" *ngIf="!blocks?.specialization">
+                      <div class="width-full" [formGroupName]="blocksIndex">
+                        <div class="p-grid pad-left-45 p-col-12 pad-none">
+                          <mat-checkbox [ngClass]="{'required-checkbox':  checkIfPartialTitleButNoBlockSelected() && courseForm.touched }" (change)="rejectRegisterPartialBlock(blocksIndex)" color="accent" formControlName="partial_blocks">
+                            <span>
+                              {{ utilService.cleanHTML(blocks.block_of_competence_condition) }}
+                            </span>
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-12 pad-left-45">
+                <div class="p-grid baseline" *ngIf="courseForm.get('is_take_full_prepared_title').value">
+                  <mat-slide-toggle formControlName="is_have_exemption_block" (change)="resetExemptionBlock()">
+                    <span
+                      [ngStyle]="{ color: courseForm.get('is_have_exemption_block').value ? '#ffe77a' : 'white' }"
+                      style="font-size: 12px"
+                    >
+                      {{ (courseForm.get('is_have_exemption_block').value ? 'student is exempted' : 'No Exemption Block') | translate }}
+                    </span>
+                  </mat-slide-toggle>
+                  <span *ngIf="courseForm.get('is_have_exemption_block').value" class="sentence-text">
+                    {{ 'guide exempted' | translate }}
+                  </span>
+                </div>
+              </div>
+
+              <ng-container *ngIf="courseForm.get('is_have_exemption_block').value && courseForm.get('is_take_full_prepared_title').value">
+                <!-- Exemption Documents Section. Only displayed if exemption block is used -->
+                <div class="p-col-12 pad-left-45 pad-t-none">
+                  <div class="p-grid" formArrayName="exemption_block_justifications">
+                    <div class="p-col-6">
+                      <span class="vertical-alignment-middle">{{ 'Exemption Documents' | translate }} : </span>
+                      <button mat-button mat-raised-button color="accent" class="float-right" (click)="openExemptionDocsDialog('add')">
+                        <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+                      </button>
+                    </div>
+                    <div
+                      class="p-col-12 pad-left-25 pad-y-none"
+                      *ngFor="let exemptionDoc of getExemptionDocs().controls; let exemptionDocIndex = index"
+                    >
+                      <div class="p-grid">
+                        <div class="p-col-6 no-padding">
+                          <ng-container [formGroupName]="exemptionDocIndex">
+                            <button
+                              mat-icon-button
+                              style="line-height: normal"
+                              matTooltip="{{ 'Edit' | translate }}"
+                              (click)="openExemptionDocsDialog('edit', exemptionDoc.value, exemptionDocIndex)"
+                            >
+                              <mat-icon svgIcon="pencil">edit</mat-icon>
+                            </button>
+                            <button
+                              mat-icon-button
+                              (click)="deleteExemptionDocs(exemptionDocIndex)"
+                              matTooltip="{{ 'Delete' | translate }}"
+                            >
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                            <span class="document-text" (click)="downloadFile(exemptionDoc.get('s3_file_name').value)">
+                              {{ exemptionDoc.get('document_name').value }}
+                            </span>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Exemption Blocks Section. Only displayed if exemption block is used -->
+                <div class="p-col-12">
+                  <div formArrayName="exemption_blocks">
+                    <div *ngFor="let blocks of blocksData; let blocksIndex = index">
+                      <div class="p-grid baseline" *ngIf="!blocks?.specialization">
+                        <div class="width-full" [formGroupName]="blocksIndex">
+                          <div class="p-grid pad-left-45 p-col-12 pad-none">
+                            <mat-checkbox
+                              (change)="rejectRegisterExemptionBlock(blocksIndex, $event)"
+                              color="accent"
+                              formControlName="block_id"
+                            >
+                              <span>
+                                {{ utilService.cleanHTML(blocks.block_of_competence_condition) }}
+                              </span>
+                            </mat-checkbox>
+                            <div
+                              class="p-grid pad-left-25 p-col-12 pad-none"
+                              *ngIf="getExemptionBlock().at(blocksIndex).get('block_id').value"
+                            >
+                              <mat-radio-group formControlName="reason" style="font-size: 12px">
+                                <mat-radio-button
+                                  (change)="radioChange('retake_in_another_title', blocksIndex)"
+                                  value="retake_in_another_title"
+                                  class="radio-alignment"
+                                  >{{
+                                    (getExemptionBlock().at(blocksIndex).get('reason').value === 'retake_in_another_title'
+                                      ? 'radio_block-1-yes'
+                                      : 'radio_block-1'
+                                    ) | translate
+                                  }}
+                                </mat-radio-button>
+                                <ng-container *ngIf="getExemptionBlock().at(blocksIndex).get('reason').value === 'retake_in_another_title'">
+                                  <div class="p-grid reason-alignment">
+                                    <div class="p-col-6">
+                                      <div class="p-grid baseline">
+                                        <mat-form-field>
+                                          <mat-label>{{ 'CARDDETAIL.RNCP Title' | translate }}</mat-label>
+                                          <mat-select formControlName="rncp_title_in_platform" [disableOptionCentering]="true">
+                                            <mat-option *ngFor="let title of titlesBlock" [value]="title._id">
+                                              {{ title.short_name }}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                                <mat-radio-button
+                                  (change)="radioChange('validated_in_another_title_within_platform', blocksIndex)"
+                                  value="validated_in_another_title_within_platform"
+                                  class="radio-alignment"
+                                  >{{
+                                    (getExemptionBlock().at(blocksIndex).get('reason').value ===
+                                    'validated_in_another_title_within_platform'
+                                      ? 'radio_block-2-yes'
+                                      : 'radio_block-2'
+                                    ) | translate
+                                  }}</mat-radio-button
+                                >
+                                <ng-container
+                                  *ngIf="
+                                    getExemptionBlock().at(blocksIndex).get('reason').value === 'validated_in_another_title_within_platform'
+                                  "
+                                >
+                                  <div class="p-grid reason-alignment">
+                                    <div class="p-col-6">
+                                      <div class="p-grid baseline">
+                                        <mat-form-field>
+                                          <mat-label>{{ 'CARDDETAIL.RNCP Title' | translate }}</mat-label>
+                                          <mat-select formControlName="rncp_title_in_platform" [disableOptionCentering]="true">
+                                            <mat-option *ngFor="let title of titlesBlock" [value]="title._id">
+                                              {{ title.short_name }}
+                                            </mat-option>
+                                          </mat-select>
+                                          <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                        </mat-form-field>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                                <mat-radio-button
+                                  (change)="radioChange('validated_in_another_title_outside_platform', blocksIndex)"
+                                  value="validated_in_another_title_outside_platform"
+                                  class="radio-alignment"
+                                  >{{
+                                    (getExemptionBlock().at(blocksIndex).get('reason').value ===
+                                    'validated_in_another_title_outside_platform'
+                                      ? 'radio_block-3-yes'
+                                      : 'radio_block-3'
+                                    ) | translate
+                                  }}</mat-radio-button
+                                >
+                              </mat-radio-group>
+                            </div>
+                            <div
+                              class="p-grid reason-alignment"
+                              *ngIf="
+                                getExemptionBlock().at(blocksIndex).get('reason').value === 'validated_in_another_title_outside_platform'
+                              "
+                            >
+                              <div class="p-col-12 pad-left-22 pad-none">
+                                <div class="p-col-4 pad-y-none float-left pad-none">
+                                  <div class="p-col-12 pad-y-none float-left pad-right-15">
+                                    <mat-form-field>
+                                      <mat-label>{{ 'CARDDETAIL.RNCP Title' | translate }}</mat-label>
+                                      <textarea matInput formControlName="rncp_title_outside_platform"></textarea>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <!-- Hide the justification document because its moved to exemption documents -->
+                                <!-- <div class="p-col-7 pad-y-none pad-none float-left">
+                                  <div class="p-grid">
+                                    <div class="p-col-4 reasons self-center">
+                                      {{ 'Justification Document' | translate }}
+                                    </div>
+                                    <div class="p-col-8 reasons x-pad-none">
+                                      <span
+                                        *ngIf="getExemptionBlock().at(blocksIndex).get('justification_document').value"
+                                        style="margin-right: 10px"
+                                      >
+                                        {{ getExemptionBlock().at(blocksIndex).get('justification_document').value }}
+                                      </span>
+                                      <button
+                                        *ngIf="getExemptionBlock().at(blocksIndex).get('justification_document').value"
+                                        mat-button
+                                        mat-raised-button
+                                        color="primary"
+                                        style="margin-right: 10px"
+                                        (click)="downloadFile(getExemptionBlock().at(blocksIndex).get('justification_document').value)"
+                                      >
+                                        <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.Download' | translate }}
+                                      </button>
+                                      <button
+                                        mat-button
+                                        mat-raised-button
+                                        color="accent"
+                                        (click)="openUploadWindow(blocksIndex)"
+                                        style="margin-right: 10px"
+                                      >
+                                        <mat-icon>add</mat-icon> {{ 'ACAD_KIT.DOC.File' | translate }}
+                                      </button>
+                                      <input
+                                        #fileUploadDoc
+                                        type="file"
+                                        accept=".doc, .docx,.ppt, .pptx,.txt,.pdf, .xlsx,.xls"
+                                        class="hidden"
+                                        (change)="uploadFile($event, blocksIndex)"
+                                      />
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <div class="p-grid" *ngIf="isADMTC">
+              <div class="p-col-12">
+                <div class="p-grid baseline">
+                  <mat-slide-toggle formControlName="is_have_specialization" (change)="isHaveSpecializationChange($event)">
+                    <span
+                      [ngStyle]="{ color: courseForm.get('is_have_specialization').value ? '#ffe77a' : 'white' }"
+                      style="font-size: 12px"
+                    >
+                      {{ (courseForm.get('is_have_specialization').value ? 'Add a Spécialisation' : 'No Spécialisation') | translate }}
+                    </span>
+                  </mat-slide-toggle>
+                </div>
+              </div>
+            </div>
+            <div
+              class="p-grid"
+              *ngIf="courseForm.get('is_have_specialization').value && isADMTC"
+            >
+              <div class="p-col-6 pad-left-45">
+                <div class="p-grid baseline">
+                  <mat-form-field>
+                    <mat-label>{{ 'RNCP.SPECIALIZATION' | translate }}</mat-label>
+                    <mat-select
+                      formControlName="specialization"
+                      class="full-width"
+                      (selectionChange)="selectSpeciality($event)"
+                      [disableOptionCentering]="true"
+                      panelClass="specializationPanel"
+                    >
+                      <mat-option *ngFor="let spec of specializations" [value]="spec?._id">
+                        {{ spec?.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="p-col-12" *ngIf="!isLoading && specializationBlock && specializationBlock.length && this.courseForm.get('specialization').value">
+                <div>
+                  <div *ngFor="let specialization of specializationBlock; let blocksIndex = index">
+                    <div class="p-grid baseline">
+                      <div class="width-full">
+                        <div class="p-grid specialization-block">
+                          <mat-checkbox (click)="$event.preventDefault()" [checked]="true">
+                            <span>
+                              {{ utilService.cleanHTML(specialization.block_of_competence_condition) }}
+                            </span>
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </fieldset>
+
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12" style="text-align: right; padding-right: 0px">
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="isWaitingForResponse || studentPrevCourseData || isStudent || isMentor || !courseForm.valid"
+          (click)="updateStudentCourse()"
+          *ngIf="permissionService.editCourseTabStudentCardPerm()"
+        >
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+        <button mat-raised-button color="accent" class="margin-right-0" [disabled]="isWaitingForResponse" (click)="continue.emit(true)">
+          {{ 'CARDDETAIL.Continue' | translate }}
+          <mat-icon class="mat-icon-default">keyboard_arrow_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" #settingMatGroup>
+  <mat-tab label="Today">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Today' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-all-jury-schedule [type]="'today'"></ms-all-jury-schedule>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="All">
+    <ng-template mat-tab-label>
+      <h5>{{ 'AllF' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-all-jury-schedule [type]="'all'"></ms-all-jury-schedule>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+  <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+</div>

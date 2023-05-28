@@ -1,0 +1,1627 @@
+<div class="p-grid" style="margin-bottom: 1rem;">
+  <div class="p-col-12">
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12 align-right-button no-margin no-padding" style="margin-top: 0.5rem">
+        <button [disabled]="isWaitingForResponse" (click)="csvTypeSelectionDownload()" mat-raised-button color="accent">
+          <mat-icon class="mat-icon-default">file_download</mat-icon>
+          {{ 'DOWNLOAD_TEMPLATE' | translate }}
+        </button>
+        <button [disabled]="isWaitingForResponse" (click)="csvTypeSelectionUpload()" mat-raised-button color="accent" [ngClass]="this.scrollEvent ? this.scrollEvent?.path[0]?.scrollTop >= 200 ? 'mrgn-90' : 'mrgn' : ''">
+          <mat-icon class="mat-icon-default">file_upload</mat-icon>
+          {{ 'IMPORT_TEMPLATE.IMPORT' | translate }}
+        </button>
+        <!-- <button
+        mat-raised-button
+        color="accent"
+        (click)="exportName = 'Export'; exportSwal.show()"
+        matTooltip="{{ 'Export' | translate }} "
+      >
+        <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'Export' | translate }}
+      </button> -->
+        <button [disabled]="isWaitingForResponse" (click)="save()" [ngClass]="this.scrollEvent ? this.scrollEvent?.path[0]?.scrollTop >= 200 ? 'scroll-savebtn' : 'savebtn' : ''" mat-raised-button class="margin-none" color="accent">
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'Save' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 nopad-lr">
+        <div class="p-grid yellow-border card-row mrg-top">
+          <div class="section-header">
+            <h3 class="legent-title">{{ 'EVAL_BY_EXPERTISE.Condition on Criteria' | translate }}</h3>
+          </div>
+
+          <div class="p-col-12">
+            <div class="p-grid">
+              <p style="margin-top: 1rem; padding-left: 0.5rem">
+                <!-- {{ 'EVAL_BY_EXPERTISE.Profesional_Certification_TEXT' | translate }} -->
+                {{ 'EVAL_BY_EXPERTISE.Competency_Criteria_Text_1' | translate }}
+              </p>
+            </div>
+
+            <div class="p-grid" [formGroup]="scoreForm">
+              <div class="p-col-12" style="padding: 1.5em 0px 0.5em 6px">
+                <div class="p-grid">
+                  <div class="p-ct-1" style="align-self: center; padding: 0em 0px 2px 0px; width: 180px">
+                    <h3>{{ 'EVAL_BY_EXPERTISE.Maximum Score for 1 Criteria' | translate }} :</h3>
+                  </div>
+                  <div style="width: 3.555%">
+                    <mat-form-field floatLabel="never" class="max-score" style="padding-top: 0px">
+                      <input
+                        matInput
+                        type="number"
+                        required
+                        style="padding-bottom: 0px !important"
+                        class="form-field"
+                        formControlName="max_score_soft_skill"
+                        [readonly]="isFinalTranscript"
+                      />
+                      <mat-error>
+                        <p
+                          *ngIf="
+                            scoreForm.get('max_score_soft_skill').hasError('pattern') &&
+                            (scoreForm.get('max_score_soft_skill').dirty || scoreForm.get('max_score_soft_skill').touched)
+                          "
+                        >
+                          {{ 'must contain number only' | translate }}
+                        </p>
+                        <p
+                          *ngIf="
+                            scoreForm.get('max_score_soft_skill').hasError('required') &&
+                            (scoreForm.get('max_score_soft_skill').dirty || scoreForm.get('max_score_soft_skill').touched)
+                          "
+                        >
+                          {{ 'This field is required' | translate }}
+                        </p>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-4" style="padding: 0.5em 0px 0.5em 0px">
+                    <div class="p-grid">
+                      <div class="p-col-12" style="padding: 0.5em 0.5em 0px 0px">
+                        <div class="p-grid">
+                          <div class="p-col-7" style="padding: 0.5em 0px 0px 0em">
+                            <h4>{{ 'EVAL_BY_EXPERTISE.Score Conversion For Mark Entry' | translate }}</h4>
+                          </div>
+                          <div class="p-col-5 align-right-button no-margin no-padding">
+                            <button (click)="addScoreConversionFormArray()" mat-raised-button class="margin-none" color="accent" [disabled]="isFinalTranscript">
+                              <mat-icon class="mat-icon-default">add</mat-icon>
+                              {{ 'EVAL_BY_EXPERTISE.Condition on Criteria_ScoreConversion' | translate }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <fieldset class="fieldset-class" [disabled]="isFinalTranscript">
+                      <div class="p-grid mrg-top">
+                        <div class="p-col-12" style="padding: 0.5em 0em 0.5em 0px">
+                          <table
+                            class="scoreTable"
+                            mat-table
+                            #scoreTable
+                            [dataSource]="getScoreConversionFormArray().controls"
+                            formArrayName="score_conversions_soft_skill"
+                          >
+                            <!-- Score Column -->
+                            <ng-container matColumnDef="score">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Score' | translate }}">
+                                {{ 'EVAL_BY_EXPERTISE.Score' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <div class="p-grid" style="padding-top: 5px">
+                                  <div class="p-col-7" style="padding: 0px 5px">
+                                    <mat-form-field color="accent" floatLabel="never">
+                                      <mat-select required formControlName="sign" [disabled]="isFinalTranscript" placeholder="{{ 'EVAL_BY_EXPERTISE.Sign' | translate }}" [disableOptionCentering]="true" panelClass="dropdownPanel">
+                                        <mat-option class="color-black" value="less_than"><</mat-option>
+                                        <mat-option class="color-black" value="less_than_or_equal"><=</mat-option>
+                                        <mat-option class="color-black" value="equal">=</mat-option>
+                                        <mat-option class="color-black" value="more_than_or_equal">>=</mat-option>
+                                        <mat-option class="color-black" value="more_than">></mat-option>
+                                      </mat-select>
+                                      <mat-error
+                                        *ngIf="
+                                          element.get('sign').hasError('required') &&
+                                          (element.get('sign').dirty || element.get('sign').touched)
+                                        "
+                                        >{{ 'This field is required' | translate }}</mat-error
+                                      >
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="p-col-5" style="padding: 0px 5px; align-self: flex-end">
+                                    <mat-form-field color="accent" floatLabel="never">
+                                      <input
+                                        required
+                                        formControlName="score"
+                                        type="number"
+                                        [ngStyle]="
+                                          getScoreConversionFormArray().at(i).get('score').value
+                                            ? { 'padding-bottom': '3px', 'text-align': 'center' }
+                                            : { 'padding-bottom': '10px' }
+                                        "
+                                        matInput
+                                        class="form-field"
+                                        placeholder="{{ 'EVAL_BY_EXPERTISE.Score' | translate }}"
+                                        (change)="checkIsBiggerThanMax(i)"
+                                        (keyup)="checkIsBiggerThanMax(i)"
+                                        [readonly]="!getScoreConversionFormArray().at(i).get('sign').value"
+                                      />
+                                      <mat-error
+                                        *ngIf="
+                                          element.get('score').hasError('required') &&
+                                          (element.get('score').dirty || element.get('score').touched)
+                                        "
+                                        >{{ 'This field is required' | translate }}</mat-error
+                                      >
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </td>
+                            </ng-container>
+  
+                            <!-- In Word Column -->
+                            <ng-container matColumnDef="phrase">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.In Word' | translate }}">
+                                {{ 'EVAL_BY_EXPERTISE.In Word' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <div class="p-grid" style="padding-top: 2px">
+                                  <div class="p-col-12" style="padding: 0px 5px">
+                                    <mat-form-field color="accent" floatLabel="never">
+                                      <input
+                                        formControlName="phrase"
+                                        required
+                                        [ngStyle]="
+                                          getScoreConversionFormArray().at(i).get('phrase').value
+                                            ? { 'padding-bottom': '3px', 'text-align': 'center', 'padding-top': '7.39px;' }
+                                            : { 'padding-bottom': '10px' }
+                                        "
+                                        matInput
+                                        class="form-field"
+                                        placeholder="{{ 'EVAL_BY_EXPERTISE.In Word' | translate }}"
+                                        [readonly]="!getScoreConversionFormArray().at(i).get('score').value"
+                                      />
+                                      <mat-error
+                                        *ngIf="
+                                          element.get('phrase').hasError('required') &&
+                                          (element.get('phrase').dirty || element.get('phrase').touched)
+                                        "
+                                        >{{ 'This field is required' | translate }}</mat-error
+                                      >
+                                    </mat-form-field>
+                                    <!-- <span  *ngIf="element.get('phrase').hasError('required') && (element.get('phrase').dirty || element.get('phrase').touched)" class="red-text">{{ 'This field is required' | translate }}</span> -->
+                                  </div>
+                                </div>
+                              </td>
+                            </ng-container>
+  
+                            <!-- In Alphabet Column -->
+                            <ng-container matColumnDef="letter">
+                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.In Alphabet' | translate }}">
+                                {{ 'EVAL_BY_EXPERTISE.In Alphabet' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <div class="p-grid" style="padding-top: 2px">
+                                  <div class="p-col-12" style="padding: 0px 5px">
+                                    <mat-form-field color="accent" floatLabel="never">
+                                      <input
+                                        formControlName="letter"
+                                        required
+                                        [ngStyle]="
+                                          getScoreConversionFormArray().at(i).get('letter').value
+                                            ? { 'padding-bottom': '3px', 'text-align': 'center', 'padding-top': '7.39px;' }
+                                            : { 'padding-bottom': '10px' }
+                                        "
+                                        matInput
+                                        maxlength="1"
+                                        class="form-field"
+                                        placeholder="{{ 'EVAL_BY_EXPERTISE.In Alphabet' | translate }}"
+                                        [readonly]="!getScoreConversionFormArray().at(i).get('phrase').value"
+                                      />
+                                      <mat-error
+                                        *ngIf="
+                                          element.get('letter').hasError('required') &&
+                                          (element.get('letter').dirty || element.get('letter').touched)
+                                        "
+                                        >{{ 'This field is required' | translate }}</mat-error
+                                      >
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                              </td>
+                            </ng-container>
+  
+                            <ng-container matColumnDef="action">
+                              <th mat-header-cell *matHeaderCellDef></th>
+                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                <a color="primary" type="button" (click)="removeScoreConversionFormArray(i)" style="cursor: pointer" *ngIf="!isFinalTranscript">
+                                  <mat-icon class="red-button">remove_circle</mat-icon>
+                                </a>
+                              </td>
+                            </ng-container>
+  
+                            <tr mat-header-row *matHeaderRowDef="displayedScoreColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedScoreColumns"></tr>
+                          </table>
+                        </div>
+                      </div>
+                    </fieldset>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-12" [formGroup]="templateForm">
+    <div class="p-grid" style="margin-top: 0.1rem">
+      <div class="p-col-12 align-right-button no-margin no-padding" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
+        <button (click)="openBlockCompetencyDialog('add')" mat-raised-button class="margin-none" color="accent" [disabled]="isFinalTranscript">
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'EVAL_BY_EXPERTISE.Softskill Block' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 parameter-card">
+        <ng-container formArrayName="block_of_competence_template_input">
+          <mat-accordion [multi]="true" displayMode="flat">
+            <ng-container *ngFor="let block of getBlockFormArray.controls; let blockIndex = index">
+              <mat-expansion-panel
+                [formGroupName]="blockIndex"
+                class="panel-spacing parameter-card"
+                [expanded]="getBlockFormArray.at(blockIndex).get('isExpanded').value"
+                (opened)="openBlock(blockIndex)"
+                (closed)="closeBlock(blockIndex)"
+              >
+                <mat-expansion-panel-header class="panel-header-comp panel-block">
+                  <mat-panel-title>
+                    <div class="p-grid">
+                      <div class="p-col-12 inline-display">
+                        <button
+                          mat-icon-button
+                          color="warn"
+                          (click)="deleteBlockCompetency(blockIndex)"
+                          matTooltip="{{ 'Delete' | translate }}"
+                          [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created"
+                        >
+                          <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          class="text-white"
+                          (click)="openBlockCompetencyDialog('edit', blockIndex)"
+                          matTooltip="{{ 'Edit' | translate }}"
+                          [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created"
+                        >
+                          <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          class="text-white mrgn-left-5 display-flex"
+                          matTooltip="{{ 'View' | translate }}"
+                        >
+                          <mat-icon *ngIf="!getBlockFormArray.at(blockIndex).get('isExpanded').value">visibility</mat-icon>
+                          <mat-icon *ngIf="getBlockFormArray.at(blockIndex).get('isExpanded').value">visibility_off</mat-icon>
+                        </button>
+                        <h2
+                          class="header-text color-white"
+                          style="font-size: 16px !important"
+                          matTooltip="{{ getBlockFormArray.at(blockIndex).get('ref_id').value }} - {{
+                            utilService.cleanHTML(getBlockFormArray.at(blockIndex).get('name').value)
+                          }}"
+                        >
+                          {{ getBlockFormArray.at(blockIndex).get('ref_id').value }} - {{ utilService.cleanHTML(getBlockFormArray.at(blockIndex).get('name').value) }}
+                        </h2>
+                      </div>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- Table -->
+                <div class="p-grid">
+                  <!-- Condition Parameter Table -->
+                  <div class="p-col-12" style="padding: 0.5em 0px 0em 0px">
+                    <div class="p-grid">
+                      <div class="p-col-6" style="align-self: center; padding: 0.5em 0px 1em 0px">
+                        <h3 class="big">{{ 'EVAL_BY_EXPERTISE.Set of Phrases for Block' | translate }} :</h3>
+                      </div>
+                      <div class="p-col-6 align-right-button no-margin no-padding" style="padding: 2.5em 0px 1em 0px">
+                        <button
+                          (click)="addBlockPhraseNameFormArrayDialog(blockIndex)"
+                          [disabled]="!getScoreConversionFormArray().length || isOneCompNotHavePhrase(blockIndex)"
+                          mat-raised-button
+                          color="accent"
+                          class="margin-none"
+                        >
+                          <mat-icon class="mat-icon-default">add</mat-icon>
+                          {{ 'EVAL_BY_EXPERTISE.Add Phrase for Block' | translate }}
+                        </button>
+                        <!-- <button [disabled]="isWaitingForResponse" (click)="save()" mat-raised-button color="accent" class="mrgn-left-5">
+                          <mat-icon class="mat-icon-default">save</mat-icon>
+                          {{ 'Save' | translate }}
+                        </button> -->
+                      </div>
+                    </div>
+                    <div class="p-grid">
+                      <div class="no-margin no-padding">
+                        <p>
+                          {{ 'EVAL_BY_EXPERTISE.Block_Phrase_Text_1' | translate }} <br />
+                          {{ 'EVAL_BY_EXPERTISE.Block_Phrase_Text_2' | translate }} <br />
+                          {{ 'EVAL_BY_EXPERTISE.Block_Phrase_Text_3' | translate }}
+                        </p>
+                      </div>
+
+                      <!-- <div class="p-col-4 align-right-button no-margin no-padding">
+                        <mat-slide-toggle color="accent" formControlName="block_automatic_generated_in_step_four">
+                          <span [ngStyle]="{ color: getBlockFormArray.at(blockIndex).get('block_automatic_generated_in_step_four').value ? '#fdd835' : 'white' }">
+                            {{
+                              (getBlockFormArray.at(blockIndex).get('block_automatic_generated_in_step_four').value
+                                ? 'Block is automatic generated in Step'
+                                : 'Block is not automatic generated in Step'
+                              ) | translate
+                            }}
+                          </span>
+                        </mat-slide-toggle>
+                        <mat-slide-toggle color="accent" formControlName="block_included_in_auto_pro_eval">
+                          <span [ngStyle]="{ color: getBlockFormArray.at(blockIndex).get('block_included_in_auto_pro_eval').value ? '#fdd835' : 'white' }">
+                            {{
+                              (getBlockFormArray.at(blockIndex).get('block_included_in_auto_pro_eval').value
+                                ? 'Block is included in Auto & Pro Eval'
+                                : 'Block is not included in Auto & Pro eval'
+                              ) | translate
+                            }}
+                          </span>
+                        </mat-slide-toggle>
+                      </div> -->
+                    </div>
+                    <div class="p-grid">
+                      <ng-container formArrayName="phrase_names">
+                        <ng-container *ngFor="let phraseName of getBlockPhraseNameFormArray(blockIndex).controls; let phraseIndex = index">
+                          <div [formGroupName]="phraseIndex" style="padding-left: 0px" class="p-col-8">
+                            <div class="p-grid">
+                              <div class="p-col-12 no-padding">
+                                <div class="p-grid">
+                                  <div class="p-col-12" style="padding: 0.5em 0em 0px 0em">
+                                    <div class="p-grid">
+                                      <div class="p-col-9" style="padding: 0.5em 0px 0px 0em">
+                                        <div class="p-grid">
+                                          <div>
+                                            <button
+                                              mat-icon-button
+                                              color="warn"
+                                              (click)="deleteBlockPhraseName(blockIndex, phraseIndex)"
+                                              matTooltip="{{ 'Delete' | translate }}"
+                                            >
+                                              <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                            </button>
+                                          </div>
+                                          <div style="align-self: center; padding: 0em 0px 2px 0px; width: 210px">
+                                            <h4>{{ 'EVAL_BY_EXPERTISE.Condition(s) to Validate this Block' | translate }}</h4>
+                                          </div>
+                                          <div style="margin: auto 1rem; max-width: 6rem;">
+                                            <ng-select 
+                                              class="disable-arrow"
+                                              formControlName="phrase_type"
+                                              [searchable]="false"
+                                              [clearable]="true"
+                                              [disabled]="true"
+                                            >
+                                            <ng-option *ngFor="let option of phrasesTypes" [value]="option?.value">
+                                                  {{ 'phrase_status.' + option?.label | translate}}
+                                            </ng-option>
+                                          </ng-select>
+                                          </div>
+                                          <div>
+                                            <mat-form-field>
+                                              <input
+                                                formControlName="name"
+                                                matInput
+                                                required
+                                                type="text"
+                                                class="form-field"
+                                                style="padding-bottom: 3px !important"
+                                                readonly
+                                              />
+                                            </mat-form-field>
+                                          </div>
+                                          <div>
+                                            <button
+                                              mat-icon-button
+                                              (click)="editBlockPhraseName(blockIndex, phraseIndex)"
+                                              matTooltip="{{ 'Edit' | translate }}"
+                                            >
+                                              <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="p-col-3 align-right-button no-margin no-padding">
+                                        <button
+                                          (click)="addBlockPhraseParameterFormArray(blockIndex, phraseIndex)"
+                                          mat-raised-button
+                                          class="margin-none"
+                                          color="accent"
+                                        >
+                                          <mat-icon class="mat-icon-default">add</mat-icon>
+                                          {{ 'EVAL_BY_EXPERTISE.Add Parameter' | translate }}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <fieldset class="fieldset-class">
+                                  <div class="p-grid mrg-top">
+                                    <div class="p-col-12" style="padding: 0.5em 0px 0px 0em">
+                                      <table
+                                        class="parameterTable"
+                                        mat-table
+                                        #blockParameterTable
+                                        [dataSource]="getBlockPhraseParameterFormArray(blockIndex, phraseIndex).controls"
+                                        formArrayName="phrase_parameters"
+                                      >
+                                        <!-- correlation Column -->
+                                        <ng-container matColumnDef="correlation">
+                                          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}">
+                                            {{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}
+                                          </th>
+                                          <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                            <mat-form-field color="accent" *ngIf="i >= 1" floatLabel="never">
+                                              <mat-select
+                                                required
+                                                formControlName="correlation"
+                                                placeholder="{{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}"
+                                                [disableOptionCentering]="true" 
+                                                panelClass="dropdownPanel"
+                                              >
+                                                <mat-option value="AND">{{ 'EVAL_BY_EXPERTISE.And' | translate }}</mat-option>
+                                                <mat-option value="OR">{{ 'EVAL_BY_EXPERTISE.Or' | translate }}</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="
+                                                  element.get('correlation').hasError('required') &&
+                                                  (element.get('correlation').dirty || element.get('correlation').touched)
+                                                "
+                                                >{{ 'This field is required' | translate }}</mat-error
+                                              >
+                                            </mat-form-field>
+                                          </td>
+                                        </ng-container>
+  
+                                        <!-- Validation 1 Column -->
+                                        <ng-container matColumnDef="validation_type">
+                                          <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}"
+                                          >
+                                            {{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}
+                                          </th>
+                                          <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                            <mat-form-field color="accent" floatLabel="never">
+                                              <mat-select
+                                                required
+                                                formControlName="validation_type"
+                                                placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}"
+                                                [disableOptionCentering]="true" 
+                                                panelClass="dropdownPanel"
+                                              >
+                                                <mat-option value="all_competence">{{
+                                                  'EVAL_BY_EXPERTISE.All Competences of This Block' | translate
+                                                }}</mat-option>
+                                                <mat-option class="color-black" value="competence">{{
+                                                  'EVAL_BY_EXPERTISE.Competance' | translate
+                                                }}</mat-option>
+                                                <mat-option class="color-black" value="criteria">{{
+                                                  'EVAL_BY_EXPERTISE.Criteria' | translate
+                                                }}</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="
+                                                  element.get('validation_type').hasError('required') &&
+                                                  (element.get('validation_type').dirty || element.get('validation_type').touched)
+                                                "
+                                                >{{ 'This field is required' | translate }}</mat-error
+                                              >
+                                            </mat-form-field>
+                                          </td>
+                                        </ng-container>
+  
+                                        <!-- Validation 2 Column -->
+                                        <ng-container matColumnDef="validation_parameter">
+                                          <th
+                                            mat-header-cell
+                                            *matHeaderCellDef
+                                            matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                          >
+                                            {{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}
+                                          </th>
+                                          <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                            <ng-container
+                                              *ngIf="
+                                                getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i) &&
+                                                getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type').value
+                                              "
+                                            >
+                                              <ng-container formGroupName="validation_parameter">
+                                                <!-- For all compenteces validation 1 -->
+                                                <div
+                                                  *ngIf="
+                                                    getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type')
+                                                      .value === 'all_competence'
+                                                  "
+                                                  class="p-grid"
+                                                >
+                                                  <div
+                                                    [ngClass]="{
+                                                      'p-col-6':
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value === 'percentage' ||
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value === 'ratio',
+                                                      'p-col-12':
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value !== 'percentage' &&
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value !== 'ratio'
+                                                    }"
+                                                    style="padding: 3px 0px 0px 0px"
+                                                  >
+                                                    <mat-form-field color="accent" floatLabel="never">
+                                                      <mat-select
+                                                        [required]="
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_type').value === 'all_competence'
+                                                        "
+                                                        formControlName="parameter_type"
+                                                        placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                                        [disabled]="!getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type').value"
+                                                        [disableOptionCentering]="true" 
+                                                        panelClass="dropdownPanel"
+                                                      >
+                                                        <mat-option class="color-black" value="percentage">{{
+                                                          'EVAL_BY_EXPERTISE.Percentage' | translate
+                                                        }}</mat-option>
+                                                        <mat-option class="color-black" value="average">{{
+                                                          'EVAL_BY_EXPERTISE.Average' | translate
+                                                        }}</mat-option>
+                                                        <mat-option class="color-black" value="ratio">{{
+                                                          'EVAL_BY_EXPERTISE.Ratio' | translate
+                                                        }}</mat-option>
+                                                      </mat-select>
+                                                      <mat-error
+                                                        *ngIf="
+                                                          element.get('validation_parameter').get('parameter_type').hasError('required') &&
+                                                          (element.get('validation_parameter').get('parameter_type').dirty ||
+                                                            element.get('validation_parameter').get('parameter_type').touched)
+                                                        "
+                                                        >{{ 'This field is required' | translate }}</mat-error
+                                                      >
+                                                    </mat-form-field>
+                                                  </div>
+  
+                                                  <!-- percentage input sign -->
+                                                  <div
+                                                    [ngClass]="
+                                                      getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                        .at(i)
+                                                        .get('validation_parameter')
+                                                        .get('parameter_type').value &&
+                                                      getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                        .at(i)
+                                                        .get('validation_parameter')
+                                                        .get('parameter_type').value === 'percentage' ?
+                                                        'display-control' : 'hide-control'
+                                                    "
+                                                    class="p-col-3"
+                                                    style="padding: 3px 0px 0px 0px"
+                                                  >
+                                                    <mat-form-field color="accent" floatLabel="never">
+                                                      <mat-select 
+                                                        [required]="
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_type').value === 'all_competence' &&
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value === 'percentage'
+                                                        "
+                                                        formControlName="sign" 
+                                                        placeholder="{{ 'EVAL_BY_EXPERTISE.Sign' | translate }}"
+                                                        [disableOptionCentering]="true" 
+                                                        panelClass="dropdownPanel"
+                                                      >
+                                                        <mat-option class="color-black" value="less_than"><</mat-option>
+                                                        <mat-option class="color-black" value="less_than_or_equal"><=</mat-option>
+                                                        <mat-option class="color-black" value="equal">=</mat-option>
+                                                        <mat-option class="color-black" value="more_than_or_equal">>=</mat-option>
+                                                        <mat-option class="color-black" value="more_than">></mat-option>
+                                                      </mat-select>
+                                                      <mat-error
+                                                        *ngIf="
+                                                          element.get('validation_parameter').get('sign').hasError('required') &&
+                                                          (element.get('validation_parameter').get('sign').dirty ||
+                                                            element.get('validation_parameter').get('sign').touched)
+                                                        "
+                                                        >{{ 'This field is required' | translate }}</mat-error
+                                                      >
+                                                    </mat-form-field>
+                                                    
+                                                  </div>
+  
+                                                  <!-- percentage input value -->
+                                                  <div
+                                                    [ngClass]="
+                                                      getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                        .at(i)
+                                                        .get('validation_parameter')
+                                                        .get('parameter_type').value &&
+                                                      getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                        .at(i)
+                                                        .get('validation_parameter')
+                                                        .get('parameter_type').value === 'percentage' ? 
+                                                        'display-control' : 'hide-control'
+                                                    "
+                                                    class="p-col-3"
+                                                    style="padding: 4px 0px 0px 0px; align-self: flex-end"
+                                                  >
+                                                    <mat-form-field color="accent" floatLabel="never">
+                                                      <input
+                                                        formControlName="percentage_value"
+                                                        [required]="checkFormPercentageValueValid(i, blockIndex, phraseIndex)"
+                                                        matInput
+                                                        type="number"
+                                                        style="padding-bottom: 2px !important"
+                                                        class="form-field"
+                                                        (keyup)="handlePercentageChange(blockIndex, phraseIndex, i)"
+                                                      />
+                                                      <span
+                                                        *ngIf="
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value === 'percentage'
+                                                        "
+                                                        matSuffix
+                                                        >%</span
+                                                      >
+                                                      <mat-error
+                                                        *ngIf="
+                                                          element.get('validation_parameter').get('percentage_value').hasError('required') &&
+                                                          (element.get('validation_parameter').get('percentage_value').dirty ||
+                                                            element.get('validation_parameter').get('percentage_value').touched)
+                                                        "
+                                                        >{{ 'This field is required' | translate }}</mat-error
+                                                      >
+                                                    </mat-form-field>
+                                                  </div>
+
+                                                  <!-- ratio input value -->
+                                                  <div
+                                                    [ngClass]="
+                                                      getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                        .at(i)
+                                                        .get('validation_parameter')
+                                                        .get('parameter_type').value === 'ratio' ? 
+                                                        'display-control' : 'hide-control'
+                                                    "
+                                                    class="p-col-6"
+                                                    style="padding: 4px 0px 0px 0px; align-self: flex-end"
+                                                  >
+                                                    <mat-form-field
+                                                      color="accent"
+                                                      floatLabel="never"
+                                                      style="padding-left: 10px; padding-right: 10px"
+                                                    >
+                                                      <input
+                                                        formControlName="ratio_value"
+                                                        matInput
+                                                        [required]="
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_type').value === 'all_competence' &&
+                                                          getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                            .at(i)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value === 'ratio'
+                                                        "
+                                                        type="number"
+                                                        style="padding-bottom: 2px !important; text-align: center"
+                                                        class="form-field"
+                                                        (keyup)="handleRatioBlockChange(blockIndex, phraseIndex, i)"
+                                                      />
+                                                      <span matSuffix style="font-size: 14px">
+                                                        {{ 'out_of' | translate }}
+                                                        {{ getCompetenceFormArray(blockIndex).controls.length }}</span
+                                                      >
+                                                      <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                                    </mat-form-field>
+                                                  </div>
+  
+                                                </div>
+                                                <!-- For competance validation 1 -->
+                                                <div
+                                                  [ngClass]="
+                                                    getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                      .at(i)
+                                                      .get('validation_type')
+                                                      .value === 'competence' ? 
+                                                      'display-control' : 'hide-control'
+                                                  "
+                                                  class="p-grid"
+                                                >
+                                                  <mat-form-field
+                                                    color="accent"
+                                                    floatLabel="never"
+                                                    style="padding-left: 10px; padding-right: 5px"
+                                                  >
+                                                    <mat-select
+                                                      [required]="
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_type')
+                                                          .value === 'competence'
+                                                      "
+                                                      formControlName="competence_softskill_template_id"
+                                                      placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                                      [disabled]="!getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type').value"
+                                                      [disableOptionCentering]="true" 
+                                                      panelClass="dropdownPanel"
+                                                    >
+                                                      <mat-option
+                                                        *ngFor="let comp of getCompetenceFormArray(blockIndex).value"
+                                                        [value]="comp._id"
+                                                        >{{comp.ref_id}} - {{ utilService.cleanHTML(comp.name) }}</mat-option
+                                                      >
+                                                    </mat-select>
+                                                    <!-- <mat-error *ngIf="element.get('competence_softskill_template_id').hasError('required')&&
+                                                          (element.get('competence_softskill_template_id').dirty ||
+                                                          element.get('competence_softskill_template_id').touched)">{{'This field is required'|translate}}</mat-error> -->
+                                                  </mat-form-field>
+                                                </div>
+                                                <!-- For criteria validation 1 -->
+                                                <div
+                                                  [ngClass]="
+                                                    getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type')
+                                                      .value === 'criteria' ?
+                                                      'display-control' : 'hide-control'
+                                                  "
+                                                  class="p-grid"
+                                                >
+                                                  <mat-form-field
+                                                    color="accent"
+                                                    floatLabel="never"
+                                                    style="padding-left: 10px; padding-right: 5px"
+                                                  >
+                                                    <mat-select
+                                                      [required]="
+                                                        getBlockPhraseParameterFormArray(blockIndex, phraseIndex)
+                                                          .at(i)
+                                                          .get('validation_type')
+                                                          .value === 'criteria'
+                                                      "
+                                                      formControlName="criteria_of_evaluation_softskill_template_id"
+                                                      placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                                      [disabled]="!getBlockPhraseParameterFormArray(blockIndex, phraseIndex).at(i).get('validation_type').value"
+                                                      [disableOptionCentering]="true" 
+                                                      panelClass="dropdownPanel"
+                                                    >
+                                                      <ng-container
+                                                        *ngFor="
+                                                          let comp of getCompetenceFormArray(blockIndex).controls;
+                                                          let compIndex = index
+                                                        "
+                                                      >
+                                                        <mat-option
+                                                          *ngFor="let eval of getEvaluationFormArray(blockIndex, compIndex).value"
+                                                          [value]="eval._id"
+                                                          >{{eval.ref_id}} - {{ utilService.cleanHTML(eval.name) }}</mat-option
+                                                        >
+                                                      </ng-container>
+                                                    </mat-select>
+                                                    <mat-error
+                                                      *ngIf="
+                                                        element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').hasError('required') &&
+                                                        (element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').dirty ||
+                                                          element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').touched)
+                                                      "
+                                                      >{{ 'This field is required' | translate }}</mat-error
+                                                    >
+                                                  </mat-form-field>
+                                                </div>
+                                              </ng-container>
+                                            </ng-container>
+                                          </td>
+                                        </ng-container>
+  
+                                        <ng-container matColumnDef="pass_mark">
+                                          <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Minimum Level of Mastery' | translate }}">
+                                            {{ 'EVAL_BY_EXPERTISE.Minimum Level of Mastery' | translate }}
+                                          </th>
+                                          <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                            <mat-form-field color="accent" floatLabel="never">
+                                              <mat-select
+                                                required
+                                                formControlName="pass_mark"
+                                                style="text-align: center"
+                                                placeholder="{{ 'EVAL_BY_EXPERTISE.Dropdown Competence' | translate }}"
+                                                [disabled]="!allowSelectBlockScorePhrase(blockIndex, phraseIndex, i)"
+                                                [disableOptionCentering]="true" 
+                                                panelClass="dropdownPanel"
+                                              >
+                                                <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+                                                <mat-option *ngFor="let score of getBlockScoreDropdown(blockIndex)" [value]="score.name">{{
+                                                  utilService.cleanHTML(score.name)
+                                                }}</mat-option>
+                                              </mat-select>
+                                              <mat-error
+                                                *ngIf="
+                                                  element.get('pass_mark').hasError('required') &&
+                                                  (element.get('pass_mark').dirty || element.get('pass_mark').touched)
+                                                "
+                                                >{{ 'This field is required' | translate }}</mat-error
+                                              >
+                                            </mat-form-field>
+                                          </td>
+                                        </ng-container>
+  
+                                        <ng-container matColumnDef="action">
+                                          <th mat-header-cell *matHeaderCellDef></th>
+                                          <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                            <ng-container formGroupName="validation_parameter">
+                                              <a
+                                                color="primary"
+                                                type="button"
+                                                *ngIf="getBlockPhraseParameterFormArray(blockIndex, phraseIndex).length > 1"
+                                                (click)="removeBlockPhraseParameterFormArray(blockIndex, phraseIndex, i)"
+                                                style="cursor: pointer"
+                                              >
+                                                <mat-icon class="red-button">remove_circle</mat-icon>
+                                              </a>
+                                            </ng-container>
+                                          </td>
+                                        </ng-container>
+  
+                                        <tr mat-header-row *matHeaderRowDef="displayedParameterColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedParameterColumns"></tr>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </fieldset>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Add competency button -->
+                <div class="p-grid">
+                  <div class="p-col-12">
+                    <div class="p-col-align-center text-right no-padding no-margin">
+                      <button mat-raised-button color="accent" (click)="openCompetencyDialog('add', blockIndex)" [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created">
+                        <mat-icon class="mat-icon-default">add</mat-icon>
+                        {{ 'EVAL_BY_EXPERTISE.Competency' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Competency Section -->
+                <ng-container formArrayName="competence_softskill_templates_id">
+                  <mat-accordion [multi]="true" displayMode="flat">
+                    <ng-container *ngFor="let comp of getCompetenceFormArray(blockIndex).controls; let compIndex = index">
+                      <mat-expansion-panel
+                        [formGroupName]="compIndex"
+                        class="panel-spacing expansion-first"
+                        [expanded]="getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value"
+                        (opened)="openCompetence(blockIndex, compIndex)"
+                        (closed)="closeCompetence(blockIndex, compIndex)"
+                      >
+                        <mat-expansion-panel-header class="panel-header-comp panel-block">
+                          <mat-panel-title>
+                            <div class="p-grid">
+                              <div class="p-col-12 inline-display">
+                                <button
+                                  mat-icon-button
+                                  color="warn"
+                                  (click)="deleteCompetency(blockIndex, compIndex)"
+                                  matTooltip="{{ 'Delete' | translate }}"
+                                  [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created"
+                                >
+                                  <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                </button>
+                                <button
+                                  mat-icon-button
+                                  class="text-white"
+                                  (click)="openCompetencyDialog('edit', blockIndex, compIndex)"
+                                  matTooltip="{{ 'Edit' | translate }}"
+                                >
+                                  <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                </button>
+                                <button
+                                  mat-icon-button
+                                  class="text-white mrgn-left-5 display-flex"
+                                  matTooltip="{{ 'View' | translate }}"
+                                >
+                                  <mat-icon *ngIf="!getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value">visibility</mat-icon>
+                                  <mat-icon *ngIf="getCompetenceFormArray(blockIndex).at(compIndex).get('isExpanded').value">visibility_off</mat-icon>
+                                </button>
+                                <h3
+                                  class="text-white"
+                                  style="font-size: 16px !important"
+                                  matTooltip="{{ getCompetenceFormArray(blockIndex).at(compIndex).get('ref_id').value }} - {{
+                                    utilService.cleanHTML(getCompetenceFormArray(blockIndex).at(compIndex).get('name').value)
+                                  }}"
+                                >
+                                  {{ getCompetenceFormArray(blockIndex).at(compIndex).get('ref_id').value }} -
+                                  {{ utilService.cleanHTML(getCompetenceFormArray(blockIndex).at(compIndex).get('name').value) }}
+                                </h3>
+                              </div>
+                            </div>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- Table -->
+                        <div class="p-grid">
+                          <!-- Condition Parameter Table -->
+                          <div class="p-col-12" style="padding: 0.5em 0em 1em 0em">
+                            <div class="p-grid">
+                              <div class="p-col-6" style="padding: 0.5em 0em 0em 0em">
+                                <h4>{{ 'EVAL_BY_EXPERTISE.Set of Phrases for Competency' | translate }}</h4>
+                              </div>
+                              <div class="p-col-6 align-right-button no-margin no-padding">
+                                <button
+                                  (click)="addCompetencePhraseNameFormArrayDialog(blockIndex, compIndex)"
+                                  [disabled]="!getScoreConversionFormArray().length"
+                                  mat-raised-button
+                                  class="margin-none"
+                                  color="accent"
+                                >
+                                  <mat-icon class="mat-icon-default">add</mat-icon>
+                                  {{ 'EVAL_BY_EXPERTISE.Add Phrase for Competency' | translate }}
+                                </button>
+                                <!-- <button
+                                  [disabled]="isWaitingForResponse"
+                                  (click)="save()"
+                                  mat-raised-button
+                                  color="accent"
+                                  class="mrgn-left-5"
+                                >
+                                  <mat-icon class="mat-icon-default">save</mat-icon>
+                                  {{ 'Save' | translate }}
+                                </button> -->
+                              </div>
+                            </div>
+                            <div class="p-grid">
+                              <p>
+                                {{ 'EVAL_BY_EXPERTISE.Competency_Phrase_Text_1' | translate }} <br />
+                                {{ 'EVAL_BY_EXPERTISE.Competency_Phrase_Text_2' | translate }}
+                              </p>
+                            </div>
+                            <div class="p-grid">
+                              <ng-container formArrayName="phrase_names">
+                                <ng-container
+                                  *ngFor="
+                                    let phraseName of getCompetencePhraseNameFormArray(blockIndex, compIndex).controls;
+                                    let phraseCompIndex = index
+                                  "
+                                >
+                                  <div [formGroupName]="phraseCompIndex" style="padding-left: 0px" class="p-col-8">
+                                    <div class="p-grid">
+                                      <div class="p-col-12" style="padding: 0.5em 0em 0px 0em">
+                                        <div class="p-grid">
+                                          <div class="p-col-9" style="padding: 0.5em 0px 0px 0em">
+                                            <div class="p-grid">
+                                              <div>
+                                                <div>
+                                                  <button
+                                                    mat-icon-button
+                                                    color="warn"
+                                                    (click)="deleteCompPhraseName(blockIndex, compIndex, phraseCompIndex)"
+                                                    matTooltip="{{ 'Delete' | translate }}"
+                                                  >
+                                                    <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                                  </button>
+                                                </div>
+                                              </div>
+                                              <div style="align-self: center; padding: 0em 0px 2px 0px; width: 315px">
+                                                <h4>{{ 'EVAL_BY_EXPERTISE.Condition(s) for the Acquisition of this Competency' | translate }}</h4>
+                                              </div>
+                                              <div>
+                                                <mat-form-field>
+                                                  <input
+                                                    formControlName="name"
+                                                    matInput
+                                                    required
+                                                    type="text"
+                                                    class="form-field"
+                                                    style="padding-bottom: 3px !important"
+                                                    readonly
+                                                  />
+                                                </mat-form-field>
+                                              </div>
+                                              <div>
+                                                <button
+                                                  mat-icon-button
+                                                  (click)="editCompPhraseName(blockIndex, compIndex, phraseCompIndex)"
+                                                  matTooltip="{{ 'Edit' | translate }}"
+                                                >
+                                                  <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="p-col-3 align-right-button no-margin no-padding">
+                                            <button
+                                              (click)="addCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)"
+                                              mat-raised-button
+                                              class="margin-none"
+                                              color="accent"
+                                            >
+                                              <mat-icon class="mat-icon-default">add</mat-icon>
+                                              {{ 'EVAL_BY_EXPERTISE.Add Parameter' | translate }}
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <fieldset class="fieldset-class">
+                                      <div class="p-grid">
+                                        <div class="p-col-12" style="padding: 0.5em 0em 0em 0em">
+                                          <table
+                                            class="parameterTable"
+                                            mat-table
+                                            #blockParameterTable
+                                            [dataSource]="
+                                              getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex).controls
+                                            "
+                                            formArrayName="phrase_parameters"
+                                          >
+                                            <!-- correlation Column -->
+                                            <ng-container matColumnDef="correlation">
+                                              <th
+                                                mat-header-cell
+                                                *matHeaderCellDef
+                                                matTooltip="{{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}"
+                                              >
+                                                {{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}
+                                              </th>
+                                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                                <mat-form-field color="accent" *ngIf="i >= 1" floatLabel="never">
+                                                  <mat-select
+                                                    required
+                                                    formControlName="correlation"
+                                                    placeholder="{{ 'EVAL_BY_EXPERTISE.Corelation' | translate }}"
+                                                    [disableOptionCentering]="true" 
+                                                    panelClass="dropdownPanel"
+                                                  >
+                                                    <mat-option value="AND">{{ 'EVAL_BY_EXPERTISE.And' | translate }}</mat-option>
+                                                    <mat-option value="OR">{{ 'EVAL_BY_EXPERTISE.Or' | translate }}</mat-option>
+                                                  </mat-select>
+                                                  <mat-error
+                                                    *ngIf="
+                                                      element.get('correlation').hasError('required') &&
+                                                      (element.get('correlation').dirty || element.get('correlation').touched)
+                                                    "
+                                                    >{{ 'This field is required' | translate }}</mat-error
+                                                  >
+                                                </mat-form-field>
+                                              </td>
+                                            </ng-container>
+  
+                                            <!-- Validation 1 Column -->
+                                            <ng-container matColumnDef="validation_type">
+                                              <th
+                                                mat-header-cell
+                                                *matHeaderCellDef
+                                                matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}"
+                                              >
+                                                {{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}
+                                              </th>
+                                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                                <mat-form-field color="accent" floatLabel="never">
+                                                  <mat-select
+                                                    required
+                                                    formControlName="validation_type"
+                                                    placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 1' | translate }}"
+                                                    [disableOptionCentering]="true" 
+                                                    panelClass="dropdownPanel"
+                                                  >
+                                                    <mat-option class="color-black" value="all_criteria">{{
+                                                      'EVAL_BY_EXPERTISE.All Criteria' | translate
+                                                    }}</mat-option>
+                                                    <mat-option class="color-black" value="criteria">{{
+                                                      'EVAL_BY_EXPERTISE.Criteria' | translate
+                                                    }}</mat-option>
+                                                  </mat-select>
+                                                  <mat-error
+                                                    *ngIf="
+                                                      element.get('validation_type').hasError('required') &&
+                                                      (element.get('validation_type').dirty || element.get('validation_type').touched)
+                                                    "
+                                                    >{{ 'This field is required' | translate }}</mat-error
+                                                  >
+                                                </mat-form-field>
+                                              </td>
+                                            </ng-container>
+  
+                                            <!-- Validation 2 Column -->
+                                            <ng-container matColumnDef="validation_parameter">
+                                              <th
+                                                mat-header-cell
+                                                *matHeaderCellDef
+                                                matTooltip="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                              >
+                                                {{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}
+                                              </th>
+                                              <td mat-cell *matCellDef="let element; let idx = index" [formGroupName]="idx">
+                                                <!-- For all criteria validation 1 -->
+                                                <ng-container formGroupName="validation_parameter">
+                                                  <div
+                                                    *ngIf="
+                                                      getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                        .at(idx)
+                                                        .get('validation_type').value === 'all_criteria'
+                                                    "
+                                                    class="p-grid"
+                                                  >
+                                                    <div
+                                                      [ngClass]="{
+                                                        'p-col-6':
+                                                          getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                            .at(idx)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value === 'percentage' ||
+                                                          getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                            .at(idx)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value === 'ratio',
+                                                        'p-col-12':
+                                                          getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                            .at(idx)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value !== 'percentage' &&
+                                                          getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                            .at(idx)
+                                                            .get('validation_parameter')
+                                                            .get('parameter_type').value !== 'ratio'
+                                                      }"
+                                                      style="padding: 3px 0px 0px 0px"
+                                                    >
+                                                      <mat-form-field color="accent" floatLabel="never">
+                                                        <mat-select
+                                                          [required]="
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_type').value === 'all_criteria'
+                                                          "
+                                                          formControlName="parameter_type"
+                                                          placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                                          [disableOptionCentering]="true" 
+                                                          panelClass="dropdownPanel"
+                                                        >
+                                                          <mat-option class="color-black" value="percentage">{{
+                                                            'EVAL_BY_EXPERTISE.Percentage' | translate
+                                                          }}</mat-option>
+                                                          <mat-option class="color-black" value="average">{{
+                                                            'EVAL_BY_EXPERTISE.Average' | translate
+                                                          }}</mat-option>
+                                                          <mat-option class="color-black" value="ratio">{{
+                                                            'EVAL_BY_EXPERTISE.Ratio' | translate
+                                                          }}</mat-option>
+                                                        </mat-select>
+                                                        <mat-error
+                                                          *ngIf="
+                                                            element.get('validation_parameter').get('parameter_type').hasError('required') &&
+                                                            (element.get('validation_parameter').get('parameter_type').dirty ||
+                                                              element.get('validation_parameter').get('parameter_type').touched)
+                                                          "
+                                                          >{{ 'This field is required' | translate }}</mat-error
+                                                        >
+                                                      </mat-form-field>
+                                                    </div>
+  
+                                                    <!-- percentage input sign -->
+                                                    <div
+                                                      [ngClass]="
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value &&
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value === 'percentage' ? 
+                                                          'display-control' : 'hide-control'
+                                                      "
+                                                      class="p-col-3"
+                                                      style="padding: 3px 0px 0px 0px"
+                                                    >
+                                                      <mat-form-field
+                                                        color="accent"
+                                                        floatLabel="never"
+                                                        style="padding-left: 10px; padding-right: 10px"
+                                                      >
+                                                        <mat-select 
+                                                          [required]="
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_type').value === 'all_criteria' &&
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_parameter')
+                                                              .get('parameter_type').value === 'percentage'
+                                                          "
+                                                          formControlName="sign" 
+                                                          placeholder="{{ 'EVAL_BY_EXPERTISE.Sign' | translate }}"
+                                                          [disableOptionCentering]="true" 
+                                                          panelClass="dropdownPanel"
+                                                        >
+                                                          <mat-option class="color-black" value="less_than"><</mat-option>
+                                                          <mat-option class="color-black" value="less_than_or_equal"><=</mat-option>
+                                                          <mat-option class="color-black" value="equal">=</mat-option>
+                                                          <mat-option class="color-black" value="more_than_or_equal">>=</mat-option>
+                                                          <mat-option class="color-black" value="more_than">></mat-option>
+                                                        </mat-select>
+                                                        <mat-error
+                                                          *ngIf="
+                                                            element
+                                                              .get('validation_parameter')
+                                                              .get('sign')
+                                                              .hasError('required') &&
+                                                            (element.get('validation_parameter').get('sign').dirty ||
+                                                              element.get('validation_parameter').get('sign').touched)
+                                                          "
+                                                          >{{ 'This field is required' | translate }}
+                                                        </mat-error>
+                                                      </mat-form-field>
+                                                    </div>
+  
+                                                    <!-- percentage input value -->
+                                                    <div
+                                                      [ngClass]="
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value &&
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type').value === 'percentage' ?
+                                                          'display-control' : 'hide-control'
+                                                      "
+                                                      class="p-col-3"
+                                                      style="padding: 3px 0px 0px 0px; align-self: flex-end"
+                                                    >
+                                                      <mat-form-field
+                                                          color="accent"
+                                                          floatLabel="never"
+                                                          style="padding-left: 10px; padding-right: 10px"
+                                                      >
+                                                        <input
+                                                          formControlName="percentage_value"
+                                                          matInput
+                                                          [required]="
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_type').value === 'all_criteria' &&
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_parameter')
+                                                              .get('parameter_type').value === 'percentage'
+                                                          "
+                                                          type="number"
+                                                          style="padding-bottom: 2px !important"
+                                                          class="form-field"
+                                                          (keyup)="handlePercentChange(blockIndex, compIndex, phraseCompIndex, idx)"
+                                                        />
+                                                        <span
+                                                          *ngIf="
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_parameter')
+                                                              .get('parameter_type').value === 'percentage'
+                                                          "
+                                                          matSuffix
+                                                          >%</span
+                                                        >
+                                                        <mat-error
+                                                          *ngIf="
+                                                            element
+                                                              .get('validation_parameter')
+                                                              .get('percentage_value')
+                                                              .hasError('required') &&
+                                                            (element.get('validation_parameter').get('percentage_value').dirty ||
+                                                              element.get('validation_parameter').get('percentage_value').touched)
+                                                          "
+                                                          >{{ 'This field is required' | translate }}</mat-error
+                                                        >
+                                                      </mat-form-field>
+                                                    </div>
+
+                                                    <!-- ratio input value -->
+                                                    <div
+                                                      [ngClass]="
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_parameter')
+                                                          .get('parameter_type')?.value === 'ratio' ? 
+                                                          'display-control' : 'hide-control'
+                                                      "
+                                                      class="p-col-6"
+                                                      style="padding: 3px 0px 0px 0px; align-self: flex-end"
+                                                    >
+                                                      <mat-form-field
+                                                        color="accent"
+                                                        floatLabel="never"
+                                                        style="padding-left: 10px; padding-right: 10px"
+                                                      >
+                                                        <input
+                                                          formControlName="ratio_value"
+                                                          matInput
+                                                          [required]="
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_type').value === 'all_criteria' &&
+                                                            getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                              .at(idx)
+                                                              .get('validation_parameter')
+                                                              .get('parameter_type').value === 'ratio'
+                                                          "
+                                                          type="number"
+                                                          style="padding-bottom: 2px !important; text-align: center"
+                                                          class="form-field"
+                                                          (keyup)="handleRatioCompetenceChange(blockIndex, compIndex, phraseCompIndex, idx)"
+                                                        />
+                                                        <span matSuffix style="font-size: 14px">
+                                                          {{ 'out_of' | translate }}
+                                                          {{ getEvaluationFormArray(blockIndex, compIndex).controls.length }}</span
+                                                        >
+                                                        <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                                                      </mat-form-field>
+                                                    </div>
+                                                  </div>
+                                                  <div
+                                                    [ngClass]="
+                                                      getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex).at(idx) &&
+                                                      getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                        .at(idx)
+                                                        .get('validation_type').value !== 'all_criteria' ? 
+                                                        'display-control' : 'hide-control'
+                                                    "
+                                                  >
+                                                    <!-- For criteria validation 1 -->
+                                                    <div
+                                                      [ngClass]="
+                                                        getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex)
+                                                          .at(idx)
+                                                          .get('validation_type').value === 'criteria' ? 
+                                                          'display-control' : 'hide-control'
+                                                      "
+                                                      class="p-grid"
+                                                    >
+                                                      <mat-form-field
+                                                        color="accent"
+                                                        floatLabel="never"
+                                                        style="padding-left: 10px; padding-right: 10px"
+                                                      >
+                                                        <mat-select
+                                                          [required]="checkCompetenceCriteriaTemplateIdValid(idx, blockIndex, compIndex, phraseCompIndex)"
+                                                          formControlName="criteria_of_evaluation_softskill_template_id"
+                                                          placeholder="{{ 'EVAL_BY_EXPERTISE.Validation 2' | translate }}"
+                                                          [disableOptionCentering]="true" 
+                                                          panelClass="dropdownPanel"
+                                                        >
+                                                          <mat-option
+                                                            class="color-black"
+                                                            *ngFor="let eval of getEvaluationFormArray(blockIndex, compIndex).value"
+                                                            [value]="eval._id"
+                                                            >{{eval.ref_id}} - {{ utilService.cleanHTML(eval.name) }}</mat-option
+                                                          >
+                                                        </mat-select>
+                                                        <mat-error
+                                                          *ngIf="
+                                                            element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').hasError('required') &&
+                                                            (element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').dirty ||
+                                                              element.get('validation_parameter').get('criteria_of_evaluation_softskill_template_id').touched)
+                                                          "
+                                                          >{{ 'This field is required' | translate }}</mat-error
+                                                        >
+                                                      </mat-form-field>
+                                                    </div>
+                                                  </div>
+                                                </ng-container>
+                                              </td>
+                                            </ng-container>
+  
+                                            <ng-container matColumnDef="pass_mark">
+                                              <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'EVAL_BY_EXPERTISE.Minimum Level of Mastery' | translate }}">
+                                                {{ 'EVAL_BY_EXPERTISE.Minimum Level of Mastery' | translate }}
+                                              </th>
+                                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                                <mat-form-field color="accent" floatLabel="never">
+                                                  <mat-select
+                                                    required
+                                                    formControlName="pass_mark"
+                                                    placeholder="{{ 'EVAL_BY_EXPERTISE.Dropdown Criteria' | translate }}"
+                                                    [disabled]="!allowSelectCompetencyScorePhrase(blockIndex, compIndex, phraseCompIndex, i)"
+                                                    [disableOptionCentering]="true" 
+                                                    panelClass="dropdownPanel"
+                                                  >
+                                                    <mat-option [value]="null">{{ 'None' | translate }}</mat-option>
+                                                    <mat-option
+                                                      *ngFor="let score of getScoreConversionFormArray(blockIndex).value"
+                                                      [value]="score.phrase"
+                                                      >{{ score.phrase }}</mat-option
+                                                    >
+                                                  </mat-select>
+                                                  <mat-error
+                                                    *ngIf="
+                                                      element.get('pass_mark').hasError('required') &&
+                                                      (element.get('pass_mark').dirty || element.get('pass_mark').touched)
+                                                    "
+                                                    >{{ 'This field is required' | translate }}</mat-error
+                                                  >
+                                                </mat-form-field>
+                                              </td>
+                                            </ng-container>
+  
+                                            <ng-container matColumnDef="action">
+                                              <th mat-header-cell *matHeaderCellDef></th>
+                                              <td mat-cell *matCellDef="let element; let i = index" [formGroupName]="i">
+                                                <a
+                                                  color="primary"
+                                                  type="button"
+                                                  *ngIf="
+                                                    getCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex).length > 1
+                                                  "
+                                                  (click)="
+                                                    removeCompetencePhraseParameterFormArray(blockIndex, compIndex, phraseCompIndex, i)
+                                                  "
+                                                  style="cursor: pointer"
+                                                >
+                                                  <mat-icon class="red-button">remove_circle</mat-icon>
+                                                </a>
+                                              </td>
+                                            </ng-container>
+  
+                                            <tr mat-header-row *matHeaderRowDef="displayedParameterColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedParameterColumns"></tr>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+
+                                    
+                                  </div>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Add Evaluation Criteria button -->
+                        <div class="p-grid">
+                          <div class="p-col-12" style="padding: 0.5em 0em 0em 0em">
+                            <div class="p-col-align-center text-right no-padding no-margin">
+                              <button mat-raised-button color="accent" (click)="openCriteriaEvaluationDialog('add', blockIndex, compIndex)" [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created">
+                                <mat-icon class="mat-icon-default">add</mat-icon>
+                                {{ 'EVAL_BY_EXPERTISE.Evaluation Criteria' | translate }}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Evaluation Criteria Section -->
+                        <ng-container formArrayName="criteria_of_evaluation_softskill_templates_id">
+                          <mat-accordion [multi]="true" displayMode="flat">
+                            <ng-container *ngFor="let eva of getEvaluationFormArray(blockIndex, compIndex).controls; let evaIndex = index">
+                              <!-- <mat-expansion-panel
+                            [formGroupName]="compIndex"
+                            class="panel-spacing criteria-card"
+                          > -->
+                              <!-- <mat-expansion-panel-header class="panel-header-comp">
+                              <mat-panel-title> -->
+                              <div class="p-grid">
+                                <div class="p-col-12 inline-display" style="padding: 0px">
+                                  <button
+                                    mat-icon-button
+                                    color="warn"
+                                    (click)="deleteCriteriaEvaluation(blockIndex, compIndex, evaIndex)"
+                                    matTooltip="{{ 'Delete' | translate }}"
+                                    [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created"
+                                  >
+                                    <mat-icon svgIcon="close-circle-outline"></mat-icon>
+                                  </button>
+                                  <button
+                                    mat-icon-button
+                                    (click)="openCriteriaEvaluationDialog('edit', blockIndex, compIndex, evaIndex)"
+                                    matTooltip="{{ 'Edit' | translate }}"
+                                    [disabled]="dataBlock && dataBlock[blockIndex]?.is_test_created"
+                                  >
+                                    <mat-icon svgIcon="circle-edit-outline"></mat-icon>
+                                  </button>
+                                  <div class="class-card draggable inline-display" style="white-space: pre-wrap;">
+                                    <!-- <h4
+                                      style="margin: 0px" [innerHTML]="getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value + ' - ' + getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value">
+                                    </h4> -->
+                                    <h4
+                                      style="margin: 0px"
+                                      matTooltip="{{ getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value }} - {{
+                                        utilService.cleanHTML(getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value)
+                                      }}"
+                                    >
+                                      {{ getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('ref_id').value }} -
+                                      {{ utilService.cleanHTML(getEvaluationFormArray(blockIndex, compIndex).at(evaIndex).get('name').value) }}
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- </mat-panel-title>
+                            </mat-expansion-panel-header> -->
+                              <!-- </mat-expansion-panel> -->
+                            </ng-container>
+                          </mat-accordion>
+                        </ng-container>
+                      </mat-expansion-panel>
+                    </ng-container>
+                  </mat-accordion>
+                </ng-container>
+              </mat-expansion-panel>
+            </ng-container>
+          </mat-accordion>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<swal #exportSwal title="{{ 'Export Title' | translate }}" [showConfirmButton]="false">
+  <div *swalPartial class="">
+    <div class="">
+      {{ 'Export Text1' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text2' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text3' | translate }}
+    </div>
+    <div class="">
+      {{ 'Export Text4' | translate }}
+    </div>
+    <div class="">
+      <mat-form-field color="accent" class="full-wid">
+        <input matInput [(ngModel)]="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportData()">
+      {{ 'OK' | translate }}
+    </button>
+  </div>
+</swal>
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,227 @@
+[
+    {
+        "presidentJury": "Eko ADMIN",
+        "professionalJury": "Iwan MENTOR",
+        "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student": {
+            "address": {"line1": "Avenue 1", "line2": "", "postalCode": "45002", "city": "Paris", "country": "1"},
+            "firstName": "Test",
+            "lastName": "Nanda"
+            },
+        "substitutionJury": "certificateur katia",
+        "time": {"date": "2019-05-28", "start": "09:30", "finish": "10:30"}
+    },
+    {
+        "presidentJury": "Rina CORRECTOR",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "Nopaso MOONMOON",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "Avenue 77", "line2": "", "postalCode": "45000", "city": "Paris", "country": "1"},
+            "firstName": "Twenty Three",
+            "lastName": "Adam"
+            },
+        "substitutionJury": "John TOTO",
+        "time": {"date": "2019-05-28", "start": "10:30", "finish": "11:30"}
+    },
+    {
+        "presidentJury": "Roger PRESIDENT OF JURY",
+        "professionalJury": "Iwan MENTOR",
+        "academicJury": "Nopaso MOONMOON",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "aa", "line2": "1 rue de Paris", "postalCode": "75001", "city": "PARIS", "country": "1"},
+            "firstName": "Cc",
+            "lastName": "Testt"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-05-28", "start": "11:30", "finish": "12:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "aa", "line2": "3 rue de Paris", "postalCode": "75001", "city": "PARIS", "country": "1"},
+            "firstName": "Cc",
+            "lastName": "Testtt"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-05-28", "start": "12:30", "finish": "13:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+        "professionalJury": "Iwan MENTOR",
+        "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "Paris", "line2": "", "postalCode": "398098399", "city": "paris", "country": "1"},
+            "firstName": "Ruhut",
+            "lastName": "Sitompul"
+            },
+        "substitutionJury": "certificateur katia",
+        "time": {"date": "2019-05-28", "start": "09:30", "finish": "10:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+        "professionalJury": "Iwan MENTOR",
+        "academicJury": "John TOTODEUX",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "France", "line2": "France", "postalCode": "75000", "city": "Paris", "country": "1"},
+            "firstName": "Mauro",
+            "lastName": "Icardi"
+            },
+        "substitutionJury": "John TOTO",
+        "time": {"date": "2019-05-28", "start": "10:30", "finish": "11:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "France", "line2": "", "postalCode": "12345", "city": "Paris", "country": "1"},
+            "firstName": "Intan",
+            "lastName": "Pistud"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-05-28", "start": "11:30", "finish": "12:30"}
+    },
+    {
+        "presidentJury": "Willy PRESIDENT OF JURY",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "John TOTODEUX",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-CertiTest08", "longName": "Z-CertiTest08", "_id": "5b7657400006052c18abbb10"},
+        "student":{
+            "address": {"line1": "France", "line2": "", "postalCode": "12345", "city": "Paris", "country": "1"},
+            "firstName": "Dinda",
+            "lastName": "Pistud"
+            },
+        "substitutionJury": "Edo CORRECTOR",
+        "time": {"date": "2019-05-28", "start": "12:30", "finish": "13:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+      "professionalJury": "John TOTO",
+      "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "Avenue 15", "line2": "", "postalCode": "45000", "city": "Paris", "country": "1"},
+            "firstName": "Prananda",
+            "lastName": "Adam"
+            },
+        "substitutionJury": "Edo CORRECTOR",
+        "time": {"date": "2019-08-09", "start": "09:30", "finish": "10:30"}
+    },
+    {
+        "presidentJury": "Willy PRESIDENT OF JURY",
+      "professionalJury": "Neni MENTOR",
+      "academicJury": "Nopaso MOONMOON",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "test2", "line2": "", "postalCode": "55555", "city": "Test", "country": "1"},
+            "firstName": "Katia",
+            "lastName": "Legendre"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-08-09", "start": "10:30", "finish": "11:30"}
+    },
+    {
+        "presidentJury": "Roger PRESIDENT OF JURY",
+      "professionalJury": "Iwan MENTOR",
+      "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "dsdfg", "line2": "sdfgsdfg", "postalCode": "12345", "city": "asdfasf", "country": "1"},
+            "firstName": "Chris",
+            "lastName": "Toto"
+            },
+        "substitutionJury": "Rina CORRECTOR",
+        "time": {"date": "2019-08-09", "start": "11:30", "finish": "12:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+        "professionalJury": "Iwan MENTOR",
+        "academicJury": "Nopaso MOONMOON",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "sdgsdcfg", "line2": "sdfgsdg", "postalCode": "12345", "city": "sdfs", "country": "1"},
+            "firstName": "Jean",
+            "lastName": "Toto"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-08-09", "start": "12:30", "finish": "13:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+      "professionalJury": "Jules Félix",
+      "academicJury": "Chris WCOMPMENTOR",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "Denpasar", "line2": "sdf", "postalCode": "12345", "city": "asdfa", "country": "1"},
+            "firstName": "Jean",
+            "lastName": "Titasss"
+            },
+        "substitutionJury": "Rina CORRECTOR",
+        "time": {"date": "2019-08-09", "start": "13:30", "finish": "14:30"}
+    },
+    {
+        "presidentJury": "Eko ADMIN",
+        "professionalJury": "John TOTO",
+        "academicJury": "Nopaso MOONMOON",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "sdfasdfa", "line2": "sdf", "postalCode": "75202", "city": "sdfsdasd", "country": "1"},
+            "firstName": "Asdfadf",
+            "lastName": "Hiiasdfa"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-08-09", "start": "14:30", "finish": "15:30"}
+    },
+    {
+        "presidentJury": "Roger PRESIDENT OF JURY",
+      "professionalJury": "Jules Félix",
+      "academicJury": "John TOTO",
+        "retakeCenter": "",
+        "rncpTitle": {"shortName": "S-Z-MO-08", "longName": "Z-MO-08", "_id": "5b7657400006052c18abbb11", "id": "5b7657400006052c18abbb11"},
+        "school": {"shortName": "Z-EcoleTest08", "longName": "Z-EcoleTest08", "_id": "5b7657910006052c18abbb17"},
+        "student":{
+            "address": {"line1": "asdfasdf", "line2": "asdfasdf", "postalCode": "75222", "city": "asdfasdf", "country": "1"},
+            "firstName": "Chris",
+            "lastName": "Koasdkfasdf"
+            },
+        "substitutionJury": "Willy TESTING",
+        "time": {"date": "2019-08-09", "start": "15:30", "finish": "16:30"}
+    }
+]

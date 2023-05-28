@@ -1,0 +1,147 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="w-30 no-padding">
+        <mat-icon mat-icon-button svgIcon="transfer-right"></mat-icon>
+      </div>
+      <div class="p-col-10 no-padding">
+        <h3 class="dialogTitle">{{ 'TRANSFER_RESPONSIBILITY_045.transfer_responsibility' | translate }}</h3>
+      </div>
+      <div class="w-65 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content dialog-body" [formGroup]="transferResponsibilityForm">
+  <div class="p-grid">
+    <div class="p-col-12 no-padding">
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="schoolAuto"
+          [formControl]="schoolFilter"
+          placeholder="{{ 'TRANSFER_RESPONSIBILITY_045.school' | translate }}"
+        />
+        <mat-autocomplete #schoolAuto="matAutocomplete">
+          <!-- <mat-option value="" (click)="setSchool(null)">{{ 'All' | translate }}</mat-option> -->
+          <mat-option *ngFor="let school of filteredSchoolList | async" [value]="school.short_name" (click)="setSchool(school._id)">
+            {{ school.short_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-12 no-padding">
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="titleAuto"
+          [formControl]="titleFilter"
+          placeholder="{{ 'TRANSFER_RESPONSIBILITY_045.title' | translate }}"
+          [readonly]="!transferResponsibilityForm.get('schoolId').value"
+        />
+        <mat-autocomplete #titleAuto="matAutocomplete">
+          <!-- <mat-option value="" (click)="setSchool(null)">{{ 'All' | translate }}</mat-option> -->
+          <mat-option *ngFor="let title of filteredTitleList | async" [value]="title.short_name" (click)="setTitle(title._id)">
+            {{ title.short_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-12 no-padding">
+      <mat-form-field>
+        <mat-select
+          required
+          [disabled]="!transferResponsibilityForm.get('schoolId').value"
+          formControlName="userTypeId"
+          [placeholder]="'TRANSFER_RESPONSIBILITY_045.user type' | translate"
+        >
+          <mat-option *ngFor="let usertype of userTypeFilterList" [value]="usertype._id" (click)="setUserType(usertype)">
+            {{ 'TRANSFER_RESPONSIBILITY_045.usertype_dropdown.' + usertype.transfer_for | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-12 no-padding" [ngClass]="{'hide-field': !(transferResponsibilityForm.get('transferFor').value && transferResponsibilityForm.get('transferFor').value === 'acad_dir')}">
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="classAuto"
+          [formControl]="classFilter"
+          [readonly]="!(transferResponsibilityForm.get('transferFor').value && transferResponsibilityForm.get('transferFor').value === 'acad_dir')"
+          [required]="transferResponsibilityForm.get('transferFor').value === 'acad_dir'"
+          placeholder="{{ 'TRANSFER_RESPONSIBILITY_045.class' | translate }}"
+        />
+        <mat-autocomplete #classAuto="matAutocomplete">
+          <!-- <mat-option value="" (click)="setClass(null)">{{ 'All' | translate }}</mat-option> -->
+          <mat-option *ngFor="let class of filteredClassList | async" [value]="class.name" (click)="setClass(class._id)">
+            {{ class.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-5 no-padding">
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="userFromAuto"
+          [formControl]="userFromFilter"
+          [readonly]="!(userFromFilterList && userFromFilterList.length) || !transferResponsibilityForm.get('userTypeId').value"
+          placeholder="{{ 'TRANSFER_RESPONSIBILITY_045.from' | translate }}"
+        />
+        <mat-autocomplete #userFromAuto="matAutocomplete">
+          <!-- <mat-option value="" (click)="setUserFrom(null)">{{ 'All' | translate }}</mat-option> -->
+          <mat-option *ngFor="let userFrom of filteredUserFromList | async" [value]="userFrom.last_name" (click)="setUserFrom(userFrom._id)">
+            {{ userFrom?.civility | translate }} {{ (userFrom?.last_name | uppercase) + ' ' + userFrom?.first_name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div class="p-col-2 no-padding icon-center">
+      <mat-icon mat-icon-button svgIcon="transfer-right"></mat-icon>
+    </div>
+
+    <div class="p-col-5 no-padding">
+      <mat-form-field>
+        <input
+          matInput
+          class="form-field"
+          [matAutocomplete]="userToAuto"
+          [formControl]="userToFilter"
+          [readonly]="!(userToFilterList && userToFilterList.length) || !transferResponsibilityForm.get('transfer_from').value"
+          placeholder="{{ 'TRANSFER_RESPONSIBILITY_045.to' | translate }}"
+        />
+        <mat-autocomplete #userToAuto="matAutocomplete">
+          <!-- <mat-option value="" (click)="setUserFrom(null)">{{ 'All' | translate }}</mat-option> -->
+          <mat-option *ngFor="let userTo of filteredUserToList | async" [value]="userTo.last_name" (click)="setUserTo(userTo._id)">
+            {{ userTo?.civility | translate }} {{ (userTo?.last_name | uppercase) + ' ' + userTo?.first_name }}
+            
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="accent" (click)="transferStudent()" [disabled]="transferResponsibilityForm.invalid">
+    {{ 'CONNECT' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="warn" class="mr-0" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+</div>

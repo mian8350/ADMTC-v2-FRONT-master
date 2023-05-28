@@ -1,0 +1,67 @@
+<div
+  mat-dialog-title
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  cdkDragHandle
+  style="padding-bottom: 10px; border-bottom: 1px solid black"
+>
+  <mat-icon>receipt</mat-icon>
+  {{ 'Upload Questions' | translate }}
+  <mat-icon (click)="closeDialog()" class="float-right cursor-pointer">clear</mat-icon>
+</div>
+<!-- <mat-divider></mat-divider> -->
+
+<div mat-dialog-content class="mrgn-t-lg" [formGroup]="uploadQuestionForm">
+  <div class="field-row">
+    <div>
+      <p>{{ 'Select bloc to upload question' | translate }}:</p>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-select formControlName="selectedBloc">
+          <mat-option *ngFor="let bloc of blocList" [value]="bloc._id" (click)="onSelectBloc(bloc)">
+            {{ bloc.ref_id }} {{ bloc.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div>
+      <p>{{ 'Upload Questions' | translate }}:</p>
+    </div>
+    <div>
+      <input #fileUploadDoc type="file" accept=".pdf" class="hidden" (change)="addFile($event)" />
+      <input #fileUploadImg type="file" accept="image/*" class="hidden" (change)="addFile($event)" />
+      <input #fileUploadVid type="file" accept="video/*" class="hidden" (change)="addFile($event)" />
+      <button mat-button mat-raised-button color="primary" (click)="openUploadWindow()" style="font-size: 12px !important">
+        <mat-icon svgIcon="file-upload"></mat-icon> {{ 'Upload Questions' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="p-gird" *ngIf="selectedFile">
+    <div class="p-col-12 pad-x-none">
+      <mat-card>
+        <div class="uploaded-file-wrapper"><mat-icon class="icon">insert_drive_file</mat-icon> {{ selectedFile?.name }}</div>
+      </mat-card>
+    </div>
+  </div>
+
+  <br />
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-actions class="justify-content-end">
+    <button mat-button mat-raised-button color="warn" (click)="closeDialog()">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="uploadQuestionForm.invalid || !selectedFile">
+      {{ 'JURY_ORGANIZATION.ABSENT_JUSTIFY.Submit' | translate }}
+    </button>
+  </div>
+
+  <div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+</div>

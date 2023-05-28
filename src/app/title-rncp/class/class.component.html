@@ -1,0 +1,298 @@
+<div class="p-grid title-head">
+  <div class="p-col-12 text-left">
+    <mat-icon aria-hidden="false" class="icon-left">
+      <svg class="icon-title" viewBox="0 0 24 24">
+        <path
+          fill="currentColor"
+          d="M22,5V7H17L13.53,12H16V14H14.46L18.17,22H15.97L15.04,20H6.38L5.35,22H3.1L7.23,14H7C6.55,14 6.17,13.7 6.04,13.3L2.87,3.84L3.82,3.5C4.34,3.34 4.91,3.63 5.08,4.15L7.72,12H12.1L15.57,7H12V5H22M9.5,14L7.42,18H14.11L12.26,14H9.5Z"
+        />
+      </svg>
+    </mat-icon>
+    <h3>{{ 'List of Class' | translate }}</h3>
+  </div>
+</div>
+
+<div class="p-grid">
+  <div class="p-col">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortDisableClear
+      class="mat-elevation-z8"
+      (matSortChange)="sortData($event)"
+    >
+      <!-- button on top of table -->
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-right reset-header-column" style="padding: 0">
+          <button
+            mat-raised-button
+            color="accent"
+            class="float-right"
+            [disabled]="isWaitingForResponse"
+            (click)="onAddClass()"
+            matTooltip="{{ 'ADDCLASS' | translate }}"
+            matTooltipPosition="above"
+          >
+            <mat-icon class="mat-icon-default">add</mat-icon>
+            {{ 'ADDCLASS' | translate }}
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="float-right"
+            (click)="resetFilter()"
+            matTooltip="{{ 'RESET' | translate }}"
+            matTooltipPosition="above"
+          >
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button
+            *ngIf="isTutorialAdded"
+            mat-button
+            style="
+              line-height: 16px;
+              margin: 10px !important;
+              padding: 0px !important;
+              width: 16px !important;
+              min-width: 16px;
+              background: #424242 !important;
+            "
+            matTooltip="{{ 'Tutorial for this module' | translate }}"
+            (click)="toggleTutorial(tutorialData)"
+          >
+            <mat-icon style="font-size: 16px; width: 16px; top: -4px; position: relative; color: white">help</mat-icon>
+          </button>
+        </th>
+      </ng-container>
+
+      <!-- table filter section -->
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never" style="margin-top: 0.6em">
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="descriptionFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <!-- <mat-form-field floatLabel="never" style="margin-top: 0.6em;">
+            <input matInput class="form-field" [formControl]="descriptionFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field> -->
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="jobFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <mat-select [formControl]="jobFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option [value]="record" *ngFor="let record of jobFilterList">{{
+                (record | translate) === 'AllM' ? 'Tous' : (record | translate)
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="problematicFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <mat-select [formControl]="problematicFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option [value]="record" *ngFor="let record of problematicFilterList">{{
+                (record | translate) === 'AllM' ? 'Tous' : (record | translate)
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="mentorFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <mat-select [formControl]="mentorFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option [value]="record" *ngFor="let record of mentorFilterList">{{
+                (record | translate) === 'AllM' ? 'Tous' : (record | translate)
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="headerFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <mat-select [formControl]="headerFilter" [disableOptionCentering]="true" panelClass="filterPanel">
+              <mat-option [value]="header" *ngFor="let header of headerFilterList">
+                {{ (header | translate) === 'AllM' ? 'Tous' : (header | translate) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- table header and content -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="name" matTooltip="{{ 'Class Name' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Class Name' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.name }}" matTooltipPosition="above">{{ element?.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="text-center"
+          mat-sort-header="description"
+          matTooltip="{{ 'Class Description' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Class Description' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.description }}" matTooltipPosition="above">
+          {{ element?.description }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="allow_job_description">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="text-center"
+          mat-sort-header="allow_job_description"
+          matTooltip="{{ 'Job Description' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Job Description' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-icon
+            [matTooltip]="element?.allow_job_description === 'active' ? ('active' | translate) : ('non active' | translate)"
+            matTooltipPosition="above"
+            [ngClass]="{
+              'green-icon': element?.allow_job_description === 'active',
+              'red-icon': element?.allow_job_description === 'not active'
+            }"
+          >
+            check_circle
+          </mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="allow_problematic">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="text-center"
+          mat-sort-header="allow_problematic"
+          matTooltip="{{ 'Problematic' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Problematic' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-icon
+            [matTooltip]="element?.allow_problematic === 'active' ? ('active' | translate) : ('non active' | translate)"
+            matTooltipPosition="above"
+            [ngClass]="{
+              'green-icon': element?.allow_problematic === 'active',
+              'red-icon': element?.allow_problematic === 'not active'
+            }"
+          >
+            check_circle
+          </mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="allow_mentor_evaluation">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="text-center"
+          mat-sort-header="allow_mentor_evaluation"
+          matTooltip="{{ 'Mentor Evaluation' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Mentor Evaluation' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-icon
+            *ngIf="element?.type_evaluation && element?.type_evaluation === 'score'"
+            [matTooltip]="element?.allow_mentor_evaluation === 'active' ? ('active' | translate) : ('non active' | translate)"
+            matTooltipPosition="above"
+            [ngClass]="{
+              'green-icon': element?.allow_mentor_evaluation === 'active',
+              'red-icon': element?.allow_mentor_evaluation === 'not active'
+            }"
+          >
+            check_circle
+          </mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="header">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="text-center"
+          mat-sort-header="header"
+          matTooltip="{{ 'Header' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>{{ 'Header' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-slide-toggle [(ngModel)]="element.is_class_header" (change)="setHeaderToggle(element)"></mat-slide-toggle>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Edit' | translate }}"
+            matTooltipPosition="above"
+            (click)="passClass.emit(element)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Delete' | translate }}"
+            matTooltipPosition="above"
+            (click)="deleteClass(element)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- loading spinner -->
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="6" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <!-- table setting -->
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records">
+      {{ 'No Class created yet, To create one please click on Add Class button.' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+        [hidePageSize]="true"
+        [pageSizeOptions]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

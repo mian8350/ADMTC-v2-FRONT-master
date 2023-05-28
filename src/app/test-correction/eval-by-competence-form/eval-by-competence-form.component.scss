@@ -1,0 +1,272 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-refId {
+  // width: 5%;
+  font-size: 12px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+}
+.mat-column-section {
+  // width: 25%;
+  padding: 5px;
+  color: white;
+}
+.mat-column-directives {
+  // width: 20%;
+  padding: 5px;
+  color: white;
+}
+.mat-column-isEvaluated {
+  // width: 5%;
+  text-align: center !important;
+  color: white;
+}
+.mat-column-markNumber {
+  // width: 7%;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 5px 0px 5px !important;
+    width: 100%;
+  }
+}
+.mat-column-markLetter {
+  // width: 7%;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 5px 0px 5px !important;
+    width: 100%;
+  }
+}
+.mat-column-markPhrase {
+  // width: 12%;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 5px 0px 5px !important;
+    width: 100%;
+  }
+}
+.mat-column-comment {
+  // width: 20%;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  color: white;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.job-description-section {
+  background-color: #212121;
+  color: white;
+  font-size: 14px;
+  border-bottom: 1px solid #545454;
+  // position: sticky;
+  // height: 70px;
+  // left: 0;
+  // overflow: auto;
+}
+
+.job-description-title {
+  background-color: #212121;
+  color: #ffd740;
+  text-align: center;
+  border-top: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+  // position: sticky;
+  // height: 20px;
+  left: 0;
+}
+
+.yellow-line-separator {
+  border-bottom: 2px solid #ffd740;
+}
+
+.padding-left-large {
+  padding-left: 3rem;
+}
+
+:host ::ng-deep table.studentForm {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+      padding-right: 0.3rem !important;
+    }
+    td {
+      max-width: 0;
+      color: white;
+    }
+
+    th {
+      vertical-align: middle;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+  }
+
+  thead tr {
+    height: 30px !important;
+    background: $light-black !important;
+    &:nth-child(2),
+    &:nth-child(3) {
+      th {
+        box-shadow: 1px 1px 0px 1px #545454;
+        color: $white;
+      }
+    }
+    border: none !important;
+  }
+}
+
+.footer-row {
+  color: white;
+  padding-top: 0px !important;
+}
+
+.footer-height {
+  height: 28px;
+}
+
+.mat-icon-style {
+  color: rgb(20, 117, 11);
+  width: 24px;
+  height: 24px;
+}
+
+.m-tb-10 {
+  margin: 10px 0px 0px 0px;
+}
+
+.no-pad {
+  padding: 0px;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+
+.only-pad-top-10 {
+  padding: 10px 0px 0px 0px;
+}
+
+::ng-deep svg.ck.ck-icon.ck-button__icon {
+  width: 14px;
+}
+
+:host ::ng-deep .ck.ck-toolbar {
+  zoom: 0.8;
+}
+
+.underline {
+  text-decoration: underline;
+}
+.pad-rile-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+textarea.mat-input-element.cdk-textarea-autosize {
+  box-sizing: content-box;
+  overflow: hidden;
+  resize: none;
+}
+
+// ::-webkit-scrollbar-track {
+//   background-color: #607d8b;
+//   border: 2px solid #555555;
+// }
+p {
+  margin-bottom: 0 !important;
+  margin-top: 0;
+}
+:host ::ng-deep .mat-form-field-infix {
+  padding: 0.5em 0 !important;
+  border-top: 0.84375em solid transparent;
+  width: 52px !important;
+}
+
+// .score-text {
+//   text-align: right;
+//   padding-right: 2px;
+// }
+.section-height {
+  min-height: 0px;
+  height: calc(66vh - 127px);
+  overflow: auto;
+}
+
+.height-non-elimination {
+  min-height: 0px;
+  height: calc(75vh - 127px);
+  overflow: auto;
+}
+
+.comment-for-each-section {
+  padding-top: 1rem;
+  font-size: 14px;
+}
+
+.mic-style:hover {
+  color: red;
+}
+
+:host::ng-deep.ckeditor {
+  .ck-content {
+    min-height: 120px !important;
+  }
+}
+
+.btn-mic {
+  position: relative;
+  top: -115px;
+  float: right;
+  color: black;
+}
+
+.btn-action-popup {
+  float: right;
+  color: black;
+  margin-top: 5px;
+}
+
+.comment {
+  display: inline-block;
+  width: 100%;
+}
+
+:host::ng-deep.ckeditor ckeditor.ng-dirty.ng-touched.ng-invalid {
+  .ck-content {
+    border: 3px solid red;
+  }
+}
+
+::ng-deep .ck-editor__editable_inline {
+    padding-right: 35px !important;
+    max-height: 120px !important;
+}
+
+.comment-empty {
+  width: 100%;
+  margin: 20px 0;
+  color: rgba(255, 70, 70, 0.845);
+  font-weight: 800;
+}

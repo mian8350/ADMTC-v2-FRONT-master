@@ -1,0 +1,75 @@
+.mat-tab-group {
+  margin-top: 20px;
+}
+
+:host::ng-deep.mat-tab-group.mailbox{
+  margin-top: 1rem;
+  .mat-tab-header {
+    font-size: 0.9em;
+  }
+  .mat-tab-label {
+    padding: 0 !important;
+    h4 {
+      font-size: 13px;
+      margin: 0;
+    }
+  }
+  .mat-tab-label-active {
+    box-shadow: unset;
+    border: unset;
+  }
+  .mat-card {
+    margin-top: 5%;
+  }
+  .fa {
+    margin-right: 15px;
+  }
+  .inbox-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid #009846;
+  }
+  .cc-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid white;
+  }
+  .sent-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid #846573;
+  }
+  .important-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid #e51a4b;
+  }
+  .draft-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid #ffed00;
+  }
+  .trash-tab {
+    width: 150px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 8px solid #d9dada;
+  }
+}

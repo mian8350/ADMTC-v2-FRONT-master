@@ -1,0 +1,579 @@
+<div class="gene-registerV2" [formGroup]="testCorrectionForm" style="padding-top: 3.8rem !important; background-image: none !important">
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="column" fxFlex="100" fxFlex.xs="97" fxFlex.sm="80" fxFlex.md="95" fxFlex.lg="97" fxFlex.xl="60">
+      <div
+        fxLayout="row wrap"
+        fxLayoutAlign="center stretch"
+        class="height-full pad-t-xl pad-b-xl form-wrap-row set-resp-space"
+        fxLayoutGap.gt-md="15px"
+      >
+        <div fxLayout="column" fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="24" fxFlex.lg="24" fxFlex.xl="24" fxHide.lt-md>
+          <div class="height-full full-wid">
+            <div fxLayout="column" class="height-full full-wid side-card" style="place-content: normal !important">
+              <div class="sec-photo">
+                <img
+                  [src]="
+                    studentSelectDetail?.photo_s3_path
+                      ? serverimgPath + studentSelectDetail?.photo_s3_path
+                      : studentSelectDetail?.photo
+                      ? serverimgPath + studentSelectDetail?.photo
+                      : studentSelectDetail?.civility === 'MR'
+                      ? maleStudentIcon
+                      : femaleStudentIcon
+                  "
+                  class="student-details-img"
+                />
+              </div>
+              <div class="sec-title">
+                <h5 style="font-size: 22px">
+                  {{ studentSelectDetail?.civility | translate }} {{ studentSelectDetail?.first_name }}
+                  {{ studentSelectDetail?.last_name }}
+                </h5>
+                <span style="font-size: 17px">{{ studentSelectDetail?.job_description_id?.job_name }}</span>
+              </div>
+              <div
+                *ngIf="studentSelectDetail?.companies"
+                class="company"
+                style="text-align: center; margin-top: 24px; font-size: 16px"
+              >
+                <div style="width: 100%; display: block">
+                  {{ 'Company' | translate }} : {{ studentSelectDetail?.companies?.company?.company_name }}
+                </div>
+                <div style="width: 100%; display: block">
+                  {{ 'Mentor' | translate }} :
+                  {{ studentSelectDetail?.companies?.mentor?.civility | translate }}
+                  {{ studentSelectDetail?.companies?.mentor?.first_name }}
+                  {{ studentSelectDetail?.companies?.mentor?.last_name }}
+                </div>
+              </div>
+              <div *ngIf="studentSelectDetail?.school?.logo" class="sec-school-logo">
+                <img [src]="serverimgPath + studentSelectDetail?.school?.logo" class="school-details-img" />
+              </div>
+              <!-- <ngx-slick-carousel [config]="slideConfig" class="carousel full-wid height-full h-550" #slickModal="slick-carousel">
+                <div ngxSlickItem class="height-full full-wid h-550">
+                  <div class="session-slider overlay-wrap height-full full-wid h-550">
+                    <div class="slider-bg-img full-wid" style="background-color: #eee"></div>
+                    <div class="overlay-content" fxLayoutAlign="start end">
+                      <div
+                        class="content-wrap"
+                        style="
+                          color: rgb(72, 72, 72);
+                          text-align: center;
+                          margin: auto;
+                          vertical-align: middle;
+                          margin-top: 0px;
+                          background: unset;
+                        "
+                      >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ngx-slick-carousel> -->
+            </div>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="74" fxFlex.lg="74" fxFlex.xl="74">
+          <mat-card
+            *ngIf="testData && testData?.correction_grid"
+            class="gene-registerV2-wrap"
+            [style.min-height.px]="getAutomaticHeight()"
+            style="border: 1px solid #eeeeee; padding: 20px 0px; margin-bottom: 50px"
+          >
+            <div formGroupName="correction_grid" *ngIf="!finishMark">
+              <div formGroupName="correction">
+                <div class="row title-registration">
+                  {{ 'Etablissement' | translate }} : {{ schoolData?.short_name }} -- {{ 'Nom' | translate }} :
+                  {{ studentSelectDetail?.last_name }}
+                  {{ studentSelectDetail?.first_name }}
+                </div>
+                <div class="row title-registration">
+                  <b>{{ 'Evaluation Grid' | translate }} {{ testData?.name }}</b>
+                </div>
+                <div class="row title-registration">
+                  {{ studentSelectDetail?.rncp_title?.short_name }} -
+                  {{ studentSelectDetail?.rncp_title?.long_name }}
+                </div>
+                <div class="row title-registration line-3">
+                  {{ formatHeader(utilService.cleanHTML(testData?.correction_grid?.header?.text)) }}
+                </div>
+                <ms-language-drop-down></ms-language-drop-down>
+                <div formArrayName="sections_evalskill">
+                  <mat-stepper
+                    [linear]="linear"
+                    (click)="selectionValidation($event)"
+                    (selectionChange)="selectionChange($event)"
+                    #stepperForm
+                    [selectedIndex]="selectedIndex"
+                  >
+                    <mat-step
+                      *ngIf="testData?.correction_grid?.header?.directive_long"
+                      [state]="stateTest(100, 0)"
+                      disableRipple="true"
+                      [label]="'Directive long' | translate"
+                      [stepControl]="directiveFormGroup"
+                    >
+                      <fieldset style="margin-top: 20px !important">
+                        <legend>
+                          {{ 'Directive long' | translate }}
+                          <div class="btn-conditions" style="padding-bottom: 10px">
+                            <button
+                              color="accent"
+                              mat-raised-button
+                              class="btn-save"
+                              (click)="openPopUpValidation('stepValidation')"
+                              matTooltip="{{ 'Start Evaluation' | translate }} "
+                            >
+                              <mat-icon class="mat-icon-default">send</mat-icon>
+                              {{ 'Start Evaluation' | translate }}
+                            </button>
+                          </div>
+                        </legend>
+
+                        <ms-first-correction-eval-pro [longDirective]="testData?.correction_grid?.header?.directive_long">
+                        </ms-first-correction-eval-pro>
+                      </fieldset>
+                    </mat-step>
+                    <ng-container
+                      *ngFor="let field of getSectionEvalskillForm()?.controls; let ins = index; let isFirstSub = first; let isLast = last"
+                    >
+                      <mat-step
+                        [state]="stateTest(0, 100 + ins)"
+                        disableRipple="true"
+                        [stepControl]="validateStep(100 + ins)"
+                        [label]="generateHeader(testData?.correction_grid?.correction?.sections_evalskill[ins])"
+                        [ngClass]="{ hide: !field.get('is_selected').value }"
+                      >
+                        <fieldset style="margin-top: 20px !important">
+                          <legend>
+                            {{ testData?.correction_grid?.correction?.sections_evalskill[ins]?.ref_id }}
+                            {{ utilService.cleanHTML(testData?.correction_grid?.correction?.sections_evalskill[ins]?.title) | translate }}
+                          </legend>
+                          <div class="col-lg-12" (focusout)="expandChange(ins)">
+                            <ng-container
+                              *ngIf="
+                                getJobDescData(testData?.correction_grid?.correction?.sections_evalskill[ins]) &&
+                                getJobDescData(testData?.correction_grid?.correction?.sections_evalskill[ins]).length
+                              "
+                            >
+                              <mat-accordion class="example-headers-align" multi>
+                                <mat-expansion-panel
+                                  (click)="expandOpened(ins)"
+                                  [expanded]="toggleExpand[ins]"
+                                  (opened)="(toggleExpand[ins])"
+                                  (closed)="(!toggleExpand[ins])"
+                                >
+                                  <mat-expansion-panel-header>
+                                    <mat-panel-title> {{ 'The missions from Job Descriptions' | translate }} </mat-panel-title>
+                                  </mat-expansion-panel-header>
+                                  <table border="1" style="font-size: 12px !important; width: 100%">
+                                    <thead>
+                                      <tr style="background-color: rgb(174, 174, 174)">
+                                        <th style="text-align: center">Mission</th>
+                                        <th style="text-align: center">Activité</th>
+                                        <th style="text-align: center">Niveau d'autonomie</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <ng-container
+                                        *ngFor="
+                                          let fieldMission of getJobDescData(
+                                            testData?.correction_grid?.correction?.sections_evalskill[ins]
+                                          );
+                                          let insMission = index;
+                                          let isFirstMission = first
+                                        "
+                                      >
+                                        <tr>
+                                          <td style="width: 210px; text-align: center">{{ fieldMission?.mission }}</td>
+                                          <td style="width: 345px; padding-left: 5px">{{ fieldMission?.activity }}</td>
+                                          <td style="width: 125px; text-align: center">
+                                            {{ fieldMission?.autonomy_level | translate }}
+                                          </td>
+                                        </tr>
+                                      </ng-container>
+                                    </tbody>
+                                  </table>
+                                </mat-expansion-panel>
+                              </mat-accordion>
+                            </ng-container>
+                          </div>
+                          <div class="col-lg-12" formGroupName="{{ ins }}">
+                            <ng-container formArrayName="sub_sections">
+                              <ng-container
+                                *ngFor="
+                                  let fieldCriteria of getSubSectionEvalskillForm(ins).controls;
+                                  let insCriteria = index;
+                                  let isFirstCriteria = first
+                                "
+                                [formGroupName]="insCriteria"
+                              >
+                                <div
+                                  class="col-lg-3 cards-fixed cardsresponsive"
+                                  [ngClass]="{
+                                    cardsresponsive:
+                                      testData?.correction_grid?.correction?.sections_evalskill[ins]?.sub_sections[insCriteria]?.title
+                                        .length >= 200,
+                                    hide: !fieldCriteria.get('is_selected').value
+                                  }"
+                                >
+                                  <div
+                                    class="cards-eval"
+                                    [ngClass]="{
+                                      touchs:
+                                        getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('rating').value !== null ||
+                                        !getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value
+                                    }"
+                                  >
+                                    <div class="title">
+                                      <div class="ref">
+                                        {{
+                                          testData?.correction_grid?.correction?.sections_evalskill[ins]?.sub_sections[insCriteria]?.ref_id
+                                        }}
+                                      </div>
+                                      <div>
+                                        <mat-icon
+                                          *ngIf="
+                                            getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('rating').value === null &&
+                                            getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value
+                                          "
+                                          class="alert-icon"
+                                          matTooltip="{{ 'Tooltip.Not Corrected' | translate }}"
+                                        >
+                                          warning_amber</mat-icon
+                                        ><span
+                                          *ngIf="
+                                            getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('rating').value !== null ||
+                                            !getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value
+                                          "
+                                          class="icon-true"
+                                          matTooltip="{{ 'Tooltip.Corrected' | translate }}"
+                                          >&#10004;
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div class="desc">
+                                      {{
+                                        utilService.cleanHTML(
+                                          testData?.correction_grid?.correction?.sections_evalskill[ins]?.sub_sections[insCriteria]?.title
+                                        )
+                                      }}
+                                    </div>
+                                    <div
+                                      class="note"
+                                      *ngIf="getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value"
+                                    >
+                                      {{
+                                        getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('rating').value
+                                          ? getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('rating').value
+                                          : 0
+                                      }}
+                                    </div>
+                                    <div
+                                      class="form"
+                                      *ngIf="getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value"
+                                    >
+                                      0
+                                      <mat-slider
+                                        class="example-margin"
+                                        [max]="
+                                          ((testData?.correction_grid?.correction?.sections_evalskill)[ins]?.sub_sections)[insCriteria]
+                                            ?.maximum_rating
+                                            ? ((testData?.correction_grid?.correction?.sections_evalskill)[ins]?.sub_sections)[insCriteria]
+                                                ?.maximum_rating
+                                            : 5
+                                        "
+                                        min="0"
+                                        step="0.5"
+                                        (focusout)="saveTestCorrection()"
+                                        thumbLabel="true"
+                                        formControlName="rating"
+                                        [tickInterval]="getSliderTickInterval()"
+                                        aria-labelledby="example-name-label"
+                                        [required]="
+                                          getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value &&
+                                          getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_selected').value
+                                        "
+                                      >
+                                      </mat-slider
+                                      >{{
+                                        ((testData?.correction_grid?.correction?.sections_evalskill)[ins]?.sub_sections)[insCriteria]
+                                          ?.maximum_rating
+                                          ? ((testData?.correction_grid?.correction?.sections_evalskill)[ins]?.sub_sections)[insCriteria]
+                                              ?.maximum_rating
+                                          : 5
+                                      }}
+                                    </div>
+                                    <div
+                                      *ngIf="
+                                        !getSubSectionEvalskillForm(ins).get(insCriteria.toString()).get('is_criteria_evaluated').value
+                                      "
+                                      style="height: 65px"
+                                    ></div>
+                                    <div class="evaluated">
+                                      <mat-checkbox
+                                        formControlName="is_criteria_evaluated_dummy"
+                                        [checked]="
+                                          !testCorrectionForm.value.correction_grid.correction.sections_evalskill[ins].sub_sections[
+                                            insCriteria
+                                          ]?.is_criteria_evaluated
+                                        "
+                                        (change)="
+                                          getSubSectionEvalskillForm(ins)
+                                            .get(insCriteria.toString())
+                                            .get('is_criteria_evaluated')
+                                            .setValue(!$event.checked);
+                                          saveTestCorrection();
+                                          checkEvaluation(ins, insCriteria)
+                                        "
+                                        ><span
+                                          style="font-weight: 300"
+                                          [ngClass]="{
+                                            touchsEvaluated: !getSubSectionEvalskillForm(ins)
+                                              .get(insCriteria.toString())
+                                              .get('is_criteria_evaluated').value
+                                          }"
+                                          >{{ 'Criteria not evaluated' | translate }}</span
+                                        ></mat-checkbox
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                          <div class="col-lg-12" formGroupName="{{ ins }}" style="margin-top: 10px">
+                            <div class="ckeditor" (focusout)="saveTestCorrection()">
+                              <ckeditor
+                                #editor
+                                [editor]="Editor"
+                                formControlName="comment"
+                                (ready)="onReady($event)"
+                                [config]="config"
+                              ></ckeditor>
+                              <button mat-icon-button (click)="recordNote(ins)" class="margin-right-button btn-mic">
+                                <mat-icon class="mic-style" style="font-size: 23px">keyboard_voice</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="btn-conditions" style="padding-bottom: 10px">
+                              <button mat-button mat-raised-button matStepperPrevious color="primary" class="btn-save">
+                                <mat-icon style="font-size: 24px">reply</mat-icon> {{ 'DASHBOARD.GOBACK' | translate }}
+                              </button>
+                              <button
+                                color="accent"
+                                (click)="continueButton(100 + ins)"
+                                mat-raised-button
+                                class="btn-save"
+                                [disabled]="buttonFormValidation(100 + ins)"
+                                matTooltip="{{ 'CARDDETAIL.Continue' | translate }} "
+                              >
+                                <mat-icon class="mat-icon-default">save</mat-icon>
+                                {{ 'CARDDETAIL.Continue' | translate }}
+                              </button>
+                            </div>
+                          </div>
+                        </fieldset>
+                      </mat-step>
+                    </ng-container>
+
+                    <mat-step
+                      [state]="
+                        isSubmitted
+                          ? 'done'
+                          : testData?.correction_grid?.header?.directive_long
+                          ? listStepper?.length + 2
+                          : listStepper?.length + 1
+                      "
+                      disableRipple="true"
+                      [label]="'Summary & Submission' | translate"
+                      [stepControl]="lastFormGroup"
+                    >
+                      <fieldset style="margin-top: 20px !important">
+                        <legend>{{ 'Summary & Submission' | translate }}</legend>
+                        <div class="col-lg-12">
+                          <ng-container
+                            *ngFor="
+                              let competences of getSectionEvalskillForm()?.controls;
+                              let competencesIndex = index;
+                              let isFirstComp = first;
+                              let isLastComp = last
+                            "
+                          >
+                            <div
+                              class="col-lg-2"
+                              style="padding-right: 5px; padding-left: 5px; max-width: 265px"
+                              [ngClass]="{ hide: !competences.get('is_selected').value }"
+                            >
+                              <div class="cards-eval" style="background-color: #eee; height: 260px">
+                                <div class="title" style="height: 70px; color: black">
+                                  {{
+                                    generateHeader(testData?.correction_grid?.correction?.sections_evalskill[competencesIndex])
+                                      | limitTo: 40
+                                  }}
+                                </div>
+                                <div class="list-criteria">
+                                  <ng-container
+                                    *ngFor="
+                                      let criteria of getSubSectionEvalskillForm(competencesIndex).controls;
+                                      let criteriaIndex = index
+                                    "
+                                  >
+                                    <div class="col-lg-12" [ngClass]="{ hide: !criteria.get('is_selected').value }">
+                                      <div
+                                        style="
+                                          width: 70%;
+                                          display: inline-block;
+                                          border: 1px solid #868686;
+                                          padding-left: 6px;
+                                          color: black;
+                                          font-size: 11px;
+                                        "
+                                        [matTooltip]="
+                                          utilService.cleanHTML(
+                                            testData?.correction_grid?.correction?.sections_evalskill[competencesIndex]?.sub_sections[
+                                              criteriaIndex
+                                            ]?.title
+                                          )
+                                        "
+                                      >
+                                        {{
+                                          testData?.correction_grid?.correction?.sections_evalskill[competencesIndex]?.sub_sections[
+                                            criteriaIndex
+                                          ]?.ref_id
+                                        }}
+                                      </div>
+                                      <div
+                                        style="
+                                          width: 30%;
+                                          border: 1px solid #868686;
+                                          text-align: center;
+                                          display: inline-block;
+                                          color: black;
+                                          font-size: 11px;
+                                        "
+                                      >
+                                        {{
+                                          getSubSectionEvalskillForm(competencesIndex).get(criteriaIndex.toString()).get('rating').value !==
+                                            null &&
+                                          getSubSectionEvalskillForm(competencesIndex)
+                                            .get(criteriaIndex.toString())
+                                            .get('is_criteria_evaluated').value
+                                            ? getSubSectionEvalskillForm(competencesIndex).get(criteriaIndex.toString()).get('rating').value
+                                            : '-'
+                                        }}
+                                      </div>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <div class="col-lg-12" style="margin-top: 25px">
+                          <div class="btn-conditions" style="padding-bottom: 10px">
+                            <button
+                              color="accent"
+                              mat-raised-button
+                              class="btn-save"
+                              [disabled]="isWaitingPdf || isSubmitted"
+                              (click)="submitTestCorrection()"
+                              matTooltip="{{ 'Send the evaluation to the School' | translate }} "
+                            >
+                              <mat-icon class="mat-icon-default">send</mat-icon>
+                              {{ 'Send the evaluation to the School' | translate }}
+                            </button>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </mat-step>
+
+                    <ng-template matStepperIcon="done">
+                      <mat-icon>done</mat-icon>
+                    </ng-template>
+
+                    <ng-template matStepperIcon="edit">
+                      <mat-icon>edit</mat-icon>
+                    </ng-template>
+
+                    <ng-template matStepperIcon="1">1 </ng-template>
+
+                    <ng-template matStepperIcon="2">2 </ng-template>
+
+                    <ng-template matStepperIcon="3">3 </ng-template>
+
+                    <ng-template matStepperIcon="4">4 </ng-template>
+
+                    <ng-template matStepperIcon="5">5 </ng-template>
+
+                    <ng-template matStepperIcon="6">6 </ng-template>
+
+                    <ng-template matStepperIcon="7">7 </ng-template>
+
+                    <ng-template matStepperIcon="8">8 </ng-template>
+
+                    <ng-template matStepperIcon="9">9 </ng-template>
+
+                    <ng-template matStepperIcon="10">10 </ng-template>
+                    <ng-template matStepperIcon="11">11 </ng-template>
+                    <ng-template matStepperIcon="12">12 </ng-template>
+                    <ng-template matStepperIcon="13">13 </ng-template>
+                    <ng-template matStepperIcon="14">14 </ng-template>
+                    <ng-template matStepperIcon="15">15 </ng-template>
+                    <ng-template matStepperIcon="16">16 </ng-template>
+                    <ng-template matStepperIcon="17">17 </ng-template>
+                    <ng-template matStepperIcon="18">18 </ng-template>
+                    <ng-template matStepperIcon="19">19 </ng-template>
+                    <ng-template matStepperIcon="20">20 </ng-template>
+                    <ng-template matStepperIcon="21">21 </ng-template>
+                    <ng-template matStepperIcon="22">22 </ng-template>
+                    <ng-template matStepperIcon="23">23 </ng-template>
+                    <ng-template matStepperIcon="24">24 </ng-template>
+                    <ng-template matStepperIcon="25">25 </ng-template>
+                    <ng-template matStepperIcon="26">26 </ng-template>
+                    <ng-template matStepperIcon="27">27 </ng-template>
+                    <ng-template matStepperIcon="28">28 </ng-template>
+                    <ng-template matStepperIcon="29">29 </ng-template>
+                    <ng-template matStepperIcon="30">30 </ng-template>
+                  </mat-stepper>
+                </div>
+              </div>
+            </div>
+
+            <div class="margin-top: 20px !important" *ngIf="finishMark">
+              <div *ngIf="studentSelectDetail?.school?.logo">
+                <div class="row no-margin msg-pay">{{ 'Thank you for completing the Evaluation Pro' | translate }}</div>
+                <div class="row no-margin payment-img">
+                  <img class="payment-success" style="height: 385px" [src]="serverimgPath + studentSelectDetail?.school?.logo" />
+                </div>
+              </div>
+              <div *ngIf="!studentSelectDetail?.school?.logo">
+                <div class="row no-margin msg-pay" style="font-size: 25px; margin-top: 240px !important">
+                  {{ 'Thank you for completing the Evaluation Pro' | translate }}
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<div style="display: none" *ngIf="testData && schoolData && filteredStudentList && filteredStudentList.length && triggerLoadPdf">
+  <ms-pdf-detail
+    [testDataOriginal]="testData"
+    [schoolData]="schoolData"
+    [filteredStudentList]="filteredStudentList"
+    [titleData]="titleData"
+    [studentList]="studentList"
+    [maximumFinalMark]="maximumFinalMark"
+    (isWaitingDone)="isWaitingPDFDone($event)"
+  >
+  </ms-pdf-detail>
+</div>

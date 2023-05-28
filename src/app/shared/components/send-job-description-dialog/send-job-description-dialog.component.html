@@ -1,0 +1,140 @@
+<div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid justify-content-between">
+      <div class="p-col-10 no-padding" style="display: flex">
+        <div class="w-30 no-padding">
+          <mat-icon mat-icon-button svgIcon="account-group"></mat-icon>
+        </div>
+        <h4 class="dialogTitle">
+          {{ 'SM_COMPANY.Send Job Description To Student' | translate }} {{ parentData?.student_id?.civility | translate }}
+          {{ parentData?.student_id?.first_name }} {{ parentData?.student_id?.last_name }}
+        </h4>
+      </div>
+      <div class="p-col-2 no-padding">
+        <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content [formGroup]="sendJobDescForm" class="mat-dialog-content dialog-body">
+  <ng-container *ngIf="!isWaitingForResponse">
+    <div class="p-grid">
+      <div class="p-col-6 field-set">
+        <div>{{ 'Company' | translate }}:</div>
+        <div>
+          <!-- <ng-select
+            [items]="companies"
+            bindLabel="company_name"
+            bindValue="_id"
+            [hideSelected]="true"
+            placeholder="{{ 'Select Company' | translate }}"
+            formControlName="company"
+            appendTo="body"
+            disabled
+          >
+          </ng-select> -->
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              [readOnly]="true"
+              [disabled]="true"
+              [value]="companyName"
+              placeholder="{{ 'Select Company' | translate }}"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-col-6 field-set">
+        <div>{{ 'Mentor' | translate }}:</div>
+        <!-- <div>
+          <ng-select
+            [items]="mentors"
+            bindLabel="full_name"
+            bindValue="_id"
+            [hideSelected]="true"
+            placeholder="{{ 'SM_COMPANY.Select Mentor' | translate }}"
+            formControlName="mentor"
+            appendTo="body"
+            disabled
+          >
+          </ng-select>
+        </div> -->
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              type="text"
+              [readOnly]="true"
+              [disabled]="true"
+              [value]="mentorName"
+              placeholder="{{ 'SM_COMPANY.Select Mentor' | translate }}"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-6 field-set">
+        <div>{{ 'From' | translate }}:</div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              readonly
+              class="form-field"
+              formControlName="start_date"
+              [matDatepicker]="fromPicker"
+              placeholder="{{ 'From' | translate }}"
+              [max]="sendJobDescForm?.get('end_date')?.value"
+              (click)="fromPicker.open()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="p-col-6 field-set">
+        <div>{{ 'To' | translate }}:</div>
+        <div>
+          <mat-form-field>
+            <input
+              matInput
+              readonly
+              class="form-field"
+              formControlName="end_date"
+              [matDatepicker]="toPicker"
+              placeholder="{{ 'To' | translate }}"
+              (click)="toPicker.open()"
+              [min]="sendJobDescForm?.get('start_date')?.value"
+            />
+            <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isWaitingForResponse">
+    <div class="inner-loading-indicator">
+      <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+    </div>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mr-10">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button mat-button mat-raised-button color="primary" class="mr-0" (click)="onChangeCompanyAndMentor()">
+    {{ 'SM_COMPANY.Change Company and Mentor' | translate }}
+  </button>
+  <button mat-button mat-raised-button color="primary" class="mr-0" (click)="submit()">
+    {{ 'SM_COMPANY.Send Job description' | translate }}
+  </button>
+</div>

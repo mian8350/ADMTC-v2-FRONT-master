@@ -1,0 +1,35 @@
+<div style="color: black;">
+    <h1 mat-dialog-title>
+        <mat-icon svgIcon="tick-checkbox" style="margin-bottom:5px;"></mat-icon>
+        {{ 'Add_Test_Task' | translate }}
+    </h1>
+    <mat-dialog-content>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="{{ 'JURY_ORGANIZATION.RNCP_TITLES' | translate }}*">
+                <mat-option value="all">All</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="{{ 'CLASS' | translate }}*">
+                <mat-option value="all">All</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="{{ 'DASHBOARD.TEST' | translate }}*">
+                <mat-option value="all">All</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="{{ 'NAV.TASKS' | translate }}*">
+                <mat-option value="all">All</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="{{ 'NAV.USERS' | translate }}*">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-raised-button type="button" color="warn" mat-dialog-close>{{ 'CANCEL' | translate }}</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true">{{ 'SUBMIT' | translate }}</button>
+    </mat-dialog-actions>
+</div>

@@ -1,0 +1,95 @@
+<div class="dialog-border">
+  <div class="dialogTitleWrapper header-dialog">
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <h1 mat-dialog-title class="dialog-title text-center">
+          {{ 'SELECTCLASS' | translate }}
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content class="mat-dialog-content folder-tree-container gene-relative">
+  <div class="p-col-12 no-padding pad-y-none">
+    <mat-form-field class="full-wid" disabled>
+      <input [formControl]="titleControl" matInput placeholder="{{ 'CARDDETAIL.RNCP Title' | translate }}"  readonly />
+    </mat-form-field>
+  </div>
+
+  <div class="p-col-12 no-padding pad-y-none mb-15">
+    <ng-select
+      [multiple]="true"
+      [formControl]="classControl"
+      placeholder="{{ 'CrossCorrection.Select_a_Class.title' | translate }}"
+      class="ng-select-input custom"
+      appendTo="body"
+      (change)="selectClass($event)"
+      [items]="classes"
+      bindValue="_id"
+      bindLabel="name"
+      (remove)="removeSelectedClass($event)"
+    >
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <div class="flex">
+          <div><input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /></div>
+          <ng-option>{{ item?.name }}</ng-option>
+        </div>
+      </ng-template>
+      <ng-template ng-header-tmp>
+        <div style="cursor: pointer" (click)="selectedAllClasses()">
+          {{ 'All' | translate }}
+        </div>
+      </ng-template>
+      
+    </ng-select>
+  </div>
+
+  <div *ngIf="classSelected && classSelected.length" class="p-col-12 no-padding">
+    <ul class="no-padding">
+      <ng-container *ngFor="let class of classSelected; let classIndex = index">
+        <div class="p-grid marker mb-5">
+          <li class="p-col-7 no-padding">
+            {{ class?.name }}
+          </li>
+          <span style="text-align: end; float: right;" class="p-col-5">
+            <button class="no-margin" (click)="openDuplicateFolderDialog(class)" mat-button mat-raised-button color="yellow">{{ 'Select Destination Folder' | translate }}</button>
+          </span>
+        </div>
+        <ng-container *ngIf="classSelected?.length">
+          <div class="p-grid">
+            <div class="no-padding p-col-12" *ngIf="class?.navigationPath?.length">
+              <div class="file-container p-col-12" *ngFor="let navigation of class?.navigationPath; let navIndex = index">
+                <div class="p-col-11" *ngIf="navigation[0]?.length">
+                  <a class="path-link" *ngFor="let path of navigation[0]; let isLastItem = last">
+                    <span class="text-black">{{ path }}</span>
+                    <mat-icon *ngIf="!isLastItem" class="vertical-align-mid icon-blue">chevron_right</mat-icon>
+                  </a>
+                </div>
+                <div class="p-col" style="float: right; text-align: end;">
+                  <button
+                    class="no-margin"
+                    mat-icon-button
+                    matTooltip="{{ 'Delete' | translate }}"
+                    (click)="onDeleteDocument(classIndex, navIndex)"
+                  >
+                    <mat-icon style="color: black">remove_circle</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </div>
+</div>
+
+<div mat-dialog-actions class="justify-content-end mt-1rem">
+  <button mat-button mat-raised-button color="warn" (click)="closeDialog()">{{ 'CANCEL' | translate }}</button>
+  <button mat-button mat-raised-button color="purple" [disabled]="isDisabled" (click)="duplicateFile()">{{ 'Duplicate' | translate }}</button>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

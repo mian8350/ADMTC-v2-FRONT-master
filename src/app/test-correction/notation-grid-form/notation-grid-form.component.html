@@ -1,0 +1,189 @@
+<div
+  class="p-grid background-primary"
+  [ngClass]="
+    !testData?.correction_grid?.correction?.show_final_comment && !testData?.correction_grid?.footer?.fields?.length
+      ? 'height-non-elimination'
+      : 'section-height'
+  "
+  [style.height.px]="getAutomaticHeight()"
+  [formGroup]="testCorrectionForm"
+>
+  <ng-container formGroupName="correction_grid">
+    <ng-container formGroupName="correction">
+      <ng-container formArrayName="sections">
+        <div
+          class="p-col-12 yellow-border mrgn-b-xs"
+          *ngFor="let sectionForm of getSectionForm()?.controls; let sectionIndex = index"
+          [formGroupName]="sectionIndex"
+        >
+          <table
+            mat-table
+            [dataSource]="getSubSectionForm(sectionIndex).controls"
+            class="mat-elevation-z8 studentForm"
+            formArrayName="sub_sections"
+          >
+            <!-- table header and content -->
+            <ng-container matColumnDef="section">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="sectionWidth">
+                <h5 class="mb-0">{{ getFullTextFromHtml(sectionForm.get('title').value) }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="sectionWidth">
+                <div>
+                  <span>{{ getFullTextFromHtml(getSubSectionForm(sectionIndex).at(subSectionIndex).get('title').value) }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="directives">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="directiveWidth">
+                <h5 class="mb-0">{{ correctionData?.directions_column_header }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="directiveWidth">
+                <!-- show full text -->
+                <div>
+                  <span [innerHTML]="getSubSectionForm(sectionIndex).at(subSectionIndex).get('directions').value"></span>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="markNumber">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="markScoreWidth">
+                <h5 class="mb-0">
+                  {{ sectionForm.get('rating').value ? sectionForm.get('rating').value : 0 }}
+                  / {{ (correctionData?.sections)[sectionIndex]?.maximum_rating }}
+                </h5>
+              </th>
+              <td width="" mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="markScoreWidth">
+                <div>
+                  <mat-form-field color="accent" class="mark-score">
+                    <input
+                      matInput
+                      type="number"
+                      onwheel="return false"
+                      min="0"
+                      max="{{ ((correctionData?.sections)[sectionIndex]?.sub_sections)[subSectionIndex]?.maximum_rating }}"
+                      class="score-text"
+                      (focusout)="
+                        validateNumeric(
+                          sectionIndex,
+                          subSectionIndex,
+                          ((correctionData?.sections)[sectionIndex]?.sub_sections)[subSectionIndex]?.maximum_rating
+                        )
+                      "
+                      formControlName="rating"
+                    />
+                    <span matSuffix> / {{ ((correctionData?.sections)[sectionIndex]?.sub_sections)[subSectionIndex]?.maximum_rating }} </span>
+                    <!-- <mat-error>
+                      {{ 'This field is required'|translate }}
+                    </mat-error> -->
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="markLetter">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="markLetterWidth">
+                <h5 class="mb-0">{{ correctionData?.letter_marks_column_header }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="markLetterWidth">
+                <mat-form-field color="accent" class="full-width">
+                  <mat-select formControlName="score_conversion_id">
+                    <mat-option *ngFor="let score of correctionData?.sections[sectionIndex]?.score_conversions" 
+                      [value]="score?._id"
+                      (click)="getLetterPhraseMark(score, sectionIndex, subSectionIndex)"
+                    >
+                      {{score?.letter}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="markPhrase">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="markPharseWidth">
+                <h5 class="mb-0">{{ correctionData?.phrase_marks_column_header }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="markPharseWidth">
+                <mat-form-field color="accent" class="full-width">
+                  <mat-select formControlName="score_conversion_id">
+                    <mat-option *ngFor="let score of correctionData?.sections[sectionIndex]?.score_conversions" 
+                      [value]="score?._id"
+                      (click)="getLetterPhraseMark(score, sectionIndex, subSectionIndex)"
+                    >
+                      {{score?.phrase}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="comment">
+              <th mat-header-cell *matHeaderCellDef class="text-center" [style.width.%]="commentWidth">
+                <h5 class="mb-0">{{ correctionData?.comment_for_each_sub_section_header }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let row; let subSectionIndex = index" [formGroupName]="subSectionIndex" [style.width.%]="commentWidth">
+                <mat-form-field color="accent" class="full-width">
+                  <mat-icon
+                    class="icon-self-right"
+                    (click)="openVoiceRecog(row, sectionIndex, subSectionIndex)"
+                    svgIcon="microphone"
+                  ></mat-icon>
+                  <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" formControlName="comments"> </textarea>
+                </mat-form-field>
+
+                <!-- <ckeditor formControlName="comments" [editor]="Editor" (ready)="onReady($event)" [config]="config"></ckeditor> -->
+              </td>
+            </ng-container>
+
+            <!-- loading spinner -->
+            <ng-container matColumnDef="loading">
+              <th mat-header-cell *matHeaderCellDef colspan="3" class="text-center">
+                <div class="center-spinner">
+                  <mat-spinner color="accent"></mat-spinner>
+                </div>
+              </th>
+            </ng-container>
+
+            <!-- This line is set to hold the style -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+          </table>
+
+          <!-- comment for each section -->
+          <div class="p-grid comment-for-each-section" *ngIf="testData?.correction_grid?.correction?.comment_for_each_section">
+            <p>{{ testData?.correction_grid?.correction?.comment_for_each_section_header }}:</p>
+            <mat-form-field color="accent" class="full-width">
+              <mat-icon
+                class="icon-self-right"
+                (click)="openSectionVoiceRecog(row, sectionIndex)"
+                svgIcon="microphone"
+              ></mat-icon>
+              <textarea matInput 
+                cdkTextareaAutosize 
+                #autosize="cdkTextareaAutosize" 
+                formControlName="comment">
+              </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container>
+      <div class="p-col-12 no-pad">
+        <ms-penalties-bonuses
+          *ngIf="correctionData?.show_penalty || correctionData?.show_bonus"
+          [testCorrectionForm]="testCorrectionForm"
+          [correctionData]="correctionData"
+          (calculateFinalMark)="getFinalMark()"
+        >
+        </ms-penalties-bonuses>
+        <ms-elimination
+          *ngIf="correctionData?.show_elimination"
+          [testCorrectionForm]="testCorrectionForm"
+          (calculateFinalMark)="getFinalMark()"
+        >
+        </ms-elimination>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -1,0 +1,305 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.overlay {
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin-top: 10px;
+  height: 135px;
+  width: 135px;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #2f2f2f;
+}
+
+.revision-button-container {
+  margin-top: 12px !important;
+  padding-bottom: 0px;
+}
+
+.logo-content {
+  float: left;
+  width: 110px;
+  display: flex;
+}
+
+.spinner-margin {
+  margin: 0 auto;
+}
+
+.some-padding-top {
+  padding-top: 10px;
+}
+
+.formArray-content {
+  padding-bottom: 0px;
+  margin-left: 7px;
+  margin-right: 7px !important;
+  width: 98%;
+}
+
+.fix-font-size {
+  font-size: 12px;
+}
+
+.text-align-font {
+  text-align: right;
+  font-size: 12px;
+}
+
+.add-address-btn-style {
+  background: #81b441;
+  color: white;
+}
+
+.force-no-padding-right {
+  padding-right: 0px !important;
+}
+
+.revision-button {
+  float: right;
+  margin-right: 8px !important;
+  font-weight: bold;
+}
+
+.logoContainer {
+  // Change by Wira Make Logo is fix position
+  position: relative;
+  height: 135px;
+  width: 135px;
+  cursor: pointer;
+  overflow: hidden;
+
+  // margin-top: 15px;
+  // position: relative;
+  // height: auto;
+  // max-height: 150px;
+  // width: auto;
+  // cursor: pointer;
+  // overflow: hidden;
+}
+
+.text {
+  color: white;
+  font-size: 16px;
+  margin: auto;
+  text-align: center;
+}
+
+.logoContainer:hover .overlay {
+  opacity: 1;
+}
+
+.border-white {
+  border: 1px solid white;
+}
+
+.school-fieldset {
+  margin-bottom: 14px !important;
+  margin-top: 2rem !important;
+}
+
+.btn-standard {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.card-row {
+  padding: 8px;
+}
+
+.section-header {
+  background-color: #363636;
+  margin-top: -1.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.no-image {
+  margin-top: 10px;
+  width: 135px;
+  height: 135px;
+  background-color: #6f6f6f;
+  line-height: 125px;
+  color: white;
+  text-align: center;
+}
+
+.text-logo {
+  width: 135px;
+  text-align: center;
+  font-size: larger;
+  font-weight: 700;
+  margin-top: -2.3rem;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.logo-spinner-wrapper {
+  margin-top: 10px;
+  height: 135px;
+  width: 135px;
+  background-color: #6f6f6f;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img-wrapper {
+  margin-top: 10px;
+  width: 135px;
+  height: 135px;
+  background-color: #6f6f6f;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.center-image {
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding: 3px;
+}
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      &:nth-child(1) {
+        width: 20%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(2) {
+        width: 28%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(3) {
+        width: 28%;
+        padding-left: 0.5rem !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+      &:nth-child(4) {
+        width: 10%;
+        padding-left: 0 !important;
+        padding-right: 0px;
+        text-align: center !important;
+        .mat-form-field {
+          width: 90%;
+        }
+      }
+    }
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+    th {
+      vertical-align: top;
+      text-align: center !important;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+  .action-header-column {
+    vertical-align: middle !important;
+    padding-right: 0 !important;
+    .p-grid {
+      margin-top: unset !important;
+    }
+  }
+}
+.no-records {
+  background-color: #424242;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-right: 1px solid #545454;
+  border-bottom: 1px solid #545454;
+}
+
+.pad-right-0 {
+  padding-right: 0px;
+}
+
+.mr-0 {
+  margin-right: 0px !important;
+}
+.mr-y-0 {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+.hide-only {
+  display: none !important;
+}
+.loading-style {
+  text-align: center !important;
+  display: contents;
+}
+.mt-0 {
+  margin-top: 0px !important;
+}

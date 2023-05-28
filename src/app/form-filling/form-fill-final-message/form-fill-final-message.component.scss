@@ -1,0 +1,33 @@
+:host::ng-deep {
+  .content-wrapper {
+    max-width: 65ch;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: justify;
+    text-align-last: center;
+  }
+
+  .final-message-image-wrapper {
+    max-width: 65ch;
+    max-height: 75vh;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .ck.ck-toolbar {
+    display: none;
+  }
+
+  .ck.ck-editor__editable {
+    border: none;
+    padding: 0;
+  }
+
+  .header{
+    margin: 15px 0;;
+  }
+
+  hr {
+    border-bottom: 1px solid #d8d6d6 !important;
+  }
+}

@@ -1,0 +1,248 @@
+<div class="p-col-12">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="5" class="action-header-column buttons-header">
+        <button mat-raised-button color="primary" (click)="resetFilter()">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'COMPANY.RESET' | translate }}
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="isWaitingForResponse"
+          matTooltip="{{ 'COMPANY.ADD_STAFF' | translate }}"
+          aria-hidden="true"
+          (click)="onAddCompanyStaff()"
+          class="btn-standard"
+          *ngIf="permissionService.addStaffInCompanyStaffTabPerm()"
+        >
+          <mat-icon svgIcon="account-plus" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'COMPANY.ADD_STAFF' | translate }}
+        </button>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="nameFilter">
+      <th mat-header-cell *matHeaderCellDef class="force-text-center">
+        <mat-form-field class="full-wid">
+          <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'COMPANY.SEARCH' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="userTypeFilter">
+      <th mat-header-cell *matHeaderCellDef class="force-text-center">
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="userTypeFilter"
+            [matAutocomplete]="userType"
+            placeholder="{{ 'COMPANY.SEARCH' | translate }}"
+          />
+          <mat-autocomplete #userType="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option (click)="setTypeFilter('AllM')" value="AllM">{{ 'AllM' | translate }} </mat-option>
+            <mat-option
+              *ngFor="let type of userTypeListFilter | async"
+              [value]="type?.name"
+              matTooltip="{{ type?.name }}"
+              (click)="setTypeFilter(type?._id)"
+            >
+              {{ type?.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="entityFilter">
+      <th mat-header-cell *matHeaderCellDef class="force-text-center">
+        <mat-form-field class="some-margin-top">
+          <mat-select [formControl]="entityFilter">
+            <mat-option class="width-size" [value]="">{{ 'All' | translate }}</mat-option>
+            <mat-option class="width-size" [value]="entity" *ngFor="let entity of entityFilterList">{{ entity | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="statusFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field class="some-margin-top padding-right">
+          <mat-select [formControl]="statusFilter">
+            <mat-option class="width-size" [value]="">{{ 'All' | translate }}</mat-option>
+            <mat-option class="width-size" [value]="status" *ngFor="let status of statusFilterList">{{ status | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="name"
+        matTooltip="{{ 'COMPANY.STAFF_NAME' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'COMPANY.STAFF_NAME' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}"
+        matTooltipPosition="above"
+      >
+        {{ element.last_name | uppercase }} {{ element.first_name }} {{ element.civility | translate }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="userType"
+        matTooltip="{{ 'COMPANY.USER_TYPE' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'COMPANY.USER_TYPE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" class="tool">
+        <p
+          *ngFor="let entity of getUniqueUserType(element.entities)"
+          class="tag-text-inline"
+          [matTooltip]="renderTooltipType(element?.entities)"
+          matTooltipPosition="above"
+        >
+          <span class="tags">
+            {{ 'USER_TYPES.' + entity?.type?.name | translate }}
+          </span>
+        </p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="entity">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="entity"
+        matTooltip="{{ 'COMPANY.ENTITY' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'COMPANY.ENTITY' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <p
+          *ngFor="let entity of getUniqueEntity(element?.entities)"
+          class="tag-text-inline"
+          [matTooltip]="renderTooltipEntity(element?.entities)"
+          matTooltipPosition="above"
+        >
+          {{ entity.entity_name | translate }}
+        </p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="status"
+        matTooltip="{{ 'COMPANY.STATUS' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5>{{ 'COMPANY.STATUS' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" class="no-padding-left">
+        <mat-icon
+          matTooltip="{{ element.user_status | translate }}"
+          matTooltipPosition="above"
+          [ngClass]="{
+            'green-icon': element.user_status === 'active',
+            'black-icon': element.user_status === 'pending',
+            'red-icon': element.user_status === 'incorrect_email'
+          }"
+        >
+          check_circle
+        </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'COMPANY.ACTION' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'COMPANY.ACTION' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index" class="no-padding-right">
+        <button
+          *ngIf="isUserAcadir || (isUserAcadAdmin && permissionService.editActionInCompanyStaffTabPerm())"
+          (click)="onAskRevision(element)"
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'COMPANY.REQUEST_STAFF' | translate }}"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          *ngIf="!isUserAcadir && !isUserAcadAdmin && permissionService.editActionInCompanyStaffTabPerm()"
+          mat-icon-button
+          class="margin-right-button"
+          (click)="editStaff(element)"
+          matTooltip="{{ 'View - EditUser' | translate }}"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          (click)="sendMail(element)"
+          matTooltip="{{ 'COMPANY.SEND_MAIL' | translate }}"
+          *ngIf="permissionService.sendMailActionInCompanyStaffTabPerm()"
+        >
+          <mat-icon svgIcon="email-outline"></mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          (click)="removeMentor(element._id)"
+          matTooltip="{{ 'COMPANY.Delete staff from this company' | translate }}"
+          *ngIf="permissionService.deleteActionInCompanyStaffTabPerm()"
+        >
+          <mat-icon svgIcon="close">clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- loading spinner -->
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="5" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <!-- <div *ngIf="paginator.length <= 10 && dataSource.data.length !== 0" class="no-records page-under-10">
+    <p class="text-right">1-{{paginator.length}} of {{  paginator.length }} </p>
+  </div> -->
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': paginator.length <= 10 }"
+      [hidePageSize]="true"
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+@import '~assets/scss/theme/admtc.variables';
+.rncp-title-tile {
+  background-color: $dark-blue !important;
+  border-radius: 22px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+textarea.mat-input-element.cdk-textarea-autosize {
+  box-sizing: content-box;
+  overflow: hidden;
+  resize: none;
+}
+
+.input-groupname {
+  font-size: 0px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.input-font {
+  font-size: 18px;
+}
+
+.student-name {
+  font-size: 14px;
+}
+
+.padding-none {
+  padding: 0px !important;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  border: 0 !important; 
+}
+.inner-loading-indicator-transparent-bg {
+  background-color: #1d1d1d75;
+}
+.pad-btn {
+  padding: 0 5px 0 5px;
+}
+.total-info {
+  color: red;
+  font-weight: bold;
+}

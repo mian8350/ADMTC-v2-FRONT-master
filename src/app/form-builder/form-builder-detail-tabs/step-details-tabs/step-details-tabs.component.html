@@ -1,0 +1,64 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex">
+  <!-- Step Parameter -->
+  <mat-tab label="Step Parameters">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Step Parameters' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-step-parameter-tab
+        [stepId]="stepId"
+        [step]="step"
+        [isPublished]="isPublished"
+        [templateType]="templateType"
+        (updateTabs)="fetchContractTemplateData()"
+      ></ms-step-parameter-tab>
+    </ng-template>
+  </mat-tab>
+
+  <!-- Step Details -->
+  <mat-tab label="Step Detail">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Step Details' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-common-template-step-detail-tab
+        *ngIf="stepType !== 'step_with_signing_process'"
+        [templateId]="templateId"
+        [stepIndex]="stepIndex"
+        [stepId]="stepId"
+        [step]="step"
+        [templateType]="templateType"
+        [finalValidation]="finalValidation"
+        [isPublished]="isPublished"
+        [takenUniqueStep]="takenUniqueStep"
+        (updateTabs)="fetchContractTemplateData()"
+      ></ms-common-template-step-detail-tab>
+      <ms-contract-template-step-detail
+      *ngIf="stepType === 'step_with_signing_process'"
+      [templateId]="templateId"
+      [stepIndex]="stepIndex"
+      [stepId]="stepId"
+      [templateType]="templateType"
+      [finalValidation]="finalValidation"
+      [isPublished]="isPublished"
+      [takenUniqueStep]="takenUniqueStep"
+      (updateTabs)="fetchContractTemplateData()"
+      >
+      </ms-contract-template-step-detail>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Step Notification and Message">
+    <ng-template mat-tab-label>
+      <h5>{{ 'Step Notification and Message' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-step-notification-messages-tab
+        [templateId]="templateId"
+        [stepId]="stepId"
+        [templateType]="templateType"
+        [isPublished]="isPublished"
+      ></ms-step-notification-messages-tab>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

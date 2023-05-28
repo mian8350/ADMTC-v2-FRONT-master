@@ -1,0 +1,350 @@
+{
+  "correction": "Grille d’Evaluation Évaluation pro",
+  "etablissement": "QUALIFIA",
+  "name": "Cocquet Cindy Mme",
+  "short_name": "RRH TEST 2021",
+  "long_name": "Responsable des Ressources Humaines",
+  "directive": "<p>&nbsp;Dans le cadre de la professionnalisation de votre stagiaire, vous &ecirc;tes en charge de l&rsquo;accompagnement et de l&rsquo;&eacute;valuation de ses comp&eacute;tences en situation de travail.&nbsp;</p> <p>Lors de son int&eacute;gration au sein de l&rsquo;entreprise, vous lui avez confi&eacute; des missions et fix&eacute; des objectifs lui permettant de d&eacute;velopper ses comp&eacute;tences professionnelles en coh&eacute;rence avec son parcours de formation.&nbsp;</p> <p>Pour faire suite &agrave; votre accompagnement et encadrement, il est n&eacute;cessaire aussi d&rsquo;&eacute;valuer la progression et l&rsquo;acquisition des comp&eacute;tences en fin de parcours.</p> <p>Dans le cadre de ce bilan, vous devrez compl&eacute;ter deux &eacute;valuations :&nbsp;</p> <ul> <li>L&rsquo;&eacute;valuation professionnelle sur les comp&eacute;tences m&eacute;tiers&nbsp;</li> <li>L&rsquo;&eacute;valuation professionnelle des soft skills &nbsp;</li> </ul> <p>Vous trouverez ci-dessous les modalit&eacute;s d&rsquo;&eacute;valuation des comp&eacute;tences mises en &oelig;uvre en entreprise. Cette &eacute;valuation professionnelle reprend les missions figurant sur la fiche de poste en d&eacute;but de formation.&nbsp;</p> <p>Pour chaque comp&eacute;tence m&eacute;tier attendue ; il vous revient d&rsquo;indiquer :</p> <ul> <li>pour chaque crit&egrave;re (CR), &nbsp;un r&eacute;sultat entre 1 et 5 selon l&rsquo;&eacute;chelle d&rsquo;&eacute;valuation ci-dessous&nbsp;</li> <li>pour chaque comp&eacute;tence (C), la justification du niveau de comp&eacute;tence atteint par l&rsquo;apprenant sur la/les mission(s) r&eacute;alis&eacute;e(s) : &nbsp;<ul> <li>les missions / activit&eacute;s mises en oeuvre</li> <li>les points forts</li> <li>les axes d&rsquo;am&eacute;lioration</li> </ul> </li> </ul> <p>PS : Si vous avez confi&eacute; d&rsquo;autres missions susceptibles de valider une comp&eacute;tence, vous pouvez les d&eacute;tailler dans l&rsquo;espace justification de la comp&eacute;tence.&nbsp;</p> <p>Echelle d&apos;&eacute;valuation :&nbsp;</p> <ul> <li>Si le r&eacute;sultat est &lt; 3,5, le crit&egrave;re n&apos;est pas ou pas suffisamment d&eacute;montr&eacute;.&nbsp;</li> <li>Si le r&eacute;sultat est &ge; 3,5, le crit&egrave;re est d&eacute;montr&eacute;.&nbsp;</li> <li>Dans le cas o&ugrave; un crit&egrave;re ou une comp&eacute;tence ne pourrait &ecirc;tre &eacute;valu&eacute; (/5), il convient d&rsquo;indiquer &laquo; NE &raquo; afin de ne pas p&eacute;naliser l&rsquo;apprenant.&nbsp;</li>  </ul> <p>Votre participation &agrave; ce bilan professionnel est d&eacute;terminante et vous conf&egrave;re une place centrale et d&eacute;cisive dans l&rsquo;&eacute;valuation des comp&eacute;tences de l&rsquo;apprenant en situation professionnelle. &nbsp;</p> <p><br></p>",
+  "competences": [
+    {
+      "ref_id": "Directives",
+      "form": "firstFormGroup",
+      "name": "Directives",      
+      "mission": [],
+      "criteria": [],
+      "short_name": "Directives",
+      "directive": "<p>&nbsp;Dans le cadre de la professionnalisation de votre stagiaire, vous &ecirc;tes en charge de l&rsquo;accompagnement et de l&rsquo;&eacute;valuation de ses comp&eacute;tences en situation de travail.&nbsp;</p> <p>Lors de son int&eacute;gration au sein de l&rsquo;entreprise, vous lui avez confi&eacute; des missions et fix&eacute; des objectifs lui permettant de d&eacute;velopper ses comp&eacute;tences professionnelles en coh&eacute;rence avec son parcours de formation.&nbsp;</p> <p>Pour faire suite &agrave; votre accompagnement et encadrement, il est n&eacute;cessaire aussi d&rsquo;&eacute;valuer la progression et l&rsquo;acquisition des comp&eacute;tences en fin de parcours.</p> <p>Dans le cadre de ce bilan, vous devrez compl&eacute;ter deux &eacute;valuations :&nbsp;</p> <ul> <li>L&rsquo;&eacute;valuation professionnelle sur les comp&eacute;tences m&eacute;tiers&nbsp;</li> <li>L&rsquo;&eacute;valuation professionnelle des soft skills &nbsp;</li> </ul> <p>Vous trouverez ci-dessous les modalit&eacute;s d&rsquo;&eacute;valuation des comp&eacute;tences mises en &oelig;uvre en entreprise. Cette &eacute;valuation professionnelle reprend les missions figurant sur la fiche de poste en d&eacute;but de formation.&nbsp;</p> <p>Pour chaque comp&eacute;tence m&eacute;tier attendue ; il vous revient d&rsquo;indiquer :</p> <ul> <li>pour chaque crit&egrave;re (CR), &nbsp;un r&eacute;sultat entre 1 et 5 selon l&rsquo;&eacute;chelle d&rsquo;&eacute;valuation ci-dessous&nbsp;</li> <li>pour chaque comp&eacute;tence (C), la justification du niveau de comp&eacute;tence atteint par l&rsquo;apprenant sur la/les mission(s) r&eacute;alis&eacute;e(s) : &nbsp;<ul> <li>les missions / activit&eacute;s mises en oeuvre</li> <li>les points forts</li> <li>les axes d&rsquo;am&eacute;lioration</li> </ul> </li> </ul> <p>PS : Si vous avez confi&eacute; d&rsquo;autres missions susceptibles de valider une comp&eacute;tence, vous pouvez les d&eacute;tailler dans l&rsquo;espace justification de la comp&eacute;tence.&nbsp;</p> <p>Echelle d&apos;&eacute;valuation :&nbsp;</p> <ul> <li>Si le r&eacute;sultat est &lt; 3,5, le crit&egrave;re n&apos;est pas ou pas suffisamment d&eacute;montr&eacute;.&nbsp;</li> <li>Si le r&eacute;sultat est &ge; 3,5, le crit&egrave;re est d&eacute;montr&eacute;.&nbsp;</li> <li>Dans le cas o&ugrave; un crit&egrave;re ou une comp&eacute;tence ne pourrait &ecirc;tre &eacute;valu&eacute; (/5), il convient d&rsquo;indiquer &laquo; NE &raquo; afin de ne pas p&eacute;naliser l&rsquo;apprenant.&nbsp;</li>  </ul> <p>Votre participation &agrave; ce bilan professionnel est d&eacute;terminante et vous conf&egrave;re une place centrale et d&eacute;cisive dans l&rsquo;&eacute;valuation des comp&eacute;tences de l&rsquo;apprenant en situation professionnelle. &nbsp;</p> <p><br></p>"
+    },
+    {
+      "ref_id": "C1.1",
+      "form": "secondFormGroup",
+      "name": "Réaliser les principales activités de gestion administrative et de gestion de l'information relevant de la fonction RH",
+      "short_name": "RH: Les principales activités",
+      "mission": [
+        {
+          "mission": "Recrutement des profils techniques",
+          "active": "Sourcing",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Recrutement des profils techniques",
+          "active": "Entretien téléphonique",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Recrutement des profils techniques",
+          "active": "Compte rendu à destination des RRH entités ",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Recrutement des profils techniques",
+          "active": "Mise en place de CVthèques Groupe",
+          "level": "Décide après aval"
+        },
+        {
+          "mission": "Recrutement des profils techniques",
+          "active": "Référencement et accréditation des cabinets de recrutement et d'intérim",
+          "level": "Décide après aval"
+        }
+      ],
+      "criteria": [
+        {
+          "ref_id": "CR1.1.1",
+          "name": "Le candidat est capable d'identifier et réaliser les opérations de gestion administrative du personnel",
+          "note": null,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.2",
+          "name": "Le candidat est capable de réaliser et analyser les processus de recrutement et d'intégration",
+          "note": 3,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.3",
+          "name": "Le candidat est capable de réaliser une veille réglementaire et législative",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.4",
+          "name": "Le candidat est capable de produire les informations nécessaires aux IRP",
+          "note": 4.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.5",
+          "name": "Le candidat est capable d'analyser les fonctionnalités et performances des outils SIRH",
+          "note": 4.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.6",
+          "name": "Le candidat est capable d'identifier des améliorations dans les processus de l’outil SIRH",
+          "note": 2.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR1.1.7",
+          "name": "Le candidat est capable de proposer des prestataires externes selon les priorités stratégiques, opérationnelles et financières de l'entreprise",
+          "note": 1.5,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "C2.1",
+      "form": "thirdFormGroup",
+      "name": "Concevoir une stratégie de développement RH, la mettre en oeuvre et l'évaluer",
+      "short_name": "La stratégie de dév. RH",
+      "mission": [
+        {
+          "mission": "Gestion des relations écoles",
+          "active": "Présentation du rapport annuel des relations écoles auprès de la Direction Générale",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Gestion des relations écoles",
+          "active": "Elaboration du planning annuel des actions \"écoles cibles\"",
+          "level": "Décide après aval"
+        },
+        {
+          "mission": "Gestion des relations écoles",
+          "active": "Suivi du budget alloué",
+          "level": "Décide après aval"
+        },
+        {
+          "mission": "Gestion des relations écoles",
+          "active": "Organisation des actions écoles cibles",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Gestion des relations écoles",
+          "active": "Animation du réseau Campus Managers France",
+          "level": "Réalise"
+        }
+      ],
+      "criteria": [
+        {
+          "ref_id": "CR2.1.1",
+          "name": "Le candidat est capable d’analyser les besoins de l’entreprise en développement RH, en fonction des métiers et des évolutions sociétales",
+          "note": 3,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.2",
+          "name": "Le candidat est capable de cibler les actions RH à développer (en terme de problématique)",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.3",
+          "name": "Le candidat est capable de définir un plan des actions à mettre en oeuvre",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.4",
+          "name": "Le candidat est capable de mettre en place un rétroplanning",
+          "note": 2.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.5",
+          "name": "Le candidat est capable d'identifier les ressources techniques, humaines et financières nécessaires au plan de développement",
+          "note": 1.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.6",
+          "name": "Le candidat est capable de définir les objectifs individuels et collectifs",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.1.7",
+          "name": "Le candidat est capable de définir les indicateurs de performance",
+          "note": 5,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "C2.2",
+      "form": "fourthFormGroup",
+      "name": "Elaborer des cahiers des charges, réaliser des appels d'offres, sélectionner des prestataires",
+      "short_name": "Les prestataires",
+      "mission": [
+        {
+          "mission": "Développement du jeu RH",
+          "active": "Participation à la rédaction du cahier des charges",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Développement du jeu RH",
+          "active": "Rencontres des agences de développement",
+          "level": "Réalise"
+        }
+      ],
+      "criteria": [
+        {
+          "ref_id": "CR2.2.1",
+          "name": "Le candidat est capable d'élaborer un cahier des charges selon le projet défini",
+          "note": 4,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.2.2",
+          "name": "Le candidat est capable de concevoir des appels d'offres",
+          "note": 4,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.2.3",
+          "name": "Le candidat est capable de sélectionner des prestataires selon les modalités et objectifs de la stratégie de développement ",
+          "note": 4,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.2.4",
+          "name": "Le candidat est capable de gérer le budget du projet",
+          "note": 3.5,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "C2.3",
+      "form": "fifthFormGroup",
+      "name": "Conduire un projet RH, manager une équipe et coordonner les activités des intervenants internes et externes",
+      "short_name": "La gestion de projet RH",
+      "mission": [
+        {
+          "mission": "Organisation du speed recrutement \"forum stagiaire\"",
+          "active": "Mise en place d'un retroplanning projet",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Organisation du speed recrutement \"forum stagiaire\"",
+          "active": "Suivi des pré-sélections CVs et relances des RRH entités",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Organisation du speed recrutement \"forum stagiaire\"",
+          "active": "Contact avec l'agence de développement pour corriger les bugs informatiques",
+          "level": "Réalise"
+        },
+        {
+          "mission": "Organisation du speed recrutement \"forum stagiaire\"",
+          "active": "Vérification du planning du speed recrutement",
+          "level": "Réalise"
+        }
+      ],
+      "criteria": [
+        {
+          "ref_id": "CR2.3.1",
+          "name": "Le candidat est capable de mettre en place des outils de suivi et de reporting RH aux différentes étapes du projet",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR2.3.2",
+          "name": "Le candidat est capable de mesurer et anticiper les écarts de performance et proposer des actions correctives",
+          "note": 5,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "C2.3",
+      "form": "sixthFormGroup",
+      "name": "Conduire un projet RH, manager une équipe et coordonner les activités des intervenants internes et externes",
+      "short_name": "La communication",
+      "mission": [],
+      "criteria": [
+        {
+          "ref_id": "CR3.1.1",
+          "name": "Le candidat est capable de mettre en place des outils de suivi et de reporting RH aux différentes étapes du projet",
+          "note": 2.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.1.2",
+          "name": "Le candidat est capable d’établir un diagnostic de la stratégie et des outils de communication RH",
+          "note": 3.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.1.3",
+          "name": "Le candidat est capable de faire des préconisations opérationnelles en définissant les objectifs et les moyens à mettre en oeuvre avec les parties prenantes",
+          "note": 4.5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.1.4",
+          "name": "Le candidat est capable de concevoir un plan de communication RH interne ou externe en déterminant les supports et les canaux de communication cohérents avec la stratégie de l'entreprise et les objectifs et d’établir un budget",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.1.5",
+          "name": "Le candidat est capable de déterminer des outils d'évaluation des actions de communication proposées",
+          "note": 4,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "C3.2",
+      "form": "seventhFormGroup",
+      "name": "Création et mise à jour de supports et outils d'information et entretien de la relation avec les acteurs internes",
+      "short_name": "Supports & Outils",
+      "mission": [
+        {
+          "mission": "Communication interne",
+          "active": "Rédaction d'articles dans le journal interne RH",
+          "level": "Décide après aval"
+        },
+        {
+          "mission": "Communication interne",
+          "active": "Création du welcome book",
+          "level": "Décide après aval"
+        },
+        {
+          "mission": "Communication interne",
+          "active": "Création de dépliants RH",
+          "level": "Décide après aval"
+        }
+      ],
+      "criteria": [
+        {
+          "ref_id": "CR3.2.1",
+          "name": "Le candidat est capable d'accompagner et d'animer des séances d'information pour soutenir les actions de communication RH auprès du personnel",
+          "note": 5,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.2.2",
+          "name": "Le candidat est capable d'établir une veille pour anticiper les préoccupations des salariés",
+          "note": 3,
+          "not_evaluated": false
+        },
+        {
+          "ref_id": "CR3.2.3",
+          "name": "Le candidat est capable de développer de manière collective et individuelle les caractéristiques de la marque employeur",
+          "note": 4,
+          "not_evaluated": false
+        }
+      ]
+    },
+    {
+      "ref_id": "Summary & Submission",
+      "form": "eightFormGroup",
+      "name": "Summary & Submission",
+      "mission": [],
+      "criteria": [],
+      "short_name": "Summary & Submission",
+      "directive": "<p>&nbsp;Dans le cadre de la professionnalisation de votre stagiaire, vous &ecirc;tes en charge de l&rsquo;accompagnement et de l&rsquo;&eacute;valuation de ses comp&eacute;tences en situation de travail.&nbsp;</p> <p>Lors de son int&eacute;gration au sein de l&rsquo;entreprise, vous lui avez confi&eacute; des missions et fix&eacute; des objectifs lui permettant de d&eacute;velopper ses comp&eacute;tences professionnelles en coh&eacute;rence avec son parcours de formation.&nbsp;</p> <p>Pour faire suite &agrave; votre accompagnement et encadrement, il est n&eacute;cessaire aussi d&rsquo;&eacute;valuer la progression et l&rsquo;acquisition des comp&eacute;tences en fin de parcours.</p> <p>Dans le cadre de ce bilan, vous devrez compl&eacute;ter deux &eacute;valuations :&nbsp;</p> <ul> <li>L&rsquo;&eacute;valuation professionnelle sur les comp&eacute;tences m&eacute;tiers&nbsp;</li> <li>L&rsquo;&eacute;valuation professionnelle des soft skills &nbsp;</li> </ul> <p>Vous trouverez ci-dessous les modalit&eacute;s d&rsquo;&eacute;valuation des comp&eacute;tences mises en &oelig;uvre en entreprise. Cette &eacute;valuation professionnelle reprend les missions figurant sur la fiche de poste en d&eacute;but de formation.&nbsp;</p> <p>Pour chaque comp&eacute;tence m&eacute;tier attendue ; il vous revient d&rsquo;indiquer :</p> <ul> <li>pour chaque crit&egrave;re (CR), &nbsp;un r&eacute;sultat entre 1 et 5 selon l&rsquo;&eacute;chelle d&rsquo;&eacute;valuation ci-dessous&nbsp;</li> <li>pour chaque comp&eacute;tence (C), la justification du niveau de comp&eacute;tence atteint par l&rsquo;apprenant sur la/les mission(s) r&eacute;alis&eacute;e(s) : &nbsp;<ul> <li>les missions / activit&eacute;s mises en oeuvre</li> <li>les points forts</li> <li>les axes d&rsquo;am&eacute;lioration</li> </ul> </li> </ul> <p>PS : Si vous avez confi&eacute; d&rsquo;autres missions susceptibles de valider une comp&eacute;tence, vous pouvez les d&eacute;tailler dans l&rsquo;espace justification de la comp&eacute;tence.&nbsp;</p> <p>Echelle d&apos;&eacute;valuation :&nbsp;</p> <ul> <li>Si le r&eacute;sultat est &lt; 3,5, le crit&egrave;re n&apos;est pas ou pas suffisamment d&eacute;montr&eacute;.&nbsp;</li> <li>Si le r&eacute;sultat est &ge; 3,5, le crit&egrave;re est d&eacute;montr&eacute;.&nbsp;</li> <li>Dans le cas o&ugrave; un crit&egrave;re ou une comp&eacute;tence ne pourrait &ecirc;tre &eacute;valu&eacute; (/5), il convient d&rsquo;indiquer &laquo; NE &raquo; afin de ne pas p&eacute;naliser l&rsquo;apprenant.&nbsp;</li>  </ul> <p>Votre participation &agrave; ce bilan professionnel est d&eacute;terminante et vous conf&egrave;re une place centrale et d&eacute;cisive dans l&rsquo;&eacute;valuation des comp&eacute;tences de l&rsquo;apprenant en situation professionnelle. &nbsp;</p> <p><br></p>"
+    }
+  ]
+}

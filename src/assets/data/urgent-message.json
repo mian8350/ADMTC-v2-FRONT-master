@@ -1,0 +1,59 @@
+{
+    "userTypes" : [
+    {"id": "5a2e1ecd53b95d22c82f9555", "text": "Academic Admin"},
+    {"id": "5a2e1ecd53b95d22c82f9554", "text": "Academic Director"},
+    {"id": "5cdbdeaf4b1f6a1b5a0b3fb6", "text": "Academic Final jury member"},
+    {"id": "5bbcc95a9241912fe42d63d8", "text": "Animateur BG DMOE 2019"},
+    {"id": "5bbcc8f69241912fe42d63d5", "text": "Animateur BG RMO 2019"},
+    {"id": "5aab65efe6fae44214bebdba", "text": "Animator Business Game"},
+    {"id": "5a2e1ecd53b95d22c82f9559", "text": "Corrector"},
+    {"id": "5a9e7ddf8228f45eb2e9bc77", "text": "Cross Corrector"},
+    {"id": "5a2e1ecd53b95d22c82f9553", "text": "Director"},
+    {"id": "5cdbde9b4b1f6a1b5a0b3fb5", "text": "Professional Final  jury member"},
+    {"id": "5bab8a04293eb71d0164d7e8", "text": "TOTOCHRIS"},
+    {"id": "5a2e1ecd53b95d22c82f9558", "text": "Teacher"}
+  ],
+
+  "userList" : [
+    {"civility": "MRS", "firstName": "Adeline", "lastName": "MARIE", "_id": "5bb1ef89835abd37d671960f"},
+    {"civility": "MRS","firstName": "Admin", "lastName": "ADMTC", "_id": "5a253110cea695495fb77257"},
+    {"civility": "MR","firstName": "Adrien", "lastName": "TONNAIRE", "_id": "5bf2e59e3ef7773a15c8ff47"},
+    {"civility": "MRS", "firstName": "Agathe","lastName": "JANSON", "_id": "5a8ea2f2063bf169861663fd"},
+    {"civility": "MRS","firstName": "Agnès", "lastName": "MUNOZ", "_id": "5aaa5e8f6a853f0fddecbe16"},
+    {"civility": "MRS","firstName": "Agnès", "lastName": "GARDILLOU","_id": "5ae9b41dfd070d7e4868ff8b" },
+    {"civility": "MRS", "firstName": "Agnès", "lastName": "DECARPENTRIES", "_id": "5cda912624204b1387070ee7" },
+    {"civility": "MR","firstName": "Alain", "lastName": "GARDEMBAS","_id": "5bd1bcc45b7cdf19acda8bf1"},
+    {"civility": "MR","firstName": "Alain","lastName": "LACOUR","_id": "5ce2bc7aae5c3966051a0666"},
+    {"civility": "MR", "firstName": "Alan", "lastName": "STEPHANT", "_id": "5ba4e8149286fb20791cc3e3" },
+    {"civility": "MR","firstName": "Alex","lastName": "KARABABA","_id": "5c1bbc162e2ef96259cd04ae"},
+    {"civility": "MRS","firstName": "Alexandra","lastName": "GUERIF","_id": "5aaf85c0ee4495643e5d7a70"},
+    {"civility": "MRS", "firstName": "Alexandra","lastName": "DRAZIC","_id": "5ae0568a083ad9377ed7bcf9"},
+    {"civility": "MRS","firstName": "Alexandra","lastName": "ROMAIN","_id": "5b276f191dc04d3c4ff2b5c9"},
+    {"civility": "MR","firstName": "Alexandre","lastName": "ROUX","_id": "5aba6b357b83c96812d437ff" },
+    {"civility": "MRS","firstName": "Alexia","lastName": "BOTBOL","_id": "5a8d4a573b9ccf13c87435ff"},
+    {"civility": "MRS","firstName": "Alexia","lastName": "MOMPO","_id": "5c06864fc2526f5e1efab441"},
+    {"civility": "MRS", "firstName": "Alexina", "lastName": "MEYNIER", "_id": "5cece52ce106c4282f1cf318" },
+    {"civility": "MR","firstName": "Alexis","lastName": "HUBERT", "_id": "5bcef842b018f31c37600373"},
+    {"civility": "MR","firstName": "Alexis","lastName": "CHEVTOFF","_id": "5ceeb63097b03a57a009ce9d"},
+    {"civility": "MRS", "firstName": "Amandine","lastName": "CAZET","_id": "5b83b197c9797239bd7095f0"},
+    {"civility": "MRS","firstName": "Amandine","lastName": "LOUVOIS", "_id": "5cf8d5710b66a5622cdc9b8e"},
+    {"civility": "MRS","firstName": "Andreia","lastName": "MOSCOSO", "_id": "5ce25fb789b79c4bc84382ea" },
+    {"civility": "MRS", "firstName": "Angele","lastName": "NDJEMBA","_id": "5c94b9dfa14bde76ec8433b2"},
+    {"civility": "MRS","firstName": "Angélique","lastName": "FABIEN", "_id": "5bd773f9a2b85e45cd58072b"},
+    {"civility": "MRS", "firstName": "Anna","lastName": "ZADORA", "_id": "5c77f6edebb5a623187abeeb"},
+    {"civility": "MRS","firstName": "Anne","lastName": "LABARE", "_id": "5ba259b8d5ffa52dd0fcf859"}
+  ],
+
+  "rncpTitles" : [
+    {"shortName": "S-DMOE Sep2017", "longName": "Dirigeant Manager Opérationnel d’Entreprise", "rncpLevel": "I", "isPublished": "true", "_id": "594caedef706e87bafc7455d"},
+    {"shortName": "S-RMO", "longName": " Responsable Marketing Opérationnel", "rncpLevel": "II", "isPublished": "true", "_id": "594cb244f706e87bafc74632"},
+    {"shortName": "S-DMOE Sep2016", "longName": "Dirigeant Manager Opérationnel d’Entreprise", "rncpLevel": "I", "isPublished": "true", "_id": "5a44b48e87c22c6b63007207"},
+    {"shortName": "S-DMOE PIGIER SEP2016 ", "longName": "Dirigeant Manager Opérationnel d’Entreprise", "rncpLevel": "I", "isPublished": "true", "_id": "5a9814ad624c036414e1e704"},
+    {"shortName": "S-DMOE PIGIER SEP2017", "longName": "Dirigeant Manager Opérationnel d'Entreprise", "rncpLevel": "I", "isPublished": "true", "_id": "5aa90e32155c845d8f80d90e"},
+    {"shortName": "S-RMO DECALE 2018", "longName": "Responsable Marketing Opérationnel", "rncpLevel": "II", "isPublished": "true", "_id": "5acc8d0bb29c6b42cdbcb0c3"},
+    {"shortName": "S-RMO 2019", "longName": "Responsable Marketing Opérationnel", "rncpLevel": "II", "isPublished": "true", "_id": "5b336e0867912a6bae918a66"},
+    {"shortName": "S-RGP DECALE 2019", "longName": "Responsable de la Gestion du Personnel", "rncpLevel": "II", "isPublished": "true", "_id": "5b37845fa8ac2c0f97824f32"},
+    {"shortName": "S-CHRIS-TEST-MO", "longName": "CHRIS-MO", "rncpLevel": "II", "isPublished": "true", "_id": "5b38a755a8ac2c0f9782891d"},
+    {"shortName": "S-RDC 2019", "longName": "Responsable de Développement Commercial 2019", "rncpLevel": "II", "isPublished": "true", "_id": "5b3b7be2e9a880184ecc5c73"}
+  ]
+}

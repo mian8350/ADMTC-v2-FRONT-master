@@ -1,0 +1,33 @@
+<div class="header-div">
+  <mat-icon svgIcon="pencil" class="icon-style history-dialog-icon"></mat-icon>
+  <b class="header-text history-dialog-title">
+    {{ viewMessageData?.notification_subject }}
+  </b>
+  <div class="header-icon history-dialog-action-btn">
+    <button mat-icon-button type="button" *ngIf="checkIsPreviousBtnShow()" (click)="onPreviousMessage(viewMessageData)">
+      <mat-icon>arrow_left</mat-icon>
+    </button>
+    <button mat-icon-button type="button" style="color: gray" *ngIf="!checkIsPreviousBtnShow()">
+      <mat-icon>arrow_left</mat-icon>
+    </button>
+    <button mat-icon-button type="button" *ngIf="checkIsNextBtnShow()" (click)="onNextMessage(viewMessageData)">
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" style="color: gray" *ngIf="!checkIsNextBtnShow()">
+      <mat-icon>arrow_right</mat-icon>
+    </button>
+    <button mat-icon-button type="button" (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<hr />
+
+<div class="pad-x-md pad-t-md">
+  <div class="p-grid">
+    <div class="p-col-12 pad-y-none justify-content-end">{{ getTranslatedDate(viewMessageData?.sent_date?.date_utc) | titlecase}}</div>
+    <div class="p-col-12 pad-y-none">
+      <p class="body-section" [innerHTML]="viewMessageData?.notification_message | safeHtml"></p>
+    </div>
+  </div>
+</div>

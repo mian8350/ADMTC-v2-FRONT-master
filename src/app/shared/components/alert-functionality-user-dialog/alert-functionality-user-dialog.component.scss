@@ -1,0 +1,163 @@
+@import '~assets/scss/theme/admtc.variables';
+
+.title {
+  display: block;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffd740;
+  color: #000000;
+  padding: 10px;
+}
+
+.footer {
+  display: block;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+}
+
+.header-title {
+  display: inline;
+  font-size: 1.3rem;
+}
+
+.urgentIcon {
+  font-size: 18px;
+  padding-top: 1px;
+  float: left;
+}
+.header-icon {
+  margin: 5px 8px;
+}
+
+.body-section {
+  padding: 0px 2em;
+}
+
+.top-text {
+  border-bottom: 3px solid #000000;
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+.center-title {
+  text-align: center;
+  margin-bottom: 1em;
+  font-size: 24px;
+  font-weight: 800;
+  p {
+    font-size: 24px;
+    font-weight: 800;
+  }
+}
+
+.title-text {
+  margin: 1px 0;
+  text-align: center;
+}
+
+.action-section {
+  width: 100%;
+  color: #000000;
+  margin: 5px 0;
+}
+
+.action-btn {
+  text-align: right;
+}
+
+.action-title-long-name {
+  padding-left: 2em;
+}
+
+.action-text {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.fileInfo {
+  width: fit-content !important;
+  margin: 5px !important;
+  display: inline-block !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+}
+.alignment-bottom {
+  margin-top: 28px;
+  padding-left: 1rem;
+}
+.mrgn-top-18 {
+  margin-top: 18px;
+}
+:host::ng-deep.mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.mic-style:hover {
+  color: red;
+}
+.btn-mic {
+  position: relative;
+  top: -115px;
+  float: right;
+}
+
+:host::ng-deep table {
+  tr {
+    td,
+    th {
+      border: 1px solid $grey;
+    }
+
+    td {
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+  }
+}
+
+:host::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgb(2 2 2 / 69%);
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 0px;
+  }
+
+  .message_detail .ck-toolbar {
+    display: none;
+  }
+
+  .message_detail .ck-content {
+    border: none;
+    padding: 0;
+  }
+
+  .ck-editor__editable_inline {
+    min-height: 120px !important;
+    border: 1px solid #b8b8b8;
+    color: black;
+  }
+}
+:host::ng-deep.ckeditor {
+  .ck-content {
+    min-height: 120px !important;
+  }
+}
+.reply-answer {
+  justify-content: space-between;
+}
+.button-right {
+  justify-content: flex-end;
+}
+.invalid {
+  border-color: red !important;
+}
+:host::ng-deep.ng-invalid.ng-touched .ck-editor__editable_inline {
+  border: 1px solid red;
+}

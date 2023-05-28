@@ -1,0 +1,52 @@
+:host ::ng-deep .ck-editor__editable_inline {
+    min-height: 200px;
+    background-color: white;
+    color: black;
+}
+
+.yellow-border {
+    border: 2px solid #ffd740;
+}
+.bg-color {
+    background-color: #424242;
+}
+.parameter-card {
+border-radius: 2px;
+}
+
+.full-width {
+width: 100%;
+}
+
+.align-right {
+text-align: right;
+}
+
+.card-row {
+margin-bottom: 8px !important;
+padding: 8px;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+h3 {
+font-size: 1.375rem;
+color: inherit;
+}
+
+.classHeading {
+    margin-top: 10px;
+    text-align: start;
+    // font-size: 1rem;
+    // padding: 70px;
+    // padding-bottom: 30px;
+  }
+
+  .section-header {
+    background-color: #363636;
+    margin-top: -1.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }

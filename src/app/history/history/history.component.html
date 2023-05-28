@@ -1,0 +1,385 @@
+<div class="top-space">
+  <div class="horizontal">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="11" class="action-header-column">
+          <mat-form-field class="top-date-picker">
+            <input
+              matInput
+              [formControl]="fromDateFilter"
+              [matDatepicker]="fromPicker"
+              placeholder="{{ 'FROM_HISTORY' | translate }}"
+              readonly
+              (click)="fromPicker.open()"
+            />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="top-date-picker">
+            <input matInput [formControl]="toDateFilter" [matDatepicker]="toPicker" placeholder="{{ 'TO_HISTORY' | translate }}" readonly (click)="!fromDateFilter.value ? $event.preventDefault() : toPicker.open()"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="toPicker"
+              style="margin-right: 5px"
+              [disabled]="!fromDateFilter.value"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" *ngIf="this.permissionService.historyNotifActionsBtnExport()">
+            <mat-icon svgIcon="file-excel-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Export' | translate }}
+          </button>
+
+          <button *ngIf="this.permissionService.historyNotifActionsBtnToday() && type == 'latest'" mat-raised-button [color]="filterDateStatus === 'today'? 'accent':'primary'" (click)="todayDetails()" >
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Today' | translate }}
+          </button>
+
+          <button *ngIf="this.permissionService.historyNotifActionsBtnYesterday() && type == 'latest'" mat-raised-button [color]="filterDateStatus === 'yesterday'? 'accent':'primary'" (click)="filterDateRange('yesterday')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Yesterday' | translate }}
+          </button>
+
+          <button *ngIf="this.permissionService.historyNotifActionsBtnLast7Days() && type == 'latest'" mat-raised-button [color]="filterDateStatus === 'lastWeek'? 'accent':'primary'" (click)="filterDateRange('lastWeek')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Last 7 days' | translate }}
+          </button>
+
+          <button *ngIf="this.permissionService.historyNotifActionsBtnLast30Days() && type == 'latest'" mat-raised-button [color]="filterDateStatus === 'lastMonth'? 'accent':'primary'" (click)="filterDateRange('lastMonth')">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'Last 30 days' | translate }}
+          </button>
+
+          <!-- <button mat-raised-button color="primary">
+            <mat-icon class="mat-icon-default">search</mat-icon>
+            {{ 'This month' | translate }}
+          </button> -->
+
+          <button *ngIf="this.permissionService.historyNotifActionsBtnReset()" mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="dateFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="example-full-width" style="margin-top: 5px">
+            <input matInput [formControl]="dateFilter" [matDatepicker]="picker" placeholder="{{ 'MailBox.DATE' | translate }}" readonly (click)="picker.open()"/>
+            <mat-datepicker-toggle matSuffix [for]="picker" style="margin-right: 5px"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="timeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field class="example-full-width" style="margin-top: 5px">
+            <input
+              matInput
+              [ngxTimepicker]="time_utc"
+              readonly
+              [format]="24"
+              placeholder="{{ 'Time' | translate }}"
+              [formControl]="timeFilter"
+            />
+            <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc">
+              <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                <path
+                  fill="#ffffff"
+                  d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                />
+              </svg>
+            </ngx-material-timepicker-toggle>
+          </mat-form-field>
+          <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="notifRefFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="{{ 'search' | translate }}"
+              class="form-field"
+              [formControl]="notifRefFilter"
+              [matAutocomplete]="autoNotifRef"
+            />
+            <mat-autocomplete #autoNotifRef="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option [value]="" (click)="filterNotifArray(null)">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredRefArray | async"
+                [value]="option"
+                (click)="filterNotifArray(option)"
+                matTooltip="{{ option }}"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="notifSubjectFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="notifSubjectFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="{{ 'search' | translate }}"
+              class="form-field"
+              [formControl]="titleFilter"
+              [matAutocomplete]="autoTitle"              
+            />
+            <mat-autocomplete #autoTitle="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option [value]="" (click)="filterTitle(null)">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredTitleArray | async"
+                [value]="option.short_name"
+                (click)="filterTitle(option?._id)"
+                matTooltip="{{ option.short_name }}"
+              >
+                {{ option.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="{{ 'search' | translate }}"
+              class="form-field"
+              [formControl]="schoolFilter"
+              [matAutocomplete]="autoSchool"
+            />
+            <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option [value]="" (click)="filterSchool(null)">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let option of filteredSchoolArray | async"
+                [value]="option.short_name"
+                (click)="filterSchool(option?._id)"
+                matTooltip="{{ option.short_name }}"
+              >
+                {{ option.short_name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="fromFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="fromFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="toFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="toFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="subjectNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="subjectNameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="testNameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="testNameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="sentDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'MailBox.DATE' | translate }}"
+          matTooltipPosition="above"
+          style="padding-left: 0.5rem"
+        >
+          <h5 mat-sort-header="sent_date">{{ 'MailBox.DATE' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" style="padding-left: 0.5rem" matTooltip="{{ element.sent_date.date_utc }}">
+          {{ translateDate(element?.sent_date) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sentTime">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Time' | translate }}" matTooltipPosition="above" style="padding-left: 0.5rem">
+          <h5 mat-sort-header="sent_time">{{ 'Time' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" style="padding-left: 0.5rem" matTooltip="{{ translateTime(element?.sent_date) }}">
+          {{ translateTime(element?.sent_date) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="notificationReference">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Notif. Ref' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="notif_ref">{{ 'Notif. Ref' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.notification_reference }}">{{ element.notification_reference }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="notificationSubject">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Notif. Subject' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="notif_sub">{{ 'Notif. Subject' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.notification_subject }}">
+          {{ element.notification_subject }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Title' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="rncp">{{ 'Title' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngFor="let title of element?.rncp_titles; index as titleIndex">
+            <span class="tags" *ngIf="title?.short_name && titleIndex <= 1" [matTooltip]="renderTooltipTitleOrSchool(element?.rncp_titles)">
+              {{ title?.short_name }}
+            </span>
+            <span class="tags" *ngIf="titleIndex === 2" [matTooltip]="renderTooltipTitleOrSchool(element?.rncp_titles)"> ... </span>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="school">{{ 'School' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngFor="let school of element?.schools; index as schoolIndex">
+            <span class="tags" *ngIf="school?.short_name && schoolIndex <= 1" [matTooltip]="renderTooltipTitleOrSchool(element?.schools)">
+              {{ school?.short_name }}
+            </span>
+            <span class="tags" *ngIf="schoolIndex === 2" [matTooltip]="renderTooltipTitleOrSchool(element?.schools)"> ... </span>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="from">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'FROM_HISTORY' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="from">{{ 'FROM_HISTORY' | translate }}</h5>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element.from?.last_name }} {{ element.from?.first_name }} {{ element.from?.civility | translate }}"
+        >
+          {{ element.from?.last_name | uppercase }} {{ element.from?.first_name }} {{ element.from?.civility | translate }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="to">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'TO_HISTORY' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="to">{{ 'TO_HISTORY' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ getToUserTooltip(element.to) }}">
+          <span *ngFor="let to of element.to"> {{ to?.last_name | uppercase }} {{ to?.first_name }} {{ to?.civility | translate }} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subjectName">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Subject' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="subject">{{ 'Subject' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element.subject?.subject_name }}">
+          {{ element.subject?.subject_name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="testName">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Test' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="test">{{ 'Test' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" style="text-align: center" matTooltip="{{ element.test?.name }}">
+          {{ element.test?.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'Action' | translate }}"
+          matTooltipPosition="above"
+          style="padding-right: 0.5rem !important"
+        >
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'View' | translate }}"
+            matTooltipPosition="above"
+            (click)="viewHistory(element)"
+            *ngIf="this.permissionService.historyNotifActionsViewPerm()"
+          >
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+           <!-- <button
+            mat-icon-button
+            class="margin-right-button"
+            matTooltip="{{ 'Forward' | translate }}"
+            matTooltipPosition="above"
+            (click)="sendForwardMessage(element)"
+          >
+            <mat-icon>send</mat-icon>
+          </button>  -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="11" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+  </div>
+  <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+    {{ 'NO_NOTIFICATION_HISTORY' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      showFirstLastButtons
+      [ngClass]="{ 'hide-pagination-buttons': historyCount <= 10 }"
+      [length]="historyCount"
+      [hidePageSize]="true"
+      [pageSize]="[10]"
+    >
+    </mat-paginator>
+  </div>
+</div>

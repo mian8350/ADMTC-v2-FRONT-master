@@ -1,0 +1,90 @@
+.dialogTitle {
+  display: inline-block;
+}
+.dialogTitleWrapper {
+  color: white;
+}
+.dialog-border {
+  border-bottom: 1px solid white;
+}
+.float-right {
+  float: right;
+}
+.header-dialog {
+  padding: 0 5px 0 15px;
+}
+.overflow-auto {
+  overflow: auto;
+}
+
+.commentaries-card {
+  margin-top: 16px !important;
+  min-height: 280px;
+}
+
+.pad-top {
+  padding-top: 3px;
+}
+
+.avatar {
+  width: 70px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.reply {
+  width: 860px;
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow: auto;
+}
+.student-details-img {
+  border-radius: 50%;
+}
+
+.comment-section {
+  border: 1px solid #607d8b;
+  background: #303030;
+  color: white;
+}
+
+.comment-message {
+  .message-body {
+    ::ng-deep.mention {
+      color: deepskyblue !important;
+    }
+  }
+}
+.reply-form-text {
+  color: black;
+}
+.reply-form {
+  ::ng-deep .mat-form-field-outline {
+    background-color: #ffffff6e !important;
+    border-color: white !important;
+    border-radius: 0 !important;
+    color: black;
+  }
+  ::ng-deep .mat-form-field-outline-start {
+    border-color: #ffffff6e !important;
+    border-radius: 0 !important;
+  }
+  ::ng-deep .mat-form-field-outline-end {
+    border-color: #ffffff6e !important;
+    border-radius: 0 !important;
+  }
+}
+:host::ng-deep.ck.ck-content {
+  padding-right: 65px;
+}
+:host::ng-deep.ck.ck-toolbar {
+  border: none;
+}
+:host::ng-deep.ck-editor__editable_inline {
+  min-height: 50px;
+  border: 1px solid #ffffff;
+  background: #ffffff6e !important;
+  color: #242424 !important;
+}
+:host::ng-deep.ck-content .mention {
+  color: black;
+}

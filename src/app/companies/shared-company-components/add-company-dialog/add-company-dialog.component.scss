@@ -1,0 +1,94 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.dialog-border {
+  border-bottom: 1px solid black;
+}
+
+.no-padding-bottom {
+  padding-bottom: 0px;
+  padding-top: 0;
+}
+
+.adjust-dialog-header {
+  padding-left: 23px;
+  padding-bottom: 0px;
+}
+
+.dialog-icon {
+  float: left;
+  margin-top: 7px;
+  color: black;
+}
+
+.btn-standard {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.dialog-title-text {
+  color: black;
+  padding-left: 10px;
+  float: left;
+}
+
+.close-icon {
+  float: right;
+  color: black;
+}
+
+.dialog-fields-container {
+  padding: 15px;
+}
+
+.standard-width {
+  width: 90%;
+}
+
+.border-bottom {
+  border-bottom-style: solid;
+  border-bottom-color: rgb(0, 0, 0);
+}
+
+.float-center {
+  margin: 10px;
+}
+
+.btn-right {
+  position: absolute;
+  right: 26%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container-btn {
+  padding-bottom: 20px;
+}
+
+[hidden] {
+  display: none !important;
+}
+.title{
+  padding-top: 12px;
+}
+.add-company{
+  padding: 5px 40px 5px;
+}
+:host ::ng-deep.mat-raised-button {
+  margin-top: 5px;
+}
+:host ::ng-deep.mat-icon{
+  margin-right: 5px;
+}
+.form {
+  padding: 5px 25px 20px;
+}
+.add{
+  padding-bottom: 0px;
+}
+:host ::ng-deep.close-icon {
+  margin-top: 10px;
+}

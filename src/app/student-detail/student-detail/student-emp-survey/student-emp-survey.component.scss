@@ -1,0 +1,22 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+.margin-adjust{
+    margin: 0 10rem;
+}
+
+mat-card-content{
+    padding: 0.5rem;
+    border: 2px solid #ffd740;
+}
+
+button{
+    border-radius: 0.1rem;
+}
+
+/* Don't use mat-raised-button with mat-yellow class */
+.mat-yellow {
+    background-color: #ffeb3b !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+    
+}

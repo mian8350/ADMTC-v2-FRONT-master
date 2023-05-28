@@ -1,0 +1,18 @@
+@import "~assets/scss/theme/admtc.variables";
+@import "~assets/scss/theme/admtc";
+
+.text-style{
+    color: $dark-grey;    
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+.p-1{
+    padding-right: 1rem;
+}
+
+.alignment{
+    float: right;
+}

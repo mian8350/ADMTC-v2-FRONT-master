@@ -1,0 +1,679 @@
+<div class="p-grid" *ngIf="parameterForm && selection && getBlockConditionDetails()?.length">
+  <div class="p-col-12">
+    <button
+      mat-raised-button
+      color="primary"
+      class="button-margin"
+      (click)="save()"
+      [disabled]="!selection.hasValue() || noBlockSelected()"
+    >
+      <!-- <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon> -->
+      {{ 'Save' | translate }}
+    </button>
+  </div>
+</div>
+<div class="p-grid" *ngIf="parameterForm">
+  <div class="p-col-5">
+    <!-- For School Selection -->
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="2">
+          <div class="p-grid">
+            <div class="p-col-9 padding-none">
+              <h5 class="text-left mrgn-all-xs">
+                {{
+                  (type === 'grand_oral'
+                    ? ('Grand_Oral_Improvement.GRAND_ORAL.school_involved'
+                      | translate
+                        : {
+                            processName: selectedTitleClassData?.class_id?.jury_process_name
+                              ? selectedTitleClassData?.class_id?.jury_process_name
+                              : 'Grand Oral'
+                          })
+                    : ('Grand_Oral_Improvement.GRANDORAL.TABLE'
+                      | translate
+                        : {
+                            processName: selectedTitleClassData?.class_id?.jury_process_name
+                              ? selectedTitleClassData?.class_id?.jury_process_name
+                              : 'Grand Oral'
+                          })
+                  ) | translate
+                }}
+              </h5>
+            </div>
+            <div class="p-col-3 padding-none justify-content-end">
+              <button mat-raised-button color="primary" class="margin-right-0" (click)="reset()" style="padding: 0px 7px 7px 7px">
+                <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+                {{ 'RESET' | translate }}
+              </button>
+            </div>
+          </div>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="selectFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="schoolFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-checkbox
+            (change)="$event ? masterToggle($event) : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [disabled]="type === 'retake_grand_oral'"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row._id) : null"
+            [checked]="selection.isSelected(row._id)"
+            [disabled]="type === 'retake_grand_oral'"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'TRANSCRIPT_PROCESS.School' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="school">
+            <h5>{{ 'TRANSCRIPT_PROCESS.School' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="icon-hand" matTooltip="{{ element?.short_name }}" matTooltipPosition="above">
+            {{ element?.short_name }}
+          </span>
+          <span
+            class="red-icon"
+            *ngIf="selection.isSelected(element) && element?.block_already_selected?.length && isSchoolAlreadySelectedBlock(element)"
+          >
+            <span [matTooltip]="getToolTipError(element)" matTooltipPosition="above">
+              {{ '!' }}
+            </span>
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="2" class="text-center">
+          <!-- <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div> -->
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        [length]="dataCount"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+  <div class="p-col-7">
+    <!-- For Sliders Inputt -->
+    <div class="p-grid m-b-20" [formGroup]="parameterForm">
+      <div class="p-col-12 no-padding">
+        <div class="p-grid yellow-border card-row">
+          <div class="section-header">
+            <h3>
+              {{
+                (type === 'retake_grand_oral'
+                  ? ('Grand_Oral_Improvement.GRANDORAL.SECTION_1'
+                    | translate
+                      : {
+                          processName: selectedTitleClassData?.class_id?.jury_process_name
+                            ? selectedTitleClassData?.class_id?.jury_process_name
+                            : 'Grand Oral'
+                        })
+                  : ('Grand_Oral_Improvement.GRAND_ORAL.Grand Oral Paramaters'
+                    | translate
+                      : {
+                          processName: selectedTitleClassData?.class_id?.jury_process_name
+                            ? selectedTitleClassData?.class_id?.jury_process_name
+                            : 'Grand Oral'
+                        })
+                ) | translate
+              }}
+            </h3>
+            <!-- <h3>{{ 'GRAND_ORAL.Grand Oral Paramaters' | translate }}</h3> -->
+          </div>
+          <!-- SLIDER Start -->
+          <div class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-8" style="padding: 0">
+                <mat-slide-toggle
+                  formControlName="send_grand_oral_pdf_to_jury"
+                  (change)="changeDate($event, 'send_grand_oral_pdf_to_jury')"
+                >
+                  <span
+                    class="fix-font-size"
+                    [ngStyle]="{ color: parameterForm.get('send_grand_oral_pdf_to_jury').value ? '#ffe77a' : 'white' }"
+                  >
+                    {{
+                      (parameterForm.get('send_grand_oral_pdf_to_jury').value
+                        ? type === 'retake_grand_oral'
+                          ? ('Grand_Oral_Improvement.GRANDORAL.SECTIONSTUDENT_1'
+                            | translate
+                              : {
+                                  processName: selectedTitleClassData?.class_id?.jury_process_name
+                                    ? selectedTitleClassData?.class_id?.jury_process_name
+                                    : 'Grand Oral'
+                                })
+                          : ('Grand_Oral_Improvement.GRAND_ORAL.Students: Doc Grand Oral generated on :'
+                            | translate
+                              : {
+                                  processName: selectedTitleClassData?.class_id?.jury_process_name
+                                    ? selectedTitleClassData?.class_id?.jury_process_name
+                                    : 'Grand Oral'
+                                })
+                        : type === 'retake_grand_oral'
+                        ? ('Grand_Oral_Improvement.GRANDORAL.SECTIONSTUDENT_2'
+                          | translate
+                            : {
+                                processName: selectedTitleClassData?.class_id?.jury_process_name
+                                  ? selectedTitleClassData?.class_id?.jury_process_name
+                                  : 'Grand Oral'
+                              })
+                        : ('Grand_Oral_Improvement.GRAND_ORAL.Students: Doc Grand Oral generated off :'
+                          | translate
+                            : {
+                                processName: selectedTitleClassData?.class_id?.jury_process_name
+                                  ? selectedTitleClassData?.class_id?.jury_process_name
+                                  : 'Grand Oral'
+                              })
+                      ) | translate
+                    }}</span
+                  >
+                </mat-slide-toggle>
+              </div>
+              <div class="p-col-4" style="height: 30px; padding: 0">
+                <div
+                  [ngClass]="{ 'd-none': !parameterForm.get('send_grand_oral_pdf_to_jury').value }"
+                  class="p-grid d-flex"
+                  style="padding: 0"
+                >
+                  <div class="p-col-5 position-adjust" style="margin: 0; padding: 0">
+                    <span class="fix-font-size">
+                      {{ 'GRAND_ORAL.Sending Date' | translate }}
+                    </span>
+                  </div>
+                  <div class="p-col" style="height: 30px; padding: 0">
+                    <mat-form-field style="width: 120px; height: 30px" class="position-adjust">
+                      <input
+                        (click)="toPicker.open()"
+                        matInput
+                        formControlName="send_grand_oral_pdf_to_jury_schedule"
+                        [matDatepicker]="toPicker"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        [min]="dayAfterToday"
+                        readonly
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="toPicker" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #toPicker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div [ngClass]="{ 'd-none': !parameterForm.get('send_grand_oral_pdf_to_jury').value }" class="m-l-45">
+            <mat-form-field class="top-date-picker">
+              <input
+                matInput
+                (click)="toPicker.open()"
+                [matDatepicker]="toPicker"
+                placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                formControlName="send_grand_oral_pdf_to_jury_schedule"
+                [min]="dayAfterToday"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="toPicker" style="margin-right: 5px"></mat-datepicker-toggle>
+              <mat-datepicker #toPicker></mat-datepicker>
+            </mat-form-field>
+          </div> -->
+          <div class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-8" style="padding: 0">
+                <mat-slide-toggle
+                  formControlName="student_required_upload_presentation"
+                  (change)="changeDate($event, 'student_required_upload_presentation')"
+                >
+                  <span
+                    class="fix-font-size"
+                    [ngStyle]="{ color: parameterForm.get('student_required_upload_presentation').value ? '#ffe77a' : 'white' }"
+                  >
+                    {{
+                      (parameterForm.get('student_required_upload_presentation').value
+                        ? 'GRANDORAL.STUDENT_PRESENTATION_1'
+                        : 'GRANDORAL.STUDENT_PRESENTATION_2'
+                      ) | translate
+                    }}
+                  </span>
+                </mat-slide-toggle>
+              </div>
+              <div class="p-col-4" style="height: 30px; padding: 0">
+                <div
+                  [ngClass]="{ 'd-none': !parameterForm.get('student_required_upload_presentation').value }"
+                  class="p-grid d-flex"
+                  style="padding: 0"
+                >
+                  <div class="p-col-5 position-adjust" style="margin: 0; padding: 0">
+                    <span class="fix-font-size">
+                      {{ 'GRAND_ORAL.Due Date' | translate }}
+                    </span>
+                  </div>
+                  <div class="p-col" style="height: 30px; padding: 0">
+                    <mat-form-field style="width: 120px; height: 30px" class="position-adjust">
+                      <input
+                        (click)="dateThree.open()"
+                        matInput
+                        formControlName="student_required_upload_presentation_schedule"
+                        [matDatepicker]="dateThree"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        [min]="today"
+                        readonly
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="dateThree" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #dateThree></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="p-col-12">
+            <mat-slide-toggle
+              formControlName="student_required_upload_presentation"
+              (change)="changeDate($event, 'student_required_upload_presentation')"
+            >
+              <span
+                class="fix-font-size"
+                [ngStyle]="{ color: parameterForm.get('student_required_upload_presentation').value ? '#ffe77a' : 'white' }"
+              >
+                {{
+                  (parameterForm.get('student_required_upload_presentation').value
+                    ? 'GRAND_ORAL.Students Require to upload their presentation'
+                    : 'GRAND_ORAL.Students NOT Require to upload their presentation'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div> -->
+          <!-- <div
+            [ngClass]="{ 'd-none': !parameterForm.get('student_required_upload_presentation').value }"
+            style="margin-top: -15px"
+            class="m-l-45 w100 p-col-12 d-flex"
+          >
+            <div style="margin: auto 0">
+              <span class="fix-font-size">
+                {{ 'GRAND_ORAL.Due Date' | translate }}
+              </span>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field class="top-date-picker">
+                <input
+                  (click)="dateThree.open()"
+                  matInput
+                  formControlName="student_required_upload_presentation_schedule"
+                  [matDatepicker]="dateThree"
+                  placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                  [min]="today"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="dateThree" style="margin-right: 5px"></mat-datepicker-toggle>
+                <mat-datepicker #dateThree></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div> -->
+          <div class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-8" style="padding: 0">
+                <mat-slide-toggle formControlName="student_required_upload_cv" (change)="changeDate($event, 'student_required_upload_cv')">
+                  <span
+                    class="fix-font-size"
+                    [ngStyle]="{ color: parameterForm.get('student_required_upload_cv').value ? '#ffe77a' : 'white' }"
+                  >
+                    {{
+                      (parameterForm.get('student_required_upload_cv').value
+                        ? 'GRAND_ORAL.Student require to upload their CV :'
+                        : 'GRAND_ORAL.Student is not required to upload their CV'
+                      ) | translate
+                    }}
+                  </span>
+                </mat-slide-toggle>
+              </div>
+              <div class="p-col-4" style="height: 30px; padding: 0">
+                <div
+                  [ngClass]="{ 'd-none': !parameterForm.get('student_required_upload_cv').value }"
+                  class="p-grid d-flex"
+                  style="padding: 0"
+                >
+                  <div class="p-col-5 position-adjust" style="margin: 0; padding: 0">
+                    <span class="fix-font-size">
+                      {{ 'GRAND_ORAL.Due Date' | translate }}
+                    </span>
+                  </div>
+                  <div class="p-col" style="height: 30px; padding: 0">
+                    <mat-form-field style="width: 120px; height: 30px" class="position-adjust">
+                      <input
+                        matInput
+                        (click)="dateFour.open()"
+                        [matDatepicker]="dateFour"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        formControlName="student_required_upload_cv_schedule"
+                        [min]="today"
+                        readonly
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="dateFour" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #dateFour></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="p-col-12">
+            <mat-slide-toggle formControlName="student_required_upload_cv" (change)="changeDate($event, 'student_required_upload_cv')">
+              <span
+                class="fix-font-size"
+                [ngStyle]="{ color: parameterForm.get('student_required_upload_cv').value ? '#ffe77a' : 'white' }"
+              >
+                {{
+                  (parameterForm.get('student_required_upload_cv').value
+                    ? 'GRAND_ORAL.Student require to upload their CV :'
+                    : 'GRAND_ORAL.Student is not required to upload their CV'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div> -->
+          <!-- <div [ngClass]="{ 'd-none': !parameterForm.get('student_required_upload_cv').value }" class="m-l-45 w100 p-col-12 d-flex">
+            <div style="margin: auto 0">
+              <span class="fix-font-size">
+                {{ 'GRAND_ORAL.Due Date' | translate }}
+              </span>
+            </div>
+            <div class="p-col-6">
+              <mat-form-field class="top-date-picker">
+                <input
+                  matInput
+                  (click)="dateFour.open()"
+                  [matDatepicker]="dateFour"
+                  placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                  formControlName="student_required_upload_cv_schedule"
+                  [min]="today"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="dateFour" style="margin-right: 5px"></mat-datepicker-toggle>
+                <mat-datepicker #dateFour></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div> -->
+          <div class="p-col-12" *ngIf="activity !== 'off_platform_jury'">
+            <div class="p-grid">
+              <div class="p-col-8" style="padding: 0">
+                <mat-slide-toggle
+                  formControlName="send_grand_oral_pdf_to_student"
+                  (change)="changeDate($event, 'send_grand_oral_pdf_to_student')"
+                >
+                  <span
+                    class="fix-font-size"
+                    [ngStyle]="{ color: parameterForm.get('send_grand_oral_pdf_to_student').value ? '#ffe77a' : 'white' }"
+                  >
+                    {{
+                      (parameterForm.get('send_grand_oral_pdf_to_student').value
+                        ? type === 'retake_grand_oral'
+                          ? ('Grand_Oral_Improvement.GRANDORAL.SECTIONJURYPRESIDENT_1'
+                            | translate
+                              : {
+                                  processName: selectedTitleClassData?.class_id?.jury_process_name
+                                    ? selectedTitleClassData?.class_id?.jury_process_name
+                                    : 'Grand Oral'
+                                })
+                          : ('Grand_Oral_Improvement.GRAND_ORAL.Jury Members & Presidents: Doc Grand Oral their presentation'
+                            | translate
+                              : {
+                                  processName: selectedTitleClassData?.class_id?.jury_process_name
+                                    ? selectedTitleClassData?.class_id?.jury_process_name
+                                    : 'Grand Oral'
+                                })
+                        : type === 'retake_grand_oral'
+                        ? ('Grand_Oral_Improvement.GRANDORAL.SECTIONJURYPRESIDENT_2'
+                          | translate
+                            : {
+                                processName: selectedTitleClassData?.class_id?.jury_process_name
+                                  ? selectedTitleClassData?.class_id?.jury_process_name
+                                  : 'Grand Oral'
+                              })
+                        : ('Grand_Oral_Improvement.GRAND_ORAL.NOT Jury Members & Presidents: Doc Grand Oral their presentation'
+                          | translate
+                            : {
+                                processName: selectedTitleClassData?.class_id?.jury_process_name
+                                  ? selectedTitleClassData?.class_id?.jury_process_name
+                                  : 'Grand Oral'
+                              })
+                      ) | translate
+                    }}
+                  </span>
+                </mat-slide-toggle>
+              </div>
+              <div class="p-col-4" style="height: 30px; padding: 0">
+                <div
+                  [ngClass]="{ 'd-none': !parameterForm.get('send_grand_oral_pdf_to_student').value }"
+                  class="p-grid d-flex"
+                  style="padding: 0"
+                >
+                  <div class="p-col-5 position-adjust" style="margin: 0; padding: 0">
+                    <span class="fix-font-size">
+                      {{ 'GRAND_ORAL.Sending Date' | translate }}
+                    </span>
+                  </div>
+                  <div class="p-col" style="height: 30px; padding: 0">
+                    <mat-form-field style="width: 120px; height: 30px" class="position-adjust">
+                      <input
+                        matInput
+                        (click)="dateTwo.open()"
+                        formControlName="send_grand_oral_pdf_to_student_schedule"
+                        [matDatepicker]="dateTwo"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        [min]="dayAfterToday"
+                        readonly
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="dateTwo" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #dateTwo></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col-12 retake" *ngIf="type === 'retake_grand_oral'">
+            <div class="p-grid">
+              <div class="p-col-8" style="padding: 0">
+                <span>
+                  {{
+                    'Grand_Oral_Improvement.GRANDORAL.RETAKEENDDATE'
+                      | translate
+                        : {
+                            processName: selectedTitleClassData?.class_id?.jury_process_name
+                              ? selectedTitleClassData?.class_id?.jury_process_name
+                              : 'Grand Oral'
+                          }
+                  }}
+                </span>
+              </div>
+              <div class="p-col-4" style="height: 30px; padding: 0">
+                <div class="p-grid d-flex" style="padding: 0">
+                  <div class="p-col-5 position-adjust" style="margin: 0; padding: 0">
+                    <span class="fix-font-size"> {{ 'GRANDORAL.ENDDATE' | translate }}* </span>
+                  </div>
+                  <div class="p-col" style="height: 30px; padding: 0">
+                    <mat-form-field style="width: 120px; height: 30px" class="position-adjust">
+                      <input
+                        matInput
+                        (click)="dateRetake.open()"
+                        [matDatepicker]="dateRetake"
+                        placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                        formControlName="grand_oral_retake_end_date"
+                        [min]="today"
+                        readonly
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="dateRetake" style="margin-right: 5px"></mat-datepicker-toggle>
+                      <mat-datepicker #dateRetake></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="p-col-12">
+            <mat-slide-toggle
+              formControlName="send_grand_oral_pdf_to_student"
+              (change)="changeDate($event, 'send_grand_oral_pdf_to_student')"
+            >
+              <span
+                class="fix-font-size"
+                [ngStyle]="{ color: parameterForm.get('send_grand_oral_pdf_to_student').value ? '#ffe77a' : 'white' }"
+              >
+                {{
+                  (parameterForm.get('send_grand_oral_pdf_to_student').value
+                    ? 'GRAND_ORAL.Jury Members & Presidents: Doc Grand Oral their presentation'
+                    : 'GRAND_ORAL.NOT Jury Members & Presidents: Doc Grand Oral their presentation'
+                  ) | translate
+                }}
+              </span>
+            </mat-slide-toggle>
+          </div> -->
+          <!-- <div [ngClass]="{ 'd-none': !parameterForm.get('send_grand_oral_pdf_to_student').value }" class="m-l-45">
+            <mat-form-field class="top-date-picker">
+              <input
+                matInput
+                (click)="dateTwo.open()"
+                formControlName="send_grand_oral_pdf_to_student_schedule"
+                [matDatepicker]="dateTwo"
+                placeholder="{{ 'GRAND_ORAL.dd/mm/yyyy' | translate }}"
+                [min]="dayAfterToday"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="dateTwo" style="margin-right: 5px"></mat-datepicker-toggle>
+              <mat-datepicker #dateTwo></mat-datepicker>
+            </mat-form-field>
+          </div> -->
+          <!-- <div class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-12" style="padding: 0">
+                <mat-slide-toggle formControlName="grand_oral_proposition">
+                  <span
+                    class="fix-font-size"
+                    [ngStyle]="{ color: parameterForm.get('grand_oral_proposition').value ? '#ffe77a' : 'white' }"
+                  >
+                    {{
+                      (parameterForm.get('grand_oral_proposition').value
+                        ? 'GRAND_ORAL.The column for overall suggestion for each competence is DISPLAYED'
+                        : 'GRAND_ORAL.The column for overall suggestion for each competence is NOT DISPLAYED'
+                      ) | translate
+                    }}
+                  </span>
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- For Block Section -->
+    <div class="p-grid">
+      <div class="p-col-12 no-padding">
+        <div class="p-grid yellow-border card-row">
+          <div class="section-header">
+            <h3>
+              {{
+                (type === 'retake_grand_oral'
+                  ? ('Grand_Oral_Improvement.GRANDORAL.SECTION_2'
+                    | translate
+                      : {
+                          processName: selectedTitleClassData?.class_id?.jury_process_name
+                            ? selectedTitleClassData?.class_id?.jury_process_name
+                            : 'Grand Oral'
+                        })
+                  : ('Grand_Oral_Improvement.GRAND_ORAL.Select Block for Grand Oral'
+                    | translate
+                      : {
+                          processName: selectedTitleClassData?.class_id?.jury_process_name
+                            ? selectedTitleClassData?.class_id?.jury_process_name
+                            : 'Grand Oral'
+                        })
+                ) | translate
+              }}
+            </h3>
+          </div>
+          <div class="p-col-12 scrollable" *ngIf="blocks?.length && getBlockConditionDetails()?.length">
+            <mat-list>
+              <div *ngFor="let block of blocks; let blockIndex = index" style="padding: 0 0 20px 0">
+                <mat-checkbox
+                  [disabled]="selectedTitleClassData.schools?.length == 0 || type === 'retake_grand_oral'"
+                  [formControl]="getBlockConditionDetails().at(blockIndex).get('is_selected')"
+                >
+                  <span class="span-checkbox-text">
+                    {{ utilService.cleanHTML(block?.block_id?.block_of_competence_condition) }}
+                  </span>
+                </mat-checkbox>
+                <mat-list style="padding: 0px">
+                  <div *ngFor="let subject of block?.block_id?.subjects; let subjectIndex = index">
+                    <mat-list-item (click)="openToggle(blockIndex, subjectIndex)" style="cursor: pointer">
+                      <i class="fa" [ngClass]="expandedToggle[blockIndex][subjectIndex] ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                      <mat-icon class="acadkit-icon">folder</mat-icon>
+                      <span class="span-text">
+                        {{ subject.subject_name }}
+                      </span>
+                    </mat-list-item>
+                    <mat-list style="margin-left: 30px; padding-top: 0px" *ngIf="expandedToggle[blockIndex][subjectIndex]">
+                      <div *ngFor="let test of subject.evaluations">
+                        <mat-list-item style="padding-left: 0">
+                          <mat-icon class="icon">insert_drive_file</mat-icon>
+                          <span class="span-text">
+                            {{ test.evaluation }}
+                          </span>
+                        </mat-list-item>
+                      </div>
+                    </mat-list>
+                  </div>
+                </mat-list>
+              </div>
+            </mat-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

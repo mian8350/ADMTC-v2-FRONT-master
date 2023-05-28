@@ -1,0 +1,285 @@
+<div class="top-space">
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="action-header-column text-right">
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button *ngIf="permissionService?.addEmployabilitySurvey()" mat-raised-button color="accent" (click)="openAddSurveyDialog()">
+            <mat-icon class="mat-icon-default">add</mat-icon>
+            {{ 'ES_MAIN_TABLE.Employability Survey' | translate }}
+          </button>
+        </th>
+      </ng-container>
+
+      <!-- Start Filters ------------------------------------------------------------------------------------------------------------>
+
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="classFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [formControl]="classFilter"
+              [matAutocomplete]="classes"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #classes="matAutocomplete" [panelWidth]="'fit'" >
+              <mat-option value="" (click)="classSelected('AllS')" matTooltip="{{ 'AllM' | translate }}">{{ 'AllM' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let classess of classFiltered | async"
+                [value]="classess.name"
+                matTooltip="{{ classess.name | translate }}"
+                (click)="classSelected(classess._id)"
+              >
+                {{ classess.name | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="autoTitles"
+              [formControl]="titleFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoTitles="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option (click)="titleSelected('AllS')" value="" matTooltip="{{ 'All' | translate }}">{{ 'All' | translate }} </mat-option>
+              <mat-option (click)="titleSelected(title._id)" *ngFor="let title of titleFiltered | async" [value]="title.short_name" matTooltip="{{ title.short_name | translate }}">
+                {{ title.short_name | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="templateFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="templates"
+              [formControl]="templateFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #templates="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option (click)="templateSelected('AllS')" value="" matTooltip="{{ 'All' | translate }}">{{ 'All' | translate }}</mat-option>
+              <mat-option (click)="templateSelected(es._id)" *ngFor="let es of esTemplateListFilter | async" [value]="es.form_builder_name" matTooltip="{{ es.form_builder_name | translate }}">
+                {{ es.form_builder_name | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="typeFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="typeAuto"
+              [formControl]="typeFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #typeAuto="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option (click)="surveyTypeSelected('AllS')" value="" matTooltip="{{ 'All' | translate }}">{{ 'All' | translate }}</mat-option>
+              <mat-option (click)="surveyTypeSelected(type)" *ngFor="let type of surveyTypeListFilter | async" [value]="type | translate" matTooltip="{{ type | translate }}">
+                {{ type | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [formControl]="statusFilter"
+              [matAutocomplete]="statusss"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #statusss="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option (click)="statusSelected('AllS')" matTooltip="{{ 'All' | translate }}" value="">{{ 'All' | translate }}</mat-option>
+              <mat-option
+                *ngFor="let statuss of statusListFilter | async"
+                [value]="statuss | translate"
+                (click)="statusSelected(statuss)"
+                matTooltip="{{ statuss | translate }}"
+              >
+                {{ statuss | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- Start Data Rows ------------------------------------------------------------------------------------------------------------>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ES_MAIN_TABLE.Survey Name' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="name">
+            <h5>{{ 'ES_MAIN_TABLE.Survey Name' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"  matTooltip="{{ element?.name }}" matTooltipPosition="above">
+          <a> {{ element.name }} </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Class' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="class_name">
+            <h5>{{ 'Class' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.class_id?.name }}" matTooltipPosition="above">
+          <a> {{ element?.class_id?.name }} </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Title' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="rncp_title_name">
+            <h5>{{ 'Title' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{ element?.rncp_title_id?.short_name }}" matTooltipPosition="above">
+          <a> {{ element?.rncp_title_id?.short_name }} </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="template_selected">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ES_MAIN_TABLE.Template Selected' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="questionnaire_template">
+            <h5>{{ 'ES_MAIN_TABLE.Template Selected' | translate }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+        >
+          <!-- <a> {{ element?.employability_surveys[0]?.questionnaire_template_id?.questionnaire_name }} </a> -->
+          <ng-container *ngIf="element?.employability_surveys?.length">
+            <p *ngFor="let survey of element?.employability_surveys; index as i" class="display-inline">
+              <span class="tags" *ngIf="i === 0" [matTooltip]="renderTemplateNameTooltips(element?.employability_surveys, element?.is_es_new_flow_form_builder)">{{
+                 element.is_es_new_flow_form_builder ? survey?.form_builder_id?.form_builder_name : survey?. questionnaire_template_id?.questionnaire_name
+              }}</span>
+              <span class="tags" *ngIf="i === 1" [matTooltip]="renderTemplateNameTooltips(element?.employability_surveys, element?.is_es_new_flow_form_builder)"> ... </span>
+            </p>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ES_MAIN_TABLE.Survey Type' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="employability_survey_type">
+            <h5>{{ 'ES_MAIN_TABLE.Survey Type' | translate }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element?.employability_survey_type | translate }}"
+          matTooltipPosition="above"
+        >
+          <p>{{ 'ES_MAIN_TABLE.'+element?.employability_survey_type | translate }}</p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Status' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="employability_survey_completed_status">
+            <h5>{{ 'Status' | translate }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          matTooltip="{{ element?.employability_survey_completed_status ? (element?.employability_survey_completed_status | translate) : ('not_started' | translate) }}"
+          matTooltipPosition="above"
+        >
+          <mat-icon
+            [ngClass]="{
+              green: element?.employability_survey_completed_status === 'all_survey_completed',
+              orange: element?.employability_survey_completed_status === 'survey_not_completed_due_date_already_passed',
+              red: element?.employability_survey_completed_status === 'survey_not_completed_due_date_not_passed',
+              black: !element?.employability_survey_completed_status
+            }"
+            aria-hidden="true"
+          >
+            lens
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button *ngIf="permissionService?.editEmployabilitySurvey()" mat-icon-button class="margin-right-button" matTooltip="{{ 'Edit' | translate }}" (click)="goToESDetails(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="!element?.employability_survey_completed_status" class="margin-right-button" matTooltip="{{ 'Delete' | translate }}" (click)="deleteESProcess(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="100%" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isPageLoading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,191 @@
+<div class="top-space">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="createdAt"
+    matSortDirection="asc"
+    matSortDisableClear
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="8" class="action-header-column" style=" text-align: right !important;">
+        <button mat-raised-button color="primary" (click)="resetSelection()">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+        <button mat-raised-button color="accent">
+          <mat-icon class="mat-icon-default">markunread_mailbox</mat-icon>
+          {{ 'Add Suggestion / Idea' | translate }}
+        </button>
+      </th>
+    </ng-container>
+    <ng-container matColumnDef="dateFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="dateFilter"
+            [matDatepicker]="picker"
+            placeholder="{{ 'SELECTDATE' | translate }}"
+            (dateChange)="addEvent($event)"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="userFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="userFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="userTypeFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="userTypeFilter"
+            [matAutocomplete]="autoUserType"
+            placeholder="{{ 'search' | translate }}"
+          />
+
+          <mat-autocomplete #autoUserType="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngFor="let userType of filteredUserType | async" [value]="userType">{{ userType }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="schoolFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input
+            matInput
+            class="form-field"
+            [formControl]="schoolFilter"
+            [matAutocomplete]="autoSchool"
+            placeholder="{{ 'search' | translate }}"
+          />
+
+          <mat-autocomplete #autoSchool="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngFor="let school of filteredSchools | async" [value]="school">{{ school }}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-select [formControl]="categoryFilter">
+            <mat-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="suggestionFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input matInput class="form-field" [formControl]="suggestionFilter" placeholder="{{ 'search' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="pointFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'Date' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Date' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.createdAt | date: 'dd/MM/yyyy' }}" matTooltipPosition="above">{{ element.createdAt | date: 'dd/MM/yyyy' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="user" matTooltip="{{ 'User' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'User' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.user.lastName | uppercase }} {{ element.user.firstName }} {{ element.user.civility }}" matTooltipPosition="above">{{ element.user.lastName | uppercase }} {{ element.user.firstName }} {{ element.user.civility }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ 'User_Type_Idea' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'User_Type_Idea' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngFor="let type of element.user.types" matTooltip="{{ type.name }}" matTooltipPosition="above"> {{ type.name }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="school">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="school" matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'School' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.user.entity.school }}" matTooltipPosition="above">{{ element.user.entity.school }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="category" matTooltip="{{ 'Category' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Category' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.category }}" matTooltipPosition="above">{{ element.category }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="suggestion">
+      <th mat-header-cell *matHeaderCellDef class="text-center" matTooltip="{{ 'Suggestion' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Suggestion' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.suggestion }}" matTooltipPosition="above">{{ element.suggestion }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="points_count">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="points_count" matTooltip="{{ 'Point' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Point' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element.points_count }}" matTooltipPosition="above">{{ element.points_count }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef style="padding-right: 0.5rem" matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'Action' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" style="padding-right: 0.5rem">
+        <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Details' | translate }}" matTooltipPosition="below" *ngIf="permissionService.detailIdeasPerm()">
+          <mat-icon>details</mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Reply' | translate }}" matTooltipPosition="below" *ngIf="permissionService.replyIdeasPerm()">
+          <mat-icon>reply</mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Share' | translate }}" matTooltipPosition="below" *ngIf="permissionService.shareIdeasPerm()">
+          <mat-icon>share</mat-icon>
+        </button>
+        <button mat-icon-button class="margin-right-button" matTooltip="{{ 'Delete' | translate }}" matTooltipPosition="below" *ngIf="permissionService.deleteIdeasPerm()">
+          <mat-icon svgIcon="close">clear</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <div *ngIf="noData" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData}">
+    <mat-paginator [ngClass]="{ 'hide-pagination-buttons': (paginator.length <= 10) }" [hidePageSize]="true" [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

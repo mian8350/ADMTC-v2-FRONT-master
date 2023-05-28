@@ -1,0 +1,22 @@
+<ng-container [formGroup]="testCorrectionForm">
+  <div class="p-grid background-primary" formGroupName="correction_grid">
+    <div class="p-col-12 justify-content-between" formGroupName="correction">
+      <p class="margin-none">{{ testData?.name | uppercase }}</p>
+      <div class="inline-block">
+        <span class="mark-label">{{ 'mark' | translate }} : </span>
+        <mat-form-field color="accent" class="mark-score">
+          <input
+            matInput
+            type="number"
+            onwheel="return false"
+            min="0"
+            max="20"
+            (focusout)="validateAdditionalTotal()"
+            formControlName="additional_total"
+          />
+          <span matSuffix> / 20 </span>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,65 @@
+<div style="display: flex; place-items: center;">
+  <mat-icon class="pdf-none" style="vertical-align: middle;">spellcheck</mat-icon>
+  <img width="17px" height="16px" *ngIf="isForPDF" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAAAAAAq3gkaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAADHSURBVCjPldKxDYMwEAXQWyADMAAFEyAxAK2r9FenyQIewSOwAlukokVKiWgo3LhA11kiGOOEAxxFucKFn8/68hle3wp+SZfnXVwqgCoqRmQpUkweF6WSJiJWpm2TSHuWLkciLPqzVFCH5SCES+Sl8ShNAr4+Gey4ipUQSk0e6C4GL30hzLKhy3JYAYT2Uoezk/IZAjghzNr1+jZzGd6wvfVTEruKyYhwIw5bj746YsAm5whxAz5TLYDBbtpaMNjJZMw/PyRSMx9RA6x8iPxwAAAAAElFTkSuQmCC'/>
+  
+  <mat-form-field *ngIf="!isViewOnly; else showValue" dividerColor="accent" [ngClass]="opt?.value ? 'mat-form-field' : 'mat-form-field ng-dirty ng-invalid mat-input-invalid ng-touched'">
+    <input matInput type="text" #opt required="true" value="{{parent_child_options?.option_text}}" (change)="updateOptionName(opt)">
+  </mat-form-field>
+  <ng-template #showValue>
+    {{parent_child_options?.option_text}}
+  </ng-template>
+  
+  <ng-template [ngIf]=!isViewOnly>
+    <button type="button" mat-icon-button>
+      <mat-icon (click)="addOption(false, false)">add</mat-icon>
+    </button>
+  
+    <button type="button" mat-icon-button>
+      <mat-icon (click)=removeOption(optionIndex)>delete</mat-icon>
+    </button>
+    <button type="button" mat-icon-button>
+      <mat-icon (click)="addQuestion()">play_for_work</mat-icon>
+    </button>
+  </ng-template>
+</div>
+
+
+<ul>
+  <li *ngFor="let q of parent_child_options?.questions; let questionIndex = index;">
+    <div style="display: flex; place-items: center;">
+      <mat-icon class="pdf-none" style="vertical-align: middle;">help</mat-icon>
+      <img  width="14px" height="14px" *ngIf="isForPDF" src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAAAAACcZ7q1AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAADDSURBVBgZBcChjcJQAAbgb4En0UgkkgVQOAboAs9hm2BqjgVugCYd42QNE7SGU+eaVDSp/i+SJJ/nCcfHlCSRZGsLoLRbEsnS4NC8mgOaJZG94jolma6oe2TA4Z35e877gCHWO5ptPjvPW4P7aiw4Xi+U915RRj2Auv9eoNcB1G2roNMBrn97BTo94JmfAvTGArTLF1BG6x0AcF9lAG6vGzBE9gq6dKDukSwN3F43aJZEkq0tgNJuSSRJpscRp+cnSfIPQt15tVumVUQAAAAASUVORK5CYII='/>
+  
+      <mat-form-field *ngIf="!isViewOnly; else showValue" dividerColor="accent" [ngClass]="que.value ? 'mat-form-field' : 'mat-form-field ng-dirty ng-invalid mat-input-invalid ng-touched'">
+        <input matInput #que required="true" type="text" value="{{q?.question_name}}" (change)="updatequestion_name(questionIndex, que)">
+      </mat-form-field>
+  
+  
+      <ng-template #showValue>
+        {{q?.question_name}}
+      </ng-template>
+  
+      <ng-template [ngIf]=!isViewOnly>
+        <button type="button" mat-icon-button>
+          <mat-icon (click)="addQuestion()">add</mat-icon>
+        </button>
+        <button type="button" mat-icon-button>
+          <mat-icon (click)=removeQuestion(questionIndex)>delete</mat-icon>
+        </button>
+        <button type="button" mat-icon-button>
+          <mat-icon (click)="addOption(q, questionIndex)">play_for_work</mat-icon>
+        </button>
+      </ng-template>
+    </div>
+    
+
+    <ul>
+      <li *ngFor="let pco of q.parent_child_options; let parentChildOptionIndex=index;">
+        <ms-parent-child-nesting [isForPDF]="isForPDF" [questionnaireWholeObj]="questionnaireWholeObj" [parent_child_options]="pco" [question]="q" [optionIndex]="parentChildOptionIndex"
+          [questionnaireForm]="questionnaireForm" [competenceIndex]="competenceIndex" [segmentIndex]="segmentIndex"
+          [questionIndex]="questionIndex" [isViewOnly]="isViewOnly"></ms-parent-child-nesting>
+      </li>
+    </ul>
+
+  </li>
+</ul>

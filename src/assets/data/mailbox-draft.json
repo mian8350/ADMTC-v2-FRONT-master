@@ -1,0 +1,16 @@
+[
+  {
+      "createdAt": "2019-07-03T06:04:35.185Z",
+      "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+      "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c457376c7ed42d8027556"},
+      "status": "active",
+      "subject": "Récapitulatif des enquêtes sur l'employabilité en attente"
+  },
+  {
+      "createdAt": "2019-10-03T06:04:22.407Z",
+      "recipientProperty": [{"email": "admin.admtc@admtc.pro", "civility": "Mrs", "firstName": "Admin", "lastName": "ADMTC", "sex": "F"}],
+      "senderProperty": {"sender": {"email": "notification@admtc.pro", "civility": "", "firstName": "ADMTC", "lastName": "", "sex": ""}, "_id": "5d1c456676c7ed42d802750f"},
+      "status": "active",
+      "subject": "DMOE PIGIER 2020: Récap hebdo de tâches en retard"
+  }
+]

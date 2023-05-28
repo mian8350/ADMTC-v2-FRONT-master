@@ -1,0 +1,153 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <div class="p-grid yellow-border card-row">
+      <div class="section-header">
+        <mat-icon svgIcon="certsvg" class="mat-icon-section-svgIcon"></mat-icon>
+        <h3>{{ 'JOB_DESC.SUMMARY.My Diploma' | translate }}</h3>
+      </div>
+      <div class="p-col-12 no-padding btn-add" *ngIf="allowEdit">
+        <button
+          [ngClass]="{
+            'btn-right': translate.currentLang === 'en',
+            'btn-right-1': translate.currentLang === 'fr'
+          }"
+          mat-icon-button
+          (click)="addMyDiploma()"
+          matTooltip="{{ 'Add' | translate }}"
+        >
+          <mat-icon>add_circle_outline</mat-icon> {{ 'Add Diploma' | translate }}
+        </button>
+      </div>
+      <ng-container *ngIf="diplomaData?.diplomas?.length">
+        <div class="p-col-12 no-padding">
+          <div class="p-grid yellow-border card-row">
+            <div class="sub-section-header">
+              <h3>{{ 'Uploaded Diploma' | translate }}</h3>
+            </div>
+            <div class="p-col-12" *ngFor="let diploma of diplomaData.diplomas; let diplomaIndex = index">
+              <div class="border-white card-row">
+                <div class="p-grid">
+                  <div class="p-col-fixed x-pad-none">
+                    <div class="imgContainer">
+                      <div class="p-grid">
+                        <div class="logo-img-wrapper">
+                          <img (click)="downloadFile(diploma.diploma_photo)" class="center-image" [src]="imgURL(diploma.diploma_photo)" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col">
+                    <div class="p-grid">
+                      <div class="p-col-12 no-padding">
+                        <div class="p-col float-left">
+                          <h3 class="diploma-title">{{ diploma.diploma_name ? diploma.diploma_name : '' }}</h3>
+                        </div>
+                        <div *ngIf="allowEdit" class="p-col-fixed no-padding-right pad-top-none">
+                          <button
+                            mat-icon-button
+                            class="float-right"
+                            (click)="editMyDiploma(diplomaIndex)"
+                            matTooltip="{{ 'Edit' | translate }}"
+                            *ngIf="allowEdit"
+                          >
+                            <mat-icon svgIcon="circle-edit-outline" style="padding-top: 4px"></mat-icon>
+                          </button>
+                          <button
+                            mat-icon-button
+                            class="float-right"
+                            (click)="removeMyDiploma(diplomaIndex)"
+                            matTooltip="{{ 'REMOVE' | translate }}"
+                            *ngIf="allowEdit"
+                          >
+                            <i class="fa-solid fa-trash-can icon-action"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <h5 class="diploma-qualification">
+                          {{ diploma.qualification ? ('qualificationList.' + diploma.qualification | translate) : '' }}
+                          {{
+                            translateGraduationDate(diploma.graduation_date) ? ' | ' + translateGraduationDate(diploma.graduation_date) : ''
+                          }}
+                        </h5>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <h5 class="diploma-institute">
+                          {{ diploma.institute_name ? diploma.institute_name : '' }} {{ diploma.city ? ' | ' + diploma.city : '' }}
+                          {{ diploma.country ? ', ' + diploma.country : '' }}
+                        </h5>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <p class="diploma-information">
+                          {{ diploma.additional_information ? diploma.additional_information : '' }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="obtainedDiploma">
+        <div class="p-col-12 no-padding" style="margin-top: 25px">
+          <div class="p-grid yellow-border card-row">
+            <div class="sub-section-header">
+              <h3>{{ 'Obtained Diploma' | translate }}</h3>
+            </div>
+            <div class="p-col-12">
+              <div class="border-white card-row">
+                <div class="p-grid">
+                  <div class="p-col-fixed x-pad-none">
+                    <div class="imgContainer">
+                      <div class="p-grid">
+                        <div class="logo-img-wrapper">
+                          <img
+                            (click)="downloadFile(obtainedDiploma?.certificate_diploma_details?.certificate_s3_file_name)"
+                            class="center-image"
+                            [src]="pdfIcon"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-col" style="margin-top: 10px">
+                    <div class="p-grid">
+                      <div class="p-col-12 no-padding">
+                        <div class="p-col float-left">
+                          <h3 class="diploma-title">{{ obtainedDiploma?.certificate_diploma_details?.diploma_name }}</h3>
+                        </div>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <h5 class="diploma-qualification">{{ obtainedDiploma?.certificate_diploma_details?.graduation_date }}</h5>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <h5 class="diploma-institute">
+                          {{ obtainedDiploma?.certificate_diploma_details?.pc_long_name }}
+                          {{
+                            obtainedDiploma?.certificate_diploma_details?.pc_city
+                              ? ' | ' + obtainedDiploma?.certificate_diploma_details?.pc_city
+                              : ''
+                          }}
+                          {{
+                            obtainedDiploma?.certificate_diploma_details?.pc_country
+                              ? ', ' + obtainedDiploma?.certificate_diploma_details?.pc_country
+                              : ''
+                          }}
+                        </h5>
+                      </div>
+                      <div class="p-col-12 no-padding">
+                        <p class="diploma-information">{{ obtainedDiploma?.certificate_diploma_details?.additional_info }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

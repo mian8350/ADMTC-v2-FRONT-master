@@ -1,0 +1,252 @@
+{
+  "user_type_id": "5a2e1ecd53b95d22c82f954e",
+  "user_type_name": "ADMTC Admin",
+  "status": "active",
+  "rncp_title": {
+    "show_perm": true,
+    "pending_task": {
+      "show_perm": true
+    },
+    "acad_kit": {
+      "show_perm": true,
+      "folder_permissions": {
+        "folder_one": true,
+        "folder_two": true,
+        "folder_three": true,
+        "folder_four": true,
+        "folder_five": true,
+        "folder_six": true,
+        "folder_seven": true,
+        "folder_others": true
+      }
+    },
+    "calendar": {
+      "show_perm": true,
+      "edit_perm": true,
+      "add_perm": true,
+      "delete_perm": true
+    }
+  },
+  "schools": {
+    "show_perm": true,
+    "list_of_schools": {
+      "show_perm": true,
+      "school_table": {
+        "show_perm": true,
+        "actions": {
+          "edit_perm": true,
+          "send_email": true
+        }
+      },
+      "school_details": true,
+      "student_card": {
+        "add_perm": true,
+        "import_student": true,
+        "course": true,
+        "identity": true,
+        "parent": true,
+        "emp_survey": true,
+        "company": true,
+        "job_desc": true,
+        "problematic": true,
+        "diploma": true,
+        "subject_of_cert": true,
+        "document": true,
+        "certification": true,
+        "details_of_certification": true,
+        "retake_during_year": true
+      },
+      "student_table": true,
+      "deactivate_student_table": true,
+      "suspended_student_table": true
+    },
+    "group_of_schools": {
+      "show_perm": true,
+      "add_perm": true,
+      "actions": {
+        "edit_perm": true,
+        "delete_perm": true
+      }
+    }
+  },
+  "students": {
+    "show_perm": true,
+    "student_table": {
+      "show_perm": true,
+      "actions": {
+        "edit_perm": true,
+        "thumbsup": true,
+        "incognito": true,
+        "error_email": true,
+        "send_email": true
+      }
+    },
+    "export_list_of_student": true,
+    "export_ES": true
+  },
+  "companies": {
+    "show_perm": true,
+    "add_company": true
+  },
+  "tasks": {
+    "show_perm": true,
+    "add_task": true,
+    "internal_task": true,
+    "add_internal_task": true,
+    "actions": {
+      "delete_task": true
+    }
+  },
+  "mails": {
+    "show_perm": true,
+    "inbox": true,
+    "sent": true,
+    "important": true,
+    "draft": true,
+    "trash": true
+  },
+  "users": {
+    "show_perm": true,
+    "add_perm": true,
+    "export": true,
+    "actions": {
+      "incognito": true,
+      "error_email": true,
+      "delete_perm": true,
+      "edit_perm": true,
+      "send_email": true
+    }
+  },
+  "parameters": {
+    "show_perm": true,
+    "platform": {
+      "show_perm": true,
+      "user_type_management": {
+        "show_perm": true,
+        "user_type_table": true,
+        "add_perm": true,
+        "actions": {
+          "edit_perm": true,
+          "delete_perm": true
+        }
+      },
+      "scholar_season": {
+        "show_perm": true,
+        "scholar_season_table": true,
+        "add_perm": true,
+        "actions": {
+          "edit_perm": true,
+          "delete_perm": true
+        }
+      },
+      "calendar_steps_manegement": {
+        "show_perm": true,
+        "calendar_steps_table": true,
+        "add_perm": true,
+        "actions": {
+          "edit_perm": true,
+          "delete_perm": true
+        }
+      }
+    },
+    "rncp_title_management": {
+      "show_perm": true,
+      "rncp_title_table": true,
+      "add_perm": true
+    }
+  },
+  "export": {
+    "show_perm": true,
+    "groups": {
+      "show_perm": true
+    },
+    "status_update": {
+      "show_perm": true
+    }
+  },
+  "history": {
+    "show_perm": true,
+    "notifications": true,
+    "tests": {
+      "show_perm": true,
+      "list_of_test_table": true,
+      "actions": {
+        "view_perm": true,
+        "forward": true
+      }
+    }
+  },
+  "process": {
+    "show_perm": true,
+    "ques_tools": {
+      "show_perm": true
+    },
+    "emp_survey": {
+      "show_perm": true
+    },
+    "quality_control": {
+      "show_perm": true
+    },
+    "cross_correction": {
+      "show_perm": true
+    },
+    "retake_during_year": {
+      "show_perm": true
+    }
+  },
+  "messages": {
+    "show_perm": true,
+    "urgent_message": true,
+    "group_mailing": true,
+    "alert_func": {
+      "show_perm": true,
+      "alert_func_table": true,
+      "actions": {
+        "delete_perm": true,
+        "edit_perm": true,
+        "user_response": true,
+        "duplicate": true
+      }
+    }
+  },
+  "certifications": {
+    "show_perm": true,
+    "final_transcript": {
+      "show_perm": true
+    },
+    "jury_organization": {
+      "show_perm": true
+    },
+    "final_retake": {
+      "show_perm": true
+    },
+    "certidegree": {
+      "show_perm": true
+    }
+  },
+  "transcript_builder": {
+    "show_perm": true
+  },
+  "ideas": {
+    "show_perm": true,
+    "ideas_table": true,
+    "add_perm": true,
+    "actions": {
+      "details": true,
+      "reply": true,
+      "share": true,
+      "delete_perm": true
+    }
+  },
+  "tutorials": {
+    "show_perm": true,
+    "tutorial_table": true,
+    "add_perm": true,
+    "actions": {
+      "view_perm": true,
+      "edit_perm": true,
+      "delete_perm": true,
+      "send": true
+    }
+  }
+}

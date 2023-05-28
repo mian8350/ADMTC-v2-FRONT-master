@@ -1,0 +1,171 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.h1 {
+  color: $black;
+}
+
+.plus_button {
+  margin-top: 15px;
+  margin-right: 5px;
+  height: 250%;
+  width: 35px;
+}
+
+.negativ_button {
+  margin-top: 15px;
+  margin-left: 5px;
+  height: 25%;
+  width: 35px;
+}
+
+.status-email {
+  margin-top: 5px;
+}
+
+.green-success {
+  color: #45b745;
+  font-size: 25px;
+  width: 30px;
+}
+
+.width-220 {
+  width: 220px !important;
+}
+
+.width-280 {
+  width: 280px !important;
+}
+
+.status-text {
+  display: inline-block;
+  position: relative;
+  top: -7px;
+}
+
+.hide-field {
+  display: none;
+}
+
+.mat-icon {
+  height: 32px;
+  width: 32px;
+}
+
+// :host ::ng-deep .cdk-overlay-container {
+//   overflow-y: scroll;
+// }
+
+.align-sub {
+  vertical-align: sub;
+}
+
+.black-color {
+  color: black;
+}
+
+.white-color {
+  color: white;
+}
+
+.radio-marging-left {
+  margin-left: 2em;
+}
+
+.entities-content-container {
+  overflow: scroll; 
+  max-height: 275px;
+}
+
+.icon-size {
+  width: 35px;
+  height: 35px;
+}
+
+.dialogTitle {
+  top: -4px;
+  position: relative;
+  margin-bottom: 0px; 
+  display: inline-block;
+}
+
+.dialogTitleWrapper {
+  vertical-align: middle; 
+  color: black;
+  border-bottom: 2px solid #808080; 
+  margin-bottom: 20px;
+}
+.accent{
+  color:black;
+}
+.p-col-5{
+margin-top:10px;
+}
+.p-col-7{
+  margin-top:10px;
+  }
+
+:host ::ng-deep.ng-value-label.ng-star-inserted {
+    background: grey;
+    color:white;
+    white-space: nowrap;
+}
+
+:host ::ng-deep.ng-value-icon.left.ng-star-inserted{
+  background: grey;
+  color:white;
+  white-space: nowrap;
+}
+
+:host ::ng-deep.ng-dropdown-panel{
+  position: relative !important;
+}
+
+.basic-height {
+  height: 255px;
+}
+
+:host ::ng-deep.mat-radio-outer-circle {
+  border-color: rgba(0,0,0,.54) !important;
+}
+
+:host ::ng-deep.mat-form-field-underline {
+  background-color: rgba(0,0,0,.12) !important;
+}
+
+/* Transparent Overlay */
+.logo-spinner-wrapper {
+  display: flex;
+  align-items: center;
+}
+.spinner-margin {
+  margin:0 auto;
+}
+
+.pad-top-18 {
+  padding-top: 18px;
+}
+
+.mt-4 {
+  margin-top: 4px;
+}
+.spinner-transparent {
+  position: absolute;
+  z-index: 999;
+  height: 405px;
+  width: 955px;
+}
+.icon-close {
+  display: inline-block;
+  float: right;
+  position: relative;
+}
+.button-swal {
+  line-height: 44px;
+  height: 38px !important;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.button-action {
+  margin-top: 20px;
+}

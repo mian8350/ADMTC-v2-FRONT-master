@@ -1,0 +1,54 @@
+<!-- Dialog title start-->
+<div class="title-duplicate" mat-dialog-title>
+    <div class="p-grid">
+        <div class="p-col">
+            <span class="title-text">{{'PARAMETERS-RNCP.DUPLICATE_EXISTING_CONDITION_CLASS_DIALOG_TITLE' | translate}}</span>
+            <button mat-icon-button style="float: right;">
+                <mat-icon (click)="onSetupBasicOne()">clear</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Dialog title end-->
+<!-- Dialog content start-->
+<div class="p-grid" mat-dialog-content>
+    <div class="p-grid">
+        <div class="p-col-12">
+            <button mat-raised-button color="primary"
+                    (click)="showTitleList()">{{'PARAMETERS-RNCP.DUPLICATE_EXISTING' | translate}}</button>
+            <button mat-raised-button color="warn"
+                    (click)="onSetupBasicOne()">{{'PARAMETERS-RNCP.SETUP_BASIC_ONE' | translate}}</button>
+        </div>
+    </div>
+    <div class="p-grid" style="margin-top: 20px" *ngIf="showTitleDropdown" [formGroup]="duplicateForm">
+        <div class="p-col-5">
+            <mat-form-field>
+                <mat-select placeholder="Titre RNCP" formControlName="rncp_title_id">
+                    <mat-option [value]="title._id"
+                                *ngFor="let title of rncpData"
+                                (click)="onTitleSelected(title._id)"
+                    >{{title.short_name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="p-col-4">
+            <mat-form-field>
+                <mat-select placeholder="Class" formControlName="class_id">
+                    <mat-option [value]="cls._id" *ngFor="let cls of classData"
+                                (click)="setClassSelected(cls)"
+                    >{{cls.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="p-col-3">
+            <button mat-raised-button color="primary"
+                    (click)="onDuplicateParameter()"
+                    [disabled]="!duplicateForm.valid || isWaitingForResponse">{{'PARAMETERS-RNCP.DUPLICATE_NOW' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!-- Dialog content end-->
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

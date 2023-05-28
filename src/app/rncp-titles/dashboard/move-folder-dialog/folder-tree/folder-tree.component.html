@@ -1,0 +1,71 @@
+<!-- UI of each acad kit folder in root level (01. ADMISSIONS, 02. ANNALES EPREUVES, etc.) -->
+<li *ngIf="isRootFolderView">
+  <!-- folder icon and name -->
+  <a (click)="toggleFolder(folder?._id, folder?.folder_name)" 
+    class="folder-item" 
+    [ngClass]="{
+      'text-yellow': destinationFolderId === folder?._id,
+      'hide': selectedFolderId === folder?._id
+    }"
+  >
+    <i class="fa" [ngClass]="expandFolder.subFolder ? 'fa-caret-down': 'fa-caret-right'"></i>
+    <mat-icon class="acadkit-icon">folder</mat-icon>
+
+    <!-- title for default folder "01. ADMISSIONS" to "07. ARCHIVES" -->
+    <div *ngIf="folder?.is_default_folder" class="folder-title">{{ folder?.folder_name | uppercase }}</div>
+
+    <!-- title for custom folder after folder "01. ADMISSIONS" to "07. ARCHIVES" -->
+    <div *ngIf="!folder?.is_default_folder" class="folder-title">
+      {{ customRootFolderIndex < 10 ? '0' : ''}}{{customRootFolderIndex}}. {{ folder?.folder_name | uppercase }}
+    </div>
+
+    <!-- eye button to show all of the sub folders inside this root folder -->
+    <!-- <a *ngIf="folder?.sub_folders_id?.length" (click)="toggleAllSubFolder(folder?._id)" class="eye-icon"><i class="fa fa-eye"></i></a> -->
+    
+    <mat-spinner *ngIf="isWaitingForResponse" color="accent" class="small-spinner" [diameter]="16"></mat-spinner>
+  </a>
+
+  <!-- sub folder inside of this folder -->
+  <div *ngIf="expandFolder.subFolder">
+    <ul class="sub-folder-list" *ngIf="folder?.sub_folders_id?.length">
+      <ms-folder-tree 
+        *ngFor="let subFolder of folder?.sub_folders_id; index as i" 
+        [folder]="subFolder"
+        [selectedFolderId]="selectedFolderId"
+        [isRootFolderView]="false"
+        [isToggleAllSubFolder]="isToggleAllSubFolder">
+      </ms-folder-tree>
+    </ul>
+  </div>
+</li>
+
+<!-- UI of each sub folder inside root folder -->
+<li *ngIf="!isRootFolderView">
+  <!-- folder icon and name -->
+  <a (click)="toggleFolder(folder?._id, folder?.folder_name)" 
+    class="folder-item"
+    [ngClass]="{
+      'text-yellow': destinationFolderId === folder?._id,
+      'hide': selectedFolderId === folder?._id
+    }"
+  >
+    <i class="fa" [ngClass]="expandFolder.subFolder ? 'fa-caret-down': 'fa-caret-right'"></i>
+    <mat-icon class="acadkit-icon">folder</mat-icon>
+    <span class="folder-title">{{ folder?.folder_name }}</span>
+    <mat-spinner *ngIf="isWaitingForResponse" color="accent" class="small-spinner" [diameter]="16"></mat-spinner>
+  </a>
+
+  <!-- sub folder inside of this folder -->
+  <div *ngIf="expandFolder.subFolder">
+    <ul class="sub-folder-list" *ngIf="folder?.sub_folders_id?.length">
+      <ms-folder-tree 
+        *ngFor="let subFolder of folder?.sub_folders_id; index as i" 
+        [folder]="subFolder"
+        [selectedFolderId]="selectedFolderId"
+        [isRootFolderView]="false"
+        [isToggleAllSubFolder]="isToggleAllSubFolder">
+      </ms-folder-tree>
+    </ul>
+  </div>
+</li>
+

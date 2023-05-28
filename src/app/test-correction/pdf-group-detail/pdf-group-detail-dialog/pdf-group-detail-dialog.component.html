@@ -1,0 +1,17 @@
+<mat-dialog-content>
+  <!-- TO DO: SHOW SPINNER HERE -->
+
+  <!-- TYPE A -->
+  <ms-pdf-group-detail-individual-with-group
+   *ngIf="data" style="display: none;"
+    [data]='data'
+  >
+  </ms-pdf-group-detail-individual-with-group>
+
+  <!-- TYPE B -->
+  <ms-pdf-group-detail-individual-without-group
+   *ngIf="data" style="display: none;"
+    [data]='data'
+   >
+  </ms-pdf-group-detail-individual-without-group>
+</mat-dialog-content>

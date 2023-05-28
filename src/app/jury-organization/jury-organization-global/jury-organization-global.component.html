@@ -1,0 +1,134 @@
+<div class="top-space">
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <ng-container matColumnDef="reset">
+        <th mat-header-cell *matHeaderCellDef colspan="4" class="action-header-column text-right">
+          <button mat-raised-button color="primary" (click)="resetAllFilter()">
+            <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'RESET' | translate }}
+          </button>
+          <button mat-raised-button color="accent" (click)="JuryDialog(null)" *ngIf="permissionService.addJuryOrganizationPerm()">
+            <mat-icon svgIcon="checkbox-marked-outline" class="mat-icon-svgIcon"></mat-icon>
+            {{ 'Add Jury Organization' | translate }}
+          </button>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="nameFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input matInput class="form-field" [formControl]="nameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field floatLabel="never">
+            <input
+              matInput
+              class="form-field"
+              [matAutocomplete]="autoTitles"
+              [formControl]="titleFilter"
+              placeholder="{{ 'search' | translate }}"
+            />
+            <mat-autocomplete #autoTitles="matAutocomplete" [panelWidth]="'fit'">
+              <mat-option value="" (click)="setTitleFilter(null)">{{ 'All' | translate }}</mat-option>
+              <mat-option *ngFor="let title of filteredRncpTitle | async" [value]="title.short_name"  (click)="setTitleFilter(title._id)">
+                {{ title.short_name | translate }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <ng-container matColumnDef="actionFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.NAME' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="name">
+            <h5>{{ 'JURY_ORGANIZATION.NAME' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" class="icon-hand" matTooltip="{{ element.name }}" matTooltipPosition="above">
+          <a href="jury-organization/organize-juries/{{ element.name }}"> {{ element.name }} </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.RNCP_TITLES' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="rncp_title">
+            <h5>{{ 'JURY_ORGANIZATION.RNCP_TITLES' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let title of element?.rncp_titles; index as i">
+            <span class="tags" *ngIf="title?.rncp_id?.short_name && i <= 3" [matTooltip]="title?.rncp_id?.short_name">
+              {{ title?.rncp_id?.short_name }}
+            </span>
+            <!-- <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipTitle(element.rncp_titles)"> ... </span> -->
+          </ng-container>
+          <!-- <span class="tags" matTooltip="{{ element.title }}" matTooltipPosition="above"> {{ element.title }} </span> -->
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.STATUS' | translate }}" matTooltipPosition="above">
+          <div mat-sort-header="status">
+            <h5>{{ 'JURY_ORGANIZATION.STATUS' | translate }}</h5>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element" matTooltip="{{'JURY_ORGANIZATION.'+ element?.current_status?.toUpperCase() | translate}}" matTooltipPosition="above">
+          <p>{{ 'JURY_ORGANIZATION.' + element?.current_status?.toUpperCase() | translate }}</p>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'JURY_ORGANIZATION.ACTION' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'JURY_ORGANIZATION.ACTION' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-icon-button class="margin-right-button" matTooltip="{{ 'JURY_ORGANIZATION.ACTION_BUTTON.VIEW' | translate }}" (click)="goToJuryDetail(element?._id)">
+            <mat-icon svgIcon="eye"></mat-icon>
+          </button>
+          <button mat-icon-button class="margin-right-button" matTooltip="{{ 'JURYEDIT' | translate }}" (click)="editJuryDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="margin-right-button" [disabled]="element?.current_status !== 'assign_number_jury'" (click)="deleteJuryOrg(element)" matTooltip="{{ 'JURY_ORGANIZATION.ACTION_BUTTON.DELETE' | translate }}">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="4" class="text-center">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+    </table>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isWaitingForResponse }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

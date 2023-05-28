@@ -1,0 +1,461 @@
+<div style="margin-top: 15px">
+  <div class="horizontal header-button header-action">
+    <div class="text-right" style="display: inline-block; float: right">
+      <button
+        style="padding: 0px 7px !important"
+        [matTooltipDisabled]="false"
+        [disabled]="isLoading"
+        (click)="reset()"
+        color="primary"
+        mat-raised-button
+        matTooltip="{{ 'Reset Filter' | translate }} "
+      >
+        <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+        {{ 'Reset' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="horizontal mat-elevation-z8 finance-table" style="font-family: 'firaSans' !important">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+      <!---FILTERS START-->
+      <ng-container matColumnDef="selectFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+      </ng-container>
+
+      <ng-container matColumnDef="lastNameFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-form-field>
+            <input matInput class="form-field" [formControl]="lastNameFilter" placeholder="{{ 'search' | translate }}" />
+          </mat-form-field>
+        </th>
+      </ng-container>
+
+      <ng-container matColumnDef="schoolFilter" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <ng-select
+            class="dropdown margin"
+            [appendTo]="'body'"
+            [multiple]="false"
+            [clearable]="false"
+            placeholder="{{ 'search' | translate }}"
+            [formControl]="schoolFilter"
+            clear
+            (change)="selectSchool()"
+          >
+            <ng-option value="">{{ 'AllS' | translate }}</ng-option>
+            <ng-option *ngFor="let record of schoolFilterList" [value]="record?._id">
+              {{ record?.short_name }}
+            </ng-option>
+          </ng-select>
+        </th>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="studentStatusFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <mat-select [formControl]="studentStatusFilter">
+              <mat-option [value]="record.value" *ngFor="let record of studentStatusFilterList">{{ record.key | translate }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="profileRateFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field appearance="legacy">
+            <mat-select [formControl]="profileRateFilter" multiple>
+              <mat-option
+                *ngIf="profileRateFilterList && profileRateFilterList?.length >= 1"
+                [value]="'All'"
+                >{{ 'AllS' | translate }}</mat-option
+              >
+              <mat-option [value]="'affected'">{{ 'Affected' | translate }}</mat-option>
+              <mat-option [value]="'not_affected'">{{
+                'Not affected' | translate
+              }}</mat-option>
+              <mat-option *ngFor="let profile of profileRateFilterList" [value]="profile._id">{{
+                profile.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="announcementCallFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <mat-select [formControl]="announcementCallFilter">
+              <mat-option [value]="record.value" *ngFor="let record of announcementCallFilterList"
+                >{{ record.key | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="announcementEmailFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <mat-select [formControl]="announcementEmailFilter">
+              <mat-option [value]="record.value" *ngFor="let record of announcementEmailFilterList"
+                >{{ record.key | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <ng-container *ngFor="let step of admissionSteps; let i = index" matColumnDef="S{{ i + 1 }}_filter">
+        <th mat-header-cell *matHeaderCellDef>
+          <!-- <mat-form-field> -->
+            <ng-select 
+              style="margin-top: 6px" 
+              class="dropdown"
+              [appendTo]="'body'"
+              [multiple]="false"
+              [clearable]="false"
+              [(ngModel)]="stepsForm['S' + i]"
+              (change)="updateFilterStepValue(step, $event)">
+              <ng-option *ngFor="let status of stepFilterDropdown" [value]="status?.value">
+                {{ status?.key | translate }}
+              </ng-option>
+            </ng-select>
+          <!-- </mat-form-field> -->
+        </th>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="downPaymentFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <mat-select [formControl]="paymentFilter">
+              <mat-option [value]="record.value" *ngFor="let record of DPFilterList">
+                {{ 'DP_Status.' + record.value | translate }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="registrationDateFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <input
+              matInput
+              (click)="registrationDatePick.open()"
+              readonly
+              class="form-field"
+              placeholder="{{ 'search' | translate }}"
+              [matDatepicker]="registrationDatePick"
+              [formControl]="registrationDateFilter"
+            />
+            <mat-datepicker-toggle matSuffix [for]="registrationDatePick"></mat-datepicker-toggle>
+            <mat-datepicker #registrationDatePick></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="dueDateFilter">
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-form-field>
+            <input
+              matInput
+              (click)="dueDatePick.open()"
+              readonly
+              class="form-field"
+              placeholder="{{ 'search' | translate }}"
+              [matDatepicker]="dueDatePick"
+              [formControl]="dueDateFilter"
+            />
+            <mat-datepicker-toggle matSuffix [for]="dueDatePick"></mat-datepicker-toggle>
+            <mat-datepicker #dueDatePick></mat-datepicker>
+          </mat-form-field>
+        </th>
+      </ng-container> -->
+
+      <ng-container matColumnDef="actionFilter" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef class="text-center"></th>
+      </ng-container>
+      <!---FILTERS END-->
+
+      <!---ROW DATA START-->
+      <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef class="text-center">
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            (change)="showOptions('all', '')"
+            [checked]="(selection.hasValue() && isAllSelected()) || isCheckedAll"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row._id) : null"
+            [checked]="selection.isSelected(row._id)"
+            (change)="showOptions('one', row)"
+            [aria-label]="checkboxLabel(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name" sticky>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Name' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="name">{{ 'Name' | translate }}</h5>
+        </th>
+        <td
+          matTooltip="
+            {{ element?.student_id?.last_name | uppercase }} {{ element?.student_id?.first_name }} {{
+            element?.student_id?.civility && element?.student_id?.civility === 'neutral' ? '' : (element?.student_id?.civility | translate)
+          }}
+          "
+          mat-cell
+          *matCellDef="let element"
+          style="text-align: start; padding-left: 0.5rem !important"
+        >
+          <div style="display: contents" *ngIf="element?.last_name !== null">
+            {{
+              (element?.student_id?.last_name | uppercase) +
+                ' ' +
+                element?.student_id?.first_name +
+                ' ' +
+                (element?.student_id?.civility && element?.student_id?.civility === 'neutral' ? '' : (element?.student_id?.civility | translate))
+            }}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="school" sticky>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'School' | translate }}" matTooltipPosition="above">
+          <h5 mat-sort-header="school">{{ 'School' | translate }}</h5>
+        </th>
+        <td
+          [matTooltip]="element?.school_id?.short_name"
+          mat-cell
+          *matCellDef="let element"
+          style="text-align: start; padding-left: 0.5rem !important"
+        >
+          {{ element?.school_id?.short_name }}
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="studentStatus">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'AdmissionFollowUp.Status' | translate }}" matTooltipPosition="above">
+          <h5>
+            <mat-icon svgIcon="file-document-edit" class="mat-icon-svgIcon mat-icon-default"></mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span
+            *ngIf="element?.admission_status === 'admitted' || element?.admission_status === 'admission_in_progress'"
+            [matTooltip]="'Admitted' | translate"
+          >
+            {{ 'Adm.' | translate }}
+          </span>
+        </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="profileRate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'AdmissionFollowUp.Registration profile' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>
+            <mat-icon svgIcon="clipboard-account-outline" class="mat-icon-svgIcon"> </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            [matTooltip]="element?.registration_profile?.name ? element?.registration_profile?.name : ('not_affected' | translate)"
+            [ngClass]="{
+              red: !element?.registration_profile?.name,
+              green: element?.registration_profile?.name
+            }"
+            aria-hidden="true"
+            class="mat-icon-status"
+            >lens
+          </mat-icon>
+        </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="announcementCall">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'AdmissionFollowUp.Announcement call' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>
+            <mat-icon svgIcon="phone-check-outline" class="mat-icon-svgIcon"> </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            [matTooltip]="element?.announcement_call | translate"
+            [ngClass]="{
+              red: element?.announcement_call === 'not_done',
+              green: element?.announcement_call === 'done'
+            }"
+            aria-hidden="true"
+            class="mat-icon-status"
+            >lens
+          </mat-icon>
+        </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="announcementEmail">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'AdmissionFollowUp.Registration Email' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>
+            <mat-icon class="mat-icon-status"> mark_email_read </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon
+            *ngIf="
+              (!element?.reg_n8_sent_date?.sent_date && !element?.announcement_email?.sent_date) ||
+              (element?.reg_n8_sent_date === null && !element?.announcement_email?.sent_date)
+            "
+            [matTooltip]="'Not sent' | translate"
+            class="red mat-icon-status"
+            aria-hidden="true"
+            >lens
+          </mat-icon>
+
+          <ng-container *ngIf="element?.reg_n8_sent_date && element?.reg_n8_sent_date?.sent_date; else announcementEmail">
+            <span style="cursor: default"></span>
+          </ng-container>
+          <ng-template #announcementEmail>
+            <span style="cursor: default"></span>
+          </ng-template>
+        </td>
+      </ng-container> -->
+
+      <ng-container *ngFor="let step of admissionSteps; let i = index" matColumnDef="S{{ i + 1 }}">
+        <th mat-header-cell *matHeaderCellDef matTooltipPosition="above" class="dynamic-column">
+          <div [mat-sort-header]="'step-status-' + step">
+            <h5 [matTooltip]="followUpData[0]?.form_builder_id?.steps[i]?.step_title" class="text-center">S{{ i + 1 }}</h5>
+          </div>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element; let rowIndex = index"
+          class="text-center position-relative"
+          [matTooltip]="'STEPSTATUS.' + stepsMatrix[rowIndex][i]?.step_status | translate"
+        >
+          <div *ngIf="stepsMatrix[rowIndex][i]">
+            <mat-icon [ngClass]="stepStatus(stepsMatrix[rowIndex][i]?.step_status)">lens</mat-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="downPayment">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'AdmissionFollowUp.Down payment' | translate }}" matTooltipPosition="above">
+          <h5>
+            <mat-icon class="mat-icon-status"> euro_symbol </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+        </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="registrationDate">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          matTooltip="{{ 'AdmissionFollowUp.Registration Date' | translate }}"
+          matTooltipPosition="above"
+        >
+          <h5>
+            <mat-icon svgIcon="calendar-check-outline" class="mat-icon-svgIcon"> </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element?.candidate_admission_status === 'registered'">
+            <span style="cursor: default"></span>
+          </ng-container>
+        </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="dueDate">
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'AdmissionFollowUp.Due date' | translate }}" matTooltipPosition="above">
+          <h5>
+            <mat-icon class="mat-icon-status"> event </mat-icon>
+          </h5>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span style="cursor: default"></span>
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="action" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'Action' | translate }}" matTooltipPosition="above">
+          <h5>{{ 'Action' | translate }}</h5>
+        </th>
+        <td mat-cell *matCellDef="let element" class="action-buttons">
+          <button
+            [disabled]="dataSelected && dataSelected.length > 1"
+            mat-icon-button
+            [matTooltipDisabled]="false"
+            class="margin-right-button"
+            (click)="goToStudentCard(element)"
+            matTooltip="{{ 'View Student Card' | translate }}"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button
+            [disabled]="dataSelected && dataSelected.length > 1"
+            mat-icon-button
+            [matTooltipDisabled]="false"
+            class="margin-right-button"
+            (click)="sendMail(element)"
+            matTooltip="{{ 'Send an Email to this Student' | translate }}"
+          >
+            <mat-icon> email </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="loading">
+        <th mat-header-cell *matHeaderCellDef colspan="23" style="text-align: center !important">
+          <div class="center-spinner">
+            <mat-spinner color="accent"></mat-spinner>
+          </div>
+        </th>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isLoading"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isLoading"></tr>
+    </table>
+  </div>
+
+  <div class="horizontal" style="margin-bottom: 40px">
+    <div [ngClass]="{ hide: noData | async }">
+      <mat-paginator
+        [ngClass]="{ 'hide-pagination-buttons': dataCount <= 10 }"
+        [length]="dataCount"
+        [hidePageSize]="true"
+        [pageSize]="[10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+    <div *ngIf="noData | async" class="no-records" [ngClass]="{ hide: isLoading }">
+      {{ 'NOT RECORD FOUND' | translate }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

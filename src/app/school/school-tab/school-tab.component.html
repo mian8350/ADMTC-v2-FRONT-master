@@ -1,0 +1,93 @@
+<ms-job-description
+  *ngIf="jobFullScreen"
+  [studentId]="studentId"
+  [schoolId]="schoolId"
+  [classId]="classId"
+  [titleId]="titleId"
+  [typeDisplay]="jobFullScreen"
+>
+</ms-job-description>
+<mat-tab-group *ngIf="!jobFullScreen" (click)="checkValidation($event)" [selectedIndex]="selected" animationDuration="0ms">
+  <!-- 
+  *************** class to hide tab ***************
+  [class.hide-tab-0]="!permissionService.showSchoolIdentityPerm()"
+  [class.hide-tab-1]="!schoolId || !permissionService.showSchoolStaffPerm()"
+  [class.hide-tab-2]="!schoolId || !permissionService.showStudentCardPerm()"
+  [class.hide-tab-3]="!schoolId || !permissionService.showStudentTableInSchoolPerm()"
+  [class.hide-tab-4]="!schoolId || !permissionService.showStudentTableInSchoolPerm()"
+  [class.hide-tab-5]="!schoolId || !permissionService.showStudentTableInSchoolPerm()"
+  [class.hide-tab-6]="!schoolId || !permissionService.showDeactivatedStudentTableInSchoolPerm()" 
+-->
+
+  <!-- tab index 0 -->
+  <mat-tab disabled label="{{ 'School Detail' | translate }}" value="School Detail" style="color: white !important">
+    <ng-template matTabContent>
+      <ms-school-detail #schoolDetail [schoolId]="schoolId"></ms-school-detail>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 1 -->
+  <mat-tab *ngIf="schoolId" disabled label="{{ 'School Staff' | translate }}" value="School Staff" style="color: white !important">
+    <ng-template matTabContent>
+      <ms-school-staff [schoolId]="schoolId"></ms-school-staff>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 2 -->
+  <mat-tab *ngIf="schoolId" disabled label="{{ 'Student Cards' | translate }}" value="Student Cards" style="color: white !important">
+    <ng-template matTabContent>
+      <ms-school-student-cards
+        #addStudent
+        [schoolId]="schoolId"
+        [studentTabSelected]="studentTabSelected"
+        [studentSelected]="studentSelected"
+      ></ms-school-student-cards>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 3 -->
+  <mat-tab *ngIf="schoolId" disabled label="{{ 'NAV.Active Student' | translate }}" value="Active Student" style="color: white !important">
+    <ng-template matTabContent>
+      <ms-school-student-table #importStudent [schoolId]="schoolId" [status]="'active_pending'"></ms-school-student-table>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 4 -->
+  <mat-tab
+    *ngIf="schoolId"
+    disabled
+    label="{{ 'NAV.Completed Student' | translate }}"
+    value="Completed Student"
+    style="color: white !important"
+  >
+    <ng-template matTabContent>
+      <ms-school-student-table #importStudent [schoolId]="schoolId" [status]="'completed'"></ms-school-student-table>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 5 -->
+  <mat-tab
+    *ngIf="schoolId"
+    disabled
+    label="{{ 'NAV.Suspended Student' | translate }}"
+    value="Suspended Student"
+    style="color: white !important"
+  >
+    <ng-template matTabContent>
+      <ms-school-student-table #importStudent [schoolId]="schoolId" [status]="'suspended'"></ms-school-student-table>
+    </ng-template>
+  </mat-tab>
+
+  <!-- tab index 6 -->
+  <mat-tab
+    *ngIf="schoolId"
+    disabled
+    label="{{ 'Deactivated Student' | translate }}"
+    value="Deactivated Student"
+    style="color: white !important"
+  >
+    <ng-template matTabContent>
+      <ms-school-student-deactivated [schoolId]="schoolId"></ms-school-student-deactivated>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

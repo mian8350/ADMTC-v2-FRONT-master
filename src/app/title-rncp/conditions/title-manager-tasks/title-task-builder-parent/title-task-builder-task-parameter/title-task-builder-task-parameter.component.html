@@ -1,0 +1,246 @@
+<main class="p-grid" [formGroup]="taskBuilderForm">
+  <!-- XXXXXXXXXXXXXXXXX  THE SECTION FOR THE YELLOW BOXES XXXXXXXXXXXXXXXXXXXXXXXX -->
+
+  <section class="p-col-6">
+    <div class="action-button-container">
+      <div class="leave">
+        <button mat-raised-button color="warn" (click)="onLeave()">
+          <mat-icon class="mat-icon-svgIcon" svgIcon="loop"></mat-icon>
+          {{ 'LEAVE' | translate }}
+        </button>
+      </div>
+      <div>
+        <button matTooltip="{{ 'Preview' | translate }}" mat-raised-button color="primary" (click)="onPreview()">
+          <mat-icon class="mat-icon-default">visibility</mat-icon>
+          {{ 'Preview2' | translate }}
+        </button>
+        <button mat-raised-button color="accent" (click)="onSave()" *ngIf="!isViewTask">
+          <mat-icon>save</mat-icon>
+          {{ 'Save' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <!-- ============ FIRST YELLOW BOX =========== -->
+      <div class="yellow-border parameter-boxes">
+        <!-- first row -->
+        <div class="p-grid">
+          <div class="p-col-6">
+            <label class="select-label" [style.visibility]="taskBuilderForm.get('task_scope').value ? 'visible' : 'hidden'" for="assignTo"
+              >{{ 'Task Scope' | translate }} *</label
+            >
+            <ng-select class="pad-top" placeholder="{{ 'Task Scope' | translate }}" formControlName="task_scope" [disabled]="isViewTask">
+              <ng-option *ngFor="let scope of taskScopes" [value]="scope.value">
+                {{ scope.display | translate }}
+              </ng-option>
+            </ng-select>
+            <div class="label-error" *ngIf="getTaskScope().hasError('required') && (getTaskScope().dirty || getTaskScope().touched)">
+              {{ 'This field is required' | translate }}
+            </div>
+          </div>
+          <div class="p-col-6" style="padding-top: 32px">
+            <mat-form-field color="accent">
+              <input
+                matInput
+                required
+                (click)="dueDatepicker.open()"
+                readonly
+                [min]="today"
+                [matDatepicker]="dueDatepicker"
+                [placeholder]="'Due Date' | translate"
+                formControlName="due_date"
+              />
+              <mat-datepicker-toggle matSuffix [for]="dueDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #dueDatepicker [disabled]="isViewTask"></mat-datepicker>
+              <mat-error *ngIf="getDate().hasError('required') && (getDate().dirty || getDate().touched)">
+                {{ 'This field is required' | translate }}</mat-error
+              >
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- second row -->
+        <div class="p-grid">
+          <div class="p-col-6">
+            <label class="select-label" [style.visibility]="taskBuilderForm.get('assign_to_id').value ? 'visible' : 'hidden'" for="assignTo"
+              >{{ 'Assign To' | translate }} *</label
+            >
+            <ng-select
+              class="pad-top options-d-5"
+              placeholder="{{ 'Assign To' | translate }}"
+              formControlName="assign_to_id"
+              [disabled]="isViewTask"
+            >
+              <ng-option *ngFor="let type of userTypes" [value]="type?._id">
+                {{ 'USER_TYPES.' + type?.name | translate }}
+              </ng-option>
+            </ng-select>
+            <div class="label-error" *ngIf="getAssignTo().hasError('required') && (getAssignTo().dirty || getAssignTo().touched)">
+              {{ 'This field is required' | translate }}
+            </div>
+          </div>
+          <div class="p-col-6">
+            <label class="select-label" [style.visibility]="taskBuilderForm.get('assigner_id').value ? 'visible' : 'hidden'" for="assignTo"
+              >{{ 'Assigner' | translate }} *</label
+            >
+            <ng-select
+              class="pad-top options-d-5"
+              placeholder="{{ 'Assigner' | translate }}"
+              formControlName="assigner_id"
+              [disabled]="isViewTask"
+            >
+              <ng-option *ngFor="let type of userTypes" [value]="type?._id">
+                {{ 'USER_TYPES.' + type?.name | translate }}
+              </ng-option>
+            </ng-select>
+            <div class="label-error" *ngIf="getAssigner().hasError('required') && (getAssigner().dirty || getAssigner().touched)">
+              {{ 'This field is required' | translate }}
+            </div>
+          </div>
+        </div>
+        <mat-slide-toggle color="accent" #slider formControlName="is_rejection_active" [disabled]="isViewTask">
+          <span [ngClass]="{ 'text-slider-color': slider.checked }">
+            {{ (slider.checked ? 'Rejection flow is active for this task' : 'Rejection flow is not active for this task') | translate }}
+          </span>
+        </mat-slide-toggle>
+        <div></div>
+      </div>
+
+      <!-- ============ SECOND YELLOW BOX ============= -->
+      <div class="yellow-border parameter-boxes">
+        <!-- toggle -->
+        <div>
+          <mat-slide-toggle
+            color="accent"
+            #slider2
+            formControlName="is_other_task_active"
+            (change)="otherTaskActive($event)"
+            [disabled]="isViewTask"
+          >
+            <span [ngClass]="{ 'text-slider-color': slider2.checked }">
+              {{
+                (slider2.checked
+                  ? 'Others task triggered after task status is accepted'
+                  : 'No others task triggered after task status is accepted'
+                ) | translate
+              }}
+            </span>
+          </mat-slide-toggle>
+        </div>
+
+        <!-- first row -->
+        <div class="p-grid task-parameter-addition" *ngIf="taskBuilderForm.get('is_other_task_active').value">
+          <div class="p-col-4">
+            <!-- <mat-form-field>
+            <input matInput disabled type="text" [formControl]="nextTaskRef" placeholder="{{ 'Task Ref Id' | translate }}" />
+          </mat-form-field> -->
+
+            <label class="select-label" [style.visibility]="currentSelectedNextTaskRef?.value ? 'visible' : 'hidden'">{{
+              'Task Ref Id' | translate
+            }}</label>
+            <ng-select
+              class="pad-top"
+              placeholder="{{ 'Task Ref Id' | translate }}"
+              [formControl]="currentSelectedNextTaskRef"
+              #taskRefId
+              [appendTo]="'body'"
+              [clearable]="!isViewTask ? true : false"
+              [disabled]="isViewTask"
+            >
+              <ng-option *ngFor="let task of taskBuilders" [value]="task" [disabled]="isViewTask">
+                {{ task?.ref_id }}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div style="flex: 1; margin-top: 8px">
+            <label class="select-label" [style.visibility]="currentSelectedNextTaskTitle?.value ? 'visible' : 'hidden'">{{
+              'Task Title' | translate
+            }}</label>
+            <ng-select
+              class="pad-top"
+              placeholder="{{ 'Task Title' | translate }}"
+              #taskTitleId
+              [appendTo]="'body'"
+              [formControl]="currentSelectedNextTaskTitle"
+              [clearable]="!isViewTask ? true : false"
+              [disabled]="isViewTask"
+            >
+              <ng-option *ngFor="let task of taskBuilders" [value]="task" [disabled]="isViewTask">
+                {{ task?.task_title }}
+              </ng-option>
+            </ng-select>
+          </div>
+          <div style="width: fit-content; margin-top: 35px; margin-left: 1em">
+            <button
+              [disabled]="!currentSelectedNextTaskTitle.value || !currentSelectedNextTaskRef.value || isViewTask"
+              mat-raised-button
+              color="accent"
+              id="add-task-button"
+              (click)="onAddNextTask(currentSelectedNextTaskRef.value)"
+            >
+              <mat-icon class="mat-icon-default">add</mat-icon>{{ 'Add Next Task' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Previous/Next tasks -->
+        <div class="added-task-list" *ngIf="taskBuilderForm.get('is_other_task_active').value">
+          <!-- Previous Task -->
+          <ng-container *ngIf="currentTaskDetail?.previous_task_builder_id?._id">
+            <div class="p-grid">
+              <div class="p-col-10">
+                <div class="p-grid">
+                  <div class="p-col-1"><mat-icon style="vertical-align: sub; margin-right: 5px">arrow_upward</mat-icon></div>
+                  <div class="p-col-11">
+                    <span
+                      >{{ currentTaskDetail?.previous_task_builder_id?.ref_id }}
+                      {{ currentTaskDetail?.previous_task_builder_id?.task_title }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-2 visib">
+                <mat-icon
+                  style="cursor: pointer"
+                  (click)="
+                    onViewPreviousTask(
+                      currentTaskDetail?.previous_task_builder_id?._id,
+                      currentTaskDetail?.previous_task_builder_id?.is_published
+                    )
+                  "
+                  >visibility</mat-icon
+                >
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Next Task -->
+          <ng-container *ngIf="getNextTask().length" formArrayName="next_task_builder_id">
+            <div class="p-grid" *ngFor="let nextTask of getNextTask()?.controls; let taskIndex = index" [formGroupName]="taskIndex">
+              <div class="p-col-10">
+                <div class="p-grid">
+                  <div class="p-col-1"><mat-icon style="vertical-align: sub; margin-right: 5px">arrow_downward</mat-icon></div>
+                  <div class="p-col-11">
+                    <span> {{ nextTask?.get('ref_id').value }} {{ nextTask?.get('task_title').value }} </span>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-2 visib">
+                <mat-icon style="color: red; cursor: pointer" (click)="onDeleteNextTask(nextTask.value, taskIndex)">remove_circle</mat-icon>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- XXXXXXXXXXXXXXXXX  THE SECTION FOR THE PREVIEW XXXXXXXXXXXXXXXXXXXXXXXX -->
+  <section class="p-col-6 preview-position">
+    <ms-title-task-builder-task-preview [taskFormValue]="taskBuilderPreviewValue"></ms-title-task-builder-task-preview>
+  </section>
+
+  <div *ngIf="isWaitingForResponse" class="inner-loading-indicator">
+    <mat-spinner color="accent" [diameter]="100"></mat-spinner>
+  </div>
+</main>

@@ -1,0 +1,16 @@
+<div class="title" mat-dialog-title>
+  <div [ngSwitch]="data.type">
+    <h2 *ngSwitchCase="'title'">{{'CERTIFICATION_RULE.ADD_TITLE' | translate}}</h2>
+    <h2 *ngSwitchCase="'message'">{{'CERTIFICATION_RULE.ADD_MESSAGE' | translate}}</h2>
+    <h2 *ngSwitchDefault>{{'CERTIFICATION_RULE.ADD_TEXT' | translate}}</h2>
+  </div>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="editorForm">
+    <ckeditor [editor]="Editor" (ready)="onReady($event)" [config]="config" formControlName="textInput"></ckeditor>
+  </form>
+</div>
+<div class="action-btn" mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="closeDialog()">{{'CLOSE' | translate}}</button>
+  <button mat-raised-button color="accent" (click)="submit()">{{'SUBMIT' | translate}}</button>
+</div>

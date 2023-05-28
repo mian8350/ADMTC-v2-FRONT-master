@@ -1,0 +1,52 @@
+<!-- <div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12" style=" text-align: center !important; display: contents;">
+  <div class="center-spinner spinner-wrapper">
+    <mat-spinner color="accent" style="width: 100px;height: 100px;"></mat-spinner>
+  </div>
+</div> -->
+<form style="color: black;" [formGroup]="reactivateForm">
+ <div class="dialog-border" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+    <div class="dialogTitleWrapper header-dialog">
+      <div class="p-grid">
+        <div class="p-col-10 no-padding">
+          <mat-icon style="transform: translateY(5px);" class="icon-middle">indeterminate_check_box </mat-icon>
+          <span class="suggestion-title">{{'ENTERDATEOFREACTIVE' | translate}}</span>
+        </div>
+        <div class="w-65 no-padding ml-20">
+          <button mat-icon-button class="close-icon float-right" (click)="closeDialog()" tabindex="-1">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+ <mat-dialog-content>
+     <!-- Commented out for tasks AV-3941 -->
+     <!-- <div>
+         <mat-form-field>
+          <mat-label>{{ 'REACTIVATIONDATE' | translate }}</mat-label>
+          <input matInput formControlName="date_of_reactivation" readonly (click)="picker1.open()" [matDatepicker]="picker1" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+             <mat-error *ngIf="reactivateForm.get('date_of_reactivation').hasError('required')&&
+                                            (reactivateForm.get('date_of_reactivation').dirty ||
+                                             reactivateForm.get('date_of_reactivation').touched)">{{'This field is required'|translate}}</mat-error>
+        </mat-form-field>
+     </div> -->
+     <div>
+       <mat-form-field class="full-width">
+      <textarea maxLength="300" rows="2" formControlName="reason_for_reactivation" matTextareaAutosize matInput placeholder="{{ 'REASON_REACTIVATION' | translate }}"></textarea>
+           <mat-error *ngIf="reactivateForm.get('reason_for_reactivation').hasError('required')&&
+                                            (reactivateForm.get('reason_for_reactivation').dirty ||
+                                             reactivateForm.get('reason_for_reactivation').touched)">{{'This field is required'|translate}}</mat-error>
+    </mat-form-field>
+     </div>
+ </mat-dialog-content>
+ <mat-dialog-actions class="pull-right ml-25">
+     <button mat-button mat-raised-button color="warn" mat-dialog-close class="mr-12 btn-student">{{'CANCEL' | translate}}</button>
+     <button mat-button mat-raised-button color="primary" type="submit" [disabled]="isWaitingForResponse || reactivateForm.invalid" (click)="reactivatedStudent()" class="btn-student" >{{'SUBMIT' | translate}}</button>
+ </mat-dialog-actions>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

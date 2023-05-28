@@ -1,0 +1,119 @@
+.certification-container {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+  padding: 8px;
+}
+
+.section-header {
+  background-color: #363636;
+  margin-top: -26px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.certification-tabs{
+  width: 100%;
+}
+
+:host::ng-deep.mat-tab-group .mat-tab-header {
+  margin-left: 6px;
+}
+
+//////////////////////////////////////////////
+
+.certification-button {
+  text-align: right;
+  margin-bottom: 1rem;
+
+  button {
+    margin-left: 10px;
+  }
+}
+
+.certification-box {
+  margin-right: 5px;
+  position: relative;
+}
+
+.label-header {
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.text-required {
+  color: #ff5722;
+}
+.error-text {
+  font-size: 14px;
+}
+
+::ng-deepckeditor {
+  label {
+    font-size: 14px;
+  }
+  .ck-content {
+    min-height: 10rem !important;
+    background: white !important;
+    color: #000 !important;
+  }
+}
+
+.action-button-container {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.document-name {
+  margin: 0 !important;
+}
+
+.certification-content {
+  padding-left: 16px;
+}
+
+.toggle-publish {
+  margin-top: 16px;
+  margin-left: 16px;
+}
+
+.remove-button {
+  text-align: right;
+  margin-top: 6px;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+}
+
+.red-icon {
+  color: red;
+}
+
+@media screen and (max-width: 1540px) {
+  .p-col-9 {
+    width: 68%;
+  }
+  .p-col-3 {
+    width: 30%;
+  }
+  .certification-button {
+
+    button {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 1398px) {
+  .certif-container-sidenavopen{
+    .p-col-9 {
+      width: 56%;
+    }
+    .p-col-3 {
+      width: 38%;
+    }
+  }
+}

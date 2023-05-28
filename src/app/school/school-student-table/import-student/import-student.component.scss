@@ -1,0 +1,44 @@
+.baseline{
+  align-items: baseline;
+}
+
+.titleImport {
+  font-size: 16px;
+}
+
+.fileInfo {
+  width: -webkit-fit-content!important;
+  width: -moz-fit-content!important;
+  width: fit-content!important;
+  margin: 5px!important;
+  display: inline-block!important;
+  border: 1px solid rgba(0,0,0,.1);
+  z-index: 10;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1), inset 0 -1px 0 rgba(0,0,0,.07);
+}
+.swal2-button {  
+  line-height: 30px;
+  font-size: 12px !important;
+  border-radius: 2px;
+}
+
+::ng-deep.swal2-label {
+  font-weight: bold;
+  font-size: 14px;
+}
+::ng-deep.swal2-radio label {
+  font-weight: bold !important;
+  font-size: 14px !important;
+}
+.spinner-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background-color: rgba(35, 35, 35, 0.5);
+  z-index: 998;
+}

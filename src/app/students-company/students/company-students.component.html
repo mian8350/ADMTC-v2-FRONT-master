@@ -1,0 +1,160 @@
+<ms-job-description
+  *ngIf="jobFullScreen"
+  [studentId]="studentId"
+  [schoolId]="schoolId"
+  [classId]="classId"
+  [titleId]="titleId"
+  [typeDisplay]="jobFullScreen"
+>
+</ms-job-description>
+<ng-container *ngIf="!jobFullScreen">
+  <div class="p-grid" *ngIf="isWaitingForResponse" class="p-col-12" style="text-align: center !important; display: contents">
+    <div class="center-spinner spinner-wrapper">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+  </div>
+
+  <div class="p-grid">
+    <div class="p-col-12 padx-none">
+      <div class="p-grid">
+        <div class="p-col-5 padx-none">
+          <div class="p-col-6 padx-none float-left">
+            <mat-form-field>
+              <input
+                matInput
+                class="form-field"
+                [formControl]="searchCompany"
+                placeholder="{{ 'COMPANY.SEARCH' | translate }}"
+                (keyup)="filterCompany()"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="p-col-7 pad-bottom-none"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isWaitingForResponse" class="p-grid" style="padding-top: 10px">
+    <div *ngIf="studentCardData && studentCardData.length" class="p-col-4 left-side pad-top-none">
+      <div
+        class="scrollbar"
+        id="style-4"
+        [style.height.px]="getAutomaticHeight()"
+        [style.max-height.px]="getAutomaticHeight()"
+        style="overflow-x: hidden; overflow-y: auto"
+      >
+        <mat-card
+          *ngFor="let studentCard of filteredStudentCardData | async"
+          (click)="selectStudentCard(studentCard)"
+          [ngClass]="selectedStudentId === studentCard._id ? 'student-select mrgn-all-md' : 'mrgn-all-md'"
+          style="cursor: pointer; padding: 4px !important"
+        >
+          <mat-card-subtitle [ngClass]="selectedStudentId === studentCard._id ? 'student-text' : 'test'">
+            <div class="p-grid">
+              <div class="p-col-2" style="align-self: center">
+                <span>
+                  <img
+                    [src]="
+                      studentCard.is_photo_in_s3
+                        ? studentCard.photo_s3_path
+                        : studentCard.photo
+                        ? serverimgPath + studentCard.photo
+                        : studentCard.civility === 'MR'
+                        ? maleStudentIcon
+                        : femaleStudentIcon
+                    "
+                    style="border-radius: 50%; width: 40px"
+                    *ngIf="studentCard.is_photo_in_s3"
+                  />
+
+                  <img
+                    style="border-radius: 50%; width: 40px"
+                    *ngIf="!studentCard.is_photo_in_s3"
+                    [src]="studentCard.civility === 'MR' ? maleStudentIcon : femaleStudentIcon"
+                  />
+                </span>
+              </div>
+              <div class="p-col-9" style="text-align: center; place-self: center">
+                <div class="p-grid no-padding">
+                  <div class="p-col-12 no-padding">
+                    <h5 class="no-margin" style="padding-top: 0.5rem; font-size: 18px">
+                      {{ studentCard.last_name | uppercase }} {{ studentCard.first_name }} {{ studentCard.civility | translate }}.
+                    </h5>
+                  </div>
+                  <div class="p-col-12 no-padding">
+                    <p
+                      class="no-margin one-line-text"
+                      style="font-size: 12px"
+                      matTooltip="{{ studentCard.rncp_title.short_name }} - {{ studentCard.current_class.name }}"
+                    >
+                      {{ studentCard.rncp_title.short_name }} - {{ studentCard.current_class.name }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-1" style="padding-top: 1rem; padding-left: 0px; padding-right: 0px">
+                <div>
+                  <mat-icon
+                    [matTooltip]="getTooltip(studentCard.status)"
+                    [ngClass]="{
+                      'green-icon': studentCard.status === 'active',
+                      'black-icon': studentCard.status === 'deactivated' || studentCard.status === 'pending',
+                      'red-icon': studentCard.status === 'incorrect_email'
+                    }"
+                  >
+                    check_circle
+                  </mat-icon>
+                </div>
+                <div>
+                  <!-- <button [href]="'mailto:'+studentCard.email"> -->
+                  <span matTooltip="{{ 'Send an Email to this student' | translate }}" (click)="sendMail(studentCard)">
+                    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                      <path
+                        fill="#000000"
+                        d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </mat-card-subtitle>
+        </mat-card>
+      </div>
+    </div>
+    <div class="p-col-8 right-side pad-top-22" *ngIf="!registerStudent">
+      <!-- <ms-card-detail
+        *ngIf="selectedStudentId && selectedSchoolId"
+        [studentTabSelected]="studentTabSelected"
+        [titleId]="selectedRncpTitleId"
+        [classId]="selectedClassId"
+        [studentId]="selectedStudentId"
+        [schoolId]="selectedSchoolId"
+        [studentPrevCourseData]="studentPrevCourseData"
+      ></ms-card-detail> -->
+
+      <ms-student-summary-card
+        [studentId]="selectedStudentId"
+        [schoolId]="selectedSchoolId"
+        [classId]="selectedClassId"
+        [titleId]="selectedRncpTitleId"
+        [selectedStudentStatus]="selectedStudentStatus"
+        *ngIf="selectedStudentId && selectedSchoolId && currentUser?.entities[0]?.type?.name === 'Mentor'"
+      >
+      </ms-student-summary-card>
+      <ms-grouped-card-detail
+        *ngIf="selectedStudentId && selectedSchoolId"
+        [studentTabSelected]="studentTabSelected"
+        [titleId]="selectedRncpTitleId"
+        [classId]="selectedClassId"
+        [studentId]="selectedStudentId"
+        [schoolId]="selectedSchoolId"
+        [studentPrevCourseData]="studentPrevCourseData"
+        [isMentor]="true"
+      ></ms-grouped-card-detail>
+    </div>
+  </div>
+  <div *ngIf="messageDataEmpty" class="p-grid">
+    <h4 class="message-empty">{{ 'STUDENT_EMPTY' | translate }}</h4>
+  </div>
+</ng-container>

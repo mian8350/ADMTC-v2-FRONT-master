@@ -1,0 +1,252 @@
+<div class="p-grid row-margin" style="margin: 0px !important;">
+  <div class="p-col-12 align-left" style="padding-top: 0px; padding-left: 0px;">
+    <!-- <button mat-raised-button color="primary" type="button" class="btn-test" (click)="goToPreviousStep()">
+      <mat-icon>chevron_left</mat-icon>
+      {{ 'PREVIOUS' | translate }}
+    </button>
+    <button mat-raised-button class="red-button btn-test" (click)="cancelTest()" style="font-size: 12px; padding-left: 2px;">
+      <mat-icon svgIcon="undo-variant"></mat-icon>
+      {{ 'LEAVE' | translate }}
+    </button> -->
+  </div>
+</div>
+
+<mat-card
+  [formGroup]="fourthStepForm"
+  style="margin-top: 10px; margin-right: 10px; margin-left: 0px; padding-right: 0px; padding-left: 0px; box-shadow: none;"
+>
+  <div class="p-grid create-test-header-button">
+    <button mat-raised-button *ngIf="!formData?.is_published" color="accent" (click)="openDuplicateDialog()">
+      <mat-icon class="mat-icon-default">content_copy</mat-icon>
+      {{ 'TEST.DUPLICATETEST' | translate }}
+    </button>
+    <button 
+      mat-raised-button 
+      color="accent" 
+      (click)="saveTest()" 
+      [disabled]="!fourthStepForm.valid 
+        || testProgress?.is_mark_entry_done
+        || isWaitingForResponse"
+      >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'TEST.SAVE' | translate }}
+    </button>
+  </div>
+
+  <mat-card class="background-primary mrgn-b-md">
+    <mat-card-header class="justify-content-between ">
+      <mat-card-title>
+        <h3>{{ 'TASKS' | translate }}</h3>
+      </mat-card-title>
+      <div class="text-right">
+        <button mat-raised-button type="button" color="accent" (click)="addManualTaskForm()" [disabled]="(testProgress && testProgress.is_mark_entry_done)">
+          {{ 'TEST.ADDTASK' | translate }}
+        </button>
+        <button mat-raised-button type="button" [matMenuTriggerFor]="sortingMenu">
+          {{ 'TEST.SORTBY' | translate }} <mat-icon class="mat-icon-default">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu xPosition="before" yPosition="below" #sortingMenu="matMenu">
+          <div class="pa-1">
+            <mat-slide-toggle labelPosition="before" [formControl]="isSortDescending" (click)="$event.stopPropagation()">
+              {{ 'Descendant' | translate }} ?
+            </mat-slide-toggle>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="pa-1">{{ 'Criteria' | translate }} :</div>
+          <mat-divider></mat-divider>
+          <div *ngFor="let field of sortOptions; index as i">
+            <button mat-menu-item (click)="sortTask(field.value)">&emsp;{{ field.text | translate }}</button>
+          </div>
+        </mat-menu>
+      </div>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="mrgn-t-md" formGroupName="calendar">
+      <ng-container formArrayName="steps">
+        <mat-card *ngFor="let task of taskForms.controls; let taskIndex = index" [formGroupName]="taskIndex" class="mrgn-b-md">
+          <!-- view mode -->
+          <mat-card-content *ngIf="!task.get('isEditMode').value">
+            <div class="p-grid">
+              <div class="p-col-10">
+                <div><span class="label-text">{{'TEST.CALENDAR.WHO' | translate}}</span>: {{getActorType(task.get('actor').value)}}</div>
+                <div><span class="label-text">{{'TEST.CALENDAR.WHAT' | translate}}</span>: {{getTaskTranslation(task)}}</div>
+                <div><span class="label-text">{{'TEST.CALENDAR.WHOREMINDER' | translate}}</span>: {{getReminderName(task)}}</div>
+                <div><span class="label-text">{{'EXPECTEDDOCUMENT.DEADLINE' | translate}}</span>: {{getDeadline(task)}}</div>
+              </div>
+              <div class="p-col-2 justify-content-end" *ngIf="!task.get('is_automatic_task').value">
+                <button mat-icon-button color="accent" (click)="task.get('isEditMode').setValue(true)" [disabled]="(testProgress && testProgress.is_mark_entry_done)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="removeTaskForm(taskIndex)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+
+          <!-- edit mode -->
+          <mat-card-content *ngIf="task.get('isEditMode').value">
+            <div class="p-grid">
+              <div class="p-col-4">
+                <mat-form-field class="standard-input-width">
+                  <mat-label>{{'CALENDARSTEPS.WHAT' | translate}}</mat-label>
+                  <input matInput formControlName="text" required>
+                  <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col-4">
+                <mat-form-field class="standard-input-width">
+                  <mat-label>{{'CALENDARSTEPS.WHO' | translate}}</mat-label>
+                  <mat-select formControlName="actor" required [disableOptionCentering]="true"
+                  panelClass="filterPanel custom-matselect-dropdown">
+                    <mat-option *ngFor="let type of userTypes" [value]="type?._id">
+                      {{'USER_TYPES.' + type?.name | translate}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="p-col-4 justify-content-end">
+                <button mat-icon-button class="greenyellow-text" (click)="setManualTask(task)">
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="removeTaskWithoutSwal(taskIndex)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="p-grid" formGroupName="date">
+              <div class="p-col-4 vertical-center">
+                <mat-slide-toggle color="accent" (change)="toggleRelativeDate($event, task)" [checked]="setRelativeDate(task)">
+                  {{'TEST.RELATIVEDATE' | translate}}
+                </mat-slide-toggle>
+              </div>
+              <div class="p-col-4">
+                <ng-container *ngIf="task.get('date').get('type').value === 'fixed'" formGroupName="value">
+                  <mat-form-field class="standard-input-width">
+                    <input
+                      matInput
+                      date="value"
+                      formControlName="date"
+                      readonly
+                      [matDatepicker]="taskDatePicker"
+                      placeholder="{{ 'TEST.TESTDATE' | translate }}"
+                      [min]="minDate"
+                      (click)="taskDatePicker.open()"
+                      (dateInput)="datePicked(taskIndex)"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="taskDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker [startAt]="minDate" #taskDatePicker></mat-datepicker>
+                    <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                  </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="task.get('date').get('type').value === 'relative'">
+                  <mat-radio-group formControlName="before">
+                    <mat-radio-button [value]="true">{{'BEFORE' | translate}} {{'TEST.AUTOTASK.MARK ENTRY' | translate}}</mat-radio-button>
+                    <mat-radio-button [value]="false">{{'AFTER' | translate}} {{'TEST.AUTOTASK.MARK ENTRY' | translate}}</mat-radio-button>
+                  </mat-radio-group>
+                </ng-container>
+              </div>
+              <div class="p-col-4" #taskTimeDiv>
+                <ng-container formGroupName="value">
+                  <mat-form-field style="width: 75px;" [ngClass]="{'hidden': task.get('date').get('type').value !== 'fixed'}">
+                    <input matInput [ngxTimepicker]="time" readonly [format]="24" formControlName="time" />
+                    <ngx-material-timepicker-toggle matSuffix [for]="time">
+                      <svg style="transform: scale(0.85);" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                        <path
+                          fill="#ffffff"
+                          d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                        />
+                      </svg>
+                    </ngx-material-timepicker-toggle>
+                    <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                  </mat-form-field>
+                  <ngx-material-timepicker #time (timeSet)="dateUpdateService(taskIndex)"></ngx-material-timepicker>
+                </ng-container>
+                <ng-container *ngIf="task.get('date').get('type').value === 'relative'">
+                  <mat-form-field class="standard-input-width">
+                    <mat-label>{{'TEST.NUMBEROFDAYS' | translate}}</mat-label>
+                    <input matInput type="number" formControlName="day">
+                    <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                  </mat-form-field>
+                </ng-container>
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-4">
+                <mat-form-field class="standard-input-width">
+                  <mat-label>{{'Select Entity' | translate}}</mat-label>
+                  <mat-select formControlName="sender_entity" (selectionChange)="selectEntity(task)" [disableOptionCentering]="true"
+                  panelClass="filterPanel custom-matselect-dropdown">
+                    <mat-option *ngFor="let entity of entitiesName" [value]="entity">
+                      {{entity | translate}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-col-4">
+                <mat-form-field class="standard-input-width">
+                  <mat-label>{{'Select User Type' | translate}}</mat-label>
+                  <mat-select 
+                    formControlName="sender_type" 
+                    [disabled]="!task.get('sender_entity').value"
+                    [disableOptionCentering]="true"
+          panelClass="filterPanel custom-matselect-dropdown" 
+                    (selectionChange)="getSenders($event, task.get('sender_entity').value, taskIndex)">
+                    <ng-container *ngFor="let type of userTypes">
+                      <mat-option *ngIf="type?.entity === task.get('sender_entity').value" [value]="type?._id">
+                        {{type?.name | translate}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="p-col-4">
+                <mat-form-field class="standard-input-width">
+                  <mat-label>{{'Select User' | translate}}</mat-label>
+                  <mat-select required
+                    formControlName="sender" 
+                    [disabled]="!task.get('sender_type').value" 
+                    (selectionChange)="setSenderData($event, taskIndex)"
+                    [disableOptionCentering]="true"
+          panelClass="filterPanel custom-matselect-dropdown"
+                  >
+                    <mat-option *ngIf="isWaitingSenderData" class="is-loading">
+                      <mat-spinner color="accent" diameter="20"></mat-spinner>
+                    </mat-option>
+                    <mat-option *ngFor="let user of users[taskIndex]" [value]="user?._id">
+                      {{ user?.last_name | uppercase }} {{user?.first_name}} {{user?.civility | translate}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>{{ 'This field is required' | translate }}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+
+      <div class="pa-1" class="text-center" *ngIf="!taskForms.length">
+        {{ 'TEST.NOSTEPS' | translate }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div class="justify-content-end" style="margin-top: 20px;">
+    <button 
+      mat-raised-button 
+      color="accent" 
+      (click)="saveTest()" 
+      [disabled]="!fourthStepForm.valid 
+      || testProgress?.is_mark_entry_done
+      || isWaitingForResponse"
+    >
+      <mat-icon class="mat-icon-default">save</mat-icon>
+      {{ 'TEST.SAVE' | translate }}
+    </button>
+  </div>
+</mat-card>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

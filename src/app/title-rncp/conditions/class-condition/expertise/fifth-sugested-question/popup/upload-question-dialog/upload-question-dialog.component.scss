@@ -1,0 +1,59 @@
+:host::ng-deep .mat-dialog-content {
+  overflow: unset !important;
+}
+
+.doctype-input {
+  width: 90%;
+}
+
+.uploaded-file-wrapper {
+  display: block;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.no-padding {
+  padding-top: 0 !important;
+}
+
+h1 {
+  color: black;
+  margin-left: 6px;
+  margin-bottom: 10px !important;
+}
+
+.dialog-body {
+  font-size: 14px !important;
+}
+
+.mat-select {
+  margin-bottom: -7px;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 6em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}

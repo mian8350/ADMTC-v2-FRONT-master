@@ -1,0 +1,103 @@
+<div class="p-grid">
+  <div class="p-col no-padding">
+    <div class="p-grid background-black">
+      <div class="p-col header-height">
+        <div>
+          {{ 'GROUP_CREATION.Group Test' | translate }}
+        </div>
+      </div>
+    </div>
+    <div class="p-grid background-primary">
+      <div class="p-col-12">
+        <div class="p-col-12 padding-none table-section-height">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <!-- table filter section -->
+            <ng-container matColumnDef="studentNameFilter">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                  <input matInput [formControl]="studentNameFilter" placeholder="{{ 'GROUP_TEST_TABLE.SEARCH' | translate }}" />
+                </mat-form-field>
+              </th>
+            </ng-container>
+
+            <ng-container matColumnDef="groupFilter">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field color="accent">
+                  <mat-select [formControl]="groupIDFilter" [disabled]="!groupList || !groupList.length">
+                    <mat-option value="" class="not-empty-select">{{ 'All' | translate }}</mat-option>
+                    <mat-option value="None" class="not-empty-select">{{ 'None' | translate }}</mat-option>
+                    <mat-option *ngFor="let group of groupList" class="not-empty-select" [value]="group.group_id">{{ group.group_name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </th>
+            </ng-container>
+
+            <!-- table header and content -->
+            <ng-container matColumnDef="studentName">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                matTooltip="{{ 'GROUP_TEST_TABLE.STUD_NAME' | translate }}"
+                matTooltipPosition="above"
+                class="text-center"
+              >
+                <h5>{{ 'GROUP_TEST_TABLE.STUD_NAME' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element" matTooltip="{{ element?.last_name | uppercase }} {{ element?.first_name }}" matTooltipPosition="above">
+                {{ element?.last_name | uppercase }} {{ element?.first_name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="group">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                matTooltip="{{ 'GROUP_TEST_TABLE.GROUP' | translate }}"
+                matTooltipPosition="above"
+                class="text-center"
+              >
+                <h5>{{ 'GROUP_TEST_TABLE.GROUP' | translate }}</h5>
+              </th>
+              <td mat-cell *matCellDef="let element; let studentIndex = index" class="text-center" matTooltipPosition="above">
+                <mat-form-field color="accent">
+                  <mat-select
+                    [value]="element.group_id"
+                    (selectionChange)="assignStudent($event, studentIndex)"
+                    [disabled]="!groupList || !groupList.length || testProgressData?.already_filled_mark_entry"
+                  >
+                    <mat-option [value]="null" class="not-empty-select">{{ 'None' | translate }}</mat-option>
+                    <mat-option *ngFor="let group of groupList" matTooltip="{{ group.group_name }}" class="not-empty-select" [value]="group.group_id">{{ group.group_name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+
+            <!-- loading spinner -->
+            <ng-container matColumnDef="loading">
+              <th mat-header-cell *matHeaderCellDef colspan="3" class="text-center">
+                <div class="center-spinner">
+                  <mat-spinner color="accent"></mat-spinner>
+                </div>
+              </th>
+            </ng-container>
+
+            <!-- Footer for corrected copies -->
+            <ng-container matColumnDef="correctedCopies">
+              <th mat-header-cell *matFooterCellDef colspan="3" class="footer-row">
+                {{ studentList?.length }} {{ 'GROUP_TEST_TABLE.STUDENTS' | translate }}
+              </th>
+            </ng-container>
+
+            <!-- table setting -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="filterColumns; sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+            <tr mat-header-row *matFooterRowDef="['correctedCopies']; sticky: true" class="footer-height"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

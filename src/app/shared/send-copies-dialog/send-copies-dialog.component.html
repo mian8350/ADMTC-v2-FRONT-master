@@ -1,0 +1,159 @@
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon svgIcon="check-revise"></mat-icon>
+  <h2 class="header-text" *ngIf="!isForCertifier; else isCertifier1">
+    <span style="display: block">{{ 'SEND_COPY_CROSS.SENT_TO' | translate }}</span>
+    <span style="display: block">{{ crossCorrectionDetails?.schoolDetails?.short_name }}</span>
+  </h2>
+  <ng-template #isCertifier1>
+    <h2 class="header-text">{{ 'SEND_COPY_CROSS.SENT_TO' | translate }} {{ 'SEND_COPY_CROSS.CERTIFIER' | translate }}</h2>
+  </ng-template>
+  <button mat-icon-button type="button" (click)="closeDialog()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+
+<form class="header-form">
+  <div fxLayout="row">
+    <div fxFlex fxLayout="column">
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <div fxFlex="30">
+            <b>{{ 'DASHBOARD.DUEDATE' | translate }}</b>
+          </div>
+          <div fxFlex="5">:</div>
+          <div fxFlex="65">
+            {{ data?.due_date?.date }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <div fxFlex="30">
+            <b>{{ 'DASHBOARD.ASSIGNEDTO' | translate }}:</b>
+          </div>
+          <div fxFlex="5">:</div>
+          <div fxFlex="65">
+            {{ data?.user_selection?.user_id?.civility | translate }} {{ data?.user_selection?.user_id?.first_name }}
+            {{ data?.user_selection?.user_id?.last_name }}
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <div fxFlex="30">
+            <b>{{ 'DASHBOARD.TASK' | translate }}:</b>
+          </div>
+          <div fxFlex="5">:</div>
+          <div fxFlex="65">
+            <span *ngIf="!isForCertifier; else isCertifier2"
+              >{{ 'SEND_COPY_CROSS.SENT_TO' | translate }}
+              {{ crossCorrectionDetails?.schoolDetails?.short_name }}
+            </span>
+            <ng-template #isCertifier2>
+              <span>
+                {{ 'SEND_COPY_CROSS.SENT_TO_CERTIFIER' | translate }} {{ crossCorrectionDetails?.adminCertifier?.civility | translate }}
+                {{ crossCorrectionDetails?.adminCertifier?.first_name }} {{ crossCorrectionDetails?.adminCertifier?.last_name }}
+              </span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="row wrap" fxLayoutAlign="start start">
+          <div fxFlex="30">
+            <b>{{ 'DASHBOARD.DESCRIPTION' | translate }}:</b>
+          </div>
+          <div fxFlex="5">:</div>
+          <div fxFlex="65">
+            <div *ngIf="!isForCertifier; else isCertifier3">
+              <div>{{ 'SEND_COPY_CROSS.PAPER_COPIES_TO' | translate }}</div>
+              <div>
+                {{ crossCorrectionDetails?.acadDirDetails?.civility | translate }} {{ crossCorrectionDetails?.acadDirDetails?.first_name }}
+                {{ crossCorrectionDetails?.acadDirDetails?.last_name }}
+              </div>
+              <div>{{ crossCorrectionDetails?.schoolDetails?.short_name }} - {{ crossCorrectionDetails?.schoolDetails?.long_name }}</div>
+              <div>{{ 'SEND_COPY_CROSS.LIST_OF_STUDENT' | translate }}</div>
+              <div>
+                <ul class="student-list-scroll">
+                  <li *ngFor="let student of crossCorrectionDetails?.studentsAssignToSchoolCorrecting">
+                    {{ student?.civility | translate }} {{ student?.first_name }}
+                    {{ student?.last_name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <ng-template #isCertifier3>
+              <div>
+                {{ 'SEND_COPY_CROSS.SENT_TO_CERTIFIER_DESCP' | translate }}
+                <div>
+                  {{ crossCorrectionDetails?.adminCertifier?.civility | translate }}
+                  {{ crossCorrectionDetails?.adminCertifier?.first_name }}
+                  {{ crossCorrectionDetails?.adminCertifier?.last_name }}
+                </div>
+                <div>
+                  <span *ngIf="crossCorrectionDetails?.school?.short_name"> {{ crossCorrectionDetails?.school?.short_name }} </span>
+                  <span *ngIf="crossCorrectionDetails?.school?.long_name">- {{ crossCorrectionDetails?.school?.long_name }}</span>
+                </div>
+                <div>
+                  {{ crossCorrectionDetails?.school?.school_address[0].address1 }}
+                </div>
+                <div>
+                  {{ crossCorrectionDetails?.school?.school_address[0].address2 }}
+                </div>
+                <div>
+                  {{ crossCorrectionDetails?.school?.school_address[0].city }}
+                </div>
+                <div>
+                  {{ crossCorrectionDetails?.school?.school_address[0].postal_code }}
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <div fxFlex="30">
+          <b>{{ 'DASHBOARD.PRIORITY' | translate }}</b>
+        </div>
+        <div fxFlex="5">:</div>
+        <div fxFlex="65">{{ data.priority }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <div fxFlex>
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+      <div fxLayout="row wrap" style="margin-top: 10px">
+        <div fxFlex="100" fxLayoutAlign="center center">
+          <span>{{ 'TASK.TASKDETAILS.PENDING' | translate }}</span>
+          <mat-slide-toggle [(ngModel)]="isTaskDone" [ngModelOptions]="{ standalone: true }">{{
+            'TASK.TASKDETAILS.ACHIEVED' | translate
+          }}</mat-slide-toggle>
+        </div>
+      </div>
+      <div fxLayout="row wrap" style="margin-top: 10px">
+        <div fxFlex="100">
+          <mat-form-field class="example-full-width">
+            <mat-label>{{ 'TASK.TASKDETAILS.ACTIONTAKEN' | translate }}</mat-label>
+            <textarea matInput [formControl]="action"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row wrap" style="margin-top: 10px">
+        <div fxFlex="100" fxLayoutAlign="end end" fxLayoutGap="10px">
+          <div>
+            <button mat-raised-button color="warn" type="button" (click)="closeDialog()">
+              {{ 'CANCEL' | translate }}
+            </button>
+          </div>
+          <div>
+            <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="!isTaskDone">
+              {{ 'SAVE' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,40 @@
+.footer-field{
+  //width: 130px;
+}
+.footer-field-number{
+  //width: 40px;
+  width: 130px;
+}
+.footer-field-text{
+  //width: 50px;
+  width: 130px;
+}
+.footer-field-date{
+  //width: 90px;
+  width: 130px;
+}
+.footer-section {
+  white-space:nowrap;
+  overflow-x:auto;
+  overflow-y: hidden;
+  display: flex;
+  width: inherit;
+}
+
+.box{
+  // width: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.small-field-font {
+  font-size: 12px !important;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -0.5em;
+}
+
+:host ::ng-deep .mat-form-field-label {
+  font-size: 12px;
+}

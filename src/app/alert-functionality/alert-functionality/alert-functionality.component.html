@@ -1,0 +1,250 @@
+<div class="top-space">
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+    <ng-container matColumnDef="reset">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="action-header-column">
+        <button mat-raised-button color="primary" (click)="resetSearch()">
+          <mat-icon svgIcon="loop" class="mat-icon-svgIcon"></mat-icon>
+          {{ 'RESET' | translate }}
+        </button>
+        <button *ngIf="permissionService.addActionAlertFunc()" mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="addNewAlert()">
+          <mat-icon class="mat-icon-default">add</mat-icon>
+          {{ 'ALERT_FUNCTIONALITY.ADD_ALERT' | translate }}
+        </button>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAtFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field class="example-full-width" style="margin-top: 5px">
+          <input matInput [formControl]="createdAtFilter" [matDatepicker]="picker" placeholder="{{ 'Date' | translate }}" />
+          <mat-datepicker-toggle matSuffix [for]="picker" style="margin-right: 5px"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="nameFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <input matInput [formControl]="nameFilter" class="form-field" placeholder="{{ 'ALERT_FUNCTIONALITY.SEARCH' | translate }}" />
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="recipientFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <input
+            matInput
+            class="form-field"
+            [formControl]="recipientFilter"
+            [matAutocomplete]="autoRecipient"
+            placeholder="{{ 'search' | translate }}"
+          />
+
+          <mat-autocomplete #autoRecipient="matAutocomplete" panelWidth="max-content">
+            <mat-option [value]="''" (click)="setRecipientFilter('')">
+              {{ 'All' | translate }}
+            </mat-option>
+            <mat-option
+              *ngFor="let recipient of filteredRecipient | async"
+              [value]="recipient?.name_with_entity"
+              (click)="setRecipientFilter(recipient?._id)"
+              >{{ recipient?.name_with_entity }}</mat-option
+            >
+          </mat-autocomplete>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="publishedFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <mat-select [formControl]="publishedFilter" value="all">
+            <mat-option value="all">{{ 'AllF' | translate }}</mat-option>
+            <mat-option value="true">{{ 'Published' | translate }}</mat-option>
+            <mat-option value="false">{{ 'Not Published' | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="requiredResponseFilter">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field floatLabel="never">
+          <mat-select [formControl]="requiredResponseFilter">
+            <mat-option value="all">{{ 'AllF' | translate }}</mat-option>
+            <mat-option value="true">{{ 'DASHBOARD_DELETE.YES' | translate }}</mat-option>
+            <mat-option value="false">{{ 'DASHBOARD_DELETE.NO' | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </th>
+    </ng-container>
+
+    <ng-container matColumnDef="actionFilter">
+      <th mat-header-cell *matHeaderCellDef></th>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.DISPLAY_DATE' | translate }}" matTooltipPosition="above">
+        <h5 mat-sort-header="createdAt">
+          {{ 'ALERT_FUNCTIONALITY.DISPLAY_DATE' | translate | truncate: [4] }}
+        </h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltipPosition="above">
+        <span ngif="element?.published_date?.date && element?.published_date?.time"> {{ translateDate(element?.published_date) }} </span>
+        <!-- <ng-template #empty>
+            <span> - <span>
+        </ng-template> -->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.ALERT_TITLE' | translate }}" matTooltipPosition="above">
+        <h5 mat-sort-header="name">{{ 'ALERT_FUNCTIONALITY.ALERT_TITLE' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltip="{{ element?.name }}" matTooltipPosition="above">{{ element?.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="recipient">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        class="text-center"
+        matTooltip="{{ 'ALERT_FUNCTIONALITY.RECEPIENT' | translate }}"
+        matTooltipPosition="above"
+      >
+        <h5 mat-sort-header="recipients">{{ 'ALERT_FUNCTIONALITY.RECEPIENT' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element" matTooltipPosition="above">
+        <!-- {{getRecipient(element?.recipients) }} -->
+        <ng-container *ngIf="element.recipients">
+          <p *ngFor="let entity of element.recipients; index as i" class="display-inline">
+            <span class="tags" *ngIf="i <= 1" [matTooltip]="renderTooltipType(element.recipients)">{{
+              'USER_TYPES.' + entity?.name | translate
+            }}</span>
+            <span class="tags" *ngIf="i === 2" [matTooltip]="renderTooltipType(element.recipients)"> ... </span>
+          </p>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="published">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.PUBLISHED' | translate }}" matTooltipPosition="above">
+        <h5 mat-sort-header="published">{{ 'ALERT_FUNCTIONALITY.PUBLISHED' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div style="text-align: center" [ngSwitch]="element?.published">
+          <mat-icon
+            *ngSwitchCase="true"
+            class="greenyellow-icon"
+            aria-hidden="true"
+            matTooltip="{{ 'Published' | translate }}"
+            matTooltipPosition="right"
+          >
+            lens
+          </mat-icon>
+          <mat-icon
+            *ngSwitchCase="false"
+            class="red-icon"
+            aria-hidden="true"
+            matTooltip="{{ 'Not Published' | translate }}"
+            matTooltipPosition="right"
+          >
+            lens
+          </mat-icon>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="requiredResponse">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.ANSWER' | translate }}" matTooltipPosition="above">
+        <h5 mat-sort-header="requiredResponse">{{ 'ALERT_FUNCTIONALITY.ANSWER' | translate }}</h5>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        matTooltip="{{ (element?.required_response ? 'YES' : 'NO') | translate }}"
+        matTooltipPosition="right"
+      >
+        <span>
+          {{ (element?.required_response ? 'ALERT_FUNCTIONALITY.YES' : 'ALERT_FUNCTIONALITY.NO') | translate }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef matTooltip="{{ 'ALERT_FUNCTIONALITY.ACTION' | translate }}" matTooltipPosition="above">
+        <h5>{{ 'ALERT_FUNCTIONALITY.ACTION' | translate }}</h5>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Delete' | translate }}"
+          matTooltipPosition="above"
+          (click)="deleteAlert(element)"
+          *ngIf="!element?.published && permissionService.deleteActionAlertFunc()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Modify' | translate }}"
+          matTooltipPosition="above"
+          *ngIf="!element?.published && element?.creator?._id === currentUser?._id && permissionService.editActionAlertFunc()"
+          (click)="editAlert(element)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'User Response' | translate }}"
+          matTooltipPosition="above"
+          *ngIf="element?.published && permissionService.responseActionAlertFunc()"
+          (click)="userResponses(element)"
+        >
+          <mat-icon>forum</mat-icon>
+        </button>
+        <button
+        *ngIf="permissionService.duplicateActionAlertFunc()"
+          mat-icon-button
+          class="margin-right-button"
+          matTooltip="{{ 'Duplicate' | translate }}"
+          matTooltipPosition="above"
+          (click)="duplicate(element)"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <th mat-header-cell *matHeaderCellDef colspan="6" class="text-center">
+        <div class="center-spinner">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
+      </th>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['reset']"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+    <tr mat-row *matHeaderRowDef="['loading']" [hidden]="!isWaitingForResponse"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [hidden]="isWaitingForResponse"></tr>
+  </table>
+  <div *ngIf="noData | async" class="no-records">
+    {{ 'NOT RECORD FOUND' | translate }}
+  </div>
+  <div [ngClass]="{ hide: noData | async }">
+    <mat-paginator
+      [ngClass]="{ 'hide-pagination-buttons': alertCount <= 10 }"
+      [length]="alertCount"
+      [hidePageSize]="true"
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

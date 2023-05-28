@@ -1,0 +1,51 @@
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+<div class="p-grid">
+  <div class="p-col-12">
+    <div class="p-grid">
+      <div class="p-col-4">
+        <ms-origin-class-selection
+          [currentClassId]="selectedClassId"
+          [classData]="classData"
+          (triggerRefresh)="triggerRefresh($event)"
+        ></ms-origin-class-selection>
+      </div>
+      <div class="p-col-8">
+        <p
+          class="text-justify"
+          *ngIf="
+            classData?.class_duplication_status === 'school_connected' || classData?.class_duplication_status === 'usertype_duplicated'
+          "
+        >
+          {{ 'Select any user below' | translate }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-12">
+    <div class="p-grid">
+      <div class="p-col-4">
+        <ms-school-connection-table
+          *ngIf="classData?.class_duplication_status && classData?.class_duplication_status !== 'not_started'"
+          [currentClassId]="selectedClassId"
+          (isRefresh)="triggerRefresh($event)"
+          (triggerSpinner)="triggerSpinner($event)"
+        ></ms-school-connection-table>
+      </div>
+      <div class="p-col-8">
+        <ms-usertype-connection-table
+          *ngIf="
+            classData?.class_duplication_status &&
+            classData?.class_duplication_status !== 'not_started' &&
+            classData?.class_duplication_status !== 'class_selected'
+          "
+          [classData]="classData"
+          [currentClassId]="selectedClassId"
+          (triggerRefresh)="triggerRefresh($event)"
+          (triggerSpinner)="triggerSpinner($event)"
+        ></ms-usertype-connection-table>
+      </div>
+    </div>
+  </div>
+</div>

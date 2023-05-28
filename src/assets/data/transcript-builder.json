@@ -1,0 +1,28 @@
+{
+  "nom": { "value": "CESACOM" },
+  "prenom": { "value": "IFC MARSEILLE" },
+  "nee": { "value": "some data" },
+  "anne": { "value": "2018/2019" },
+  "center": { "value": "Maeva Bevilacqua" },
+  "block1": { "value": "Analyse des enjeux et des problématiques d'une organisation" },
+  "block1_coef": { "value": "4" },
+  "block1_Notes": { "value": "4" },
+  "block1_average": { "value": "16.00" },
+  "block1_credits": { "value": "40" },
+  "block1_validate": { "value": "Validate" },
+  "block1_subject_1": { "value": "Ecrit" },
+  "block1_subject_1_weightage": { "value": "50%" },
+  "block1_subject_2": { "value": "Oral" },
+  "block1_subject_2_weightage": { "value": "50%" },
+
+  "block2": { "value": "Analyse de la situation financière et économique d'une organisation" },
+  "block2_coef": { "value": "6" },
+  "block2_Notes": { "value": "5" },
+  "block2_average": { "value": "20.00" },
+  "block2_credits": { "value": "20" },
+  "block2_validate": { "value": "Validate" },
+  "block2_subject_1": { "value": "Contrôle Continu" },
+  "block2_subject_1_weightage": { "value": "100%" },
+  "total_points_out_20": { "value": "10.25" },
+  "result": { "value": "pass" }
+}

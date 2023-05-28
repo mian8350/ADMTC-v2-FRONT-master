@@ -1,0 +1,236 @@
+<!-- <div
+  fxLayout="column wrap"
+  fxLayoutAlign="start"
+  style="width: 100%; height: 100%;"
+>
+  <div style="margin-left: -16px; margin-right: -24px; margin-top: -16px;">
+    <div>
+      <div fxLayout="row wrap" fxLayoutAlign="start center" style="margin-bottom: 8px;">
+        <mat-icon>
+          <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M6,2H18V8H18V8L14,12L18,16V16H18V22H6V16H6V16L10,12L6,8V8H6V2M16,16.5L12,12.5L8,16.5V20H16V16.5M12,11.5L16,7.5V4H8V7.5L12,11.5M10,6H14V6.75L12,8.75L10,6.75V6Z" />
+          </svg>
+        </mat-icon>
+        <div fxFlex>
+          <span class="text-xl">{{ 'JURY_ORGANIZATION.POSTPONE_MEETING' | translate }}</span>
+        </div>
+        <button mat-icon-button (click)="cancel()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <form [formGroup]="postponeForm" style="width: 100%; margin-top: 1rem;">
+    <div fxLayout="row" fxLayoutWrap="wrap">
+      <div fxFlex="100" fxFlex.lt-md="100">
+        <label>
+          <div>{{'JURY_ORGANIZATION.Date'| translate}}</div>
+        </label>
+      </div>
+      <div fxFlex="100" fxFlex.lt-md="100">
+          <mat-select placeholder="{{'JURY_ORGANIZATION.Select Date' | translate}}" style="width: 100%" formControlName="date_test" class="full-width">
+            <mat-option *ngFor="let date of dates" [value]="date.date_test" (click)="selectDate(date)">
+              <span>{{date.label}}</span>
+            </mat-option>
+          </mat-select>
+      </div>
+    </div>
+  
+    <div fxLayout="row" fxLayoutWrap="wrap">
+      <div fxFlex="100" fxFlex.lt-md="100">
+        <label>
+          <div>{{'JURY_ORGANIZATION.Session Time'| translate}}</div>
+        </label>
+      </div>
+      <div fxFlex="100" fxFlex.lt-md="100">
+        <mat-select placeholder="{{'JURY_ORGANIZATION.Select Session Time' | translate}}" style="width: 100%" formControlName="test_hours_start" class="full-width">
+          <mat-option *ngFor="let timeslot of timeslots" [value]="timeslot.test_hours_start" (click)="selectTime(timeslot)">
+            <span> {{timeslot.test_hours_start}} - {{timeslot.test_hours_finish}} </span>
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+  
+    <div fxLayout="row" fxLayoutWrap="wrap">
+      <div fxFlex="100" fxFlex.lt-md="100">
+        <label>
+          <div>{{'JURY_ORGANIZATION.Description'| translate}}</div>
+        </label>
+      </div>
+
+        <textarea 
+          formControlName="reason"
+          placeholder="{{ 'ONLINE_COURSE.Reason' | translate }}" 
+          cols="60" 
+          rows="3">
+        </textarea>
+      
+    </div>
+  </form>
+
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="flex-end"
+    fxLayoutGap="1rem"
+    fxFlexAlign="end"
+    style="width: 100%;position: absolute;bottom: 10px;"
+  >
+    <button mat-raised-button class="mat-red" (click)="cancel()">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-raised-button [color]="!postponeForm.valid ? 'grey' : 'green'" [disabled]="!postponeForm.valid" (click)="saveForm()">
+      {{ 'USERS.ADDEDITUSER.SUBMIT' | translate }}
+    </button>
+  </div>
+</div> -->
+
+<div class="header-div" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+  <mat-icon>
+    <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+      <path
+        fill="currentColor"
+        d="M6,2H18V8H18V8L14,12L18,16V16H18V22H6V16H6V16L10,12L6,8V8H6V2M16,16.5L12,12.5L8,16.5V20H16V16.5M12,11.5L16,7.5V4H8V7.5L12,11.5M10,6H14V6.75L12,8.75L10,6.75V6Z"
+      />
+    </svg>
+  </mat-icon>
+  <h2 class="header-text">
+    {{ 'JURY_ORGANIZATION.POSTPONE_MEETING' | translate }}
+  </h2>
+  <button mat-icon-button type="button" (click)="cancel()" class="header-icon">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="pad-x-md pad-y-md" [formGroup]="postponeForm">
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container" *ngIf="!select_from_current_president_of_jury">
+        <h5>{{'The proposed schedule below is related to another President of Jury' | translate}}</h5>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <!-- <ng-select
+          appendTo="body"
+          clearAllText="Clear"
+          placeholder="{{ 'JURY_ORGANIZATION.Select Date' | translate }}"
+          formControlName="date_test"
+          (change)="selectDateGlobal($event)"
+        >
+          <ng-option *ngFor="let date of dates" [value]="date.date_start" (click)="selectDateGlobal(date)">
+            <span> {{ date.label }} </span>
+          </ng-option>
+        </ng-select> -->
+        <mat-form-field class="full-wid">
+          <input
+            matInput
+            placeholder="{{ 'JURY_ORGANIZATION.Select Date' | translate }}"
+            [formControl]="dateCtrl"
+            [matAutocomplete]="autoDate"
+            required
+          />
+          <mat-autocomplete #autoDate="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngFor="let date of filteredDate | async" [value]="date?.label" (click)="selectDateGlobal(date)">
+              {{ date?.label }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <mat-form-field color="accent" class="full-width">
+          <mat-select
+            placeholder="{{ 'JURY_ORGANIZATION.Select Date' | translate }}"
+            style="width: 100%"
+            formControlName="date_test"
+            class="full-width"
+          >
+            <mat-option *ngFor="let date of dates" [value]="date.date_start" (click)="selectDateGlobal(date)">
+              <span> {{ date.label }} </span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <!-- <ng-select
+          appendTo="body"
+          clearAllText="Clear"
+          placeholder="{{ 'JURY_ORGANIZATION.Select Session Time' | translate }}"
+          formControlName="test_hours_start"
+        >
+          <ng-option *ngFor="let timeslot of timeslots" [value]="timeslot.test_hours_start" (click)="selectTime(timeslot)">
+            <span> {{ timeslot.test_hours_start }} - {{ timeslot.test_hours_finish }} </span>
+          </ng-option>
+        </ng-select> -->
+        <mat-form-field class="full-wid">
+          <input
+            matInput
+            placeholder="{{ 'JURY_ORGANIZATION.Select Session Time' | translate }}"
+            [formControl]="timeCtrl"
+            [matAutocomplete]="autoTime"
+            required
+          />
+          <mat-autocomplete #autoTime="matAutocomplete" [panelWidth]="'fit'">
+            <mat-option *ngFor="let timeslot of filteredTime | async" [value]="timeslot?.labeltime" (click)="selectTime(timeslot)">
+              {{ timeslot.test_hours_start }} - {{ timeslot.test_hours_finish }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <mat-form-field color="accent" class="full-width">
+          <mat-select
+            placeholder="{{ 'JURY_ORGANIZATION.Select Session Time' | translate }}"
+            style="width: 100%"
+            formControlName="test_hours_start"
+            class="full-width"
+          >
+            <mat-option *ngFor="let timeslot of timeslots" [value]="timeslot.test_hours_start" (click)="selectTime(timeslot)">
+              <span> {{ timeslot.test_hours_start }} - {{ timeslot.test_hours_finish }} </span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" class="baseline-align pad-b-10">
+    <div fxFlex="100">
+      <div class="px-1 select-input-container">
+        <mat-form-field color="accent" class="full-width">
+          <textarea
+            required
+            style="height: 100px; color: black"
+            matInput
+            type="text"
+            formControlName="reason"
+            placeholder="{{ 'ONLINE_COURSE.Reason' | translate }}"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-form" fxLayout="row" fxLayoutAlign="end center" style="margin-bottom: 12px;">
+  <div>
+    <button mat-raised-button color="warn" type="button" (click)="cancel()">
+      {{ 'Cancel' | translate }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="button" (click)="saveForm()" [disabled]="!postponeForm.valid" >
+      {{ 'SUBMIT' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

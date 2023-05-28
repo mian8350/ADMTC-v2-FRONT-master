@@ -1,0 +1,28 @@
+<div style="text-align: center" [formGroup]="form">
+  <div innerHTML="{{ 'EXPORT_S2.TITLE' | translate }}" class="bold"></div>
+  <div>{{ 'EXPORT_S2.TEXT' | translate }}</div>
+  <!-- <p>{{ 'Export Text3' | translate }}</p>
+  <p>{{ 'Export Text4' | translate }}</p> -->
+  <mat-form-field color="accent" class="full-wid">
+    <input matInput formControlName="exportName" type="text" placeholder="{{ 'ExportName' | translate }}" />
+  </mat-form-field>
+
+  <mat-form-field *ngIf="data.type === 'continuous'">
+    <mat-label>{{ 'EXPORT_S2.INPUT2' | translate }}</mat-label>
+    <mat-select formControlName="surveyType" required>
+      <mat-option *ngFor="let item of employabilitySurveys" [value]="item.value">
+        {{ item.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="checkFormValidity()">
+    {{ 'EXPORT_S2.BUTTON1' | translate }}
+  </button>
+  <button mat-raised-button color="warn" (click)="closeDialog()">
+    {{ 'EXPORT_S2.BUTTON2' | translate }}
+  </button>
+</div>
+
+<div *ngIf="isLoading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

@@ -1,0 +1,25 @@
+.mr-top {
+  margin-top: 10px;
+  padding: 0px 10px 0px;
+  margin-bottom: 10px;
+  border: 1px solid grey;
+}
+.right-border {
+  border-right: 1px solid grey;
+}
+.text ul {
+  list-style: none;
+  display: table;
+  padding-left: 10px;
+}
+
+.text li {
+  display: table-row;
+}
+.text span {
+  display: table-cell;
+  padding-right: 50px;
+}
+.text li span:last-of-type {
+  padding-left: 20px;
+}

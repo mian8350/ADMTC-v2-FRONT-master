@@ -1,0 +1,436 @@
+<div class="p-grid" [formGroup]="identityForm">
+  <div class="p-col-12" style="padding-left: 0px; padding-right: 0px">
+    <div class="p-grid" style="margin-top: 0.5rem">
+      <div class="p-col-12" style="text-align: right; padding-right: 0px">
+        <button [disabled]="isSubmit" mat-raised-button *ngIf="permissionService.editUserActionInUsersTablePerm() && isDisplayActionBtn" color="accent" (click)="updateUser()">
+          <mat-icon class="mat-icon-default">save</mat-icon>
+          {{ 'CARDDETAIL.Save' | translate }}
+        </button>
+      </div>
+    </div>
+    <fieldset class="fieldset-class" [disabled]="!permissionService.editUserActionInUsersTablePerm() || !isDisplayActionBtn">
+      <mat-card class="overlow-auto" style="margin-top: 0 !important">
+        <div class="p-grid">
+
+          <!-- Avatar -->
+          <div class="p-col-fixed" style="width: 150px">
+            <div class="imgContainer">
+              <img
+                [src]="
+                  is_photo_in_s3
+                    ? serverimgPath + photo_s3_path
+                    : photo
+                    ? serverimgPath + photo
+                    : identityForm?.get('civility')?.value === 'MR'
+                    ? maleStudentIcon
+                    : identityForm.get('civility').value === 'neutral'
+                    ? neutralStudentIcon
+                    : femaleStudentIcon
+                "
+                class="student-details-img"
+                *ngIf="is_photo_in_s3"
+              />
+
+              <img
+                class="student-details-img"
+                *ngIf="!is_photo_in_s3"
+                [src]="
+                  identityForm?.get('civility')?.value === 'MR'
+                    ? maleStudentIcon
+                    : identityForm.get('civility').value === 'neutral'
+                    ? neutralStudentIcon
+                    : femaleStudentIcon
+                "
+              />
+              <input
+                type="file"
+                #userphoto
+                style="display: none"
+                name="file"
+                accept="image/png, image/jpeg, image/jpg"
+                (change)="handleInputChange($event)"
+              />
+              <div class="overlay" (click)="openUploadWindow()">
+                <div class="text">{{ 'DOCUMENT.IMAGE' | translate }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="p-col">
+            <div class="p-grid">
+              <!-- email -->
+              <div class="p-col-4 no-padding">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y">
+                    <mat-form-field>
+                      <mat-label>{{ 'QUESTIONNAIRE_FIELDS.STUDENT_PERSONAL_EMAIL' | translate }}</mat-label>
+                      <input matInput required formControlName="email" type="email" />
+                      <mat-error>
+                        <p
+                          *ngIf="
+                            identityForm?.get('email').hasError('email') &&
+                            (identityForm?.get('email').touched || identityForm?.get('email').dirty)
+                          "
+                        >
+                          {{ 'Invalid email format' | translate }}
+                        </p>
+                        <p
+                          *ngIf="
+                            identityForm?.get('email').hasError('required') &&
+                            (identityForm?.get('email').dirty || identityForm?.get('email').touched)
+                          "
+                        >
+                          {{ 'This field is required' | translate }}
+                        </p>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="p-col-3 pad-left-15">
+                <button
+                  *ngIf="isUserAcadir || isUserAcadAdmin"
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="isDisabled || identityForm.get('email').invalid"
+                  (click)="validateEmail()"
+                  class="mt-4"
+                  matTooltip="{{ 'COMPANY.Check Email Availability' | translate }}"
+                  aria-hidden="true"
+                >
+                  <mat-icon svgIcon="check-revise" class="mat-icon-svgIcon"></mat-icon>
+                  {{ 'COMPANY.Check Email Availability' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Civility -->
+            <div class="p-grid">
+              <div class="p-col-6 no-padding">
+                <div class="p-grid" style="margin-bottom: 10px">
+                  <div class="p-col-fixed center-label no-padding-y" style="width: 80px">
+                    <label>{{ 'CARDDETAIL.Civility' | translate }}*</label>
+                  </div>
+                  <div class="p-col-7 no-padding-y">
+                    <mat-radio-group formControlName="civility" style="font-size: 12px">
+                      <mat-radio-button style="margin-right: 1rem" value="MR">{{ 'CARDDETAIL.MR' | translate }}</mat-radio-button>
+                      <mat-radio-button style="margin-right: 1rem" value="MRS">{{ 'CARDDETAIL.MRS' | translate }}</mat-radio-button>
+                      <mat-error
+                        *ngIf="
+                          identityForm?.get('civility')?.hasError('required') &&
+                          (identityForm?.get('civility')?.dirty || identityForm?.get('civility')?.touched)
+                        "
+                        >{{ 'This field is required' | translate }}</mat-error
+                      >
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Firstname, Lastname, Email -->
+            <div class="p-grid">
+              <div class="p-col-6 no-padding">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y pad-right-15">
+                    <mat-form-field>
+                      <mat-label>{{ 'CARDDETAIL.First Name' | translate }}</mat-label>
+                      <input matInput required formControlName="first_name" type="text" />
+                      <mat-error
+                        *ngIf="
+                          identityForm?.get('first_name').hasError('required') &&
+                          (identityForm?.get('first_name').dirty || identityForm?.get('first_name').touched)
+                        "
+                        >{{ 'This field is required' | translate }}</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-6 no-padding">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y pad-right-15">
+                    <mat-form-field>
+                      <mat-label>{{ 'CARDDETAIL.Last Name' | translate }}</mat-label>
+                      <input matInput required formControlName="last_name" type="text" />
+                      <mat-error
+                        *ngIf="
+                          identityForm?.get('last_name').hasError('required') &&
+                          (identityForm?.get('last_name').dirty || identityForm?.get('last_name').touched)
+                        "
+                        >{{ 'This field is required' | translate }}</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- Phones and position -->
+            <div class="p-grid">
+              <div class="p-col-4 no-padding">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y">
+                    <mat-form-field>
+                      <mat-label>{{ 'Office Phone' | translate }}</mat-label>
+                      <input matInput formControlName="office_phone" type="tel" maxlength="13"/>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-4 no-padding pad-left-5">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y">
+                    <mat-form-field>
+                      <mat-label>{{ 'Mobile Phone' | translate }}</mat-label>
+                      <input matInput formControlName="portable_phone" type="tel" maxlength="13" />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="p-col-4 no-padding pad-left-5">
+                <div class="p-grid">
+                  <div class="p-col no-padding-y">
+                    <mat-form-field>
+                      <mat-label>{{ 'Position' | translate }}</mat-label>
+                      <input matInput formControlName="position" />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CV Input -->
+            <div class="p-grid" style="padding: 0.5em">
+              <div class="upload-cv-button-container">
+                <span *ngIf="isFileUploading"
+                  ><mat-progress-spinner [diameter]="25" mode="indeterminate" color="accent"></mat-progress-spinner
+                ></span>
+                <button mat-raised-button color="accent" [disabled]="isWaitingForResponse" (click)="cvUpload.click()">
+                  <mat-icon class="mat-icon-default">file_upload</mat-icon>
+                  {{ 'Upload CV' | translate }}
+                </button>
+                <input type="file" #cvUpload style="display: none" name="file" accept=".pdf" (click)="cvUpload.value=null" (change)="handleFileInputChange($event)" />
+              </div>
+              <div class="file-name">
+                <p>{{ identityForm?.get('curriculum_vitae')?.get('s3_path')?.value }}</p>
+              </div>
+              <button
+                type="button"
+                mat-icon-button
+                mat-button-sm
+                [ngClass]="{ 'display-none': !identityForm.get('curriculum_vitae').get('s3_path').value }"
+                (click)="deleteCV()"
+                matTooltip="{{ 'MailBox.delete' | translate }}"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <!-- ADDRESS BOX BELOW ------------------------------------------------------------------------------------------------------------------------------------>
+
+            <div class="p-grid" formArrayName="address" style="padding-top: 10px">
+              <div
+                class="p-col-12 mb-1rem border-white"
+                style="padding-bottom: 15px; margin-left: 7px; margin-right: 7px !important; width: 98%"
+                *ngFor="let address of user_addresses.controls; let arrayIndex = index"
+                [formGroupName]="arrayIndex"
+              >
+                <div class="p-grid" *ngIf="user_addresses?.length > 1">
+                  <div class="p-col-12 text-right no-padding">
+                    <mat-slide-toggle
+                      formControlName="is_main_address"
+                      (change)="checkMainAddress($event)"
+                      style="margin-right: 1rem"
+                      *ngIf="!isMainAddressSelected || address?.get('is_main_address')?.value"
+                    >
+                      <span [ngStyle]="{ color: address?.get('is_main_address')?.value ? '#ffe77a' : 'white' }" style="font-size: 12px">{{
+                        'CARDDETAIL.MAIN_ADDRESS' | translate
+                      }}</span>
+                    </mat-slide-toggle>
+                    <button mat-icon-button class="small-icon" color="red" (click)="removeAddressForm(arrayIndex)">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <ng-container>
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding" style="padding-top: 10px">
+                      <div class="p-grid flex-hidden-mr-1">
+                        <div class="p-col no-padding">
+                          <mat-form-field color="accent" class="full-width">
+                            <input matInput type="text" formControlName="address" placeholder="{{ 'CARDDETAIL.Address' | translate }}" />
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding">
+                      <div class="p-grid">
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <div class="p-col no-padding">
+                              <mat-form-field color="accent">
+                                <input
+                                  matInput
+                                  type="text"
+                                  formControlName="postal_code"
+                                  (keyup)="getPostcodeData(arrayIndex)"
+                                  placeholder="{{ 'CARDDETAIL.Zip Code' | translate }}"
+                                  maxlength="5"
+                                />
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <div class="p-col no-padding">
+                              <mat-form-field color="accent">
+                                <input
+                                  type="text"
+                                  placeholder="{{ 'CARDDETAIL.Country' | translate }}"
+                                  matInput
+                                  formControlName="country"
+                                  [matAutocomplete]="autoCountry"
+                                  (keyup)="filterCountry(arrayIndex)"
+                                />
+                                <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="getPostcodeData(arrayIndex)" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredCountry[arrayIndex]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12 no-padding">
+                      <div class="p-grid">
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <div class="p-col no-padding">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  matInput
+                                  placeholder="{{ 'CARDDETAIL.City' | translate }}"
+                                  formControlName="city"
+                                  [matAutocomplete]="autoCity"
+                                  (keyup)="filterCity(arrayIndex)"
+                                />
+                                <mat-autocomplete #autoCity="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredCities[0]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <div class="p-col no-padding">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  placeholder="{{ 'CARDDETAIL.Department' | translate }}"
+                                  matInput
+                                  formControlName="department"
+                                  [matAutocomplete]="autoDepartment"
+                                  (keyup)="filterDepartment(arrayIndex)"
+                                />
+                                <mat-autocomplete #autoDepartment="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredDepartments[0]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-col-4 no-padding">
+                          <div class="p-grid flex-hidden-mr-1">
+                            <div class="p-col no-padding">
+                              <mat-form-field color="accent" class="full-width">
+                                <input
+                                  type="text"
+                                  matInput
+                                  placeholder="{{ 'CARDDETAIL.Region' | translate }}"
+                                  formControlName="region"
+                                  [matAutocomplete]="autoRegion"
+                                  (keyup)="filterRegion(arrayIndex)"
+                                />
+                                <mat-autocomplete #autoRegion="matAutocomplete" [panelWidth]="'fit'">
+                                  <mat-option *ngFor="let option of filteredRegions[0]" [value]="option">
+                                    {{ option }}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-grid">
+          <div class="p-col-12 no-padding" style="text-align: right; font-size: 12px">
+            {{ 'CARDDETAIL.Add more address' | translate }}
+            <button mat-icon-button class="small-icon" color="success" (click)="addAddressForm()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </fieldset>
+  </div>
+</div>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<swal #swalMentS4Ref type="question" title="{{ 'NEW_MENT_S4.TITLE' | translate }}" [showConfirmButton]="false" [allowOutsideClick]="false">
+  <div *swalPartial class="">
+    <p
+      class="text"
+      [translate]="'NEW_MENT_S4.TEXT'"
+      [translateParams]="{
+        nameMentor: this.nameMentor,
+        currentCompanyName: this.currentCompanyName,
+        newCompanyName: this.companyName
+      }"
+    ></p>
+    <div class="button-action">
+      <button
+        mat-raised-button
+        color="accent"
+        [disabled]="secondsToHms(time) !== ('NEW_MENT_S4.BUTTON1' | translate)"
+        class="button-swal"
+        (click)="swalMent4()"
+      >
+        {{ secondsToHms(time) }}
+      </button>
+      <button mat-raised-button color="accent" class="button-swal" (click)="openRevisionMentor()">
+        {{ 'NEW_MENT_S4.BUTTON2' | translate }}
+      </button>
+      <button mat-raised-button color="warn" class="button-swal" (click)="closeSwal()">
+        {{ 'NEW_MENT_S4.BUTTON3' | translate }}
+      </button>
+    </div>
+  </div>
+</swal>

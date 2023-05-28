@@ -1,0 +1,116 @@
+@media (max-width: 599px) {
+  .set-resp-space {
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+  }
+}
+
+.primary-login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 720px;
+
+  .lang-dropdown-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    h1 {
+      color: #f2de57
+    }
+
+    p {
+      color: white;
+    }
+  }
+
+  form {
+    width: 100%;
+    max-width: 480px;
+    margin: 2rem auto;
+  }
+
+  a[href] {
+    transition: opacity ease-out 150ms;
+  }
+  a[href]:hover {
+    opacity: .8;
+  }
+}
+
+.white-form-label .mat-form-field-underline {
+  background-color: white !important;
+} 
+
+.white {
+  color: #ffffff !important;
+}
+
+.white-form-label .mat-form-field-label {
+  color: #ffffff !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.reset-button {
+  background-color: #81b441;
+  color: white;
+}
+
+.mat-flat-button[disabled][disabled] {
+  background-color: #96ba69!important;
+  color: #ffffff;
+}
+
+.radioButtons {
+  color: white;
+  font-size: 16px;
+}
+
+.m-1 {
+  margin-right: 0 !important;
+  margin-left: 3rem;
+}
+
+.mat-radio-outer-circle{
+  border-color: white;
+}
+
+.select-school {
+  margin-top: 8px;
+  padding: 0 0.5em;
+}
+p {
+  margin-bottom: 0px !important;
+  margin-top: 0;
+}
+.select-login .mat-select-value {
+  color: white;
+}
+
+.field-entity {
+  padding-right: 5px !important;
+  float: left;
+}
+
+.field-entity-y {
+  padding-left: 5px !important;
+  float: left;
+}

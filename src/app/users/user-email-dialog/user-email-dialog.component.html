@@ -1,0 +1,136 @@
+<form [formGroup]="sendEmailForm">
+  <div class="fontColor">
+    <h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+      <mat-icon svgIcon="pencil" class="icon-style"></mat-icon> {{ 'MailBox.composeMail.title' | translate }}
+      <div class="alignment float-right">
+        <mat-icon class="icon-style" matTooltip="{{ 'CLOSE' | translate }}" (click)="closeDialog()">close</mat-icon>
+        <label *ngIf="!data?.sendToMentor"><a class="icon-style" (click)="showCC = !showCC">CC</a></label>
+        <label *ngIf="!data?.sendToMentor">
+          <a class="icon-style" (click)="showBCC = !showBCC">{{ 'MailBox.composeMail.bcc' | translate }}</a>
+        </label>
+        <label>
+          <mat-icon matTooltip="{{ 'MailBox.ATTACH_FILE' | translate }}" class="icon-style">attachment</mat-icon>
+          <input
+            [disabled]="isWaitingForResponse"
+            type="file"
+            #myInput
+            class="hidden-input"
+            name="file"
+            multiple
+            accept=".jpeg,.png,.rar,.zip,.doc,.docx,.ppt,.pdf,.xls"
+            (change)="handleInputChange($event)"
+          />
+        </label>
+        <mat-icon
+          *ngIf="sendEmailForm.get('subject').value && selectedEmailTo.length && !isWaitingForResponse"
+          class="vertical-align-mid cursorStyle"
+          matTooltip="{{ 'MailBox.SEND' | translate }}"
+          (click)="sendMail()"
+          >send</mat-icon
+        >
+        <mat-icon
+          *ngIf="!(sendEmailForm.get('subject').value && selectedEmailTo.length && !isWaitingForResponse)"
+          class="color-gray vertical-align-mid cursorStyle"
+          matTooltip="{{ 'MailBox.SEND' | translate }}"
+          >send</mat-icon
+        >
+        <!-- <mat-icon class="vertical-align-mid cursorStyle" matTooltip="{{'MailBox.SEND' | translate}}" (click)="sendMail()">send</mat-icon> -->
+      </div>
+    </h1>
+    <mat-dialog-content>
+      <mat-form-field class="chip-list">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let email of selectedEmailTo" [selectable]="selectable" [removable]="removable" (removed)="removeTo(email)">
+            {{ email }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            type="email"
+            #languagesInput
+            placeholder=" {{ 'MailBox.composeMail.to' | translate }}"
+            formControlName="to"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            (matChipInputTokenEnd)="addTo($event)"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setSelectedEmailTo($event)">
+          <mat-option *ngFor="let email of emailAddressesListTo" [value]="email">
+            {{ email }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="chip-list" *ngIf="showCC || showCCInput">
+        <mat-chip-list #chipListCc>
+          <mat-chip *ngFor="let email of selectedEmailCc" [selectable]="selectable" [removable]="removable" (removed)="removeCc(email)">
+            {{ email }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            #recipientCc
+            placeholder=" {{ 'MailBox.composeMail.cc' | translate }}"
+            formControlName="cc"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipListCc"
+            (matChipInputTokenEnd)="addCc($event)"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodesCc"
+            [matChipInputAddOnBlur]="addOnBlurCc"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setSelectedEmailCc($event)">
+          <mat-option *ngFor="let email of emailAddressesListCc" [value]="email" (click)="resetValueCc()">
+            {{ email }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="chip-list" *ngIf="showBCC || showBCCInput">
+        <mat-chip-list #chipListBcc>
+          <mat-chip *ngFor="let email of selectedEmailBcc" [selectable]="selectable" [removable]="removable" (removed)="removeBcc(email)">
+            {{ email }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            #recipientBcc
+            placeholder=" {{ 'MailBox.composeMail.bcc' | translate }}"
+            formControlName="bcc"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipListBcc"
+            (matChipInputTokenEnd)="addBcc($event)"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodesBcc"
+            [matChipInputAddOnBlur]="addOnBlurBcc"
+          />
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setSelectedEmailBcc($event)">
+          <mat-option *ngFor="let email of emailAddressesListBcc" [value]="email">
+            {{ email }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'Subject' | translate }}" formControlName="subject" />
+      </mat-form-field>
+
+      <div class="file-section p-col-12">
+        <div *ngFor="let file of attachmnetsPaths" class="fileInfo">
+          <button mat-icon-button type="button">
+            <mat-icon>insert_drive_file</mat-icon>
+          </button>
+          <label>{{ file.name }}</label>
+          <button mat-icon-button type="button" (click)="removeAttachment(file)">
+            <mat-icon> close </mat-icon>
+          </button>
+        </div>
+      </div>
+      <ckeditor [editor]="Editor" (ready)="onReady($event)" [config]="config" formControlName="message"> </ckeditor>
+    </mat-dialog-content>
+  </div>
+</form>
+
+<div *ngIf="isWaitingForResponse" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>

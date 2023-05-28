@@ -1,0 +1,26 @@
+<mat-tab-group #companyMatGroup [(selectedIndex)]="selectedIndex">
+  <mat-tab *ngIf="permissionService.showsCompanyDetailsTabPerm()" label="companyDetail">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.COMPANY_DETAILS' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-company-details *ngIf="companyId" (imgRequest)="imgRequestParent($event)" (submitRequest)="submitRequestParent($event)" [companyId]="companyId"></ms-company-details>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="permissionService.showsCompanyStaffTabPerm()" label="companyStaff">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.COMPANY_STAFF' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-company-staff [companyId]="companyId" [quickSearchMentorId]="quickSearchMentorId"></ms-company-staff>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="permissionService.showsConnectedSchoolTabPerm()" label="companySchool">
+    <ng-template mat-tab-label>
+      <h5>{{ 'COMPANY.CONNECTED_SCHOOL' | translate }}</h5>
+    </ng-template>
+    <ng-template matTabContent>
+      <ms-connected-school [ngClass]="{ 'hide-only': isWaitingForResponse }" [companyId]="companyId"></ms-connected-school>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

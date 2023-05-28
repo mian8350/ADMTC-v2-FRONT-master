@@ -1,0 +1,332 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+.header-text {
+  font-size: 16px;
+  margin: 3em 1em;
+  color: white;
+}
+.section {
+  display: block;
+}
+.header-text .left {
+  width: 9em;
+  line-height: 1.7;
+  display: inline-block;
+}
+.header-text .right {
+  display: inline-block;
+}
+
+.mat-form-field {
+  padding-left: 0.5rem !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.mat-column-dateFilter,
+.mat-column-presidentJuryFilter {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+
+.mat-column-serialDate {
+  text-align: center;
+  width: 150px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-date {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-presidentJury {
+  text-align: center;
+  width: 180px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-startTime {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-profesionalJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-academicJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-subtituteJury {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-time {
+  text-align: center;
+  width: 120px;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-endTime {
+  text-align: center;
+  width: 10%;
+  .mat-form-field {
+    padding: 0px 10px 0px 10px !important;
+    width: 100%;
+  }
+}
+.mat-column-student {
+  text-align: center;
+  width: auto;
+  min-width: 250px;
+  .mat-form-field {
+    margin-top: 6px;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
+    width: 90%;
+  }
+}
+
+// .mat-column-serialDate {
+//   width: 150px !important;
+// }
+
+:host ::ng-deep table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+    }
+
+    td {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
+      white-space: nowrap;
+      color: black;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    th {
+      vertical-align: top;
+      text-align: center;
+
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+
+    &:nth-child(2) {
+      th {
+        padding-top: 0.9em;
+      }
+    }
+  }
+
+  thead tr {
+    &:nth-child(2) {
+      height: 35px;
+    }
+    &:nth-child(2),
+    &:nth-child(3) {
+      background: $light-black;
+      th {
+        color: $white;
+      }
+    }
+  }
+
+  tbody tr:nth-child(odd) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+  tbody tr:nth-child(even) {
+    .mat-icon-button {
+      background: transparent !important;
+      line-height: 0 !important;
+    }
+  }
+}
+
+.action-header-column {
+  vertical-align: middle !important;
+  padding-right: 0 !important;
+  text-align: right !important;
+  .p-grid {
+    margin-top: unset !important;
+  }
+}
+
+.left-side {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.left-side-text {
+  width: 180px;
+  font-size: 14px;
+}
+
+.header-text {
+  font-size: 16px;
+  margin: 3em 1em;
+  color: white;
+}
+.section {
+  display: block;
+}
+.header-text .left {
+  width: 9em;
+  line-height: 1.7;
+  display: inline-block;
+}
+.header-text .right {
+  display: inline-block;
+}
+
+.text-red {
+  color: red;
+}
+
+:host ::ng-deep {
+  .not-assigned .ng-select-trigger .ng-select-value {
+    color: red !important;
+  }
+}
+
+.relative-profesional {
+  position: relative;
+  left: 17px;
+}
+
+.relative-academic {
+  position: relative;
+  left: 37px;
+}
+
+.relative-substitute {
+  position: relative;
+  left: 53px;
+}
+
+.margin-auto {
+  margin: auto 0;
+}
+
+.p-col-1-s {
+  width: 9.5%;
+  padding: 0.5em;
+}
+
+.p-col-3-s {
+  width: 29%;
+  padding: 0.5em;
+}
+
+// ***************** ng-select styling *****************
+:host::ng-deep.ng-select .ng-select-container {
+  background-color: #fff0;
+  color: #fff;
+  border: none;
+  border-radius: 0px !important;
+  border-bottom: 1px solid rgb(241, 241, 241) !important;
+  min-height: 36px;
+  -webkit-box-align: center;
+  align-items: center;
+}
+:host::ng-deep.mat-select-arrow-wrapper {
+  padding-right: 5px;
+}
+:host::ng-deep.mat-select-value-text {
+  margin-left: 10px;
+  font-size: 13px;
+}
+:host::ng-deep.ng-select {
+  margin-bottom: 16px;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container .ng-input > input {
+  color: white;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  cursor: default;
+  padding-left: 0px !important;
+  width: 100%;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select .ng-select-container .ng-value-container {
+  padding-left: 0px !important;
+}
+:host::ng-deep.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value {
+  font-size: 14px !important;
+}
+.ng-select-custom-header {
+  cursor: pointer;
+}
+:host::ng-deep.ng-select .ng-dropdown-panel {
+  width: 230px !important;
+  max-width: 230px;
+  text-align: left !important;
+  font-size: 15px !important;
+}
+// :host::ng-deep ng-dropdown-panel,
+// .ng-dropdown-panel {
+//   width: 230px !important;
+//   min-width: 230px !important;
+// }
+::ng-deep ng-dropdown-panel,
+.ng-dropdown-panel {
+  width: 250px !important;
+  min-width: 250px !important;
+  text-align: left !important;
+  font-size: 15px !important;
+}
+// ng-dropdown-panel, .ng-dropdown-panel {
+//     width: 230px !important;
+//     min-width: 230px !important;
+// }

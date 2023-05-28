@@ -1,0 +1,104 @@
+<fieldset
+  [ngClass]="{ 'hide-element': !classForm.allow_job_description }"
+  class="fieldset-class"
+  [disabled]="classData && classData.is_job_desc_active"
+>
+  <div class="yellow-border card-row" [formGroup]="jobDescriptionForm">
+    <div class="align-right-button">
+      <button mat-raised-button class="mrgn-btn11" color="accent" (click)="save()" [disabled]="jobDescriptionForm.invalid">
+        <mat-icon class="mat-icon-default">save</mat-icon> {{ 'Save' | translate }}
+      </button>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 mb-1rem border-white">
+        <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-job' : 'fr-job'">
+          <h5>{{ 'Job Description Form' | translate }}</h5>
+        </div>
+        <div [ngClass]="{ 'hide-element': classData && classData.type_evaluation === 'expertise' }" class="p-col-8 pad-none mrgn-left15">
+          <mat-form-field>
+            <mat-select
+              [required]="classForm.allow_job_description && !(classData && classData.type_evaluation === 'expertise')"
+              [disabled]="classData && classData.is_job_desc_active"
+              formControlName="questionnaire_template_id"
+              style="width: 100%"
+              color="accent"
+              [placeholder]="'Select Form Template for Job Description' | translate"
+            >
+              <mat-option *ngFor="let quest of quetionaireList" [value]="quest._id">
+                {{ quest.questionnaire_name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="classData && classData.type_evaluation === 'expertise'" class="p-col-8 pad-none mrgn-left15">
+          <mat-form-field>
+            <input
+              type="text"
+              readonly
+              matInput
+              disabled
+              [placeholder]="'Select Form Template for Job Description' | translate"
+              [value]="'Form is automatically generated' | translate"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-12 mb-1rem border-white">
+        <div class="section-header" [ngClass]="translate.currentLang === 'en' ? 'en-activation' : 'fr-activation'">
+          <h5>{{ 'Activation Date' | translate }}</h5>
+        </div>
+        <div class="p-0-6 mrgn-left15" formGroupName="job_desc_activation_date">
+          <div [fxFlex]="30">
+            <mat-form-field style="margin-top: 5px; margin-bottom: -1.4em">
+              <input
+                matInput
+                readonly
+                [placeholder]="'Date of Activation' | translate"
+                formControlName="date"
+                (click)="picker2.open()"
+                [matDatepicker]="picker2"
+                [required]="classForm.allow_job_description"
+              />
+              <!-- Previously there is [min]="today" -->
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div #testTimeDiv [fxFlex]="40" [fxFlexOffset]="5">
+            <mat-form-field style="width: 75px; margin-top: -2px">
+              <input
+                [required]="classForm.allow_job_description"
+                matInput
+                [ngxTimepicker]="time_utc"
+                readonly
+                [format]="24"
+                formControlName="time"
+              />
+              <ngx-material-timepicker-toggle class="btn-time" matSuffix [for]="time_utc">
+                <svg style="transform: scale(0.85)" viewBox="0 0 30 30" width="30px" height="30px" ngxMaterialTimepickerToggleIcon>
+                  <path
+                    fill="#ffffff"
+                    d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M16,16H7.995 C7.445,16,7,15.555,7,15.005v-0.011C7,14.445,7.445,14,7.995,14H14V5.995C14,5.445,14.445,5,14.995,5h0.011 C15.555,5,16,5.445,16,5.995V16z"
+                  />
+                </svg>
+              </ngx-material-timepicker-toggle>
+            </mat-form-field>
+            <ngx-material-timepicker #time_utc></ngx-material-timepicker>
+          </div>
+        </div>
+        <mat-slide-toggle class="mrgn-left15" color="accent" formControlName="is_mentor_selected_in_job_description">
+          <span [ngStyle]="{ color: jobDescriptionForm.get('is_mentor_selected_in_job_description').value ? '#fdd835' : 'white' }">
+            {{
+              (jobDescriptionForm.get('is_mentor_selected_in_job_description').value
+                ? 'Mentor is Included in Job Description Flow'
+                : 'Mentor is not Included in Job Description Flow'
+              ) | translate
+            }}
+          </span>
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</fieldset>

@@ -1,0 +1,332 @@
+@import '~assets/scss/theme/admtc.variables';
+@import '~assets/scss/theme/admtc';
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 200px;
+  background-color: white;
+  color: black;
+}
+
+.section {
+  background-color: #607d8b !important;
+}
+
+.add-section-btn {
+  margin: 0.33333333em;
+}
+
+.background-primary {
+  background-color: #607d8b !important;
+}
+
+.middle {
+  vertical-align: middle;
+}
+
+.card-margin {
+  margin: 0.3333em;
+}
+
+.yellow-action-btn {
+  background-color: #ffd740 !important;
+  color: black !important;
+}
+
+.small-icon-btn ::ng-deep .mat-button-wrapper .material-icons {
+  font-size: 20px !important;
+}
+
+.section-icon-btn {
+  width: 30px !important;
+  height: 30px !important;
+  line-height: 14px !important;
+}
+
+.small-input {
+  width: 70px;
+}
+
+.medium-input {
+  width: 110px;
+}
+
+.small-width {
+  width: 10px !important;
+}
+
+h2,
+p {
+  color: black !important;
+}
+
+:host ::ng-deep ms-text-dialog {
+  color: black !important;
+}
+
+.color-default {
+  color: #212121 !important;
+}
+.pa-1 {
+  padding: 1rem !important;
+}
+
+.pr-1 {
+  padding-right: 1rem !important;
+}
+
+.pl-1 {
+  padding-left: 1rem !important;
+}
+
+.pt-1 {
+  padding-top: 1rem !important;
+}
+
+.pt-2 {
+  padding-top: 2rem !important;
+}
+
+.pb-1 {
+  padding-bottom: 1rem !important;
+}
+
+.mr-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.px-0 {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+.pl-20px {
+  padding-left: 20px;
+}
+
+.px-1 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.px-3 {
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+}
+
+.py-1 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.ma-1 {
+  margin: 1rem !important;
+}
+
+.mr-1 {
+  margin-right: 1rem !important;
+}
+
+.ml-1 {
+  margin-left: 1rem !important;
+}
+
+.mt-1 {
+  margin-top: 1rem !important;
+}
+
+.mb-1 {
+  margin-bottom: 1rem !important;
+}
+
+.mx-1 {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+}
+
+.my-1 {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.btn-test {
+  font-size: 12px;
+  line-height: 30px;
+  border-radius: 2px;
+}
+
+.red-button {
+  background-color: red !important;
+  color: #fff !important;
+}
+
+.scond-step-card-wrapper {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  box-shadow: none;
+}
+
+.create-test-header-button {
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.yellow-border {
+  border-color: #ffd740;
+  border-style: solid;
+  margin-bottom: 1em;
+}
+
+.grey-border {
+  border-color: #d6d6d6;
+  border-style: solid;
+  margin-bottom: 1em;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: $dark-blue !important;
+}
+
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.align-input-field {
+  margin-bottom: 9px;
+}
+
+:host ::ng-deep.mat-tab-label,
+:host ::ng-deep.mat-tab-label-active {
+  min-width: 0 !important;
+}
+
+.action-btn-field {
+  display: inline-block;
+  width: 28%;
+}
+
+.input-form-field {
+  display: inline-block;
+  width: 72%;
+}
+
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.remove-section-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-section-icon {
+  font-size: 14px;
+}
+
+.remove-score-conversion-btn {
+  margin: 3px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-score-conversion-icon {
+  font-size: 14px;
+}
+
+:host ::ng-deep table.score-conversion-table {
+  tr {
+    td,
+    th {
+      border-right: 1px solid $grey;
+      padding-left: 0.3rem !important;
+      padding-right: 0.3rem !important;
+      &:nth-child(1) {
+        width: 15%;
+        color: white;
+      }
+      &:nth-child(2) {
+        width: 60%;
+        color: white;
+      }
+      &:nth-child(3) {
+        width: 20%;
+        color: white;
+      }
+      &:nth-child(4) {
+        width: 5%;
+        text-align: center !important;
+        padding: 0 !important;
+        color: white;
+      }
+    }
+    td {
+      max-width: 0;
+      color: white;
+    }
+    th {
+      vertical-align: middle;
+      text-align: center;
+      .mat-form-field-infix {
+        width: unset !important;
+      }
+    }
+  }
+
+  thead tr {
+    height: 30px !important;
+    background: $light-black !important;
+    &:nth-child(2),
+    &:nth-child(3) {
+      th {
+        box-shadow: 1px 1px 0px 1px #545454;
+        color: $white;
+      }
+    }
+    border: none !important;
+  }
+}
+
+.evalskill-checkbox {
+  display: flex;
+  padding-top: 4px;
+}

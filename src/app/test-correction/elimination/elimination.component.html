@@ -1,0 +1,26 @@
+<div *ngIf="testCorrectionForm" [formGroup]="testCorrectionForm" class="mrgn-b-md">
+  <ng-container formGroupName="correction_grid">
+    <ng-container formGroupName="correction">
+      <div class="p-grid background-primary">
+        <div class="p-col-fixed pad-b-none elimination-label vertical-center justify-content-between">
+          <span>{{'TEST.ELIMINATION' | translate}}</span>
+          <span>:</span>
+        </div>
+        <div class="p-col pad-b-none">
+          <mat-checkbox (change)="eliminateStudent($event)" formControlName="elimination" color="accent"></mat-checkbox>
+        </div>
+      </div>
+      <div class="p-grid background-primary" *ngIf="getCorrectionForm().get('elimination').value">
+        <div class="p-col-fixed pad-b-none pad-t-none elimination-label vertical-center justify-content-between">
+          <span>{{'TEST.REASON' | translate}}</span>
+          <span>:</span>
+        </div>
+        <div class="p-col pad-t-none pad-b-none">
+          <mat-form-field color="accent" class="full-width ">
+            <input matInput formControlName="elimination_reason">
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
