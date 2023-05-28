@@ -21,5 +21,5 @@ build:
 artifacts:
     files:
         - '**/*'
-    base-directory: 'dist*'
+    base-directory: arn:aws:codeartifact:eu-west-1:471956150795:repository/admtc-dist/ADMTC-V2-Dist
     discard-paths: yes
