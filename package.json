@@ -15,11 +15,13 @@
     "analyze": "webpack-bundle-analyzer dist/stats.json",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "myCustomMemoryComm": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng"
   },
   "private": true,
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.24",
+    "@angular-devkit/build-angular": "^16.0.3",
     "@angular/animations": "^14.1.1",
     "@angular/cdk": "^14.1.1",
     "@angular/common": "^14.1.1",
@@ -72,7 +74,6 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.1.1",
     "@angular/cli": "^14.1.1",
     "@angular/compiler-cli": "^14.1.1",
     "@angular/language-service": "^14.1.1",
